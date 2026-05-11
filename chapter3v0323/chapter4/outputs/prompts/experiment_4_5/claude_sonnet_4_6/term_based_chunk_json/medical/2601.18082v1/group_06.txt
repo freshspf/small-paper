@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "algorithm_falqon",
+  "avoids",
+  "BarrenPlateau",
+  "isRobustTo",
+  "Noise",
+  "isSuitedFor",
+  "ConstrainedOptimizationProblem",
+  "SynergyScore",
+  "embeddedIn",
+  "Hamiltonian",
+  "ToxicityScore",
+  "DrugDrugInteractionData",
+  "encodedIn",
+  "IsingHamiltonian",
+  "DrugDrugInteraction",
+  "causes",
+  "AdverseDrugReaction",
+  "HospitalizedPatient",
+  "experiences",
+  "OlderAdult",
+  "Polypharmacy",
+  "hasDisease",
+  "Cancer",
+  "undergoes",
+  "Radiotherapy",
+  "associatedWith",
+  "AdverseTreatmentOutcome",
+  "DirectOralAnticoagulant",
+  "BleedingComplication",
+  "Patient",
+  "AtrialFibrillation",
+  "VenousThromboembolism",
+  "AnticoagulatedPatient",
+  "receivesTreatment",
+  "AntiplateletTherapy",
+  "hasRisk",
+  "BleedingRisk",
+  "Drug",
+  "induces",
+  "Myopathy",
+  "MuscleToxicity",
+  "HighPotencyStatin",
+  "AcuteKidneyInjury",
+  "DrugCombination",
+  "targets",
+  "DrugResistance",
+  "DrugCombinationTherapy",
+  "treats",
+  "EmergingViralDisease",
+  "CombinatorialApproach",
+  "prevents",
+  "Hiv1Infection",
+  "CombinationTherapy",
+  "HarmfulSideEffect",
+  "TreatmentFailure",
+  "HospitalAdmission",
+  "MultipleDrugs",
+  "CancerTherapy",
+  "ChronicDisease",
+  "InfectiousDisease",
+  "SevereBleeding",
+  "BloodThinnerCombination",
+  "MuscleDamage",
+  "KidneyFailure",
+  "CholesterolLoweringDrug",
+  "Antibiotic",
+  "HivTreatment",
+  "CancerChemotherapy",
+  "AntibioticRegimen",
+  "Effectiveness",
+  "Resistance",
+  "TreatmentStrategy",
+  "AntiviralDrug",
+  "AntiInflammatoryDrug",
+  "SupportiveDrug",
+  "algorithm_ite_falqon",
+  "optimization_ddi_aware_drug_combination",
+  "problem_maximum_safe_subset",
+  "concept_harmful_interaction",
+  "problem_synergy_constrained_optimization"
+]
+
+Triples:
+[
+  {
+    "subject": "algorithm_falqon",
+    "relation": "avoids",
+    "object": "BarrenPlateau",
+    "chunk": "completedocument8",
+    "context": "Because the control ﬁeld is updated through a closed-loop quantum expectation value rather than a classical optimization routine, FALQON avoids barren plateaus and does not require deep, parameter-heavy circuits."
+  },
+  {
+    "subject": "algorithm_falqon",
+    "relation": "isRobustTo",
+    "object": "Noise",
+    "chunk": "completedocument8",
+    "context": "Its depth grows only linearly with the number of time steps, making the method robust to noise and well suited to constrained optimization problems like MSS and SCO, where large penalties induce steep energy landscapes."
+  },
+  {
+    "subject": "algorithm_falqon",
+    "relation": "isSuitedFor",
+    "object": "ConstrainedOptimizationProblem",
+    "chunk": "completedocument8",
+    "context": "Its depth grows only linearly with the number of time steps, making the method robust to noise and well suited to constrained optimization problems like MSS and SCO, where large penalties induce steep energy landscapes."
+  },
+  {
+    "subject": "SynergyScore",
+    "relation": "embeddedIn",
+    "object": "Hamiltonian",
+    "chunk": "completedocument8",
+    "context": "Embedding real-world synergy and toxicity scores directly into the Hamiltonian is straightforward, and future work will focus on scaling to larger datasets and incorporating richer pharmacokinetic constraints."
+  },
+  {
+    "subject": "ToxicityScore",
+    "relation": "embeddedIn",
+    "object": "Hamiltonian",
+    "chunk": "completedocument8",
+    "context": "Embedding real-world synergy and toxicity scores directly into the Hamiltonian is straightforward, and future work will focus on scaling to larger datasets and incorporating richer pharmacokinetic constraints."
+  },
+  {
+    "subject": "DrugDrugInteractionData",
+    "relation": "encodedIn",
+    "object": "IsingHamiltonian",
+    "chunk": "completedocument8",
+    "context": "By encoding clinically documented drug-drug interaction data into Ising Hamiltonians, our approach eﬃciently identiﬁes safe and synergistic multi-drug combinations with reduced computational overhead."
+  },
+  {
+    "subject": "DrugDrugInteraction",
+    "relation": "causes",
+    "object": "AdverseDrugReaction",
+    "chunk": "completedocument8",
+    "context": "How many potential drug&#x2013;drug interactions cause adverse drug reactions in hospitalized patients?, European Journal of Internal Medicine 24, 27 (2013)."
+  },
+  {
+    "subject": "HospitalizedPatient",
+    "relation": "experiences",
+    "object": "AdverseDrugReaction",
+    "chunk": "completedocument8",
+    "context": "How many potential drug&#x2013;drug interactions cause adverse drug reactions in hospitalized patients?, European Journal of Internal Medicine 24, 27 (2013)."
+  },
+  {
+    "subject": "OlderAdult",
+    "relation": "experiences",
+    "object": "Polypharmacy",
+    "chunk": "completedocument8",
+    "context": "Polypharmacy in older adults with cancer undergoing radiotherapy: A review, Journal of Geriatric Oncology 13, 778 (2022)."
+  },
+  {
+    "subject": "OlderAdult",
+    "relation": "hasDisease",
+    "object": "Cancer",
+    "chunk": "completedocument8",
+    "context": "Polypharmacy in older adults with cancer undergoing radiotherapy: A review, Journal of Geriatric Oncology 13, 778 (2022)."
+  },
+  {
+    "subject": "OlderAdult",
+    "relation": "undergoes",
+    "object": "Radiotherapy",
+    "chunk": "completedocument8",
+    "context": "Polypharmacy in older adults with cancer undergoing radiotherapy: A review, Journal of Geriatric Oncology 13, 778 (2022)."
+  },
+  {
+    "subject": "Polypharmacy",
+    "relation": "associatedWith",
+    "object": "AdverseTreatmentOutcome",
+    "chunk": "completedocument8",
+    "context": "Association of polypharmacy and potential drug-drug interactions with adverse treatment outcomes in older adults with advanced cancer, Cancer 129, 1096 (2023),"
+  },
+  {
+    "subject": "DrugDrugInteraction",
+    "relation": "associatedWith",
+    "object": "AdverseTreatmentOutcome",
+    "chunk": "completedocument8",
+    "context": "Association of polypharmacy and potential drug-drug interactions with adverse treatment outcomes in older adults with advanced cancer, Cancer 129, 1096 (2023),"
+  },
+  {
+    "subject": "DirectOralAnticoagulant",
+    "relation": "associatedWith",
+    "object": "BleedingComplication",
+    "chunk": "completedocument8",
+    "context": "Risk and management of bleeding complications with direct oral anticoagulants in patients with atrial ﬁbrillation and venous thromboembolism: a narrative review, Advances in Therapy 40, 41 (2023)."
+  },
+  {
+    "subject": "Patient",
+    "relation": "hasDisease",
+    "object": "AtrialFibrillation",
+    "chunk": "completedocument8",
+    "context": "Risk and management of bleeding complications with direct oral anticoagulants in patients with atrial ﬁbrillation and venous thromboembolism: a narrative review, Advances in Therapy 40, 41 (2023)."
+  },
+  {
+    "subject": "Patient",
+    "relation": "hasDisease",
+    "object": "VenousThromboembolism",
+    "chunk": "completedocument8",
+    "context": "Risk and management of bleeding complications with direct oral anticoagulants in patients with atrial ﬁbrillation and venous thromboembolism: a narrative review, Advances in Therapy 40, 41 (2023)."
+  },
+  {
+    "subject": "AnticoagulatedPatient",
+    "relation": "receivesTreatment",
+    "object": "AntiplateletTherapy",
+    "chunk": "completedocument8",
+    "context": "Major bleeding risk in anticoagulated patients receiving concomitant antiplatelet therapy: A prospective study, Thrombosis Research 131, 502 (2013)."
+  },
+  {
+    "subject": "AnticoagulatedPatient",
+    "relation": "hasRisk",
+    "object": "BleedingRisk",
+    "chunk": "completedocument8",
+    "context": "Major bleeding risk in anticoagulated patients receiving concomitant antiplatelet therapy: A prospective study, Thrombosis Research 131, 502 (2013)."
+  },
+  {
+    "subject": "Drug",
+    "relation": "induces",
+    "object": "Myopathy",
+    "chunk": "completedocument9",
+    "context": "Drug-induced myopathies: A comprehensive review and up-date, Biomedicines 12, 10.3390/biomedicines12050987 (2024)."
+  },
+  {
+    "subject": "Drug",
+    "relation": "causes",
+    "object": "MuscleToxicity",
+    "chunk": "completedocument9",
+    "context": "Muscle toxicity of drugs: When drugs turn physiology into pathophys-iology, Physiological Reviews 100, 633 (2020)"
+  },
+  {
+    "subject": "HighPotencyStatin",
+    "relation": "associatedWith",
+    "object": "AcuteKidneyInjury",
+    "chunk": "completedocument9",
+    "context": "Use of high potency statins and rates of admission for acute kidney injury: multicen-ter, retrospective observational analysis of adminis-trative databases"
+  },
+  {
+    "subject": "DrugCombination",
+    "relation": "targets",
+    "object": "DrugResistance",
+    "chunk": "completedocument9",
+    "context": "Chapter 12 - new approaches for targeting drug resistance through drug combination"
+  },
+  {
+    "subject": "DrugCombinationTherapy",
+    "relation": "treats",
+    "object": "EmergingViralDisease",
+    "chunk": "completedocument9",
+    "context": "Drug combination therapy for emerging viral diseases, Drug Discovery Today 26, 2367 (2021)."
+  },
+  {
+    "subject": "CombinatorialApproach",
+    "relation": "prevents",
+    "object": "Hiv1Infection",
+    "chunk": "completedocument9",
+    "context": "Combinatorial approaches to the prevention and treatment of hiv-1 infection, Antimicrobial Agents and Chemotherapy 55, 1831 (2011)."
+  },
+  {
+    "subject": "CombinatorialApproach",
+    "relation": "treats",
+    "object": "Hiv1Infection",
+    "chunk": "completedocument9",
+    "context": "Combinatorial approaches to the prevention and treatment of hiv-1 infection, Antimicrobial Agents and Chemotherapy 55, 1831 (2011)."
+  }
+]

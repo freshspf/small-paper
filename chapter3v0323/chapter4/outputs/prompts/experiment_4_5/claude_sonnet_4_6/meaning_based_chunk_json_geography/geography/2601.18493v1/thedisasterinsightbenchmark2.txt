@@ -1,0 +1,110 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "thedisasterinsightbenchmark2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: thedisasterinsightbenchmark2
+- section_title: The DisasterInsight Benchmark
+- page_start: 3
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+OSM is a widely used volun-
+teered geographic information resource with extensive global coverage and rich annotations de-
+scribing building usage and infrastructure roles, and has been broadly adopted in humanitarian
+mapping and disaster response [20, 21].
+Each xBD building footprint is spatially matched to corresponding OSM building polygons
+using geographic coordinates provided in the xBD metadata. Raw OSM building tags are highly
+granular and heterogeneous, with over 170 distinct building-related labels observed across the
+dataset. Following established approaches for inferring functional building types from OSM
+metadata [22], we consolidate these tags into eight high-level functional categories relevant to
+disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities,
+Educational Facilities, Medical Facilities, Government Emergency, and Commercial.
+This consolidation reduces annotation noise while preserving functionally meaningful dis-
+tinctions relevant to post-disaster assessment and infrastructure analysis. The resulting class
+distributionishighlyimbalanced, withresidentialbuildingscomprisingthemajorityofinstances,
+reflecting real-world urban composition (Fig. 2(c)). OSM-derived labels are used as consistent
+semantic abstractions for benchmarking vision–language models, rather than as authoritative or
+exhaustive ground truth annotations.
+3.3 Task Definitions and Granularity
+DisasterInsight defines five tasks spanning perception, counting, and narrative reasoning. Build-
+ing Function Classification and Damage Level Classification operate at the object level, using
+5
+
+individual bounding-box instances. In contrast, Disaster Type Classification, Building Count-
+ing, and Structured Report Generation operate at the scene level, using summarized building
+metadata derived from all structures within a sub-image.
+While the benchmark contains 112,507 unique building-centered instances, each instance
+participates in multiple tasks with varying levels of granularity. Combined with multi-prompt
+evaluation, this design yields a total of 270,096 instruction-following instances across the bench-
+mark (202,837 for training and 67,259 for evaluation), enabling comprehensive assessment of
+both object-level reasoning and scene-level understanding within a unified framework.
+AllclassificationtasksinDisasterInsightareformulatedasclosed-set, multi-optionprediction
+problems. Models are instructed to select exactly one label from a predefined category set (e.g.,
+building function, damage level, or disaster type), and to output only the label token. This
+constrained formulation ensures consistent parsing, reduces output variability, and enables fair
+and automatic evaluation across diverse vision–language models.
+3.4 Multi-Prompt Evaluation Strategy
+Vision–languagemodelsareknowntobesensitivetopromptphrasing. Toreducerelianceonany
+single instruction style, DisasterInsight evaluates all tasks under prompt diversity. We design
+six prompt categories that vary in tone, structure, and contextual framing: (i) simple direct
+classification, (ii) analyst-style queries, (iii) short and concise instructions, (iv) instructions with
+explicit reasoning cues, (v) conversational prompts, and (vi) prompts framed in a humanitarian
+assessment context.
+For each instance and task, one prompt template is sampled uniformly at random. This
+single-sample randomization avoids overfitting to any specific instruction style while maintaining
+computational efficiency. All reported metrics are computed over the full randomized evaluation
+set.
+3.5 Input Preprocessing and Scene-Level Summarization
+In dense urban scenes, a single256×256image patch may contain over one hundred building
+instances. Directly passing all bounding boxes and per-building metadata to large language
+models results in excessively long prompts that are difficult to interpret and prone to degraded
+generation quality. To address this, DisasterInsight introduces a structured preprocessing and
+summarization strategy designed specifically for scene-level reasoning and report generation.
+For each image patch, individual building annotations, including bounding–box coordinates,
+functional category, and damage level, are aggregated into compact summary entries. These
+summaries group buildings by functional category, damage state, and coarse spatial location
+within the patch (e.g., north, central area, south), and record the count of buildings sharing the
+same attributes. This representation preserves essential semantic and spatial information while
+producing concise, interpretable inputs suitable for instruction-following language models.
+This summarized representation is used exclusively for scene-level tasks, including disaster-
+type classification, building counting, and structured report generation.

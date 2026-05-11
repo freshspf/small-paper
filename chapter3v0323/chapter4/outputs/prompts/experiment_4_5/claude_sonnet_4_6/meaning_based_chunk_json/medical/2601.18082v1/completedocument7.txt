@@ -1,0 +1,155 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument7",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument7
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+**INPUT TEXT CHUNK:**
+Abbreviati ons
+are used in the interaction graphs and Hamiltonian encoding .
+Drug Name Abbreviation Primary Mechanism / Pharmacologica l Class
+Viral Replication Inhibitors (Antivirals)
+Remdesivir RDV Nucleoside analog; RdRp inhibitor [38, 39]
+Molnupiravir MOV Ribonucleoside analog; induces lethal mu tagenesis [38, 39]
+Favipiravir FPV Purine analog; selective RdRp inhibitor [3 8, 39]
+Ribavirin RBV Guanosine analog; interferes with RNA synthe sis [38, 39]
+Nirmatrelvir/Ritonavir PAX SARS-CoV-2 main protease (Mpr o/3CLpro) inhibitor [38, 39]
+Lopinavir/Ritonavir LPV HIV protease inhibitor (repurpos ed) [38, 39]
+Entry and Post-Translational Inhibitors
+Nitazoxanide NTZ Broad-spectrum; inhibits viral entry/as sembly [38, 39]
+Hydroxychloroquine HCQ Antimalarial; modulates endosoma l pH [38, 39]
+Immune Response Regulation
+Dexamethasone DEX Corticosteroid; anti-inﬂammatory/imm unomodulator [38, 39]
+As the penalty factor is increased, the tendency of en-
+FIG. 5. Interaction graph of the 9-drug network.TABLEIII.COVID-19DDIdataset (weights from literature).
+drugidrugjkind weight wkind
+ij
+RBV RDV synergy 0.95
+MOV PAX synergy 0.90
+MOV RDV synergy 0.80
+MOV RBV synergy 0.60
+PAX RDV synergy 0.55
+FPV MOV synergy 0.95
+NTZ RDV synergy 0.85
+HCQ RDV harm 0.95
+HCQ PAX harm 0.40
+LPV PAX harm 0.75
+LPV RDV harm 0.40
+DEX HCQ harm 0.75
+DEX PAX harm 0.30
+FPV LPV harm 0.70
+ergy landscape starts to change: all dominant low-energy
+conﬁgurations systematically exclude harmful pairs. For
+example, with α= 5, we get {RDV, RBV, NTZ, MOV,
+FPV, DEX }, which no harmful interaction at all. This
+
+8
+FIG. 6. (upper) Energy evolution obtained from the ITE-
+FALQON for diﬀerent penalty coeﬃcients α. (lower) Final
+probability distributions and dominant MSS solutions. (le ft)
+For relatively small values of α(e.g.,α=2.5), the optimal
+solutions is {RDV, RBV, PAX, NTZ, MOV, FPV, DEX },
+which still contains harmful terms. (right) For α= 5, we get
+{RDV, RBV, NTZ, MOV, FPV, DEX }, which no harmful
+interaction at all.
+behavior is consistent with the MSS objective, which
+identiﬁes the largestsubset ofdrugs that remains compli-
+ant with safety constraints. In conclusion, penalty factor
+αplays an important role in reﬂecting diﬀerent levels of
+clinical risk tolerance, and larger αis better.
+B. SCO Results
+We next consider the SCO setting by imposing a spe-
+ciﬁc constraint on the selected subset, ﬁxing the number
+of drugs to K= 3. Under this constraint, we obtain
+the most dominant bitstring corresponding to the drug
+triples{RDV, RBV, MOV }. Moreover, in vitro and an-
+imal model studies have shown that both combinations
+can enhance antiviral eﬃcacy including synergistic sup-
+pression of SARS-CoV-2 replication. Compared to the
+MSS formulation, which favors selecting as many mutu-
+ally non-harmful drugs as possible, the SCO formulation(b) (a) 
+FIG. 7. (a) Energy evolution obtained from ITE-FALQON
+for diﬀerent penalty coeﬃcients γ. (b) Under this constraint,
+we obtain the most dominant bitstring corresponding to the
+drug triples {RDV, RBV, MOV }.
+is more aligned with clinical practice by restricting the
+size of the optimal drug subset. In the context of ac-
+tual COVID-19 treatment, increasing the number of co-
+administered drugs may increase the risk of toxicity due
+tohigher-orderpolypharmacyeﬀects, evenintheabsence
+of pairwise conﬂicts. This case study serves as a proof-
+of-principle that ITE-FALQON framework can recover
+clinically meaningful drug combinations within a large
+combinatorial search space using only pairwise interac-
+tion information encoded in a physical Hamiltonian.
+VI. DISCUSSION
+The present results show that FALQON and ITE-
+FALQON can reliably identify safe or synergistic subsets
+in small DDI networks, and the structure of real phar-
+macological data suggests that the method can scale be-
+yond the six-drug examples studied here. Large clinical
+DDI databases such as DrugBank or SYNERGxDB con-
+tainhundredsofdrugs, but the correspondinginteraction
+graphs are highly sparse: only a small fraction of drug
+pairs exhibit clinically documented interactions. This
+
+9
+sparsitysubstantiallyreducesthe numberofnonzerocou-
+plings in the Ising Hamiltonian and therefore mitigates
+the growth of circuit complexity as the number of drugs
+increases.
+A second feature of real DDI networks is their modu-
+larity. Harmful or synergistic interactions tend to cluster
+within drug classes, allowing the Hamiltonian to be or-
+ganized into blocks that can be encoded eﬃciently. To-
+gether, sparsity and modularity imply that Hamiltonians
+derived from realistic DDI datasets remain tractable for
+statevectorsimulations and for near-term quantum hard-
+wareinthe50-100qubitrange,providedthatappropriate
+preprocessing steps are applied.
+From an algorithmic perspective, FALQON and its
+extend version oﬀer clear advantages over variational
+approaches such as QAOA.

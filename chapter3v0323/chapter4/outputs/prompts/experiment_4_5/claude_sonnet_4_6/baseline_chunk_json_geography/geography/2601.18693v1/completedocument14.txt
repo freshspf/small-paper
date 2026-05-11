@@ -1,0 +1,168 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument14
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+As a result, the fiducial combined
+0.100.150.200.250.300.350.400.450.50h/hDM
+All
+0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+/DM
+0.050.100.150.200.250.300.350.400.450.50h/hDM
+r > 100 kpc
+central
+(M) (accreted+central)
+(M) (accreted)
+P() (accreted+central)
+P() (accreted)
+Fiducial (accreted+central)
+Fiducial (accreted)Figure 9.Relation between the stellar–to–DM mean energy ratio
+⟨𝜀⟩★/⟨𝜀⟩ DMand the stellar–to–DM mean specific angular momentum ra-
+tio⟨ℎ⟩ ★/⟨ℎ⟩ DM. The upper panel shows results for all particles, and the
+lowerpanelshowsonlyparticlesat𝑟 >100 kpc.Filledenvelopesdenotethe
+1𝜎(16th–84th percentile) credible intervals for the combination of accreted
+matter and the cluster plus its central galaxy, over the two varied function
+parameters with𝜙(𝑀 ★)denoted in orange and𝑝(𝜂)denoted in teal. The
+lighter dashed envelopes indicate the ranges for only accreted material. The
+red contour in each panel indicates the central’s response to the most sig-
+nificant merger over the range of peak merger mass ratios. Values for our
+fiducialchoiceareshownasblackpointsfortheaccreted+centralfiducialand
+grey points for the accreted-only, with error bars indicating the 16th–84th
+percentile credible interval. Interactive versions of this plot can be found at
+garrethmartin.github.io/interactive-profiles-ICL/index.html#average-e-am
+profile(dashedline)increasinglydivergesfromtheclusterhaloplus
+centralgalaxyprofile(dot-dashed),andinsteadapproachestheprofile
+of the accreted material (dotted). Beyond∼100kpc, the stellar–to–
+DM density ratio is therefore primarily governed by the distribution
+of stripped satellite debris, with the central contribution becoming
+subdominant.
+Thestellar–to–DMdensityratioshowsapronounceddependence
+on the properties of the infalling satellite population. In particular,
+variations in the satellite stellar mass function lead to substantial
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM13
+103
+102
+101
+100/DM
+(M)
+102
+101
+100 (relative)
+DM
+Stars
+102
+101
+100
+r/R200103
+102
+101
+100/DM
+P()
+102
+101
+100 (relative)
+Fiducial (accreted)
+Fiducial (central)
+Fiducial (accreted+central)
+Figure10.Radialprofilesofthestellar–to–DMdensityratio𝜌 ★/𝜌DMforthe
+full set of sampled satellite-population parameter combinations. Coloured
+envelopesshowtherangeofmodelpredictionsforvariationsin𝜙(𝑀 ★)(top)
+and𝑝(𝜂)(bottom).Theblackdottedanddot-dashedanddashedlinesshows
+separatecontributionsfrominfallingsatellites,fromtheclusterhalopluscen-
+tralgalaxy,andfromthecombinedprofilerespectively.Insetsshowtheunder-
+lyingDM(purple)andstellar(green)radialdensityprofilesnormalisedtothe
+maximum of the DM profile to highlight relative shape differences. Interac-
+tive versions of this plot can be found at garrethmartin.github.io/interactive-
+profiles-ICL/index.html#radial.
+changes in the ratio, with the local logarithmic slope3of𝜌★/𝜌DM,
+measured between 100 kpc and𝑅 200, ranging from -0.54 to -1.28
+acrosstheparameterspace.Bycontrast,changesintheorbitalcircu-
+larity distribution have a much smaller impact, modifying the slope
+byonly∼0.1.Inbothcases,differencesaredrivenalmostexclusively
+bychangesinthestellarradialdensityprofile.Theradialdensitypro-
+file of the DM shown in purple in the inset panels shows very little
+variationacrossallplausibleinfallingsatellitestellarmassfunctions
+and orbital distributions.
+Thestellar–to–DMratioismostsensitivetothecharacteristicmass
+3Slopes measured for individual parameter combinations can be found in
+the interactive versions of Figure 10.ofthesatellitestellarmassfunction.Varyingthisparameterproduces
+substantial shifts in the radial logarithmic slope, whereas plausible
+changes in the faint-end slope lead to comparatively modest effects.
+This behaviour is consistent with the phase-space trends identified
+in Section 3.3: more massivesatellites undergo substantially greater
+lossesoforbitalenergyandangularmomentum.Increasingthechar-
+acteristicmassthereforelowersthemeanstellarenergiesandangular
+momentaofthestrippedmaterial,yieldingamorecentrallyconcen-
+trated stellar distribution and hence a steeper stellar–to–DM ratio
+profile.
+6 COMPARISON WITH COSMOLOGICAL SIMULATIONS
+TheresultspresentedinSection5isolatetheeffectsofsatellitemass
+ratio and orbital configuration on the stellar–DM phase-space off-
+sets. However, they make several simplifying assumptions: a static,
+spherically symmetric cluster potential, idealised satellite structure
+with fixed stellar–to–halo mass relations, and satellites injected on
+individual orbits into an isolated cluster. Real clusters experience
+more complex assembly histories, with multiple satellites accreting
+simultaneously,ongoingmajormergersthatviolatetheadiabaticap-
+proximation, triaxial halo shapes, and correlations between satellite
+properties and their host environment.

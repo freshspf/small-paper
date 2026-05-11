@@ -1,0 +1,143 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument27",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument27
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Additionally, for the most equal-mass mergers,
+the satellite merges rapidly with the central galaxy, so a substantial
+proportion of the stripped stellar material merges into the central
+object rather than the ICL component.
+These competing effects are reflected in the trends, particularly
+for𝑟 >100kpc.Theefficiencydecreaseswithincreasingmassratio
+down to approximately 1:100, where dynamical friction is weakest,
+andthenrisesagainatlowermassesowingtothemuchlowerbinding
+energies of the smallest satellites.
+For major mergers, essentially all stellar and DM material is
+strippedfromthesatellite.However,onlyasmallfractionofthestel-
+lar mass reaches the ICL, whereas the majority of the DM (around
+90 per cent) is deposited beyond 100 kpc.
+APPENDIX C: RANGE OF SCHECHTER FUNCTION
+PARAMETERS FOR INFALLING SATELLITES
+Figure C1 summarises the variation in the Schechter-function pa-
+rameters𝛼(faint-end slope) andlog10𝑀★(characteristic mass)
+fitted to the stellar mass functions of infalling satellites across a
+sample of clusters drawn from four hydrodynamical simulations–
+Horizon-AGN(Dubois et al. 2014, 2016),HydrangeaBahé et al.
+(2017),TNG100(Nelsonetal.2019)fromtheIllustrisTNGproject,
+and theGIZMO7K run (Gómez et al. 2025; Cui et al., in prep.)
+fromTheThreeHundredproject.Thefittingprocedurefollowsthat
+of Brown et al. (2024). We refer to Brown et al. (2024) for further
+details of the determination of infall stellar masses and the fitting
+method. Values for each parameter in individual clusters and their
+1𝜎uncertainties are indicated with error bars.
+Weexcludefromthefigureanyindividual-clusterSchechterfitsfor
+whichthehigh-massendiseffectivelyunconstrained,corresponding
+to clusters where the available galaxy sample does not sample the
+exponential cutoff. This principally affects theHydrangeaset, for
+whichonlythreeclusterscouldbefitindividually.Thisexclusiondoes
+not significantly bias the inferred parameter ranges. In all cases, the
+stacked infalling satellite populations of each simulation lie roughly
+central to the percentile regions derived from the individually fitted
+clusters.
+For each simulation, we compute the 5th and 95th percentiles of
+the derived𝛼andlog10𝑀★. These percentile intervals are shown
+as coloured rectangles in the figure. The four simulation suites oc-
+cupy distinct regions of the𝛼−log10𝑀★plane. in particular the
+Horizon-AGNresultsliesystematicallyatshallower𝛼andatlower
+log10𝑀★thantheothersuites.Theseoffsetslikelyarisefromdiffer-
+ences in sub-grid prescriptions, numerical resolution, and the range
+of environments probed by each simulation. Given the significant
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM23
+0.60.70.80.91.0/DM
+All
+0.1
+r > 100 kpc
+0.0 0.2 0.4 0.6 0.8 1.0
+0.00.20.40.60.81.0h/hDM
+Msat/Mhost
+103.0
+102.5
+102.0
+101.5
+101.2
+100.9
+100.5
+100.0
+0.0 0.2 0.4 0.6 0.8 1.0
+Figure B1.Average energy ratios (top) and angular momentum ratios (bottom) as a function of orbital circularity. Values drawn from each simulation in our
+grid are shown as open circles while the average of posterior draws from the model are shown as coloured lines. Colours correspond to satellite–to–host mass
+ratios indicated in the legend. Results are split between results for all stripped particles (left, solid lines) and only stripped particles with𝑟 >100kpc (right,
+dashed lines).
+differences between the four simulations, we adopt the combined
+parameter envelope across all four suites, enclosing the smallest
+minimum and largest maximum values of𝛼andlog10𝑀★for these
+regions.Theblackdashedrectangledefinesourchoiceofparameter
+ranges, also shown in Table 1.
+APPENDIX D: SENSITIVITY TO THE LOW-MASS
+SATELLITE POPULATION
+In this section, we explore how far down the satellite stellar mass
+function must be modelled in order to approximately recover the
+population-averaged stellar–to–DM offsets. Figure D1 shows the
+population-averagedspecificenergyratio,⟨𝜀 ★/𝜀DM⟩forallaccreted
+particles, as a function of the minimum stellar mass at which we
+truncate the infalling satellite population. The figure samples a con-
+tinuous range of characteristic stellar masses,𝑀★indicated by the
+colourbar, keeping the low-mass slope𝛼fixed at the fiducial value.
+Across these models, increasing the minimum infaller mass leads
+to a systematic reduction in⟨𝜀 ★/𝜀DM⟩. This behaviour reflects the
+fact that low-mass satellites typically undergo stripping of stars and
+DMatsimilarorbitalenergies.Asprogressivelylower-masssystems
+areexcluded,thepopulation-averagedenergyratiobecomesincreas-
+ingly dominated by a small number of intermediate- and high-mass
+infallers, which generate the largest stellar–DM offsets.
+Thedashedblacklineindicatestheminimuminfallerstellarmass
+required to explain 95 per cent of the DM–ICL specific energy ra-
+tio. Extending the satellite mass function to stellar masses belowlog10(𝑀★/𝑀⊙)∼10–10.5produces little additional change in the
+predicted energy ratio, independent of𝑀★.

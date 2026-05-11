@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LongShortTermMemoryNetwork",
+  "predicts",
+  "ClinicalOutcome",
+  "AttentionAugmentedLstm",
+  "addresses",
+  "LongSequenceChallenge",
+  "TimeAwareLstm",
+  "IrregularSampling",
+  "patient_cohort_ckd",
+  "diagnosedWith",
+  "ChronicKidneyDisease",
+  "hasPatientCount",
+  "count_3932",
+  "hasAdmissionCount",
+  "count_10000",
+  "LongitudinalEhrData",
+  "processedToConstruct",
+  "PatientSpecificTimeSeries",
+  "EmbeddingModel",
+  "learns",
+  "PatientRepresentation",
+  "differentiatesBetween",
+  "CkdStage",
+  "usedForPredictionOf",
+  "InIcuMortality",
+  "EndToEndPredictorModel",
+  "dataset_mimic_iv",
+  "containsDomain",
+  "domain_hospital",
+  "domain_icu",
+  "containsInformation",
+  "PersonalInformation",
+  "PrescribedMedication",
+  "LabMeasurement",
+  "Icd10Diagnosis",
+  "IcuStayRecord",
+  "AdministeredFluid",
+  "AdministeredMedication",
+  "ProcedureEvent",
+  "PatientAdmission",
+  "splitInto",
+  "DemographicFile",
+  "TimeSeriesFeature",
+  "Age",
+  "Sex",
+  "TemporalEmbeddingModel",
+  "ElectronicHealthRecord",
+  "ClinicalPredictionModel",
+  "SingleTask",
+  "RecurrentArchitecture",
+  "TemporalStructure",
+  "VanillaLstm",
+  "EmbeddingQuality",
+  "CkdStageClustering",
+  "InIcuMortalityPrediction",
+  "StructuredEmbedding",
+  "CkdStageClassificationAccuracy",
+  "EndToEndPredictor",
+  "DigitalTwin",
+  "IndividualPatient",
+  "DiseaseTrajectory",
+  "TherapyOption",
+  "PersonalisedCare",
+  "TaskSpecificModel",
+  "DiseaseProgression",
+  "MortalityPrediction",
+  "ReadmissionRisk",
+  "DenseVectorRepresentation",
+  "HighDimensionalInputData",
+  "DownstreamTask",
+  "Phenotyping",
+  "PhysiologicalState",
+  "TLstm",
+  "HospitalAdmissionRecord",
+  "Icd9Diagnosis",
+  "ChartEvent",
+  "StaticFeature",
+  "SubjectId",
+  "LabEvent",
+  "TimeWindow"
+]
+
+Triples:
+[
+  {
+    "subject": "LongShortTermMemoryNetwork",
+    "relation": "predicts",
+    "object": "ClinicalOutcome",
+    "chunk": "completedocument1",
+    "context": "Recurrent architectures, particularly Long Short-Term Memory (LSTM) networks are widely used to model EHR data for predicting clinical outcomes from patient data sequences [24]."
+  },
+  {
+    "subject": "AttentionAugmentedLstm",
+    "relation": "addresses",
+    "object": "LongSequenceChallenge",
+    "chunk": "completedocument1",
+    "context": "Extensions of LSTMs including attention-augmented LSTMs [25] and time-aware LSTMs (T-LSTM) [26] address challenges associated with long sequences and irregular sampling respectively."
+  },
+  {
+    "subject": "TimeAwareLstm",
+    "relation": "addresses",
+    "object": "IrregularSampling",
+    "chunk": "completedocument1",
+    "context": "Extensions of LSTMs including attention-augmented LSTMs [25] and time-aware LSTMs (T-LSTM) [26] address challenges associated with long sequences and irregular sampling respectively."
+  },
+  {
+    "subject": "patient_cohort_ckd",
+    "relation": "diagnosedWith",
+    "object": "ChronicKidneyDisease",
+    "chunk": "completedocument2",
+    "context": "We compared three recurrent architectures on a cohort of Chronic Kidney Disease (CKD) patients: a vanilla LSTM, an attention-augmented LSTM, and a T-LSTM (see Fig. 1)."
+  },
+  {
+    "subject": "patient_cohort_ckd",
+    "relation": "hasPatientCount",
+    "object": "count_3932",
+    "chunk": "completedocument2",
+    "context": "The CKD cohort consisted of 3932 patients diagnosed with CKD, amounting to 10,000 admission cases."
+  },
+  {
+    "subject": "patient_cohort_ckd",
+    "relation": "hasAdmissionCount",
+    "object": "count_10000",
+    "chunk": "completedocument2",
+    "context": "The CKD cohort consisted of 3932 patients diagnosed with CKD, amounting to 10,000 admission cases."
+  },
+  {
+    "subject": "LongitudinalEhrData",
+    "relation": "processedToConstruct",
+    "object": "PatientSpecificTimeSeries",
+    "chunk": "completedocument2",
+    "context": "(a) Longitudinal EHR data are extracted and preprocessed to construct patient-specific time series."
+  },
+  {
+    "subject": "EmbeddingModel",
+    "relation": "learns",
+    "object": "PatientRepresentation",
+    "chunk": "completedocument2",
+    "context": "The embedding models were trained to learn patient representations by differentiating between CKD stages."
+  },
+  {
+    "subject": "EmbeddingModel",
+    "relation": "differentiatesBetween",
+    "object": "CkdStage",
+    "chunk": "completedocument2",
+    "context": "The embedding models were trained to learn patient representations by differentiating between CKD stages."
+  },
+  {
+    "subject": "PatientRepresentation",
+    "relation": "usedForPredictionOf",
+    "object": "InIcuMortality",
+    "chunk": "completedocument2",
+    "context": "The learnt representations were subsequently used for downstream prediction of in-ICU mortality."
+  },
+  {
+    "subject": "EndToEndPredictorModel",
+    "relation": "predicts",
+    "object": "InIcuMortality",
+    "chunk": "completedocument2",
+    "context": "The end-to-end predictor models were trained directly to predict in-ICU mortality from longitudinal EHR data."
+  },
+  {
+    "subject": "dataset_mimic_iv",
+    "relation": "containsDomain",
+    "object": "domain_hospital",
+    "chunk": "completedocument2",
+    "context": "The MIMIC-IV dataset is divided into two domains: hospital and ICU."
+  },
+  {
+    "subject": "dataset_mimic_iv",
+    "relation": "containsDomain",
+    "object": "domain_icu",
+    "chunk": "completedocument2",
+    "context": "The MIMIC-IV dataset is divided into two domains: hospital and ICU."
+  },
+  {
+    "subject": "domain_hospital",
+    "relation": "containsInformation",
+    "object": "PersonalInformation",
+    "chunk": "completedocument2",
+    "context": "The hospital domain consists of tables including patient’s personal information, records of hospital admission, records of ICD-9 and ICD-10 coded diagnoses, details on prescribed medicates, lab measurements."
+  },
+  {
+    "subject": "domain_hospital",
+    "relation": "containsInformation",
+    "object": "PrescribedMedication",
+    "chunk": "completedocument2",
+    "context": "The hospital domain consists of tables including patient’s personal information, records of hospital admission, records of ICD-9 and ICD-10 coded diagnoses, details on prescribed medicates, lab measurements."
+  },
+  {
+    "subject": "domain_hospital",
+    "relation": "containsInformation",
+    "object": "LabMeasurement",
+    "chunk": "completedocument2",
+    "context": "The hospital domain consists of tables including patient’s personal information, records of hospital admission, records of ICD-9 and ICD-10 coded diagnoses, details on prescribed medicates, lab measurements."
+  },
+  {
+    "subject": "domain_hospital",
+    "relation": "containsInformation",
+    "object": "Icd10Diagnosis",
+    "chunk": "completedocument2",
+    "context": "The hospital domain consists of tables including patient’s personal information, records of hospital admission, records of ICD-9 and ICD-10 coded diagnoses, details on prescribed medicates, lab measurements."
+  },
+  {
+    "subject": "domain_icu",
+    "relation": "containsInformation",
+    "object": "IcuStayRecord",
+    "chunk": "completedocument2",
+    "context": "The ICU domain consist of tables including records of ICU stays, records of ICD-9 and ICD-10 coded diagnoses for each ICU stay, records of administered fluids and medications, chart events, procedure events."
+  },
+  {
+    "subject": "domain_icu",
+    "relation": "containsInformation",
+    "object": "AdministeredFluid",
+    "chunk": "completedocument2",
+    "context": "The ICU domain consist of tables including records of ICU stays, records of ICD-9 and ICD-10 coded diagnoses for each ICU stay, records of administered fluids and medications, chart events, procedure events."
+  },
+  {
+    "subject": "domain_icu",
+    "relation": "containsInformation",
+    "object": "AdministeredMedication",
+    "chunk": "completedocument2",
+    "context": "The ICU domain consist of tables including records of ICU stays, records of ICD-9 and ICD-10 coded diagnoses for each ICU stay, records of administered fluids and medications, chart events, procedure events."
+  },
+  {
+    "subject": "domain_icu",
+    "relation": "containsInformation",
+    "object": "ProcedureEvent",
+    "chunk": "completedocument2",
+    "context": "The ICU domain consist of tables including records of ICU stays, records of ICD-9 and ICD-10 coded diagnoses for each ICU stay, records of administered fluids and medications, chart events, procedure events."
+  },
+  {
+    "subject": "PatientAdmission",
+    "relation": "splitInto",
+    "object": "DemographicFile",
+    "chunk": "completedocument2",
+    "context": "Each patient admission in the CKD cohort was split into three structured files: demographic file (consisting of demographic details specific to the patient including subject id, age, sex), static features (consisting of all static features in one single hospital or ICU stay), and time-series features (e.g., medications, lab events, procedures that change repeatedly over a stay)."
+  },
+  {
+    "subject": "PatientAdmission",
+    "relation": "splitInto",
+    "object": "TimeSeriesFeature",
+    "chunk": "completedocument2",
+    "context": "Each patient admission in the CKD cohort was split into three structured files: demographic file (consisting of demographic details specific to the patient including subject id, age, sex), static features (consisting of all static features in one single hospital or ICU stay), and time-series features (e.g., medications, lab events, procedures that change repeatedly over a stay)."
+  },
+  {
+    "subject": "DemographicFile",
+    "relation": "containsInformation",
+    "object": "Age",
+    "chunk": "completedocument2",
+    "context": "Each patient admission in the CKD cohort was split into three structured files: demographic file (consisting of demographic details specific to the patient including subject id, age, sex), static features (consisting of all static features in one single hospital or ICU stay), and time-series features (e.g., medications, lab events, procedures that change repeatedly over a stay)."
+  },
+  {
+    "subject": "DemographicFile",
+    "relation": "containsInformation",
+    "object": "Sex",
+    "chunk": "completedocument2",
+    "context": "Each patient admission in the CKD cohort was split into three structured files: demographic file (consisting of demographic details specific to the patient including subject id, age, sex), static features (consisting of all static features in one single hospital or ICU stay), and time-series features (e.g., medications, lab events, procedures that change repeatedly over a stay)."
+  }
+]

@@ -1,0 +1,855 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "IntraclusterLight",
+  "DarkMatter",
+  "ClusterDarkMatterHalo",
+  "SatelliteGalaxy",
+  "GalaxyCluster",
+  "PhaseSpace",
+  "RadialDistribution",
+  "OrbitalEvolution",
+  "MassDistribution",
+  "TidalStripping",
+  "OrbitalCircularity",
+  "SatelliteToHostMassRatio",
+  "SpecificOrbitalEnergy",
+  "AngularMomentum",
+  "StrippedStar",
+  "StrippedDarkMatter",
+  "InfallingSatellitePopulation",
+  "SatelliteStellarMassFunction",
+  "CharacteristicMass",
+  "DarkMatterDistribution",
+  "ICLDensityProfile",
+  "DarkMatterDensityProfile",
+  "ClusterPotential",
+  "AccretionHistory",
+  "ClusterAssembly",
+  "Merging",
+  "PreProcessedStar",
+  "ParentGalaxy",
+  "ClusterInfall",
+  "Progenitor",
+  "AccretionEvent",
+  "StellarMassBudget",
+  "BaryonicTracer",
+  "Dynamics",
+  "SpatialStructure",
+  "AssemblyHistory",
+  "HaloShape",
+  "DensityProfile",
+  "HaloMass",
+  "Morphology",
+  "ProjectedShape",
+  "TotalMassDistribution",
+  "WeakLensing",
+  "XRayObservation",
+  "ClusterGalaxy",
+  "KinematicProperty",
+  "OrbitalEnergy",
+  "Anisotropy",
+  "RadialDensityProfile",
+  "StellarStripping",
+  "DynamicalFriction",
+  "TidalTorque",
+  "InfallingSatellite",
+  "StellarComponent",
+  "DarkMatterComponent",
+  "InternalStructure",
+  "OrbitalConfiguration",
+  "Euclid",
+  "LSST",
+  "ClusterSample",
+  "Redshift",
+  "HubbleSpaceTelescopeFrontierFieldsCluster",
+  "EuclidEarlyReleaseObservation",
+  "CosmologicalSimulation",
+  "HydrodynamicalSimulation",
+  "ControlledNBodySimulation",
+  "LiveClusterHalo",
+  "CentralGalaxy",
+  "HernquistProfile",
+  "Gadget4",
+  "HierarchicalTreeAlgorithm",
+  "MultipoleExpansion",
+  "AdaptiveOpeningCriterion",
+  "GravitationalSoftening",
+  "CubicSplineKernel",
+  "ParticleMeshScheme",
+  "TreeBasedGravitySolver",
+  "SimulationDomain",
+  "TreePMApproach",
+  "ForceSofteningLength",
+  "DarkMatterParticle",
+  "StellarParticle",
+  "SatelliteModel",
+  "ClusterModel",
+  "ResolutionLevel",
+  "SmoothingLength",
+  "StrippingEfficiency",
+  "DiffuseStarLight",
+  "PrecisionProbe",
+  "InteractiveFigure",
+  "InteractivePlot",
+  "SingleSatelliteResult",
+  "SatelliteDemographics"
+]
+
+Triples:
+[
+  {
+    "subject": "OrbitalEvolution",
+    "relation": "shapes",
+    "object": "PhaseSpace"
+  },
+  {
+    "subject": "MassDistribution",
+    "relation": "shapes",
+    "object": "RadialDistribution"
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "isAccretedInto",
+    "object": "LiveClusterHalo"
+  },
+  {
+    "subject": "ControlledNBodySimulation",
+    "relation": "follows",
+    "object": "TidalStripping"
+  },
+  {
+    "subject": "ControlledNBodySimulation",
+    "relation": "follows",
+    "object": "OrbitalEvolution"
+  },
+  {
+    "subject": "ControlledNBodySimulation",
+    "relation": "varies",
+    "object": "SatelliteToHostMassRatio"
+  },
+  {
+    "subject": "ControlledNBodySimulation",
+    "relation": "varies",
+    "object": "OrbitalCircularity"
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "occupies",
+    "object": "LowerEnergyPhaseSpaceRegion"
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "occupies",
+    "object": "LowerAngularMomentumPhaseSpaceRegion"
+  },
+  {
+    "subject": "StrippedDarkMatter",
+    "relation": "occupies",
+    "object": "HigherEnergyPhaseSpaceRegion"
+  },
+  {
+    "subject": "StrippedDarkMatter",
+    "relation": "occupies",
+    "object": "HigherAngularMomentumPhaseSpaceRegion"
+  },
+  {
+    "subject": "PhaseSpaceDifference",
+    "relation": "increasesTowards",
+    "object": "MoreEqualSatelliteToHostMassRatio"
+  },
+  {
+    "subject": "PhaseSpaceDifference",
+    "relation": "hasWeakDependenceOn",
+    "object": "OrbitalCircularity"
+  },
+  {
+    "subject": "PredictiveModel",
+    "relation": "predicts",
+    "object": "PhaseSpaceProperty"
+  },
+  {
+    "subject": "PredictiveModel",
+    "relation": "uses",
+    "object": "InfallingSatellitePopulation"
+  },
+  {
+    "subject": "PhaseSpaceDifference",
+    "relation": "isDrivenBy",
+    "object": "CharacteristicMass"
+  },
+  {
+    "subject": "CharacteristicMass",
+    "relation": "belongsTo",
+    "object": "SatelliteStellarMassFunction"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "isMoreCentrallyConcentratedThan",
+    "object": "DarkMatter"
+  },
+  {
+    "subject": "RadialOffsetMagnitude",
+    "relation": "dependsOn",
+    "object": "CharacteristicMass"
+  },
+  {
+    "subject": "RadialOffsetMagnitude",
+    "relation": "increasesTowards",
+    "object": "HigherCharacteristicMass"
+  },
+  {
+    "subject": "HydrodynamicalSimulation",
+    "relation": "isComparedWith",
+    "object": "PredictiveModel"
+  },
+  {
+    "subject": "PredictiveModel",
+    "relation": "reproduces",
+    "object": "RadialStellarToDarkMatterDensityProfileOffset"
+  },
+  {
+    "subject": "RadialRelationshipBetweenIntraclusterLightAndDarkMatterDistribution",
+    "relation": "isGovernedBy",
+    "object": "SatelliteDemographics"
+  },
+  {
+    "subject": "ICLDensityProfile",
+    "relation": "canTrace",
+    "object": "DarkMatterDistribution"
+  },
+  {
+    "subject": "GalaxyCluster",
+    "relation": "isLaboratoryFor",
+    "object": "Cosmology"
+  },
+  {
+    "subject": "GalaxyCluster",
+    "relation": "formsThrough",
+    "object": "HierarchicalGrowth"
+  },
+  {
+    "subject": "Mass",
+    "relation": "encodes",
+    "object": "UnderlyingCosmology"
+  },
+  {
+    "subject": "SpatialStructure",
+    "relation": "encodes",
+    "object": "UnderlyingCosmology"
+  },
+  {
+    "subject": "AssemblyHistory",
+    "relation": "encodes",
+    "object": "UnderlyingCosmology"
+  },
+  {
+    "subject": "Mass",
+    "relation": "encodes",
+    "object": "StructureFormationPhysics"
+  },
+  {
+    "subject": "SpatialStructure",
+    "relation": "encodes",
+    "object": "StructureFormationPhysics"
+  },
+  {
+    "subject": "AssemblyHistory",
+    "relation": "encodes",
+    "object": "StructureFormationPhysics"
+  },
+  {
+    "subject": "HaloShape",
+    "relation": "providesConstraintOn",
+    "object": "DarkMatter"
+  },
+  {
+    "subject": "DensityProfile",
+    "relation": "providesConstraintOn",
+    "object": "DarkMatter"
+  },
+  {
+    "subject": "Abundance",
+    "relation": "tests",
+    "object": "CosmologicalParameter"
+  },
+  {
+    "subject": "ScalingRelation",
+    "relation": "tests",
+    "object": "CosmologicalParameter"
+  },
+  {
+    "subject": "MappingStructure",
+    "relation": "requiresTracerOf",
+    "object": "DarkMatterHalo"
+  },
+  {
+    "subject": "DarkMatterHalo",
+    "relation": "isNotDirectlyObservable",
+    "object": "True"
+  },
+  {
+    "subject": "GalaxyCluster",
+    "relation": "isPermeatedBy",
+    "object": "IntraclusterLight"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "isEmittedBy",
+    "object": "DiffuseComponentOfStar"
+  },
+  {
+    "subject": "DiffuseComponentOfStar",
+    "relation": "isNotBoundTo",
+    "object": "IndividualGalaxy"
+  },
+  {
+    "subject": "Star",
+    "relation": "originatesFrom",
+    "object": "TidalStripping"
+  },
+  {
+    "subject": "Star",
+    "relation": "originatesFrom",
+    "object": "Merging"
+  },
+  {
+    "subject": "TidalStripping",
+    "relation": "actsOn",
+    "object": "SatelliteGalaxy"
+  },
+  {
+    "subject": "Merging",
+    "relation": "involves",
+    "object": "SatelliteGalaxy"
+  },
+  {
+    "subject": "PreProcessedStar",
+    "relation": "isLiberatedFrom",
+    "object": "ParentGalaxy"
+  },
+  {
+    "subject": "PreProcessedStar",
+    "relation": "isPresentUpon",
+    "object": "ClusterInfall"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "isDominatedBy",
+    "object": "SmallNumberOfProgenitor"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "retainsMemoryOf",
+    "object": "AccretionEvent"
+  },
+  {
+    "subject": "AccretionEvent",
+    "relation": "hasTiming",
+    "object": "Timing"
+  },
+  {
+    "subject": "AccretionEvent",
+    "relation": "hasOrbitalProperty",
+    "object": "OrbitalProperty"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "constitutesFractionOf",
+    "object": "StellarMassBudget"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "typicallyContributes",
+    "object": "FiveToFortyPercentOfTotalStellarLightInClusters"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "provides",
+    "object": "BaryonicTracer"
+  },
+  {
+    "subject": "BaryonicTracer",
+    "relation": "traces",
+    "object": "ClusterGrowth"
+  },
+  {
+    "subject": "BaryonicTracer",
+    "relation": "traces",
+    "object": "Dynamics"
+  },
+  {
+    "subject": "SpatialDistribution",
+    "relation": "isSetPrimarilyBy",
+    "object": "ClusterPotential"
+  },
+  {
+    "subject": "KinematicDistribution",
+    "relation": "isSetPrimarilyBy",
+    "object": "ClusterPotential"
+  },
+  {
+    "subject": "SpatialDistribution",
+    "relation": "isSetPrimarilyBy",
+    "object": "AccretionHistory"
+  },
+  {
+    "subject": "KinematicDistribution",
+    "relation": "isSetPrimarilyBy",
+    "object": "AccretionHistory"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "encodesInformationAbout",
+    "object": "AssemblyProcess"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "encodesInformationAbout",
+    "object": "DarkMatterHalo"
+  },
+  {
+    "subject": "Euclid",
+    "relation": "enables",
+    "object": "SystematicIntraclusterLightStudy"
+  },
+  {
+    "subject": "LSST",
+    "relation": "enables",
+    "object": "SystematicIntraclusterLightStudy"
+  },
+  {
+    "subject": "SystematicIntraclusterLightStudy",
+    "relation": "covers",
+    "object": "LargeClusterSample"
+  },
+  {
+    "subject": "SystematicIntraclusterLightStudy",
+    "relation": "extendsTo",
+    "object": "HigherRedshift"
+  },
+  {
+    "subject": "Euclid",
+    "relation": "detects",
+    "object": "IntraclusterLight"
+  },
+  {
+    "subject": "Euclid",
+    "relation": "detectsIn",
+    "object": "TensOfThousandsOfClusters"
+  },
+  {
+    "subject": "Euclid",
+    "relation": "reachesRedshift",
+    "object": "z_1_5"
+  },
+  {
+    "subject": "Dataset",
+    "relation": "enablesComparisonWith",
+    "object": "WeakLensing"
+  },
+  {
+    "subject": "Dataset",
+    "relation": "enablesComparisonWith",
+    "object": "XRayObservation"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "traces",
+    "object": "HaloProperty"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "traces",
+    "object": "AssemblyHistory"
+  },
+  {
+    "subject": "UsingIntraclusterLightAsTracer",
+    "relation": "requiresUnderstandingOf",
+    "object": "StarDistribution"
+  },
+  {
+    "subject": "UsingIntraclusterLightAsTracer",
+    "relation": "requiresUnderstandingOf",
+    "object": "DarkMatterDistribution"
+  },
+  {
+    "subject": "MorphologyOfIntraclusterLight",
+    "relation": "correspondsTo",
+    "object": "MorphologyOfClusterDarkMatterHalo"
+  },
+  {
+    "subject": "ProjectedShapeOfIntraclusterLight",
+    "relation": "follows",
+    "object": "ProjectedShapeOfTotalMassDistribution"
+  },
+  {
+    "subject": "TotalMassDistribution",
+    "relation": "isDerivedFrom",
+    "object": "Lensing"
+  },
+  {
+    "subject": "CosmologicalSimulation",
+    "relation": "reportsAlignmentBetween",
+    "object": "IntraclusterLightAndDarkMatter"
+  },
+  {
+    "subject": "CorrespondenceBetweenIntraclusterLightAndDarkMatter",
+    "relation": "indicates",
+    "object": "IntraclusterLightTracesClusterProperty"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "traces",
+    "object": "DynamicalProperty"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "traces",
+    "object": "SpatialProperty"
+  },
+  {
+    "subject": "RelationBetweenIntraclusterLightAndDarkMatter",
+    "relation": "isNot",
+    "object": "OneToOne"
+  },
+  {
+    "subject": "KinematicPropertyOfIntraclusterLight",
+    "relation": "differsFrom",
+    "object": "KinematicPropertyOfClusterGalaxy"
+  },
+  {
+    "subject": "KinematicPropertyOfIntraclusterLight",
+    "relation": "differsFrom",
+    "object": "KinematicPropertyOfDarkMatterHalo"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "occupies",
+    "object": "LowerOrbitalEnergy"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "has",
+    "object": "HigherAnisotropy"
+  },
+  {
+    "subject": "PhaseSpaceOffset",
+    "relation": "isSensitiveTo",
+    "object": "AccretionHistory"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "hasMoreCompact",
+    "object": "RadialDensityProfile"
+  },
+  {
+    "subject": "RadialDensityProfileOfIntraclusterLight",
+    "relation": "isMoreCompactThan",
+    "object": "RadialDensityProfileOfDarkMatter"
+  },
+  {
+    "subject": "DarkMatterDistribution",
+    "relation": "cannotBeInferredFrom",
+    "object": "NaiveMappingBetweenStellarAndDarkMatterDistribution"
+  },
+  {
+    "subject": "StellarStripping",
+    "relation": "governs",
+    "object": "PhaseSpacePropertyOfIntraclusterLight"
+  },
+  {
+    "subject": "DarkMatterComponent",
+    "relation": "isMoreExtendedThan",
+    "object": "StellarComponent"
+  },
+  {
+    "subject": "DarkMatterComponent",
+    "relation": "isStrippedMoreEfficientlyThan",
+    "object": "StellarComponent"
+  },
+  {
+    "subject": "IntraclusterStar",
+    "relation": "occupiesLowerThan",
+    "object": "DarkMatterStrippedFromSameSystem"
+  },
+  {
+    "subject": "IntraclusterStar",
+    "relation": "hasLowerOrbitalEnergyThan",
+    "object": "DarkMatterStrippedFromSameSystem"
+  },
+  {
+    "subject": "IntraclusterStar",
+    "relation": "hasLowerAngularMomentumThan",
+    "object": "DarkMatterStrippedFromSameSystem"
+  },
+  {
+    "subject": "DynamicalFriction",
+    "relation": "causes",
+    "object": "MassiveSatelliteToLoseOrbitalEnergy"
+  },
+  {
+    "subject": "TidalTorque",
+    "relation": "causes",
+    "object": "MassiveSatelliteToLoseOrbitalEnergy"
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "isPreferentiallyRemovedAt",
+    "object": "EarlierTime"
+  },
+  {
+    "subject": "CentrallyConcentratedStar",
+    "relation": "survivesUntil",
+    "object": "LaterTime"
+  },
+  {
+    "subject": "CentrallyConcentratedStar",
+    "relation": "isDepositedOnto",
+    "object": "MoreTightlyBoundOrbit"
+  },
+  {
+    "subject": "PhaseSpaceOffsetBetweenStrippedStarsAndDarkMatter",
+    "relation": "variesWith",
+    "object": "TidalStrippingEfficiency"
+  },
+  {
+    "subject": "PhaseSpaceOffsetBetweenStrippedStarsAndDarkMatter",
+    "relation": "variesWith",
+    "object": "DynamicalFriction"
+  },
+  {
+    "subject": "PhaseSpaceOffsetBetweenStrippedStarsAndDarkMatter",
+    "relation": "variesWith",
+    "object": "TidalTorque"
+  },
+  {
+    "subject": "PhaseSpaceOffsetBetweenStrippedStarsAndDarkMatter",
+    "relation": "variesWith",
+    "object": "Mass"
+  },
+  {
+    "subject": "PhaseSpaceOffsetBetweenStrippedStarsAndDarkMatter",
+    "relation": "variesWith",
+    "object": "InternalStructure"
+  },
+  {
+    "subject": "PhaseSpaceOffsetBetweenStrippedStarsAndDarkMatter",
+    "relation": "variesWith",
+    "object": "OrbitalConfiguration"
+  },
+  {
+    "subject": "UsingIntraclusterLightAsTracer",
+    "relation": "requiresMoreThan",
+    "object": "SimpleMappingBetweenStarAndDarkMatter"
+  },
+  {
+    "subject": "QuantifyingOffsetStrength",
+    "relation": "isPrerequisiteFor",
+    "object": "UsingDiffuseStarLightAsPrecisionProbe"
+  },
+  {
+    "subject": "QuantifyingOffsetOrigin",
+    "relation": "isPrerequisiteFor",
+    "object": "UsingDiffuseStarLightAsPrecisionProbe"
+  },
+  {
+    "subject": "PrecisionProbe",
+    "relation": "targets",
+    "object": "ClusterDarkMatterHalo"
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "comprises",
+    "object": "DarkMatterComponent"
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "comprises",
+    "object": "StellarComponent"
+  },
+  {
+    "subject": "DarkMatterComponent",
+    "relation": "hasSpatialDistributionDescribedBy",
+    "object": "HernquistProfile"
+  },
+  {
+    "subject": "StellarComponent",
+    "relation": "hasSpatialDistributionDescribedBy",
+    "object": "HernquistProfile"
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "isInjectedInto",
+    "object": "LiveClusterHalo"
+  },
+  {
+    "subject": "LiveClusterHalo",
+    "relation": "hasAssociated",
+    "object": "CentralGalaxy"
+  },
+  {
+    "subject": "Gadget4",
+    "relation": "is",
+    "object": "OpenSourceCosmologicalNBodyAndSmoothedParticleHydrodynamicsCode"
+  },
+  {
+    "subject": "Gadget4",
+    "relation": "computesGravitationalForceUsing",
+    "object": "HierarchicalTreeAlgorithm"
+  },
+  {
+    "subject": "HierarchicalTreeAlgorithm",
+    "relation": "employs",
+    "object": "MultipoleExpansion"
+  },
+  {
+    "subject": "HierarchicalTreeAlgorithm",
+    "relation": "employs",
+    "object": "AdaptiveOpeningCriterion"
+  },
+  {
+    "subject": "GravitationalSoftening",
+    "relation": "uses",
+    "object": "CubicSplineKernel"
+  },
+  {
+    "subject": "Gadget4",
+    "relation": "includes",
+    "object": "ParticleMeshScheme"
+  },
+  {
+    "subject": "ParticleMeshScheme",
+    "relation": "handles",
+    "object": "LongRangeForce"
+  },
+  {
+    "subject": "Simulation",
+    "relation": "usesOnly",
+    "object": "TreeBasedGravitySolver"
+  },
+  {
+    "subject": "SimulationDomain",
+    "relation": "doesNotBenefitFrom",
+    "object": "TreePMApproach"
+  },
+  {
+    "subject": "ForceSofteningLength",
+    "relation": "is200pcFor",
+    "object": "DarkMatterParticle"
+  },
+  {
+    "subject": "ForceSofteningLength",
+    "relation": "is50pcFor",
+    "object": "StellarParticle"
+  },
+  {
+    "subject": "ForceSofteningLengthChoice",
+    "relation": "maintainsStabilityOf",
+    "object": "SatelliteModel"
+  },
+  {
+    "subject": "ForceSofteningLengthChoice",
+    "relation": "maintainsStabilityOf",
+    "object": "ClusterModel"
+  },
+  {
+    "subject": "ForceSofteningLengthChoice",
+    "relation": "maintainsStabilityAt",
+    "object": "AllResolutionLevel"
+  },
+  {
+    "subject": "SofteningScale",
+    "relation": "hasNegligibleInfluenceOn",
+    "object": "StrippingEfficiency"
+  },
+  {
+    "subject": "SofteningScale",
+    "relation": "requires",
+    "object": "SufficientlySmallSmoothingLength"
+  }
+]

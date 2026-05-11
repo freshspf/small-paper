@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SynchrotronRadiationBeam",
+  "hasProperty",
+  "EnergyResolution",
+  "IonCloud",
+  "overlapsWith",
+  "PhotonBeam",
+  "HighlyChargedIon",
+  "bredIn",
+  "EbitTrapRegion",
+  "KShellElectron",
+  "containedIn",
+  "HeLikeO6PlusIon",
+  "MShellElectron",
+  "NaLikeFe15PlusIon",
+  "lostFrom",
+  "Trap",
+  "XRayEvent",
+  "detectedWithin",
+  "RegionOfInterest",
+  "projectedOnto",
+  "MonochromatorEnergyAxis",
+  "Spectrum",
+  "shownIn",
+  "figure_5_bottomPanel",
+  "ResonanceEvent",
+  "detectedWith",
+  "slitWidth_50um",
+  "reproducedWith",
+  "GaussianLinearFunctionModel",
+  "FitParameter",
+  "summarizedIn",
+  "table_1",
+  "figure_6_topLeftPanel",
+  "shows",
+  "ScanResult",
+  "locatedAround",
+  "ResonanceEnergy",
+  "3CSignal",
+  "obtainedWith",
+  "SignalToNoiseRatio",
+  "calculatedAs",
+  "CountRateRatio",
+  "GaussianComponent",
+  "gives",
+  "CountRate",
+  "locatedWithin",
+  "SigmaRange",
+  "Accuracy",
+  "constrains",
+  "OscillatorStrengthRatio",
+  "MeasuredResonanceEnergy",
+  "deviatesFrom",
+  "LiteratureValue",
+  "locatedIn",
+  "atomDB_3_1_3",
+  "Shift",
+  "interpretedAsDueTo",
+  "SystematicError",
+  "includes",
+  "Uncertainty",
+  "measurement_slit",
+  "hasWidth",
+  "value_100um",
+  "line_3g",
+  "isWeakerThan",
+  "line_3c",
+  "facility_universityOfTokyo",
+  "location_hongo",
+  "ward_bunkyoKu",
+  "city_tokyo",
+  "country_japan",
+  "facility_isas",
+  "ward_chuoKu",
+  "city_sagamihara",
+  "facility_rikenPioneeringResearchInstitute",
+  "city_wako",
+  "facility_maxPlanckInstitut",
+  "city_heidelberg",
+  "country_germany",
+  "facility_europeanXfel"
+]
+
+Triples:
+[
+  {
+    "subject": "SynchrotronRadiationBeam",
+    "relation": "hasProperty",
+    "object": "EnergyResolution",
+    "chunk": "completedocument4",
+    "context": "The energy resolution of the synchrotron radiation beam is determined by the exit-slit width of the monochromator; the energy resolution is increased when the slit width is decreased."
+  },
+  {
+    "subject": "IonCloud",
+    "relation": "overlapsWith",
+    "object": "PhotonBeam",
+    "chunk": "completedocument4",
+    "context": "However, the decrease in the monochromator slit width leads to the deterioration of the signal-to-noise ratio and the possible disappearance of the overlap between the ion cloud and photon beam."
+  },
+  {
+    "subject": "HighlyChargedIon",
+    "relation": "bredIn",
+    "object": "EbitTrapRegion",
+    "chunk": "completedocument4",
+    "context": "The HCIs are bred through electron-impact ionization in the EBIT trap region."
+  },
+  {
+    "subject": "KShellElectron",
+    "relation": "containedIn",
+    "object": "HeLikeO6PlusIon",
+    "chunk": "completedocument4",
+    "context": "This electron energy is below the threshold for direct electron-impact excitation of K-shell electrons in He-like O6+(573.94 eV [46]), thereby suppressing direct excitation events, a source of background."
+  },
+  {
+    "subject": "MShellElectron",
+    "relation": "containedIn",
+    "object": "NaLikeFe15PlusIon",
+    "chunk": "completedocument4",
+    "context": "We set the electron beam energy to 1200 eV to efficiently breed Ne-like Fe16+ ions, the target of our measurement, which is approximately 2.5 times the ionization threshold energy of M-shell electrons in Na-like Fe15+, 489.256 eV [45], and lower than the ionization threshold energy of Ne-like Fe16+, 1262.7 eV [48]."
+  },
+  {
+    "subject": "HighlyChargedIon",
+    "relation": "lostFrom",
+    "object": "Trap",
+    "chunk": "completedocument4",
+    "context": "The electron beam at the probing energy of 250 eV cannot produce Ne-like Fe16+, resulting in a continuous depletion of Fe16+ due to radiative recombination and charge exchange processes [49], as well as the loss of HCIs from the trap [50]; thus, only the events from the first 200 ms in the probing phases are extracted (Fig. 4) for the analysis explained in the next section."
+  },
+  {
+    "subject": "XRayEvent",
+    "relation": "detectedWithin",
+    "object": "RegionOfInterest",
+    "chunk": "completedocument5",
+    "context": "X-ray events detected within the given region of interest (see Figure 5 top panel) are extracted and projected onto the monochromator energy axis."
+  },
+  {
+    "subject": "XRayEvent",
+    "relation": "projectedOnto",
+    "object": "MonochromatorEnergyAxis",
+    "chunk": "completedocument5",
+    "context": "X-ray events detected within the given region of interest (see Figure 5 top panel) are extracted and projected onto the monochromator energy axis."
+  },
+  {
+    "subject": "Spectrum",
+    "relation": "shownIn",
+    "object": "figure_5_bottomPanel",
+    "chunk": "completedocument5",
+    "context": "The resulting spectrum is shown in the bottom panel of Figure 5, where we successfully detect resonance events of the Heαw line with a slit width of 50µm."
+  },
+  {
+    "subject": "ResonanceEvent",
+    "relation": "detectedWith",
+    "object": "slitWidth_50um",
+    "chunk": "completedocument5",
+    "context": "The resulting spectrum is shown in the bottom panel of Figure 5, where we successfully detect resonance events of the Heαw line with a slit width of 50µm."
+  },
+  {
+    "subject": "Spectrum",
+    "relation": "reproducedWith",
+    "object": "GaussianLinearFunctionModel",
+    "chunk": "completedocument5",
+    "context": "The spectrum is well reproduced with a Gaussian+linear function model."
+  },
+  {
+    "subject": "FitParameter",
+    "relation": "summarizedIn",
+    "object": "table_1",
+    "chunk": "completedocument5",
+    "context": "The fit parameters are summarized in Table 1."
+  },
+  {
+    "subject": "figure_6_topLeftPanel",
+    "relation": "shows",
+    "object": "ScanResult",
+    "chunk": "completedocument5",
+    "context": "Figure 6 top-left panel shows the results of the scans around the resonance energy of the Ne-like Fe16+3C line."
+  },
+  {
+    "subject": "ScanResult",
+    "relation": "locatedAround",
+    "object": "ResonanceEnergy",
+    "chunk": "completedocument5",
+    "context": "Figure 6 top-left panel shows the results of the scans around the resonance energy of the Ne-like Fe16+3C line."
+  },
+  {
+    "subject": "3CSignal",
+    "relation": "obtainedWith",
+    "object": "slitWidth_50um",
+    "chunk": "completedocument5",
+    "context": "In this measurement, we successfully obtained the 3C signals with a slit width of 50µm."
+  },
+  {
+    "subject": "SignalToNoiseRatio",
+    "relation": "calculatedAs",
+    "object": "CountRateRatio",
+    "chunk": "completedocument5",
+    "context": "The signal-to-noise ratio of the obtained spectrum is 0.31, calculated as the ratio of the count rates given by the Gaussian component and the linear-function background component, within the±1 sigma range around the central energy of the Gaussian distribution."
+  },
+  {
+    "subject": "GaussianComponent",
+    "relation": "gives",
+    "object": "CountRate",
+    "chunk": "completedocument5",
+    "context": "The signal-to-noise ratio of the obtained spectrum is 0.31, calculated as the ratio of the count rates given by the Gaussian component and the linear-function background component, within the±1 sigma range around the central energy of the Gaussian distribution."
+  },
+  {
+    "subject": "CountRate",
+    "relation": "locatedWithin",
+    "object": "SigmaRange",
+    "chunk": "completedocument5",
+    "context": "The signal-to-noise ratio of the obtained spectrum is 0.31, calculated as the ratio of the count rates given by the Gaussian component and the linear-function background component, within the±1 sigma range around the central energy of the Gaussian distribution."
+  },
+  {
+    "subject": "Accuracy",
+    "relation": "constrains",
+    "object": "OscillatorStrengthRatio",
+    "chunk": "completedocument5",
+    "context": "The area of the Gaussian is determined to be 1.06±0.06 Counts s−1eV within 6% precision; a sufficient accuracy is achieved to constrain the oscillator strength ratio within 10%."
+  },
+  {
+    "subject": "MeasuredResonanceEnergy",
+    "relation": "deviatesFrom",
+    "object": "LiteratureValue",
+    "chunk": "completedocument5",
+    "context": "The measured resonance energies of both O Heαw and Ne-like Fe16+Lα3C deviate from the literature values (573.94 eV [46] and 825.83 eV [37] in AtomDB 3.1.3, respectively) by∼0.17 eV ."
+  },
+  {
+    "subject": "LiteratureValue",
+    "relation": "locatedIn",
+    "object": "atomDB_3_1_3",
+    "chunk": "completedocument5",
+    "context": "The measured resonance energies of both O Heαw and Ne-like Fe16+Lα3C deviate from the literature values (573.94 eV [46] and 825.83 eV [37] in AtomDB 3.1.3, respectively) by∼0.17 eV ."
+  },
+  {
+    "subject": "Shift",
+    "relation": "interpretedAsDueTo",
+    "object": "SystematicError",
+    "chunk": "completedocument5",
+    "context": "Since the central energies of these lines are well known, this shift can be interpreted as being due to the systematic errors in our experimental system, for instance, the uncertainty in the energy calibration of the synchrotron radiation."
+  },
+  {
+    "subject": "SystematicError",
+    "relation": "includes",
+    "object": "Uncertainty",
+    "chunk": "completedocument5",
+    "context": "Since the central energies of these lines are well known, this shift can be interpreted as being due to the systematic errors in our experimental system, for instance, the uncertainty in the energy calibration of the synchrotron radiation."
+  },
+  {
+    "subject": "measurement_slit",
+    "relation": "hasWidth",
+    "object": "value_100um",
+    "chunk": "completedocument6",
+    "context": "In this\nmeasurement, the slit width was set to 100µm to ensure\na moderate energy resolution while gaining a larger pho-\nton beam flux, since the 3G line is expected to be much\nweaker than the 3C due to the oscillator strength of 3G be-\ning∼1/20 of 3C in theoretical calculations [37]."
+  },
+  {
+    "subject": "line_3g",
+    "relation": "isWeakerThan",
+    "object": "line_3c",
+    "chunk": "completedocument6",
+    "context": "In this\nmeasurement, the slit width was set to 100µm to ensure\na moderate energy resolution while gaining a larger pho-\nton beam flux, since the 3G line is expected to be much\nweaker than the 3C due to the oscillator strength of 3G be-\ning∼1/20 of 3C in theoretical calculations [37]."
+  }
+]

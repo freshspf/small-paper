@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AtmosphericDistortion",
+  "affects",
+  "ImageQuality",
+  "noise_gaussian",
+  "accountsFor",
+  "ThermalDisturbance",
+  "QuantizationDisturbance",
+  "independentOf",
+  "Signal",
+  "Sensor",
+  "generates",
+  "BadPixel",
+  "encompasses",
+  "NonResponsiveBlackPixel",
+  "SaturatedWhitePixel",
+  "failsToCapture",
+  "Data",
+  "noise_poisson",
+  "simulates",
+  "SignalDependentPhotonNoise",
+  "correlatesWith",
+  "LightMeasurementProcess",
+  "dataset_paviaUniversity",
+  "exhibits",
+  "ClassImbalance",
+  "method_sapc",
+  "integrates",
+  "SpatialInformation",
+  "GroundTruthMap",
+  "belongsTo",
+  "indian_pines_dataset",
+  "ClassificationMap",
+  "generatedOn",
+  "proposed_method",
+  "HighAccuracy",
+  "extracts",
+  "InterPixelRelationship",
+  "implements",
+  "TwoStageGraphConstruction",
+  "proposed_strategy",
+  "operatesIndependentOf",
+  "NeighborhoodInformationAggregation",
+  "mitigatesImpactOf",
+  "AblationStudy",
+  "evaluates",
+  "LabelPropagationTechnique",
+  "containsPhase",
+  "InitialPhase",
+  "SparseGraph",
+  "enhances",
+  "ComputationalEfficiency",
+  "exploitsCorrelationAmong",
+  "UnclassifiedPixel",
+  "salinas_dataset",
+  "EarthObservationMission",
+  "GlobalEnvironmentalChange",
+  "Satellite",
+  "Orbit",
+  "HyperspectralSensor",
+  "ContinuousSpectralInformation",
+  "HyperspectralSatellite",
+  "EarthObservationProduct",
+  "OfflineProcessing",
+  "TerrestrialSystem",
+  "DataTransmission",
+  "EmergencyScenario",
+  "DisasterMonitoring",
+  "EmergencyMapping",
+  "SatelliteOnboardProcessing",
+  "ArtificialIntelligenceAlgorithm",
+  "ValidationPlatform",
+  "platform_opsSat",
+  "mission_phiSat1",
+  "org_esa",
+  "DeepConvolutionalNetwork",
+  "CloudSegmentation",
+  "mission_hypso",
+  "OceanObservation",
+  "KMeansAlgorithm",
+  "mission_eo1"
+]
+
+Triples:
+[
+  {
+    "subject": "AtmosphericDistortion",
+    "relation": "affects",
+    "object": "ImageQuality",
+    "chunk": "result3",
+    "context": "In the Earth observation satellite, the main factors that affect image quality are sensor noise and atmospheric distortions[45]."
+  },
+  {
+    "subject": "noise_gaussian",
+    "relation": "accountsFor",
+    "object": "ThermalDisturbance",
+    "chunk": "result3",
+    "context": "The Gaussian noise simulation accounts for both thermal and quantization disturbances[46]."
+  },
+  {
+    "subject": "noise_gaussian",
+    "relation": "accountsFor",
+    "object": "QuantizationDisturbance",
+    "chunk": "result3",
+    "context": "The Gaussian noise simulation accounts for both thermal and quantization disturbances[46]."
+  },
+  {
+    "subject": "noise_gaussian",
+    "relation": "independentOf",
+    "object": "Signal",
+    "chunk": "result3",
+    "context": "This type of noise is independent of the signal."
+  },
+  {
+    "subject": "Sensor",
+    "relation": "generates",
+    "object": "BadPixel",
+    "chunk": "result3",
+    "context": "Impulsive noise refers to the circumstances in which the sensor generates bad pixels during data acquisition."
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "encompasses",
+    "object": "NonResponsiveBlackPixel",
+    "chunk": "result3",
+    "context": "These bad pixels encompass both non-responsive black pixels, which fail to capture any data, and saturated white pixels[47]."
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "encompasses",
+    "object": "SaturatedWhitePixel",
+    "chunk": "result3",
+    "context": "These bad pixels encompass both non-responsive black pixels, which fail to capture any data, and saturated white pixels[47]."
+  },
+  {
+    "subject": "NonResponsiveBlackPixel",
+    "relation": "failsToCapture",
+    "object": "Data",
+    "chunk": "result3",
+    "context": "These bad pixels encompass both non-responsive black pixels, which fail to capture any data, and saturated white pixels[47]."
+  },
+  {
+    "subject": "noise_poisson",
+    "relation": "simulates",
+    "object": "SignalDependentPhotonNoise",
+    "chunk": "result3",
+    "context": "Poisson noise is used to simulate signal-dependent photon noise due to its inherent correlation with light measurement processes[48]."
+  },
+  {
+    "subject": "noise_poisson",
+    "relation": "correlatesWith",
+    "object": "LightMeasurementProcess",
+    "chunk": "result3",
+    "context": "Poisson noise is used to simulate signal-dependent photon noise due to its inherent correlation with light measurement processes[48]."
+  },
+  {
+    "subject": "dataset_paviaUniversity",
+    "relation": "exhibits",
+    "object": "ClassImbalance",
+    "chunk": "result3",
+    "context": "However, in contrast to the Salinas dataset, the Pavia University dataset presents a more limited number of classes and exhibits a more acute issue of class imbalance."
+  },
+  {
+    "subject": "method_sapc",
+    "relation": "integrates",
+    "object": "SpatialInformation",
+    "chunk": "result3",
+    "context": "The existing state-of-the-art method, SAPC, demonstrates certain advantages through the integration of spatial information."
+  },
+  {
+    "subject": "GroundTruthMap",
+    "relation": "belongsTo",
+    "object": "indian_pines_dataset",
+    "chunk": "result4",
+    "context": "2Ground-truth map and classification maps on the Indian Pines dataset using different training samples per class."
+  },
+  {
+    "subject": "ClassificationMap",
+    "relation": "generatedOn",
+    "object": "indian_pines_dataset",
+    "chunk": "result4",
+    "context": "2Ground-truth map and classification maps on the Indian Pines dataset using different training samples per class."
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "exhibits",
+    "object": "HighAccuracy",
+    "chunk": "result4",
+    "context": "However, it can be observed that the proposed method continues to exhibit a relatively high level of accuracy compared to other methods in all noise scenarios, demonstrating a significant advantage."
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "extracts",
+    "object": "InterPixelRelationship",
+    "chunk": "result4",
+    "context": "This capability is attributable to the fact that the proposed method consistently succeeds in accurately extracting analogous inter-pixel relationships by the implementation of the innovative two-stage graph construction, despite the partial disruption of spectral features."
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "implements",
+    "object": "TwoStageGraphConstruction",
+    "chunk": "result4",
+    "context": "This capability is attributable to the fact that the proposed method consistently succeeds in accurately extracting analogous inter-pixel relationships by the implementation of the innovative two-stage graph construction, despite the partial disruption of spectral features."
+  },
+  {
+    "subject": "proposed_strategy",
+    "relation": "operatesIndependentOf",
+    "object": "NeighborhoodInformationAggregation",
+    "chunk": "result4",
+    "context": "Notably, experiments conducted on impulse noise reveal that the proposed strategy, which operates independently of neighborhood information aggregation, is effective in mitigating the adverse impact of bad pixels on classification performance."
+  },
+  {
+    "subject": "proposed_strategy",
+    "relation": "mitigatesImpactOf",
+    "object": "BadPixel",
+    "chunk": "result4",
+    "context": "Notably, experiments conducted on impulse noise reveal that the proposed strategy, which operates independently of neighborhood information aggregation, is effective in mitigating the adverse impact of bad pixels on classification performance."
+  },
+  {
+    "subject": "AblationStudy",
+    "relation": "evaluates",
+    "object": "proposed_method",
+    "chunk": "result4",
+    "context": "In this subsection, an ablation study is conducted on the proposed method."
+  },
+  {
+    "subject": "LabelPropagationTechnique",
+    "relation": "containsPhase",
+    "object": "InitialPhase",
+    "chunk": "result4",
+    "context": "The label propagation technique can be systematically categorized into three distinct phases: the initial phase involves the derivation of the preliminary soft label matrixF 0 through anchor label propagation; the subsequent phase encompasses the top-k-based pruning process; and the final phase involves the calculation of the final label matrixF∗via a closed form solution."
+  },
+  {
+    "subject": "SparseGraph",
+    "relation": "enhances",
+    "object": "ComputationalEfficiency",
+    "chunk": "result4",
+    "context": "2) To enhance computational efficiency, the sparse graph is employed."
+  },
+  {
+    "subject": "LabelPropagationTechnique",
+    "relation": "exploitsCorrelationAmong",
+    "object": "UnclassifiedPixel",
+    "chunk": "result4",
+    "context": "3) The utilization of sparse graph-based label propagation enhances the exploitation of inherent correlations among unclassified pixels, thus refining the initial 7"
+  },
+  {
+    "subject": "GroundTruthMap",
+    "relation": "belongsTo",
+    "object": "salinas_dataset",
+    "chunk": "result4",
+    "context": "Fig. 3Ground-truth map and classification maps on the Salinas dataset using different training samples per class."
+  },
+  {
+    "subject": "ClassificationMap",
+    "relation": "generatedOn",
+    "object": "salinas_dataset",
+    "chunk": "result4",
+    "context": "Fig. 3Ground-truth map and classification maps on the Salinas dataset using different training samples per class."
+  }
+]

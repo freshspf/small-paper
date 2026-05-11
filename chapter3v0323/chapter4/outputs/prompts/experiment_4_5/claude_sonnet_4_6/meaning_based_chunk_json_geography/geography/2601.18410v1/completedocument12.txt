@@ -1,0 +1,172 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument12",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument12
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+For comparison, the average sum rate when only CUs
+are served without spectrum sharing by SUs is also presented
+in Fig. 3, denoted asNoSharing-CUs. Note that the results
+in Fig. 3 are obtained based on average among10randomly-
+selected topologies of the hybrid network. It can be seen that
+although strict inter-link interference constraints are adopted
+withγ th=σ2−12.2dB, the proposed spectrum sharing
+scheme still achieves a significant improvement in average sum
+rate for the hybrid network. Compared toNoSharing-CUs, the
+improvement of average sum rate achieved by the proposed
+scheme is about23%when the transmit power of the BSs for
+
+11
+0 2 4 6 8 10
+Transmit power of the BSs for each CU / dBm44.555.566.577.58
+108F = 4
+FineSync
+Proposed scheme
+RandScheme
+NoSharing-CUs
+Fig. 3. Average sum rate of the hybrid network forF= 4.
+0 2 4 6 8 10
+Transmit power of the BSs for each CU / dBm44.555.566.57
+108F = 4
+FineSync
+Proposed scheme
+RandScheme
+NoSharing-CUs
+7.3 7.4 7.5 7.66.056.16.156.2
+Fig. 4. Average sum rate of the CUs achieved by different schemes forF= 4.
+each CU, i.e.,P bs, is0dBm, and it remains at more than15%
+whenP bsincreases to10dBm. Moreover, it can be observed
+that with only coarse satellite-terrestrial synchronization, the
+proposed scheme achieves more than85%of the performance
+gain promised by theFineSyncscheme. Besides, it can be
+observed from Fig. 4, which shows the average sum rate of the
+CUs achieved by different schemes, that the impact of inter-
+link interference on the CUs caused by the proposed spectrum
+sharing scheme is very small and could be ignored.
+To further show the performance advantage of the proposed
+scheme, the QoS achieved for the SUs by different schemes
+whenF= 4is presented in Fig. 5 and Fig. 6. Specifically,
+the proportion of SUs whose QoS requirements are violated
+under the strict inter-link interference constraints is presented
+in Fig. 5, and the average transmission rate of each SU in a
+random topology of the hybrid network is presented in Fig. 6.
+0 2 4 6 8 10
+Transmit power of the BSs for each CU / dBm00.050.10.150.20.25
+F = 4
+FineSync
+Proposed scheme
+RandSchemeFig. 5. Proportion of SUs with QoS violation forF= 4.
+0 20 40 60 80 100
+SU024681012
+106F = 4
+FineSync
+Proposed scheme
+RandScheme
+SU QoS
+Fig. 6. Average transmission rate of each SU in a random topology of the
+hybrid network forF= 4.
+Although Fig. 3 indicates that an improvement of the average
+sum rate is also achieved by theRandScheme, Fig. 5 and Fig. 6
+demonstrate that QoS requirements of about20%of the SUs
+cannot be satisfied on average in order to ensure QoS for the
+CUs in theRandScheme. On the contrary, QoS requirements
+of all the SUs are satisfied by both the proposed scheme and
+theFineSyncscheme.
+To explain the rational behind the commendable perfor-
+mance of the proposed scheme, Fig. 7 and Fig. 8 show the
+scheduling result of the SU-satellite links and BS-CU links
+in a random topology of the hybrid network obtained by the
+proposed scheme whenF= 4. In both Fig. 7 and Fig. 8, SU-
+satellite links scheduled in different subcarriers are indicated
+by colors of both cross markers denoting the SUs and circles
+around the SUs. Cross markers with the same color indicate
+SU-satellite links scheduled in subcarrers allocated to BSs in
+
+12
+SU
+(m)
+(m)
+Fig. 7. Scheduling result of the SU-satellite links for a random topology of
+the hybrid network obtained by the proposed scheme whenF= 4.
+CU
+SU
+(m)
+(m)
+Fig. 8. SU-satellite links and BS-CU links scheduled in subcarriers allocated
+to the BSs in FRCr= 1corresponding to Fig. 7.
+the same FRC. Among each group of cross markers with
+the same color, different colors of the circles around the
+cross markers further indicate the specific subcarrier that the
+corresponding SU-satellite links are scheduled in. Similarly,
+different colors of the points denoting CUs in Fig. 8 indicate
+BS-CU links scheduled in different subcarriers. SU-satellite
+links and BS-CU links with the same color are scheduled
+in the same subcarrier. It can be observed from Fig. 7 and
+Fig. 8 that the spatial distribution of the CUs and SUs is well
+considered in the link-feature-sketching-aided link scheduling
+in the proposed scheme via its impact on the statistical CSI of
+the links. CUs and SUs scheduled in the same subcarrier are
+well separated with each other by relatively-large distances.
+It is noticed that among the3satellites available for all SUs,
+only the one with its sub-satellite point at(116◦E,40◦N)is
+actually selected in the simulation results for the proposed
+0 2 4 6 8 10
+Transmit power of the BSs for each CU / dBm44.555.566.577.58
+108F = 4
+Proposed scheme
+Proposed scheme without satellite selection
+NoSharing-CUsFig. 9. Average sum rate with and without satellite selection.
+0 2 4 6 8 10
+Transmit power of the BSs for each CU / dBm1.61.822.22.42.62.8
+109F = 1
+FineSync
+Proposed scheme
+PartialPreScheme
+RandScheme
+NoSharing-CUs
+Fig. 10. Average sum rate of the hybrid network forF= 1.
+scheme.

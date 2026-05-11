@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "OSM",
+  "hasFeature",
+  "GlobalCoverage",
+  "usedIn",
+  "HumanitarianMapping",
+  "DisasterResponse",
+  "xBD",
+  "contains",
+  "BuildingFootprint",
+  "spatiallyMatchedTo",
+  "BuildingPolygon",
+  "matchedUsing",
+  "GeographicCoordinate",
+  "hasBuildingTagCount",
+  "170DistinctLabels",
+  "BuildingTag",
+  "consolidatedInto",
+  "FunctionalBuildingCategory",
+  "hasInstance",
+  "ResidentialBuilding",
+  "RecreationalLeisureBuilding",
+  "ReligiousCulturalBuilding",
+  "IndustrialUtilitiesBuilding",
+  "EducationalFacilitiesBuilding",
+  "MedicalFacilitiesBuilding",
+  "GovernmentEmergencyBuilding",
+  "CommercialBuilding",
+  "relevantTo",
+  "DisasterAssessment",
+  "ClassDistribution",
+  "dominatedBy",
+  "reflectsPattern",
+  "UrbanComposition",
+  "providesSemanticAbstractionFor",
+  "VisionLanguageModel",
+  "DisasterInsightBenchmark",
+  "definesTask",
+  "BuildingFunctionClassification",
+  "DamageLevelClassification",
+  "DisasterTypeClassification",
+  "BuildingCounting",
+  "StructuredReportGeneration",
+  "SatelliteImagery",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "BuildingLevelAssessment",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "FEMA",
+  "PhysicalDamage",
+  "DamagedBuilding",
+  "Hospital",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "BuildingFunction",
+  "BuildingUse",
+  "LargeScaleHazard",
+  "LinköpingUniversity",
+  "Vantor",
+  "ComputerVisionLaboratory",
+  "RemoteSensing",
+  "Dataset",
+  "DamageMapping",
+  "ChangeAnalysis",
+  "BRIGHT",
+  "FloodNet",
+  "PreEventImagery",
+  "PostEventImagery",
+  "DamageAnnotation",
+  "Hazard",
+  "Building"
+]
+
+Triples:
+[
+  {
+    "subject": "OSM",
+    "relation": "hasFeature",
+    "object": "GlobalCoverage",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "OSM is a widely used volunteered geographic information resource with extensive global coverage and rich annotations describing building usage and infrastructure roles"
+  },
+  {
+    "subject": "OSM",
+    "relation": "usedIn",
+    "object": "HumanitarianMapping",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "and has been broadly adopted in humanitarian mapping and disaster response"
+  },
+  {
+    "subject": "OSM",
+    "relation": "usedIn",
+    "object": "DisasterResponse",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "and has been broadly adopted in humanitarian mapping and disaster response"
+  },
+  {
+    "subject": "xBD",
+    "relation": "contains",
+    "object": "BuildingFootprint",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Each xBD building footprint is spatially matched to corresponding OSM building polygons using geographic coordinates provided in the xBD metadata."
+  },
+  {
+    "subject": "BuildingFootprint",
+    "relation": "spatiallyMatchedTo",
+    "object": "BuildingPolygon",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Each xBD building footprint is spatially matched to corresponding OSM building polygons using geographic coordinates provided in the xBD metadata."
+  },
+  {
+    "subject": "BuildingFootprint",
+    "relation": "matchedUsing",
+    "object": "GeographicCoordinate",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Each xBD building footprint is spatially matched to corresponding OSM building polygons using geographic coordinates provided in the xBD metadata."
+  },
+  {
+    "subject": "OSM",
+    "relation": "hasBuildingTagCount",
+    "object": "170DistinctLabels",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Raw OSM building tags are highly granular and heterogeneous, with over 170 distinct building-related labels observed across the dataset."
+  },
+  {
+    "subject": "BuildingTag",
+    "relation": "consolidatedInto",
+    "object": "FunctionalBuildingCategory",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment"
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "ResidentialBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "RecreationalLeisureBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "ReligiousCulturalBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "IndustrialUtilitiesBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "EducationalFacilitiesBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "MedicalFacilitiesBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "GovernmentEmergencyBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "hasInstance",
+    "object": "CommercialBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment: Residential, Recreational Leisure, Religious Cultural, Industrial Utilities, Educational Facilities, Medical Facilities, Government Emergency, and Commercial."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "relevantTo",
+    "object": "DisasterAssessment",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "we consolidate these tags into eight high-level functional categories relevant to disaster assessment"
+  },
+  {
+    "subject": "ClassDistribution",
+    "relation": "dominatedBy",
+    "object": "ResidentialBuilding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "The resulting class distribution is highly imbalanced, with residential buildings comprising the majority of instances, reflecting real-world urban composition"
+  },
+  {
+    "subject": "ClassDistribution",
+    "relation": "reflectsPattern",
+    "object": "UrbanComposition",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "The resulting class distribution is highly imbalanced, with residential buildings comprising the majority of instances, reflecting real-world urban composition"
+  },
+  {
+    "subject": "OSM",
+    "relation": "providesSemanticAbstractionFor",
+    "object": "VisionLanguageModel",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "OSM-derived labels are used as consistent semantic abstractions for benchmarking vision–language models, rather than as authoritative or exhaustive ground truth annotations."
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "definesTask",
+    "object": "BuildingFunctionClassification",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "DisasterInsight defines five tasks spanning perception, counting, and narrative reasoning. Building Function Classification and Damage Level Classification operate at the object level"
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "definesTask",
+    "object": "DamageLevelClassification",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "DisasterInsight defines five tasks spanning perception, counting, and narrative reasoning. Building Function Classification and Damage Level Classification operate at the object level"
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "definesTask",
+    "object": "DisasterTypeClassification",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In contrast, Disaster Type Classification, Building Counting, and Structured Report Generation operate at the scene level"
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "definesTask",
+    "object": "BuildingCounting",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In contrast, Disaster Type Classification, Building Counting, and Structured Report Generation operate at the scene level"
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "definesTask",
+    "object": "StructuredReportGeneration",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In contrast, Disaster Type Classification, Building Counting, and Structured Report Generation operate at the scene level"
+  }
+]

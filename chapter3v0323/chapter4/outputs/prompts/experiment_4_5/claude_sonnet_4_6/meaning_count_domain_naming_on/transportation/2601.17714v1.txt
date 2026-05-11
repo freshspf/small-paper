@@ -1,0 +1,811 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Draft version January 27, 2026
+Synchronization in Traffic Dynamics: Mechanisms of Hysteresis
+Jinghui W ang1,∗ and Wei L v1, 2,†
+1School of Safety Science and Emergency Management
+Wuhan University of Technology
+Wuhan, China
+2China Research Center for Emergency Management
+Wuhan University of Technology
+Wuhan, China
+ABSTRACT
+Starting from a second-order linear differential equation, we analyze the dynamical mechanisms of
+no behavior pattern (pure response), reaction and anticipation behaviors in traffic. As an emergence of
+the underlying dynamical evolution, the periodic evolution trajectories (3D hysteresis) in phase space
+(vi, vj, dji) exhibit fascinating characters. We investigate the emerging Time-Delay (T D) phenomena
+and the resulting analytical hysteresis, an equal frequency sets of Lissajous figures. By quantifying
+energy dissipation through individual and system perspectives, we demonstrate thatT Dand Time-To-
+Collision (T T C) are direct metrics of zero-dissipation under equilibrium and synchronization states.
+Finally, a phase diagram based onT DandT T Cis developed to bridge the dynamical behaviors
+in traffic acrossR 1 andR 2 spaces. Our results provide a theoretical foundation upon which many
+obscure mechanisms become self-evident, such as theT D-induced flip of the hysteresis (clockwise to
+counterclockwise in FD) and the crossed hysteresis, etc.
+Keywords:Dynamical system, Synchronization, Kinetic energy dissipation, Hysteresis
+1.INTRODUCTION
+The phenomenon of hysteresis in traffic has long received extensive attention (Treiterer & Myers 1974). Researchers
+have understood that the traffic hysteresis originates from the Time-Delay (T D) phenomena in dynamics, based on
+response mechanisms (Zhang 1999). The reaction and anticipation behavior in the dynamical evolution (Treiber et al.
+2006; Kesting & Treiber 2008; Cordes et al. 2023) will result in theT Dvariation and manifested as the expansion and
+contraction of the hysteresis. Established from numerical and analytical investigation, researchers have analyzed many
+aspects of the hysteresis, including the evolution orientation of hysteresis (Laval 2011; Gayah & Daganzo 2011; Jiang
+et al. 2024), the connection between the hysteresis and string stability (Mattas et al. 2023), hysteresis with multiple
+rendezvous points (Zhang 1999; Ni 2025), and the performance of hysteresis in the relative space-speed phase plane (Ni
+2025), among others. A fundamental problem is that these properties appear to be interconnected yet lack a unified
+theoretical explanation. To this end, we attempt to employ a concise framework to bridge these concepts.
+2.DYNAMIC FRAMEWORK
+In this study, the dynamical equations are developed based on a fundamental characteristic of traffic: the constant
+time headway (th) strategy. We setth = 1.3s, which is a common empirical character in pedestrian context. Within
+1D system of particles, the desired speed (optimal velocity) of traffic unitiunder constrained motion (0< vi < v max)
+for a given headway is defined asvd = (x j −x i)/th, wherex j represents the position of the preceding traffic unitj.
+The dynamic response of the follower traffic unitias it approaches its desired speed can be described by the equation
+a= (v d −v i)/τ, whereτdenotes the relaxation time and set to 0.5 s. Following these settings, when the speed ranges
+between0andv max, the dynamical system can be complete expressed as a second order linear differential equation.
+Letδrepresent the corresponding time scale of the behavior patterns, whereδ <0signifies reaction behavior and
+∗ zhux083@gmail.com
+† weil@whut.edu.cn
+arXiv:2601.17714v1 [physics.soc-ph] 25 Jan 2026
+δ >0signifies anticipation behavior. Based on these definitions, dynamical equations for different behavioral patterns
+can be derived, and ensuring that all parameters maintain explicit physical meanings. In the following, four specific
+models will be introduced.
+2.1.OV Model (No Behavior Pattern, Pure Response Mechanism)
+When behavioral patterns are not considered, traffic evolution is dominated by the pure response, where the desired
+speed is defined asvd = xj −xi
+. The underlying dynamics are governed by the differential equation, i.e., linearized OV
+model (Bando et al. 1995):
+¨xi + ˙xi
+τ = xj −x i
+thτ (1)
+Whereτandt h are positive time constants. This study focuses on the oscillation dynamics surrounding the syn-
+chronization state. Consequently, in a dynamical system governed by second order linear differential equations, we
+can shift the oscillations of the synchronized traffic flow to the origin within the phase space. This allows for the
+construction of dynamical equations specifically regarding the perturbation terms:
+¨ξi +
+˙ξi
+τ = ξj −ξ i
+thτ .(2)
+Based on the properties of linear differential equations, for traffic speeds within the rangev∈(0, vmax), the governing
+equation of the oscillation describes the complete evolution of the traffic flow as it deviates the synchronized state.
+Clearly, Eq. (2) represents a response unit. To obtain the analytical dynamic results, the Laplace transform is applied
+to this governing equation, yielding the following poles from the characteristic equation:
+s1,2 =− 1
+2τ ± 1√thτ
+4τ −1.(3)
+Based on the parameter settings whereth = 1.3s andτ= 0.5s, it can be determined that the poles are complex
+conjugate pairs with negative real parts, and the transient response exhibits an underdamped pattern. By applying
+the direct inputξ j, taking the Laplace transform under zero initial conditions, and solving forGov(s) =ξ i(s)/ξj(s),
+we obtain:
+Gov(s) = 1
+thτ s2 +t hs+ 1 .(4)
+Given a wave function inputξj(t) =Asin(ωt)representing the simple harmonic oscillation of position, corresponding
+steady state output can be derived based on the transfer function as follows:
+ξi(t) =A· |G ov(jω)| ·sin(ωt+ϕ ov),(5)
+WhereG ov(s)is the specific system transfer function andϕ ov =∠G ov(jω). LetM ov =|G ov(jω)|, we obtain the
+steady-state response wave:
+ξi,ov(t) =A·M ov ·sin(ωt+ϕ ov),(6)
+with
+Mov = 1√
+(1−thτ ω2)2+(thω)2 ,
+ϕov =−arg
+1−t hτ ω2 +jt hω
+(7)
+Now, we have obtained the analytical wave output of the response system under the given input. By extending these
+results to the complex plane, we can analytically examine all properties of this dynamical system.
+2.2.Reaction Model (Reaction Behavior + Response Mechanism)
+The reaction behavior pattern, characterized by a systematic lag of the input in the response unit, can be described
+using delay-differential equations (DDEs). In the dynamic equation, we define the time scale of the reaction behavior
+asδ, which yields the desired speedvd = xj(t+δ)−xi(t)
+, δ <0. The corresponding DDE is:
+¨xi + ˙xi
+τ = xj(t+δ) −x i
+thτ .(8)
+In line with the previous analysis, we obtain the dynamic equation of the perturbation term as it deviates from the
+synchronized flow:
+¨ξi +
+˙ξi
+τ = ξj(t+δ) −ξ i
+thτ .(9)
+The poles of this dynamical system are consistent with those of the OV model, meaning they share the same transient
+response pattern. Taking the Laplace transform under zero initial conditions and solving forGre(s) =ξ i(s)/ξj(s)yields:
+Gre(s) = eδs
+thτ s2 +t hs+ 1 .(10)
+Given the wave function inputξj(t) =Asin(ωt), the steady state wave response is given by:
+ξi,re(t) =A·M re ·sin(ωt+ϕ re),(11)
+with
+Mre = 1√
+(1−thτ ω2)2+(thω)2 ,
+ϕre =δω−arg
+1−t hτ ω2 +jt hω
+(12)
+2.3.CosForce Model (Anticipation Behavior + Response Mechanism)
+Theanticipationbehaviorpatternischaracterizedbytheresponseunitestimatingfuturestatesbasedonagiveninput
+to establish the response dynamics. The desired speed is defined asvd = ˆxj(t+δ)−xi
+, δ >0. Here,ˆx j(t+δ) =x j +δ˙xj
+represents the first order Taylor expansion estimator ofxj at timet+δ. We refer to this as the CosForce model, and
+the governing dynamic equation is:
+¨xi + ˙xi
+τ = (xj +δ˙xj)−x i
+thτ .(13)
+Leads to the modified perturbation dynamics:
+¨ξi +
+˙ξi
+τ = (ξj +δ ˙ξj)−ξ i
+thτ .(14)
+The form of the homogeneous differential equation remains unchanged, leading to the identical poles of these dy-
+namical systems. By taking the Laplace transform under zero initial conditions and solving forGcf(s) =ξ i(s)/ξj(s),
+we obtain:
+Gcf(s) = 1 +δs
+thτ s2 +t hs+ 1 .(15)
+Under the wave function inputξj(t) =Asin(ωt), the steady state wave response is given by:
+ξi,cf(t) =A·M cf ·sin(ωt+ϕ cf),(16)
+with
+Mcf =
+1+(δω) 2
+(1−thτ ω2)2+(thω)2 ,
+ϕcf = arg
+1 +j δω
+−arg
+1−t hτ ω2 +j t hω
+(17)
+2.4.FVD Model (Anticipation Behavior + Response Mechanism)
+Another classic form of the anticipation behavior model defines the desired speed asvd = ˆxj(t+δ)−ˆxi(t+δ)
+,δ >0.
+Here,ˆxj(t+δ)−ˆx i(t+δ) =x j +δ˙xj −x i −δ˙xi represents the first order Taylor expansion estimator of the relative
+distancex j −x i at timet+δ. This model corresponds to the linearized FVD model (Jiang et al. 2001):
+¨xi + ˙xi
+τ = (xj −x i) +δ( ˙xj −˙xi)
+thτ .(18)
+Leads to the perturbation dynamics
+¨ξi +
+˙ξi
+τ = (ξj −ξ i) +δ( ˙ξj − ˙ξi)
+thτ .(19)
+Apply the Laplace transform, the poles of the FVD model are
+s1,2 = −(th +δ)±
+(th +δ) 2 −4t hτ
+2thτ .(20)
+The additional termδ >0shifts both poles further to the left in the complex plane, resulting in enhanced damping
+within the FVD model. The associated transfer function is:
+Gfvd(s) = 1 +δs
+thτ s2 + (th +δ)s+ 1 .(21)
+Given the wave function inputξj(t) =Asin(ωt), the steady state response is:
+ξi,fvd(t) =A·M fvd ·sin (ωt+ϕ fvd),(22)
+where
+Mfvd =
+1+(δω) 2
+(1−thτ ω2)2+
+(th+δ)ω
+ϕfvd = arg
+1 +j δω
+−arg
+1−t hτ ω2 +j(t h +δ)ω
+(23)
+2.5.Stability of String Dynamics
+Based on the above analysis of complex frequency domain, we obtain the analytical forms for the steady state
+amplitude gainMand phaseϕ. Corresponding analytical Bode plot is presented in Fig. 1. According to the results,
+it can be observed that the dynamical system under discussion exhibits low pass characteristics. From the magnitude
+plot, we can evaluate the string stability of the traffic, where the stability criterion is defined byM≤1. In the
+OV model, according to Eq. (7), corresponding to stability condition isth ≥2τ,∀ω >0. Similarly, we can conclude
+that the string stability condition of the reaction model is identical to that of the OV model, owing to their perfectly
+consistent magnitude plot characteristics. The corresponding stability condition isth ≥2τfor allω >0.
+In the anticipation model, the introduction of the time scaleδclearly modifies the form of the transfer function,
+thereby leading to changes in string stability. In the CosForce model, the stability condition for string dynamics is
+Mcf ≤1, which corresponds to the conditionδ 2 ≤t 2
+h −2t hτ,∀ω >0. This appears to be a quite strict condition in
+traffic. Conversely, in the FVD model, the stability condition for string dynamics isMfvd ≤1, corresponding to the
+stability conditionδ≥τ−t h/2,∀ω >0. Fig. 2 presents the stability phase diagrams for the two anticipation models
+under given parameters, wheret h = 1.3s andτ= 0.5s are constant parameters. We can clearly observe that the
+stability conditions of the FVD model are more relaxed. This indicates that the FVD model offers greater flexibility
+in parameter settings in traffic platoon modeling.
+3.ANALYTICAL HYSTERESIS
+Based on the analytical wave function derived, we can analyze various properties of the traffic oscillations, the most
+important is hysteresis. From the phase plot in Fig. 1, we observe that the output of the dynamical system exhibits
+a phase lag relative to the input. What statistical consequences will such a lag produce? How does this lag influence
+the geometry of hysteresis? This section will discuss these properties. Before we dive into the analysis, it should be
+Figure 1: Bode diagram of transfer function (G(jω)) in the four models.
+Figure 2: Phase diagrams for string stability in CosForce and FVD models.
+clarified that for the sake of simplicity, our oscillation analysis essentially shifts the system from the synchronization
+point to the origin. When the conversion from relative states to absolute states is required, the process is essentially
+just an inverse translation operation.
+3.1.Time-Delay
+When transforming the wave function from the complex frequency domain to the time domain, the phase lag leads
+to a systematicT D. This is also a significant empirical mechanism in traffic statistics. In the dynamical system of
+this study, the analytical results based onT Dcan help us understand the factors that influence the hysteresis.
+3.1.1.Wave Functions
+We have defined a input wave functionξj(t) =Asin(ωt)representing the position perturbation of leader unitj. The
+resulting steady state response of follower unitiisξ i(t) =A·M·sin (ωt+ϕ). From this, it can be derived that the
+speed oscillation ˙ξj of the leader unitjis
+˙ξj(t) =Aωcos(ωt).(24)
+Corresponding amplitude of ˙ξj isA ˙ξj
+=Aω.
+The speed oscillation ˙ξi of follower unitiis
+˙ξi(t) =AM ωcos
+ωt+ϕ
+.(25)
+Corresponding amplitude of ˙ξi isA ˙ξi
+=AM ω.
+The oscillation of relative distanceξji betweenjandiis:
+ξji(t) =ξ j(t)−ξ i(t) =Asin(ωt)−AMsin
+ωt+ϕ
+.(26)
+Corresponding amplitude ofξji isA ξji =A
+1 +M 2 −2Mcosϕ.
+The oscillation of relative velocity˙ξij betweeniandjis
+˙ξij(t) = ˙ξi(t)− ˙ξj(t) =AM ωcos
+ωt+ϕ
+−Aωcos(ωt).(27)
+Corresponding amplitude of ˙ξij isA ˙ξij
+=Aω
+1 +M 2 −2Mcosϕ.
+3.1.2.Phase Relationships
+After obtaining the wave functions for each state variable(˙ξj, ˙ξi, ξji, ˙ξij), we are able to analyze the phase relation-
+ships. The phase lag between the leader speed oscillation˙ξj(t)and the relative distance oscillationξji(t)is:
+ϕ ˙ξj ,ξji
+=ϕ ˙ξj
+−ϕ ξji = π
+2 −arg
+1−M e jϕ
+(28)
+By shifting the oscillation part to the DC component of synchronization state, we can find that theT Dbetween the
+leader speedv j(t)and the relative distanced ji(t)isT D vj ,dji =T D ˙ξj ,ξji
+=ϕ ˙ξj ,ξji
+The phase lag between relative distance oscillationξji(t)and follower speed oscillation ˙ξi(t)is:
+ϕξji , ˙ξi
+=ϕ ξji −ϕ ˙ξi
+= arg
+1−M e jϕ
+−ϕ− π
+2 .(29)
+Therefore, we can obtain that theT Dbetween the relative distancedji(t)and the follower speedvi(t)isT D dji ,vi =
+T Dξji , ˙ξi
+=ϕ ξji , ˙ξi
+The phase lag between leader speed oscillation˙ξj(t)and follower speed oscillation ˙ξi(t)is:
+ϕ ˙ξj , ˙ξi
+=ϕ ˙ξj
+−ϕ ˙ξi
+=−ϕ= arg
+1−t hτ ω2 +jt hω
+.(30)
+Correspondingly, theT Dbetween the leader speedvj(t)and the follower speedvi(t)is given byT Dvj ,vi =T D ˙ξj , ˙ξi
+ϕ ˙ξj , ˙ξi
+The phase lag between relative distance oscillationξji(t)and relative speed oscillation ˙ξij(t)is:
+ϕξji , ˙ξij
+=ϕ ξji −ϕ ˙ξij
+= arg
+1−M e jϕ
+−arg
+−jω
+1−M e jϕ
+= π
+2 .(31)
+Corresponding, TheT Dbetween the relative distanced ji(t)and the relative speedv ij(t)is given byT D dji ,vij =
+T Dξji , ˙ξij
+=ϕ ξji , ˙ξij
+In this analysis, theT Dbetween relative distancedji(t)and follower speedv i(t)is crucial, as it captures the flip of
+hysteresis in the(ξ ji, ˙ξi)plane, which will be discussed in the following section. Hereafter,T Drefers specifically to
+T Ddji ,vi in the subsequent sections.
+3.2.Hysteresis
+We have obtained the periodic wave functions describing traffic oscillations of state sets(˙ξj, ˙ξi, ξji, ˙ξij), with their
+corresponding amplitudes and phases clearly defined. By extending the wave functions to the complex plane, it
+becomes evident that the hysteresis loop originates from the synthesis of two orthogonal waves with different phases.
+Since these waves share an identical frequency, the resulting composite wave forms an elliptical shape in the phase
+plane. Within the scope of a single period, the phase lag of the imaginary axis relative to the real axis is defined as
+ϕ∆ ∈(−π, π). In this condition, the evolution direction of the hysteresis is uniquely determined by the phase lag:
+whenϕ ∆ <0, the hysteresis trajectory evolves clockwise; whenϕ∆ = 0, the hysteresis degenerates into a straight line
+passing through the origin; and whenϕ∆ >0, the trajectory evolves counterclockwise.
+synchronization state
+(ξji=0, ξij=0)·
+equilibrium state
+(vi =vd)
+transition point
+transition point
+Figure3: Hysteresischaracteristicsinthefourmodels. Parametersettingsfortheinputwavefunction:A= 0.8, ω= 1.
+3.2.1.Hysteresis of ˙ξj andξ ji
+Letθ=ωt, the leader speed oscillation and the relative distance oscillation are given by:
+˙ξj(t) =Aωcosθ,(32)
+ξji(t) =A
+(1−Mcosϕ) sinθ−Msinϕcosθ
+.(33)
+In matrix form, we rewrite the relationship between the normalized variables as:
+ξji
+˙ξj
+1−Mcosϕ−Msinϕ
+0 1
+sinθ
+cosθ
+.(34)
+Using the identitysin2 θ+ cos 2 θ= 1, we obtain the following quadratic relation:
+ω2ξ2
+ji +
+(1−Mcosϕ) 2 +M 2 sin2 ϕ
+ ˙ξ2
+j + 2M ωsinϕ·ξ ji ˙ξj =A 2ω2(1−Mcosϕ) 2.(35)
+ForMcosϕ̸= 1, Eq. (35) represents an ellipse in the(ξ ji, ˙ξj)plane, characterizing the hysteresis of the relative
+distance oscillation versus to the leader’s speed oscillation. Correspondingly, the hysteresis loop of relative distance
+ξij= ξi - ξj
+· · ·
+ξij= ξi - ξj
+· · ·
+ξij= ξi - ξj
+· · ·
+ξij= ξi - ξj
+· · ·
+Figure 4: 3D hysteresis of the four models.
+dji and leader speedv j is obtained by translating it to the synchronization position in the(ξji, ˙ξj)plane. For the
+simplicity, we maintain the hysteresis function of the oscillation form, which remains consistent in the subsequent
+sections.
+3.2.2.Hysteresis ofξ ji and ˙ξi
+The relative distance and follower speed oscillation are
+ξji(t) =Asinθ−AMsin(θ+ϕ) =A
+(1−Mcosϕ) sinθ−Msinϕcosθ
+,(36)
+˙ξi(t) =AM ωcos(θ+ϕ) =AM ω
+cosθcosϕ−sinθsinϕ
+.(37)
+In matrix form, we rewrite the system as:
+ξji
+˙ξi
+1−Mcosϕ−Msinϕ
+−Msinϕ Mcosϕ
+sinθ
+cosθ
+.(38)
+We eliminate the trigonometric terms from the above system and the resulting quadratic relation is:
+M2ω2ξ2
+ji + (M 2 −2Mcosϕ+ 1) ˙ξ2
+i + 2Msinϕ·ω·ξ ji ˙ξi =M 2(M−cosϕ) 2A2ω2.(39)
+ForM̸= cosϕ, Eq. (39) describes an ellipse in the(ξ ji, ˙ξi)plane.
+3.2.3.Hysteresis of ˙ξj and ˙ξi
+The follower speed oscillation and leader speed oscillation are
+˙ξi(t) =Aωcosθ,(40)
+˙ξj(t) =AM ωcos(θ+ϕ) =AM ω
+cosθcosϕ−sinθsinϕ
+,(41)
+In matrix form, we write the normalized velocities as:
+
+˙ξi
+˙ξj
+ =
+1 0
+Mcosϕ−Msinϕ
+cosθ
+sinθ
+.(42)
+We eliminateθfrom the above system and the resulting quadratic function is:
+M2 ˙ξ2
+i + ˙ξ2
+j −2Mcosϕ· ˙ξi ˙ξj =M 2A2ω2 sin2 ϕ(43)
+Forsinϕ̸= 0, Eq. (43) describes an ellipse in the plane of(˙ξi, ˙ξj).
+3.2.4.Hysteresis ofξ ji and ˙ξij
+The relative distance oscillation and relative speed oscillation are defined by
+ξji(t) =ξ j(t)−ξ i(t) =Asinθ−AMsin(θ+ϕ),(44)
+˙ξij(t) = ˙ξi(t)− ˙ξj(t) =AM ωcos(θ+ϕ)−Aωcosθ,(45)
+Whereθ=ωt, in matrix form, the normalized variables can be written as
+
+ξji
+˙ξij
+ =
+1−Mcosϕ−Msinϕ
+−Msinϕ Mcosϕ−1
+sinθ
+cosθ
+.(46)
+Eliminating the trigonometric terms yields the following quadratic relation:
+ω2ξ2
+ji + ˙ξ 2
+ij =A 2ω2 
+1 +M 2 −2Mcosϕ
+.(47)
+Eq. (47) describes an ellipse in the plane of(ξji, ˙ξij). Since the phase lagϕξji , ˙ξij
+=π/2, the ellipse function contains
+no cross-term, and its axes are aligned with the coordinate axes.
+Based on the analysis, a comprehensive table is used to summarize the dynamical properties of these four models,
+as shown in Table 1. It is straightforward that all hystereses are equivalent to Lissajous figures under the condition
+of equal frequency. In the context of simple harmonic oscillations, the rendezvous points in Lissajous figures are
+caused only by frequency inconsistency. Based on the properties of the Bode plot, we understand that given a traffic
+oscillation of general Fourier series, the dynamical system will output different amplitudes and phases based on the
+wave frequency. In the complex plane, hysteresis can be understood as the synthesis of waves described by two sets
+of orthogonal Fourier series. Clearly, this may result in hysteresis with multiple rendezvous points, and the particular
+structure requires a specific discussion.
+In the 3D phase space( ˙ξj, ˙ξi, ξji), the evolution trajectory of the dynamical system is a 3D ellipse synthesized
+from three orthogonal wave. The projections of the dynamical trajectory onto different phase planes constitute the
+hysteresis in a general 2D sense. Specifically, the ellipse projection in the(ξji, ˙ξi)plane represents the hysteresis in
+FD as traditionally understood (statistically, linear density is the reciprocal of headway). Given the wave function
+parameters (A= 0.8, ω= 1), we depict the corresponding hysteresis in different phase planes as shown in Fig. 3. Fig. 4
+illustrates the evolution trajectories in the phase space corresponding to the four models. These 3D ellipses convey the
+complete dynamical information of the traffic oscillations. The parameter settings for the wave functions here have
+no specific significance. In single file pedestrian or road traffic contexts, these parameters can be freely replaced while
+preserving the dynamical properties.
+Given the settings for the time scale of anticipation and reaction behaviors, whenδ= 0.5, the hysteresis of the
+FVD model in the(ξji, ˙ξi)plane is a straight line passing through the origin. This depicts a critical equilibrium state
+ofv i =v d, corresponding to the statistical metricT D=ϕ dji ,vi /ω= 0. When theT Dcrosses the zero point, the
+hysteresis flip. Another observation regarding Fig. 3 and Fig. 4 is that the scales of anticipation and reaction affect the
+geometry of the hysteresis, particularly in the(ξji, ˙ξij)plane. It can be observed that anticipation behavior promotes
+the contraction of the hysteresis, whereas reaction behavior promotes its expansion.
+3.3.Time-To-Collision
+We understand that hysteresis in the(ξji, ˙ξi)plane represents the dynamical mechanisms of individual deviation
+from the equilibrium state, which can be directly evaluated throughT Dstatistics. However, hysteresis in the(ξji, ˙ξij)
+plane represents the dynamical mechanisms of system deviation from the synchronization state, exhibiting different
+Table 1: Comparison of TD and hysteresis characteristics among the four models.
+ModelNo Behavior Pattern (OV)Reaction BehaviorAnticipation behavior (CosF orce)Anticipation behavior (FVD)
+Dynamics (ODE)¨xi+˙xi
+τ=xj−xi
+thτ¨xi+˙xi
+τ=xj(t+δ)−xi
+thτ, δ <0¨xi+˙xi
+τ=(xj+δ˙xj)−xi
+thτ, δ >0¨xi+˙xi
+τ=(xj−xi)+δ( ˙xj−˙xi)
+thτ, δ >0
+T ransfer F unction:
+G(s) =ξi(s)/ξj(s)Gov(s) =1
+thτ s2+ths+ 1Gre(s) =eδs
+thτ s2+ths+ 1Gcf(s) =1 +δs
+thτ s2+ths+ 1Gfvd(s) =1 +δs
+thτ s2+ (th+δ)s+ 1
+Poles:s1,2s1,2=−1
+2τ±1 √thτ
+rth
+4τ−1s1,2=−(th+δ)±p(th+δ)2−4thτ
+2thτ
+Input:ξj(t)Asin(ωt)
+Output
+(Steady-state):
+ξi(t)
+AMovsin(ωt+ϕov),
+Mov=1 p(1−thτ ω2)2+ (thω)2,
+ϕov=−arg 1−thτ ω2+jthω
+AMresin(ωt+ϕre),
+Mre=1 p(1−thτ ω2)2+ (thω)2,
+ϕre=δω−arg 1−thτ ω2+jthω
+AMcfsin(ωt+ϕcf),
+Mcf=
+p1 + (δω)2
+p(1−thτ ω2)2+ (thω)2,
+ϕcf= arg 1 +j δω−arg 1−thτ ω2+j thω
+AMfvdsin(ωt+ϕfvd),
+Mfvd=
+p1 + (δω)2
+p(1−thτ ω2)2+ ((th+δ)ω)2,
+ϕfvd= arg 1 +j δω−arg 1−thτ ω2+j(th+δ)ω
+Time Delay:
+T D˙ξj,ξji=ϕ˙ξj,ξji/ω
+2−arg(1−M ejϕ)
+Time Delay:
+T Dξji,˙ξi=ϕξji,˙ξi/ωarg(1−M ejϕ)−ϕ−π
+Time Delay:
+T D˙ξj,˙ξi=ϕ˙ξj,˙ξi/ω−ϕ/ω
+Time Delay:
+T Dξji,˙ξij=ϕξji,˙ξij/ωπ/2ω
+Hysteresis:E˙ξj,ξjiω2ξ2ji+(1−Mcosϕ)2+M2sin2ϕ˙ξ2j+ 2M ωsinϕ·ξji˙ξj=A2ω2(1−Mcosϕ)2, ξji=ξj−ξi
+Hysteresis:Eξji,˙ξiM2ξ2jiω2+ (M2−2Mcosϕ+ 1)˙ξ2i+ 2Msinϕ·ω·ξji˙ξi=M2(M−cosϕ)2A2ω2, ξji=ξj−ξi
+Hysteresis:E˙ξj,˙ξiM2˙ξ2i+˙ξ2j−2Mcosϕ·˙ξi˙ξj=M2A2ω2sin2ϕ
+Hysteresis:Eξji,˙ξijω2ξ2ji+˙ξ2ij=A2ω2 1 +M2−2Mcosϕ, ξji=ξj−ξi,˙ξij=˙ξi−˙ξj
+properties. Specifically, according to Eq. (31), it can be understood thatT Dξji , ˙ξij
+=π/2ωremains constant under
+given input. Therefore, from the perspective of an observer, which quantitative metrics are effective for evaluating
+hysteresis in the(ξji, ˙ξij)plane? That isT T C.
+The distanced ji is defined by shifting the perturbation terms to the synchronization gapd:
+dji(t) =d+ξ ji(t), v ij(t) = ˙ξij(t)(48)
+Based on Eq. (46), By defining the phase angleαas:
+α= arg
+(1−Mcosϕ) +j(Msinϕ)
+(49)
+The perturbation components from the matrix form are simplified to:
+ξji(t) =A
+1 +M 2 −2Mcosϕsin(ωt−α)(50)
+˙ξij(t) =−A
+1 +M 2 −2Mcosϕωcos(ωt−α)(51)
+We derive the complete analytical expression ofT T Cin time domain:
+T T C(t) = dji
+vij
+= d+A
+1 +M 2 −2Mcosϕsin(ωt−α)
+−Aω
+1 +M 2 −2Mcosϕcos(ωt−α)
+(52)
+The final form is:
+T T C(t) =− 1
+1 +M 2 −2Mcosϕ
+sec(ωt−α) + tan(ωt−α)
+.(53)
+∞ TTC
+synchronization state
+(d, 0)
+TTC>0
+TTC ∞
+TTC<0
+vij
+dji
+TTC
+TTC
+TTC
+TTC
+Figure 5: Dynamic evolution ofT T Cin phase trajectory.
+Fig. 5 clearly illustrates the evolution ofT T Cas the hysteresis evolves in the(ξ ji, ˙ξij)plane. In this absolute
+coordinate system, the negative slope of the line orthogonal to the ray connecting the hysteresis loop to the origin is
+equivalent to theT T C. The local extreme points ofT T Ccorrespond to the tangency points between the rays and
+the ellipse. We set the synchronized flow headway as 1.3m in pedestrian context. Given the wave function parameters
+(A= 0.8, ω= 1), the variation ofT T Cbased on Eq. 53 is shown in Fig. 6. From the figure, we understand that
+corresponding to the expansion and contraction of the hysteresis caused by reaction and anticipation behaviors, the
+correspondingT T Cexhibitsthetendencytoapproachzero(i.e., collision)orawayfromzero, statistically. Furthermore,
+T T Ccan serve not only as an indicator of hysteresis in normal traffic oscillations, but more importantly, it functions
+to identify extreme dynamics in traffic, which will be discussed in the subsequent.
+Figure 6: Dynamic evolution ofT T Cin the four models.
+4.NUMERICAL EXPERIMENT
+In this section, based on the analytical results above, we will conduct a numerical experiment on the dynamical
+properties of the four models. In the numerical results, we shift the oscillation back to the synchronized flow to obtain
+the absolute coordinates. The synchronized flow location in the phase space is set atdji = 1.3m andv j =v i = 1m/s,
+corresponding to a constant time headway ofth = 1.3s in pedestrian context. By adjusting these parameters, the
+results can be transferred to road traffic without altering any dynamical properties.
+Given the wave function parameters (A= 0.8, ω= 1),δis set to -0.5 s in the reaction model and 0.5 s in the
+anticipation model. We plot the traffic response processes of the four models as shown in Fig. 7. The figure presents
+the results of the absolute coordinates in the time domain, where theT Dcan be directly observed. The numerical
+results are in agreement with the analytical results. In the FVD model, whenδis set to 0.5 s, the phases ofdji andv i
+are perfectly consistent, corresponding hysteresis in the(ξji, ˙ξi)plane degenerates into a straight line, which equation
+is identical to function ofvd. At this point, traffic unitiis in a delicate state of equilibrium, i.e.,vi =v d. In Fig. 8,
+we plot the curve of the hysteresis in the(ξji, ˙ξij)plane along with the corresponding time domain variations of the
+T T C. These results show a consistent trend with the analytical analysis as illustrated above.
+5.SYNCHRONIZATION IN TRAFFIC
+5.1.Kinetic Energy Dissipation Behind Hysteresis
+Building upon the preceding analysis of hysteresis, what fundamental implications can be extracted regarding distinct
+hysteresis geometry? From the perspective of energy, the ellipse area in the(ξji, ˙ξi)plane represents the kinetic energy
+dissipationK ξji , ˙ξi
+of traffic unitias it deviates from individual equilibrium state:
+Kξji , ˙ξi
+Eξji , ˙ξi
+Fi d(ξji) = m
+Eξji , ˙ξi
+˙ξd − ˙ξi
+d(ξji) = m
+τ Sξji , ˙ξi
+,(54)
+Corresponding to Eq. (47) and phase lagϕξji , ˙ξi
+, the area is:
+Sξji , ˙ξi
+=πA ξji A ˙ξi
+|sinϕ ξji , ˙ξi
+|.(55)
+Fromtheequilibriumstateofindividualperspective, thesystemmanifestsasthehysteresiswithzeroareainthephase
+space ofd ji andv i. This signifies the zero kinetic energy dissipation within the individual dynamics, corresponding to
+the conditionϕ ξji , ˙ξi
+= 0, i.e.,T D=ϕ dji ,vi /ω= 0. Revisiting Fig. 3 reveals that the reaction behavior enhances the
+kinetic energy dissipation of individuals deviating from the equilibrium state, whereas moderate anticipation behavior
+weakens such dissipation. However, when anticipation exceeds a critical threshold (T D=ϕdji ,vi /ω= 0), excessive
+anticipation leads to an increase in the dissipation magnitude.
+Consider an idealized periodic unidirectional flow consisting only of traffic unitsiandj. In this system,ξ ij =
+−ξji. The ellipse area in(ξ ji, ˙ξij)plane, illustrating the systematic kinetic energy dissipationK ξji , ˙ξij
+away from
+synchronization state within the traffic oscillations, is:
+transient response
+steady-state response
+zero TDnegative TD negative TD negative TD
+equilibrium state
+Figure 7: NumericalT Dand hysteresis results of the four models under sinusoidal input (A= 0.8, ω= 1).
+Figure 8: NumericalT T Cand hysteresis results of the four models under sinusoidal input (A= 0.8, ω= 1).
+CosForce: CosForce :
+FVD: FVD :
+(a) Unidirectional interactions
+(b) Bidirectional interactions
+Dynamical function:
+Dynamical function:
+Reaction model
+No behavior pattern(OV)
+Anticipation model (FVD, CosForce)
+xj xi
+xj xi
+xj xi
+d>0
+t=c
+d<0
+t=c
+d=0
+t=c
+d>0
+t=c
+input output
+d>0
+t=c
+Anticipation in most
+conditions
+(FVD, CosForce)
+j i
+j i
+j i
+( )
+( )
+Figure 9: Minimized interaction patterns in 1D and 2D spaces.
+0 0
+0 0
+Equilibrium,
+Polarization
+TD<0 TD→0 TD>0
+0 0
+TD→0, TTC →0
+0 0
+Self-organized criticality,
+Critical dissipative,
+Chaos
+0 0
+0 0
+Scale-free correlations,
+Non-dissipative system,
+Order
+0 0
+TD→0, TTC→∞
+0 0
+0 00 0
+0 0
+0 0
+Slow to start,
+Stop-and-go wave,
+Reaction behavior
+0 0
+Self-organization,
+Game process,
+Anticipation behavior
+0 0
+0 0
+0 0
+Figure 10: Hysteresis characteristics under different dynamical states, characterized byT DandT T C.
+Kξji , ˙ξij
+Eξji , ˙ξij
+Fi d(ξji)+
+Eξji , ˙ξij
+Fj d(ξij) = m
+Eξji , ˙ξij
+˙ξd − ˙ξi
+˙ξd − ˙ξj
+d(ξji) = m
+Eξji , ˙ξij
+− ˙ξij d(ξji) = m
+τ Sξji , ˙ξij
+(56)
+Corresponding to phase lagϕξji , ˙ξij
+=π/2, the area is:
+Sξji , ˙ξij
+=πA ξji A ˙ξij
+|sinϕ ξji , ˙ξij
+|=πA ξji A ˙ξij
+(57)
+Similarly, as illustrated in Fig. 3, the hysteresis loop in the(ξji, ˙ξij)plane undergoes expansion in the reaction model
+and contraction in the anticipation model. This result indicates that reaction behavior enhances the systematic energy
+dissipation induced by traffic oscillations, whereas anticipation behavior attenuates it. Corresponding to synchroniza-
+tion state of system perspective, the hysteresis manifests as zero area in the(dji, vij)plane. In this state,v ij →0
+approaches zero. The two cases wheredji = 0andd ji ̸= 0represent the two extreme conditions of dynamical evolution,
+namely chaos and perfect order. These states correspond to the quantitative metric whereT T C=dji/vij →0and
+T T C=d ji/vij → ∞, respectively.
+5.2.Phase Diagram of Synchronization
+In the analysis above, our analytical investigation starting from the simplest 1D particle system. The mechanisms of
+the hysteresis elegant explained many obscure properties in traffic. Expanding the scope to a more general condition,
+compared to 1D motion, the characteristics of traffic in 2D space are more diverse and general. In 2D motion with
+multi-body interactions, even if local evolution can be described using linear differential equations, from a global
+perspective, the evolution of motion is non linear and unstable. Consequently, for 2D traffic analysis, we must resort
+to finite difference calculations as a compromise. Nevertheless, in both 1D and 2D spaces, the local interaction rules
+of traffic response units are convergent. These can be categorized into unidirectional interactions and bidirectional
+interactions, which constitute the minimized patterns of the fundamental traffic interactions, as shown in Fig. 9. Based
+on these properties, we attempt to summarize the characteristics of hysteresis to more general scenarios. By utilizing
+hysteresis to connect these components, we obtain the phase diagram of synchronization shown in Fig. 10. Based on
+the above analysis, the phase diagram is depicted by two concise time metrics,T DandT T C, which can derived from
+direct observations of traffic states.
+In the phase diagram of synchronization, we connect quantitative hysteresis features with qualitative dynamical
+phenomena. Most importantly, asT Dapproaches zero, under different environmental drivers, the dynamical properties
+of traffic will converge to two extreme conditions: perfect order and complete chaos, as shown in Fig. 10. To deepen the
+understanding of this phase diagram, we provide the mapping of the phase diagram of real world traffic, as shown in
+Fig. 11. This synchronization phase diagram effectively characterizes various dynamical behaviors in nature, providing
+deeper insights into complex dynamical systems.
+CAV
+Single-file motion Moving jam Bullfighting Low-density crowd Parade march CAV platoon
+TD →0, TTC→∞
+TD→0, TTC→0
+Centralized group Autonomous group
+Cycling crush
+Crowd collapse Granular flow
+Centralized group Centralized group
+Scale-free correlations
+Sandpile model
+Avalanche
+Cascading failure
+Self-organized
+criticality
+TD→0, TTC→∞
+TD→0, TTC→0
+Queuing Synchronized flow Cycling race Free walk Group dance Flock of starlings
+Fatigued driving Arch jamming Multi-directional flow Crosswalk
+Phone walking Dense crowd Sports Bumper car game
+TD<0 TD→0 TD>0
+Figure 11: Synchronization phase diagrams of real-world traffic based onT DandT T C. Arrows indicate non traffic
+dynamical phenomena that are included due to the consistency of their dynamical characteristics.
+6.CONCLUSION
+Thispaperinvestigatesfourtypesofsecond-ordermodelsintrafficestablishedontheconstanttime-headwaystrategy.
+The parameters of the dynamical system retain clear physical meanings, ensuring that the dimensional consistency
+adheres to principles of mathematical and physical rigor. We understand that mutually orthogonal wave on different
+phaseaxessynthesizetheellipticalevolutiontrajectoryofthetrafficdynamicalsysteminthreedimensionalphasespace.
+Essentially, the 2D hystereses are projections of this dynamical trajectory onto different phase planes. Furthermore, we
+demonstrate how the area of hysteresis quantifies the kinetic energy dissipation stemming from traffic perturbations.
+From a statistical perspective, two concise time metrics for hysteresis evaluation,T DandT T C, are introduced.
+Finally, a phase diagram of synchronization based onT DandT T Cis developed to characterize various dynamical
+behaviors in traffic.
+So, what is traffic hysteresis? It is the trajectory of dynamic system in phase space; the dissipation of kinetic energy
+shapes its shadow, whileT DandT T Ctrace its twin footprints.
+REFERENCES
+Bando, M., Hasebe, K., Nakayama, A., Shibata, A., &
+Sugiyama, Y. 1995, Physical review E, 51, 1035,
+doi: 10.1103/PhysRevE.51.1035
+Chen, D., Laval, J. A., Ahn, S., & Zheng, Z. 2012,
+Transportation Research Part B: Methodological, 46,
+1440, doi: 10.1016/j.trb.2012.07.002
+Cordes, J., Chraibi, M., & Tordeux, A. 2023, Crowd
+Dynamics, Volume 4: Analytics and Human Factors in
+Crowd Modeling, 143, doi: 10.1007/978-3-031-46359-4_6
+Gayah, V. V., & Daganzo, C. F. 2011, Transportation
+Research Part B: Methodological, 45, 643,
+doi: 10.1016/j.trb.2010.11.006
+Jiang, J., Zhou, Y., Wang, X., & Ahn, S. 2024,
+Transportation Research Part B: Methodological, 189,
+102979, doi: 10.1016/j.trb.2024.102979
+Jiang, R., Wu, Q., & Zhu, Z. 2001, Physical Review E, 64,
+017101, doi: 10.1103/PhysRevE.64.017101
+Kesting, A., & Treiber, M. 2008, Computer-Aided Civil and
+Infrastructure Engineering, 23, 125,
+doi: 10.1111/j.1467-8667.2007.00529.x
+Laval, J. A. 2011, Transportation Research Part B:
+Methodological, 45, 385, doi: 10.1016/j.trb.2010.07.006
+Makridis, M., Mattas, K., Borio, D., & Ciuffo, B. 2019, in
+2019 6th international conference on models and
+technologies for intelligent transportation systems
+(MT-ITS), IEEE, 1–7, doi: 10.1109/MTITS.2019.8883341
+Mattas, K., Albano, G., Donà, R., He, Y., & Ciuffo, B.
+2023, Transportation research part B: methodological,
+174, 102785, doi: 10.1016/j.trb.2023.102785
+Ni, D. 2025, Transportation Research Part B:
+Methodological, 195, 103206,
+doi: 10.1016/j.trb.2025.103206
+Saifuzzaman, M., Zheng, Z., Haque, M. M., & Washington,
+S. 2017, Transportation Research Part B:
+Methodological, 105, 523, doi: 10.1016/j.trb.2017.09.023
+Treiber, M., Kesting, A., & Helbing, D. 2006, Physica A:
+Statistical Mechanics and its Applications, 360, 71,
+doi: 10.1016/j.physa.2005.05.001
+Treiterer, J., & Myers, J. 1974, Transportation and traffic
+theory, 6, 13
+Zhang, H. M. 1999, Transportation Research Part B:
+Methodological, 33, 1,
+doi: 10.1016/S0191-2615(98)00022-8

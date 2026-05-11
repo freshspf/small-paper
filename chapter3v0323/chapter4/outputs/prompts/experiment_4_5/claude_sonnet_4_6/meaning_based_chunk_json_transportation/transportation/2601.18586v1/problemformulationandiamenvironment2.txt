@@ -1,0 +1,66 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "problemformulationandiamenvironment2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: problemformulationandiamenvironment2
+- section_title: Problem formulation and IAM environment
+- page_start: 2
+- page_end: 3
+
+**INPUT TEXT CHUNK:**
+Using projected daily rainfall statistics for
+three climate scenarios (RCP2.6, RCP4.5, RCP8.5) [Van Vu-
+urenet al., 2011 ]from the Danish Meteorological Institute’s
+Climate Atlas [Danmarks Meteorologiske Institut, 2023 ], we
+build the associated rainfall cumulative distribution function.
+Then, we sample one rainfall event per timestep, represented
+as the total accumulated daily rainfall, for which we model
+the associated flooding in Copenhagen. Depending on rain-
+fall intensity, floods can range from minor, recurring events
+(e.g., nuisance floods) to high-impact, major flooding events
+(e.g., those resulting from cloudbursts). To model all flood
+types, we use SCALGO Live [SCALGO, 2024 ], a simplified,
+event-based tool for watershed delineation and flood depth
+modeling. Here, a uniform rainfall distribution of unspecified
+duration over the study area is assumed, meaning water accu-
+mulates simultaneously at all locations. Water is distributed.

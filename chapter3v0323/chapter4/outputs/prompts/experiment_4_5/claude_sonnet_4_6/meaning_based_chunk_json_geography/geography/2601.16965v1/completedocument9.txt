@@ -1,0 +1,142 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument9",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument9
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+Geographic question answering:
+challenges, uniqueness, classification, and future di-
+rections.AGILE: GIScience series, 2:8.
+Gengchen Mai, Yiqun Xie, Xiaowei Jia, Ni Lao, Jin-
+meng Rao, Qing Zhu, Zeping Liu, Yao-Yi Chiang,
+and Junfeng Jiao. 2025. Towards the next generation
+of geospatial artificial intelligence.International
+Journal of Applied Earth Observation and Geoinfor-
+mation, 136:104368.
+Harvey J Miller and Michael F Goodchild. 2015. Data-
+driven geography.GeoJournal, 80(4):449–461.
+Dharmen Punjani, Kuldeep Singh, Andreas Both, Mano-
+lis Koubarakis, Iosif Angelidis, Konstantina Bereta,
+Themis Beris, Dimitris Bilidas, Theofilos Ioannidis,
+Nikolaos Karalis, and 1 others. 2018. Template-
+based question answering over linked geospatial data.
+InProceedings of the 12th workshop on geographic
+information retrieval, pages 1–10.
+Simon Scheider, Rogier Meerlo, Vedran Kasalica, and
+Anna-Lena Lamprecht. 2020. Ontology of core
+concept data types for answering geo-analytical
+questions.Journal of Spatial Information Science,
+(20):167–201.
+Simon Scheider, Enkhbold Nyamsuren, Han Kruiger,
+and Haiqi Xu. 2021. Geo-analytical question-
+answering with gis.International Journal of Digital
+Earth, 14(1):1–14.
+Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta
+Raileanu, Maria Lomeli, Eric Hambro, Luke Zettle-
+moyer, Nicola Cancedda, and Thomas Scialom. 2023.
+Toolformer: Language models can teach themselves
+to use tools.Advances in Neural Information Pro-
+cessing Systems, 36:68539–68551.
+Noah Shinn, Federico Cassano, Ashwin Gopinath,
+Karthik Narasimhan, and Shunyu Yao. 2023. Re-
+flexion: Language agents with verbal reinforcement
+learning.Advances in Neural Information Process-
+ing Systems, 36:8634–8652.
+Waldo R Tobler. 1970. A computer movie simulating
+urban growth in the detroit region.Economic geog-
+raphy, 46(sup1):234–240.Lei Wang, Wanyu Xu, Yihuai Lan, Zhiqiang Hu, Yunshi
+Lan, Roy Ka-Wei Lee, and Ee-Peng Lim. 2023. Plan-
+and-solve prompting: Improving zero-shot chain-of-
+thought reasoning by large language models.arXiv
+preprint arXiv:2305.04091.
+Shengyuan Wang, Jie Feng, Tianhui Liu, Dan Pei, and
+Yong Li. 2025. Mitigating geospatial knowledge hal-
+lucination in large language models: Benchmarking
+and dynamic factuality aligning. InFindings of the
+Association for Computational Linguistics: EMNLP
+2025, pages 870–888.
+Xingyao Wang, Yangyi Chen, Lifan Yuan, Yizhe Zhang,
+Yunzhu Li, Hao Peng, and Heng Ji. 2024. Executable
+code actions elicit better llm agents. InForty-first
+International Conference on Machine Learning.
+Haiqi Xu, Enkhbold Nyamsuren, Simon Scheider, and
+Eric Top. 2023. A grammar for interpreting geo-
+analytical questions as concept transformations.In-
+ternational Journal of Geographical Information Sci-
+ence, 37(2):276–306.
+He Yan, Xinyao Hu, Xiangpeng Wan, Chengyu Huang,
+Kai Zou, and Shiqi Xu. 2023. Inherent limitations
+of llms regarding spatial information.arXiv preprint
+arXiv:2312.03042.
+Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak
+Shafran, Karthik R Narasimhan, and Yuan Cao. 2022.
+React: Synergizing reasoning and acting in language
+models. InThe eleventh international conference on
+learning representations.
+Dazhou Yu, Riyang Bao, Gengchen Mai, and Liang
+Zhao. 2025. Spatial-rag: Spatial retrieval augmented
+generation for real-world spatial reasoning questions.
+arXiv preprint arXiv:2502.18470.
+Qianheng Zhang, Song Gao, Chen Wei, Yibo Zhao,
+Ying Nie, Ziru Chen, Shijie Chen, Yu Su, and Huan
+Sun. 2025a. Geoanalystbench: A geoai benchmark
+for assessing large language models for spatial anal-
+ysis workflow and code generation.Transactions in
+GIS, 29(7):e70135.
+Yifan Zhang, Jingxuan Li, Zhiyun Wang, Zhengting He,
+Qingfeng Guan, Jianfeng Lin, and Wenhao Yu. 2025b.
+Geospatial large language model trained with a simu-
+lated environment for generating tool-use chains au-
+tonomously.International Journal of Applied Earth
+Observation and Geoinformation, 136:104312.
+Yifan Zhang, Cheng Wei, Zhengting He, and Wenhao
+Yu. 2024. Geogpt: An assistant for understanding
+and processing geospatial tasks.International Jour-
+nal of Applied Earth Observation and Geoinforma-
+tion, 131:103976.
+Linghan Zhong, Ryan Lindeborg, Jesse Zhang, Joseph J
+Lim, and Shao-Hua Sun. 2023.

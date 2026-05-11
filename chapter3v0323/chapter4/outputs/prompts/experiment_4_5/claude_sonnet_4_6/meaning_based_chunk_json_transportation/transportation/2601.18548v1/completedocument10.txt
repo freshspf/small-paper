@@ -1,0 +1,169 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument10",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument10
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+Specifically,
+we incorporate the distance lossL distfor distribution fitting,
+the gradient lossL gradfor gradient direction regularization,
+the tension lossL tension for smoothness enhancement, and the
+eikonal lossL eikonal to enforce the weighted eikonal property.
+These loss terms collectively ensure that the trained implicit
+neural GCDF possesses valid field values and gradient magni-
+tudes/directions that conform to the theoretical guarantees in
+Theorem 1, enabling nearest configurations on the zero-level
+set to be reached via single-step gradient projection.
+Detailed definitions of these loss components are provided
+in Table I, with the variables denoted by a hat (ˆ) representing
+the ground truth values. The total loss is formulated as a
+weighted sum of the four components:
+Ltotal=λ 1Ldist+λ 2Lgrad+λ 3Leikonal +λ 4Ltension.(9)
+IV. FAST ANDSAFETRAJECTORYOPTIMIZATION
+Building upon the neural GCDF representation trained of-
+fline (Section III), which provides dense value and gradient
+information of GCDF through a PyTorch model, this section
+presents our trajectory optimization framework for mobile
+manipulators. We describe: (1) the collision-free trajectory
+optimization formulation and GCDF-based constraint handling
+to ensure gradient and value validity; (2) the numerical al-
+gorithm for solving the nonlinear program and our efficient
+implementation that bridges the PyTorch model with a C++
+solver by exploiting parallelization and constraint sparsity; and
+(3) a perception-integrated navigation framework that enables
+continuous, safe, and fast online replanning for long-range
+navigation in unknown environments.
+A. Collision-Free Trajectory Optimization for Mobile Manip-
+ulator
+We now formalize the trajectory optimization problem for
+a mobile manipulator system composed of a mobile base and
+an articulated robot arm.
+Problem Formulation.Denote the optimization horizon as
+N, andq i∈Rnthe configuration at theith step for∀i=
+
+9
+1,2, . . . , N. By separating the configuration variables into base
+translational and rotational DoFs, and incorporating velocity
+control variables, we define the full state variable at time step
+ias:
+xi= [qt
+i,qr
+i,|{z}
+configurationvt
+i,vr
+i]|{z}
+velocity∈R2n.(10)
+The translational components (with superscriptt) describe
+the mobile base’s planar motion in thex-yplane, while the
+rotational components (with superscriptr) correspond to the
+base orientation and manipulator joint angles. Let us further
+denote the first elements of the rotational joint angles and
+velocities,qr
+i,0andvr
+i,0, as the base rotation angle and angular
+velocity, respectively. By collecting the state variables across
+all time steps intoX={x 1,x2, . . . ,x N}, the optimization
+problem takes the following form:
+min
+X∈R2nNJc+Jt (11a)
+subject toqt
+i+1,x =qt
+i,x+ (vt
+i,xcosqr
+i,0−vt
+i,ysinqr
+i,0)dt,
+qt
+i+1,y =qt
+i,y+ (vt
+i,xsinqr
+i,0+vt
+i,ycosqr
+i,0)dt,
+qr
+i+1=qr
+i+vr
+idt,
+∀i= 1,2, . . . , N−1(11b)
+h(xi) =0,
+g(xi)≥0,
+∀i= 1,2, . . . , N(11c)
+fg
+c(pj,qi)−δ≥0,
+∀i= 1,2, . . . , N,∀j= 1,2, . . . , M(11d)
+x0=xs.(11e)
+The objective function (11a) consists of two terms:J c
+represents the control cost andJ tdenotes the tracking error
+for desired states, both formulated as standard quadratic costs
+in our case. The velocity-controlled system is governed by the
+kinematic constraints (11b): The first two equations describe
+the translational motion of the mobile base, while the last
+one updates all rotational joints, including both the base
+orientation and manipulator joint angles. The general equality
+and inequality constraints are organized ashandgin (11c),
+where the comparisons are element-wise. Importantly, safety
+constraints are enforced through (11d), which generatesN×M
+constraints ensuring that the GCDF value between the robot
+and each of theMobstacle points remains above a safety
+thresholdδthroughout theN-step optimization horizon. The
+initial condition is specified by (11e).
+Remark 3.In practice, the safety thresholdδmust be chosen
+to balance neural approximation error and avoidance con-
+servativeness. Ifδis too small, it may not compensate for the
+approximation error of the neural implicit function, potentially
+violating collision avoidance. Ifδis too large, the resulting
+behavior becomes overly conservative and may render the
+problem infeasible in narrow environments.
+Algorithm.To solve the nonlinear programming prob-
+lem (11), we adopt the sequential convex optimization algo-
+rithm, which iteratively approximates a local model (first-order
+constraint information and second-order objective information)around the current iterateX kand solves a convex subproblem
+at each step. We chose this algorithm for the following reasons.
+First, as discussed in Section III, the trained neural GCDF
+directly exploits distance information in configuration space
+and explicitly maintains accurate gradient information that
+ensures the quality of local linearization.

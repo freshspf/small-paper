@@ -1,0 +1,125 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument13",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument13
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+**INPUT TEXT CHUNK:**
+bioRxiv 2023 , 10.1101/2023.02.14.528391, 2023.2002.2014.528391, 
+doi:10.1101/2023.02.14.528391.  
+42. Berman, H.M.; Westbrook, J.; Feng, Z.; Gilliland, G.; Bhat, T.N.; Weissig, H.; Shindyalov, I.N.; Bourne, P.E. 
+The Protein Data Bank. Nucleic Acids Res 2000 , 28, 235 -242, doi:10.1093/nar/28.1.235.  
+43. Lee, M.; Yau, W. -M.; Louis, J.M.; Tycko, R. Structures of brain -derived 42 -residue amyloid -β fibril 
+polymorphs with unusual molecular conformations and intermolecular interactions. Proceedings of the 
+National Academy of Sciences 2023 , 120, e2218831120, doi:10.1073/pnas.2218831120.  
+44. Dey, A.; Verma, A.; Bhaskar, U.; Sarkar, B.; Kallianpur, M.; Vishvakarma, V.; Das, A.K.; Garai, K.; 
+Mukherjee, O.; Ishii, K., et al. A Toxicogenic Interaction between Intracellular Amyloid -beta and 
+Apolipoprotein -E. ACS Chem Neurosci 2024 , 15, 1265 -1275, doi:10.1021/acschemneuro.4c00048.  
+45. Bhachoo, J.; Beuming, T. Investigating Protein -Peptide Interactions Using the Schrodinger Computational 
+Suite. Methods Mol Biol 2017 , 1561 , 235 -254, doi:10.1007/978 -1-4939 -6798 -8_14.  
+46. Hsu, P.W.; Lin, L.Z.; Hsu, S.D.; Hsu, J.B.; Huang, H.D. ViTa: prediction of host microRNAs targets on 
+viruses. Nucleic Acids Res 2007 , 35, D381 -385, doi:10.1093/nar/gkl1009.  
+47. Zdrazil, B.; Felix, E.; Hunter, F.; Manners, E.J.; Blackshaw, J.; Corbett, S.; de Veij, M.; Ioannidis, H.; Lopez, 
+D.M.; Mosquera, J.F., et al. The ChEMBL Database in 2023: a drug discovery platform spanning multiple 
+bioactivity data types and time periods . Nucleic Acids Res 2024 , 52, D1180 -D1192, 
+doi:10.1093/nar/gkad1004.  
+48. Shaikh, F.; Siu, S.W. Identification of novel natural compound inhibitors for human complement component 
+5a receptor by homology modeling and virtual screening. Med Chem Res 2016 , 25, 1564 -1573, 
+doi:10.1007/s00044 -016-1591 -1. 
+49. Jin, W.; Barzilay, R.; Jaakkola, T.S. Junction Tree Variational Autoencoder for Molecular Graph Generation. 
+CoRR 2018 , abs/1802.04364 . 
+50. Jin, W.; Barzilay, R.; Jaakkola, T. Junction Tree Variational Autoencoder for Molecular Graph Generation. In 
+Proceedings of Proceedings of the 35th International Conference on Machine Learning, 2018; pp. 2323 -2332.  
+51. Karauda, T.; Kornicki, K.; Jarri, A.; Antczak, A.; Milkowska -Dymanowska, J.; Piotrowski, W.J.; Majewski, 
+S.; Gorski, P.; Bialas, A.J. Eosinopenia and neutrophil -to-lymphocyte count ratio as prognostic factors in 
+exacerbation of COPD. Sci Rep 2021 , 11, 4804, doi:10.1038/s41598 -021-84439 -8. 
+52. Thireou, T.; Reczko, M. Bidirectional Long Short -Term Memory Networks for predicting the subcellular 
+localization of eukaryotic proteins. IEEE/ACM Trans Comput Biol Bioinform 2007 , 4, 441 -446, 
+doi:10.1109/tcbb.2007.1015.  
+53. Kingma, D.P.; Welling, M. Auto -Encoding Variational Bayes. arXiv [stat.ML] 2022 . 
+54. Csiszar, I. I -Divergence Geometry of Probability Distributions and Minimization Problems. Ann. Probab 
+1975 , 3, 146 -158, doi: https://doi.org/10.1214/aop/1176996454 . 
+55. Colaboratory, G. Jupyter Notebook. Availabe online: https://colab.research.google.com  (accessed on 2024).
+
+Biomolecules 2025 , 15, 849 20 of 31  
+Disclaimer/Publisher’s Note:  The statements, opinions and data contained in all publications are solely those of the individual 
+author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury 
+to people or property re sulting from any ideas, methods, instructions or products referred to in the content.  
+ 
+ 
+ 
+ 
+FIGURES.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 1 . Prepared 3D structures of representative E3 ligases used in this study, highlighting bound 
+ligands in green stick representation . (a) von Hippel -Lindau (VHL), (b) Cereblon (CRBN), and (c) Mouse 
+Double Minute 2  homolog (MDM2). Each structure is visualized with ligands occupying their respective 
+binding pockets, confirming  appropriate docking orientation and active site integrity.
+
+Biomolecules 2025 , 15, 849 21 of 31  
+ 
+ 
+Figure 2.  Conditional JTNNV AE architecture for generating E3 ligase -specific molecular glues.  Molecular 
+graphs are encoded via MPN, and junction trees via JTMPN, then passed to the JTNNEncoder. Simultaneously, 
+binding site sequences from E3 ligases (e.g., CRBN, VHL, MDM2) are encoded into vector representations. These 
+embeddings are fused to form a conditioned latent space, which is sampled using V AE parameters (T_mean, T_var, 
+G_mean, G_var). The conditional JTNNDecoder reconstructs a chemically valid molecule tailor ed to the specific 
+ligase context.
+
+Biomolecules 2025 , 15, 849 22 of 31  
+ 
+ 
+Figure 3 . Predicted binding sites (BS) on the amyloid beta 42 (Aβ42) peptide using Schrödinger SiteMap . 
+(a-c) Top three ranked potential binding pockets identified on the Aβ42 structure, with surface 
+representations highlighting pocket volumes and spatial locations.

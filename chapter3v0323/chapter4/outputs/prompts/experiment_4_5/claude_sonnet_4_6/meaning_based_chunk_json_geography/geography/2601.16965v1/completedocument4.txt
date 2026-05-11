@@ -1,0 +1,148 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument4",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument4
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+Each transformation
+is realized by anoperator ω∈Ω , a concrete com-
+putational function that takes input concepts and
+produces output concepts.Here, we define the spatial concept space Cas a
+set ofcore conceptsthat ground semantic represen-
+tations into geographic primitives (Kuhn, 2012):
+C=LOCATION,OBJECT,FIELD,EVENT,
+NETWORK,AMOUNT,PROPORTION
+(2)
+These seven primitives, widely recognized in geo-
+graphic information theory, capture the fundamen-
+tal building blocks of geographic phenomena and
+provide a vocabulary for representing spatial enti-
+ties extracted from natural-language questions (see
+Appendix A for detailed definitions and examples).
+Crucially, we operationalize these abstract con-
+cepts into a mathematical framework that LLMs
+can manipulate. Each concept c∈ C is not merely
+a label but carries associated type signatures, valid
+transformations, and composability rules. This for-
+malization transforms the descriptive spatial theory
+into a computational substrate: the agent can query
+concept compatibility, validate transformation se-
+quences, and reason about workflow correctness
+through symbolic operations onC.
+While core concepts definewhatspatial entities
+are, we also need to specifyhowthey participate in
+geo-analytical reasoning. To this end, we introduce
+4
+
+functional rolesto explicitly encode the procedural
+structure of geo-analytical questions (Xu et al.,
+2023):
+R=(
+EXTENT,TEXTENT,SUBCOND,
+COND,SUPPORT,MEASURE)
+.(3)
+We also distinguish betweencontextual roles
+(EXTENT, TEXTENT) andprocedural roles
+(SUBCOND, COND, SUPPORT, MEASURE). Con-
+textual roles constrain data collection but do not
+participate in the procedural ordering of transforma-
+tions (e.g., “New York City” as EXTENTand “2025”
+as TEXTENTin Figure 2 (B)). For procedural roles,
+we define a precedence relation ≺derived from the
+execution semantics of geo-analytical workflows:
+SUBCOND≺COND≺SUPPORT≺MEASURE.
+This ordering reflects the inherent structure of
+geo-analytical workflows: sub-conditions restrict
+candidate entities, conditions constrain supports,
+supports establish the spatial basis, and measure-
+ments are the final outputs. By making this proce-
+dural structure explicit, the agent follows transfor-
+mation orders derived from geographic first prin-
+ciples rather than hallucinating arbitrary operation
+sequences (see Appendix B for detailed role defini-
+tions).
+3.3 Spatial Orchestration
+With the concept space Cand functional roles R
+established, we describe how to construct GeoFlow
+Graph Gfrom a question. The challenge is de-
+termining which transformation edges to include:
+an edge (vi, vj)∈E should be added when the
+resolution ofv jdepends on the output ofv i.
+Vincludes bothexplicitconcepts directly men-
+tioned in the question andimplicitconcepts in-
+ferred to complete the workflow. For example,
+given “What is the driving time from my hotel to
+the nearest coffee shop?”, the explicit concepts are
+HOTEL, COFFEESHOP, and DRIVINGTIME. How-
+ever, computing driving time requires a ROADNET-
+WORK(prerequisite data source) and an intermedi-
+ate ROUTEconnecting the two locations—neither
+of which is explicitly mentioned. The generation
+process (§3.4) is responsible for identifying and
+instantiating these implicit nodes.
+Geoflow graph factorization.GeoFlow Graphs
+capture concept-level transformations, where nodes
+represent spatial core concepts and edges denote
+semantic dependencies. However, these edges do
+not directly correspond to executable operators inan agentic system: many geo-analytical transfor-
+mations jointly consume multiple input concepts,
+while the original graph encodes them as separate
+edges. To make GeoFlow Graphs executable, we
+reinterpret them as a factorized operator–concept
+hypergraph G′= (V′, E′)such that there is a bi-
+jective mapping between them G↔G′, where
+V′are the nodes consisting of spatial core con-
+cept nodes and factor nodes. The concept nodes
+(e.g., the round nodes such as “Subway stations”
+and “Crime events” in Figure 2 (D)) are directly
+extracted from the question, while factor nodes
+(e.g., the pink boxes such as “Buffer Dist: 1 km”
+and “Population”) represent supplementary param-
+eters required for operator execution. Each opera-
+tor takes concept nodes along with supplementary
+parameters as inputs and produces one or more
+downstream concept nodes as outputs.

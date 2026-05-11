@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RLEnvironment",
+  "configures",
+  "ReinforcementLearningBehavior",
+  "LoggingManagement",
+  "automaticallyInitializes",
+  "VissimWrapper",
+  "hasSimulationSetting",
+  "net_path",
+  "sig_path",
+  "detector_path",
+  "specifiesPathOf",
+  "VissimNetwork",
+  "SignalControlConfiguration",
+  "DetectorConfiguration",
+  "SimulationSetting",
+  "hasDefaultValue",
+  "start_time_600s",
+  "sim_period_4200s",
+  "sim_res_10stepsPerSecond",
+  "seed_42",
+  "RandomSeed",
+  "usedFor",
+  "reproducibility",
+  "TrafficSignalSetting",
+  "yellow_time_3s",
+  "intergreen_time_5s",
+  "min_green_8s",
+  "max_green_120s",
+  "YellowPhase",
+  "hasDefaultDuration",
+  "3s",
+  "IntergreenPhase",
+  "5s",
+  "GreenPhase",
+  "hasMinimumDuration",
+  "8s",
+  "hasMaximumDuration",
+  "120s",
+  "RLSetting",
+  "single_agent_false",
+  "ctrl_intersections_all",
+  "hasDefaultObservationFunction",
+  "DefaultObservationFunction",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework",
+  "framework_sumo_rl",
+  "RlEnvironment",
+  "library_gymnasium"
+]
+
+Triples:
+[
+  {
+    "subject": "RLEnvironment",
+    "relation": "configures",
+    "object": "ReinforcementLearningBehavior",
+    "chunk": "conclusions1",
+    "context": "It offers configurable settings for simulation control, signal phase constraints, reinforcement learning behavior, and logging management."
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "configures",
+    "object": "LoggingManagement",
+    "chunk": "conclusions1",
+    "context": "It offers configurable settings for simulation control, signal phase constraints, reinforcement learning behavior, and logging management."
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "automaticallyInitializes",
+    "object": "VissimWrapper",
+    "chunk": "conclusions2",
+    "context": "the RL environment automatically initializes the wrapper during instantiate."
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "hasSimulationSetting",
+    "object": "net_path",
+    "chunk": "conclusions2",
+    "context": "net_path str --File path of the Vissim network model"
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "hasSimulationSetting",
+    "object": "sig_path",
+    "chunk": "conclusions2",
+    "context": "sig_path str --File path of the signal control configuration"
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "hasSimulationSetting",
+    "object": "detector_path",
+    "chunk": "conclusions2",
+    "context": "detector_path str --File path of the detector configuration"
+  },
+  {
+    "subject": "net_path",
+    "relation": "specifiesPathOf",
+    "object": "VissimNetwork",
+    "chunk": "conclusions2",
+    "context": "net_path str --File path of the Vissim network model"
+  },
+  {
+    "subject": "sig_path",
+    "relation": "specifiesPathOf",
+    "object": "SignalControlConfiguration",
+    "chunk": "conclusions2",
+    "context": "sig_path str --File path of the signal control configuration"
+  },
+  {
+    "subject": "detector_path",
+    "relation": "specifiesPathOf",
+    "object": "DetectorConfiguration",
+    "chunk": "conclusions2",
+    "context": "detector_path str --File path of the detector configuration"
+  },
+  {
+    "subject": "SimulationSetting",
+    "relation": "hasDefaultValue",
+    "object": "start_time_600s",
+    "chunk": "conclusions2",
+    "context": "start_time int 600Simulation start time (s)"
+  },
+  {
+    "subject": "SimulationSetting",
+    "relation": "hasDefaultValue",
+    "object": "sim_period_4200s",
+    "chunk": "conclusions2",
+    "context": "sim_period int 4200Total simulation duration (s)"
+  },
+  {
+    "subject": "SimulationSetting",
+    "relation": "hasDefaultValue",
+    "object": "sim_res_10stepsPerSecond",
+    "chunk": "conclusions2",
+    "context": "sim_res int 10Simulation resolution (steps per second)"
+  },
+  {
+    "subject": "SimulationSetting",
+    "relation": "hasDefaultValue",
+    "object": "seed_42",
+    "chunk": "conclusions2",
+    "context": "seed int 42Random seed for reproducibility"
+  },
+  {
+    "subject": "RandomSeed",
+    "relation": "usedFor",
+    "object": "reproducibility",
+    "chunk": "conclusions2",
+    "context": "seed int 42Random seed for reproducibility"
+  },
+  {
+    "subject": "TrafficSignalSetting",
+    "relation": "hasDefaultValue",
+    "object": "yellow_time_3s",
+    "chunk": "conclusions2",
+    "context": "yellow_time int 3Duration of yellow phase (s)"
+  },
+  {
+    "subject": "TrafficSignalSetting",
+    "relation": "hasDefaultValue",
+    "object": "intergreen_time_5s",
+    "chunk": "conclusions2",
+    "context": "intergreen_time int 5Duration of the intergreen phase (s)"
+  },
+  {
+    "subject": "TrafficSignalSetting",
+    "relation": "hasDefaultValue",
+    "object": "min_green_8s",
+    "chunk": "conclusions2",
+    "context": "min_green int 8Minimum green phase duration (s)"
+  },
+  {
+    "subject": "TrafficSignalSetting",
+    "relation": "hasDefaultValue",
+    "object": "max_green_120s",
+    "chunk": "conclusions2",
+    "context": "max_green int 120Maximum green phase duration (s)"
+  },
+  {
+    "subject": "YellowPhase",
+    "relation": "hasDefaultDuration",
+    "object": "3s",
+    "chunk": "conclusions2",
+    "context": "yellow_time int 3Duration of yellow phase (s)"
+  },
+  {
+    "subject": "IntergreenPhase",
+    "relation": "hasDefaultDuration",
+    "object": "5s",
+    "chunk": "conclusions2",
+    "context": "intergreen_time int 5Duration of the intergreen phase (s)"
+  },
+  {
+    "subject": "GreenPhase",
+    "relation": "hasMinimumDuration",
+    "object": "8s",
+    "chunk": "conclusions2",
+    "context": "min_green int 8Minimum green phase duration (s)"
+  },
+  {
+    "subject": "GreenPhase",
+    "relation": "hasMaximumDuration",
+    "object": "120s",
+    "chunk": "conclusions2",
+    "context": "max_green int 120Maximum green phase duration (s)"
+  },
+  {
+    "subject": "RLSetting",
+    "relation": "hasDefaultValue",
+    "object": "single_agent_false",
+    "chunk": "conclusions2",
+    "context": "single_agent bool FalseWhether to returns single values like regular Gym style"
+  },
+  {
+    "subject": "RLSetting",
+    "relation": "hasDefaultValue",
+    "object": "ctrl_intersections_all",
+    "chunk": "conclusions2",
+    "context": "ctrl_intersections list/str \"all\"Controlled intersections (list of IDs or 'all')"
+  },
+  {
+    "subject": "RLSetting",
+    "relation": "hasDefaultObservationFunction",
+    "object": "DefaultObservationFunction",
+    "chunk": "conclusions2",
+    "context": "observation_config dict{class: DefaultObservationFunction, args:{}}Observation function and arguments"
+  }
+]

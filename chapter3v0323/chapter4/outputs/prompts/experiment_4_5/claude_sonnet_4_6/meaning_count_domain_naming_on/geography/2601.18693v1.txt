@@ -1,0 +1,2714 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+MNRAS000, 1–26 (2026) Preprint 27 January 2026 Compiled using MNRAS L ATEX style file v3.3
+Intracluster light as a dark matter tracer: how their spatial and kinematic
+relationship is shaped by satellite demographics
+G. Martin ,1★ F. R. Pearce ,1 N. A. Hatch ,1 H. J. Brown ,1 J. Butler ,1 Y. M. Bahé ,1,2
+W. Cui ,3,4,5 Y. Dubois 6, and A. Knebe 3,4,7
+1School of Physics & Astronomy, University of Nottingham, University Park, Nottingham NG7 2RD, UK
+2Laboratoire d’Astrophysique, École Polytechnique Fédérale de Lausanne (EPFL), Observatoire de Sauverny, 1290 Versoix, Switzerland
+3Departamento de Física Teórica, Módulo 15, Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain
+4Centro de Investigación Avanzada en Física Fundamental (CIAFF), Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain
+5Institute for Astronomy, Royal Observatory, Edinburgh EH9 3HJ, UK
+6Institut d’Astrophysique de Paris, UMR 7095, CNRS, Sorbonne Université, 98 bis boulevard Arago, 75014 Paris, France
+7International Centre for Radio Astronomy Research, University of Western Australia, 35 Stirling Highway, Crawley, Western Australia 6009, Australia
+Accepted XXX. Received YYY; in original form ZZZ
+ABSTRACT
+We investigate how the orbital evolution and mass distribution of infalling satellite galaxies shape the phase-space and radial
+distributionsofintraclusterlight(ICL)relativetotheunderlyingclusterdarkmatter(DM)halo.Usingcontrolled,self-consistent
+𝑁-bodysimulations,wefollowthetidalstrippingandorbitalevolutionofsatellitegalaxiesastheyareaccretedintoalivecluster
+halo,systematicallyvaryingsatellite–to–hostmassratioandorbitalcircularity.Fromtheseexperiments,wemeasurethespecific
+orbital energy and angular momentum of stripped stellar and DM material, finding that the stripped stars consistently occupy
+lower-energy and lower-angular momentum regions of phase-space than the stripped DM. The magnitude of this difference
+increases strongly towards more equal satellite–to–host mass ratios, while the dependence on orbital circularity is weak. We
+construct a predictive model for the phase-space properties of stripped stars and DM from a whole infalling satellite population
+and find that the resulting phase-space difference between the components are driven primarily by the characteristic mass of the
+infalling satellite stellar mass function. We find that the ICL is always more centrally concentrated than the DM. The magnitude
+of this offset depends on the characteristic mass and increases towards higher characteristic masses. Comparisons with four
+independent cosmological hydrodynamical simulations show that, once the infalling satellite stellar mass function is matched,
+themodelreproducestheradialstellar–to–DMdensityprofileoffsetstobetterthantheinter-simulationscatter.Thisdemonstrates
+thattheradialrelationshipbetweentheICLandtheDMdistributionislargelygovernedbysatellitedemographics.Withadequate
+constraintsontheinfallingsatellitepopulation,ICLdensityprofilescanthereforebeusedasinformativetracersoftheunderlying
+radial DM distribution in clusters.
+Key words:galaxies: clusters: general – galaxies: interactions – methods: numerical
+1 INTRODUCTION
+Galaxy clusters are key laboratories for cosmology because they are
+themostmassivevirialisedstructuresexpectedtoformthroughhier-
+archical growth in aΛCDM Universe. Their mass, spatial structure,
+andassemblyhistoryencodeboththeunderlyingcosmologyandthe
+nonlinear physics of structure formation. For example, cluster-scale
+halo shapes and density profiles provide constraints on the nature of
+dark matter (DM), while their abundances and scaling relations test
+cosmologicalparameters(e.g.Allenetal.2011;Kravtsov&Borgani
+2012).MappingthesestructuresrequirestracersofthedominantDM
+halo,whichisnotdirectlyobservable(e.g.Westetal.1995;Borgani
+& Guzzo 2001; Arnaboldi et al. 2004; Gifford et al. 2013; Kluge
+et al. 2025).
+Clusters are also permeated by intracluster light (ICL), the com-
+★ E-mail: garreth.martin@nottingham.ac.uk
+bined light emitted by the diffuse component of stars not bound
+to any individual galaxy. These stars originate predominantly from
+tidalstrippingandmergingofsatellitesduringclusterassembly,with
+some additional contribution from pre-processed stars already lib-
+erated from their parent galaxies upon cluster infall (e.g. Byrd &
+Valtonen1990;Muranteetal.2007;Continietal.2014;Mihosetal.
+2017; Contini et al. 2019; Chun et al. 2023; Ragusa et al. 2023;
+Brownetal.2024).TheICLformedthroughthisprocessisexpected
+to be dominated by a small number of progenitors and to retain
+memory of the timing and orbital properties of individual accretion
+events (Bullock & Johnston 2005; Johnston et al. 2008). The ICL
+constitutes a significant fraction1 of the stellar mass budget of clus-
+1 The ICL fraction is definition- and method-dependent; observational and
+simulation studies suggest it typically contributes 5–40 per cent of the to-
+tal stellar light in clusters, with the exact value varying with measurement
+methodology (Brough et al. 2024).
+©2026 The Authors
+arXiv:2601.18693v1 [astro-ph.GA] 26 Jan 2026
+2G. Martin et al.
+tersandprovidesacomplementarybaryonictracerofclustergrowth
+and dynamics (Cui et al. 2014). Because its spatial and kinematic
+distributions are set primarily by the cluster potential and the cu-
+mulativeaccretionhistoryofsatellites,theICLencodesinformation
+about both assembly processes and the properties of the underlying
+DM halo that dominates the matter content of the cluster (Gonzalez
+etal.2007,2013;Montes&Trujillo2019;Golden-Marxetal.2023,
+2025).
+Observationally, next-generation surveys such asEuclid(Laureijs
+et al. 2011; Scaramella et al. 2022; Euclid Collaboration, Mellier
+et al. 2025) and LSST (Ivezić et al. 2019) will enable systematic
+ICL studies across large cluster samples to higher redshifts (e.g.
+Euclid Collaboration, Bellhouse et al. 2025).Euclidis forecast to
+detect ICL in tens of thousands of clusters up to𝑧=1.5, while
+LSST will reach𝜇=30–31 mag arcsec−2 (3𝜎,10 ′′ ×10 ′′) (Martin
+et al. 2022; Brough et al. 2024; Englert et al. 2025). These datasets
+will enable direct comparison of ICL with weak lensing and X-ray
+observations, allowing ICL to trace halo properties and assembly
+histories. However, this requires careful understanding of how stars
+and DM are distributed during cluster assembly.
+A growing body of observational and theoretical work demon-
+stratesastrongcorrespondencebetweenthelarge-scalemorphology
+of the ICL and that of the cluster DM halo. For example, Montes &
+Trujillo (2019) showed that the projected shape of the ICL closely
+follows that of the lensing-derived total mass distribution inHubble
+Space TelescopeFrontier Fields clusters, while Ellien et al. (2025)
+showssimilarresultsusingEuclidEarlyReleaseObservations.Cos-
+mological simulations also report alignments between ICL and DM
+on large scales (e.g. Yoo et al. 2024). This correspondence indicates
+thattheICLtracesatleastsomeofthecluster’sdynamicalandspatial
+properties. However, detailed studies reveal that the relation is not
+one-to-one. Numerical simulations show that the ICL’s
+kinematicpropertiesdiffersystematicallyfromthoseofbothclus-
+ter galaxies and the underlying DM halo (Rudick et al. 2006, 2011;
+Dolagetal.2010)andoccupiessystematicallylowerorbitalenergies
+and higher anisotropies than the background DM halo, producing
+phase-space offsets that are sensitive to a cluster’s accretion history
+(Butler et al. 2025). These kinematic differences directly result in
+the ICL having significantly more compact radial density profiles
+thantheDM,asseeninbothobservationsandsimulations(Pillepich
+et al. 2018; Alonso Asensio et al. 2020; Chen et al. 2022; Diego
+et al. 2023, 2024; Contreras-Santos et al. 2024, 2025), implying that
+the underlying DM distribution cannot be straightforwardly inferred
+from naïve mappings between stellar and DM distributions.
+UnderstandingwhytheICLexhibitsthesedistinctivephase-space
+properties requires examining the physical mechanisms that govern
+stellar stripping. Butler et al. (2025) proposed physical explanations
+for these systematic differences, two of which we test in this work.
+First, the more extended DM component of infalling satellites is
+strippedmoreefficientlythanthecentrallyconcentratedstellarcom-
+ponent (e.g. Smith et al. 2016; Haggar et al. 2021). This naturally
+suggests that intracluster stars should occupy lower orbital energies
+and angular momenta than the DM stripped from the same systems.
+Second,dynamicalfrictionandtidaltorquescausemassivesatellites
+to lose orbital energy (Chandrasekhar 1943). While DM is pref-
+erentially removed at earlier times, the centrally concentrated stars
+can survive until later and are therefore deposited onto more tightly
+bound orbits.
+The resulting phase-space offsets between stripped stars and DM
+are therefore expected to vary with the relative efficiency of tidal
+stripping, dynamical friction and tidal torques in addition to the
+mass,internalstructureandorbitalconfigurationofthesatellitesthat
+contribute to the ICL.
+These dependencies imply that using the ICL as a tracer of halo
+mass, shape, or dynamics requires more than a simple mapping be-
+tween stars and DM. Quantifying the strength and physical origin
+of the resulting spatial and phase-space offsets is a prerequisite for
+employingdiffusestarlightasaprecisionprobeofclusterDMhaloes
+with forthcomingEuclidand LSST data.
+The paper proceeds as follows. In Section 2 we describe the
+controlled𝑁-body simulations of satellites accreted into a clus-
+ter halo. Section 3 presents the results of these experiments and
+examines how the phase-space distributions and the resulting off-
+sets in specific energy and angular momentum depend on satellite
+mass ratio and orbital configuration. Then in Section 4, we intro-
+duce our methodology to integrate the single-satellite results over
+plausible satellite populations and in Section 5, we quantify how
+the population-averaged offsets depend on satellite demographics.
+Throughout this analysis, we provide interactive figures that allow
+the effects of varying the assumed satellite population parameters to
+be explored directly; an index of these interactive plots is available
+at garrethmartin.github.io/interactive-profiles-ICL. In Section 6, we
+compare these predictions to cosmological simulations to identify
+any additional effects not captured by our methodology. Finally, in
+Section 7 we discuss the physical interpretation of our results, their
+limitations, and the implications for using the ICL as a tracer of
+cluster DM haloes. Section 8 summarises our main conclusions.
+2 CONTROLLED SIMULATIONS AND ANALYSIS
+We begin by generating model satellite galaxies, each comprising
+bothDMandstellarcomponentswithspatialdistributionsdescribed
+by Hernquist (1990) profiles. These satellites are subsequently in-
+jected with varying orbital configurations into a live cluster halo
+with an associated central galaxy.
+2.1Gadget-4
+We make use ofGadget-4, an open-source cosmological𝑁-body
+and smoothed particle hydrodynamics code (Springel et al. 2021).
+Gadget-4computes gravitational forces using a hierarchical tree
+algorithm(Barnes&Hut1986).Thetreecomponentemploysamul-
+tipole expansion with an adaptive opening criterion. Gravitational
+softeningisappliedusingacubicsplinekernel.AlthoughGadget-4
+alsoincludesaparticle-meshschemeforlong-rangeforces,wemake
+use only of the tree-based gravity solver, as the relatively small size
+of our simulation domain does not benefit from a hybrid TreePM
+approach. We adopt force softening lengths of 200 pc and 50 pc for
+DM and stellar particles, respectively. As shown below, this choice
+maintains the stability of both satellite and cluster models at all res-
+olution levels. Moreover, as demonstrated in Martin et al. (2024),
+provided the smoothing lengths are sufficiently small, the precise
+softening scale has negligible influence on stripping efficiency.
+A detailed description of the gravity solver, SPH formulation,
+time integration scheme, domain decomposition, and parallelisation
+strategyimplementedinGadget-4isgiveninSpringeletal.(2021).
+2.2 Simulation setup
+Wegenerateinitialconditionsinwhichasinglesatelliteisinjectedat
+aradiusof𝑅 200intoaclusterhalothatwillattainamassof10 14.5 M⊙
+at𝑧=0, characteristic of nearby intermediate-mass clusters such as
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM3
+the Virgo Cluster (e.g. McLaughlin 1999). Details of the cluster and
+satellite models are given in Sections 2.3.1 and 2.3.2.
+Weadoptaclusterhalooffixedglobalmass,whichrespondsself-
+consistentlytotheinfallingsatellite.Thisassumestheclusterpoten-
+tial evolves adiabatically, on long timescales compared to satellite
+orbital periods, a reasonable approximation for cluster-scale haloes
+whoselate-timegrowthisdominatedbygradualaccretionratherthan
+majormergers(Wechsleretal.2002;Zhaoetal.2003;McBrideetal.
+2009).
+In such adiabatically evolving systems, orbital actions remain ap-
+proximately conserved (Binney & Tremaine 2008). While the ab-
+solute energies and angular momenta of individual particles would
+evolveinagrowinghalo,theensemble-averagedratiosbetweenstel-
+lar and DM components,⟨𝜀⟩★/⟨𝜀⟩DM and⟨ℎ⟩ ★/⟨ℎ⟩ DM, should re-
+main approximately invariant (Blumenthal et al. 1986; Gnedin et al.
+2004). We adopt this adiabatic approximation as our baseline de-
+scriptionofthedifferentialresponsebetweenstrippedstarsandDM.
+Potential violations and their impact on the inferred ratios are dis-
+cussed in Section 7.
+Eachsimulationisevolvedfor10Gyrwithsnapshotsoutputevery
+100Myrs.Forthemajorityoftheanalysispresentedinthiswork,we
+restrict measurements to the first 6 Gyr of evolution, corresponding
+to the time elapsed between the cluster formation redshift, defined
+as the epoch at which the halo has assembled half of its𝑧=0
+mass (𝑧form =0.6), and𝑧=0. At each output snapshot, we iden-
+tify particles gravitationally bound to the satellite by evaluating the
+gravitational potential using a Barnes-Hut tree method2 applied to
+thepreviouslyidentifiedboundset.Aparticleisconsideredunbound
+once its total specific energy satisfies
+2 |v−v sat|2 +𝜙(x) sat >0,(1)
+where𝜙(x) sat is the gravitational potential at position,x, computed
+from the particles found to still be bound at the preceding snapshot
+andv sat denotes the instantaneous velocity of the satellite. Once a
+particle becomes unbound, it is subsequently treated as unbound in
+all subsequent snapshots.
+For all particles, we also compute the specific orbital energy and
+specific angular momentum relative to the centre of mass and bulk
+velocity of the entire system, defined as
+𝜀= 1
+2 |v−v COM|2 +𝜙(x),(2)
+ℎ=|(x−x COM) × (v−v COM)|,(3)
+where𝜙(x)is the potential of the entire system measured atxand
+wherex COM andv COM denote the instantaneous centre-of-mass po-
+sition and velocity of the combined cluster-satellite system. These
+quantities are subsequently used to track the orbital evolution of the
+bound remnant and the kinematic properties of the stripped debris.
+Allquantitiesanalysedbelowrefertothephase-spacedistributions
+of stripped material measured at the end of the simulated evolution,
+after the debris has evolved within the live cluster potential.
+2.3 Cluster and satellite models
+Below, we describe the methodology used to create the cluster and
+satellitemodels,alongwiththerationalebehindourselectedproper-
+tiesforbothclustersandsatellites.Weconsiderarangeofnumerical
+2 implemented ashttps://github.com/garrethmartin/bh_
+potential
+resolutions,summarisedinAppendixA,withtheadoptedresolution
+foreachsimulationscaledtothesatellitemassinordertoensurethat
+satellites and the cluster halo are consistently well resolved across
+the full mass range studied. We further verify that the cluster halo
+and central galaxy remain numerically stable over the timescales of
+interest at all adopted resolutions. These choices are informed by
+previous work highlighting the importance of mass resolution and
+numerical stability for recovering reliable stripping rates and phase-
+space evolution Martin et al. (2024).
+2.3.1 Cluster
+The cluster is modelled at its expected formation redshift of𝑧form =
+0.6(Harker et al. 2006) as an NFW-like (Navarro et al. 1997) halo
+with a mass of𝑀200 =10 14.2 M⊙, a concentration of𝑐200 =4.96
+following relations from Prada et al. (2012), and a spin parameter of
+𝜆=0.035,followingBullocketal.(2001).Forthestellarcomponent,
+weadoptamassof𝑀 ★ =10 12.2 M⊙ basedonthestellar-to-halomass
+relationfromMosteretal.(2013),andahalf-massradiusof12.5kpc
+from the𝑧=1relation of Mowla et al. (2019).
+We generate the initial conditions of the cluster halo and central
+galaxy usingGalIC(Yurin & Springel 2014). We construct an𝑁-
+bodysystemcomprisingastellarbulgeembeddedinaDMhalousing
+theparametersdiscussedaboveandsummarisedinboldinTableB1.
+GalICrepresents the DM halo with a Hernquist (1990) profile; the
+scale length is chosen to match the inner density profile of an NFW
+haloofthesameconcentration.InAppendixA,wedemonstratethat
+theclusterDMandstellarradialdensityprofilesdonotdeviatefrom
+these initial conditions outside of the central kpc.
+2.3.2 Satellites
+Initial conditions for each satellite are also generated usingGalIC.
+Each satellite is modelled as a stellar bulge embedded within an
+isotropicDMhalo,consistentwiththesetupusedfortheclusterhalo
+and central galaxy. Satellite stellar masses are selected to sample
+evenly from the range of systems expected to contribute to the ICL
+by𝑧=0,asinferredfromthecumulativeICLcontributionofBrown
+et al. (2024) (shown in Figure 1b). Additional higher-mass models
+are included to better sample the mass ratio regime in which the
+DM–ICL orbital energy and angular momentum offset varies most
+rapidly (see Figure 5).
+Additionalsatellitepropertiescorrespondingtoeachselectedstel-
+lar mass are selected using the same relations as for the cluster:
+the size–mass relation (𝑀★–𝑅eff), the stellar–to–halo mass relation
+(𝑀200–𝑀★), and the concentration–mass relation (𝑀200–𝑐200) are
+assigned using empirical relations from the literature. We adopt re-
+lations calibrated at𝑧=1, the closest common redshift for which
+consistent data exist. These𝑧=1relations are shown in Figure 1,
+together with the closest relations corresponding𝑧∼0to illustrate
+the degree of redshift dependence.
+Stellar half-mass radii, halo masses and concentrations are as-
+signedaccordingtotherelationsfoundinMowlaetal.(2019),Moster
+etal.(2013)andPradaetal.(2012)andshowninpanelsc,d,andeof
+Figure1respectively.Weassignafixedspinparameterof𝜆=0.035
+to each satellite, consistent with the cluster halo. As discussed in
+Section 7, our choices for these parameters are likely to have some
+influence on our results, particularly as the extent of the satellite’s
+stellar component relative to their halo scale radii will influence the
+relative binding of DM and stellar components.
+As with the cluster halo model (see Appendix A), we perform
+MNRAS000, 1–26 (2026)
+4G. Martin et al.
+0.0 0.2 0.4 0.6 0.8 1.0
+infall
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0Cumulative distribution
+Wetzel 2011
+(a)
+8 10 12
+infall log10(M /M )
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0Cumulative ICL contribution
+Brown et al. 2024
+(b)
+8 10 12
+log10(M /M )
+12Reff [kpc]
+Mowla et al. 2019
+(c)
+z=0.4
+z=1
+8 10 12
+log10(M /M )
+15log10(Mhalo/M )
+Moster et al. 2013
+(d)
+z=0
+z=1
+10 11 12 13 14 15
+log10(Mhalo/M )
+10Concentration
+Prada et al. 2012
+(e)
+z=0
+z=1
+Figure 1.Scaling relations used to assign structural properties to the cluster and satellite models. Panels show: (a) the infall orbital circularity distribution (𝜂)
+adoptedfromWetzel(2011),(b)thecumulativecontributionofsatellitestotheICLasafunctionofsatellitestellarmassfromBrownetal.(2024),(c)thestellar
+mass–size relation from Mowla et al. (2019), (d) the stellar–to–halo mass relation from Moster et al. (2013), and (e) the halo concentration–mass relation from
+Prada et al. (2012). Relations are shown at both𝑧∼1and𝑧∼0to illustrate redshift evolution. Satellite properties are assigned using the𝑧=1relations, while
+the cluster is modelled at its formation redshift𝑧=0.6, leading to a small offset relative to the plotted scaling relations.
+similar resolution tests, again finding no significant deviations from
+the initial conditions until well within the stellar effective radius of
+each satellite.
+Forthesatelliteorbits,wechoosearangeoforbitalconfigurations
+sampled across the expected circularity distribution spanning from
+the 5th to the 95th percentile described by Wetzel (2011) and in-
+dicated in Figure 1. Satellites are injected at the apocentre of their
+respective orbits, which are fixed at𝑅200 of the cluster. For the least
+massive satellite, which is simulated at the highest mass resolution
+and is therefore the most computationally expensive, we restrict the
+orbital sampling to the median circularity and the 5th and 95th per-
+centiles of the distribution. As shown in Section 3.3, mergers of
+such disparate mass ratios have a negligible impact on the cluster
+phase-space structure.
+3 STELLAR AND DM PHASE-SPACE PROPERTIES FROM
+INDIVIDUAL SATELLITES
+3.1 Spatial distribution of stripped stars and DM
+We begin by examining the spatial distribution of stripped stars and
+DMproducedbyourcontrolledsimulations.Figure2showsthefinal
+configuration of material stripped from satellites of different masses
+and orbital configurations, with stars indicated in green and DM in
+purple. Stellar debris becomes visibly more centrally concentrated
+towardsmoresimilarmassratiosandtowardsdecreasingcircularity.
+At high circularity both components form coherent streams (espe-
+cially at disparate mass ratios); at low circularity the debris form
+shell-like structures. In more equal mass ratio mergers the stellar
+distribution is markedly more elliptical than the DM distribution,
+which remains comparatively round, particularly in low-circularity
+mergers. For the most disparate mass ratios on the most circular
+orbits, there is very little visible stellar debris owing to more ineffi-
+cientstellarstripping,whichistheresultofthemorecompactstellar
+distributions and relatively large DM mass in these systems.
+These trends hint at systematic differences in how the stellar and
+DMcomponentsrespondtotidalstripping.TheDMformssmoother,
+rounder debris, consistent with material drawn from a wide range of
+initial radii and therefore a broad spread in orbital energies, lead-
+ing to more rapid phase-mixing. The stellar debris, originating from
+the tightly bound central regions of the satellite, appear more cen-
+trally concentrated and often retain coherent morphology (streams
+or shells), suggestive of slower mixing. In similar mass ratio cases,
+the stellar debris also show higher ellipticity and concentration than
+the corresponding DM.
+TheseobservationssuggestthatthecontrastbetweenDMandstel-
+lardebrisiscloselytiedtothesatellite’sorbitalevolution.Variations
+in orbital energy and angular momentum during the merger, which
+are driven by the satellite’s infall mass ratio and circularity, deter-
+mine both the degree of stripping and the subsequent distribution of
+debris.
+3.2 Evolution of satellite orbits
+Toquantitativelyexplainthesespatialdifferences,weexaminesatel-
+lite orbital evolution to establish the range of orbital energies and
+angular momenta accessible to stripped material, and how these de-
+pend on satellite mass ratio and infall circularity.
+We begin by studying how satellite orbits evolve as a function
+of their initial infall properties. This is important because stars and
+DM are stripped from satellites with energies and angular momenta
+approximately symmetrically offset about that of the satellite’s orbit
+(e.g.Hendel&Johnston2015).SinceDMistypicallystrippedearlier
+than stars, any subsequent orbital decay is expected to generate a
+systematic offset between the mean orbital energies of the stripped
+stellar and DM components.
+Figure3showstheevolutionofsatelliteorbitalenergynormalised
+by its initial value𝜀/𝜀0 as a function of time for a range of orbits
+and satellite–to–host mass ratios. Individual thin curves correspond
+to single infall orbits, colour-coded by mass ratio. For each mass
+ratio, the thick solid line indicates the weighted average over or-
+bitalcircularities,usingtherelativefrequenciesfromWetzel(2011),
+with shaded regions denoting the weighted1𝜎scatter. In all cases,
+𝜀/𝜀0 decreases monotonically with time. The rate of decay depends
+strongly on satellite mass ratio: more massive satellites lose orbital
+energy more rapidly owing to stronger dynamical friction and tidal
+torques.
+All satellites exhibit an initially steeper decline in orbital energy
+prior to first pericentric passage (indicated by filled circles along
+eachsatellite’strack),whentheyretainmostoftheirDMhaloes.Af-
+ter the bulk of the halo is removed following first pericentre (Smith
+et al. 2016; Martin et al. 2024), orbital decay proceeds more slowly.
+Equal-massmergerscoalescealmostimmediately,while1:3mergers
+typicallymergewiththecentralgalaxywithinoneortwopericentric
+passages. At higher mass ratios, orbital energy loss becomes pro-
+gressively weaker. Even for highly radial orbits reaching pericentres
+of∼4kpc(wellwithinthecentralgalaxy’sstellarhalf-massradius),
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM5
+= 0.12
+Msat/Mhost = 10 2.5
+= 0.34
+= 0.53
+= 0.70
+= 0.90
+Msat/Mhost = 10 1.5
+Msat/Mhost = 10 0.9
+Msat/Mhost = 10 0.5
+Figure 2.Final projected distributions of stripped stars (green) and DM (purple) for a grid of satellite mass ratios𝑀host/𝑀host and orbital circularities𝜂. Each
+panelspans2×2Mpc.Columnsvaryorbitalcircularity;rowsvarymassratio.Aninteractiveversionoftheseplotsshowingthedistributionforallcombinations
+of mass ratio and orbital circularity can be found here: garrethmartin.github.io/interactive-profiles-ICL/index.html#energy-am.
+low-masssatellitescanretainmostoftheirinitialorbitalenergy.Our
+approachissimplifiedinthatitneglectsacollisionalgascomponent,
+which if present would increase the satellite mass and thus enhance
+dynamical friction. However, in cluster environments, ram-pressure
+strippingefficientlyremovesgasfromsuchsystemsbeforetheyreach
+thecentralregions(e.g.Roediger&Hensler2005;Tonnesen&Bryan
+2009; Jaffé et al. 2018; Arthur et al. 2019; Kulier et al. 2023), so the
+absence of a collisional gas component is unlikely to be critical.
+The magnitude of this orbital decay sets an upper limit on the
+phase-spaceseparationthatcandevelopbetweenstrippedstellarand
+DMcomponents.EveninthelimitingcasewhereallDMisstripped
+at the satellite’s highest-energy orbit and all stars are stripped only
+after it has reached its lowest energy, the resulting offset cannot ex-
+ceed the total orbital energy decay. For satellites with mass ratios
+moredisparatethan∼1:20,thisdecayremainssmall(<10percent).
+Consequently, minor mergers alone cannot reproduce the orbital en-
+ergyoffsetbetweentheICLandDMreportedbyButleretal.(2025),
+in which stripped stars are shown to retain only∼75per cent of
+the orbital energy of the stripped DM component. Offsets of this
+magnitude therefore require mergers with substantially closer mass
+ratios, in which stronger dynamical friction and tidal torques allow
+more efficient loss of orbital energy by the satellite.
+3.3 Evolution of stripped stars and DM
+In this section, we analyse the dynamical properties of the stripped
+stellar and DM components themselves, which quantify how the
+debris populates the cluster potential.
+3.3.1 Phase-space distributions
+Figure 4 shows the specific orbital energy–angular momentum dis-
+tributions for stars and DM stripped from satellites with the mass
+ratio and orbital circularity indicated in the top-left of each panel.
+We only show four examples. An interactive version of this figure,
+available at the address shown in the figure caption, allows explo-
+rationofthespecificorbitalenergy–angularmomentumdistributions
+for every combination of satellite mass ratio and orbital circularity
+we simulate.
+Green and purple contours represent the distributions of stripped
+stellar and DM particles, respectively, with the marginalised distri-
+butions plotted along the top and right axes. Green and purple error
+barsindicatethemedianand16th–84thpercentiledispersionforeach
+component.Colouredtracksshowthetemporalevolutionofthemean
+energy and angular momentum of the combined DM and stars, with
+MNRAS000, 1–26 (2026)
+6G. Martin et al.
+0 2 4 6 8 10
+Time [Gyr]
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0/ 0
+Msat/Mhost
+10 3.0
+10 2.5
+10 2.0
+10 1.5
+10 1.2
+10 0.9
+10 0.5
+100.0
+Figure 3.The cluster-centric specific orbital energy evolution of different
+mass ratio satellites. Thin lines show individual orbits, terminated by a cross
+wherethesatelliteiscompletelydestroyed,andthicklinesshowtheweighted
+averageorbitalenergyoverallorbitalconfigurations.Forthepurposeofaver-
+aging the profiles, all satellites are included, and for those that are disrupted,
+the last available orbital energy is assumed to persist. The time when each
+satellite reaches its first pericentric passage is marked by a filled circle.
+blue corresponding to the earliest stripped particles and red to the
+mostrecentlystripped.Wedonotplotseparatetracksforthestripped
+DM and stars as no significant difference is observed between the
+average final orbital energy or angular momentum of stars and DM
+provided they are stripped at the same point in time.
+Particles stripped later consistently occupy lower energy and an-
+gular momentum states than those stripped earlier, independent of
+the satellite mass ratio. We do not plot separate tracks for stripped
+DM and stars as no significant difference is observed between their
+average final orbital energy or angular momentum when stripped at
+thesameepoch.Thisreflectsthefactthat,inthesatellite’srestframe,
+stripped stars and DM are distributed approximately symmetrically
+about zero (e.g. Johnston 1998), acquiring no systematic offset at
+a fixed stripping time. The observed offset between the host-frame
+distributions of stripped DM and stars is instead a consequence of
+their different stripping histories along the satellite’s decaying orbit.
+Stars are stripped predominantly after the satellite has already lost
+orbitalenergyandangularmomentum,whileDMisstrippedearlier.
+The magnitude of this offset scales with satellite mass ratio, since
+more massive satellites experience faster orbital decay (Figure 3).
+This effect is particularly important for high-mass satellites. As
+shown in Section 3.2, strong dynamical friction causes these satel-
+lites to lose orbital energy and angular momentum rapidly. As a
+result, stripped stars from massive satellites can fall to very low en-
+ergies and angular momenta, often ending up close to or within the
+central galaxy. In contrast, DM is always stripped early during the
+infall, retaining a broader energy and angular momentum distribu-
+tion and remaining more widely distributed throughout the cluster
+halo. Consequently, the gap in the energies and angular momenta of
+stripped stars and DM increases as the satellite–to–host mass ratio
+decreases.
+Varying orbital circularity (which can be explored in the inter-
+active version of this plot) does not produce any significant corre-
+sponding change in the final orbital energy distribution, although it
+does affect the final angular momentum distribution (partly because
+lower-circularityorbitsbeginwithlowerangularmomentum).How-
+ever, decreasing circularity reduces the average angular momentum
+ofbothstellaranddark-mattercomponentsinsimilarfashion,sothis
+does not substantially contribute to the phase-space offset between
+them.
+3.3.2 Dependence on mass ratio
+Figure 5 shows the ratio of the mean specific orbital energy (top)
+and angular momentum (bottom) of stripped stars to that of stripped
+DM as a function of the satellite–to–host mass ratio. Error bars
+denote the1𝜎dispersion across orbital circularities, weighted by
+the circularity probability distribution. Fainter square markers and
+error bars indicate results obtained when excluding particles within
+100kpcofthecluster’scentralgalaxy,correspondingtoacommonly
+used boundary to isolate the ICL (e.g. Brough et al. 2024; Butler
+et al. 2025). In both panels, we fit the model
+𝑦(𝑥)=𝐴+𝐵exp(−𝑘𝑥)(4)
+using Markov Chain Monte Carlo (MCMC) sampling with uninfor-
+mative priors. Data points are again weighted according to orbital
+circularity distribution (Figure 1a), with weights applied directly to
+the per-point log-likelihood. Sampling is performed with the NUTS
+(Homan & Gelman 2014) algorithm implemented inPyMC(Abril-
+Pla et al. 2023), and convergence is verified using standard diagnos-
+tics.
+For the most unequal-mass mergers, stars and DM exhibit almost
+identical mean specific orbital energies and angular momenta. The
+twocomponentsonlybegintodivergeformorecomparablemassra-
+tios.Ata1:3satellite–to–hostmassratio,starshaveonaverageabout
+60%oftheorbitalenergyandonly∼20%oftheangularmomentum
+ofthestrippedDM,indicatingthatstrippedstellarmaterialbecomes
+significantly more bound and dynamically colder than the stripped
+DM.
+Excluding the inner 100 kpc leaves the stellar–to–DM ratios un-
+changed at disparate ratios but begins to diverge at mass ratios of
+∼1:10.Atclosermassratios,thestellar–to–DMenergyratioremains
+higher than in the full sample, implying that the strongest energy
+offsets are driven by stars deposited at small radii. This reflects the
+fact that, in near-equal mergers, a large fraction of stripped stellar
+mass settles into the central galaxy, while the corresponding DM is
+distributedthroughouttheclusterhalo.Theangularmomentumratio
+shows a similar but much weaker response to the radial cut.
+The evolution and dispersion in angular momentum ratios is sub-
+stantially larger than for the orbital energy. This is because angular
+momentum is more readily modified than energy, as it responds di-
+rectly to torques, whereas energy changes require coherent forces
+thataltertheorbitalspeed.Thisdifferenceisamplifiedbecausemost
+stellar stripping occurs near pericentre, where tidal torques primar-
+ily redirect particle velocities, producing large reductions in angular
+momentum with only modest changes in orbital energy.
+3.4 Energy redistribution during satellite accretion
+Wenextexaminetheredistributionoforbitalenergywithinthecluster
+during the interaction. Specifically, we track how orbital energy lost
+fromthesatellite’sorbitispartitionedbetweenthestrippedmaterial,
+the surviving satellite remnant, and the host halo.
+In Figure 6, the exchange of orbital energy between the satellite
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM7
+3.8 3.9 4.0 4.1 4.2
+[km2 s 2]
+×106
+0.8
+1.0
+1.2
+1.5
+1.8
+2.0
+2.2
+2.5h [kpc km s 1]
+×105
+= 0.53
+Msat/Mhost = 0.003
+Stars
+3.0 3.2 3.4 3.6 3.8 4.0 4.2 4.4 4.6
+[km2 s 2]
+×106
+-0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+3.5
+h [kpc km s 1]
+×105
+= 0.53
+Msat/Mhost = 0.031
+Stars
+2.5 3.0 3.5 4.0 4.5
+[km2 s 2]
+×106
+0.0
+1.0
+2.0
+3.0
+4.0h [kpc km s 1]
+×105
+= 0.53
+Msat/Mhost = 0.064
+Stars
+1.0 2.0 3.0 4.0 5.0
+[km2 s 2]
+×106
+0.0
+1.0
+2.0
+3.0
+4.0
+5.0
+6.0h [kpc km s 1]
+×105
+= 0.53
+Msat/Mhost = 0.282
+Stars
+Figure 4.Contour plots showing the final distributions of specific orbital energy (𝜀) and angular momentum (ℎ) for stars (green) and DM (purple) stripped
+fromthesatellitebytheendofthesimulation.Marginaldistributionsin𝜀andℎareshownalongthehorizontalandverticalaxes,respectively.Meanvaluesand
+1𝜎dispersionsareindicatedforstars(green)andDM(purple)errorbars.Thecolouredtracktracestheevolutionofthemean(𝜀, ℎ)ofstrippedparticles,from
+earlier(blue)tolater(red)strippingtimes.Aninteractiveversionoftheseplotsshowingthedistributionforallcombinationsofmassratioandorbitalcircularity
+can be found here: garrethmartin.github.io/interactive-profiles-ICL/index.html#energy-am.
+and the cluster is shown for a 1:3 merger with orbital circularity
+𝜂∼0.5.Thestackstrackhowthetotalorbitalenergy𝐸containedin
+eachsystemevolveswithtimesinceinfall,withthepanelsseparating
+the DM (top) and stellar (bottom) components. Each panel further
+dividestheenergyintomaterialassociatedwiththecentralgalaxyor
+clusterhalo,materialstillboundtothesatellite,andmaterialstripped
+from the satellite and now bound to the cluster.
+The inset shows the fractional change in the total energy of the
+DM and stars, allowing the net transfer to be seen more clearly.
+In the top panel, the orbital energy of the satellite DM transitions
+rapidly into the stripped component. The rise in the stripped contri-
+bution to the energy budget mirrors the decline in the satellite. For
+stripped stars (bottom panel), the behaviour is more gradual. The
+satellite stars lose energy early, well before the onset of significant
+stripping,reflectingthedeepeningofthepotentialalongtheinspiral.
+Only after most of the satellite DM has been removed do the stars
+begin to populate the stripped component, but this is not accompa-
+nied by any further significant decrease in their orbital energy. By a
+time of∼5Gyr the stars retain less energy than at the beginning of
+the simulation, with the principal reduction occurring early during
+the initial inspiral.
+Intheinsetplot,weshowthefractionalchangeinenergyoftheto-
+tal stellar and total DM component of the combined satellite-cluster
+system. We see that the reduction the total energy of the stars is
+accompanied by a corresponding increase in the total energy of the
+DM. The plotted example involves a major merger, where the stellar
+contribution is still large enough for such a transfer to be measured.
+However,atlowermassratios,whileasimilarreductioninstellaren-
+MNRAS000, 1–26 (2026)
+8G. Martin et al.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0/ DM
+All
+A = -0.326 ± 0.084
+B = 1.308 ± 0.080
+k = 1.344 ± 0.150
+r > 100 kpc
+A = 0.675 ± 0.010
+B = 0.320 ± 0.011
+k = 7.718 ± 0.792
+10 3
+10 2
+10 1
+100
+Msat/Mhost
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0h / hDM
+All
+A = 0.140 ± 0.043
+B = 0.763 ± 0.062
+k = 21.041 ± 5.337
+r > 100 kpc
+A = 0.282 ± 0.041
+B = 0.651 ± 0.070
+k = 33.558 ± 10.860
+Figure 5.Top: ratio of the mean specific orbital energy of stripped stars to
+that of stripped DM as a function of satellite–to–host mass ratio. Bottom:
+equivalent ratio for specific orbital angular momentum. Error bars show the
+1𝜎dispersionacrossvaluesoforbitalcircularity,weightedbythecircularity
+probability distribution. Fainter square markers and error bars indicate the
+resultwhenparticleswithin100kpcoftheclustercentralgalaxyareexcluded.
+Solid and dashed black line indicate best-fit to𝑦(𝑥)=𝐴+𝐵exp(−𝑘 𝑥)for
+all stripped particles and stripped particles at𝑟 >100kpc respectively with
+shadedgreyregionsshowingthe16–84thpercentileenvelopeoftheposterior.
+Reported parameter values are the maximum a posteriori estimates, with
+uncertainties equal to half the 16–84th percentile credible interval.
+ergyisseen,thestellarmassbudgetofthesatellitebecomessosmall
+relative to the cluster’s DM content that the precision of the simula-
+tion’s energy conservation is insufficient to definitively attribute this
+lost energy to the halo.
+For comparable satellite–to–host mass ratios, the orbital decay of
+massive satellites leads to a measurable transfer of energy into the
+cluster halo. However, even in these cases the net response of the
+clusterhaloremainssmall(≲0.25percentforbotha1:1mergerand
+the example 1:3 merger). This indicates that the stellar–DM phase-
+space offsets identified above are not the result of a strong global
+modification of the cluster potential. In our simulations, the offsets
+2.6
+2.8
+3.0
+3.2
+3.4E [1020 M km2 s 2]
+Msat/Mhost = 10 0.5
+Cluster DM
+Satellite DM (bound)
+Satellite DM (stripped)
+0 1 2 3 4 5
+Time [Gyr]
+0.8
+1.0
+1.2
+1.4
+1.6E [1018 M km2 s 2]
+more bound
+Cluster Stars
+Satellite Stars (bound)
+Satellite Stars (stripped)
+0 2 4
+0.002
+0.000
+0.002
+E/Etot
+Figure 6.Example of the evolution of the total orbital energy budget𝐸
+for a 1:3 merger for a circularity of𝜂=0.5. Each panel decomposes the
+budgetintoDM(purple,topsub-panels)andstars(green,bottomsub-panels),
+further decomposed into three categories: DM and stars associated with the
+cluster or central galaxy (darkest colour), DM and stars associated with the
+satellite halo or satellite stars, and DM and stars stripped from the satellite
+(lightest colour). The𝑦-axis is truncated to enhance the visibility of the
+energy evolution. Inset: fractional change in energy relative to the combined
+DM+stellar budgetΔ𝐸/𝐸 tot (where𝐸 tot is the total energy at the start of
+the simulation), shown separately for the total DM (purple) and the total
+stellarcomponent(green).Theblacklineshowsthefractionalchangeintotal
+energy; perfect energy conservation corresponds to 0. Thin lines show the
+same quantities for other values of𝜂examined.
+therefore largely reflect differences in how stars and DM populate
+phase-spaceduringsatellitestripping,ratherthanlarge-scaleheating
+or restructuring of the host halo.
+4 INFALLING SATELLITE POPULATION MODELLING
+4.1 Predictive model for individual satellites
+We now translate these single-satellite results into cluster-scale pre-
+dictions and assess their sensitivity to satellite demographics,. We
+usethesimulationresultstoconstructamodelpredicting,forasatel-
+lite of given satellite–to–host mass ratio and orbital circularity, the
+averageorbitalenergyandangularmomentumofthestrippedstellar
+and DM components and then integrate these predictions over an
+ensemble of infalling satellites.
+4.1.1 Model formulation
+On the basis of the simulation outputs, we first fit a joint model that
+predictssixscalarquantities:themeanper-particleorbitalenergyand
+angular momentum of the stripped stars and DM, and the stripped
+fractions of each component,
+𝑦={log 10 𝜀DM,log 10 ℎDM,log 10 𝑓strip,DM ,log 10 𝜀★,
+log10 ℎ★,log 10 𝑓strip, ★} (5)
+asafunctionofthesatellite-to-clustermassratioandorbitalcircular-
+ity𝑥=
+log10 𝑀★, 𝜂
+.Twoindependentmodelsarefitted:oneusing
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM9
+quantities computed over all stripped particles, and a second using
+quantitiesrestrictedtostrippedparticleswithfinalradii𝑟 >100kpc,
+representing the boundary between the cluster’s central galaxy and
+the ICL.
+Weemployalinearmodelofcoregionalisation(LMC;Goulard&
+Voltz 1992; Álvarez et al. 2012) to model the joint dependence of
+multiple, physically related outputs on satellite-to-cluster mass ratio
+andorbitalcircularity.TheLMCassumeseachoutputisalinearcom-
+bination of shared latent Gaussian processes (Neal 1997) that vary
+smoothly with the inputs. Because the latent functions are shared,
+outputs are correlated; the coregionalisation weights determine how
+strongly each output responds to each latent function, allowing the
+model to capture cross-output correlations while permitting each
+output to respond differently to the input parameters. This approach
+suitsourproblembecauseallpredictedquantitiesarisefromthesame
+underlying dynamics but measure different physical outcomes.
+Ourimplementationworkswiththeimpliedcovarianceafterinte-
+grating out the latent functions. Input arrays are augmented with an
+output-index dimension such that each data point is(𝑥, 𝑑), where𝑑
+denotes the output index. The resulting covariance between outputs
+𝑑and𝑑 ′ at inputs𝑥and𝑥 ′ is then modelled as a sum of two kernels
+(squared exponential and Matérn 5/2) acting on the physical input
+dimensions, each coupled to a coregionalisation matrix𝐵𝑘:
+Cov(𝑦𝑑 (𝑥), 𝑦 𝑑′ (𝑥 ′)) =
+𝑘∈ {SE,M52}
+𝑘input,𝑘 (𝑥, 𝑥 ′) [𝐵 𝑘] 𝑑,𝑑 ′ .(6)
+Each coregionalisation matrix encodes how shared latent functions
+contribute to different outputs, while the input kernels control how
+these functions vary across parameter space. Kernel amplitudes,
+length scales, and coregionalisation weights are given weakly in-
+formative priors.
+Following identical methodology, we also employ a third model
+predicting the DM and stellar density of stripped stars and DM𝑦=
+𝜌DM, 𝜌★
+as a function of cluster-centric radius, satellite-to-cluster
+mass ratio and orbital circularity𝑥=
+log10 𝑟,log 10 𝑀★, 𝜂
+For the models predicting orbital energies, angular momenta, and
+stripped fractions, we adopt a coregionalisation rank of two. This
+choice is sufficient to capture the dominant cross-output covariance
+presentinthesimulationdatawhileavoidingunnecessarydegeneracy
+inthecoregionalisationweights.Forthedensityprofilemodel,which
+predicts stellar and DM densities tracing the same underlying radial
+structure, we adopt a coregionalisation rank of one, reflecting the
+stronger coupling between the two outputs.
+4.1.2 Model fitting and validation
+WeperformBayesianinferenceonthehyperparametersofthemulti-
+output Gaussian process, including the kernel length scales and am-
+plitudes and the coregionalisation weights that control correlations
+between outputs. The latent functions themselves are never explic-
+itly fitted, as their contribution to the outputs is fully captured by
+the Gaussian process covariance. Inference is performed using the
+probabilisticprogrammingframeworkPyMC(Abril-Plaetal.2023).
+Approximateposteriorestimatesarefirstobtainedviaautomaticdif-
+ferentiation variational inference (ADVI). Multiple jittered draws
+from these ADVI derived posterior estimates are used to initialise
+tenindependentchainsofMCMCsamplingusingNUTS(Homan&
+Gelman 2014). Convergence is checked with standard diagnostics:
+Gelman-Rubinstatistic,effectivesamplesize,traceandautocorrela-
+tion plots, and posterior predictive checks.
+Posterior predictive quantities are obtained over a finely sampled
+grid by drawing samples of the Gaussian process hyperparameters
+from their posterior distribution. For each hyperparameter draw, we
+compute the Gaussian process predictive mean𝜇and covarianceΣ
+at the target grid conditioned on the training data, and draw a single
+realisation from the corresponding multivariate normal distribution
+N (𝜇,Σ). Repeating this across 10,000 posterior draws produces an
+ensemble of plausible functions that captures hyperparameter un-
+certainty through the posterior samples and predictive uncertainty
+through the Gaussian process conditional.
+The full implementation of the LMC models, including
+priors, likelihoods and validation is publicly available at
+github.com/garrethmartin/interactive-profiles-ICL.
+4.2 Convolving across infall populations
+Totranslatethesingle-satellitepredictionstoexpectationsforawhole
+cluster, the modelled per-particle energies, angular momenta and
+strippedfractionsareconvolvedwithplausibleinfallingsatellitepop-
+ulations. Since the contribution of an individual satellite to the ICL
+and cluster DM halo depends both on that satellite’s internal proper-
+tiesandonitsabundanceandorbitaldistribution,populationaverages
+canbeobtainedbyweightingthemodeloutputsbythestrippedmass
+contributed by satellites and by an assumed satellite stellar mass
+function and orbital circularity distribution.
+Toquantifyhowthemeanspecificenergyandangularmomentum
+of stripped stars and DM depend on satellite demographics, we con-
+volve the single-satellite model predictions with a grid of plausible
+satellite stellar mass functions𝜙(𝑀★)and orbital circularity distri-
+butions𝑝(𝜂). For each choice of𝜙(𝑀 ★)and𝑝(𝜂), the per-particle
+quantitiesareweightedbythestrippedmasscontributedbysatellites
+andintegratedovermassandcircularitytoyieldpopulation-averaged
+⟨𝜀⟩and⟨ℎ⟩.
+We vary (1) the stellar mass function of the infalling satellites,
+parameterised by a Schechter function (Schechter 1976),
+𝜙(𝑀 ★) ∝
+ 𝑀★
+ 𝛼
+exp
+ −𝑀★
+,(7)
+withlow-massslope𝛼andcharacteristicstellarmass𝑀 ★,and(2)the
+orbitalcircularitydistribution,whichwemodelasabetadistribution,
+𝑝(𝜂) ∝ 𝜂𝑎−1 (1−𝜂) 𝑏−1
+Γ(𝑎)Γ(𝑏)
+Γ(𝑎+𝑏)
+,(8)
+with parameters𝑎and𝑏controlling the skew towards low or high
+circularity respectively.
+4.2.1 Population parameter choices
+In order to define a range of plausible infalling galaxy stellar mass
+functions, we consider a range of mass function parameters in-
+formed by the four simulations described in Appendix E:TNG100,
+Horizon-AGN,Hydrangea, andTheThreeHundred. From each
+simulation we select clusters with𝑧=0halo masses in the range
+𝑀200 =10 14–1015M⊙ asdescribedinmoredetailinBrownetal.,in
+prep. This yields 15 clusters fromTNG100with a mean halo mass
+of10 14.2M⊙,8clustersfromHorizon-AGNwithameanhalomass
+of10 14.3M⊙, and 16 clusters fromHydrangeawith a mean halo
+mass of10 14.4M⊙. Clusters inTheThreeHundredare systemati-
+cally more massive; we retain all haloes with𝑀200 <10 15M⊙, re-
+sultinginasampleof15clusterswithameanhalomassof10 14.9M⊙.
+AsdescribedinAppendixC,wefirstmeasurethestellarmassdis-
+tribution of all infalling satellites and then separately fit a Schechter
+MNRAS000, 1–26 (2026)
+10G. Martin et al.
+Function Parameter Fiducial value Range
+𝑝(𝜂)𝑎2.05 [1.5, 3.0]
+𝑏1.90 [1.5, 3.0]
+𝜙(𝑀 ★)𝑀 ∗ 1011.5 M⊙ [1010.9 M⊙,10 11.8 M⊙]
+𝛼−1.3[−1.55,−1.0]
+Table 1.Summary of the functional parameters adopted for the infalling
+satellite population model, listing the fiducial values and ranges explored for
+each parameter.
+function for each simulation. This provides an estimate of plausible
+𝛼and𝑀 ★valueswhicharebroadlyconsistentwitharangeofobser-
+vational measurements of the galaxy stellar mass function between
+0> 𝑧 >1(e.g. Baldry et al. 2012; Ilbert et al. 2013; Tomczak et al.
+2014; Davidzon et al. 2017; Sedgwick et al. 2019; McLeod et al.
+2021;Weaveretal.2023).Fiducialvaluesarechosennearthecentre
+of this range.
+Fortheinitialorbitalcircularitydistributionofinfallingsatellites,
+wefitabetafunctiontotheresultsofWetzel(2011).Weadoptabroad
+range of values for𝑎and𝑏, chosen to span reasonable variations in
+orbital shapes, from a moderate bias towards radial orbits to mod-
+erate bias towards circular orbits. The combined parameter ranges
+exploredforboththestellarmassfunctionandtheorbitalcircularity
+distribution are illustrated in Figure 7, which shows the envelopes
+spannedbythesevariationstogetherwiththeadoptedfiducialmodel
+and representative individual realisations. The fiducial values and
+parameter ranges used are summarised in Table 1.
+4.2.2 Population averaged quantities
+For a given stellar mass function𝜙(𝑀★)and orbital circularity dis-
+tribution𝑝(𝜂),wecomputepopulation-averagedspecificenergiesof
+stripped stars and DM by summing over the contributions from all
+satellites,weightedsimultaneouslyby(i)theamountofmassstripped
+fromeachsatellitegivenbytheproductof𝑓 strip,★(𝑀★, 𝜂)and𝑀 ★ or
+𝑓strip,DM (𝑀★, 𝜂)and𝑀 h (𝑀★), and (ii) the product of the abundance
+ofsatelliteswiththatstellarmass𝜙(𝑀 ★)andorbitalcircularity𝑝(𝜂).
+For the stripped stellar component the population-averaged specific
+energy is
+⟨𝜀⟩tot,★ =
+∫ 𝑀★,max
+𝑀★,min
+∫ 𝜂max
+𝜂min
+𝜀(𝑀 ★, 𝜂)𝑀 ★ 𝑓strip (𝑀★, 𝜂)𝜙(𝑀 ★)𝑝(𝜂)d𝜂d𝑀 ★
+∫ 𝑀★,max
+𝑀★,min
+∫ 𝜂max
+𝜂min
+𝑀★ 𝑓strip (𝑀★, 𝜂)𝜙(𝑀 ★)𝑝(𝜂)d𝜂d𝑀 ★
+(9)
+and the corresponding quantity for stripped DM is
+⟨𝜀⟩tot,DM =
+∫ 𝑀★,max
+𝑀★,min
+∫ 𝜂max
+𝜂min
+𝜀(𝑀 ★, 𝜂)𝑀 h (𝑀★)𝑓 strip (𝑀★, 𝜂)𝜙(𝑀 ★)𝑝(𝜂)d𝜂d𝑀 ★
+∫ 𝑀★,max
+𝑀★,min
+∫ 𝜂max
+𝜂min
+𝑀★ 𝑓strip (𝑀★, 𝜂)𝜙(𝑀 ★)𝑝(𝜂)d𝜂d𝑀 ★
+(10)
+Analogous expressions are used to compute the population-
+averaged specific angular momentumℎ(𝑀★, 𝜂). Here𝑀 ℎ (𝑀★)de-
+notes the halo mass associated with a satellite of stellar mass𝑀★
+and𝑓 strip denotes the stripped fraction of the specified component.
+We consider the result for particle-averaged values over all particles
+and restricted to𝑟 >100kpc. For the latter,𝑓 strip denotes only the
+9.0 9.5 10.0 10.5 11.0 11.5 12.0
+log10(M /M )
+log10( [dex 1])
+(M )
+0.0 0.2 0.4 0.6 0.8 1.0
+0.000
+0.002
+0.004
+0.006
+0.008
+0.010
+P( ) d
+P( )
+Figure7.Parameterrangesexploredinthesatellitepopulationmodel.Shaded
+regions indicate the envelopes spanned by variations in the infalling stellar
+massfunctionparameters(top,𝛼, 𝑀 ★)andtheorbitalcircularitydistribution
+parameters(bottom,𝑎, 𝑏).Thefiducialparameterchoiceisshownbythethick
+black line, while a representative subset of individual parameter realisations
+is indicated by thin grey lines. These ranges define the space over which
+population-averagedquantitiesarecomputedbymarginalisingoverplausible
+satellite mass and orbital distributions.
+stripped mass outside of 100 kpc as a fraction of the satellite’s infall
+mass.
+We further define the normalised progenitor stellar mass contri-
+bution function,𝑝(𝑀 ★ |strip, ★), which quantifies the amount of
+stellar mass entering the ICL per bin of satellite infall stellar mass,
+normalised by the total stripped stellar mass.
+𝑝(𝑀 ★ |stripped, ★)=
+𝜙(𝑀 ★)𝑀 ★
+∫ 𝜂max
+𝜂min
+𝑓strip,★(𝑀★, 𝜂)𝑝(𝜂)d𝜂
+∫ 𝑀★,max
+𝑀★,min
+𝜙(𝑀 ★)𝑀 ★
+∫ 𝜂max
+𝜂min
+𝑓strip,★(𝑀★, 𝜂)𝑝(𝜂)d𝜂d𝑀 ★
+. (11)
+For each point in the (𝜙(𝑀★),𝑝(𝜂)) parameter space we prop-
+agate model uncertainty by drawing multiple posterior predictive
+realisations of our multi-output Gaussian process model. For every
+realisation we evaluate the integrals above. The ensemble of results
+yields posterior distributions for the population-averaged𝜀andℎ
+and𝑝(𝑀 ★ |stripped, ★), which we summarise by their median val-
+ues and credible intervals. To illustrate sensitivity to the assumed
+infalling satellite population we vary the stellar mass-function pa-
+rameters while holding𝑝(𝜂)fixed at its fiducial form and then vary
+the circularity distribution while holding the stellar mass function
+fixed.
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM11
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0CDF (stripped stellar mass contribution) (M )
+r > 100 kpc (fiducial)
+All (fiducial)
+All (range)
+9.0 9.5 10.0 10.5 11.0 11.5 12.0
+log10(Msat, /M )
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0CDF (stripped stellar mass contribution) P( )
+r > 100 kpc (fiducial)
+All (fiducial)
+All (range)
+Figure8.Therangesofcumulativedistributionfunctionsforthecontribution
+ofgalaxiestothetotalstrippedstellarmass,shownasafunctionofinfallstellar
+mass over the tested parameter space (Table 1). The shaded and hatched
+regionsindicatetherangeofCDFsobtainedwhenvaryingmodelparameters.
+Thetoppanelshowsvariationsoverthestellarmassfunctionwhileholdingthe
+orbital circularity distribution fixed at its fiducial value and the bottom panel
+shows variations over the orbital circularity distribution while holding the
+galaxyinfallstellarmassfunctionfixedatitsfiducialvalue.Colouredregions
+correspond to stripped stars with𝑟 >100kpc and hatched regions indicate
+the same for all stripped stars. Black and grey dashed lines show the fiducial
+CDF restricted to stripped stars with𝑟 >100kpc and all stars, respectively.
+The coloured region is rendered with a graded colour to indicate the family
+of parameter combinations. Interactive versions of this plot can be found at
+garrethmartin.github.io/interactive-profiles-ICL/index.html#stripping.
+5 POPULATION-AVERAGED STELLAR AND DM
+PHASE-SPACE OFFSETS
+5.1 ICL mass budget
+In Figure 8, we examine how satellite stellar mass and orbital cir-
+cularity distributions determine the ICL mass budget, which in-turn
+governs how each satellite contribute to population-averaged stellar-
+DMphase-spaceoffsets.Weshowscumulativedistributionfunctions
+of the contribution of satellites to the total stripped stellar mass as a
+function of infall stellar mass,𝑝(𝑀★ |stripped, ★)for variations in
+the infalling satellite stellar mass function and circularity distribu-
+tion.
+Across the plausible range of satellite stellar mass functions con-
+sidered, the infall stellar mass scale at which satellites contribute
+half of the total stripped stellar mass varies substantially, spanning
+approximately𝑀 ★ ∼10 10–1011.5 M⊙. This spread is driven primar-
+ily by variations in the characteristic mass𝑀★ of the mass function.
+Increasing𝑀 ★ shifts the typical satellites contributing to the stellar
+mass budget towards higher masses. In contrast, variations in the
+orbitalcircularitydistributionproduceonlyminorchangestothecu-
+mulative mass budget. Consequently, the median mass scale of the
+ICL contribution is insensitive to reasonable variations in𝑝(𝜂)over
+the parameter space explored.
+For the fiducial parameter choice, satellites with infall stellar
+masses above𝑀 ★ ≃10 11 M⊙ contribute roughly50per cent of
+the total ICL mass (𝑟 >100kpc). When considering the combined
+central and ICL component, the corresponding mass scale increases
+to∼10 11.5 M⊙. This difference reflects the rapid orbital decay of
+the most massive satellites, whose stellar mass is preferentially de-
+posited into the central regions of the cluster, enhancing the cen-
+tral component relative to the diffuse ICL at large radii, as seen in
+Figure 5. These higher-mass infallers therefore primarily shape the
+cluster-scale phase-space distributions of both the ICL and central
+component.
+5.2 Average orbital energy and angular momentum
+Having established how satellite mass and orbital properties shape
+the ICL mass budget, we now examine the population-averaged
+stellar–to–DMphase-spaceoffsetsobtainedbyconvolvingthesingle-
+satellitepredictionsovertherangeofplausibleinfallingsatellitepop-
+ulations described in Section 4.2.
+Figure 9 shows the relation between the stellar–to–DM mean spe-
+cific energy ratio and the corresponding mean specific angular mo-
+mentumratioacrossthefullrangeoftestedinfallingsatellitepopula-
+tions.Theupperpanelincludesallstrippedparticles,whilethelower
+panelshowsresultsrestrictedtoparticleswithfinalradii𝑟 >100kpc.
+Threedistinctcomponentsareshown:accretedmaterialfromsatel-
+lites,thecentralclusterandhalostars,andthecombinedcentraland
+accreted stars and DM. For each choice of infall stellar mass func-
+tion, this central response corresponds to a merger with the most
+massive satellite that has at least a 50 per cent probability of occur-
+ringgiventhetotalexpectednumberofinfallingsatellites,capturing
+how the central component responds to the typical largest merger
+implied by each satellite population. To construct the combined ac-
+cretedandcentralratio,wethenassumethattheaccretedandcentral
+components contribute equal amounts of DM mass, corresponding
+to a scenario in which the cluster has doubled its mass through the
+accretion of satellites, while allowing the stellar mass contributions
+of the two components to differ.
+AsdiscussedinSection3.4,mergersneverdriveaverysignificant
+response from either the cluster halo or central galaxy in our simu-
+lations. As a result the variation due to the cluster response is small
+compared with the variation due to accreted material.
+Across the explored parameter space, variations in the character-
+isticmassscaleoftheinfallingsatellites(orangecontours)dominate
+the population-averaged offsets, while changes in orbital circularity
+(teal contours) play a secondary role. For material at𝑟 >100kpc,
+the dependence on the infalling satellite population is reduced. Cir-
+cularity has little influence on the energy ratio but induces a larger
+MNRAS000, 1–26 (2026)
+12G. Martin et al.
+spread in angular momentum, while variations in the stellar mass
+function can shift the energy ratio in the range∼0.8-0.95. Impor-
+tantly, no plausible infalling satellite stellar mass function or orbital
+circularity distribution yields population-averaged ratios consistent
+with⟨𝜀⟩ ★/⟨𝜀⟩DM =1and⟨ℎ⟩ ★/⟨ℎ⟩ DM =1. Even at the extremes of
+the explored parameter space, stripped stars remain systematically
+more tightly bound and lower-angular momentum than the corre-
+sponding stripped DM and a scenario in which the ICL perfectly
+traces the cluster DM in phase-space is not realised.
+Thesensitivityoftheorbitalenergyandangularmomentumratios
+to the assumed infalling satellite population underscores that robust
+predictionslinkingICLpropertiestotheunderlyingDMrequirewell-
+constrained satellite stellar mass functions. Uncertainties in those
+inputs plausibly map onto a broad range of angular momentum and,
+particularly,energyoffsets.Importantly,changesintheorbitalenergy
+andangularmomentumoffsetsaredrivenprimarilybyintermediate-
+and high-mass satellites. Recomputing the ratios while imposing a
+minimumstellarmasscutshowsthattheseoffsetsremainstableuntil
+athresholdof∼10 10.5M⊙ overthefullrangeofcharacteristicmasses
+adopted. The energy differences are therefore driven almost entirely
+by massive satellites. We discuss this further in Appendix D.
+Links to an interactive version of Figure 9 are given in the figure
+caption, allowing readers to examine the full parameter space and
+explore how changing individual stellar mass function and orbital
+circularitydistributionparametersaffectstheresultingorbitalenergy
+and angular momentum ratios.
+5.3 Radial density profiles
+In an NFW-like potential, the time-averaged radius is jointly deter-
+mined by the specific energy and angular momentum of the orbit.
+Once𝜀andℎare fixed, the range of radii explored by the orbit and
+therelativeamountoftimespentateachradiusarefixedaswell.The
+radial density profiles of the DM and ICL are therefore established
+by their respective phase-space distributions. Orbital energy primar-
+ily sets the apocentric scale, where the radial motion is slowest and
+the orbit contributes most strongly to the density, while differences
+in angular momentum control the orbit’s inward extent. The time-
+averagedradius⟨𝑟⟩isthussetbythecombinedeffectofenergyfixing
+the outer scale of the orbit and angular momentum determining the
+depth of the orbit.
+Mostinfallorbitsarefarfromcircular(onaverage,𝜂∼0.5:Wetzel
+2011)andclusterstypicallyhavelowconcentrationsandhencelarge
+scaleradii𝑟 𝑠,extendingtohundredsofkpc.Asaresult,muchofthe
+relevant orbital evolution occurs at radii𝑟≤𝑟𝑠, where the potential
+deviates strongly from the Keplerian limit (the regime in which the
+enclosed mass is effectively constant and the gravitational potential
+approaches𝜙∝ −1/𝑟). In this non-Keplerian regime, changes in
+angular momentum at fixed energy have a significant effect on the
+pericentricradius:loweringℎallowstheorbittoreachmuchsmaller
+radii, thereby reducing⟨𝑟⟩.
+In Figure 10, we present radial profiles of the stellar–to–DM den-
+sityratio,𝜌 ★/𝜌DM,forthesetofsampledinfallingsatellitepopulation
+parameter combinations. Each panel presents an envelope of mod-
+elledprofilesrenderedwithagradedcolourtoindicatethefamilyof
+parametercombinations.Theblackdottedanddot-dashedcurvesde-
+notethefiducialcontributionfrominfallingsatellitesandthecluster
+halo andcentral galaxyrespectively, withthe dashed curvedenoting
+theradialprofilecombinedinthesamewayastheorbitalenergyand
+angular momentum in Section 5.2.
+Further from the centre of the cluster, the contribution of the cen-
+tral galaxy declines significantly. As a result, the fiducial combined
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+0.40
+0.45
+0.50h / h DM
+All
+0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+0.40
+0.45
+0.50h / h DM
+r > 100 kpc
+central
+(M ) (accreted+central)
+(M ) (accreted)
+P( ) (accreted+central)
+P( ) (accreted)
+Fiducial (accreted+central)
+Fiducial (accreted)
+Figure 9.Relation between the stellar–to–DM mean energy ratio
+⟨𝜀⟩ ★/⟨𝜀⟩ DM and the stellar–to–DM mean specific angular momentum ra-
+tio⟨ℎ⟩ ★/⟨ℎ⟩ DM. The upper panel shows results for all particles, and the
+lower panel shows only particles at𝑟 >100 kpc. Filled envelopes denote the
+1𝜎(16th–84th percentile) credible intervals for the combination of accreted
+matter and the cluster plus its central galaxy, over the two varied function
+parameters with𝜙(𝑀 ★)denoted in orange and𝑝(𝜂)denoted in teal. The
+lighter dashed envelopes indicate the ranges for only accreted material. The
+red contour in each panel indicates the central’s response to the most sig-
+nificant merger over the range of peak merger mass ratios. Values for our
+fiducialchoiceareshownasblackpointsfortheaccreted+centralfiducialand
+grey points for the accreted-only, with error bars indicating the 16th–84th
+percentile credible interval. Interactive versions of this plot can be found at
+garrethmartin.github.io/interactive-profiles-ICL/index.html#average-e-am
+profile (dashed line) increasingly diverges from the cluster halo plus
+centralgalaxyprofile(dot-dashed),andinsteadapproachestheprofile
+of the accreted material (dotted). Beyond∼100kpc, the stellar–to–
+DM density ratio is therefore primarily governed by the distribution
+of stripped satellite debris, with the central contribution becoming
+subdominant.
+The stellar–to–DM density ratio shows a pronounced dependence
+on the properties of the infalling satellite population. In particular,
+variations in the satellite stellar mass function lead to substantial
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM13
+10 3
+10 2
+10 1
+100
+(M )
+10 2
+10 1
+100
+(relative)
+Stars
+10 2
+10 1
+100
+r/R200
+10 3
+10 2
+10 1
+100
+P( )
+10 2
+10 1
+100
+(relative)
+Fiducial (accreted)
+Fiducial (central)
+Fiducial (accreted+central)
+Figure10.Radialprofilesofthestellar–to–DMdensityratio𝜌 ★/𝜌DM forthe
+full set of sampled satellite-population parameter combinations. Coloured
+envelopesshowtherangeofmodelpredictionsforvariationsin𝜙(𝑀 ★)(top)
+and𝑝(𝜂)(bottom).Theblackdottedanddot-dashedanddashedlinesshows
+separatecontributionsfrominfallingsatellites,fromtheclusterhalopluscen-
+tralgalaxy,andfromthecombinedprofilerespectively.Insetsshowtheunder-
+lyingDM(purple)andstellar(green)radialdensityprofilesnormalisedtothe
+maximum of the DM profile to highlight relative shape differences. Interac-
+tive versions of this plot can be found at garrethmartin.github.io/interactive-
+profiles-ICL/index.html#radial.
+changes in the ratio, with the local logarithmic slope3 of𝜌 ★/𝜌DM,
+measured between 100 kpc and𝑅200, ranging from -0.54 to -1.28
+acrosstheparameterspace.Bycontrast,changesintheorbitalcircu-
+larity distribution have a much smaller impact, modifying the slope
+byonly∼0.1.Inbothcases,differencesaredrivenalmostexclusively
+bychangesinthestellarradialdensityprofile.Theradialdensitypro-
+file of the DM shown in purple in the inset panels shows very little
+variationacrossallplausibleinfallingsatellitestellarmassfunctions
+and orbital distributions.
+Thestellar–to–DMratioismostsensitivetothecharacteristicmass
+3 Slopes measured for individual parameter combinations can be found in
+the interactive versions of Figure 10.
+ofthesatellitestellarmassfunction.Varyingthisparameterproduces
+substantial shifts in the radial logarithmic slope, whereas plausible
+changes in the faint-end slope lead to comparatively modest effects.
+This behaviour is consistent with the phase-space trends identified
+in Section 3.3: more massive satellites undergo substantially greater
+lossesoforbitalenergyandangularmomentum.Increasingthechar-
+acteristicmassthereforelowersthemeanstellarenergiesandangular
+momenta of the stripped material, yielding a more centrally concen-
+trated stellar distribution and hence a steeper stellar–to–DM ratio
+profile.
+6 COMPARISON WITH COSMOLOGICAL SIMULATIONS
+TheresultspresentedinSection5isolatetheeffectsofsatellitemass
+ratio and orbital configuration on the stellar–DM phase-space off-
+sets. However, they make several simplifying assumptions: a static,
+spherically symmetric cluster potential, idealised satellite structure
+with fixed stellar–to–halo mass relations, and satellites injected on
+individual orbits into an isolated cluster. Real clusters experience
+more complex assembly histories, with multiple satellites accreting
+simultaneously,ongoingmajormergersthatviolatetheadiabaticap-
+proximation, triaxial halo shapes, and correlations between satellite
+properties and their host environment. We therefore compare our
+model predictions to phase-space and radial profile measurements
+fromcosmologicalsimulationsinordertoassesswhetherthemagni-
+tudeandscalingoftheirstellar–DMoffsetsareconsistentwiththose
+expected from varying the infalling satellite population alone.
+Any systematic differences between our model predictions and
+the cosmological simulations would therefore point to additional
+effects present due to the inclusion of this proper cosmological con-
+text or detailed baryonic physics. These could include: variations in
+halo assembly history and the timing of accretion events; baryonic
+back-reaction that modifies the inner density profile of the cluster;
+correlations between infalling satellite populations and host prop-
+erties (e.g., more massive clusters accreting systematically different
+infalling satellite populations); or the pre-processing of satellites in
+group environments before cluster infall. Differences are also ex-
+pected owing to the coarser mass and force resolution of these sim-
+ulations relative to our controlled simulations. At the resolutions
+of current large-volume cluster simulations, tidal stripping of stel-
+lar material is not perfectly converged (Martin et al. 2024; Lovell
+et al. 2025), which can lead to artificially enhanced stripping and
+potentially affect the detailed phase-space properties of the ICL.
+6.1 Cosmological simulations
+Appendix E describes the four independent cosmological hydrody-
+namical simulation suites used in this comparison (Horizon-AGN,
+Hydrangea,TNG100,andTheThreeHundred GIZMO 7K),their
+physical models, resolution, and cluster sample selection.
+Wemeasureorbitalenergies,angularmomenta,andradialdensity
+profiles for the stellar and DM components of clusters within𝑅200.
+To isolate the diffuse intracluster component, we remove particles
+assignedtoidentifiedsubstructuresfollowingthemaskingprocedure
+of Butler et al. (2025). DM particles associated with subhaloes are
+excluded, and star particles within four times the stellar half-mass
+radius𝑅 1/2ofanysubhaloareexcluded.Forlow-masssubhaloeswith
+𝑀★ <10 11 M⊙, the exclusion radius is fixed to the 84th-percentile
+value of each cluster’s𝑅1/2 distribution measured at𝑀★ =10 11 M⊙
+MNRAS000, 1–26 (2026)
+14G. Martin et al.
+4. Subhalo identification is performed using each simulation suite’s
+native structure finder. For stellar particles, the masking procedure
+reliesonlyonsubhalocentroidsandexclusionradii,makingitrobust
+to differences in structure finder across simulations. Given the low
+DM substructure mass fractions typical of clusters (Giocoli et al.
+2010), the method is similarly insensitive to variations in how DM
+subhaloes are defined.
+Specific orbital energies and angular momenta of the un-masked
+particles are computed in the same way as described in Section 2.2.
+We calculate the mean specific energy ratios⟨𝜀⟩★/⟨𝜀⟩DM and mean
+specific angular momentum ratios⟨ℎ⟩★/⟨ℎ⟩ DM for the diffuse stellar
+and DM components of each cluster, allowing direct comparison
+withthepopulation-averagedpredictionsfromourcontrolledmerger
+simulations.
+6.2 Comparison of predicted phase-space distributions
+Figure11showsascolouredpointsthestellar–to–DMmeanspecific
+orbital energy ratio⟨𝜀⟩★/⟨𝜀⟩DM and the mean specific angular mo-
+mentum ratio⟨ℎ⟩ ★/⟨ℎ⟩ DM measured in cosmological simulations.
+Theorangeshadedenvelopesshowthesamecombinedaccretedplus
+centralstellarandDMdistributionsobtainedbyvaryingthesatellite
+stellar mass function,𝜙(𝑀★, as shown in Figure 9.
+For all particles (top panel), the simulations lie within or close
+to the envelope of model predictions. The energy and angular mo-
+mentum ratios exhibit slightly smaller offsets relative to the fiducial
+model, but for all simulations, with the exception ofTheThree-
+Hundred, the1𝜎scatter overlaps the range spanned by plausible
+variations in the infalling satellite stellar mass function.TheThree-
+Hundredshows the smallest stellar–DM orbital energy and angular
+momentum offsets, consistent with enhanced or premature stripping
+of stellar material in these lower-resolution simulations. This may
+also be reflective of the systematically higher cluster masses of the
+TheThreeHundredsample, in which an increased fraction of the
+ICLmassbudgetisexpectedtooriginatefromstarspre-processedin
+grouphaloes(Mihosetal.2017;Contini2021)andthereforealready
+weakly bound upon cluster infall.
+Forparticlesat𝑟 >100kpc(bottompanel),alargeraverageorbital
+energyoffsetthanourmodelpredictionismeasuredinallsimulation
+suites. However, the magnitude of this offset is likely to be quite de-
+pendentonthesizeandmassofthecentralgalaxy,asthisinfluences
+theradiusouttowhichthecentralgalaxydominatesovertheaccreted
+component. We apply corrections to account for these differences in
+Section 6.3.2. However, overall, the cosmological simulations are
+broadlyconsistentwiththephase-spaceoffsetspredictedbyoursim-
+plified model across the explored range of infalling satellite popu-
+lations. This suggests that our key simplifying assumptions capture
+the dominant physical processes governing stellar–DM phase-space
+segregation in galaxy clusters.
+6.3 Comparison of radial density profiles
+Having shown that the stellar–DM phase-space offsets measured in
+cosmological simulations already lie close to the range predicted by
+themodel,wenowtakeanadditionalstepbyconditioningthemodel
+4 Note that our measurements differ slightly from Butler et al. (2025), who
+use the geometric mean of the projected half-mass radius in the𝑥,𝑦, and
+𝑧projections. For consistency across all simulations, we instead adopt the
+three-dimensional half-mass radius.
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6h / h DM
+All
+0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6h / h DM
+r > 100 kpc
+(M ) variation
+Fiducial
+Horizon-AGN
+Hydrangea
+TNG100
+The300 GIZMO 7k
+Figure11.Comparisonbetweenthestellar–to–DMmeanspecificorbitalen-
+ergy ratio,⟨𝜀⟩ ★/⟨𝜀⟩ DM, and the stellar–to–DM mean specific angular mo-
+mentum ratio,⟨ℎ⟩ ★/⟨ℎ⟩ DM, measured in the four cosmological simulations
+andthemodelenvelopesshowninFigure9.Theupperpanelincludesallpar-
+ticles within𝑅200, while the lower panel restricts the calculation to particles
+atradii𝑟 >100,kpc.Thefilledregioncorrespondstothe1𝜎(16th–84thper-
+centile) credible interval of the combined accreted+central model obtained
+by varying the satellite stellar mass function,𝜙(𝑀 ★), while holding the
+orbital circularity distribution,𝑝(𝜂), fixed at its fiducial form. The black
+point and associated error bars indicate the fiducial model prediction and
+its credible range. Coloured points show the median ratios measured across
+cluster samples drawn from theHorizon-AGN,Hydrangea,TNG100, and
+TheThreeHundredsimulation suites, as indicated in the legend. Error bars
+indicate the1𝜎cluster–to–cluster scatter within each simulation. Stellar and
+DM orbital energies and angular momenta are computed following Butler
+et al. (2025), excluding particles beyond𝑅200, DM particles bound to sub-
+haloes, and star particles within4𝑅1/2 of any subhalo.
+on the infalling satellite populations realised in each simulation in
+order to make quantitative predictions for the radial density profiles.
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM15
+6.3.1 Conditioning the model on cosmological simulation infalling
+satellite populations
+The comparison between our model and the cosmological simula-
+tionsisperformedbyre-weightingthepredictedradialprofilesintro-
+duced in Section 5.3. These profiles already encode the response of
+stripped stars and DM to variations in the infalling satellite popula-
+tion;herewematchtheaccretedcomponentstotheaverageinfalling
+satellite stellar mass function values found for each simulation suite
+in Appendix C and further calibrate the normalisation of the central
+component to account for differences in the average star-formation
+efficiency and central galaxy mass measured for each simulation
+suite.
+Specifically,foreachsimulationsuiteweconstructmodelprofiles
+corresponding to the fiducial orbital circularity distribution with an
+infall satellite stellar mass function derived from the average best-
+fit Schechter function values from Table C1. These areˆ𝜌★,cen (𝑟),
+ˆ𝜌★,acc (𝑟),ˆ𝜌DM,cen (𝑟)andˆ𝜌 DM,acc (𝑟),whichrepresenttheradialden-
+sity profiles predicted by our model for the central and accreted
+components of the cluster, for both the stars and DM.
+The DM components𝑀sim
+DM,acc and𝑀 sim
+DM,cen are combined assum-
+ing equal-mass central and accreted contributions, consistent with
+ourprevioustreatment,inwhichweassumethattheclusterhasdou-
+bled its mass through the accretion of satellites between𝑧form and
+𝑧=0. The stellar components are re-weighted separately: the cen-
+tral stellar component is normalised to the mean stellar mass of the
+central galaxy𝑀 sim
+★,cen, while the accreted component is normalised
+tothedifferencebetweenthemeantotalstellarmasswithin𝑅 200 and
+𝑀sim
+★,cen,𝑀 sim
+★,acc. This ensures that the relative contributions of the
+central and accreted stellar components reflect the stellar mass bud-
+gets realised in each simulation, while preserving the radial shapes
+predicted by the model for each component.
+The resulting stellar–to–DM ratio profile is therefore given by
+𝜌★(𝑟)
+𝜌DM (𝑟) =
+𝑀sim
+★,cen ˆ𝜌★,cen (𝑟) +𝑀 sim
+★,acc ˆ𝜌★,acc (𝑟)
+𝑀sim
+DM,cen ˆ𝜌DM,cen (𝑟) +𝑀 sim
+DM,acc ˆ𝜌DM,acc (𝑟)
+,(12)
+where the DM components satisfy𝑀DM,cen =𝑀 DM,acc.
+Afurthercorrectionisappliedtoaccountforthefractionofstellar
+andDMmassexcludedbytheparticleselectioncriteriaofButleretal.
+(2025).Foreachsimulation,wemeasurethefractionofstarsandDM
+within𝑅 200 that are excluded from the calculation and re-weight the
+corresponding central and accreted components accordingly.
+6.3.2 Radial density profiles
+Figure12comparestheresultingradialprofilesofthestellar–to–DM
+density ratio,𝜌 ★/𝜌DM, measured in the cosmological simulations,
+with the corresponding model predictions from Section 5.3, after
+applying the normalization and masking corrections described in
+Section 6.3.1 above.
+The average stellar–to–DM density ratio profiles measured for
+eachsimulationareshowninthefirstpanelofFigure12,withshaded
+regionsindicatingthe1𝜎cluster–to–clusterscatter.Themiddlepanel
+shows the corresponding model predictions from Section 5, after
+re-weighting to match the infalling satellite populations and stellar
+mass budgets of each simulation suite. The hatched regions indicate
+the envelope of model responses obtained by varying the maximum
+satellite–to–host merger mass ratio, while the dashed lines show the
+fiducialmodelcorrespondingtoamaximuminfallingsatellitestellar
+mass of𝑀 ★,max =10 11.5 M⊙. Increasing the contribution of more
+massive satellites only slightly steepens the inner profile.
+The right-hand panel compares the simulation profiles directly
+with the fiducial model predictions. For all simulation suites, the
+model reproduces the overall shape and radial trend of𝜌★/𝜌DM
+across most of the halo. The inset shows the logarithmic residual
+between the each simulation and model.
+Thereissubstantialscatterinthestellar–to–DMdensityratiopro-
+files across the different simulation suites, withHorizon-AGNin
+particular deviating significantly from the others. Individual simula-
+tion studies have shown that the intracluster stellar density profile is
+steeper and more centrally concentrated than the DM profile, such
+thattheratio𝜌 ★/𝜌DMfollowsanapproximatepowerlaw(e.g.Alonso
+Asensio et al. 2020; Reina-Campos et al. 2023; Contreras-Santos
+et al. 2024; Butler et al. 2025; Jeon et al. 2025), with similar trends
+seenobservationally(e.g.Diegoetal.2023).Herewefindthat,even
+whenmeasuredconsistentlyacrossthefoursimulationsuites,thenor-
+malisationandslopeofthestackedstellar–to–DMdensityratiodiffer
+systematicallybetweensimulations.Muchofthisvariationlikelyre-
+flects differences in the infalling satellite stellar mass function and
+satellite survival efficiency, both of which depend sensitively on the
+specific subgrid physics and numerical resolution implemented in
+each simulation.
+Despite the simplifying assumptions of our model, including a
+static, spherically symmetric halo potential and idealised satellite
+structure, the predicted stellar–to–DM density ratio profiles repro-
+duce the simulation results to within<0.2dex over 2 orders of
+magnitude in radius, once differences in star-formation efficiency
+and central galaxy structure are accounted for. At most radii, this
+levelofagreementisnotablybetterthantheintrinsicscatterbetween
+differentsimulationsuitesindicatedasagreyfilledregionintheinset
+plot of Figure 12. This suggests that the properties of the infalling
+satellite population alone are sufficient to capture the dominant fea-
+turesoftheICLspatialdistribution.Residualdiscrepanciesmayarise
+fromseveralsourcesnotaccountedforinourmodel,includingdiffer-
+encesininnerhalostructureduetobaryonicback-reactionandforce
+softening, variations in the stellar–halo mass relation, resolution-
+dependent satellite survival times, and the non-adiabatic evolution
+of cosmological haloes during mergers and rapid accretion.
+7 DISCUSSION
+7.1 Physical mechanisms driving the stellar–DM phase-space
+separation
+In this work we have sought to isolate the physical origin of the
+systematicphase-spaceandradialoffsetsobservedbetweenICLand
+DM.Wehaveshownthatmanyoftheobservedfeaturesofthestellar–
+to–DMphase-spacerelationshiparisenaturallyfromthemassdistri-
+bution and orbital evolution of infalling satellites, without invoking
+additional physics.
+Acentralresultisthattheseparationbetweenthephase-spacedis-
+tributions of stripped stars and stripped DM is driven primarily by
+satelliteswiththemostsimilarsatellite–to–hostmassratios.Thisfol-
+lows from the combination of two related effects. First, the extended
+DM haloes of satellites are stripped early, while the more tightly
+bound stellar components survive to later stages of the orbit and are
+deposited only after further orbital decay. Second, dynamical fric-
+tionoperatesmostefficientlyonmassivesatellites,causingrapidloss
+of orbital energy and angular momentum prior to significant stellar
+stripping. As a result, stars are preferentially stripped from satellites
+thathavealreadymigratedontomoreboundorbits,whereasthebulk
+of the DM is removed earlier at higher energies.
+Themostextremecaseofthisprocesscorrespondstomajormerg-
+ers,whichareexpectedtodominatethedirectbuild-upofthecentral
+MNRAS000, 1–26 (2026)
+16G. Martin et al.
+10 2
+10 1
+100
+r/R200
+10 3
+10 2
+10 1
+100
+Simulation Results
+Horizon-AGN
+Hydrangea
+TNG100
+The300 GIZMO 7k
+10 2
+10 1
+100
+r/R200
+Model Prediction
+Model prediction
+Model envelope
+(assumed maximum
+merger ratio)
+10 2
+10 1
+100
+r/R200
+Comparison
+Simulation
+Model prediction
+10 2
+10 1
+1000.2
+0.1
+0.0
+0.1
+0.2
+[dex]
+Figure12.Radialprofilesofthestellar–to–DMdensityratio,𝜌 ★/𝜌DM,shownasafunctionofcluster-centricradiusnormalisedby𝑅 200,comparingcosmological
+simulationsandthemodelpredictions.Leftpanel:Mean𝜌 ★/𝜌DM profilesmeasureddirectlyfromthesimulations(Horizon-AGN,Hydrangea,TNG100,and
+TheThreeHundred), with shaded regions indicating the cluster–to–cluster scatter (±1𝜎).Middle panel:Model predictions for the same quantity. Hatched
+regions show the envelope of model central galaxy responses obtained by varying the assumed maximum satellite–to–host merger mass ratio, and dashed lines
+show the fiducial case corresponding to a maximum infalling satellite stellar mass of1011.5 M⊙.Right panel:Direct comparison between simulations (solid
+lines) and the fiducial model predictions (dashed lines). The inset shows the logarithmic residual,Δ =log10 [ (𝜌★/𝜌DM )model/(𝜌 ★/𝜌DM )sim ], as a function of
+radius for each simulation along with a filled grey region indicating the1𝜎inter-simulation scatter measured between the four simulations.
+galaxy while also contributing a centrally concentrated component
+to the ICL (e.g. Contini et al. 2018). For near equal mass ratios,
+dynamical friction and torques operate on short timescales, leading
+torapidorbitaldecayprior tostellarstripping.Crucially,thesesame
+massive progenitors are also responsible for the largest stellar–to–
+DM phase-space offsets. The dynamical imprint of these events is
+therefore established over relatively short timescales, and is shared
+betweenthecentralgalaxyandthemosttightlyboundcomponentof
+the ICL.
+The analysis presented in Section 3.4 places important context on
+this interpretation. Even for near equal-mass mergers, where the in-
+teraction is most violent and the orbital decay is most rapid, the net
+transfer of orbital energy into the cluster halo itself remains small.
+This indicates that the large stellar–to–DM phase-space offsets as-
+sociated with major mergers do not arise from a strong global re-
+structuringorheatingoftheclusterpotential.Instead,theyprimarily
+reflectdifferencesinhowstarsandDMaredepositedinphase-space
+duringtheinspiralandstrippingprocess,withstellarmaterialretain-
+ingtheimprintofdeeperorbitaldecaydespiteminimalmodification
+of the host halo as a whole.
+7.1.1 The role of orbital angular momentum
+Duringinfall,themodificationofboththeorbitalenergyandangular
+momentum of the satellite play a role in determining where stripped
+stars and DM are deposited. While orbital energy primarily sets the
+outer scale of an orbit, angular momentum also plays a crucial role
+in determining the radial distribution of stripped material within the
+cluster. As discussed in Section 5.3, reducing angular momentum at
+fixed energy allows orbits to reach significantly smaller pericentric
+radiiinthenon-Keplerianregimecharacteristicofclusterpotentials,
+thereby reducing the time-averaged radius and contributing to the
+radial concentration of the ICL.
+This effect is particularly important because, as seen in Figure
+5, angular momentum is more readily modified than orbital energy.
+Because angular momentum is a vector quantity, even modest de-
+flections of particle trajectories can produce substantial changes in
+h=r×v, while energy changes depend only on the component of
+force parallel to the satellite’s velocity. The bulk of stellar mass is
+removednearpericentre,wheretidalforcesarethestrongest,leading
+to substantial reductions in angular momentum with comparatively
+modest changes in orbital energy. The cluster halo’s dynamical re-
+sponseanddynamicalfrictionfurtherdrivecoupledlossesofenergy
+and angular momentum (Chandrasekhar 1943; Taffoni et al. 2003),
+whichnaturallyleadstosubstantiallylargerevolutionanddispersion
+in angular momentum ratios than in energy ratios. The combined
+effect of both energy and angular momentum loss is therefore im-
+portant for producing the observed radial concentration of the ICL
+relative to the DM.
+7.2 Thedominanceofmassivesatellitesandstochasticaccretion
+An important implication of our results, given previous findings
+that the ICL is likely dominated by a relatively small number of
+massive progenitors (e.g. Murante et al. 2007; Montes & Trujillo
+2018; DeMaio et al. 2018; Montes et al. 2021; Brown et al. 2024;
+Contreras-Santos et al. 2024), is that the characteristic mass scale of
+the infalling satellite stellar mass function emerges as the dominant
+parameter controlling the population-averaged offsets between the
+ICL and DM. Variations in the satellite mass function produce large
+changes in the predicted stellar–to–DM energy and angular momen-
+tum ratios (Figure 9), while variations in the orbital satellite infall
+circularity distribution have a comparatively weak effect.
+This sensitivity arises because higher satellite masses lead to
+greaterlossesinbothorbitalenergyandangularmomentumpriorto
+stellarstripping.AsshowninFigure5,thestellar–to–DMenergyand
+angular momentum ratios decrease systematically with increasing
+satellite–to–host mass ratio. These enhanced phase-space offsets di-
+rectlytranslateintosteeperradialdensityprofiles:starsstrippedfrom
+moremassivesatellitesaredepositedatsmallerradiiandhighercon-
+centrationsrelativetotheDM,producingasteeperlogarithmicslope
+in the𝜌 ★/𝜌DM profile. Consequently, infalling satellite populations
+withhighercharacteristicmassesnaturallyproduceICLdistributions
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM17
+that are more centrally concentrated relative to the underlying DM
+halo.
+Importantly, the uncertainty is driven primarily by the abundance
+of intermediate- and high-mass satellites, which consistently domi-
+nate the ICL mass budget and the population-averaged phase-space
+offsets regardless of our chosen characteristic mass scale. As shown
+inAppendixDandFigureD1,thestellar–DMspecificorbitalenergy
+ratiosarelargelyinsensitivetothedetailedtreatmentofthefaintend
+of the satellite mass function. Across the full range of characteristic
+masses explored here, satellites below𝑀★ ∼10 10–1010.5 M⊙ have
+negligible impact on the resulting ratios.
+The phase-space structure of the ICL is therefore inherently sen-
+sitivetostochasticaccretionevents,reflectingthedynamicalimprint
+of a few satellites that undergo substantial orbital decay before dis-
+ruption. In this sense, the ICL should be viewed both as a tracer of
+the cluster potential, and also as an accumulated record of a limited
+numberofdynamicallyimportantmergers.Thisstochasticnaturehas
+important observational implications. Measurements of the stellar–
+to–DM phase-space offsets in individual clusters will be sensitive to
+their specific accretion histories, and in particular to whether they
+haverecentlyhostedthemassivesatellitemergersthatdominateboth
+the ICL budget and the magnitude of the phase-space separation.
+Clusterdynamicalstatemayprovidesomeindicationofrecentmajor
+merger activity, though the connection between current relaxation
+stateandintegratedaccretionhistoryisnotstraightforward(e.g.Ra-
+gusa et al. 2023; Contini et al. 2024; Contreras-Santos et al. 2024;
+Kimmig et al. 2025; Golden-Marx et al. 2025; Canepa et al. 2025).
+7.3 Model validation and limitations
+While our controlled simulations allow us to isolate the effects of
+satellitemassratioandorbitalconfigurationonthestellar–DMphase-
+spaceoffsets,theymakeseveralsimplifyingassumptionsthatwarrant
+discussion.
+7.3.1 Fixed satellite structural properties
+Our model adopts fixed satellite structural properties for a given
+stellar mass. Martin et al. (2024) shows that the efficiency of stellar
+strippingvariessignificantlydependingontheextentofthesatellite’s
+stellar component relative to its halo’s scale radius, while Figure 1
+illustrates that halo concentrations evolve systematically between
+𝑧=1and𝑧=0,implyingthatsatellitesstarsspanarangeofbinding
+energies across cosmic time. A fixed prescription therefore cannot
+capturethisevolution,northeassociatedvariationinstellarstripping
+efficiency. In more realistic models, such as the four cosmological
+simulations used in this study, the specific implementation of dif-
+ferent physical processes such as feedback, ISM and star-formation
+physicsaltersthedistributionandstructureofstarsandthereforethe
+efficiencyofstellarstripping(Watkinsetal.2025;Martinetal.2025).
+Theseprocessescanalsodrivedifferentialevolutionofthestellarand
+DMcomponents,modifyingtheirrelativedistributionsdirectly(e.g.
+Pontzen&Governato2012;Teyssieretal.2013;Schalleretal.2015;
+Jackson et al. 2025). Consequently, variations in these physical pre-
+scriptions should modify the resulting stellar–to–DM orbital energy
+and angular momentum ratios.
+7.3.2 The adiabatic assumption
+Additionally, our analysis of the orbital energies and angular mo-
+menta of stars and DM neglects the growth of the cluster potential.
+We assume that the cluster potential evolves adiabatically and that
+⟨𝜀⟩★/⟨𝜀⟩DMand⟨ℎ⟩ ★/⟨ℎ⟩ DMwouldthereforeremaineffectivelycon-
+stant as the cluster evolves.
+Although increasingly rare for cluster-mass haloes at late times
+(Fakhouri et al. 2010), haloes are expected to undergo diverse evo-
+lutionary paths (Onions et al. 2025) including periods of growth
+under non-adiabatic conditions (Tormen 1997; Valluri et al. 2007;
+Ogiya et al. 2021), such as during major mergers, in which radial
+actions can deviate from invariance (Lynden-Bell 1967; Pontzen &
+Governato2012).Thisisparticularlyrelevantbecausethelargestde-
+viations in the stellar–to–DM energy and angular momentum ratios
+in our model are driven by the closest satellite–to–host mass ratios,
+the same events that most strongly violate adiabatic growth.
+However, previous work by Butler et al. (2025) has shown that, in
+realistically evolving cluster potentials which include non-adiabatic
+growth, the stellar–to–DM energy ratio of tidally stripped stars and
+DM varies only modestly with accretion time. Therefore, while our
+modeldoesnotentirelyaccountfortemporalevolutionofthehostpo-
+tential, the adiabatic assumption provides a robust baseline estimate
+for the expected ratios of energy and angular momentum between
+starsandDM.Wedeferacomprehensiveexplorationofthisassump-
+tion within a realistic cosmological context to future work (Butler et
+al., in prep.).
+7.3.3 Validation against cosmological simulations
+Toassesswhetherthesesimplifyingassumptionsfundamentallylimit
+the applicability of our results, we compared our model predictions
+against four independent cosmological hydrodynamical simulation
+suites(Horizon-AGN,Hydrangea,TNG100,andTheThreeHun-
+dred GIZMO 7K;seeSection6).Thesesimulationsprovideacritical
+testofourresultsbecausetheyincorporatethefullcomplexityabsent
+from our controlled setup including non-adiabatic evolution, realis-
+tic cluster assembly histories and diverse physical assumptions that
+produce a wide range satellite properties.
+Despite these complexities and the simplifying assumptions of
+our model, once differences in star-formation efficiency and central
+galaxy mass are accounted for, we are able to reproduce the radial
+stellar–to–DM density ratio profiles seen in a diverse set of cosmo-
+logical simulations to better than the inter-simulation scatter. This
+level of agreement is not trivial, given the wide range of numeri-
+cal methods, resolutions, and subgrid physics employed by the four
+simulationsuitesconsidered.Itsuggeststhat,withintheclustermass
+range tested (𝑀h,200 <10 15M⊙), the dominant factor shaping the
+relationship between the ICL and DM remains the infalling satellite
+population,withonlyasecondarydependenceonthedetailedimple-
+mentation of baryonic physics, the inclusion of a fully cosmological
+context, or variations in host halo assembly history and dynamical
+state.
+7.4 Implications for using ICL as a DM tracer
+Observational constraints on the ICL–DM radial profile relation-
+shipremainlimitedandsomewhatcontradictory.Diegoetal.(2023,
+2024) found that ICL is more centrally concentrated than DM in
+SMACS0723, consistent with our predictions. In contrast, Zhang
+et al. (2019) found that ICL surface brightness profiles appear to
+trace the cluster radial mass distribution well in 528 DES clusters,
+suggesting a flatter𝜌 ★/𝜌DM profile. These discrepancies may re-
+flect differences in cluster selection, ICL measurement techniques,
+or intrinsic cluster–to–cluster scatter. Combining deep ICL imaging
+MNRAS000, 1–26 (2026)
+18G. Martin et al.
+with weak lensing measurements from Euclid and LSST will soon
+enable systematic tests of the ICL–DM relationship across large
+cluster samples. Crucially, ICL offers the potential to trace mass
+distributions of individual clusters at high redshift (e.g. Euclid Col-
+laboration, Bellhouse et al. 2025) and with low background source
+densities (e.g., Hoekstra et al. 2013) where weak lensing constraints
+becomechallengingtoobtain,providingapowerfulindependentand
+complementary probe of cluster mass distributions.
+Our findings place clear constraints on how the ICL can be used
+as a tracer of cluster DM haloes in the context of such observations.
+Any attempt to infer the DM distribution from the spatial or kine-
+maticstructureoftheICLmustaccountforthesubstantialsensitivity
+of the stellar–to–DM phase-space offsets to the underlying infalling
+satellite population. Variations in the satellite stellar mass function
+representthedominantsourceofuncertainty,producingawiderange
+ofpossiblespecificorbitalenergyandangularmomentumratiosand
+correspondingly large variation in the predicted radial gradients of
+𝜌★/𝜌DM. The comparatively weak dependence on the orbital circu-
+larity distribution indicates that constraining the infalling satellite
+mass function is the primary requirement for reducing uncertainty
+in the inferred DM density profile. Within the range of plausible
+infallingsatellitepopulations,theICLremainssufficientlyuncertain
+to preclude a naïve mapping onto the underlying DM distribution.
+Importantly, the uncertainty is driven primarily by the abundance
+ofintermediate-andhigh-masssatellites,ratherthanbythelow-mass
+population. A relatively small number of these systems contribute
+a disproportionate fraction of the stripped stellar mass and domi-
+natethepopulation-averagedphase-spaceoffsets.Thislocalisationof
+the dominant uncertainty is encouraging, as these massive satellites
+are observationally accessible and are expected to leave dispropor-
+tionatelystrongandlong-livedobservationalsignatures.Simulations
+show that the most massive accretion events dominate visible tidal
+debris and kinematic substructure, while lower-mass contributions
+rapidly phase-mix into a smooth background (Johnston et al. 2008;
+Cooper et al. 2015). These systems can generate visible tidal debris,
+influencetheglobaldynamicalstateofthecluster(e.g.Kimmigetal.
+2025), and produce distinctive kinematic substructure (e.g. Dolag
+et al. 2010).
+Inaddition,stellar-populationgradientsintheICLprovideaninde-
+pendentestimateofthecharacteristicprogenitormassscale,offering
+a route to constrain the dominant contributors even when individ-
+ual accretion events cannot be isolated (e.g. Morishita et al. 2017;
+Montes & Trujillo 2018; DeMaio et al. 2018). For individual clus-
+ters, improved characterisation of the intermediate- and high-mass
+satellite population therefore offers a promising route toward reduc-
+ing uncertainty in the predicted stellar–to–DM offsets and placing
+more robust constraints on the radial𝜌★/𝜌DM profile and hence on
+cluster-scale DM density profiles.
+8 CONCLUSIONS
+In this study we followed the tidal disruption of the stellar and DM
+components of model satellites evolving within a live cluster halo.
+Satellite–to–cluster mass ratios and orbital circularities were varied
+systematically, and we quantified the specific energies and angular
+momenta of the stripped stellar and DM material measured at the
+end of the simulated evolution.
+Thesesimulationswerethenusedtoconstructmodelsfortheclus-
+ter’s stellar–to–DM phase-space separation as a function of satellite
+massratioandorbitalconfiguration.Weintegratedthesemodelsover
+a range of plausible satellite stellar mass functions and orbital dis-
+tributions drawn from cluster simulations in order to assess how the
+resulting offsets emerge for realistic infalling populations and how
+they map onto cluster-scale observables.
+Our main conclusions are as follows:
+(i)Stripped stars and DM occupy systematically different
+regions of phase-space.Across all satellite mass ratios and orbital
+configurations explored, stripped stars are deposited on orbits that
+are systematically more bound and dynamically colder than those of
+the stripped DM component, occupying lower specific energies and
+lower specific angular momenta (Figure 4). These offsets arise from
+the differential removal of stars and DM from satellites, coupled
+with the subsequent orbital evolution of the satellite within the
+cluster potential.
+(ii)Satellite–to–host mass ratio is the primary parameter
+controlling the magnitude of the stellar–DM phase-space sep-
+aration.More comparable satellite–to–host-mass ratio mergers
+experience substantial orbital decay prior to the deposition of
+the bulk of the stellar material, leading to large offsets in both
+specific energy and angular momentum. In contrast, low-mass
+satellites undergo little orbital decay and generate stripped stellar
+andDMdebristhatremaincloselyalignedinphase-space(Figure3).
+(iii)Orbital circularity has only a secondary influence on
+the stellar-DM offsets.Varying the orbital circularity distribution
+produces modest changes in the angular momentum offsets and
+broadens the angular momentum distributions of the stripped
+material, but has little effect on the energy offsets (Figure 5). As
+a result, differences in orbital distributions alone do not strongly
+modify the stellar–DM phase-space separation.
+(iv)Orbital energy lost by satellites is transferred to the cluster
+DM halo, but with only a weak global response.For the closest
+satellite–to–host mass ratios explored (1:1 and 1:3), the reduction
+in the orbital energy of the stellar component is accompanied by a
+measurableincreaseintheenergyoftheclusterDMhalo,indicating
+that orbital energy lost during inspiral is transferred to the host
+system (Figure 6). At lower mass ratios, the stellar contribution to
+the total energy budget becomes too small for this redistribution to
+be isolated above numerical uncertainties. The fact that the cluster
+halo response remains very small even in the most extreme mergers
+demonstrates that the resulting stellar–DM phase-space offsets are
+not driven by a strong global response of the cluster potential, at
+least in our simplified model.
+(v)The stellar mass scale of the dominant ICL contributors is
+set by the characteristic mass of the infalling satellite stellar mass
+function.When convolved with plausible infalling satellite popula-
+tions, the stellar mass budget of the ICL is consistently dominated
+by contributions from satellites near the characteristic mass of the
+infalling stellar mass function. Variations in the faint-end slope and
+in the orbital circularity distribution produce only minor changes in
+the cumulative ICL mass budget, and a dominant contribution from
+low-mass satellites is not realised for any plausible characteristic
+mass (Figure 8).
+(vi)Population-averaged stellar–to–DM phase-space offsets are
+most sensitive to the characteristic mass of the infalling satellite
+stellar mass function.When integrated over realistic infalling
+satellite populations, the mean stellar–to–DM energy and angular
+momentum ratios vary primarily in response to changes in the
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM19
+characteristic mass scale of the infalling satellite stellar mass
+function. Adjusting the low-mass slope produces comparatively
+little change in the population-averaged offsets, indicating that the
+phase-space separation is insensitive to the abundance of low-mass
+satellites. Variations in the orbital distribution mainly broaden the
+angular momentum distribution and have only a weak effect on
+the mean offsets, consistent with the limited sensitivity to orbital
+circularity seen for individual satellites (Figure 9).
+(vii)The corresponding radial stellar–to–DM density profiles
+alsodependprimarilyontheinfallingsatellitestellarmassfunction.
+Theradialdependenceofthestellar–to–DMdensityratiovariessig-
+nificantlyacrosstheallowedrangeofsatellitestellarmassfunctions,
+withchangesdrivenmainlybythecharacteristicmassscale.Shifting
+this mass scale alters typical energies and angular momenta of
+stripped stars (with a much weaker influence on the DM) producing
+corresponding changes in the radial concentration and logarithmic
+slope of the ICL profile, with higher characteristic masses resulting
+in steeper slopes. In contrast, variations in the orbital distribution
+induce only weak modifications to these radial trends (Figure 10).
+As a result, the mapping between ICL density profiles and the
+underlying DM distribution is governed primarily by the mass scale
+oftheinfallingsatellitepopulationratherthanbyitsorbitalstructure.
+(viii)Stellar–to–DM energy and angular momentum offsets in
+cosmologicalsimulationsarebroadlycapturedbythemodel.Across
+all four cosmological simulations considered, the stellar–to–DM
+specific angular momentum ratios are comparable to those pre-
+dicted by the model, indicating that the magnitude of the angular
+momentum offset is well reproduced when a full range of plausible
+infalling satellite populations are considered (Figure 11). The
+corresponding stellar–to–DM energy ratios predicted by the model
+are systematically somewhat closer than those measured in the
+simulations.
+(ix)Systematicdifferencesexistinstackedstellar–to–DMdensity
+profiles across simulation suites.Even when measured consistently
+using the same methodology, the normalisation and slope of the
+stacked stellar–to–DM density ratio differ systematically between
+the four cosmological simulation suites. This extends previous
+studies showing that intracluster stellar profiles are typically steeper
+and more centrally concentrated than the DM, and demonstrates
+that differences in the cosmic environments and physical models
+employed by each simulation imprint measurable variations on
+therelativeradialdistributionofstarsandDM(Figure12,leftpanel).
+(x)The model reproduces radial stellar–to–DM density profiles
+within the inter-simulation scatter.Despite these systematic differ-
+encesbetweensimulationsuites,onceadjustmentsaremadeforvari-
+ationsinstar-formationefficiencyandthemassandsizeofthecentral
+galaxy, and the infalling satellite stellar mass function is matched,
+our model reproduces the radial dependence of the stellar–to–DM
+density ratio to within the scatter between simulation suites (Figure
+12, right panel). This indicates that the dominant radial offsets be-
+tweenstarsandDMinclustersarelargelysetbytheinfallingsatellite
+stellar mass function.
+Our results establish that the phase-space and spatial offsets be-
+tweenintraclusterstarsandDMarisenaturallyfromthedemograph-
+icsoftheinfallingsatellitepopulation.Thecharacteristicmassscale
+of infalling satellites emerges as the key parameter controlling both
+the population-averaged energy and angular momentum offsets and
+theradialprofileoftheICL.Whentheinfallingsatellitestellarmass
+function is matched, the resulting stellar–to–DM phase-space prop-
+erties and radial density profiles agree with those measured in cos-
+mological simulations to within the inter-simulation scatter. These
+results indicate that ICL encodes a robust record of satellite accre-
+tion,andthatitsspatialandkinematicstructurecanbeinterpretedin
+terms of the underlying DM halo once the properties of the infalling
+satellite population are properly accounted for.
+ACKNOWLEDGEMENTS
+G. M, F. R. P, and N. A. H acknowledge support from the UK
+STFC under grant ST/X000982/1. H. J. B acknowledges support
+from the UK STFC under grant ST/Y509437/1. N. A. H and J. B
+gratefully acknowledge support from the Leverhulme Trust through
+a Research Leadership Award. Y. M. B acknowledges support from
+UK Research and Innovation through a Future Leaders Fellowship
+(grant agreement MR/X035166/1) and financial support from the
+Swiss National Science Foundation (SNSF) under project “Galaxy
+evolution in the cosmic web” (200021_213076). W. C gratefully
+thanks Comunidad de Madrid for the Atracción de Talento fellow-
+ship no. 2020-T1/TIC19882 and Agencia Estatal de Investigación
+(AEI) for the Consolidación Investigadora Grant CNS2024-154838.
+He further acknowledges the Project PID2024-156100NB-C21 fi-
+nanced by MICIU/AEI /10.13039/501100011033/FEDER, EU and
+ERC: HORIZON-TMA-MSCA-SE for supporting the LACEGAL-
+III (Latin American Chinese European Galaxy Formation Net-
+work) project with grant number 101086388 and the science re-
+search grants from the China Manned Space Project. AK is sup-
+ported by project PID2024-156100NB-C21 financed by MICIU
+Mary Onettes for Islands. G. M is thankful to Mathias Urbano, Cal-
+lumBellhouse,TutkuKolcuandJesseGolden-Marxforhelpfulcom-
+ments.
+TheHorizon-AGNsimulation was performed using HPC re-
+sources of CINES under allocations 2013047012, 2014047012, and
+2015047012 made by GENCI. TheIllustrisTNGsimulations, of
+whichTNG100ispart,wereundertakenwithcomputetimeawarded
+by the Gauss Centre for Supercomputing (GCS) under GCS Large-
+Scale Projects GCS-ILLU and GCS-DWAR on the GCS share of
+the supercomputer Hazel Hen at the High Performance Computing
+Center Stuttgart (HLRS), as well as on the machines of the Max
+Planck Computing and Data Facility (MPCDF) in Garching, Ger-
+many. TheHydrangeasimulations were in part performed on the
+German federal maximum performance computer ‘HazelHen’ at the
+maximum performance computing centre Stuttgart (HLRS), under
+project GCS-HYDA / ID 44067 financed through the large-scale
+project ‘Hydrangea’ of the Gauss Center for Supercomputing. Fur-
+ther simulations were performed at the Max Planck Computing and
+DataFacility(MPCDF)inGarching,Germany.Partofthisworkhas
+been made possible byTheThreeHundredcollaboration, which ben-
+efits from financial support of the European Union’s Horizon 2020
+Research and Innovation programme under the Marie Skłodowska-
+Curie grant agreement number 734374, i.e. the LACEGAL project.
+TheThreeHundredsimulations used in this paper have been per-
+formed in the MareNostrum Supercomputer at the Barcelona Super-
+computing Center, thanks to CPU time granted by the Red Española
+de Supercomputación. The high-resolution (7K) simulations from
+TheThreeHundredwere performed on multiple Supercomputers:
+MareNostrum, Finisterrae3, and Cibeles through The Red Española
+de Supercomputación grants, DIaL3 – DiRAC Data Intensive ser-
+MNRAS000, 1–26 (2026)
+20G. Martin et al.
+viceattheUniversityofLeicesterthroughtheRAC15grant,andthe
+Niagara supercomputer at the SciNet HPC Consortium.
+This work made use of the following software:GADGET-4
+(Springeletal.2021),GalIC(Yurin&Springel2014),PyMC(Abril-
+Pla et al. 2023),Matplotlib(Hunter 2007),NumPy(Harris et al.
+2020) andSciPy(Virtanen et al. 2020).
+ThisworkhasmadeuseoftheInfinitycluster,hostedbytheInstitut
+d’Astrophysique de Paris. We warmly thank S. Rouberol for running
+it smoothly.
+DATA AVAILABILITY
+Simulation data analysed in this paper can be obtained from the
+following sources: Data fromTheThreeHundredgalaxy clus-
+ters sample are available on request following the guidelines of
+TheThreeHundredcollaboration, at https://www.the300-project.org.
+TNG100data is publicly available and can be accessed at
+https://tng-project.org/. TheHydrangeasimulations are
+publiclyavailableathttps://ftp.strw.leidenuniv.nl/bahe/
+Hydrangea.TherawdataproductsoftheHorizon-AGNsimulation
+are available upon reasonable request through the collaboration’s
+website:https://www.horizon-simulation.org/. Other data
+can be shared on request to the corresponding author.
+REFERENCES
+Abril-Pla O., et al., 2023, PeerJ Computer Science, 9
+Allen S. W., Evrard A. E., Mantz A. B., 2011, ARA&A, 49, 409
+Alonso Asensio I., Dalla Vecchia C., Bahé Y. M., Barnes D. J., Kay S. T.,
+2020, MNRAS, 494, 1859
+Álvarez M. A., Rosasco L., Lawrence N. D., 2012, Found. Trends Mach.
+Learn., 4, 195–266
+ArnaboldiM.,GerhardO.,AguerriJ.A.L.,FreemanK.C.,NapolitanoN.R.,
+Okamura S., Yasuda N., 2004, ApJ, 614, L33
+Arthur J., et al., 2019, Monthly Notices of the Royal Astronomical Society,
+484, 3968
+Bahé Y. M., et al., 2017, MNRAS, 470, 4186
+Baldry I. K., et al., 2012, MNRAS, 421, 621
+Barnes J., Hut P., 1986, Nature, 324, 446
+Binney J., Tremaine S., 2008, Galactic Dynamics: Second Edition
+Blumenthal G. R., Faber S. M., Flores R., Primack J. R., 1986, ApJ, 301, 27
+Borgani S., Guzzo L., 2001, Nature, 409, 39
+Brough S., et al., 2024, MNRAS, 528, 771
+Brown H. J., Martin G., Pearce F. R., Hatch N. A., Bahé Y. M., Dubois Y.,
+2024, Monthly Notices of the Royal Astronomical Society, p. stae2084
+Bullock J. S., Johnston K. V., 2005, ApJ, 635, 931
+Bullock J. S., Dekel A., Kolatt T. S., Kravtsov A. V., Klypin A. A., Porciani
+C., Primack J. R., 2001, ApJ, 555, 240
+Butler J., Martin G., Hatch N. A., Pearce F., Brough S., Dubois Y., 2025,
+MNRAS, 539, 2279
+Byrd G., Valtonen M., 1990, ApJ, 350, 89
+CanepaL.,BroughS.,LanusseF.,MontesM.,HatchN.,2025,ApJ,980,245
+Chandrasekhar S., 1943, ApJ, 97, 255
+Chen X., Zu Y., Shao Z., Shan H., 2022, MNRAS, 514, 2692
+Chiang B. T., van den Bosch F. C., Schive H.-Y., 2025, arXiv e-prints, p.
+arXiv:2510.26901
+Chun K., Shin J., Smith R., Ko J., Yoo J., 2023, ApJ, 943, 148
+Contini E., 2021, Galaxies, 9, 60
+ContiniE.,DeLuciaG.,VillalobosÁ.,BorganiS.,2014,MNRAS,437,3787
+Contini E., Yi S. K., Kang X., 2018, MNRAS, 479, 932
+Contini E., Yi S. K., Kang X., 2019, ApJ, 871, 24
+Contini E., Rhee J., Han S., Jeon S., Yi S. K., 2024, AJ, 167, 7
+Contreras-Santos A., et al., 2024, A&A, 683, A59
+Contreras-Santos A., et al., 2025, A&A, 703, A85
+Cooper A. P., Gao L., Guo Q., Frenk C. S., Jenkins A., Springel V., White
+S. D. M., 2015, MNRAS, 451, 2703
+Cui W., et al., 2014, MNRAS, 437, 816
+Cui W., et al., 2018, MNRAS, 480, 2898
+Cui W., et al., 2022, MNRAS, 514, 977
+Davé R., Anglés-Alcázar D., Narayanan D., Li Q., Rafieferantsoa M. H.,
+Appleby S., 2019, MNRAS, 486, 2827
+Davidzon I., et al., 2017, A&A, 605, A70
+DeMaio T., Gonzalez A. H., Zabludoff A., Zaritsky D., Connor T., Donahue
+M., Mulchaey J. S., 2018, MNRAS, 474, 3009
+Diego J. M., et al., 2023, A&A, 679, A159
+Diego J. M., et al., 2024, A&A, 690, A114
+Dolag K., Murante G., Borgani S., 2010, MNRAS, 405, 1544
+Dubois Y., et al., 2014, MNRAS, 444, 1453
+DuboisY.,PeiraniS.,PichonC.,DevriendtJ.,GavazziR.,WelkerC.,Volon-
+teri M., 2016, MNRAS, 463, 3948
+Ellien A., et al., 2025, A&A, 698, A134
+Englert A. M., Dell’Antonio I., Montes M., 2025, ApJ, 989, L2
+Euclid Collaboration, Bellhouse C., et al., 2025, A&A, 698, A14
+Euclid Collaboration, Mellier Y., et al., 2025, A&A, 697, A1
+Fakhouri O., Ma C.-P., Boylan-Kolchin M., 2010, MNRAS, 406, 2267
+Gifford D., Miller C., Kern N., 2013, ApJ, 773, 116
+Giocoli C., Tormen G., Sheth R. K., van den Bosch F. C., 2010, MNRAS,
+404, 502
+Gnedin O. Y., Kravtsov A. V., Klypin A. A., Nagai D., 2004, ApJ, 616, 16
+Golden-Marx J. B., et al., 2023, MNRAS, 521, 478
+Golden-Marx J. B., et al., 2025, MNRAS, 538, 622
+Gómez J. S., Hough T., Jiménez Muñoz A., Yepes G., Cui W., Cora S. A.,
+2025, A&A, 697, A171
+Gonzalez A. H., Zaritsky D., Zabludoff A. I., 2007, ApJ, 666, 147
+GonzalezA.H.,SivanandamS.,ZabludoffA.I.,ZaritskyD.,2013,ApJ,778,
+Goulard M., Voltz M., 1992, Mathematical Geology, 24, 269
+Haggar R., Pearce F. R., Gray M. E., Knebe A., Yepes G., 2021, Monthly
+Notices of the Royal Astronomical Society, 502, 1191
+Han S., et al., 2025, arXiv e-prints, p. arXiv:2507.06301
+HarkerG.,ColeS.,HellyJ.,FrenkC.,JenkinsA.,2006,MNRAS,367,1039
+Harris C. R., et al., 2020, Nature, 585, 357
+Hendel D., Johnston K. V., 2015, MNRAS, 454, 2472
+Hernquist L., 1990, ApJ, 356, 359
+Hoekstra H., Bartelmann M., Dahle H., Israel H., Limousin M., Meneghetti
+M., 2013, Space Sci. Rev., 177, 75
+Homan M. D., Gelman A., 2014, J. Mach. Learn. Res., 15, 1593–1623
+Hough R. T., Rennehan D., Kobayashi C., Loubser S. I., Davé R., Babul A.,
+Cui W., 2023, MNRAS, 525, 1061
+Hunter J. D., 2007, Computing in Science & Engineering, 9, 90
+Ilbert O., et al., 2013, A&A, 556, A55
+Ivezić Ž., et al., 2019, ApJ, 873, 111
+Jackson R. A., et al., 2025, MNRAS, 539, 3797
+Jaffé Y. L., et al., 2018, MNRAS, 476, 4753
+Jeon S., et al., 2025, arXiv e-prints, p. arXiv:2512.06098
+Johnston K. V., 1998, ApJ, 495, 297
+Johnston K. V., Bullock J. S., Sharma S., Font A., Robertson B. E., Leitner
+S. N., 2008, ApJ, 689, 936
+Kaviraj S., et al., 2017, MNRAS, 467, 4739
+Kimmig L. C., et al., 2025, A&A, 700, A95
+Kluge M., et al., 2025, A&A, 697, A13
+Klypin A., Yepes G., Gottlöber S., Prada F., Heß S., 2016, MNRAS, 457,
+4340
+Komatsu E., et al., 2011, ApJS, 192, 18
+Kravtsov A. V., Borgani S., 2012, ARA&A, 50, 353
+Kulier A., et al., 2023, ApJ, 954, 177
+Laureijs R., et al., 2011, preprint, (arXiv:1110.3193)
+Lovell M. R., Pillepich A., Engler C., Nelson D., Ramesh R., Springel V.,
+Hernquist L., 2025, MNRAS, 544, 4367
+Lynden-Bell D., 1967, MNRAS, 136, 101
+Marinacci F., et al., 2018, MNRAS, 480, 5113
+Martin G., et al., 2022, MNRAS, 513, 1459
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM21
+MartinG.,PearceF.R.,HatchN.A.,Contreras-SantosA.,KnebeA.,CuiW.,
+2024, MNRAS, 535, 2375
+Martin G., et al., 2025, MNRAS, 541, 1831
+McBride J., Fakhouri O., Ma C.-P., 2009, MNRAS, 398, 1858
+McLaughlin D. E., 1999, ApJ, 512, L9
+McLeod D. J., McLure R. J., Dunlop J. S., Cullen F., Carnall A. C., Duncan
+K., 2021, MNRAS, 503, 4413
+Mihos J. C., Harding P., Feldmeier J. J., Rudick C., Janowiecki S., Morrison
+H., Slater C., Watkins A., 2017, ApJ, 834, 16
+Montes M., Trujillo I., 2018, MNRAS, 474, 917
+Montes M., Trujillo I., 2019, MNRAS, 482, 2838
+Montes M., Brough S., Owers M. S., Santucci G., 2021, ApJ, 910, 45
+Morishita T., Abramson L. E., Treu T., Schmidt K. B., Vulcani B., Wang X.,
+2017, ApJ, 846, 139
+Moster B. P., Naab T., White S. D. M., 2013, MNRAS, 428, 3121
+Mowla L. A., et al., 2019, ApJ, 880, 57
+Murante G., Giovalli M., Gerhard O., Arnaboldi M., Borgani S., Dolag K.,
+2007, MNRAS, 377, 2
+Naiman J. P., et al., 2018, MNRAS, 477, 1206
+Navarro J. F., Frenk C. S., White S. D. M., 1997, ApJ, 490, 493
+Neal R. M., 1997, arXiv e-prints, p. physics/9701026
+Nelson D., et al., 2018, MNRAS, 475, 624
+Nelson D., et al., 2019, MNRAS, 490, 3234
+Ogiya G., Taylor J. E., Hudson M. J., 2021, MNRAS, 503, 1233
+Onions J., et al., 2025, MNRAS, 542, 1477
+Pillepich A., et al., 2018, MNRAS, 475, 648
+Planck Collaboration XIII 2016, A&A, 594, A13
+Planck Collaboration XVI 2014, A&A, 571, A16
+Pontzen A., Governato F., 2012, MNRAS, 421, 3464
+Prada F., Klypin A. A., Cuesta A. J., Betancort-Rijo J. E., Primack J., 2012,
+MNRAS, 423, 3018
+Ragusa R., et al., 2023, A&A, 670, L20
+Reina-Campos M., Trujillo-Gomez S., Pfeffer J. L., Sills A., Deason A. J.,
+Crain R. A., Kruijssen J. M. D., 2023, MNRAS, 521, 6368
+Roediger E., Hensler G., 2005, A&A, 433, 875
+Rudick C. S., Mihos J. C., McBride C., 2006, ApJ, 648, 936
+Rudick C. S., Mihos J. C., McBride C. K., 2011, ApJ, 732, 48
+Scaramella R., et al., 2022, A&A, 662, A112
+Schaller M., et al., 2015, MNRAS, 452, 343
+Schaye J., et al., 2015, MNRAS, 446, 521
+Schechter P., 1976, ApJ, 203, 297
+SedgwickT.M.,BaldryI.K.,JamesP.A.,KelvinL.S.,2019,MNRAS,484,
+5278
+Smith R., Choi H., Lee J., Rhee J., Sanchez-Janssen R., Yi S. K., 2016, ApJ,
+833, 109
+Springel V., 2010, MNRAS, 401, 791
+Springel V., et al., 2018, MNRAS, 475, 676
+Springel V., Pakmor R., Zier O., Reinecke M., 2021, MNRAS, 506, 2871
+Taffoni G., Mayer L., Colpi M., Governato F., 2003, MNRAS, 341, 434
+Teyssier R., 2002, A&A, 385, 337
+Teyssier R., Pontzen A., Dubois Y., Read J. I., 2013, MNRAS, 429, 3068
+Tomczak A. R., et al., 2014, ApJ, 783, 85
+Tonnesen S., Bryan G. L., 2009, ApJ, 694, 789
+Tormen G., 1997, MNRAS, 290, 411
+Valluri M., Vass I. M., Kazantzidis S., Kravtsov A. V., Bohn C. L., 2007,
+ApJ, 658, 731
+Virtanen P., et al., 2020, Nature Methods, 17, 261
+WatkinsA.E.,MartinG.,KavirajS.,CollinsC.,DuboisY.,KraljicK.,Pichon
+C., Yi S. K., 2025, MNRAS, 537, 3499
+Weaver J. R., et al., 2023, A&A, 677, A184
+WechslerR.H.,BullockJ.S.,PrimackJ.R.,KravtsovA.V.,DekelA.,2002,
+ApJ, 568, 52
+WestM.J.,CoteP.,JonesC.,FormanW.,MarzkeR.O.,1995,ApJ,453,L77
+Wetzel A. R., 2011, MNRAS, 412, 49
+Yoo J., et al., 2024, arXiv e-prints, p. arXiv:2402.17958
+Yurin D., Springel V., 2014, MNRAS, 444, 62
+Zhang Y., et al., 2019, ApJ, 874, 165
+Zhao D. H., Mo H. J., Jing Y. P., Börner G., 2003, MNRAS, 339, 12
+van den Bosch F. C., Ogiya G., 2018, MNRAS, 475, 4066
+APPENDIX A: RESOLUTION TESTS
+Resolution is a critical factor in accurately modelling the dynamical
+evolutionofsatellitesandthefateoftheirstrippedmaterial(e.g.van
+den Bosch & Ogiya 2018; Martin et al. 2024). As shown in Martin
+etal.(2024),DMmassresolutionisthedominantfactorinrecovering
+reliable stripping rates for both stellar and DM components. Since
+ourprimaryfocusliesintheevolutionofsatellitesandtheirstripped
+material,thesatellitesmustberesolvedwithsufficientlylowparticle
+masses to accurately capture the internal structure of the satellite.
+Similarly,thecluster—includingboththeDMhaloandthecentral
+galaxy—must be modelled at the same numerical resolution as the
+satellites to prevent spurious numerical effects. Accordingly, when
+we generate initial conditions, we do so ensuring the cluster halo,
+central galaxy, and satellite share an identical mass resolution. We
+adopt DM particle masses (𝑚DM) corresponding to≳500,000par-
+ticles for each satellite halo, with stellar particles (𝑚★) roughly five
+times less massive. In Table B1 we summarise the𝑚★ and𝑚 DM
+corresponding to each of the satellite models described in Section
+2.3.2.
+Given that the most radial satellite orbits reach pericentres of
+∼4kpc, we additionally verify via isolated simulations that the
+density profiles of the cluster halo and central galaxy remain stable
+atallradiibeyondthisscaleatallresolutionlevels.FigureA1shows
+thecumulativeradialmassprofilesofthestellarandDMcomponents
+of the cluster. Purple and green filled square symbols respectively
+show the analytic DM and stellar profiles. Open diamond symbols
+show the same components measured from theGalIC-generated
+initial conditions. In order to test the stability of our cluster model,
+we evolve an isolated realisation of the model for 2 Gyr at each
+resolution level. Thin, faint lines show the result for the coarsest
+adopted resolution shown in Table B1 at evenly spaced snapshots
+between 0.25 and 2 Gyr. Even at this resolution, the simulation
+remains stable outside the central kpc where we find no significant
+deviation from the initial profile.
+We perform further tests on the stability of each satellite model,
+alsoevolvingeachoneinisolationfor2Gyr.Nosignificantdeviations
+fromtheinitialconditionsarefound,withanydeviationsconfinedto
+well within the stellar effective radius of the satellite.
+APPENDIX B: MODEL PREDICTIONS
+Figure B1 presents the evolution of the specific orbital energy and
+angular momentum ratios between stripped stars and stripped DM
+as functions of the infall circularity, for the set of satellite–to–host
+mass ratios indicated in the legend. The top panels show the energy
+ratios,computedforallstrippedparticles(left)andforparticleswith
+𝑟 >100kpc (right). We include break in the𝑦-axis of the top panels
+becausethe1:1mergerproducesmarkedlylowerratiosthantheother
+cases. The bottom panels show the corresponding ratios for angular
+momentum.
+For the energy ratios, most of the variation arises from the mass
+ratio, with only a modest dependence on circularity. The trend is
+monotonic: closer mass ratios produce greater stellar energy loss
+relative to the DM. The difference between the all particles and
+when only particles at𝑟 >100kpc are included is smaller, since
+excluding the innermost region removes the lowest-energy material.
+At more unequal mass ratios the two selections agree much more
+MNRAS000, 1–26 (2026)
+22G. Martin et al.
+𝑀★/M⊙ 𝑀h,200 /M⊙ 𝑟1/2/kpc𝑐 200 𝑀sat/𝑀host 𝑚★/M⊙ 𝑚DM/M⊙
+108.5 1011.0 2.03 6.47 0.0006 10 4.3 105.3
+109.9 1011.7 2.96 5.86 0.0029 10 5.3 106.0
+1010.5 1012.1 3.58 5.61 0.0075 10 5.8 106.5
+1010.9 1012.7 4.67 5.22 0.0312 10 6.3 107.0
+1011.1 1013.0 5.35 5.08 0.0644 10 6.3 107.0
+1011.3 1013.3 5.98 4.92 0.1229 10 6.3 107.0
+1011.5 1013.7 7.42 4.88 0.2900 10 6.3 107.0
+1012.2 1014.2 12.5 4.96 1.0000— —
+Table B1.Properties and numerical resolution used for the satellite and cluster models. Columns list the stellar mass𝑀★, halo mass𝑀h,200, stellar half-mass
+radius𝑟 1/2, halo concentration𝑐200, satellite–to–host mass ratio𝑀sat/𝑀host and the stellar and DM particle masses𝑚★ and𝑚 DM. Satellite model properties
+are assigned using scaling relations at𝑧=1, while the cluster is defined at its formation redshift𝑧=0.6. The cluster model is indicated in bold. The cluster
+model is not assigned an independent particle resolution; instead, its effective mass resolution is inherited from the satellite.
+10 1
+100 101 102 103
+r [kpc]
+107
+108
+109
+1010
+1011
+1012
+1013
+1014
+M( < r) [M ]
+N-body, initial
+N-body, post-relaxation
+Analytic
+Cluster halo
+Central galaxy
+FigureA1.TheDMandstellarcumulativeradialmassprofilesofthecluster
+haloandcentralgalaxymeasuredoutto𝑅 200.Filledsquaresindicateanalytic
+Hernquist mass profile while open diamonds indicate the mass profile mea-
+sured from theGalICgenerated initial conditions. Thin faint lines indicate
+the mass profile over the lowest adopted resolution shown in Table B1 after
+the isolated cluster has been evolved for between 0.25 and 2 Gyr.
+closely, due to the fact that most stripped material remains at large
+radii in these cases.
+The angular momentum ratios show a similar overall pattern but
+with a stronger dependence on the orbital angular momentum, par-
+ticularly for the most radial orbits. This introduces a wider spread
+across circularity than is seen in the energy ratios.
+To quantify the contribution of each satellite to the phase-space
+properties of ICL and the cluster’s DM halo, it is also necessary to
+measurethefractionofmassthatisactuallydepositedintoclusterthe
+halo. Figure B2 presents this for both DM and stellar components:
+the top panels show the stripped stellar mass as a fraction of the
+satellite’s infall stellar mass (left) and the fraction of that mass that
+ends up at𝑟 >100kpc by the end of the simulation, again as a
+fractionoftheinfallstellarmass(right).Thebottompanelsshowthe
+same quantities for DM.
+Thebehaviourofthestrippedfractionsislessstraightforwardthan
+thatoftheenergyandangularmomentumratios.Strippingefficiency
+increases as satellites lose orbital energy, but the material in low-
+mass systems is also more weakly bound resulting in an increase in
+stripping efficiency. Additionally, for the most equal-mass mergers,
+the satellite merges rapidly with the central galaxy, so a substantial
+proportion of the stripped stellar material merges into the central
+object rather than the ICL component.
+These competing effects are reflected in the trends, particularly
+for𝑟 >100kpc. The efficiency decreases with increasing mass ratio
+down to approximately 1:100, where dynamical friction is weakest,
+andthenrisesagainatlowermassesowingtothemuchlowerbinding
+energies of the smallest satellites.
+For major mergers, essentially all stellar and DM material is
+strippedfromthesatellite.However,onlyasmallfractionofthestel-
+lar mass reaches the ICL, whereas the majority of the DM (around
+90 per cent) is deposited beyond 100 kpc.
+APPENDIX C: RANGE OF SCHECHTER FUNCTION
+PARAMETERS FOR INFALLING SATELLITES
+Figure C1 summarises the variation in the Schechter-function pa-
+rameters𝛼(faint-end slope) andlog 10 𝑀★ (characteristic mass)
+fitted to the stellar mass functions of infalling satellites across a
+sample of clusters drawn from four hydrodynamical simulations–
+Horizon-AGN(Dubois et al. 2014, 2016),HydrangeaBahé et al.
+(2017),TNG100(Nelson et al. 2019) from the IllustrisTNG project,
+and theGIZMO7K run (Gómez et al. 2025; Cui et al., in prep.)
+fromTheThreeHundredproject.Thefittingprocedurefollowsthat
+of Brown et al. (2024). We refer to Brown et al. (2024) for further
+details of the determination of infall stellar masses and the fitting
+method. Values for each parameter in individual clusters and their
+1𝜎uncertainties are indicated with error bars.
+Weexcludefromthefigureanyindividual-clusterSchechterfitsfor
+whichthehigh-massendiseffectivelyunconstrained,corresponding
+to clusters where the available galaxy sample does not sample the
+exponential cutoff. This principally affects theHydrangeaset, for
+whichonlythreeclusterscouldbefitindividually.Thisexclusiondoes
+not significantly bias the inferred parameter ranges. In all cases, the
+stacked infalling satellite populations of each simulation lie roughly
+central to the percentile regions derived from the individually fitted
+clusters.
+For each simulation, we compute the 5th and 95th percentiles of
+the derived𝛼andlog 10 𝑀★. These percentile intervals are shown
+as coloured rectangles in the figure. The four simulation suites oc-
+cupy distinct regions of the𝛼−log 10 𝑀★ plane. in particular the
+Horizon-AGNresults lie systematically at shallower𝛼and at lower
+log10 𝑀★ thantheothersuites.Theseoffsetslikelyarisefromdiffer-
+ences in sub-grid prescriptions, numerical resolution, and the range
+of environments probed by each simulation. Given the significant
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM23
+0.6
+0.7
+0.8
+0.9
+1.0/ DM
+All
+0.1
+r > 100 kpc
+0.0 0.2 0.4 0.6 0.8 1.0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0h / hDM
+Msat/Mhost
+10 3.0
+10 2.5
+10 2.0
+10 1.5
+10 1.2
+10 0.9
+10 0.5
+100.0
+0.0 0.2 0.4 0.6 0.8 1.0
+Figure B1.Average energy ratios (top) and angular momentum ratios (bottom) as a function of orbital circularity. Values drawn from each simulation in our
+grid are shown as open circles while the average of posterior draws from the model are shown as coloured lines. Colours correspond to satellite–to–host mass
+ratios indicated in the legend. Results are split between results for all stripped particles (left, solid lines) and only stripped particles with𝑟 >100kpc (right,
+dashed lines).
+differences between the four simulations, we adopt the combined
+parameter envelope across all four suites, enclosing the smallest
+minimum and largest maximum values of𝛼andlog10 𝑀★ for these
+regions. The black dashed rectangle defines our choice of parameter
+ranges, also shown in Table 1.
+APPENDIX D: SENSITIVITY TO THE LOW-MASS
+SATELLITE POPULATION
+In this section, we explore how far down the satellite stellar mass
+function must be modelled in order to approximately recover the
+population-averaged stellar–to–DM offsets. Figure D1 shows the
+population-averagedspecificenergyratio,⟨𝜀 ★/𝜀DM⟩forallaccreted
+particles, as a function of the minimum stellar mass at which we
+truncate the infalling satellite population. The figure samples a con-
+tinuous range of characteristic stellar masses,𝑀★ indicated by the
+colourbar, keeping the low-mass slope𝛼fixed at the fiducial value.
+Across these models, increasing the minimum infaller mass leads
+to a systematic reduction in⟨𝜀★/𝜀DM⟩. This behaviour reflects the
+fact that low-mass satellites typically undergo stripping of stars and
+DMatsimilarorbitalenergies.Asprogressivelylower-masssystems
+areexcluded,thepopulation-averagedenergyratiobecomesincreas-
+ingly dominated by a small number of intermediate- and high-mass
+infallers, which generate the largest stellar–DM offsets.
+The dashed black line indicates the minimum infaller stellar mass
+required to explain 95 per cent of the DM–ICL specific energy ra-
+tio. Extending the satellite mass function to stellar masses below
+log10 (𝑀★/𝑀 ⊙) ∼10–10.5produces little additional change in the
+predicted energy ratio, independent of𝑀★. This indicates that the
+stellar–DM energy offset is insensitive to the detailed abundance of
+faintsatellitesandisinsteadgovernedprimarilybythecharacteristic
+mass scale and relative frequency of intermediate- and high-mass
+infallers.
+APPENDIX E: COSMOLOGICAL SIMULATIONS
+To compare the predictions of our controlled simulations with fully
+cosmological environments, we make use of four independent cos-
+mologicalhydrodynamicalsimulationsuitesthatspanarangeofnu-
+mericalmethods,massresolutions,andsubgridphysicsimplementa-
+tions.Thesesimulationsprovideclusterandgroup-scalehaloeswith
+resolved satellite populations and diffuse stellar components, allow-
+ing a comparison of stellar–to–DM energy, angular momentum, and
+radial density offsets.
+It is important to note that, at the resolutions of current large-
+volume cluster simulations, the tidal stripping of stellar material is
+not perfectly converged. In Martin et al. (2024), we showed that
+limited mass and force resolution can lead to artificially enhanced
+strippingofstellarcomponents,resultinginanoverproductionofICL
+andinaccuraciesintheinferredspatialandphase-spacedistributions
+of stripped stars. More recently, Lovell et al. (2025) performed a
+resolution study across the IllustrisTNG suite, demonstrating that
+whilethestrippingtimesofDMarelargelyconvergedfromTNG50-
+1 through to TNG300-1, the stripped mass and stripping times of
+MNRAS000, 1–26 (2026)
+24G. Martin et al.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+fstripped,
+All
+0.0 0.2 0.4 0.6 0.8 1.0
+r > 100 kpc
+0.0 0.2 0.4 0.6 0.8 1.0
+0.6
+0.7
+0.8
+0.9
+1.0
+fstripped, DM
+Msat/Mhost
+10 3.0
+10 2.5
+10 2.0
+10 1.5
+10 1.2
+10 0.9
+10 0.5
+100.0
+0.0 0.2 0.4 0.6 0.8 1.0
+FigureB2.Strippedstellarmassfractions(top)andstrippedDMmassfractions(bottom)asafunctionoforbitalcircularity.Valuesdrawnfromeachsimulation
+in our grid are shown as open circles while the average of posterior draws from the model are shown as coloured lines. Colours correspond to satellite–to–host
+massratiosindicatedinthelegend.Resultsaresplitbetweenresultsforallstrippedparticles(left,solidlines)andresultsshowingthestrippedmasscorresponding
+to𝑟 >100kpc as a fraction of the infalling satellite mass (right, dashed lines).
+Table C1.Schechter function parameter ranges for the stellar mass functions of infalling satellites in each hydrodynamical simulation suite. Listed are the
+5th–95th percentile ranges oflog10 𝑀★ and𝛼derived from individually fitted clusters, together with the parameters obtained from fitting the stacked infalling
+satellite population in each simulation. The final row gives the combined envelope adopted in this work.
+Simulationlog 10 𝑀★
+min log10 𝑀★
+max 𝛼min 𝛼max log10 𝑀★
+stack 𝛼stack
+Horizon-AGN10.87 11.31 -1.24 -1.02 11.01 -1.15
+Hydrangea11.31 11.81 -1.42 -1.35 11.31 -1.38
+TNG10011.17 11.56 -1.36 -1.19 11.40 -1.35
+TheThreeHundred GIZMO7K 11.14 11.73 -1.51 -1.25 11.32 -1.34
+Full range 10.87 11.81 -1.51 -1.02 – –
+stellar particles are not converged at these resolutions. This is con-
+sistent with general convergence arguments for tidal evolution. For
+example, Chiang et al. (2025) derived resolution criteria showing
+that insufficient mass and force resolution leads to systematic over-
+stripping and premature disruption of substructure. Together, these
+results imply that both the amount and detailed phase-space prop-
+erties of the ICL in cosmological simulations should be interpreted
+with caution.
+We therefore compare our model predictions to a set of comple-
+mentarycosmologicalsimulationsthattogethersampleabroadrange
+ofclusterenvironments,resolutionsandnumericalimplementations.
+Whilemodernhigh-resolutionclustersimulationssuchasNewClus-
+ter (Han et al. 2025) are now able to comfortably resolve stellar
+stripping in individual systems (Jeon et al. 2025), we choose to use
+multiple large-volume simulations here to assess the robustness of
+ourresultsacrossarangeofrepresentativeclusterpopulations.Below
+webrieflysummarisethekeypropertiesandphysicalmodelsofeach
+simulationsuiteusedinthiswork.Additionally,thekeypropertiesof
+each simulations are summarised in Table E1. For each simulation,
+welistthecode,hydrodynamicsscheme,subgridphysicsmodel,sim-
+ulation volume, particle mass resolutions, gravitational softening or
+minimum spatial resolution, and adopted cosmological parameters.
+All properties are expressed in physical (proper) units.
+E1Horizon-AGN
+Horizon-AGN(Dubois et al. 2014, 2016; Kaviraj et al. 2017)
+is a cosmological hydrodynamical simulation evolved with the
+adaptive mesh refinement codeRamses(Teyssier 2002), run in a
+(100ℎ −1 Mpc)3volume.TheDMparticlemassis𝑚 DM =8×10 7 M⊙
+MNRAS000, 1–26 (2026)
+The phase-space distribution of ICL and DM25
+Table E1.Key properties of the cosmological hydrodynamical simulations used in this work.
+PropertyHorizon-AGN Hydrangea TNG100 TheThreeHundred
+GIZMO 7K
+CodeRamses Gadget-3 Arepo GIZMO
+Hydrodynamics AMR SPH Moving-mesh Meshless-finite-mass
+Subgrid model Dubois et al. (2014)EAGLE TNG Simba-c
+Volume(142 Mpc) 3 Zoom-in(110 Mpc) 3 Zoom-in
+𝑚DM [M⊙]8×10 7 9.7×10 6 7.5×10 6 2.7×10 8
+𝑚★ [M⊙]2×10 6 1.8×10 6 1.4×10 6 4.4×10 7
+𝜖[kpc]1.0(minimum cell size)0.7 0.7 3.7
+Cosmology WMAP7 Planck 2014 Planck 2016 Planck 2016
+Ωm 0.272 0.307 0.3089 0.3089
+ΩΛ 0.728 0.693 0.6911 0.6911
+Ωb 0.045 0.04825 0.0486 0.0486
+𝜎8 0.81 0.8288 0.8159 0.8159
+𝑛𝑠 0.967 0.9611 0.9667 0.9667
+𝐻0 [km s−1 Mpc−1] 70.4 67.77 67.74 67.74
+11.0 11.5
+log10(M /M )
+1.5
+1.4
+1.3
+1.2
+1.1
+1.0
+Range 9 95%
+Simulation stacked average
+Horizon-AGN
+Hydrangea
+TNG100
+The300 GIZMO 7k
+FigureC1.Stellarmass–functionparameterspaceforinfallingsatellitepop-
+ulationsacrossfourhydrodynamicalsimulationsuites.Pointswitherrorbars
+showbest-fittingSchechterparametersforindividualclusters,withhorizontal
+and vertical bars indicating1𝜎uncertainties on the faint-end slope𝛼and
+characteristic masslog 10 𝑀★, respectively. Coloured rectangles denote the
+5th–95th percentile ranges of(𝛼,log10 𝑀★)derived from the ensemble of
+individuallyfittedclusterswithineachsimulation.Theblackdashedrectangle
+marks the combined envelope adopted in this work, defined by the smallest
+minima and largest maxima across all suites, and used to set the parameter
+rangeslistedinTable1.Fitsforwhichtheexponentialcutoffisunconstrained
+are excluded.
+and the initial baryonic mass resolution is𝑚 gas =10 7 M⊙; star
+particles form with a minimum mass of𝑚 ★ =2×10 6 M⊙.
+The maximum physical spatial resolution isΔ𝑥=1 kpc(proper).
+The simulation includes radiative cooling, star formation, stellar
+feedback, and dual-mode AGN feedback implemented in thermal
+and kinetic modes.Horizon-AGNadopts a WMAP7-like cos-
+mology (Komatsu et al. 2011) with(Ω m,Ω Λ,Ω b, 𝜎8, 𝑛𝑠, 𝐻0)=
+(0.272,0.728,0.045,0.81,0.967,70.4 km s −1 Mpc−1).
+FigureD1.Population-averagedratioofthespecificorbitalenergyofstripped
+starstothatofstrippedDM,⟨𝜀 ★/𝜀DM ⟩,asafunctionoftheminimumstellar
+mass included in the infalling satellite population. We sample a continuous
+range of characteristic stellar masses𝑀★ indicated by the colour bar. The
+dashed line indicates the infaller stellar mass above which 95 per cent of the
+energy ratio is explained.
+E2Hydrangea
+Hydrangea(Bahé et al. 2017) is a suite of hydrodynamical
+zoom simulations of galaxy clusters, built using the modified
+Gadget-3smoothed particle hydrodynamics code and theEA-
+GLEsubgrid model (Schaye et al. 2015), with initial condi-
+tions consistent with theEAGLEreference resolution:𝑚 DM =
+9.7×10 6 M⊙ and𝑚 gas =1.8×10 6 M⊙. The Plummer-
+equivalent gravitational softening length is𝜖=0.7 kpc. The sim-
+ulation includes radiative cooling, star formation, stellar feed-
+back, and thermal AGN feedback following the EAGLE model.
+The simulations assume aΛCDM cosmology consistent with
+MNRAS000, 1–26 (2026)
+26G. Martin et al.
+Planck Collaboration XVI (2014), with(Ωm,Ω Λ,Ω b, 𝜎8, 𝑛𝑠, 𝐻0)=
+(0.307,0.693,0.04825,0.8288,0.9611,67.77 km s −1 Mpc−1).
+E3TNG100
+TNG100(Marinacci et al. 2018; Nelson et al. 2018; Pillepich et al.
+2018;Naimanetal.2018;Springeletal.2018)isacosmologicalmag-
+netohydrodynamical simulation evolving a(110 Mpc) 3 comoving
+volumeusingthemoving-meshcodeArepo(Springel2010).Forthe
+TNG100-1run,theDMparticlemassis𝑚 DM =7.5×10 6 M⊙ andthe
+targetbaryonicmassresolutionis𝑚 b =1.4×10 6 M⊙.ThePlummer-
+equivalentgravitationalsofteninglengthforcollisionlessparticlesis
+𝜖=0.7 kpcat𝑧=0. The simulation includes ideal MHD, radia-
+tive cooling, star formation, kinetic stellar feedback, and dual-mode
+AGN feedback. AΛCDM cosmology consistent with Planck Col-
+laboration XIII (2016) is adopted, with(Ωm,Ω Λ,Ω b, 𝜎8, 𝑛𝑠, 𝐻0)=
+(0.3089,0.6911,0.0486,0.8159,0.9667,67.74 km s −1 Mpc−1).
+E4TheThreeHundred GIZMO 7K
+TheThreeHundredproject (Cui et al. 2018) comprises 324 zoom-
+in simulations of a mass-complete sample of massive galaxy clus-
+ters at𝑧=0, selected from a large cosmological DM only simu-
+lation, MDPL2 (Klypin et al. 2016). In this work we use the latest
+GIZMO 7K run (Cui et al., in prep.), which employs the meshless
+finite-masshydrodynamicssolver,GIZMO,coupledwithanupdated
+Simba-Cmodel (Hough et al. 2023) from theSimbagalaxy forma-
+tion model (Davé et al. 2019). The DM mass resolution is𝑚DM =
+2.7×10 8 M⊙ and the stellar mass resolution is𝑚★ =4.4×10 7 M⊙
+(Cui et al. 2022). The simulations include radiative cooling, star
+formation, stellar feedback, and multi-mode AGN feedback includ-
+ing kinetic jets. AΛCDM cosmology consistent with Planck Col-
+laboration XIII (2016) is adopted, with(Ωm,Ω Λ,Ω b, 𝜎8, 𝑛𝑠, 𝐻0)=
+(0.3089,0.6911,0.0486,0.8159,0.9667,67.74 km s −1 Mpc−1).
+This paper has been typeset from a TEX/LATEX file prepared by the author.
+MNRAS000, 1–26 (2026)

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SpatiotemporalTrajectory",
+  "associatedWithSpeed",
+  "FreeFlowSpeed",
+  "ContinuousAlignedGreenPhase",
+  "indicates",
+  "EffectiveSignalCoordination",
+  "enables",
+  "UnstoppedArterialTravel",
+  "Arterial3Case",
+  "hasArterialDemand",
+  "demand_1200VehiclesPerHour",
+  "hasSideStreetDemand",
+  "demand_800VehiclesPerHour",
+  "hasIntersectionSpacing",
+  "spacing_300meters",
+  "hasTurningMovement",
+  "turningMovement_none",
+  "OptimalGreenSplit",
+  "correspondsTo",
+  "flowRatio_1200to800",
+  "hasSimplifiedRatio",
+  "ratio_3to2",
+  "hasOffset",
+  "offset_20seconds",
+  "GreenWaveBandVisualization",
+  "appliesTo",
+  "hasGreenPhaseDuration",
+  "greenPhase_23seconds",
+  "hasRedPhaseDuration",
+  "redPhase_17seconds",
+  "GreenWaveBand",
+  "hasDirection",
+  "EastWestDirection",
+  "hasSimulationTimeReference",
+  "time_1595seconds",
+  "displaysPositionRange",
+  "positionRange_150to750meters",
+  "displaysTimeRange",
+  "timeRange_1500to1700seconds",
+  "VissimRL",
+  "isTypeOf",
+  "ReinforcementLearningFramework",
+  "hasProperty",
+  "modular",
+  "flexible",
+  "TrafficSignalControl",
+  "integratesWith",
+  "Vissim",
+  "highFidelitySimulator",
+  "encapsulates",
+  "COMInterface",
+  "usesInterface",
+  "PythonAPI",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior"
+]
+
+Triples:
+[
+  {
+    "subject": "SpatiotemporalTrajectory",
+    "relation": "associatedWithSpeed",
+    "object": "FreeFlowSpeed",
+    "chunk": "experiments5",
+    "context": "reflecting the spatiotemporal trajectory of vehicles traveling at free-flow speed"
+  },
+  {
+    "subject": "ContinuousAlignedGreenPhase",
+    "relation": "indicates",
+    "object": "EffectiveSignalCoordination",
+    "chunk": "experiments5",
+    "context": "When green phases appear continuous and aligned along this slope, it indicates effective signal coordination"
+  },
+  {
+    "subject": "EffectiveSignalCoordination",
+    "relation": "enables",
+    "object": "UnstoppedArterialTravel",
+    "chunk": "experiments5",
+    "context": "enabling vehicles to travel along the arterial without stopping"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasArterialDemand",
+    "object": "demand_1200VehiclesPerHour",
+    "chunk": "experiments5",
+    "context": "the arterial demand was set to 1200 vehicles per hour"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasSideStreetDemand",
+    "object": "demand_800VehiclesPerHour",
+    "chunk": "experiments5",
+    "context": "the side-street demand to 800 vehicles per hour"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasIntersectionSpacing",
+    "object": "spacing_300meters",
+    "chunk": "experiments5",
+    "context": "with an intersection spacing of 300 meters"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasTurningMovement",
+    "object": "turningMovement_none",
+    "chunk": "experiments5",
+    "context": "with an intersection spacing of 300 meters and no turning movements (Table X)"
+  },
+  {
+    "subject": "OptimalGreenSplit",
+    "relation": "correspondsTo",
+    "object": "flowRatio_1200to800",
+    "chunk": "experiments5",
+    "context": "the optimal green split corresponds to the flow ratio of 1200 : 800 (3 : 2)"
+  },
+  {
+    "subject": "flowRatio_1200to800",
+    "relation": "hasSimplifiedRatio",
+    "object": "ratio_3to2",
+    "chunk": "experiments5",
+    "context": "the flow ratio of 1200 : 800 (3 : 2)"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasOffset",
+    "object": "offset_20seconds",
+    "chunk": "experiments5",
+    "context": "Offset = 20 s"
+  },
+  {
+    "subject": "GreenWaveBandVisualization",
+    "relation": "appliesTo",
+    "object": "Arterial3Case",
+    "chunk": "experiments5",
+    "context": "Fig. 12: Green Wave Band visualization for the Arterial-3 case."
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasGreenPhaseDuration",
+    "object": "greenPhase_23seconds",
+    "chunk": "experiments5",
+    "context": "23 s 17 s"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasRedPhaseDuration",
+    "object": "redPhase_17seconds",
+    "chunk": "experiments5",
+    "context": "23 s 17 s"
+  },
+  {
+    "subject": "GreenWaveBand",
+    "relation": "hasDirection",
+    "object": "EastWestDirection",
+    "chunk": "experiments5",
+    "context": "EastWest"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasSimulationTimeReference",
+    "object": "time_1595seconds",
+    "chunk": "experiments5",
+    "context": "(1595 s)"
+  },
+  {
+    "subject": "GreenWaveBandVisualization",
+    "relation": "displaysPositionRange",
+    "object": "positionRange_150to750meters",
+    "chunk": "experiments5",
+    "context": "150 450 750 Position (m)"
+  },
+  {
+    "subject": "GreenWaveBandVisualization",
+    "relation": "displaysTimeRange",
+    "object": "timeRange_1500to1700seconds",
+    "chunk": "experiments5",
+    "context": "1500 1550 1600 1650 1700 Time (s)"
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "isTypeOf",
+    "object": "ReinforcementLearningFramework",
+    "chunk": "conclusions1",
+    "context": "This paper introduced VissimRL, a modular and flexible RL framework for TSC integrated with the high-fidelity simulator Vissim."
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "hasProperty",
+    "object": "modular",
+    "chunk": "conclusions1",
+    "context": "This paper introduced VissimRL, a modular and flexible RL framework for TSC integrated with the high-fidelity simulator Vissim."
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "hasProperty",
+    "object": "flexible",
+    "chunk": "conclusions1",
+    "context": "This paper introduced VissimRL, a modular and flexible RL framework for TSC integrated with the high-fidelity simulator Vissim."
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "appliesTo",
+    "object": "TrafficSignalControl",
+    "chunk": "conclusions1",
+    "context": "This paper introduced VissimRL, a modular and flexible RL framework for TSC integrated with the high-fidelity simulator Vissim."
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "integratesWith",
+    "object": "Vissim",
+    "chunk": "conclusions1",
+    "context": "This paper introduced VissimRL, a modular and flexible RL framework for TSC integrated with the high-fidelity simulator Vissim."
+  },
+  {
+    "subject": "Vissim",
+    "relation": "hasProperty",
+    "object": "highFidelitySimulator",
+    "chunk": "conclusions1",
+    "context": "This paper introduced VissimRL, a modular and flexible RL framework for TSC integrated with the high-fidelity simulator Vissim."
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "encapsulates",
+    "object": "COMInterface",
+    "chunk": "conclusions1",
+    "context": "The framework effectively simplifies the development process by encapsulating the COM interface through a high-level Python API."
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "usesInterface",
+    "object": "PythonAPI",
+    "chunk": "conclusions1",
+    "context": "The framework effectively simplifies the development process by encapsulating the COM interface through a high-level Python API."
+  }
+]

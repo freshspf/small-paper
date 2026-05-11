@@ -1,0 +1,131 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument22",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument22
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Variations in the faint-end slope and
+in the orbital circularity distribution produce only minor changes in
+the cumulative ICL mass budget, and a dominant contribution from
+low-mass satellites is not realised for any plausible characteristic
+mass (Figure 8).
+(vi)Population-averaged stellar–to–DM phase-space offsets are
+most sensitive to the characteristic mass of the infalling satellite
+stellar mass function.When integrated over realistic infalling
+satellite populations, the mean stellar–to–DM energy and angular
+momentum ratios vary primarily in response to changes in the
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM19
+characteristic mass scale of the infalling satellite stellar mass
+function. Adjusting the low-mass slope produces comparatively
+little change in the population-averaged offsets, indicating that the
+phase-space separation is insensitive to the abundance of low-mass
+satellites. Variations in the orbital distribution mainly broaden the
+angular momentum distribution and have only a weak effect on
+the mean offsets, consistent with the limited sensitivity to orbital
+circularity seen for individual satellites (Figure 9).
+(vii)The corresponding radial stellar–to–DM density profiles
+alsodependprimarilyontheinfallingsatellitestellarmassfunction.
+Theradialdependenceofthestellar–to–DMdensityratiovariessig-
+nificantlyacrosstheallowedrangeofsatellitestellarmassfunctions,
+withchangesdrivenmainlybythecharacteristicmassscale.Shifting
+this mass scale alters typical energies and angular momenta of
+stripped stars (with a much weaker influence on the DM) producing
+corresponding changes in the radial concentration and logarithmic
+slope of the ICL profile, with higher characteristic masses resulting
+in steeper slopes. In contrast, variations in the orbital distribution
+induce only weak modifications to these radial trends (Figure 10).
+As a result, the mapping between ICL density profiles and the
+underlying DM distribution is governed primarily by the mass scale
+oftheinfallingsatellitepopulationratherthanbyitsorbitalstructure.
+(viii)Stellar–to–DM energy and angular momentum offsets in
+cosmologicalsimulationsarebroadlycapturedbythemodel.Across
+all four cosmological simulations considered, the stellar–to–DM
+specific angular momentum ratios are comparable to those pre-
+dicted by the model, indicating that the magnitude of the angular
+momentum offset is well reproduced when a full range of plausible
+infalling satellite populations are considered (Figure 11). The
+corresponding stellar–to–DM energy ratios predicted by the model
+are systematically somewhat closer than those measured in the
+simulations.
+(ix)Systematicdifferencesexistinstackedstellar–to–DMdensity
+profiles across simulation suites.Even when measured consistently
+using the same methodology, the normalisation and slope of the
+stacked stellar–to–DM density ratio differ systematically between
+the four cosmological simulation suites. This extends previous
+studies showing that intracluster stellar profiles are typically steeper
+and more centrally concentrated than the DM, and demonstrates
+that differences in the cosmic environments and physical models
+employed by each simulation imprint measurable variations on
+therelativeradialdistributionofstarsandDM(Figure12,leftpanel).
+(x)The model reproduces radial stellar–to–DM density profiles
+within the inter-simulation scatter.Despite these systematic differ-
+encesbetweensimulationsuites,onceadjustmentsaremadeforvari-
+ationsinstar-formationefficiencyandthemassandsizeofthecentral
+galaxy, and the infalling satellite stellar mass function is matched,
+our model reproduces the radial dependence of the stellar–to–DM
+density ratio to within the scatter between simulation suites (Figure
+12, right panel). This indicates that the dominant radial offsets be-
+tweenstarsandDMinclustersarelargelysetbytheinfallingsatellite
+stellar mass function.
+Our results establish that the phase-space and spatial offsets be-
+tweenintraclusterstarsandDMarisenaturallyfromthedemograph-
+icsoftheinfallingsatellitepopulation.Thecharacteristicmassscale
+of infalling satellites emerges as the key parameter controlling both
+the population-averaged energy and angular momentum offsets andtheradialprofileoftheICL.Whentheinfallingsatellitestellarmass
+function is matched, the resulting stellar–to–DM phase-space prop-
+erties and radial density profiles agree with those measured in cos-
+mological simulations to within the inter-simulation scatter. These
+results indicate that ICL encodes a robust record of satellite accre-
+tion,andthatitsspatialandkinematicstructurecanbeinterpretedin
+termsoftheunderlyingDMhalooncethepropertiesoftheinfalling
+satellite population are properly accounted for.
+ACKNOWLEDGEMENTS
+G. M, F. R. P, and N. A. H acknowledge support from the UK
+STFC under grant ST/X000982/1. H. J. B acknowledges support
+from the UK STFC under grant ST/Y509437/1. N. A. H and J.

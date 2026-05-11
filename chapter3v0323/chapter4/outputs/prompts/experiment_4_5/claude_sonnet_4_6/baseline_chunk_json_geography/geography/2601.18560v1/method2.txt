@@ -1,0 +1,195 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: method2
+- section_title: Method
+- page_start: 13
+- page_end: 17
+
+INPUT TEXT CHUNK:
+The
+14
+
+corresponding formula is demonstrated as follows:
+zij=exp(−∥x i−aj∥2
+2
+2σ2) (1)
+whereδis the band width. Due tom << n, the
+calculation of the anchor graphZis executed with
+high efficiency. Subsequent to the obtain of the
+anchor graphZand the anchor labelU∈Rm×c,
+the initial label matrixF 0∈Rn×cfor all pixels can
+be efficiently determined by label propagation[51]:
+F0=ZU(2)
+The information of the anchor label is distributed
+to all pixels by exploiting the similarity rela-
+tionship between the anchors and the pixels.
+Moreover, the initial affinity matrixW 1∈Rn×n
+between pixels can be deduced by utilizing the
+anchor graphZ, which is as follows[52]:
+Wa=Z∆−1ZT(3)
+where ∆∈Rm×mis a diagonal matrix and thei th
+entry is defined asPn
+j=1zij. It is evident thatW a
+constitutes a stochastic matrix.
+4.3 Sparse Graph Based Label
+Propagation
+Despite having derived the initial pixel labelF 0,
+they are still not precise enough due to the absence
+of a direct assessment of the similarity relationship
+between pixels. However, estimating pairwise sim-
+ilarity among all pixels exhibits a time complexity
+ofO(n2), which demands substantial computa-
+tional resources. Such an approach is undesirable.
+Therefore, we opt to construct a sparse graph.
+The prevailing approach in constructing the
+sparse graph entails a preliminary calculation of
+similarity across all pairs of samples, followed by
+the extraction of the k-nearest neighbors for each
+individual sample. However, this practice is evi-
+dently very time consuming, especially for the
+pixel-wise framework. Thus, a pre-pruning top-
+kstrategy is devised to circumvent the need for
+estimating similarity among all possible pairs of
+pixels. By applying the pruning strategy, a sparse
+graphWk∈Rn×ncan be derived. Specifically, for
+each pixel, we retain thekedges corresponding to
+the largest similarity and eliminate other connec-
+tions. In this section, the initial affinity matrixWais used as the fully connected graph to be pruned.
+The edge setεof the pruned sparse graphWkis
+as follows:
+εi={(i, j)|j=topk(Wa
+i)
+j̸=i}(4)
+whereε irepresents the edge set ofi thpixel and
+Wa
+imeans thei throw ofWa. After the prun-
+ing phase, the similarity between the pixel pairs is
+recomputed as follows.
+wk
+ij=(
+exp(∥xi−xj∥2
+2
+2σ2 ifxj∈N(x i)
+0otherwise(5)
+whereN(x i) represents the pixel set of thek
+nearest neighbors ofx i.
+In Eq.2, the label information is propagated
+exclusively from the anchors to the pixels. In addi-
+tion to the similarity relations between anchors
+and pixels, it is imperative to fully exploit the
+internal similarity relations between pixels in
+label propagation. Firstly, we establish the affinity
+matrixW∈R(m+n)×(m+n)for all samples, includ-
+ing labeled anchors and unlabeled pixels. Hence,
+the affinity matrixWcan be divided into four
+submatrixes:
+W=WllWlu
+WulWuu
+(6)
+whereW ll∈Rm×m, Wuu∈Rn×n, Wlu=
+Z, W ul=ZT. The anchor-anchor graphW ll
+encapsulates the similarity relations among the
+anchors. Given the limited number of anchors, we
+choose to construct a fully connected adjacency
+matrix. For the pixel-pixel graphW uu, we inte-
+grate the affinity matrixWawithWkand resolve
+it in a subsequent way:
+Wuu=Wa·Wk(7)
+where·represents element-wise product. To serve
+as a foundation for iterative propagation, the
+affinity matrixWis symmetrically normalized:
+S=D−1/2WD−1/2(8)
+15
+
+whereDis the degree matrix ofW:
+D=(P(m+n)
+j=1wiji=j
+0i̸=j(9)
+Typically, the label setLcan define a matrix
+Y∈R(m+n)×cwithY ij= 1 provided that the
+samplex iis classified as classj; otherwise,Y ij=
+0. LetYrepresent the label matrix to be prop-
+agated and denoteF∈R(m+n)×cas the derived
+label matrix after the label propagation. The pre-
+diction for unlabeled pixels can be represented
+through the following dynamic process:
+F(t+ 1) =αSF(t) + (1−α)Y(10)
+wheretrepresents thet thiteration andF(0) =Y.
+αis the balance parameter utilized to acquire
+both the label information fromYand the his-
+torical iterations. In every iteration, each pixel
+acquires information from its connected samples
+while simultaneously preserving a part of its initial
+information fromY. However, the label matrixY
+exhibits a limitation in which the initial label of
+the unlabeled pixels is assumed to be 0, indicat-
+ing that the matrix comprising the finalmrows
+of Y is a zero matrix. Consequently, in each iter-
+ation, these pixels are ascribed a value of 0 as
+their own information, which is evidently unten-
+able. To address this limitation, we integrate the
+anchor labelU∈Rm×cwith the initial pixel label
+F0∈Rn×c, forming the initial label matrix. The
+proposed label matrixYis as follows:
+Y=concat(U, F 0) (11)
+whereconcat(·) represents the operation of con-
+catenation. Finally, a labell iis attributed to
+each samplex iaccording to the rule ofl i=
+argmaxj≤cFij. In addition, the research in [53]
+asserts the existence of a closed form solution for
+Eq.10.

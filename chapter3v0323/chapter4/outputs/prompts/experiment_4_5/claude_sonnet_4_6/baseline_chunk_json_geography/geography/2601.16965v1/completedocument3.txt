@@ -1,0 +1,158 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+INPUT TEXT CHUNK:
+In parallel, neural program synthesis
+(Devlin et al., 2017; Zhong et al., 2023) has shown
+success in generating structured programs from
+specifications.
+3 Spatial-Agents
+3.1 Problem formulation of Agentic
+Geo-Spatial Reasoning
+Unlike existing LLM-based agents that rely on
+general-purpose planning and reasoning, Spatial-
+Agent is designed around a key insight: geo-
+analytical questions require grounding natural-
+language semantics into computational spatial rep-
+resentations. This poses three fundamental chal-
+lenges that distinguish geo-analytical reasoning
+from general-purpose tasks:
+•Semantic Domain vs. Spatial Domain.LLM
+agents represent spatial relationships as lin-
+guistic patterns rather than geometric struc-
+tures. For instance, “airport” and “termi-
+nal” are linguistically interchangeable, yet
+spatially the terminal is contained withinthe airport—a distinction critical for distance
+computation but invisible to language models.
+•Cognitive Reasoning vs. Spatial Reasoning.
+LLMs treat geospatial tools as black-box APIs
+without understanding the procedural struc-
+ture of geo-analytical questions. They lack a
+principled way to decompose spatial queries
+into ordered operations, often producing in-
+valid workflows.
+•Spatial Orchestration vs. Spatial Execution.
+Even when LLMs understand individual spa-
+tial operations, they struggle to orchestrate
+them into executable workflows where inter-
+mediate states must be tracked and data de-
+pendencies respected.
+To address these challenges, Spatial-Agent in-
+troduces: (1) explicit spatial grounding that trans-
+forms semantic descriptions into computational rep-
+resentations with precise geometric meanings; (2)
+a theory-driven framework leveraging GIScience
+core concepts and functional roles to decompose
+geo-analytical questions; and (3) the GeoFlow
+Graph as an intermediate representation bridging
+spatial knowledge with agent execution.
+System Overview.As illustrated in Figure 2,
+Spatial-Agent operates through a multi-stage
+pipeline: (1)Spatial Information Theory Analy-
+sis(§3.2) extracts core concepts from the ques-
+tion and groups them by functional roles; (2)Con-
+cept Transformation Draftingretrieves templates
+to define transformation patterns between concepts;
+(3)GeoFlow Graph Construction(§3.3) assembles
+transformations into an ordered graph following
+role-based precedence constraints; (4)GeoFlow
+Graph Factorization & Tool Mappingconverts the
+graph into an executable form with concrete opera-
+tors; and (5) the agent executes the workflow and
+generates a grounded response.
+3.2 Geospatial Concept Grounding
+To ground semantic concepts in spatial analysis,
+we must map abstract, non-spatial concepts from
+their original domains to concrete geo-objects in
+the spatial domain, and subsequently derive the
+corresponding geographic relations among them.
+This grounding process requires two complemen-
+tary formalisms:core conceptsthat define what
+spatial entities exist, andfunctional rolesthat spec-
+ify how they participate in analysis. GIScience has
+3
+
+Figure 2: Overview of Spatial-Agent: (A) Spatial information theory analysis extracts core concepts and assigns
+functional roles; (B) Concept transformation drafting composes templates from the library; (C) GeoFlow Graph
+construction produces an ordered and constrained graph; (D) Graph factorization maps to executable tools for
+execution and answer generation.
+long recognized that such grounding follows prin-
+cipled patterns governed by geospatial semantics
+(Goodchild, 1992; Kuhn, 2012; Mai et al., 2021;
+Scheider et al., 2021).
+To formalize this grounding process, we rep-
+resent the result as aGeoFlow Graph. Given a
+natural-language geo-analytical question q, our
+goal is to derive a GeoFlow Graph Gthat represents
+an executable geospatial workflow:
+f:q7→G(1)
+where G= (V, E, λ, ρ) consists of concept nodes
+V, transformation edges E⊆V×V , a concept
+labeling function λ:V→ C mapping nodes to
+spatial concepts (defined below based on spatial
+core concept theory), and a role assignment func-
+tionρ:V→ R assigning functional roles (defined
+below based on geo-analytical reasoning princi-
+ples). Each directed edge (vi, vj)∈E represents a
+transformation—a semantic change from one spa-
+tial concept to another (e.g., from a place name to
+coordinates via geocoding).

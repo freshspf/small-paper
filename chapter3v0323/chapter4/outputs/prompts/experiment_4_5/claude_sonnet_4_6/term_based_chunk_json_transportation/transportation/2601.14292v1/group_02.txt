@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SystemsApproach",
+  "considers",
+  "RoadSafety",
+  "isPropertyOf",
+  "ComplexSocioTechnicalSystem",
+  "SystemComponent",
+  "includes",
+  "RoadUser",
+  "Government",
+  "Infrastructure",
+  "VehicleManufacturer",
+  "RoadSystemDesign",
+  "hinders",
+  "SafeRoadUserBehaviour",
+  "SystemsTheory",
+  "derivedFrom",
+  "WorkplaceSafety",
+  "uncovers",
+  "InteractingFactor",
+  "contributesTo",
+  "Crash",
+  "RoadTransportSystem",
+  "displaysCharacteristicOf",
+  "ComplexSystem",
+  "stpa",
+  "appliedTo",
+  "austria_roadSafety",
+  "exposes",
+  "Gap",
+  "locatedIn",
+  "RoadSafetyInspectionProcess",
+  "RoadSafetyInspection",
+  "extendedTo",
+  "NonTenTRoad",
+  "HumanFactor",
+  "VehicleDynamic",
+  "RoadUserInteraction",
+  "appliedWithin",
+  "RoadSafetyManagementProcess",
+  "rsiPractice_austria",
+  "excludes",
+  "HumanInteraction",
+  "VehicleInteraction",
+  "RoadInteraction",
+  "isA",
+  "SafetyAnalysis",
+  "ContinuousMonitoring",
+  "delivers",
+  "OperationalAssurance",
+  "DesignHazardAnalysis",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RetrospectiveCrashData",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour",
+  "RoadTrafficInjury",
+  "SafeDeployment",
+  "SafetyConstraintDefinition",
+  "SocialAcceptance",
+  "SystemDesign"
+]
+
+Triples:
+[
+  {
+    "subject": "SystemsApproach",
+    "relation": "considers",
+    "object": "RoadSafety",
+    "chunk": "introduction2",
+    "context": "Consequently, the authors advocate adopting a systems approach to road safety, which considers it as an emergent property of a complex socio-technical system, and systems thinking offers a suitable framework for this pur- pose, as it enables the interactions between system components, including road users, government, infrastructure, and vehicle manufacturers."
+  },
+  {
+    "subject": "RoadSafety",
+    "relation": "isPropertyOf",
+    "object": "ComplexSocioTechnicalSystem",
+    "chunk": "introduction2",
+    "context": "Consequently, the authors advocate adopting a systems approach to road safety, which considers it as an emergent property of a complex socio-technical system, and systems thinking offers a suitable framework for this pur- pose, as it enables the interactions between system components, including road users, government, infrastructure, and vehicle manufacturers."
+  },
+  {
+    "subject": "SystemComponent",
+    "relation": "includes",
+    "object": "RoadUser",
+    "chunk": "introduction2",
+    "context": "Consequently, the authors advocate adopting a systems approach to road safety, which considers it as an emergent property of a complex socio-technical system, and systems thinking offers a suitable framework for this pur- pose, as it enables the interactions between system components, including road users, government, infrastructure, and vehicle manufacturers."
+  },
+  {
+    "subject": "SystemComponent",
+    "relation": "includes",
+    "object": "Government",
+    "chunk": "introduction2",
+    "context": "Consequently, the authors advocate adopting a systems approach to road safety, which considers it as an emergent property of a complex socio-technical system, and systems thinking offers a suitable framework for this pur- pose, as it enables the interactions between system components, including road users, government, infrastructure, and vehicle manufacturers."
+  },
+  {
+    "subject": "SystemComponent",
+    "relation": "includes",
+    "object": "Infrastructure",
+    "chunk": "introduction2",
+    "context": "Consequently, the authors advocate adopting a systems approach to road safety, which considers it as an emergent property of a complex socio-technical system, and systems thinking offers a suitable framework for this pur- pose, as it enables the interactions between system components, including road users, government, infrastructure, and vehicle manufacturers."
+  },
+  {
+    "subject": "SystemComponent",
+    "relation": "includes",
+    "object": "VehicleManufacturer",
+    "chunk": "introduction2",
+    "context": "Consequently, the authors advocate adopting a systems approach to road safety, which considers it as an emergent property of a complex socio-technical system, and systems thinking offers a suitable framework for this pur- pose, as it enables the interactions between system components, including road users, government, infrastructure, and vehicle manufacturers."
+  },
+  {
+    "subject": "RoadSystemDesign",
+    "relation": "hinders",
+    "object": "SafeRoadUserBehaviour",
+    "chunk": "introduction2",
+    "context": "Similarly, a study that addresses the challenges associated with the Safe System approach and illustrates how inadequate road system design can hinder safe road user behaviour is presented in [20]."
+  },
+  {
+    "subject": "SystemsTheory",
+    "relation": "derivedFrom",
+    "object": "WorkplaceSafety",
+    "chunk": "introduction2",
+    "context": "Numerous studies conducted by Salmon and his colleagues have demonstrated that Systems Theory, originally derived from workplace safety, can uncover the complex web of interacting factors across multiple levels of the road transport system that contribute to crashes [ 21][22]."
+  },
+  {
+    "subject": "SystemsTheory",
+    "relation": "uncovers",
+    "object": "InteractingFactor",
+    "chunk": "introduction2",
+    "context": "Numerous studies conducted by Salmon and his colleagues have demonstrated that Systems Theory, originally derived from workplace safety, can uncover the complex web of interacting factors across multiple levels of the road transport system that contribute to crashes [ 21][22]."
+  },
+  {
+    "subject": "InteractingFactor",
+    "relation": "contributesTo",
+    "object": "Crash",
+    "chunk": "introduction2",
+    "context": "Numerous studies conducted by Salmon and his colleagues have demonstrated that Systems Theory, originally derived from workplace safety, can uncover the complex web of interacting factors across multiple levels of the road transport system that contribute to crashes [ 21][22]."
+  },
+  {
+    "subject": "RoadTransportSystem",
+    "relation": "displaysCharacteristicOf",
+    "object": "ComplexSystem",
+    "chunk": "introduction2",
+    "context": "An article that examines the ‘drift into failure’ approach for road safety efforts, which argues that road transport systems do currently display characteristics of complex systems in drift, and that a greater understanding of complexity theory-based models will support improved road safety efforts, is presented in [23]."
+  },
+  {
+    "subject": "stpa",
+    "relation": "appliedTo",
+    "object": "austria_roadSafety",
+    "chunk": "introduction2",
+    "context": "From a system theoretic safety perspective, STPA has been applied to Austria’s road safety to expose gaps in the road safety inspection (RSI) process, especially the limited treatment of human, vehicle, and road interactions."
+  },
+  {
+    "subject": "stpa",
+    "relation": "exposes",
+    "object": "Gap",
+    "chunk": "introduction2",
+    "context": "From a system theoretic safety perspective, STPA has been applied to Austria’s road safety to expose gaps in the road safety inspection (RSI) process, especially the limited treatment of human, vehicle, and road interactions."
+  },
+  {
+    "subject": "Gap",
+    "relation": "locatedIn",
+    "object": "RoadSafetyInspectionProcess",
+    "chunk": "introduction2",
+    "context": "From a system theoretic safety perspective, STPA has been applied to Austria’s road safety to expose gaps in the road safety inspection (RSI) process, especially the limited treatment of human, vehicle, and road interactions."
+  },
+  {
+    "subject": "RoadSafetyInspection",
+    "relation": "extendedTo",
+    "object": "NonTenTRoad",
+    "chunk": "introduction2",
+    "context": "The authors identify three main areas for improvement: 1) extend RSI beyond the TEN-T(Trans-European network) network to Non-TEN-T roads, 2) broaden the scope to include human factors, vehicle dynam- ics, and road user interactions, and 3) apply STPA within the overall road safety management process."
+  },
+  {
+    "subject": "RoadSafetyInspection",
+    "relation": "includes",
+    "object": "HumanFactor",
+    "chunk": "introduction2",
+    "context": "The authors identify three main areas for improvement: 1) extend RSI beyond the TEN-T(Trans-European network) network to Non-TEN-T roads, 2) broaden the scope to include human factors, vehicle dynam- ics, and road user interactions, and 3) apply STPA within the overall road safety management process."
+  },
+  {
+    "subject": "RoadSafetyInspection",
+    "relation": "includes",
+    "object": "VehicleDynamic",
+    "chunk": "introduction2",
+    "context": "The authors identify three main areas for improvement: 1) extend RSI beyond the TEN-T(Trans-European network) network to Non-TEN-T roads, 2) broaden the scope to include human factors, vehicle dynam- ics, and road user interactions, and 3) apply STPA within the overall road safety management process."
+  },
+  {
+    "subject": "RoadSafetyInspection",
+    "relation": "includes",
+    "object": "RoadUserInteraction",
+    "chunk": "introduction2",
+    "context": "The authors identify three main areas for improvement: 1) extend RSI beyond the TEN-T(Trans-European network) network to Non-TEN-T roads, 2) broaden the scope to include human factors, vehicle dynam- ics, and road user interactions, and 3) apply STPA within the overall road safety management process."
+  },
+  {
+    "subject": "stpa",
+    "relation": "appliedWithin",
+    "object": "RoadSafetyManagementProcess",
+    "chunk": "introduction2",
+    "context": "The authors identify three main areas for improvement: 1) extend RSI beyond the TEN-T(Trans-European network) network to Non-TEN-T roads, 2) broaden the scope to include human factors, vehicle dynam- ics, and road user interactions, and 3) apply STPA within the overall road safety management process."
+  },
+  {
+    "subject": "rsiPractice_austria",
+    "relation": "excludes",
+    "object": "HumanInteraction",
+    "chunk": "introduction2",
+    "context": "Their key findings re- veal that the current RSI practice in Austria is reactive rather than proactive, inspection boundaries are too narrow, excludinghuman, vehicle, and road interactions, and feedback loops are missing."
+  },
+  {
+    "subject": "rsiPractice_austria",
+    "relation": "excludes",
+    "object": "VehicleInteraction",
+    "chunk": "introduction2",
+    "context": "Their key findings re- veal that the current RSI practice in Austria is reactive rather than proactive, inspection boundaries are too narrow, excludinghuman, vehicle, and road interactions, and feedback loops are missing."
+  },
+  {
+    "subject": "rsiPractice_austria",
+    "relation": "excludes",
+    "object": "RoadInteraction",
+    "chunk": "introduction2",
+    "context": "Their key findings re- veal that the current RSI practice in Austria is reactive rather than proactive, inspection boundaries are too narrow, excludinghuman, vehicle, and road interactions, and feedback loops are missing."
+  },
+  {
+    "subject": "stpa",
+    "relation": "isA",
+    "object": "SafetyAnalysis",
+    "chunk": "introduction2",
+    "context": "While systems approaches and safety analysis like STPA pro- vides valuable insights and highlight area of improvement, there remains a need for a new framework that can deliver ongoing, operational assurance, through the continuous monitoring of underlying system assumptions."
+  },
+  {
+    "subject": "ContinuousMonitoring",
+    "relation": "delivers",
+    "object": "OperationalAssurance",
+    "chunk": "introduction2",
+    "context": "While systems approaches and safety analysis like STPA pro- vides valuable insights and highlight area of improvement, there remains a need for a new framework that can deliver ongoing, operational assurance, through the continuous monitoring of underlying system assumptions."
+  },
+  {
+    "subject": "stpa",
+    "relation": "isA",
+    "object": "DesignHazardAnalysis",
+    "chunk": "introduction2",
+    "context": "As applied currently, STPA remains primarily a design haz- ard analysis and does not prescribe a run-time monitoring frame- work."
+  }
+]

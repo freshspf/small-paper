@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SurrogateSafetyMeasure",
+  "evaluates",
+  "ExclusiveLane",
+  "UniversalValueFunctionApproximator",
+  "isA",
+  "SinglePolicyMethod",
+  "MultiHeadNetwork",
+  "generalizesAcross",
+  "Preference",
+  "MultiPolicyApproach",
+  "approximates",
+  "ParetoFront",
+  "MorlMethod",
+  "classifiedBy",
+  "SolutionConcept",
+  "OptimizationStrategy",
+  "PredictionGuidedEvolutionaryMorlAlgorithm",
+  "designedFor",
+  "ContinuousControl",
+  "extends",
+  "DeepRl",
+  "uses",
+  "EvolutionaryAlgorithm",
+  "GradientAdaptiveConstrainedPolicyOptimization",
+  "rebalances",
+  "PolicyGradient",
+  "emphasizes",
+  "UnderOptimizedObjective",
+  "enforces",
+  "CostConstraint",
+  "DistributionalParetoOptimalMorl",
+  "captures",
+  "UncertaintyInReturn",
+  "importantFor",
+  "SafetyCriticalDomain",
+  "AutonomousDriving",
+  "MoGymnasium",
+  "provides",
+  "StandardizedEnvironment",
+  "MorlBaselines",
+  "AlgorithmicImplementation",
+  "enables",
+  "RigorousBenchmarking",
+  "RlEnvironment",
+  "createdFor",
+  "AutonomousTruck",
+  "operatesIn",
+  "HighwayTraffic",
+  "SurroundingVehicle",
+  "modeledUsing",
+  "KraussCarFollowingModel",
+  "Lc2013LaneChangeModel",
+  "simulatedIn",
+  "Sumo",
+  "RealTimeDecisionMaking",
+  "requires",
+  "HeavyDutyTruck",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "hasCharacteristic",
+  "TraditionalApproach",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "reliesOn",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "VehicleBehavior",
+  "governs",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "performs",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "appliedTo",
+  "ReinforcementLearning",
+  "ControlPolicy"
+]
+
+Triples:
+[
+  {
+    "subject": "SurrogateSafetyMeasure",
+    "relation": "evaluates",
+    "object": "ExclusiveLane",
+    "chunk": "conclusion",
+    "context": "Safety evaluation for connected and autonomous vehicles’ exclusive lanes considering penetrate ratios and impact of trucks using surrogate safety measures."
+  },
+  {
+    "subject": "UniversalValueFunctionApproximator",
+    "relation": "isA",
+    "object": "SinglePolicyMethod",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Single- policy methods (e.g., universal value function approxima- tors or multi-head networks) aim to generalize across prefer- ences, while multi-policy approaches explicitly approximate the Pareto front."
+  },
+  {
+    "subject": "MultiHeadNetwork",
+    "relation": "isA",
+    "object": "SinglePolicyMethod",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Single- policy methods (e.g., universal value function approxima- tors or multi-head networks) aim to generalize across prefer- ences, while multi-policy approaches explicitly approximate the Pareto front."
+  },
+  {
+    "subject": "SinglePolicyMethod",
+    "relation": "generalizesAcross",
+    "object": "Preference",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Single- policy methods (e.g., universal value function approxima- tors or multi-head networks) aim to generalize across prefer- ences, while multi-policy approaches explicitly approximate the Pareto front."
+  },
+  {
+    "subject": "MultiPolicyApproach",
+    "relation": "approximates",
+    "object": "ParetoFront",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Single- policy methods (e.g., universal value function approxima- tors or multi-head networks) aim to generalize across prefer- ences, while multi-policy approaches explicitly approximate the Pareto front."
+  },
+  {
+    "subject": "MorlMethod",
+    "relation": "classifiedBy",
+    "object": "SolutionConcept",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "In short, MORL methods can be classified by solution concept (single vs. multi policy), op- timization strategy, and how they trade off exploration versus reuse of data."
+  },
+  {
+    "subject": "MorlMethod",
+    "relation": "classifiedBy",
+    "object": "OptimizationStrategy",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "In short, MORL methods can be classified by solution concept (single vs. multi policy), op- timization strategy, and how they trade off exploration versus reuse of data."
+  },
+  {
+    "subject": "PredictionGuidedEvolutionaryMorlAlgorithm",
+    "relation": "designedFor",
+    "object": "ContinuousControl",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "The paper [Xuet al., 2020 ]proposes a prediction-guided evolutionary MORL algorithm for contin- uous control that extends deep RL with an analytic improve- ment model using evolutionary algorithm."
+  },
+  {
+    "subject": "PredictionGuidedEvolutionaryMorlAlgorithm",
+    "relation": "extends",
+    "object": "DeepRl",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "The paper [Xuet al., 2020 ]proposes a prediction-guided evolutionary MORL algorithm for contin- uous control that extends deep RL with an analytic improve- ment model using evolutionary algorithm."
+  },
+  {
+    "subject": "PredictionGuidedEvolutionaryMorlAlgorithm",
+    "relation": "uses",
+    "object": "EvolutionaryAlgorithm",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "The paper [Xuet al., 2020 ]proposes a prediction-guided evolutionary MORL algorithm for contin- uous control that extends deep RL with an analytic improve- ment model using evolutionary algorithm."
+  },
+  {
+    "subject": "GradientAdaptiveConstrainedPolicyOptimization",
+    "relation": "rebalances",
+    "object": "PolicyGradient",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Another work [Zhouet al., 2023 ] focuses on constrained RL and proposes Gradient-Adaptive Constrained Policy Optimization (GCPO), which rebalances policy gradients adaptively to emphasize under-optimized ob- jectives while enforcing cost constraints."
+  },
+  {
+    "subject": "GradientAdaptiveConstrainedPolicyOptimization",
+    "relation": "emphasizes",
+    "object": "UnderOptimizedObjective",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Another work [Zhouet al., 2023 ] focuses on constrained RL and proposes Gradient-Adaptive Constrained Policy Optimization (GCPO), which rebalances policy gradients adaptively to emphasize under-optimized ob- jectives while enforcing cost constraints."
+  },
+  {
+    "subject": "GradientAdaptiveConstrainedPolicyOptimization",
+    "relation": "enforces",
+    "object": "CostConstraint",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Another work [Zhouet al., 2023 ] focuses on constrained RL and proposes Gradient-Adaptive Constrained Policy Optimization (GCPO), which rebalances policy gradients adaptively to emphasize under-optimized ob- jectives while enforcing cost constraints."
+  },
+  {
+    "subject": "DistributionalParetoOptimalMorl",
+    "relation": "captures",
+    "object": "UncertaintyInReturn",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "The paper [Cai et al., 2023 ]extends Pareto-optimality to full return dis- tributions, introducing Distributional Pareto-Optimal MORL (DPMORL), which captures uncertainty in returns—an im- portant consideration in safety-critical domains such as au- tonomous driving."
+  },
+  {
+    "subject": "UncertaintyInReturn",
+    "relation": "importantFor",
+    "object": "SafetyCriticalDomain",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "The paper [Cai et al., 2023 ]extends Pareto-optimality to full return dis- tributions, introducing Distributional Pareto-Optimal MORL (DPMORL), which captures uncertainty in returns—an im- portant consideration in safety-critical domains such as au- tonomous driving."
+  },
+  {
+    "subject": "AutonomousDriving",
+    "relation": "isA",
+    "object": "SafetyCriticalDomain",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "The paper [Cai et al., 2023 ]extends Pareto-optimality to full return dis- tributions, introducing Distributional Pareto-Optimal MORL (DPMORL), which captures uncertainty in returns—an im- portant consideration in safety-critical domains such as au- tonomous driving."
+  },
+  {
+    "subject": "MoGymnasium",
+    "relation": "provides",
+    "object": "StandardizedEnvironment",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Meanwhile, another work [Feltenet al., 2023 ]releasesMO-GymnasiumandMORL-Baselines, pro- viding standardized environments and algorithmic implemen- tations that enable rigorous benchmarking of MORL meth- ods."
+  },
+  {
+    "subject": "MorlBaselines",
+    "relation": "provides",
+    "object": "AlgorithmicImplementation",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Meanwhile, another work [Feltenet al., 2023 ]releasesMO-GymnasiumandMORL-Baselines, pro- viding standardized environments and algorithmic implemen- tations that enable rigorous benchmarking of MORL meth- ods."
+  },
+  {
+    "subject": "StandardizedEnvironment",
+    "relation": "enables",
+    "object": "RigorousBenchmarking",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Meanwhile, another work [Feltenet al., 2023 ]releasesMO-GymnasiumandMORL-Baselines, pro- viding standardized environments and algorithmic implemen- tations that enable rigorous benchmarking of MORL meth- ods."
+  },
+  {
+    "subject": "AlgorithmicImplementation",
+    "relation": "enables",
+    "object": "RigorousBenchmarking",
+    "chunk": "multiobjectivereinforcementlearningliterature",
+    "context": "Meanwhile, another work [Feltenet al., 2023 ]releasesMO-GymnasiumandMORL-Baselines, pro- viding standardized environments and algorithmic implemen- tations that enable rigorous benchmarking of MORL meth- ods."
+  },
+  {
+    "subject": "RlEnvironment",
+    "relation": "createdFor",
+    "object": "AutonomousTruck",
+    "chunk": "trafficmodeling",
+    "context": "We created a custom RL environment for autonomous trucks in highway traffic as illustrated in Figure 4."
+  },
+  {
+    "subject": "AutonomousTruck",
+    "relation": "operatesIn",
+    "object": "HighwayTraffic",
+    "chunk": "trafficmodeling",
+    "context": "We created a custom RL environment for autonomous trucks in highway traffic as illustrated in Figure 4."
+  },
+  {
+    "subject": "SurroundingVehicle",
+    "relation": "modeledUsing",
+    "object": "KraussCarFollowingModel",
+    "chunk": "trafficmodeling",
+    "context": "The surrounding vehicles are modeled using the Krauss car following model [Krausset al., 1997 ]and LC2013 lane change model [Erd- mann, 2014 ]in SUMO."
+  },
+  {
+    "subject": "SurroundingVehicle",
+    "relation": "modeledUsing",
+    "object": "Lc2013LaneChangeModel",
+    "chunk": "trafficmodeling",
+    "context": "The surrounding vehicles are modeled using the Krauss car following model [Krausset al., 1997 ]and LC2013 lane change model [Erd- mann, 2014 ]in SUMO."
+  },
+  {
+    "subject": "SurroundingVehicle",
+    "relation": "simulatedIn",
+    "object": "Sumo",
+    "chunk": "trafficmodeling",
+    "context": "The surrounding vehicles are modeled using the Krauss car following model [Krausset al., 1997 ]and LC2013 lane change model [Erd- mann, 2014 ]in SUMO."
+  }
+]

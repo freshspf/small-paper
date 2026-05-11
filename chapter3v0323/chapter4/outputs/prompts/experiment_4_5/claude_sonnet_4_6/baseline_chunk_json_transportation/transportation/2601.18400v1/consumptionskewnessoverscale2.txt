@@ -1,0 +1,193 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: consumptionskewnessoverscale2
+- section_title: Consumption Skewness over Scale
+- page_start: 6
+- page_end: 8
+
+INPUT TEXT CHUNK:
+This suggests a sharding or ran-
+domized gossip approach to dissemination when the val-
+idator set is large, likely to prevent bandwidth saturation
+on individual nodes.
+6
+
+5 Nodes
+5 ValidatorsAlgorand
+ Aptos
+ Avalanche
+ Redbelly
+ Solana
+10 Nodes
+5 Validators
+10 Nodes
+10 Validators
+15 Nodes
+5 Validators
+15 Nodes
+10 Validators
+15 Nodes
+15 Validators
+20 Nodes
+5 Validators
+20 Nodes
+10 Validators
+20 Nodes
+15 Validators
+20 Nodes
+20 Validators
+172946702
+145843
+121727453
+043063
+2424853
+95319574
+044265
+2324574
+1418758
+79417812Figure 4: HeatmapsM i,jof the bandwidth used in KiB between sending noden iand receiving noden jfor each
+blockchain.
+7
+
+5 10 15 200123×106
+Algorand
+5 Val
+10 Val
+15 Val
+20 Val
+5 10 15 201234567×105
+ Aptos
+5 10 15 20
+Nodes1234×105
+Avalanche
+5 10 15 200.00.20.40.60.81.0×106
+Redbelly
+5 10 15 2012345×106
+Solana
+5 10 15 200123×106
+5 Node
+10 Node
+15 Node
+20 Node
+5 10 15 201234567×105
+5 10 15 20
+Validators1234×105
+5 10 15 200.00.20.40.60.81.0×106
+5 10 15 2012345×106
+Bandwidth (KiB)Figure 5: Total bandwidth consumption (KiB) for blockchains under test. The top row plots bandwidth against
+the number of nodes (grouped by validator count), while the bottom row plots bandwidth against the number of
+validators (grouped by node count).
+7.4 Blockchains vary with regards to band-
+width scalability
+Fig. 5 depicts the trends of bandwidth consumption de-
+pending on the scale, where each figure provides: line
+plots showingSas a function of the total numberNof
+nodes, and line plots showingSas a function of the num-
+berVof validators. Here,Srepresents the total sum of
+bandwidth measured in KiB during the experiment du-
+ration.
+We can clearly see from Fig. 5 thatS Solana bandwidth
+consumption increases primarily with the number of
+nodes, regardless of the number of validators. For in-
+stance, with 5 validators, increasing the total node count
+from 5 to 20 causes bandwidth to surge from 879,268 KiB
+to 4,604,375 KiB—a five-fold increase. However, keeping
+the node count fixed at 20 and increasing validators from
+5 to 20 results in a negligible increase from 4,604,375 KiB
+to 4,891,524 KiB. This confirms that Solana requires all
+nodes to communicate with each other, creating a high-
+bandwidth mesh topology dependent on the network
+size rather than the validator set size.
+In contrast, blockchainsb∈ {Algorand,Redbelly}the
+bandwidthS bdepend almost entirely on the number of
+validators. Adding non-validator nodes adds very lit-
+tle overhead. For Algorand, with 5 validators, increasing
+nodes from 10 to 20 only increases usage from 182,790 KiB
+to 287,032 KiB. However, increasing validators has a
+massive impact: with 20 nodes, moving from 5 to 20
+validators causes usage to skyrocket from 287,032 KiB
+to 3,681,191 KiB—an increase of over 12 times. Red-
+belly exhibits an even more drastic ratio, jumping from72,098 KiB (20 nodes, 5 validators) to 1,084,185 KiB (20
+nodes, 20 validators).
+Finally, in two blockchains, Aptos and Avalanche, the
+bandwidth consumption grows with both the number of
+validators and the number of nodes. Note that the band-
+width increase appears superlinear with the number of
+validators in Aptos but sublinear in Avalanche. In Ap-
+tos, with 20 nodes, the bandwidth grows moderately be-
+tween 5 and 15 validators (343,968 KiB to 490,237 KiB) but
+jumps sharply when reaching 20 validators (684,649 KiB).
+Conversely, Avalanche shows diminishing returns in
+bandwidth growth as validators are added to a 20-
+node network, rising from 205,154 KiB (5 validators) to
+418,852 KiB (20 validators), indicating a more consistent
+propagation overhead.
+Based on these trends, we can classify blockchains in
+three categories:
+1.Node-dependent (Solana)Bandwidth consumption
+increases with the total network size (N), indicating
+a topology where all nodes propagate data heavily.
+2.Validator-dependent (Algorand and Redbelly)
+Bandwidth consumption increases primarily with
+the size of the consensus committee (V). Non-
+validator nodes are passive consumers.
+3.Hybrid (Avalanche and Aptos)Bandwidth con-
+sumption increases with bothNandV, suggesting
+a topology where non-validator nodes participate in
+propagation.
+8.

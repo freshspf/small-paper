@@ -1,0 +1,112 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument12",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument12
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+**INPUT TEXT CHUNK:**
+Cell Chem Biol 2019 , 26, 
+156-177, doi:10.1016/j.chembiol.2018.10.022.  
+21. Thibaudeau, T.A.; Anderson, R.T.; Smith, D.M. A common mechanism of proteasome impairment by 
+neurodegenerative disease -associated oligomers. Nat Commun 2018 , 9, 1097, doi:10.1038/s41467 -018-03509 -
+0. 
+22. King, E.A.; Cho, Y.; Hsu, N.S.; Dovala, D.; McKenna, J.M.; Tallarico, J.A.; Schirle, M.; Nomura, D.K. 
+Chemoproteomics -enabled discovery of a covalent molecular glue degrader targeting NF -kappaB. Cell Chem 
+Biol 2023 , 30, 394 -402 e399, doi:10.1016/j.chembiol.2023.02.008.
+
+Biomolecules 2025 , 15, 849 18 of 31  
+23. Hanzl, A.; Winter, G.E. Targeted protein degradation: current and future challenges. Curr Opin Chem Biol 
+2020 , 56, 35-41, doi:10.1016/j.cbpa.2019.11.012.  
+24. Potjewyd, F.M.; Axtman, A.D. Exploration of Aberrant E3 Ligases Implicated in Alzheimer's Disease and 
+Development of Chemical Tools to Modulate Their Function. Front Cell Neurosci 2021 , 15, 768655, 
+doi:10.3389/fncel.2021.768655.  
+25. Ivanenkov, Y.A.; Polykovskiy, D.; Bezrukov, D.; Zagribelnyy, B.; Aladinskiy, V.; Kamya, P.; Aliper, A.; 
+Ren, F.; Zhavoronkov, A. Chemistry42: An AI -Driven Platform for Molecular Design and Optimization. J 
+Chem Inf Model 2023 , 63, 695 -701, doi:10.1021/acs.jcim.2c01191.  
+26. McNair, D. Artificial Intelligence and Machine Learning for Lead -to-Candidate Decision -Making and 
+Beyond. Annu Rev Pharmacol Toxicol 2023 , 63, 77-97, doi:10.1146/annurev -pharmtox -051921 -023255.  
+27. Singh, S.; Gupta, H.; Sharma, P.; Sahi, S. Advances in Artificial Intelligence (AI) -assisted approaches in drug 
+screening. Artificial Intelligence Chemistry 2024 , 2, 100039, 
+doi:https://doi.org/10.1016/j.aichem.2023.100039 . 
+28. Paul, D.; Sanap, G.; Shenoy, S.; Kalyane, D.; Kalia, K.; Tekade, R.K. Artificial intelligence in drug discovery 
+and development. Drug Discov Today 2021 , 26, 80-93, doi:10.1016/j.drudis.2020.10.010.  
+29. Perron, Q.; Mirguet, O.; Tajmouati, H.; Skiredj, A.; Rojas, A.; Gohier, A.; Ducrot, P.; Bourguignon, M.P.; 
+Sansilvestri -Morel, P.; Do Huu, N., et al. Deep generative models for ligand -based de novo design applied to 
+multi -parametric optimization. J Comput Chem 2022 , 43, 692 -703, doi:10.1002/jcc.26826.  
+30. Luukkonen, S.; van den Maagdenberg, H.W.; Emmerich, M.T.M.; van Westen, G.J.P. Artificial intelligence in 
+multi -objective drug design. Current Opinion in Structural Biology 2023 , 79, 102537, 
+doi:https://doi.org/10.1016/j.sbi.2023.102537 . 
+31. Ramirez -Mora, T.; Retana -Lobo, C.; Valle -Bourrouet, G. Biochemical characterization of extracellular 
+polymeric substances from endodontic biofilms. PLoS One 2018 , 13, e0204081, 
+doi:10.1371/journal.pone.0204081.  
+32. Jin, W.; Barzilay, R.; Jaakkola, T. Junction Tree Variational Autoencoder for Molecular Graph Generation. 
+arXiv [cs.LG] 2019 . 
+33. Truong, G. -B.; Pham, T. -A.; To, V. -T.; Le, H. -S.L.; Van Nguyen, P. -C.; Trinh, T. -C.; Phan, T. -L.; Truong, 
+T.N. Discovery of Vascular Endothelial Growth Factor Receptor 2 Inhibitors Employing Junction Tree 
+Variational Autoencoder with Bayesian Optimization  and Gradient Ascent. ACS Omega 2024 , 9, 47180 -
+47193, doi:10.1021/acsomega.4c07689.  
+34. Kondratyev, V.; Dryzhakov, M.; Gimadiev, T.; Slutskiy, D. Generative model based on junction tree 
+variational autoencoder for HOMO value prediction and molecular optimization. Journal of Cheminformatics 
+2023 , 15, 11, doi:10.1186/s13321 -023-00681 -4. 
+35. Arus -Pous, J.; Johansson, S.V.; Prykhodko, O.; Bjerrum, E.J.; Tyrchan, C.; Reymond, J.L.; Chen, H.; 
+Engkvist, O. Randomized SMILES strings improve the quality of molecular generative models. J Cheminform 
+2019 , 11, 71, doi:10.1186/s13321 -019-0393 -0. 
+36. Reiser, P.; Neubert, M.; Eberhard, A.; Torresi, L.; Zhou, C.; Shao, C.; Metni, H.; van Hoesel, C.; Schopmans, 
+H.; Sommer, T., et al. Graph neural networks for materials science and chemistry. Communications Materials 
+2022 , 3, 93, doi:10.1038/s43246 -022-00315 -6. 
+37. Meyers, J.; Fabian, B.; Brown, N. De novo molecular design and generative models. Drug Discovery Today 
+2021 , 26, 2707 -2715, doi: https://doi.org/10.1016/j.drudis.2021.05.019 . 
+38. Hamidizadeh, A.; Shen, T.; Ester, M. Semi -Supervised Junction Tree Variational Autoencoder for Molecular 
+Property Prediction. arXiv [cs.LG] 2023 .
+
+Biomolecules 2025 , 15, 849 19 of 31  
+39. Yang, Z.; Hu, Z.; Salakhutdinov, R.; Berg -Kirkpatrick, T. Improved Variational Autoencoders for Text 
+Modeling using Dilated Convolutions. arXiv [cs.NE] 2017 . 
+40. Rigoni, D.; Navarin, N.; Sperduti, A. RGCVAE: relational graph conditioned variational autoencoder for 
+molecule design. Machine Learning 2025 , 114, 47, doi:10.1007/s10994 -024-06638 -4. 
+41. McLoughlin, K.S.; Shi, D.; Mast, J.E.; Bucci, J.; Williams, J.P.; Jones, W.D.; Miyao, D.; Nam, L.; Osswald, 
+H.L.; Zegelman, L., et al. Generative Molecular Design and Experimental Validation of Selective Histamine 
+H1 Inhibitors.

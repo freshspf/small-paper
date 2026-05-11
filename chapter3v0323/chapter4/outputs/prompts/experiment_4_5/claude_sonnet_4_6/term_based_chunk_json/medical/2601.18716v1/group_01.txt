@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AlzheimerDisease",
+  "markedBy",
+  "AmyloidBeta42",
+  "contributesTo",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "drives",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "promotesDegradationOf",
+  "Crbn",
+  "categorizedAs",
+  "E3Ligase",
+  "Vhl",
+  "Mdm2",
+  "characterizedBy",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidPrecursorProtein",
+  "cleavedBy",
+  "BetaSecretase",
+  "GammaSecretase",
+  "AmyloidBeta42Peptide",
+  "derivedFrom",
+  "forms",
+  "IntracellularDeposit",
+  "precedes",
+  "ExtracellularAmyloidPlaque",
+  "correlatesWith",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "causes",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "facesIssuesWith",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "clears",
+  "AmyloidBeta42Aggregate",
+  "compromises",
+  "CellularFunction",
+  "UbiquitinProteasomeSystem",
+  "degrades",
+  "enhances",
+  "BloodBrainBarrierPermeability",
+  "associatedWith",
+  "HypoxiaSignaling",
+  "P53",
+  "MolecularGlueDiscovery",
+  "ChemicalLibraryScreening",
+  "ArtificialIntelligenceModel",
+  "DeNovoDesign",
+  "SequenceBasedModel",
+  "SmilesRepresentation",
+  "SyntacticError",
+  "model_jtvae",
+  "MolecularStructure",
+  "GraphBasedModel",
+  "DrugLikeMolecule",
+  "ChemicalRule",
+  "TorsionalAngle",
+  "TernaryComplex",
+  "protein_abeta42",
+  "ligase_vhl",
+  "E3UbiquitinLigase",
+  "ligase_crbn",
+  "ligase_mdm2",
+  "TargetedDegradation",
+  "protein_app",
+  "structure_7q4b",
+  "HumanBrainTissue",
+  "SShapedConformation",
+  "Aggregation",
+  "disease_alzheimersDisease",
+  "ExtracellularFibril",
+  "IntracellularOligomerization",
+  "PdbStructure",
+  "software_proteinPreparationWizard"
+]
+
+Triples:
+[
+  {
+    "subject": "AlzheimerDisease",
+    "relation": "markedBy",
+    "object": "AmyloidBeta42",
+    "chunk": "completedocument1",
+    "context": "Alzheimer’s disease (AD) is marked by the pathological accumulation of amyloid beta -42 (Aβ42), contributing to synaptic dysfunction and neurodegeneration."
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "contributesTo",
+    "object": "SynapticDysfunction",
+    "chunk": "completedocument1",
+    "context": "Alzheimer’s disease (AD) is marked by the pathological accumulation of amyloid beta -42 (Aβ42), contributing to synaptic dysfunction and neurodegeneration."
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "contributesTo",
+    "object": "Neurodegeneration",
+    "chunk": "completedocument1",
+    "context": "Alzheimer’s disease (AD) is marked by the pathological accumulation of amyloid beta -42 (Aβ42), contributing to synaptic dysfunction and neurodegeneration."
+  },
+  {
+    "subject": "IntracellularAmyloidBeta42",
+    "relation": "drives",
+    "object": "DiseaseProgression",
+    "chunk": "completedocument1",
+    "context": "While extracellular amyloid plaques are well -studied, increasing evidence highlights intracellular Aβ 42 as an early and toxic driver of disease progression."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "promotesDegradationOf",
+    "object": "AmyloidBeta42",
+    "chunk": "completedocument1",
+    "context": "In this study, we present a novel, AI -assisted drug design approach to promote targeted degradation of Aβ42 via the ubiquitin -proteasome system (UPS), using E3 ligase -directed molecular glues."
+  },
+  {
+    "subject": "Crbn",
+    "relation": "categorizedAs",
+    "object": "E3Ligase",
+    "chunk": "completedocument1",
+    "context": "We syst ematically evaluated the ternary complex formation potential of Aβ42 with three E3 ligases -CRBN, VHL, and MDM2 -through structure -based modeling, ADMET screening, and docking."
+  },
+  {
+    "subject": "Vhl",
+    "relation": "categorizedAs",
+    "object": "E3Ligase",
+    "chunk": "completedocument1",
+    "context": "We syst ematically evaluated the ternary complex formation potential of Aβ42 with three E3 ligases -CRBN, VHL, and MDM2 -through structure -based modeling, ADMET screening, and docking."
+  },
+  {
+    "subject": "Mdm2",
+    "relation": "categorizedAs",
+    "object": "E3Ligase",
+    "chunk": "completedocument1",
+    "context": "We syst ematically evaluated the ternary complex formation potential of Aβ42 with three E3 ligases -CRBN, VHL, and MDM2 -through structure -based modeling, ADMET screening, and docking."
+  },
+  {
+    "subject": "AlzheimerDisease",
+    "relation": "characterizedBy",
+    "object": "CognitiveDecline",
+    "chunk": "completedocument1",
+    "context": "Alzheimer’s disease (AD), the most prevalent neurodegenerative disorder, is characterized by progressive cognitive decline and neuronal loss."
+  },
+  {
+    "subject": "AlzheimerDisease",
+    "relation": "characterizedBy",
+    "object": "NeuronalLoss",
+    "chunk": "completedocument1",
+    "context": "Alzheimer’s disease (AD), the most prevalent neurodegenerative disorder, is characterized by progressive cognitive decline and neuronal loss."
+  },
+  {
+    "subject": "AmyloidPrecursorProtein",
+    "relation": "cleavedBy",
+    "object": "BetaSecretase",
+    "chunk": "completedocument1",
+    "context": "The accumulation of amyloid beta 42 (Aβ42) peptides, derived from the aberrant cleavage of amyloid precursor prote in (APP) by β - and γ -secretases, is a central pathological hallmark [1 -4]."
+  },
+  {
+    "subject": "AmyloidPrecursorProtein",
+    "relation": "cleavedBy",
+    "object": "GammaSecretase",
+    "chunk": "completedocument1",
+    "context": "The accumulation of amyloid beta 42 (Aβ42) peptides, derived from the aberrant cleavage of amyloid precursor prote in (APP) by β - and γ -secretases, is a central pathological hallmark [1 -4]."
+  },
+  {
+    "subject": "AmyloidBeta42Peptide",
+    "relation": "derivedFrom",
+    "object": "AmyloidPrecursorProtein",
+    "chunk": "completedocument1",
+    "context": "The accumulation of amyloid beta 42 (Aβ42) peptides, derived from the aberrant cleavage of amyloid precursor prote in (APP) by β - and γ -secretases, is a central pathological hallmark [1 -4]."
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "forms",
+    "object": "IntracellularDeposit",
+    "chunk": "completedocument1",
+    "context": "Aβ42 is particularly aggregation -prone and toxic compared to Aβ40, forming intracellular deposits that precede extracellular amyloid plaques and correlate with early synaptic dysfun ction and neuronal death [1,5 -8]."
+  },
+  {
+    "subject": "IntracellularDeposit",
+    "relation": "precedes",
+    "object": "ExtracellularAmyloidPlaque",
+    "chunk": "completedocument1",
+    "context": "Aβ42 is particularly aggregation -prone and toxic compared to Aβ40, forming intracellular deposits that precede extracellular amyloid plaques and correlate with early synaptic dysfun ction and neuronal death [1,5 -8]."
+  },
+  {
+    "subject": "IntracellularDeposit",
+    "relation": "correlatesWith",
+    "object": "SynapticDysfunction",
+    "chunk": "completedocument1",
+    "context": "Aβ42 is particularly aggregation -prone and toxic compared to Aβ40, forming intracellular deposits that precede extracellular amyloid plaques and correlate with early synaptic dysfun ction and neuronal death [1,5 -8]."
+  },
+  {
+    "subject": "IntracellularDeposit",
+    "relation": "correlatesWith",
+    "object": "NeuronalDeath",
+    "chunk": "completedocument1",
+    "context": "Aβ42 is particularly aggregation -prone and toxic compared to Aβ40, forming intracellular deposits that precede extracellular amyloid plaques and correlate with early synaptic dysfun ction and neuronal death [1,5 -8]."
+  },
+  {
+    "subject": "SecretaseInhibitor",
+    "relation": "causes",
+    "object": "OffTargetToxicity",
+    "chunk": "completedocument1",
+    "context": "Secretase inhibitors suffer from off -target toxicities due to the broad substrate specificity of γ - and β -secretases [9 -11]."
+  },
+  {
+    "subject": "ImmunotherapeuticStrategy",
+    "relation": "facesIssuesWith",
+    "object": "BloodBrainBarrierPenetration",
+    "chunk": "completedocument1",
+    "context": "Immunotherapeutic strategies, while promising, face issues with blood -brain barrier (BBB) penetration and potential CNS inflammation [12,13]."
+  },
+  {
+    "subject": "ImmunotherapeuticStrategy",
+    "relation": "causes",
+    "object": "CnsInflammation",
+    "chunk": "completedocument1",
+    "context": "Immunotherapeutic strategies, while promising, face issues with blood -brain barrier (BBB) penetration and potential CNS inflammation [12,13]."
+  },
+  {
+    "subject": "AutophagyEnhancement",
+    "relation": "clears",
+    "object": "AmyloidBeta42Aggregate",
+    "chunk": "completedocument1",
+    "context": "Enhancement of autophagy to clear Aβ42 aggregates has shown potential but remains nonspecific and may compromise essential cellular functions [14]."
+  },
+  {
+    "subject": "AutophagyEnhancement",
+    "relation": "compromises",
+    "object": "CellularFunction",
+    "chunk": "completedocument1",
+    "context": "Enhancement of autophagy to clear Aβ42 aggregates has shown potential but remains nonspecific and may compromise essential cellular functions [14]."
+  },
+  {
+    "subject": "UbiquitinProteasomeSystem",
+    "relation": "degrades",
+    "object": "AmyloidBeta42Aggregate",
+    "chunk": "completedocument1",
+    "context": "The ubiquitin -proteasome system (UPS) offers an attractive alternative for degrading intracellular Aβ42 aggregates [15,16]."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "enhances",
+    "object": "BloodBrainBarrierPermeability",
+    "chunk": "completedocument1",
+    "context": "Unlike PROTACs, molecular glues require no bifunctional linker and can enhance BBB permeability due to their smaller size [17 -19]."
+  },
+  {
+    "subject": "Vhl",
+    "relation": "associatedWith",
+    "object": "HypoxiaSignaling",
+    "chunk": "completedocument1",
+    "context": "VHL, associated with hypoxia signaling; CRBN, known for ligand -dependent substrate recruitment; and MDM2, a versatile p53 regulator, offer complementary substrate specificities that could be leveraged for Aβ42 targeting."
+  }
+]

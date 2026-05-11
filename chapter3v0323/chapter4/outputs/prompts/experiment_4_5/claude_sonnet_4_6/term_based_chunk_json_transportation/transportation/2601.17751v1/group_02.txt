@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ActiveRis",
+  "outperforms",
+  "PassiveRis",
+  "Ris",
+  "deployedOn",
+  "AerialPlatform",
+  "ElevatedPlatform",
+  "improves",
+  "LosAvailability",
+  "alleviates",
+  "Blockage",
+  "amplifies",
+  "ReflectedSignal",
+  "AerialActiveRisArchitecture",
+  "enables",
+  "3dCoverage",
+  "AerialActiveRisAssistedBackhaulNetwork",
+  "supports",
+  "UavBs",
+  "HeterogeneousUser",
+  "enhances",
+  "3dBackhaulConnectivity",
+  "UrbanEnvironment",
+  "characterizedBy",
+  "SevereBlockage",
+  "HighAltitudePlatform",
+  "RisElement",
+  "equippedWith",
+  "ActiveAmplifier",
+  "UrbanArea",
+  "contains",
+  "GroundUser",
+  "OmnidirectionalAntenna",
+  "serves",
+  "DirectionalAntenna",
+  "deployedIn",
+  "UrbanOutdoorEnvironment",
+  "AerialActiveRis",
+  "maintains",
+  "Altitude",
+  "Source",
+  "UniformLinearArray",
+  "comprises",
+  "Antenna",
+  "AerialRis",
+  "modeledAs",
+  "ReflectingElement",
+  "BackhaulLink",
+  "dominatedBy",
+  "LineOfSightComponent",
+  "GroundSource",
+  "hasKnowledgeOf",
+  "Channel",
+  "ConventionalRis",
+  "consistsOf",
+  "PassiveElement",
+  "AerialBackhaulArchitecture",
+  "Full3dCoverage",
+  "HighAltitudeAerialPlatform",
+  "LineOfSightLink",
+  "MultiplicativeFading",
+  "TrafficSurge",
+  "BackhaulSignal",
+  "AerialBaseStation",
+  "NetworkCoverage",
+  "HighTrafficScenario",
+  "HighAltitudeOperation",
+  "Obstacle",
+  "DirectBackhaulLink",
+  "ReconfigurableIntelligentSurface",
+  "WirelessCoverage",
+  "PassiveReflectingElement",
+  "IncidentSignal",
+  "PassiveReflectionElement",
+  "ReflectionTypeAmplifier",
+  "SignalAmplification",
+  "ConventionalPassiveRis",
+  "DoubleFadingLoss",
+  "Signal",
+  "MultiplicativeFadingProblem"
+]
+
+Triples:
+[
+  {
+    "subject": "ActiveRis",
+    "relation": "outperforms",
+    "object": "PassiveRis",
+    "chunk": "completedocument2",
+    "context": "From a performance perspective, [28], [32] further examined the SNR advantages of active-RIS under a unified power budget, showing that, when properly optimized, active-RIS can significantly outperform passive-RIS counterparts."
+  },
+  {
+    "subject": "Ris",
+    "relation": "deployedOn",
+    "object": "AerialPlatform",
+    "chunk": "completedocument2",
+    "context": "Several studies have investigated the deployment of RIS on aerial platforms (e.g., [35]–[37]); however, most of these works focus on conventional passive RIS architectures and consider only 2D coverage, or assume fixed transmit power at the source, thereby largely overlooking energy-efficiency considerations."
+  },
+  {
+    "subject": "ElevatedPlatform",
+    "relation": "improves",
+    "object": "LosAvailability",
+    "chunk": "completedocument2",
+    "context": "While the elevated platform inherently improves LoS availability and alleviates blockage through favorable 3D geometry, the active-RIS provides an additional and fundamentally different advantage by amplifying the reflected signals at the element level."
+  },
+  {
+    "subject": "ElevatedPlatform",
+    "relation": "alleviates",
+    "object": "Blockage",
+    "chunk": "completedocument2",
+    "context": "While the elevated platform inherently improves LoS availability and alleviates blockage through favorable 3D geometry, the active-RIS provides an additional and fundamentally different advantage by amplifying the reflected signals at the element level."
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "amplifies",
+    "object": "ReflectedSignal",
+    "chunk": "completedocument2",
+    "context": "While the elevated platform inherently improves LoS availability and alleviates blockage through favorable 3D geometry, the active-RIS provides an additional and fundamentally different advantage by amplifying the reflected signals at the element level."
+  },
+  {
+    "subject": "AerialActiveRisArchitecture",
+    "relation": "enables",
+    "object": "3dCoverage",
+    "chunk": "completedocument2",
+    "context": "As a result, the proposed architecture enables energy-efficient 3D coverage and, for the first time, facilitates an aerial-active-RIS-assisted backhaul network capable of reliably supporting UA V-BSs and heterogeneous users in future 6G wireless networks."
+  },
+  {
+    "subject": "AerialActiveRisAssistedBackhaulNetwork",
+    "relation": "supports",
+    "object": "UavBs",
+    "chunk": "completedocument2",
+    "context": "As a result, the proposed architecture enables energy-efficient 3D coverage and, for the first time, facilitates an aerial-active-RIS-assisted backhaul network capable of reliably supporting UA V-BSs and heterogeneous users in future 6G wireless networks."
+  },
+  {
+    "subject": "AerialActiveRisAssistedBackhaulNetwork",
+    "relation": "supports",
+    "object": "HeterogeneousUser",
+    "chunk": "completedocument2",
+    "context": "As a result, the proposed architecture enables energy-efficient 3D coverage and, for the first time, facilitates an aerial-active-RIS-assisted backhaul network capable of reliably supporting UA V-BSs and heterogeneous users in future 6G wireless networks."
+  },
+  {
+    "subject": "AerialActiveRisArchitecture",
+    "relation": "enhances",
+    "object": "3dBackhaulConnectivity",
+    "chunk": "completedocument2",
+    "context": "1) We propose a novel aerial-active-RIS architecture aimed at enhancing 3D backhaul connectivity to UA V-BSs in urban environments characterized by severe blockages."
+  },
+  {
+    "subject": "UrbanEnvironment",
+    "relation": "characterizedBy",
+    "object": "SevereBlockage",
+    "chunk": "completedocument2",
+    "context": "1) We propose a novel aerial-active-RIS architecture aimed at enhancing 3D backhaul connectivity to UA V-BSs in urban environments characterized by severe blockages."
+  },
+  {
+    "subject": "Ris",
+    "relation": "deployedOn",
+    "object": "HighAltitudePlatform",
+    "chunk": "completedocument2",
+    "context": "The proposed scheme deploys an RIS on a high-altitude platform, where each RIS element is equipped with an active amplifier, ensuring both a rich LoS component and robustness against multiplicative fading, respectively."
+  },
+  {
+    "subject": "RisElement",
+    "relation": "equippedWith",
+    "object": "ActiveAmplifier",
+    "chunk": "completedocument2",
+    "context": "The proposed scheme deploys an RIS on a high-altitude platform, where each RIS element is equipped with an active amplifier, ensuring both a rich LoS component and robustness against multiplicative fading, respectively."
+  },
+  {
+    "subject": "UrbanArea",
+    "relation": "contains",
+    "object": "GroundUser",
+    "chunk": "completedocument3",
+    "context": "We assume that G contains N0 ground users equipped with omnidirectional antenna, and served by multiple stationary UAV-BSs with a directional antenna, represented as M={1,···, M0}."
+  },
+  {
+    "subject": "GroundUser",
+    "relation": "equippedWith",
+    "object": "OmnidirectionalAntenna",
+    "chunk": "completedocument3",
+    "context": "We assume that G contains N0 ground users equipped with omnidirectional antenna, and served by multiple stationary UAV-BSs with a directional antenna, represented as M={1,···, M0}."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "serves",
+    "object": "GroundUser",
+    "chunk": "completedocument3",
+    "context": "We assume that G contains N0 ground users equipped with omnidirectional antenna, and served by multiple stationary UAV-BSs with a directional antenna, represented as M={1,···, M0}."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "equippedWith",
+    "object": "DirectionalAntenna",
+    "chunk": "completedocument3",
+    "context": "We assume that G contains N0 ground users equipped with omnidirectional antenna, and served by multiple stationary UAV-BSs with a directional antenna, represented as M={1,···, M0}."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "deployedIn",
+    "object": "UrbanOutdoorEnvironment",
+    "chunk": "completedocument3",
+    "context": "The proposed approach is evaluated numerically in a realistic urban outdoor environment with 103 randomly distributed ground users and corresponding UAV-BSs."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "maintains",
+    "object": "Altitude",
+    "chunk": "completedocument3",
+    "context": "For an aerial-active-RIS which maintains an altitude H, and designating the first element as the reference, the 3D coordinates of the aerial-RIS are expressed as ρRIS ≜ [qTH T]T."
+  },
+  {
+    "subject": "Source",
+    "relation": "equippedWith",
+    "object": "UniformLinearArray",
+    "chunk": "completedocument3",
+    "context": "We consider a source at origin, which is equipped with a uniform linear array (ULA) comprising M antennas with inter-element spacing ds and an antenna gain of Gs."
+  },
+  {
+    "subject": "UniformLinearArray",
+    "relation": "comprises",
+    "object": "Antenna",
+    "chunk": "completedocument3",
+    "context": "We consider a source at origin, which is equipped with a uniform linear array (ULA) comprising M antennas with inter-element spacing ds and an antenna gain of Gs."
+  },
+  {
+    "subject": "AerialRis",
+    "relation": "modeledAs",
+    "object": "UniformLinearArray",
+    "chunk": "completedocument3",
+    "context": "The aerial-RIS is modeled as a ULA comprising N reflecting elements with inter-element spacing dRIS, and carrier wavelength λ."
+  },
+  {
+    "subject": "UniformLinearArray",
+    "relation": "comprises",
+    "object": "ReflectingElement",
+    "chunk": "completedocument3",
+    "context": "The aerial-RIS is modeled as a ULA comprising N reflecting elements with inter-element spacing dRIS, and carrier wavelength λ."
+  },
+  {
+    "subject": "BackhaulLink",
+    "relation": "dominatedBy",
+    "object": "LineOfSightComponent",
+    "chunk": "completedocument3",
+    "context": "Due to the elevated altitude of the aerial-RIS, the backhaul link is assumed to be dominated by an LoS component."
+  },
+  {
+    "subject": "GroundSource",
+    "relation": "hasKnowledgeOf",
+    "object": "Channel",
+    "chunk": "completedocument4",
+    "context": "For analytical tractability, it is assumed that the ground source has knowledge of channels, which can be obtained using methods outlined in [50]–[53]."
+  },
+  {
+    "subject": "ConventionalRis",
+    "relation": "consistsOf",
+    "object": "PassiveElement",
+    "chunk": "completedocument4",
+    "context": "Since conventional RIS consists of passive elements which cannot amplify the signal, the reflected signal has to suffer from “multiplicative fading” induced by the multiplication of the path loss of source-to-RIS and RIS-to-UA V-BS links [27]"
+  }
+]

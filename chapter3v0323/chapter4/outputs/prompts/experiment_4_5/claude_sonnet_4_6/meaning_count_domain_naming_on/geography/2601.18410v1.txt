@@ -1,0 +1,1463 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Time-Scale-Adaptable Spectrum Sharing for Hybrid
+Satellite-Terrestrial Networks
+Y anmin Wang, Wei Feng, Senior Member , IEEE, Y unfei Chen, Fellow, IEEE, Y ongxu Zhu, Senior Member , IEEE,
+Shidong Zhou, Member , IEEE, and Cheng-Xiang Wang, Fellow, IEEE
+Abstract—Cooperation between satellite and terrestrial wire-
+less networks promises great potential in meeting fast-growing de-
+mands for ubiquitous communications coverage. To tackle spec-
+trum scarcity, spectrum sharing is studied for a hybrid satellite-
+terrestrial network where satellite links share the same group of
+time-slotted subcarriers with terrestrial links opportunistically.
+In particular, with coarse network-wide time synchronization, a
+time-scale-adaptable spectrum sharing framework is proposed
+based on a satellite-terrestrial cooperation time scale that can
+be ﬂexibly adjusted according to practical requirements. For
+generality, it is assumed that both full and partial frequency reuse
+could be adopted among the base stations (BSs) and satellite selec-
+tion is supported when multiple satellites are available. Relying on
+only statistical channel state information (CSI), joint link schedul-
+ing and power control are explored to maximize the average
+sum rate of the network while ensuring quality of service (QoS)
+for users. To solve the complicated mixed integer programming
+(MIP) problem, a low-complexity spectrum sharing scheme is
+presented based on link-feature-sketching-aided hierarchical link
+clustering and Monte-Carlo-and-successive-approximation-aided
+transmit power optimization. Simulation results demonstrate that
+by link feature sketching, diversity of the links brought by
+the spatial distribution of the users could be well utilized. The
+proposed scheme promises a signiﬁcant performance gain even
+under strict inter-link interference constraints.
+Index Terms —Channel state information, hybrid satellite-
+terrestrial network, link feature, spectrum sharing, time scale
+I. I NTRODUCTION
+Hybrid satellite-terrestrial networks are widely acknowl-
+edged as a promising solution for ubiquitous communication
+coverage in the sixth-generation (6G) era [1]–[5]. To tackle
+the problem of spectrum scarcity, spectrum sharing between
+the satellite and terrestrial components has attracted a lot
+of attention [8]–[16]. In practical applications, spectrum is
+usually utilized in terms of time-frequency resource blocks
+(RBs) consisting of subcarriers and time slots [3]–[5], [8]. Ac-
+cordingly, spectrum sharing could be opportunistically carried
+Y anmin Wang is with the School of Information Engineering, Minzu Uni-
+versity of China, Beijing 100081, China (email: wangyanmin@muc.edu.cn).
+Wei Feng (corresponding author) and Shidong Zhou are with the De-
+partment of Electronic Engineering, Tsinghua University, Beijing 100084,
+China (email: zhousd@tsinghua.edu.cn, fengwei@tsinghua.edu.cn). Wei Feng
+is also with State Key Laboratory of Space Network and Communications,
+Tsinghua University, Beijing 100084, China.
+Y unfei Chen is with Department of Engineering, University of Durham,
+Durham DH1 3LE, U.K. (email: yunfei.chen@durham.ac.uk).
+Y ongxu Zhu and Cheng-Xiang Wang are with National Mobile Communi-
+cations Research Laboratory, School of Information Science and Engineering,
+Southeast University, Nanjing 210096, China, and also with the Purple Moun-
+tain Laboratories, Nanjing 211111, China (email: yongxu.zhu@seu.edu.cn,
+chxwang@seu.edu.cn).
+out both in the frequency domain over subcarriers and in the
+time domain over time slots, so as to fully exploit the diversity
+of links and achieve higher spectrum efﬁciency [3]–[5], [8],
+[16].
+For satellite-terrestrial spectrum sharing in the time domain,
+synchronization between links is a fundamental prerequi-
+site [3]–[5], [8], [16]. However, due to signiﬁcant difference
+between link delays in the satellite and terrestrial components,
+network-wide ﬁne time synchronization, e.g., over ms-level
+time slots, is rather challenging [4], [8]. As a result, spectrum
+sharing in the time domain over time slots is more difﬁcult
+than that in the frequency domain over subcarriers for a
+hybrid network [8]–[15]. With the idea of circumventing the
+challenge of network-wide ﬁne time synchronization, a ﬁne-
+over-coarse scheme was proposed for the hybrid satellite-UA V -
+terrestrial maritime network based on link scheduling in our
+previous work in [8]. By link clustering and grouped time slice
+allocation for link clusters, satellite-terrestrial synchronization
+just needed to be achieved coarsely at a time scale much larger
+than an ms-level time slot [8]. With acceptable performance
+loss, spectrum sharing relying on coarse network-wide time
+synchronization tends to be preferred in practical applica-
+tions, for low link orchestrating complexity and signaling
+overhead [3], [8].
+While our previous work in [8] started exploration on time-
+domain coordination between satellite and terrestrial links for
+spectrum sharing, most of existing works only focused on the
+frequency domain [9]–[16]. It results in an inability to fully
+exploit the time-domain diversity of links in satellite-terrestrial
+networks. In this paper, joint time-frequency spectrum sharing
+with coarse network-wide time synchronization is explored
+for a hybrid satellite-terrestrial network. Different from [8],
+joint link scheduling and power control are implemented in
+this work. Satellite selection is also considered to adapt to
+the case when multiple satellites are available in the satellite
+component. Link feature sketching in perspectives of both
+link scheduling and power control is utilized to improve
+the implementation efﬁciency of spectrum sharing. Besides,
+to achieve appropriate trade-offs between performance and
+complexity, it is assumed that the time scale for satellite-
+terrestrial cooperation can be adjusted ﬂexibly according to
+practical requirements. For generality, both full and partial
+frequency reuse among base stations (BSs) are supported in
+the terrestrial component.
+arXiv:2601.18410v1 [cs.IT] 26 Jan 2026
+A. Related Works
+In previous research, investigation on satellite-terrestrial
+spectrum sharing mainly focused on the frequency do-
+main [9]–[16]. With instantaneous channel state information
+(CSI) of the links, frequency-domain spectrum sharing was
+studied for hybrid satellite, UA V , and terrestrial networks
+in [9]–[12]. In [9], allocation of resources, including the beam,
+power, and channel, was optimized for cognitive satellite
+links under constraints on interference caused to incumbent
+terrestrial networks. In [10], outage probability was derived for
+a hybrid satellite-terrestrial system where multiple terrestrial
+transmitter-receiver pairs cooperate with a primary satellite
+network for dynamic spectrum access. In [11], a joint beam-
+forming and power allocation scheme was proposed to max-
+imize the sum rate of satellite-terrestrial integrated networks,
+where the satellite multicast downlinks and the terrestrial
+downlinks serving a group of non-orthogonal multiple access
+users share the same mmWave frequency band. With the
+presence of a primary satellite-receiver link, multiple UA Vs
+with aerial stations and a terrestrial BS were deployed to
+support smart vehicles, and user association, power optimiza-
+tion, and trajectory control were jointly optimized in [12].
+No time-domain optimization was considered for spectrum
+sharing in [9]–[11]. Although optimization over time slots was
+involved in [12], it was only for UA V and terrestrial links, and
+the primary satellite-receiver link was supposed to occupy the
+frequency band statically all the time.
+While [9]–[12] have demonstrated the promising perfor-
+mance of satellite-terrestrial spectrum sharing in hybrid net-
+works, it is difﬁcult to obtain instantaneous CSI of all links
+due to its fast variation as well as the large delay of satellite
+links [17], [18]. To circumvent the challenge, spectrum sharing
+based on statistical CSI was addressed for hybrid satellite-
+terrestrial networks in [13]–[16]. With only information of
+path loss and shadowing obtained from a pre-constructed radio
+map, power allocation and user scheduling schemes were pro-
+posed for a hybrid network with satellite-terrestrial spectrum
+sharing in [13]. With the assumption that only the mean
+and variance of channel gains are available for interference
+links, resource scheduling was discussed in [14] for mobile
+wireless and meteorological satellite services sharing the same
+frequency band. With statistical or instantaneous interference
+constraints imposed by primary terrestrial links, energy efﬁ-
+cient power allocation was investigated for cognitive satellite-
+terrestrial networks in [15]. With the target of maximizing both
+the number of served terrestrial MTs and the average sum
+transmission rate, a double-target spectrum sharing scheme
+is proposed for hybrid satellite-terrestrial networks in [16]
+based on large-scale CSI. Just like [9]–[12], transmission
+characteristics of the satellite link/links were assumed to stay
+invariant in [13]–[16], and no optimization across time was
+considered for the satellite component.
+When time-domain optimization is to be carried out for
+satellite-terrestrial cooperation, the basic time scale needs
+to be selected appropriately according to speciﬁc network
+scenarios [19], [20]. In [19], an autonomous resource man-
+agement architecture is proposed for 6G satellite-terrestrial
+integrated networks, and an artiﬁcial-intelligence-centric three-
+level resource management closed-loop is designed. It could be
+inferred that the time scale for the implementation of resource
+management is a fundamental issue. To tackle with differ-
+entiated time granularity resource scheduling requirements, a
+two-timescale hierarchical bandwidth allocation algorithm is
+proposed based on multi-agent deep reinforcement learning
+for multi-beam satellite networks in [20].
+B. Main Contributions
+In this paper, we focus on statistical-CSI-based spectrum
+sharing for a hybrid satellite-terrestrial network, where satellite
+links share the same group of time-slotted subcarriers with
+terrestrial links opportunistically. Unlike [13]–[16], our work
+considers joint time-frequency coordination among satellite
+and terrestrial links. The main contributions are as follows.
+• A time-scale-adaptable spectrum sharing framework is
+proposed based on coarse network-wide time synchro-
+nization. To maximize the average sum rate while en-
+suring quality of service (QoS) for users, joint link
+scheduling and power control are implemented based
+on statistical CSI of the links. Satellite selection is also
+supported to adapt to the case when multiple satellites are
+available in the satellite component. For generality, either
+full or partial frequency reuse can be adopted among BSs
+in the terrestrial component.
+• After a complicated mixed integer programming (MIP)
+problem is formulated, link features in perspectives of
+both link scheduling and power control are designed
+following the divide-and-conquer principle. With the aid
+of link feature sketching, link scheduling is decoupled
+with power control for implementation efﬁciency. A
+hierarchical link clustering scheme is then proposed for
+link scheduling under the time-scale-adaptable spectrum
+sharing framework.
+• A low-complexity spectrum sharing scheme is pro-
+posed based on link-feature-sketching-aided hierarchi-
+cal link clustering and Monte-Carlo-and-successive-
+approximation-aided transmit power optimization. Simu-
+lation results demonstrate that by link feature sketching,
+link diversity brought by the spatial distribution of the
+users could be well utilized for opportunistic spectrum
+sharing. The proposed scheme promises a signiﬁcant
+performance gain even under strict inter-link interference
+constraints.
+II. S YSTEM MODEL AND PROBLEM FORMULA TION
+A. System Model
+A hybrid satellite-terrestrial network is shown in Fig. 1. In
+the network, there are J satellites and M ground BSs. The
+satellites are deployed at an altitude of Hsat and serve Ns
+satellite users (SUs) in the uplink via SU-satellite links. For
+each SU, only one satellite is selected to serve it at each
+speciﬁc time, although multiple satellites could be available
+simultaneously. Each of the BSs serves Nc cellular users (CUs)
+in the downlink via BS-CU links. The SUs and CUs either
+stay still or move randomly within the coverage area of the
+SatelliteCentral controllerBS-CU linkSU-satellite linkSU-CU interference linkGateway
+BSCUSU
+Fig. 1. Illustration of a hybrid satellite-terrestrial network.
+network. To utilize the spectrum efﬁciently, the SU-satellite
+links share the same frequency band with the BS-CU links,
+under the coordination of a central controller.
+Suppose K subcarriers, each with a bandwidth of B, are
+available for the hybrid network in the serving time with a
+duration of T . The BSs utilize the subcarriers based on a
+frequency reuse factor of F → Z+, with 1 ↑ F ↑ K [3].
+Note that F =1 corresponds to full frequency reuse among
+the BSs. In Fig. 1, F =4 is shown as an example, and cells
+with the same color will be allocated with the same group of
+subcarriers. Without loss of generality, it is assumed that
+M = IclF, (1a)
+K = K→F, (1b)
+Nc = N →
+cK→, (1c)
+Ns = N →
+sK, (1d)
+where Icl → Z+, K→ → Z+ , N →
+c → Z+, N →
+s → Z+, and N →
+c > 1,
+N →
+s > 1. That is M BSs form Icl frequency reuse clusters
+(FRCs), each with F BSs. The BSs in each FRC utilize
+the K subcarriers orthogonally, with K→ subcarriers being
+available for each BS. BS-CU links belonging to the same
+BS are scheduled in a round-robin manner in the allocated
+K→ subcarriers via time division multiple access (TDMA).
+For spectrum sharing, the SU-satellite links are also round-
+robin scheduled in the K subcarriers via TDMA, but in an
+opportunistic way. To depress inter-link interference suffered
+by BS-CU links, only one SU is allowed to be served in each
+subcarrier at each speciﬁc moment. For convenience of presen-
+tation, set K = {1,. . . ,K}, F = {1,. . . ,F}, Icl = {1,. . . ,Icl},
+Nc = {1,. . . ,Nc}, and Ns = {1,. . . ,Ns}. The rth BS in the ith
+FRC is denoted as (i, r), i → Icl, r → F, and the CU v served
+by BS (i, r) is denoted as (i, r, v), i → Icl, r → F, v → Nc.
+The satellites, BSs, and SUs are all assumed to be equipped
+with antenna arrays containing multiple antenna elements,
+while each CU is equipped with a single antenna. Due to down
+tilt of the BS antenna arrays, interference from BS-CU links
+to SU-satellite links is ignored [8], [13]. Correspondingly, the
+received signals in SU-satellite links and BS-CU links can be
+respectively written as
+y(sat,su)
+u = ˆR(sat)
+u h(sat,su)
+u T (su)
+u x(su)
+u + n(sat), (2a)
+y(cu,bs)
+i,r,v = h(cu,bs)
+i,r,v T (bs)
+i,r,vx(bs)
+i,r,v
++ h(cu,su)
+i,r,v,ˆui,r,v
+ˆT (cu,su)
+i,r,v,ˆui,r,v
+x(su)
+ˆui,r,v
++ n(cu), (2b)
+where u → Ns, i → Icl, r → F, v → Nc, and ˆui,r,v → Ns.
+y(sat,su)
+u denotes received signal of the SU-satellite link for
+SU u, and y(cu,bs)
+i,r,v is that of the BS-CU link for CU (i, r, v).
+| ˆR(sat)
+u |2 is the receive antenna gain of the satellite serving
+SU u, |T (su)
+u |2 represents the transmit antenna gain of SU
+u, and |T (bs)
+i,r,v|2 is that of BS (i, r) to CU (i, r, v). h(sat,su)
+is channel of the SU-satellite link for SU u, and h(cu,bs)
+i,r,v is
+that of the BS-CU link for CU (i, r, v). x(su)
+u denotes the
+transmit signal of SU u, while x(bs)
+i,r,v represents that of BS
+(i, r) to CU (i, r, v). x(su)
+ˆui,r,v
+denotes transmit signal of the
+SU ˆui,r,v that shares the same subcarrier with CU (i, r, v)
+simultaneously, | ˆT (cu,su)
+i,r,v,ˆui,r,v
+|2 is the transmit antenna gain of
+the SU towards (i, r, v), and h(cu,su)
+k,i,v, ˆui,r,v
+is the channel from the
+SU to CU (i, r, v). n(sat) and n(cu) are white Gaussian noise
+at the satellites and CUs, respectively. 1 Due to the diversity
+of propagation environment for the hybrid network, different
+channel models could be adopted for the links. For generality,
+no special ones are assumed in the system model.
+To achieve higher efﬁciency in spectrum sharing, scheduling
+of the BS-CU links is cooperatively optimized with joint
+scheduling and power control for the SU-satellite links. To
+reduce complexity and signaling overhead, it is assumed
+that time synchronization between the satellite and terrestrial
+components is only achieved at a coarse time scale !ω. It
+could be much larger than the duration of each ms-level time
+slot in TDMA for the CUs and SUs. For ﬂexibility, TDMA in
+each subcarrier can be implemented independently for the CUs
+and SUs within each time interval of !ω. In other words, the
+duration of each time slot for the CUs and that for the SUs are
+set independently. The scheduling order of the CUs and that
+of the SUs are independent, too. Correspondingly, spectrum
+sharing optimization for BS-CU and SU-satellite links is also
+implemented at the time scale !ω, and only statistical CSI of
+the links across !ω is utilized. To achieve appropriate trade-
+off between complexity and performance in different network
+scenarios, !ω is allowed to be adjusted adaptively according
+to practical requirements.
+B. Problem F ormulation
+As serving time of the hybrid network could be divided into
+time cycles of !ω for spectrum sharing optimization, we set
+T =! ω, (3)
+for convenience of analysis. Suppose the channel fading statis-
+tics of each link is the same in all K subcarriers, and let Hcsi
+1Interference between BS-CU links reusing the same subcarriers is not
+listed separately and could be included in the Gaussian noise if necessary.
+denote statistical CSI of the links within T , as
+Hcsi ={ε(cu,bs)
+i,r,v ,ε (sat,su)
+u ,ε (cu,su)
+i,r,v,u
+| i → Ic,r → F,v → Nc,u → Ns}.
+(4)
+ε(cu,bs)
+i,r,v , ε(sat,su)
+u , and ε(cu,su)
+i,r,v,u denote statistical CSI of the BS-
+CU, SU-satellite, and SU-CU interference links, respectively.
+Based on (2) and (4), the average transmission rate for the
+CUs and SUs can be expressed as
+C(cu)
+i,r,v = EHcsi [B log2(1 +
+|h(cu,bs)
+i,r,v |2|T (bs)
+i,r,v|2Pbs
+Ii,r,v + ϑ (cu)2 )], (5a)
+C(su)
+u = EHcsi [B log2(1 + | ˆR(sat)
+u |2|h(sat,su)
+u |2|T (su)
+u |2p(su)
+ϑ (sat)2 )].
+(5b)
+EHcsi [·] is the expectation operator with respect to channel
+fading of the links under Hcsi, i.e., when Hcsi is given, and
+Ii,r,v = EHcsi [|h(cu,su)
+i,r,v,ˆui,r,v
+|2| ˆT (cu,su)
+i,r,v,ˆui,r,v
+|2p(su)
+ˆui,r,v
+], (6)
+is inter-link interference suffered by CU (i, r, v). Pbs denotes
+transmit power of the BSs to each CU, and p(su)
+u is that of
+SU u. ϑ (cu)2
+and ϑ (sat)2
+are the power of n(cu) and n(sat),
+respectively. Accordingly, the average sum rate of the hybrid
+network can be written as
+Csum = 1
+N →c
+Icl∑
+i=1
+r=1
+Nc∑
+v=1
+C(cu)
+i,r,v + 1
+N →s
+Ns∑
+u=1
+C(su)
+u . (7)
+Let
+r = {(r ↓ 1)K→ +1 ,. . . ,r K→},r → F, (8)
+denote F groups of subcarriers allocated to the F BSs in each
+FRC. Further, let ϖ(cu)
+i,r,v,kr
+→{ 0, 1}, i → Icl, r → F, v → Nc,
+kr → K→
+r , represent scheduling indicators for the CUs, and
+ϖ(su)
+u,k →{ 0, 1}, u → Ns, k → K, denote those for the SUs. If
+the BS-CU link for CU (i, r, v) is scheduled in subcarrier kr ,
+then ϖ(cu)
+i,r,v,kr
+=1 , and otherwise ϖ(cu)
+i,r,v,kr
+=0 . Similarly, if the
+SU-satellite link for SU u is scheduled in subcarrier k, then
+ϖ(su)
+u,k =1 , and otherwise ϖ(su)
+u,k =0 . Thus,
+kr ↑ K→r
+ϖ(cu)
+i,r,v,kr
+=1 ,i → Icl,r → F,v → Nc, (9a)
+Nc∑
+v=1
+ϖ(cu)
+i,r,v,kr
+= N →
+c,i → Icl,r → F,k r → K→
+r , (9b)
+k=1
+ϖ(su)
+u,k =1 ,u → Ns, (9c)
+Ns∑
+u=1
+ϖ(su)
+u,k = N →
+s,k → K. (9d)
+As TDMA in each subcarrier is implemented independently
+for the CUs and SUs within T, the SU ˆui,r,v that interferes the
+BS-CU link for CU (i, r, v) can’t be known exactly. Instead,
+we only get that
+ˆui,r,v →{ u | ϖ(cu)
+i,r,v,kr
+=1 ,ϖ (su)
+u,kr
+=1 ,k r → K→
+r ,u → Ns}. (10)
+Accordingly, the worst-case model is adopted to evaluate inter-
+link interference at CU (i, r, v), i.e., Ii,r,v in (6) [8]. When
+CU (i, r, v) is served in subcarrier kr , Ii,r,v is replaced by its
+upper bound
+¯Ii,r,v,kr = max
+u↑ Ns
+ϖ(su)
+u,kr
+ˆI(cu,su)
+i,r,v,u (p(su)
+u )
+, (11)
+where
+ˆI(cu,su)
+i,r,v,u (p(su)
+u )= EHcsi [|h(cu,su)
+i,r,v,u |2]| ˆT (cu,su)
+i,r,v,u |2p(su)
+u . (12)
+Correspondingly, for each kr → K→
+r , a lower bound for the
+average transmission rate of CU (i, r, v), i.e., C(cu)
+i,r,v given
+in (5a), could be written as
+C(cu)
+i,r,v,kr
+= EHcsi [B log2(1 +
+|h(cu,bs)
+i,r,v |2|T (bs)
+i,r,v|2Pbs
+¯Ii,r,v,kr + ϑ (cu)2 )]. (13)
+Based on (11) and (13), a lower bound for Csum given in (7)
+can be obtained as
+Csum =
+Icl∑
+i=1
+r=1
+Nc∑
+v=1
+kr ↑ K→
+ϖ(cu)
+i,r,v,kr
+C(cu)
+i,r,v,kr
+N →c
+Ns∑
+u=1
+C(su)
+N →s
+(14)
+Suppose J→
+u of the J satellites are available for SU u,
+u → Ns, across T . Let ϱu,j , j =1 ,. . . ,J→
+u, denote satellite
+selection indicators for SU u. If the jth available satellite is
+selected to serve SU u, then ϱu,j =1 , and otherwise ϱu,j =0 .
+Accordingly,
+j=1
+ϱu,j =1 ,u → Ns. (15)
+Further, ˆR(sat)
+u and ˆT (cu,su)
+i,r,v,u in (2a) and (2b) can be respec-
+tively expressed as
+ˆR(sat)
+u =
+j=1
+ϱu,j R(sat)
+u,j , (16a)
+ˆT (cu,su)
+i,r,v,u =
+j=1
+ϱu,j T (cu,su)
+i,r,v,u,j . (16b)
+|R(sat)
+u,j |2 is the receive antenna gain of the jth available
+satellite towards SU u, and |T (cu,su)
+i,r,v,u,j |2 is the off-boresight
+gain of the transmit antenna array of SU u towards CU
+(i, r, v) when it is served by the jth available satellite. It
+can be seen from (5b), (11)–(13), and (16) that, with satellite
+selection, the diversity in the strength of SU-satellite links and
+that in interference they may cause to CUs are exploited for
+opportunistic spectrum sharing.
+To guarantee QoS for the CUs and SUs, inter-link inter-
+ference suffered by all CUs is controlled under a tolerable
+threshold ςth across T , and a minimum average transmission
+rate CQoS
+u is ensured for each SU u. With the target of
+maximizing Csum, the spectrum sharing problem for the
+hybrid network can be formulated as
+max{
+ω(cu)
+i,r,v,kr ,ω(su)
+u,k ,εu,j ,p(su)
+} Csum (17a)
+s.t. (5b), (9), (11), (13), (14), (15), (16), (17b)
+kr ↑ K→r
+ϖ(cu)
+i,r,v,kr
+¯Ii,r,v,kr ↑ ςth, ↔i, r, v, (17c)
+C(su)
+u ↗C QoS
+u , ↔u, (17d)
+ϖ(cu)
+i,r,v,kr
+→{ 0, 1}, ↔i, r, v, kr , (17e)
+ϖ(su)
+u,k →{ 0, 1},ϱ u,j →{ 0, 1}, ↔u, k, j, (17f)
+0 ↑ p(su)
+u ↑ Psu, ↔u, (17g)
+where Psu is the maximum transmit power of the SUs.
+Accurate depiction of channel fading characteristics of the
+BS-CU, SU-satellite, and SU-CU interference links with Hcsi
+presented in (4) is critical for spectrum sharing based on (17).
+Due to diversity of the propagation environment in the hybrid
+network and random movement of the CUs and SUs, channels
+of the links may experience various fading processes across
+T =! ω. Accordingly, different channel models may be
+adopted to depict channel fading of the links [21], [22].
+Furthermore, parameters contained in Hcsi should adapt to
+the duration of !ω, and they can be acquired with the aid
+of pilot signals and/or radio maps [6], [13], [22]. Basically,
+channels of the links can be seen as being composed of large-
+scale and small-scale fading [6], [21], [22]. The former mainly
+refers to relatively-slowly-varying path loss and shadowing,
+and the latter represents fast variation of the channels usually
+caused by multipath propagation [6], [21], [22]. For small-
+scale fading, only statistical parameters of its distribution, such
+as the Rician K-factor, are known in Hcsi. Comparatively, for
+large-scale fading, either exact values indicating the concrete
+fading state or statistical parameters of its distribution, e.g.,
+means and variances of log-normal-distributed shadowing,
+could be available, depending on the speciﬁc duration of !ω.
+As a result, it is usually difﬁcult to ﬁnd uniﬁed closed-form,
+or even relatively-concise, expressions for C(su)
+u and C(cu)
+i,r,v,kr
+in (5b) and (13), and further for Csum in (14), except for some
+special cases [5], [13].
+III. T IME -S CALE -ADAPTABLE SPECTRUM SHARING WITH
+LINK FEA TURE SKETCHING
+A. Analysis of the Spectrum Sharing Problem
+With link scheduling for both the CUs and SUs and power
+control for the SUs being complicated coupled together, (17)
+is an MIP problem that is challenging to solve [23]. In the
+following, we try to uncover some of its solution-friendly
+characteristics guided by the divide-and-conquer principle.
+1) Power Control for the SUs: For a group of given
+scheduling indicators for the CUs and SUs, i.e., ϖ(cu)
+i,r,v,kr
+, ϖ(su)
+u,k ,
+and ϱu,j , ↔i, r, v, kr ,u ,k , set
+Vkr = {(i, r, v) | ϖ(cu)
+i,r,v,kr
+=1 ,i → Icl,v → Nc}, (18a)
+Ukr = {u | ϖ(su)
+u,kr
+=1 ,u → Ns}, (18b)
+to represent the sets of CUs and SUs scheduled in each
+subcarrier kr , kr → K→
+r , r → F, respectively. With Vkr , the
+constraints in (17c) can be transformed into
+¯Ii,r,v,kr ↑ ςth, (i, r, v) → Vkr ,r → F,k r → K→
+r . (19)
+Further, based on (11) and (18b), (19) can be rewritten as
+ˆI(cu,su)
+i,r,v,u (p(su)
+u ) ↑ ςth,
+(i, r, v) → Vkr ,u → Ukr ,k r → K→
+r ,r → F,
+(20)
+where ˆI(cu,su)
+i,r,v,u (p(su)
+u ) is given by (12). Correspondingly, power
+control for the SUs based on (17) can be equivalently decom-
+posed into K subproblems, one for each subcarrier kr , as
+max
+{p(su)
+u ,t i,r,v }
+(i,r,v)↑ Vkr
+C→(cu)
+i,r,v (ti,r,v)
+N →c
+u↑ Ukr
+C(su)
+N →s
+(21a)
+s.t. ˆI(cu,su)
+i,r,v,u (p(su)
+u ) ↑ ti,r,v, (i, r, v) → Vkr ,u → Ukr , (21b)
+0 ↑ ti,r,v ↑ ςth, (i, r, v) → Vkr , (21c)
+C(su)
+u ↗C QoS
+u ,u → Ukr , (21d)
+0 ↑ p(su)
+u ↑ Psu,u → Ukr , (21e)
+where C(su)
+u is given by (5b) and (16a), and
+C→(cu)
+i,r,v (ti,r,v)= C(cu)
+i,r,v|Ii,r,v =ti,r,v , (22)
+with C(cu)
+i,r,v being given by (5a), (6) and (16b). Note that
+compared to (17), a group of auxiliary parameters ti,r,v,
+(i, r, v) → Vkr , are introduced in (21). With the aid of ti,r,v,
+the worst-case interference in (11) is equivalently replaced by
+ˆI(cu,su)
+i,r,v,u (p(su)
+u ) in (12), as indicated by (21b) and (21c).
+Due to the non-concavity of C→(cu)
+i,r,v (ti,r,v) in (21a), as shown
+by (5a) and (22), (21) is a non-convex problem. However, it
+is noted that C→(cu)
+i,r,v (ti,r,v) can be rewritten as
+C→(cu)
+i,r,v (ti,r,v)= B[C(1)
+i,r,v(ti,r,v) ↓ C(2)
+i,r,v(ti,r,v)], (23)
+where
+C(1)
+i,r,v(ti,r,v)= EHcsi [log2(|h(cu,bs)
+i,r,v |2|T (bs)
+i,r,v|2Pbs
++ ti,r,v + ϑ (cu)2
+)], (24a)
+C(2)
+i,r,v(ti,r,v) = log 2(ti,r,v + ϑ (cu)2
+). (24b)
+It shows that (21a) is actually a combination of a group
+of concave functions with respect to p(su)
+u and ti,r,v, i.e.,
+C(1)
+i,r,v(ti,r,v), C(2)
+i,r,v(ti,r,v), and C(su)
+u , with both positive and
+negative coefﬁcients. Thus, the power control problem in (21)
+can be solved based on successive-approximation-aided con-
+vex optimization [24]. Speciﬁcally, by successively approxi-
+mating each C(2)
+i,r,v(ti,r,v) in (24b) with its ﬁrst-order Taylor
+expansion with respect to ti,r,v, (21) can be transformed into
+a series of convex subproblems [24], [26]. To deal with the
+expectation operator EHcsi [·] in a general sense, the Monte
+Carlo method could be utilized, i.e.,
+EHcsi [g(h)] ↘ 1
+q=1
+g(˜hq ). (25)
+where
+h = {h(sat,su)
+u ,h (cu,bs)
+i,r,v ,h (cu,su)
+i,r,v,u |↔u, i, r, v}, (26)
+denotes channels for all the links, g(h) could be C(cu)
+i,r,v, C(su)
+or related expressions that are functions of h, and ˜hq , q =
+1,. . . ,Q, represent Q random samples for h with given Hcsi.
+2) Link Scheduling for the CUs and SUs: When link
+scheduling for the CUs and SUs is implemented, the impact
+of power control for the SUs should be considered, as they
+are closely coupled in (17). Unfortunately, link scheduling
+for (17) is an intractable NP-hard problem even when all p(su)
+are ﬁxed [25]. It prompts us to take a different tack rather
+than implementing link scheduling by solving (17) directly.
+Due to coarse satellite-terrestrial time synchronization, the
+worst-case model is adopted for interference coordination
+between BS-CU links and SU-satellite links scheduled in
+the same subcarrier, as shown in (11). Thus, link scheduling
+in (17) is equivalent to cooperatively grouping the BS-CU
+and SU-satellite links into K clusters, respectively, one for
+each subcarrier. Inspired by our previous work in [8], we
+can implement link scheduling for the CUs and SUs based
+on link-feature-sketching-aided link clustering. By delicately-
+designed feature vectors, BS-CU or SU-satellite links could be
+clustered efﬁciently according to their similarity in interference
+coordination. In this way, diversity of the links brought by the
+spatial distribution of the CUs and SUs can be reserved in link
+clusters and fully utilized for opportunistic spectrum sharing.
+Specially, the impact of power control for the SUs should
+be considered in feature sketching for the links. Without
+confusion, let Vk and Uk, k =1 ,. . . ,K, denote K BS-CU
+and SU-satellite link clusters, respectively. Further, without
+loss of generality, BS-CU and SU-satellite links in Vk and
+Uk are supposed to be scheduled in subcarrier k, as indicated
+by (18). Let pQoS
+u denote the minimum transmit power of SU
+u for QoS guarantee, i.e.,
+C→(su)
+u (pQoS
+u )= CQoS
+u , (27)
+where
+C→(su)
+u (pQoS
+u )= C(su)
+u |p(su)
+u =pQoS
+, (28)
+and C(su)
+u is given by (5b). Deﬁne
+!C(su)
+u (p(su)
+u )= C→(su)
+u (p(su)
+u ) ↓ C→(su)
+u (pQoS
+u ), (29a)
+!C(cu)
+i,r,v(ti,r,v)= C→(cu)
+i,r,v (ti,r,v) ↓ C→(cu)
+i,r,v (ςth). (29b)
+Set
+Cmin
+sum =
+Icl∑
+i=1
+r=1
+Nc∑
+v=1
+C→(cu)
+i,r,v (ςth)
+N →c
+Ns∑
+u=1
+C→(su)
+u (pQoS
+u )
+N →s
+, (30)
+and for k =1 ,. . . ,K, set
+ς(k,min)
+i,r,v = max
+u↑ Uk
+ˆI(cu,su)
+i,r,v,u (pQoS
+u ), (i, r, v) → Vk, (31a)
+¯p(k,max)
+u =m i n{ min
+(i,r,v)↑ Vk
+¯p(i,r,v)
+u ,P su},u → Uk, (31b)
+where ¯p(i,r,v)
+u is determined by
+ˆI(cu,su)
+i,r,v,u (¯p(i,r,v)
+u )= ςth. (32)
+Suppose ϱu,j , ϖ(cu)
+i,r,v,kr
+, and ϖ(su)
+u,k are a group of feasible
+scheduling indicators for (17), and C↓
+sum denotes the max-
+imum Csum that could be achieved by power control. Then it
+can be inferred that
+sum ↗
+k=1
+u↑ Uk
+!C(su)
+u (¯p(k,max)
+u )
+N →s
++ Cmin
+sum, (33a)
+sum ↗
+k=1
+(i,r,v)↑ Vk
+!C(cu)
+i,r,v(ς(k,min)
+i,r,v )
+N →c
++ Cmin
+sum. (33b)
+The right side of (33a) and that of (33b) actually constitute
+two lower bounds for the maximum Csum promised by spec-
+trum sharing optimization in (17), i.e., joint link scheduling
+and power control. In (33a) and (33b), Cmin
+sum is a ﬁxed part that
+needs to be achieved for QoS of the CUs and SUs, as indicated
+by (30). Contrarily, !C(su)
+u (¯p(k,max)
+u ) and !C(cu)
+i,r,v(ς(k,min)
+i,r,v ),
+given by (29) and (31), depend on quality of the BS-CU
+and SU-satellite links as well as strength of the SU-CU
+interference links, and vary with link scheduling. By setting
+p(su)
+u , u → Uk, k → K, at the maximum and minimum feasible
+points, !C(su)
+u (¯p(k,max)
+u ) and !C(cu)
+i,r,v(ς(k,min)
+i,r,v ) are relieved
+from complicated coupling between link scheduling and power
+control while retaining the ability to indicate performance
+potential of power control. Thus, they can be utilized in feature
+sketching of the links for scheduling.
+B. Hierarchical Link Clustering with Link Feature Sketching
+With a frequency reuse factor F for the BS-CU links,
+the CUs (i, r, v), i → Icl, v → Nc, share a common set of
+subcarriers in K→
+r given by (8), for all r → F. Thus, the BS-CU
+links are naturally divided into F coarse groups according to
+allocated subcarriers. For efﬁcient spectrum sharing, clustering
+of the SU-satellite links should match with the F coarse groups
+of BS-CU links. Towards this goal, hierarchical clustering of
+SU-satellite links is explored in the following.
+1) Link Feature Sketching: For clustering of the SU-
+satellite links, feature vectors are ﬁrstly designed for them.
+Intuitively, to reserve diversity of the links for joint link
+scheduling and power control, SU-satellite links that are
+similar in quality as well as inter-link interference to BU-CU
+links could be clustered together. Based on the lower bounds
+of Csum given in (33), the feature vector for the SU-satellite
+link for SU u is expressed as
+Fu =
+Fsub
+u,1 ,. . . ,Fsub
+u,F
+, (34)
+where each sub-feature-vector Fsub
+u,r is set as
+Fsub
+u,r =
+f (u)
+1,r,1,. . . ,f (u)
+1,r,Nc , f (u)
+2,r,1,. . . ,f (u)
+2,r,Nc ,. . . ,f (u)
+Icl ,r,Nc
+(35)
+and
+f (u)
+i,r,v =[ !C(su)
+u (¯p(i,r,v)
+u )
+N →s
+!C(cu)
+i,r,v(ς(u)
+i,r,v)
+N →c
+]. (36)
+!C(su)
+u (·) and !C(cu)
+i,r,v(·) are presented in (29a) and (29b),
+respectively, ¯p(i,r,v)
+u is determined by (32), and
+ς(u)
+i,r,v = ˆI(cu,su)
+i,r,v,u (pQoS
+u ), (37)
+where pQoS
+u is given by (27). With Fu, u → Ns, the similarity
+between SU-satellite links for any two SUs u1 and u2 can be
+Algorithm 1 Hierarchical clustering of the SU-satellite links
+1: Coarse link clustering:
+2: Solve the standard assignment problem in (43), and denote its
+optimal solution as {ω→
+u,r,m |→u, r, m}.
+3: Group the SU-satellite links into F coarse clusters ˆS→(su)
+r ,
+r ↑ F, based on (44a), and get the satellite selection indicators
+{ˆε→
+u,j |→j} for each SU u ↑ Ns, as shown in (44b).
+4: Fine link clustering:
+5: for r =1 ,. . . ,F do
+6: Find {˜u1, ˜u2} = arg maxu1 ,u2 ↑ ˆS↑(su)
+D(Fsub
+u1 ,r , F sub
+u2 ,r ).
+7: for i =3 ,. . . ,K↓ do
+8: Set ˆS↓
+r = ˆS→(su)
+r \{˜u1,. . . ,˜ui↔ 1}.
+9: Find ˜ui = arg maxui ↑ ˆS→r
+¯DCMPD
+ui ,˜u1 ,...,˜ui↓ 1 based on (45).
+10: end for
+11: Set Fsub
+˜ui ,r , i =1 ,. . . ,K↓, as the initial centers of K↓ ﬁne SU-
+satellite link clusters U(r↔ 1)K→+i, i =1 ,. . . ,K↓, and denote
+them as ci = Fsub
+˜ui ,r , i =1 ,. . . ,K↓.
+12: Set Dsum
+0 =0 , Dsum
+1 = ∑
+u↑ ˆS↑(su)
+||F sub
+u,r ||1, and ϑ =1 0↔ 2.
+13: Set Ls =0 .
+14: while |Dsum
+0 ↓D sum
+1 |/Dsum
+1 >ϑ do
+15: Set Dsum
+0 = Dsum
+1 and Dsum
+1 =0 .
+16: Set != ˆS→(su)
+r , Ukr = ϖ , kr ↑ K↓
+r , and !↓ = {1,. . . ,K↓}.
+17: while ! ↔= ϖ do
+18: Find {˜u,˜i} = arg minu↑ !,i↑ !→ ||F sub
+u,r ↓ ci||1.
+19: Group SU ˜u into the ﬁne link cluster U(r↔ 1)K→+˜i, i.e.,
+set U(r↔ 1)K→+˜i := U(r↔ 1)K→+˜i ↗{ ˜u} and !: =! \{˜u}.
+20: Let Dsum
+1 := Dsum
+1 + ||F˜u ↓ c˜i||1.
+21: if |U(r↔ 1)K→+˜i| = N ↓
+s then
+22: Set !↓ := !↓\{˜i}.
+23: end if
+24: end while
+25: Update ci =1 /N↓
+u↑ U(r↓ 1)K→+i
+F sub
+u,r , i =1 ,. . . ,K↓.
+26: Set Ls := Ls +1 .
+27: end while
+28: end for
+measured based on the distance between Fu1 and Fu2 , as
+D(Fu1 , Fu2 )= ||Fu1 ↓F u2 ||1, (38)
+where || · ||1 represents the L1 norm [27].
+It can be observed from (34)–(37) that Fu is deﬁned
+following the optimization target of (17), i.e., Csum, and
+the lower bounds in (33). Specially, ¯p(i,r,v)
+u and ς(u)
+i,r,v for
+!C(su)
+u (¯p(i,r,v)
+u ) and !C(cu)
+i,r,v(ς(u)
+i,r,v) in each f (u)
+i,r,v given
+by (36) are derived based on the inter-link interference be-
+tween SU u and CU (i, r, v).
+2) Hierarchical Link Clustering: Based on the feature
+vectors deﬁned in (34)–(36), an algorithm is proposed for
+hierarchical clustering of the SU-satellite links. Specially,
+coarse and ﬁne link clustering are implemented successively,
+as illustrated in Algorithm 1.
+Firstly, guiding by F BS-CU link groups, SU-satellite links
+are ﬁrstly grouped into F coarse clusters, which are scheduled
+in the F sets of subcarriers, K→
+r , r → F, respectively. Let S(su)
+r ,
+r → F, denote F coarse SU-satellite link clusters, as
+S(su)
+r = {u | u → Ns,
+k↑ K→r
+ϖ(su)
+u,k =1 },r → F. (39)
+Set
+”= {S(su)
+r ,ϱ u,j |↔r, u, j}, (40)
+and deﬁne
+U (su)(”) =
+r=1
+u↑ S(su)
+Icl∑
+i=1
+Nc∑
+v=1
+f (u)
+i,r,v[φ 1, 1]T , (41)
+where φ 1 = Ns /F
+Icl Nc
+is to balance the average transmission rates
+of the SUs and CUs in U (su)(”) referring to Csum given
+in (14). It can be inferred from (14), (33), and (36) that SU-
+satellite link clusters resulting in larger U(su)(”) tend to lead
+to larger Csum. Correspondingly, F coarse SU-satellite link
+clusters could be obtained by maximizing U (su)(”), as
+max
+U (su)(”) (42a)
+s.t. (5b), (9c), (9d), (12), (15), (16), (17f), (42b)
+(28), (29), (32), (36), (37), (39), (40). (42c)
+It can be shown that (42) could be solved with polynomial
+complexity through standard assignment optimization [28].
+Speciﬁcally, suppose {↼↓
+u,r,m |↔u, r, m} is an optimal solution
+for the following standard assignment problem as
+max
+{ϑu,r,m}
+Ns∑
+u=1
+r=1
+N →
+s K→
+m=1
+↼u,r,m¯f(sum)
+u,r (43a)
+s.t.
+r=1
+N →
+s K→
+m=1
+↼u,r,m =1 , ↔u, (43b)
+Ns∑
+u=1
+↼u,r,m =1 , ↔r, m, (43c)
+with ¯f(sum)
+u,r = max{εu,j |↔j}
+∑Icl
+i=1
+∑Nc
+v=1 f (u)
+i,r,v[φ 1, 1]T . Set
+ˆS↓(su)
+r = {u | u → Ns,
+N →
+s K→
+m=1
+u,r,m =1 },r → F, (44a)
+{ˆϱ↓
+u,j |↔j} = arg max
+{εu,j |↔j}
+Icl∑
+i=1
+Nc∑
+v=1
+f (u)
+i,ˆr↑u ,v [φ 1, 1]T ,u → Ns,
+(44b)
+where ˆr↓
+u → F satisﬁes u → ˆS↓(su)
+ˆr↑u
+. Then ˆ”↓ =
+{ˆS↓(su)
+r , ˆϱ↓
+u,j |↔r, u, j} constitutes an optimal solution for (42).
+Actually, {↼↓
+u,r,m |↔u, r, m} can be seen as a speciﬁc schedul-
+ing order of the SU-satellite links in the subcarriers corre-
+sponding to the F coarse clusters, ˆS↓(su)
+r , r → F.
+Next, the SU-satellite links within each ˆS↓(su)
+r , r → F, are
+further clustered into K→ ﬁne clusters, denoted as Ukr , kr →
+r , respectively, as presented in (18b). For ﬁne link clustering,
+a modiﬁed K-means method is adopted with the aid of the
+sub-feature-vectors and the distance deﬁned in (35) and (38),
+respectively [8], [29]. For each r → F, main steps for ﬁne link
+clustering are as follows [8].
+a) Select K→ of the sub-feature-vectors, Fsub
+u,r , u → ˆS↓(su)
+r ,
+for the SU-satellite links in ˆS↓(su)
+r as initial centers for
+K→ ﬁne link clusters, Ukr , kr → K→
+r .
+b) Calculate distances between each Fsub
+u,r , u → ˆS↓(su)
+r , and
+the centers of all Ukr , kr → K→
+r , and cluster the SU-
+satellite links into the K→ ﬁne link clusters following
+Algorithm 2 A time-scale-adaptable spectrum sharing scheme
+1: Link scheduling for the SUs:
+2: Implement Algorithm 1 and group the SU-satellite links into K
+link clusters, Uk , k =1 ,. . . ,K.
+3: Obtain a group of scheduling and satellite selection indicators
+i.e., ˆϱ→(su)
+u,k , ˆε→
+u,j , j =1 ,. . . ,J↓
+u, u ↑ Ns, k ↑ K, for the SUs
+based on (18b) and (44b), respectively.
+4: Link scheduling for the CUs:
+5: Solve M = IclF assignment problems as shown in (46) and
+get a group of scheduling indicators for the CUs, i.e., ˆϱ→(cu)
+i,r,v,kr ,
+i ↑ Icl, r ↑ F, v ↑ Nc, kr ↑ K↓
+r .
+6: Form K BS-CU link clusters, Vk , k =1 ,. . . ,K, based on (18a)
+with ˆϱ→(cu)
+i,r,v,kr , →i, r, v, kr .
+7: Power control for the SUs:
+8: Set ϑ =1 0↔ 2.
+9: for k =1 ,. . . ,K do
+10: Set ˜p(su)
+u =0 and ˜p→(su)
+u = pQoS
+u based on (27), u ↑ Uk .
+11: Set ˜ti,r,v =m a x u↑ Uk
+ˆI(cu,su)
+i,r,v,u (˜p→(su)
+u ), →i, r, v, based
+on (12).
+12: Set Lp =0 .
+13: while maxu↑ Uk |˜p→(su)
+u ↓ ˜p(su)
+u |/˜p→(su)
+u >ϑ do
+14: Let ˜p(su)
+u =˜p→(su)
+u .
+15: Approximate each C↓(cu)
+i,r,v (ti,r,v) in (21a) with (48), and
+solve the approximated convex problem of (21). Denote
+the optimal solution as ˜p→(su)
+u , ˜ti,r,v, →u, i, r, v.
+16: Set Lp := Lp +1 .
+17: end while
+18: end for
+19: Output ˆϱ→(su)
+u,k , ˆε→
+u,j , ˆϱ→(cu)
+i,r,v,kr , and ˜p→(su)
+u , →u, k, j, i, r, v, kr .
+the smallest-distance-ﬁrst principle [8], until there are N →
+SU-satellite links in each Ukr .
+c) Update the center of each Ukr as average of the
+sub-feature-vectors for the SU-satellite links in it, i.e.,
+1/N→
+u↑ Ukr
+Fsub
+u,r , and repeat b) until convergence.
+For selection of the initial centers in Step a), a compound
+distance that could reﬂect the distance from one sub-feature-
+vector, Fsub
+u1 ,r , to multiple others, Fsub
+1 ,r , Fsub
+2 ,r ,. . . ,Fsub
+u→n ,r , is
+adopted, as
+¯DCMPD
+u1 ,u→
+1 ,...,u→n
+= Du1 ,u→
+1 · Du1 ,u→
+2 · ... · Du1 ,u→n . (45)
+where Du1 ,u→
+¯n = D(Fsub
+u1 ,r , Fsub
+¯n ,r ), ¯n =1 ,. . . ,n. Based on
+¯DCMPD
+u1 ,u→
+1 ,...,u→n
+, a greedy method designed following [8] is uti-
+lized to ﬁnd K→ sub-feature-vectors with distances as large as
+possible to each other to act as initial centers for K→ ﬁne link
+clusters, Ukr , kr → K→
+r .
+C. A Time-Scale-Adaptable Spectrum Sharing Scheme
+Based on illustrations in Subsection III-A and Subsection
+III-B, a time-scale-adaptable spectrum sharing scheme is pro-
+posed for the hybrid network based on link feature sketching.
+As illustrated in Algorithm 2, the proposed scheme consists of
+three parts, i.e., 1) link scheduling for the SUs via hierarchical
+clustering of the SU-satellite links, 2) link scheduling for the
+CUs, and 3) power control for the SUs.
+Firstly, K SU-satellite link clusters, i.e., Uk, k =1 ,. . . ,K,
+and a group of satellite selection indicators for the SUs,
+ˆϱ↓
+u,j , u → Ns, j =1 ,. . . ,J→
+u, are obtained via Algorithm 1.
+Accordingly, a group of link scheduling indicators for the
+SUs, ˆϖ↓(su)
+u,k , u → Ns, k → K, could be derived from Uk,
+k =1 ,. . . ,K, based on (18b), i.e., ˆϖ↓(su)
+u,k =1 if u → Uk and
+ˆϖ↓(su)
+u,k =0 otherwise.
+Then link scheduling for the CUs is implemented based
+on ˆϖ↓(su)
+u,k and ˆϱ↓
+u,j , ↔u, k, j. With K ﬁne clusters of the SU-
+satellite links being respectively scheduled in K subcarriers,
+the BS-CU links corresponding to each BS can be scheduled
+independently. To circumvent the NP-hardness of solving (17)
+directly, M = IclF assignment problems similar to (43) are
+formulated for BS-CU link scheduling using the lower bounds
+of Csum given in (33). For each pair of i → Icl and r → F, the
+assignment problem can be written as
+max{
+ω(cu)
+i,r,v,kr |↔v,kr
+Nc∑
+v=1
+kr ↑ K→r
+ϖ(cu)
+i,r,v,kr
+µ(cu)
+i,r,v,kr
+(46a)
+s.t.
+kr ↑ K→r
+ϖ(cu)
+i,r,v,kr
+=1 ,v → Nc, (46b)
+Nc∑
+v=1
+ϖ(cu)
+i,r,v,kr
+= N →
+c,k r → K→
+r , (46c)
+ϖ(cu)
+i,r,v,kr
+→{ 0, 1}, ↔v, kr , (46d)
+where
+µ(cu)
+i,r,v,kr
+
+
+φ 2
+u↑ Ukr
+!C(su)
+u (¯p(i,r,v)
+u )
+N →s
+!C(cu)
+i,r,v(ς(kr ,min)
+i,r,v )
+N →c
+if ς(kr ,min)
+i,r,v <ς th,
+↓M , otherwise.
+(47)
+ς(k,min)
+i,r,v and ¯p(i,r,v)
+u are given by (31a) and (32), respectively.
+M is a positive number large enough to ensure that QoS
+for the CUs and SUs in (17c) and (17d) is satisﬁed while
+maximizing (46a). φ 2 =1 /(IclN →
+c) is to balance average
+transmission rates of the SUs and CUs referring to Csum
+given in (14). Each problem in (46) can be solved with
+polynomial complexity via standard assignment optimization
+like (43) [28].
+Lastly, power control for the SUs is implemented in each
+subcarrier k → K based on (21) with the aid of the Monte
+Carlo method as shown in (25) and successive approximation.
+Following (23) and (24), each C→(cu)
+i,r,v (ti,r,v) in (21a) is suc-
+cessively approximated in each iteration by
+C→(cu)
+i,r,v (ti,r,v) ↘ B[C(1)
+i,r,v(ti,r,v) ↓ ˜C(2)
+i,r,v(ti,r,v)], (48)
+where
+˜C(2)
+i,r,v(ti,r,v)= C(2)
+i,r,v(˜ti,r,v) + log2 e ti,r,v ↓ ˜ti,r,v
+˜ti,r,v + ϑ (cu)2 , (49)
+is the ﬁrst-order Taylor expansion of C(2)
+i,r,v(ti,r,v) at ˜ti,r,v [24],
+[26]. Using this approximation, (21) can be solved via convex
+optimization algorithms, e.g., the interior-point method [26].
+A group of random samples for channels of the links, i.e., ˜hq ,
+q =1 ,. . . ,Q, are needed to deal with the expectation operator
+EHcsi [·] in the target of (21) based on (25). For each time
+interval of T =! ω, they can be generated just once based on
+the given set of statistical CSI in Hcsi, and utilized across the
+whole optimization process. Generally, the parameters in Hcsi,
+i.e., ε(cu,bs)
+i,r,v , ε(sat,su)
+u , and ε(cu,su)
+i,r,v,u in (4), specify the statistical
+distribution of channel fading for the links within T =! ω, as
+illustrated at the end of Section II-B. The Q samples can be
+randomly generated based the statistical distribution just at the
+beginning of the execution of the proposed scheme for each
+time interval. Note that, whenever closed-form expressions or
+ones more concise than (25) are available for EHcsi [·], they
+should be utilized appropriately for efﬁcient calculation [5],
+[13].
+The complexity of the proposed spectrum sharing scheme in
+Algorithm 2 is mainly constituted by three parts. They are the
+complexity of hierarchical clustering of the SU-satellite links
+in Algorithm 1, that of link scheduling for the CUs based
+on (46), and that of power control for the SUs based on (21)
+and (48).
+• The complexity of Algorithm 1 is mainly composed of
+calculation of the feature vectors Fu in (34), solving of
+the assignment problem in (43) for coarse link clustering,
+as well as ﬁne link clustering for each coarse link cluster.
+The feature vectors can be calculated with a complexity
+of O(QM NcNs) where M = IclF . The assignment
+problem in (43) can be solved with a complexity of
+O(N 3
+s ) [28]. The complexity of ﬁne link clustering can
+be expressed as O(KNsIclNcNs), where Ns denotes the
+number of iterations corresponding to Ls [29].
+• Based on complexity of the assignment problem in (46),
+i.e., O(N 3
+c ), link scheduling for the CUs served by all
+M = IclF BSs has a complexity of O(MN 3
+c ) [28].
+• The complexity of power control for the SUs depends
+on the number of subcarriers K, the number of itera-
+tions corresponding to Lp, denoted as Np, as well as
+complexity of the approximated convex problem of (21)
+in each iteration. Taking the interior-point method as a
+benchmark, a rather conservative, or, pessimistic, evalua-
+tion for the complexity of each approximated problem
+of (21) is given by (52) in Appendix A. Thus, the
+complexity of power control for the SUs can be written as
+(MN cNs/K +2 MN c +2 Ns)/K · Np · [Q(MN c +
+Ns)+ MN cNs/K +3 MN c +2 Ns]).
+Simulations show that under the network settings in Section
+IV ,Ns is always less than 15, and Np is less than 10.
+Note that there is much potential for the complexity of
+power control to be further reduced. For example, only the
+strongest SU-CU interference links are usually needed to be
+considered in practice [3]–[5]. It indicates that most of the
+constraints in (21), especially those in (21b), can be removed,
+which will undoubtedly lead to signiﬁcant complexity reduc-
+tion. Besides, in cases when closed-form or more-concise
+expressions are available, the complexity brought by Q can
+also be largely reduced [5], [13]. As the time scale for
+both satellite-terrestrial synchronization and spectrum sharing
+optimization, the selection of !ω provides another perspective
+for complexity adjusting. Basically, larger !ω indicates less-
+frequent signaling exchange and computation, and thus lower
+complexity. Nevertheless, with larger !ω, the performance
+-6000-4000-20000200040006000-6000
+-4000
+-2000
+2000
+4000
+6000 BSCU
+-6000-4000-20000200040006000-6000
+-4000
+-2000
+2000
+4000
+6000 SU
+(m) (m)
+(m) (m)
+Fig. 2. A random topology of the hybrid network for simulations.
+gain achieved by spectrum sharing tends to be smaller. It is
+because with less-frequently-acquired CSI in Hcsi, there may
+be more uncertainty of the channel fading state of the links
+due to the movement of SUs and CUs as well as the diversity
+of propagation environment. This could cause undermatching
+between the SU-satellite and BS-CU links in spectrum sharing.
+To balance performance and complexity, systematic evaluation
+of the impact of the duration of !ω is needed for each speciﬁc
+network scenario in practice.
+IV . S IMULA TION RESULTS AND DISCUSSION
+A. Network Settings for Simulations
+The hybrid satellite-terrestrial network for simulations is
+shown in Fig. 2. For clarity, it is shown in two separate
+parts. Assume that J =3 , K = 12 , M = 28 , Nc = 24 ,
+Ns = 96 , and F =1 or 4. Correspondingly, Icl = 28 or 7,
+K→ = 12 or 3, N →
+c =2 or 8, and N →
+s =8 . Without loss of
+generality, it is assumed that J =3 satellites are all available
+for all the SUs, i.e., J→
+u =3 . The satellites are deployed in
+orbits at the altitude of Hsat = 500 km. The radius for the
+coverage area of each BS is set as 1km. It is assumed that
+the CUs are randomly distributed within the coverage area of
+each BS, and the SUs are randomly distributed in a circular
+area A slightly larger than total coverage area of all the BSs.
+Besides, the CUs (i, r, v) and SUs u are supposed to move
+along randomly-generated straight paths at random speeds
+of ↽(cu,bs)
+i,r,v → [0, 2]m/s and ↽(su)
+u → [0, 10]m/s, respectively.
+Note that for clarity, only centers of the paths for the CUs
+and SUs are presented in Fig. 2. Due to the relatively large
+distance between SUs and the satellites, a single location is
+considered for each satellite in simulations, sampled from its
+track across T . The center of the circular area A is supposed
+to be located at (116↗E, 40↗N ), and the sub-satellite points of
+the sampled locations for the satellites are at (107↗E, 40↗N ),
+(116↗E, 40↗N ), and (125↗E, 40↗N ), respectively.
+The bandwidth of the subcarriers is set as B =1 MHz, and
+the center frequency is fc =2 GHz. The receive antenna gains
+of the satellites are all set as |R(sat)
+u,j |2 = 25 dBi, ↔u, j, and
+the transmit antenna gains of the BSs are |T (bs)
+i,r,v|2 = 15 dBi,
+↔k, i, v. The pattern of the transmit antenna array equipped at
+each SU is supposed to follow the ITU-R recommendation
+S.465 with a diameter of 0.5m and main lobe width of
+61.2↗ [8], [30]. Correspondingly, the transmit antenna gain

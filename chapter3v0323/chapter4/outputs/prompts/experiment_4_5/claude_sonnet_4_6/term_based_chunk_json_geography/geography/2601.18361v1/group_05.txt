@@ -1,0 +1,277 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AutonomousShip",
+  "operatesIn",
+  "ArcticRegion",
+  "SatelliteConnectivity",
+  "supportsSystem",
+  "SmartMaritimeContainerTerminal",
+  "utilizesTechnology",
+  "IotApplication",
+  "vehicle_zephyr",
+  "fliesIn",
+  "region_stratosphere",
+  "network_5gConnectivity",
+  "deliveredFrom",
+  "region_sky",
+  "application_iot",
+  "locatedIn",
+  "region_remoteArea",
+  "planet_earth",
+  "bridgedWith",
+  "region_space",
+  "station_haps",
+  "operatesAt",
+  "elevation_highAltitude",
+  "integratedWith",
+  "region_terrestrial",
+  "company_LacunaSpace",
+  "implementsStrategyFor",
+  "region_UK",
+  "SatelliteIotService",
+  "providesCoverageFor",
+  "GlobalRegion",
+  "RegionalArea",
+  "SatelliteNetwork",
+  "LowEarthOrbit",
+  "MobileSatelliteChannel",
+  "operatesOver",
+  "Land",
+  "AdvancedIotSolution",
+  "deployedIn",
+  "AgriculturalArea",
+  "SatelliteIot",
+  "enables",
+  "GlobalConnectivity",
+  "LowEarthOrbitSatellite",
+  "FixedRegion",
+  "InternetOfThingsConnectivity",
+  "RemoteRegion",
+  "UnderservedRegion",
+  "GlobalCoverage",
+  "EarthSurface",
+  "HighOrbitalAltitude",
+  "HighAltitudePlatformStation",
+  "Stratosphere",
+  "altitude_8To50Km",
+  "WeatherDisturbance",
+  "Ground",
+  "RegionalCoverage",
+  "university_UniversityOfOulu",
+  "country_Finland",
+  "university_FederalUniversityOfSantaCatarina",
+  "location_Florianopolis",
+  "country_Brazil",
+  "university_MidSwedenUniversity",
+  "location_Sundsvall",
+  "country_Sweden",
+  "application_ForestFireDetection",
+  "Forest",
+  "application_OffshoreShipTracking",
+  "OffshoreRegion",
+  "NaturalDisaster",
+  "HAPS",
+  "LEOSatellite",
+  "TerrestrialNetwork",
+  "MultiplePlatform",
+  "SparseRegion",
+  "GeographicallyDispersedRegion",
+  "WideArea",
+  "LargeArea",
+  "DisasterArea",
+  "RuralArea"
+]
+
+Triples:
+[
+  {
+    "subject": "AutonomousShip",
+    "relation": "operatesIn",
+    "object": "ArcticRegion",
+    "chunk": "completedocument8",
+    "context": "“Situational awareness for autonomous ships in the arctic: mmtc direct-to-satellite connectivity,”IEEE Communications Magazine, vol. 60, no. 6, pp. 32–38, 2022."
+  },
+  {
+    "subject": "SatelliteConnectivity",
+    "relation": "supportsSystem",
+    "object": "AutonomousShip",
+    "chunk": "completedocument8",
+    "context": "“Situational awareness for autonomous ships in the arctic: mmtc direct-to-satellite connectivity,”IEEE Communications Magazine, vol. 60, no. 6, pp. 32–38, 2022."
+  },
+  {
+    "subject": "SmartMaritimeContainerTerminal",
+    "relation": "utilizesTechnology",
+    "object": "IotApplication",
+    "chunk": "completedocument8",
+    "context": "“Emerging IoT applications and architectures for smart maritime container terminals,” in2023 IEEE 9th World Forum on Internet of Things (WF-IoT), 2023, pp. 1–6."
+  },
+  {
+    "subject": "vehicle_zephyr",
+    "relation": "fliesIn",
+    "object": "region_stratosphere",
+    "chunk": "completedocument9",
+    "context": "[11] AALTO HAPS Ltd., “Zephyr sets world-record for longest continuous flight - flying 67 days in stratosphere,” https://www.aaltohaps.com/zephyr-sets-world-record-for-longest-continuous-flight-flying-67-days-in-stratosphere/, May 2025, press release."
+  },
+  {
+    "subject": "network_5gConnectivity",
+    "relation": "deliveredFrom",
+    "object": "region_sky",
+    "chunk": "completedocument9",
+    "context": "[10] SoftBank Corp., “Develops high-capacity 6-cell capable HAPS payload, delivers 5G connectivity from the sky in field trial,” https://www.soft bank.jp/en/corp/news/press/sbkk/2025/20250918 02/, September 2025, press release."
+  },
+  {
+    "subject": "application_iot",
+    "relation": "locatedIn",
+    "object": "region_remoteArea",
+    "chunk": "completedocument9",
+    "context": "[20] G. Giambene and K. Korre, “LoRa-based system for IoT applications via HAPS in remote areas,” in2022 International Conference on Software, Telecommunications and Computer Networks (SoftCOM), 2022, pp. 1–6."
+  },
+  {
+    "subject": "planet_earth",
+    "relation": "bridgedWith",
+    "object": "region_space",
+    "chunk": "completedocument9",
+    "context": "[16] G. Svistunov, A. Akhtarshenas, D. Lpez-Prez, M. Giordani, G. Geraci, and H. Yanikomeroglu, “Bridging earth and space: A survey on HAPS for non-terrestrial networks,” 2025."
+  },
+  {
+    "subject": "station_haps",
+    "relation": "operatesAt",
+    "object": "elevation_highAltitude",
+    "chunk": "completedocument9",
+    "context": "[9] G. Karabulut Kurt, M. G. Khoshkholgh, S. Alfattani, A. Ibrahim, T. S. J. Darwish, M. S. Alam, H. Yanikomeroglu, and A. Yongacoglu, “A vision and framework for the high altitude platform station (HAPS) networks of the future,”IEEE Communications Surveys & Tutorials, vol. 23, no. 2, pp. 729–779, 2021."
+  },
+  {
+    "subject": "region_space",
+    "relation": "integratedWith",
+    "object": "region_terrestrial",
+    "chunk": "completedocument9",
+    "context": "Fraire, O. Iova, and F. Valois, “Space-terrestrial integrated in-ternet of things: Challenges and opportunities,”IEEE Communications Magazine, vol. 60, no. 12, pp. 64–70, 2022."
+  },
+  {
+    "subject": "company_LacunaSpace",
+    "relation": "implementsStrategyFor",
+    "object": "region_UK",
+    "chunk": "completedocument10",
+    "context": "[28] Lacuna Space. (2025, August) Lacuna space leads global adoption of open IoT standards, delivering on UKs satellite communication strategy."
+  },
+  {
+    "subject": "SatelliteIotService",
+    "relation": "providesCoverageFor",
+    "object": "GlobalRegion",
+    "chunk": "completedocument10",
+    "context": "[31] G. M. Capez, S. Henn, J. A. Fraire, and R. Garello, “Sparse satellite con-stellation design for global and regional direct-to-satellite IoT services,”"
+  },
+  {
+    "subject": "SatelliteIotService",
+    "relation": "providesCoverageFor",
+    "object": "RegionalArea",
+    "chunk": "completedocument10",
+    "context": "[31] G. M. Capez, S. Henn, J. A. Fraire, and R. Garello, “Sparse satellite con-stellation design for global and regional direct-to-satellite IoT services,”"
+  },
+  {
+    "subject": "SatelliteNetwork",
+    "relation": "operatesIn",
+    "object": "LowEarthOrbit",
+    "chunk": "completedocument10",
+    "context": "[32] O. B. Osoro and E. J. Oughton, “A techno-economic framework for satellite networks applied to low earth orbit constellations: Assessing starlink, oneweb and kuiper,”"
+  },
+  {
+    "subject": "MobileSatelliteChannel",
+    "relation": "operatesOver",
+    "object": "Land",
+    "chunk": "completedocument10",
+    "context": "[36] A. Abdi, W. Lau, M.-S. Alouini, and M. Kaveh, “A new simple model for land mobile satellite channels: first- and second-order statistics,”"
+  },
+  {
+    "subject": "AdvancedIotSolution",
+    "relation": "deployedIn",
+    "object": "AgriculturalArea",
+    "chunk": "completedocument10",
+    "context": "[39] Wyld Networks. Wyld Networks and KWS: Enhancing agricultural precision with advanced IoT solutions."
+  },
+  {
+    "subject": "SatelliteIot",
+    "relation": "enables",
+    "object": "GlobalConnectivity",
+    "chunk": "completedocument10",
+    "context": "[40] Myriota. What Low-Cost Satellite IoT Means For Global Connectivity."
+  }
+]

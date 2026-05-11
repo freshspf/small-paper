@@ -1,0 +1,132 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument4",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument4
+- section_title: Complete Document
+- page_start: 1
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+Training and embedding extraction
+During training, the three model architectures processed
+fixed-length time-series inputs to learn robust representations
+of patient trajectories. The data was partitioned into training,
+validation and test sets using 5-fold cross-validation. During
+each fold, the individual model was optimised using cross-
+entropy loss. An early stopping was also employed based
+on the validation loss to prevent overfitting. Moreover, if
+oversampling was activated, the minority class was upsmapled
+before training to counteract class imbalance. Once training
+was complete, the trained models were used to extract patient
+embeddings. For embedding extraction, the outputs of each
+individual model’s final layer were flattened and then the
+resulting embeddings were saved.
+E. Intrinsic evaluation of embeddings
+For intrinsic evaluation, we projected the high-dimensional
+embeddings onto a 2D space using t-SNE. The t-SNE vi-
+sualisation facilitates the empirical observation to analyse
+whether the patients who have the same ICD code are clus-
+tered together, which gives us a qualitative measure of the
+embeddings’ representational quality. We then compared the
+embeddings learnt by the three models on our CKD cohort.
+We used the classes (0-7) defined in Section II-B for clustering
+and classification. Furthermore, we also report the Davies-
+Bouldin Index (DBI) [32] on the 2D t-SNE projections of the
+test-set embeddings and classification accuracy by training a
+logistic regression classifier. For the evaluation, each model
+was trained using 5-fold cross validation, then tested on held-
+out data.F . Extrinsic evaluation of embeddings
+For the extrinsic evaluation, we trained a logistic regression
+classifier using the generated embeddings as input features to
+predict in-ICU mortality within a 2-hour prediction window.
+The input data consisted of the first 72 hours of ICU records,
+aggregated into 1-hour time bins. Model performance was
+evaluated using accuracy, area under the receiver operating
+characteristic curve (AUROC), and area under the preci-
+sion–recall curve (AUPRC). The performance metrics serve
+as an indirect assessment of the embeddings’ representational
+quality, reflecting how effectively they capture clinically rel-
+evant information. We compared the three models under two
+configurations: end-to-end predictor i.e., models directly made
+prediction, and embedding model i.e., a downstream logistic
+regression classifier was trained on the learnt embeddings.
+III. RESULTS
+A. Intrinsic evaluation
+Table II shows the DBI on t-SNE projections of the test-set
+embeddings and downstream accuracy by training a logistic
+regression classifier on the test-set embeddings.
+The vanilla LSTM showed moderate clustering quality with
+an average DBI of 15.85 and achieved a downstream classifica-
+tion accuracy of 0.63. Adding attention mechanism on LSTM
+increased the average downstream classification accuracy to
+0.67, which suggests better overall predictive power. The DBI
+varied consistently from fold to fold, including one extremely
+high value of 70.85 (fold 1) that raised the mean DBI to 20.72.
+Incorporating the temporal gaps between events substantially
+enhanced both cluster separation (mean DBI of 9.91) and
+classification accuracy 0.74). Notably, fold 4 achieved the
+best single-fold DBI of 3.51 and the highest accuracy 0.80.
+Fig. 2 illustrates the t-SNE visualisations of the embedding
+spaces for the three model architectures. We observed that
+certain classes including CKD stage 1 (class 0) and unspecified
+CKD (class 7) remained dispersed in the t-SNE space. Overall,
+the clusters showed that the T-LSTM embedding space (Fig. 2
+c) had the best structure (i.e., well-separated classes), while
+vanilla LSTM (Fig. 2 a) showed relatively poor structure in
+the embedding space.
+B. Extrinsic evaluation
+Table III summarises the 5-fold average performance of
+the three model architectures as an embedding model with
+downstream logistic regression, and as a direct end-to-end
+predictor for in-ICU mortality prediction.
+In end-to-end predictor configuration, all models achieved
+comparable AUROC values (0.88-0.89), with the T-LSTM
+yielding the highest accuracy (0.75) compared to the vanilla
+LSTM (0.74) and attention-augmented LSTM (0.72). In the
+embedding model configuration with a downstream logistic
+regression head, the performance consistently improved across
+all three architectures. AUROC increased to 0.89 for the
+vanilla LSTM and to 0.90 for both the attention-augmented
+LSTM and T-LSTM. Accuracy improved from 0.72–0.75 to
+0.82–0.83.

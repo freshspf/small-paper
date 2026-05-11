@@ -1,0 +1,145 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+This decoupling neglects the interdependence
+between base and manipulator, precluding whole-body
+reconfiguration to expand reachability in confined
+environments and leading to conservative or infeasible
+behavior [16], [17], [18]. To overcome these limitations,
+recent work has shifted toward whole-body planning,
+typically grouped into three families: sampling-based
+methods, reinforcement learning (RL), and optimization-
+based planning.
+Sampling-based methods such as PRM/RRT and their vari-
+ants [19], [20], [21], [22] explore feasible connectivity through
+random sampling and collision checking, offering theoretical
+guarantees and broad applicability. Recent works extend these
+to mobile manipulation by unifying base and arm in high-
+dimensional configuration space [23], [24]. However, in clut-
+tered environments with narrow passages requiring tight base-
+arm coordination, uniform or heuristic sampling becomes com-
+putationally burdensome and prone to connectivity failures. A
+couple of frameworks mitigate this by predefining constrained
+sampling regions or heuristic guidance [10], [17], but such
+strategies reintroduce scenario-dependent tuning and reduce
+planner generality. RL-based approaches learn control policies
+end-to-end, directly from state or sensor inputs to actions,
+typically by interacting with a simulator [25], [26], [27], [28].
+Such methods typically demand substantial simulation training
+for each new scenario, often requiring millions of timesteps
+and extensive hyperparameter tuning to achieve strong perfor-
+mance [29]. While effective in structured settings, the resulting
+policies often generalize poorly to novel layouts and dynamics
+and are sensitive to distribution shift and partial observability.
+Moreover, discrepancies in perception, dynamics, and actu-
+ation create a sim-to-real gap that can significantly degrade
+real-world performance [30], necessitating careful engineering
+for reliable transfer.
+In contrast, optimization-based methods offer a compelling
+alternative and serve as the focus of our work. By formulating
+whole-body mobile manipulation as a constrained optimization
+problem, they seek feasible, collision-free trajectories while
+optimizing task-relevant objectives such as smoothness, en-
+ergy efficiency, or execution time [31], [32]. A key merit
+of this paradigm is its robustness and generalizability: once
+the environment is represented in a unified geometric [33]
+or distance-field form [34], the same optimization framework
+can be applied across diverse scenarios without scenario-
+specific retraining, enabling rapid adaptation to novel layouts
+and dynamic changes. Moreover, the kinematic and actuation
+redundancy inherent in mobile manipulators naturally lends it-
+self to optimization techniques, allowing the system to exploitits full configuration space to generate agile, safe maneuvers
+that reach targets while simultaneously satisfying task-space
+collision avoidance and other operational constraints.
+Challenges.Unlike fixed-base manipulators, mobile manip-
+ulators operate in unbounded workspaces and must navigate
+complex, cluttered obstacle layouts. Current state-of-the-art
+methods adopt a two-stage pipeline with front-end path search
+followed by back-end trajectory optimization [10], [35]. In
+practice, the front end carries the primary burden through
+elaborate, multi-layer search strategies aimed at reducing sam-
+pling difficulty over the combined translational and rotational
+motion space. A common approach decouples the problem
+by first planning a base trajectory and then searching for
+arm configurations along this fixed base path. The back-end
+optimizer is consequently reduced to a post-processing module
+that smooths and slightly refines the front-end solution locally,
+often converging within only a few iterations.
+Despite its computational efficiency, this paradigm suffers
+from fundamental limitations in both stages. On the front-
+end side, decoupling the base and arm search undermines
+holistic whole-body coordination. In complex environments
+where simultaneous coordination is required amid intricate
+obstacle layouts, the front-end search can fail; this would cause
+the entire pipeline to collapse since the back-end optimizer is
+constrained to local refinements near the front-end solution.
+Once the front end produces a poor-quality trajectory, the
+optimizer cannot recover, despite its potential exploration
+capability. On the back-end side, these methods typically rely
+on the environment Euclidean signed distance field (ESDF)
+and approximate the robot with collision spheres. While this
+reduces collision constraints complexity, it creates a funda-
+mental mismatch: collision costs are defined in workspace as
+the sum of ESDF penalties over spheres, whereas the position
+of each sphere is coupled through highly nonlinear forward
+kinematics.

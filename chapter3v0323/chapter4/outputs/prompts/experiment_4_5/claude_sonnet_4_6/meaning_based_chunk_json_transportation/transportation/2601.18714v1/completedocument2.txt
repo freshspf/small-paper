@@ -1,0 +1,125 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+**INPUT TEXT CHUNK:**
+It leverages a multi-loss strategy through
+MRL and architectural simplification to produce flexible, low-dimensional
+descriptors suitable for real-time constraints. This is the first contri-
+bution using a MRL approach for optimizing a LPR method.
+•We conduct a thorough analysis of architectural trade-offs, specifically
+investigating the synergy between MRL, reduced layer complexity, and
+descriptor dimensionality, proving the efficacy of our pruning strategy
+in inputs such as a Livox LiDAR sensor (low-cost, low-resolution).
+•We present an extensive validation of MinkUNeXt-VINE in cross-season
+scenarios, testing the robustness of our method across the different
+months and seasons conforming the phenological cycle of the vineyards.
+•A complete benchmark of LiDAR place recognition approaches over
+most recent long-term vineyard datasets. We establish a comparison
+between the impact of our method on different cost and resolution
+LiDAR sensors such as Livox and Velodyne.
+2. Related works
+2.1. Place recognition in agricultural environments
+Agricultural environments are distinguished by their uniformity and high
+variability in the different seasons of the year. The environment undergoes
+notable changes depending on the crop’s developmental stage, including pe-
+riods of high vegetation density within the field, which can impede the func-
+tionality of robotic vision systems. In particular, within vineyard environ-
+ments characterized by dense foliage, the robot’s field of vision is constrained
+to the immediate row in which it is operating.
+The issue of place recognition in these environments remains an active
+area of research. While classification and semantic segmentation have been
+the focus of these environments, the realm of localization remains largely un-
+explored. With regard to the issue of vision localization, proposed solutions
+3
+
+include an approach by Liu et al. [15] for autonomous navigation in vine-
+yard environments. This approach utilizes a path detection framework that
+detects traversability from the RGB-D image source. In [16], the authors
+propose a localization solution that uses an estimation of the location of the
+end of the vineyard row through a depth map and a modified MobileNet [17]
+for the classification of objects detected in the vision system. This approach
+facilitates the localization process and was tested in real-world environments.
+In the case of the LPR problem, several recent works has addressed it
+on agricultural environments. In TriLoc-NetVLAD [18], the authors pro-
+pose an orchard-focused, long-term LPR solution consisting of a spatial con-
+text descriptor based on point cloud density, height, and spatial information.
+Then, they use a triplet neural network that fuses high-dimensional and low-
+dimensional features with a NetVLAD [19] aggregation module. The method-
+ology in SPVSoAP3D [20] consists of a voxel-based feature extraction module
+(SPV), followed by a feature extraction module that combines second-order
+pooling, log-Euclidean projection, and power normalization (SoAP). Finally,
+it produces the descriptor through a fully connected layer with L2 normal-
+ization. In a similar vein, PointNetPGAP-SLC [21] proposed by Barros et
+al. presents a methodology for the extraction of features from point clouds
+by leveraging the capabilities of PointNet [22]. The subsequent aggregation
+of these features is achieved through a process that integrates the Pairwise
+Feature Interactions and Global Average Pooling (PGAP) aggregation tech-
+niques. To enhance the robustness of this methodology, a signal that con-
+siders the segmentation of vineyards is incorporated into the Segment-Level
+Consistency (SLC) model.
+2.2. LiDAR place recognition
+The use of LiDAR technology instead of a traditional 2D vision system
+provides invariance to lightning changes. For this reason, the development
+of algorithms that take as input these 3D data has been increasing over the
+last years. The grounding work for the development of LPR deep learn-
+ing algorithms is PointNetVLAD [4]. This method combines the use of the
+PointNet architecture [22] to extract higher dimensional local features from
+the point clouds and pass them to a NetVLAD [19] aggregation module.
+After the creation of PointNetVLAD, several works approached the LPR
+problem with deep learning techniques. In LPD-Net [23], the network in-
+corporates additional contextual information regarding the neighborhood of
+each point. This additional information encompasses the linearity, planarity,
+4
+
+and scattering properties of the neighborhood. In contrast to other net-
+works, LPD-Net utilizes this expanded set of features for feature extraction,
+in addition to positional information. Instead of NetVLAD, a graph-based
+aggregation module is utilized. In MinkLoc3D [5], the authors propose a
+method based on Minkowski convolutions [24], which operates on sparse ten-
+sors of unordered 3D coordinates.

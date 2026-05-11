@@ -1,0 +1,122 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: results4
+- section_title: Results
+- page_start: 8
+- page_end: 16
+
+INPUT TEXT CHUNK:
+Each model forms a polygon in the polar coordinate system;
+larger polygon area and more regular shape indicate stronger comprehensive performance
+and more balanced metrics.
+SDA-QEC’s polygon is nearly a regular heptagon, with all vertices at the outer ring
+12
+
+(all metrics≈0.98), covering the largest area. This highly symmetric shape indicates
+SDA-QECachievesconsistenthighlevelsacrossallevaluationdimensionswithoutobvious
+weaknesses, realizing truly comprehensive excellent performance.
+ResNet18’s polygon is slightly smaller with a slight indentation on the specificity axis
+(0.9167), indicating slightly weaker negative sample exclusion compared to other metrics.
+MobileNetV2’s polygon further shrinks, especially with obvious indentation on the
+sensitivity axis (0.8000), indicating significant deficiency in detecting true patients.
+DenseNet121’s polygon presents an extremely irregular shape, with severe inden-
+tation on the sensitivity axis (0.6667, covering only 67% of the outer ring) while the
+specificity axis protrudes (0.9500), forming a “lean” asymmetric polygon. This shape
+intuitively reflects the model’s serious class bias.
+VGG16’s polygon is smallest and most deformed, with the specificity axis nearly
+approaching the origin (0.2167) while the sensitivity axis reaches maximum (1.0000),
+forming an extremely narrow triangle. This extreme imbalance is vividly displayed in the
+radar chart.
+3.5 RelativePerformanceImprovementAnalysisandClinicalEco-
+nomic Benefits
+To quantify the improvement magnitude of SDA-QEC compared to baseline models,
+Figure 3 displays relative performance improvement percentages calculated using the
+worst model (VGG16) as baseline. Relative improvement is defined as: Improvement=
+Score model −Score baseline
+Score baseline×100%, where Score baselineis VGG16’s corresponding metric value.
+Figure 3: Relative performance improvement analysis
+From Figure 3, several key findings emerge:
+Accuracy dimension: SDA-QEC improves 61.6% compared to VGG16 (from 60.83%
+to 98.33%), ResNet18 improves 56.2%, MobileNetV2 improves 38.4%, and DenseNet121
+improves 32.9%. Notably, SDA-QEC’s improvement magnitude significantly exceeds
+ResNet18 which also uses pre-trained weights (5.4 percentage points more), indicating
+13
+
+that contributions from diffusion augmentation and quantum enhancement surpass dif-
+ferences in network architecture itself.
+AUC dimension: SDA-QEC improves 21.7% compared to VGG16 (from 0.8119 to
+0.9878). Although this improvement appears numerically modest, note the saturation
+effect of AUC—when baseline AUC already reaches 0.81, further improvement difficulty
+increases exponentially. In machine learning, improving AUC from 0.81 to 0.99 is con-
+sidered a qualitative leap from “good” to “excellent,” not merely quantitative change.
+F1-scoredimension: SDA-QEC’simprovementreaches83.0%(from0.5374to0.9833),
+the most significant among all metrics. As the harmonic mean of precision and recall
+(F1 =2×Precision×Recall
+Precision+Recall), F1-score is extremely sensitive to class imbalance. On imbal-
+anced data, simply pursuing high accuracy often results in low F1-scores (e.g., VGG16’s
+60.83% accuracy but only 0.5374 F1). SDA-QEC balances data distribution through
+diffusion augmentation, simultaneously improving precision and recall (both reaching
+0.9833), thus achieving a tremendous F1-score leap.
+Sensitivity and specificity dimensions: Although SDA-QEC shows a slight decrease
+in sensitivity compared to VGG16 (-1.7%, as VGG16 achieves 100% sensitivity at the cost
+of extremely low specificity), its specificity achieves a massive 353.8% leap from 0.2167
+to 0.9833, carrying significant clinical and economic implications. Assuming a $5,000
+average cost per false-positive invasive examination, for screening 100 negative patients,
+VGG16’s 78.33% false-positive rate would generate approximately $390,000 in additional
+medical expenditure, whereas SDA-QEC produces only about 1–2 false positives, cost-
+ing approximately $8,350, thereby saving approximately $382,000 per batch.

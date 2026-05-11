@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "QuantumState",
+  "passesThrough",
+  "ParameterizedQuantumCircuit",
+  "performs",
+  "FeatureTransformation",
+  "RotationLayer",
+  "applies",
+  "RotationGate",
+  "hasParameter",
+  "TrainableParameter",
+  "EntanglementLayer",
+  "CnotGate",
+  "constructs",
+  "QuantumEntanglement",
+  "undergoes",
+  "NonlinearTransformation",
+  "PauliZMeasurement",
+  "performedOn",
+  "Qubit",
+  "obtains",
+  "ExpectationValue",
+  "MeasurementValue",
+  "constitutes",
+  "QuantumEnhancedFeatureVector",
+  "mappedTo",
+  "ClassificationLogit",
+  "ClassificationProbability",
+  "obtainedThrough",
+  "SoftmaxFunction",
+  "QuantumLayer",
+  "reduces",
+  "ParameterCount",
+  "provides",
+  "StrongerNonlinearExpressivePower",
+  "false_negative",
+  "resultsIn",
+  "missed_diagnosis",
+  "false_positive",
+  "unnecessary_invasive_examination",
+  "leadsTo",
+  "procedure_coronaryAngiography",
+  "model_vgg16",
+  "procedure_stentImplantation",
+  "increases",
+  "medical_cost",
+  "imposes",
+  "psychological_burden",
+  "physical_risk",
+  "technique_diffusionAugmentation",
+  "balances",
+  "training_set_distribution",
+  "technique_quantumEnhancement",
+  "complex_decision_boundary",
+  "model_sdaQec",
+  "unnecessary_medical_intervention",
+  "ArtificialIntelligence",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "Pneumonia",
+  "ChestXRay",
+  "CtImage",
+  "BreastCancer",
+  "DeepLearningModel",
+  "Image",
+  "Classification",
+  "MedicalData",
+  "ClassImbalance",
+  "dataset_covid19Pneumonia",
+  "LowRecallRate",
+  "DiagnosticAccuracy",
+  "ClinicalMisdiagnosis",
+  "PatientRisk",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "Noise",
+  "PathologicalFeature",
+  "GenerativeAdversarialNetwork",
+  "Sample",
+  "TrainingInstability"
+]
+
+Triples:
+[
+  {
+    "subject": "QuantumState",
+    "relation": "passesThrough",
+    "object": "ParameterizedQuantumCircuit",
+    "chunk": "methods3",
+    "context": "After encoding, the quantum state passes through a parameterized quantum circuit (PQC) for feature transformation."
+  },
+  {
+    "subject": "ParameterizedQuantumCircuit",
+    "relation": "performs",
+    "object": "FeatureTransformation",
+    "chunk": "methods3",
+    "context": "After encoding, the quantum state passes through a parameterized quantum circuit (PQC) for feature transformation."
+  },
+  {
+    "subject": "RotationLayer",
+    "relation": "applies",
+    "object": "RotationGate",
+    "chunk": "methods3",
+    "context": "1.Rotation layer: ApplyR Y(θi)rotation gates to each qubit, whereθ iare trainable parameters:"
+  },
+  {
+    "subject": "RotationGate",
+    "relation": "hasParameter",
+    "object": "TrainableParameter",
+    "chunk": "methods3",
+    "context": "1.Rotation layer: ApplyR Y(θi)rotation gates to each qubit, whereθ iare trainable parameters:"
+  },
+  {
+    "subject": "EntanglementLayer",
+    "relation": "applies",
+    "object": "CnotGate",
+    "chunk": "methods3",
+    "context": "2.Entanglement layer: Apply CNOT gates between adjacent qubits to construct quantum entanglement:"
+  },
+  {
+    "subject": "CnotGate",
+    "relation": "constructs",
+    "object": "QuantumEntanglement",
+    "chunk": "methods3",
+    "context": "2.Entanglement layer: Apply CNOT gates between adjacent qubits to construct quantum entanglement:"
+  },
+  {
+    "subject": "QuantumState",
+    "relation": "undergoes",
+    "object": "NonlinearTransformation",
+    "chunk": "methods3",
+    "context": "Through two layers of rotation-entanglement operations, the quantum state under- goes complex nonlinear transformations:"
+  },
+  {
+    "subject": "PauliZMeasurement",
+    "relation": "performedOn",
+    "object": "Qubit",
+    "chunk": "methods3",
+    "context": "After quantum circuit transformation, Pauli-Z measurement is performed on each qubit to obtain the expectation value:"
+  },
+  {
+    "subject": "PauliZMeasurement",
+    "relation": "obtains",
+    "object": "ExpectationValue",
+    "chunk": "methods3",
+    "context": "After quantum circuit transformation, Pauli-Z measurement is performed on each qubit to obtain the expectation value:"
+  },
+  {
+    "subject": "MeasurementValue",
+    "relation": "constitutes",
+    "object": "QuantumEnhancedFeatureVector",
+    "chunk": "methods3",
+    "context": "These 4 measurement values constitute the quantum-enhanced feature vectorf quantum ∈R4."
+  },
+  {
+    "subject": "QuantumEnhancedFeatureVector",
+    "relation": "mappedTo",
+    "object": "ClassificationLogit",
+    "chunk": "methods3",
+    "context": "Finally, this is mapped to classification logits through a fully connected layer:"
+  },
+  {
+    "subject": "ClassificationProbability",
+    "relation": "obtainedThrough",
+    "object": "SoftmaxFunction",
+    "chunk": "methods3",
+    "context": "The final classification probability is obtained through softmax:"
+  },
+  {
+    "subject": "QuantumLayer",
+    "relation": "reduces",
+    "object": "ParameterCount",
+    "chunk": "methods3",
+    "context": "The quantum layer reduces parameters by 96.5% while providing stronger nonlinear expressive power."
+  },
+  {
+    "subject": "QuantumLayer",
+    "relation": "provides",
+    "object": "StrongerNonlinearExpressivePower",
+    "chunk": "methods3",
+    "context": "The quantum layer reduces parameters by 96.5% while providing stronger nonlinear expressive power."
+  },
+  {
+    "subject": "false_negative",
+    "relation": "resultsIn",
+    "object": "missed_diagnosis",
+    "chunk": "results1",
+    "context": "This balanced performance is crucial for clinical deployment, as it minimizes both false negatives (missed diagnoses) and false positives (unnecessary invasive examinations)."
+  },
+  {
+    "subject": "false_positive",
+    "relation": "resultsIn",
+    "object": "unnecessary_invasive_examination",
+    "chunk": "results1",
+    "context": "This balanced performance is crucial for clinical deployment, as it minimizes both false negatives (missed diagnoses) and false positives (unnecessary invasive examinations)."
+  },
+  {
+    "subject": "false_positive",
+    "relation": "leadsTo",
+    "object": "procedure_coronaryAngiography",
+    "chunk": "results1",
+    "context": "From a clinical economics perspective, each false positive may lead to unnecessary coronary angiography (approximately $5,000 per procedure), meaning ResNet18 would generate an additional $20,000 in medical costs per batch of 60 negative patients compared to SDA-QEC."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "leadsTo",
+    "object": "procedure_coronaryAngiography",
+    "chunk": "results1",
+    "context": "From a clinical perspective, this strategy leads to massive false positive alerts, subjecting healthy populations to unnecessary invasive examinations such as coronary angiography and stent implantation, not only increasing medical costs (assuming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "leadsTo",
+    "object": "procedure_stentImplantation",
+    "chunk": "results1",
+    "context": "From a clinical perspective, this strategy leads to massive false positive alerts, subjecting healthy populations to unnecessary invasive examinations such as coronary angiography and stent implantation, not only increasing medical costs (assuming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients."
+  },
+  {
+    "subject": "false_positive",
+    "relation": "increases",
+    "object": "medical_cost",
+    "chunk": "results1",
+    "context": "From a clinical perspective, this strategy leads to massive false positive alerts, subjecting healthy populations to unnecessary invasive examinations such as coronary angiography and stent implantation, not only increasing medical costs (assuming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients."
+  },
+  {
+    "subject": "false_positive",
+    "relation": "imposes",
+    "object": "psychological_burden",
+    "chunk": "results1",
+    "context": "From a clinical perspective, this strategy leads to massive false positive alerts, subjecting healthy populations to unnecessary invasive examinations such as coronary angiography and stent implantation, not only increasing medical costs (assuming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients."
+  },
+  {
+    "subject": "false_positive",
+    "relation": "imposes",
+    "object": "physical_risk",
+    "chunk": "results1",
+    "context": "From a clinical perspective, this strategy leads to massive false positive alerts, subjecting healthy populations to unnecessary invasive examinations such as coronary angiography and stent implantation, not only increasing medical costs (assuming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients."
+  },
+  {
+    "subject": "technique_diffusionAugmentation",
+    "relation": "balances",
+    "object": "training_set_distribution",
+    "chunk": "results1",
+    "context": "This nearly perfect balanced performance reflects the synergistic effect of diffusion augmentation and quantum enhancement—diffusion augmentation balances the training set distribution, enabling the model to fully learn minority class features; quantum enhancement constructs complex decision boundaries through high-dimensional feature mapping, reducing boundary sample misclassification."
+  },
+  {
+    "subject": "technique_quantumEnhancement",
+    "relation": "constructs",
+    "object": "complex_decision_boundary",
+    "chunk": "results1",
+    "context": "This nearly perfect balanced performance reflects the synergistic effect of diffusion augmentation and quantum enhancement—diffusion augmentation balances the training set distribution, enabling the model to fully learn minority class features; quantum enhancement constructs complex decision boundaries through high-dimensional feature mapping, reducing boundary sample misclassification."
+  },
+  {
+    "subject": "model_sdaQec",
+    "relation": "reduces",
+    "object": "unnecessary_medical_intervention",
+    "chunk": "results1",
+    "context": "From a clinical decision-making perspective, SDA-QEC’s low false positive rate significantly reduces unnecessary medical interventions, while its low false negative rate ensures patients do not miss optimal treatment windows."
+  }
+]

@@ -1,0 +1,134 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 8
+
+INPUT TEXT CHUNK:
+Photoexcitation spectroscopy of highly charged ions for application
+to astronomy using a compact electron beam ion trap (EBIT)
+at the synchrotron radiation facility SPring-8
+Leo HIRATA1,2,3), Yuki AMANO2,3), Moto TOGAWA4,5), Hiroyuki A. SAKAUE6),
+Nobuyuki NAKAMURA7,3), Makoto SAWADA8,3), Hiromasa SUZUKI9,3), Masaki OURA10)and
+Hiroya YAMAGUCHI2,1,3)
+1)Department of Physics, The University of Tokyo, 7-3-1 Hongo, Bunkyo-ku, Tokyo 113-0033, Japan
+2)Institute of Space and Astronautical Science (ISAS), Japan Aerospace Exploration Agency (JAXA), 3-1-1 Yoshinodai,
+Chuo-ku, Sagamihara 252-5210, Japan
+3)RIKEN Pioneering Research Institute, RIKEN, 2-1 Hirosawa, Wako 351-0198, Japan
+4)Max-Planck-Institut f¨ ur Kernphysik, Saupfercheckweg 1, 69117 Heidelberg, Germany
+5)European XFEL, Holzkoppel 4, 22869 Schenefeld, Germany
+6)National Institute for Fusion Science, National Institutes of Natural Sciences, 322-6 Oroshi-cho, Toki 509-5292, Japan
+7)Institute for Laser Science, The University of Electro-Communications, 1-5-1 Chofugaoka, Chofu 182-8585, Japan
+8)Department of Physics, Rikkyo University, 3-34-1 Nishi Ikebukuro, Toshima-ku, Tokyo 171-8501, Japan
+9)Faculty of Engineering, University of Miyazaki, 1-1 Gakuen Kibanadai-nishi, Miyazaki 889-2192 Japan
+10)RIKEN SPring-8 Center, RIKEN, 1-1-1 Kouto, Sayo, Hyogo 679-5148, Japan
+January 26, 2026
+In the past few decades, X-ray astronomy satellites equipped with grating spectrometers and microcalorime-
+ters have enabled high-resolution spectroscopic observations of astrophysical objects. The need for accurate
+atomic data has arose as we attempt detailed analysis of the high-resolution spectra they provide. This is be-
+cause current spectral models, which heavily rely on theoretical calculations, entail non-negligible uncertainties.
+We employ a plasma spectroscopy device called electron beam ion trap (EBIT) to experimentally obtain precise
+atomic data. An EBIT with a design that allows combined operation with synchrotron radiation facilities was
+developed based on the Heidelberg Compact EBIT and installed at ISAS/JAXA for this purpose. We conducted a
+spectroscopic experiment using the JAXA-EBIT at the synchrotron radiation facility SPring-8, and successfully
+obtained high-resolution spectra of the Lαresonance transition of Ne-like Fe16+ions, 3C, as well as the Kα
+resonance transition of He-like O6+ions. We also measured another Ne-like Fe16+Lαresonance transition, 3G,
+and constrained an upper limit of the oscillator strength ratio of 3G to 3C, using our experimental results. The
+experimental values obtained in this study will be applied to observational studies of astrophysical objects as a
+part of the plasma spectral modeling.
+Keywords:plasma spectroscopy, resonant photoexcitation, highly charged iron ion, electron beam ion trap
+(ebit), synchrotron radiation, atomic data, x-ray astronomy
+1 Introduction
+Various astrophysical objects, including supernova rem-
+nants and galaxy clusters, consist of X-ray-emitting hot
+(∼106−8K) plasma (e.g., [1]). XRISM [2] satellite’s
+spectrometer, Resolve [3], provides exceptional spectral
+resolution∆E/E∼8×10−4at 6 keV [4], resolving the
+fine iron K-shell emission line structures (e.g., [5]). Such
+high resolving power enables us to perform precise diag-
+nostics of astrophysical plasmas, including detailed mea-
+surements of velocity structures [6, 7] and elemental abun-
+dances [8] of the astrophysical objects. The observed spec-
+tra are often analysed by comparing them with theoreti-
+cally synthesized spectra using plasma modeling frame-
+works such as AtomDB/APEC [9, 10], SPEX [11], and
+author’s e-mail: lhirata-6087@g.ecc.u-tokyo.ac.jpCHIANTI [12, 13]. The accuracy of the atomic data used
+in those frameworks is crucial for reliable plasma diagnos-
+tics using high-resolution spectra. However, currently used
+atomic data, which heavily rely on theoretical calculations,
+entail non-negligible uncertainties up to 30-40% depend-
+ing on the transitions [14]. Laboratory measurements are
+necessary to obtain precise values. To address this issue,
+we considered the use of an electron beam ion trap (EBIT)
+[15], an experimental apparatus designed to produce and
+trap highly charged ions (HCIs) using a monochromatic
+electron beam and to measure their X-ray emission.
+Since the development of the EBIT at Lawrence Liv-
+ermore National Laboratory (LLNL) in the 1980s, vari-
+ous experiments to measure atomic data have been car-
+ried out through spectroscopic observations of EBIT plas-
+mas using different types of EBITs operated at, for exam-
+B-13-00arXiv:2601.18311v1  [astro-ph.IM]  26 Jan 2026
+
+ple, LLNL, National Institute of Standards and Technology
+(NIST), and Max-Planck-Institut f ¨ur Kernphysik (MPIK).
+These experiments have targeted a variety of transitions
+in elements of astrophysical importance, including oxy-
+gen [16], silicon [17, 18], sulfur [18, 19], argon [20, 21],
+and iron [22, 23].

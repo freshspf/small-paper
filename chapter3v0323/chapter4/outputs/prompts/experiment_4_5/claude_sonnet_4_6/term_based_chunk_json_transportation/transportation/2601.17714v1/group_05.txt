@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TrafficUnit",
+  "deviatesFrom",
+  "IndividualEquilibriumState",
+  "ReactionBehavior",
+  "enhances",
+  "KineticEnergyDissipation",
+  "Individual",
+  "EquilibriumState",
+  "ModerateAnticipationBehavior",
+  "weakens",
+  "ExcessiveAnticipation",
+  "increases",
+  "DissipationMagnitude",
+  "UnidirectionalFlow",
+  "consistsOf",
+  "EllipseArea",
+  "illustrates",
+  "SystematicKineticEnergyDissipation",
+  "occursWithin",
+  "TrafficOscillation",
+  "HysteresisLoop",
+  "expandsIn",
+  "ReactionModel",
+  "contractsIn",
+  "AnticipationModel",
+  "SystematicEnergyDissipation",
+  "induces",
+  "AnticipationBehavior",
+  "attenuates",
+  "Hysteresis",
+  "manifestsAs",
+  "ZeroArea",
+  "HysteresisMechanism",
+  "explains",
+  "ObscureProperty",
+  "occursIn",
+  "Traffic",
+  "SecondOrderModel",
+  "establishedOn",
+  "ConstantTimeHeadwayStrategy",
+  "DynamicalSystemParameter",
+  "retains",
+  "PhysicalMeaning",
+  "DimensionalConsistency",
+  "adheresTo",
+  "PhysicalRigor",
+  "OrthogonalWave",
+  "synthesizes",
+  "EllipticalEvolutionTrajectory",
+  "TrafficDynamicalSystem",
+  "locatedIn",
+  "ThreeDimensionalPhaseSpace",
+  "TwoDimensionalHysteresis",
+  "isProjectionOf",
+  "DynamicalTrajectory",
+  "projectedOnto",
+  "PhasePlane",
+  "HysteresisArea",
+  "quantifies",
+  "stemsFrom",
+  "TrafficPerturbation",
+  "TrafficHysteresis",
+  "TimeDelayPhenomenon",
+  "Dynamics",
+  "ResponseMechanism",
+  "DynamicalEvolution",
+  "TimeDelayVariation",
+  "HysteresisExpansion",
+  "HysteresisContraction",
+  "EvolutionOrientation",
+  "StringStability",
+  "MultipleRendezvousPoint",
+  "SpaceSpeedPhasePlane",
+  "ConciseFramework",
+  "DynamicalEquation",
+  "parameter_timeHeadway",
+  "PedestrianContext",
+  "DesiredSpeed",
+  "OptimalVelocity",
+  "PrecedingTrafficUnit"
+]
+
+Triples:
+[
+  {
+    "subject": "TrafficUnit",
+    "relation": "deviatesFrom",
+    "object": "IndividualEquilibriumState",
+    "chunk": "synchronizationintraffic",
+    "context": "From the perspective of energy, the ellipse area in the(ξ ji,˙ξi)plane represents the kinetic energy dissipationKξji,˙ξiof traffic unitias it deviates from individual equilibrium state:"
+  },
+  {
+    "subject": "ReactionBehavior",
+    "relation": "enhances",
+    "object": "KineticEnergyDissipation",
+    "chunk": "synchronizationintraffic",
+    "context": "Revisiting Fig. 3 reveals that the reaction behavior enhances the kinetic energy dissipation of individuals deviating from the equilibrium state, whereas moderate anticipation behavior weakens such dissipation."
+  },
+  {
+    "subject": "Individual",
+    "relation": "deviatesFrom",
+    "object": "EquilibriumState",
+    "chunk": "synchronizationintraffic",
+    "context": "Revisiting Fig. 3 reveals that the reaction behavior enhances the kinetic energy dissipation of individuals deviating from the equilibrium state, whereas moderate anticipation behavior weakens such dissipation."
+  },
+  {
+    "subject": "ModerateAnticipationBehavior",
+    "relation": "weakens",
+    "object": "KineticEnergyDissipation",
+    "chunk": "synchronizationintraffic",
+    "context": "Revisiting Fig. 3 reveals that the reaction behavior enhances the kinetic energy dissipation of individuals deviating from the equilibrium state, whereas moderate anticipation behavior weakens such dissipation."
+  },
+  {
+    "subject": "ExcessiveAnticipation",
+    "relation": "increases",
+    "object": "DissipationMagnitude",
+    "chunk": "synchronizationintraffic",
+    "context": "However, when anticipation exceeds a critical threshold (TD=ϕ dji,vi/ω= 0), excessive anticipation leads to an increase in the dissipation magnitude."
+  },
+  {
+    "subject": "UnidirectionalFlow",
+    "relation": "consistsOf",
+    "object": "TrafficUnit",
+    "chunk": "synchronizationintraffic",
+    "context": "Consider an idealized periodic unidirectional flow consisting only of traffic unitsiandj."
+  },
+  {
+    "subject": "EllipseArea",
+    "relation": "illustrates",
+    "object": "SystematicKineticEnergyDissipation",
+    "chunk": "synchronizationintraffic",
+    "context": "The ellipse area in(ξ ji,˙ξij)plane, illustrating the systematic kinetic energy dissipationKξji,˙ξijaway from synchronization state within the traffic oscillations, is:"
+  },
+  {
+    "subject": "SystematicKineticEnergyDissipation",
+    "relation": "occursWithin",
+    "object": "TrafficOscillation",
+    "chunk": "synchronizationintraffic",
+    "context": "The ellipse area in(ξ ji,˙ξij)plane, illustrating the systematic kinetic energy dissipationKξji,˙ξijaway from synchronization state within the traffic oscillations, is:"
+  },
+  {
+    "subject": "HysteresisLoop",
+    "relation": "expandsIn",
+    "object": "ReactionModel",
+    "chunk": "synchronizationintraffic",
+    "context": "Similarly, as illustrated in Fig. 3, the hysteresis loop in the(ξ ji,˙ξij)plane undergoes expansion in the reaction model and contraction in the anticipation model."
+  },
+  {
+    "subject": "HysteresisLoop",
+    "relation": "contractsIn",
+    "object": "AnticipationModel",
+    "chunk": "synchronizationintraffic",
+    "context": "Similarly, as illustrated in Fig. 3, the hysteresis loop in the(ξ ji,˙ξij)plane undergoes expansion in the reaction model and contraction in the anticipation model."
+  },
+  {
+    "subject": "ReactionBehavior",
+    "relation": "enhances",
+    "object": "SystematicEnergyDissipation",
+    "chunk": "synchronizationintraffic",
+    "context": "This result indicates that reaction behavior enhances the systematic energy dissipation induced by traffic oscillations, whereas anticipation behavior attenuates it."
+  },
+  {
+    "subject": "TrafficOscillation",
+    "relation": "induces",
+    "object": "SystematicEnergyDissipation",
+    "chunk": "synchronizationintraffic",
+    "context": "This result indicates that reaction behavior enhances the systematic energy dissipation induced by traffic oscillations, whereas anticipation behavior attenuates it."
+  },
+  {
+    "subject": "AnticipationBehavior",
+    "relation": "attenuates",
+    "object": "SystematicEnergyDissipation",
+    "chunk": "synchronizationintraffic",
+    "context": "This result indicates that reaction behavior enhances the systematic energy dissipation induced by traffic oscillations, whereas anticipation behavior attenuates it."
+  },
+  {
+    "subject": "Hysteresis",
+    "relation": "manifestsAs",
+    "object": "ZeroArea",
+    "chunk": "synchronizationintraffic",
+    "context": "Corresponding to synchroniza- tion state of system perspective, the hysteresis manifests as zero area in the(d ji, vij)plane."
+  },
+  {
+    "subject": "HysteresisMechanism",
+    "relation": "explains",
+    "object": "ObscureProperty",
+    "chunk": "synchronizationintraffic",
+    "context": "The mechanisms of the hysteresis elegant explained many obscure properties in traffic."
+  },
+  {
+    "subject": "ObscureProperty",
+    "relation": "occursIn",
+    "object": "Traffic",
+    "chunk": "synchronizationintraffic",
+    "context": "The mechanisms of the hysteresis elegant explained many obscure properties in traffic."
+  },
+  {
+    "subject": "SecondOrderModel",
+    "relation": "establishedOn",
+    "object": "ConstantTimeHeadwayStrategy",
+    "chunk": "conclusion",
+    "context": "Thispaperinvestigatesfourtypesofsecond-ordermodelsintrafficestablishedontheconstanttime-headwaystrategy."
+  },
+  {
+    "subject": "DynamicalSystemParameter",
+    "relation": "retains",
+    "object": "PhysicalMeaning",
+    "chunk": "conclusion",
+    "context": "The parameters of the dynamical system retain clear physical meanings, ensuring that the dimensional consistency adheres to principles of mathematical and physical rigor."
+  },
+  {
+    "subject": "DimensionalConsistency",
+    "relation": "adheresTo",
+    "object": "PhysicalRigor",
+    "chunk": "conclusion",
+    "context": "The parameters of the dynamical system retain clear physical meanings, ensuring that the dimensional consistency adheres to principles of mathematical and physical rigor."
+  },
+  {
+    "subject": "OrthogonalWave",
+    "relation": "synthesizes",
+    "object": "EllipticalEvolutionTrajectory",
+    "chunk": "conclusion",
+    "context": "We understand that mutually orthogonal wave on different phaseaxessynthesizetheellipticalevolutiontrajectoryofthetrafficdynamicalsysteminthreedimensionalphasespace."
+  },
+  {
+    "subject": "TrafficDynamicalSystem",
+    "relation": "locatedIn",
+    "object": "ThreeDimensionalPhaseSpace",
+    "chunk": "conclusion",
+    "context": "We understand that mutually orthogonal wave on different phaseaxessynthesizetheellipticalevolutiontrajectoryofthetrafficdynamicalsysteminthreedimensionalphasespace."
+  },
+  {
+    "subject": "TwoDimensionalHysteresis",
+    "relation": "isProjectionOf",
+    "object": "DynamicalTrajectory",
+    "chunk": "conclusion",
+    "context": "Essentially, the 2D hystereses are projections of this dynamical trajectory onto different phase planes."
+  },
+  {
+    "subject": "DynamicalTrajectory",
+    "relation": "projectedOnto",
+    "object": "PhasePlane",
+    "chunk": "conclusion",
+    "context": "Essentially, the 2D hystereses are projections of this dynamical trajectory onto different phase planes."
+  },
+  {
+    "subject": "HysteresisArea",
+    "relation": "quantifies",
+    "object": "KineticEnergyDissipation",
+    "chunk": "conclusion",
+    "context": "Furthermore, we demonstrate how the area of hysteresis quantifies the kinetic energy dissipation stemming from traffic perturbations."
+  },
+  {
+    "subject": "KineticEnergyDissipation",
+    "relation": "stemsFrom",
+    "object": "TrafficPerturbation",
+    "chunk": "conclusion",
+    "context": "Furthermore, we demonstrate how the area of hysteresis quantifies the kinetic energy dissipation stemming from traffic perturbations."
+  }
+]

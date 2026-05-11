@@ -1,0 +1,70 @@
+You are an ontology axiom extraction system. Your task is to identify and extract formal RDFS ontology axioms from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Extract ontology axioms including but not limited to:
+   - Subclass relationships (`rdfs:subClassOf`)
+   - Sub-objectproperty relationships (`owl:subObjectPropertyOf`)
+   - Sub-dataproperty relationships (`owl:subDataPropertyOf`)
+   - Domain restrictions (`rdfs:domain`)
+   - Range restrictions (`rdfs:range`)
+   - Disjointness axioms (`owl:disjointWith`)
+
+2. Each axiom must represent a single atomic ontological assertion and describe the knowledge in the given field.
+
+3. Every axiom MUST be directly supported by an exact quote from the provided text OR logically inferred from explicit statements about class/property relationships.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+
+
+
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following exact structure:
+{
+  "axioms": [
+    {
+      "subject": "string (the ontological entity)",
+      "relation": "string (the ontological predicate)",
+      "object": "string (the target entity or value)",
+      "chunk": "string (from which section)",
+      "evidence": "string (exact text segment supporting this axiom)"
+    }
+  ]
+}
+
+**EXAMPLES OF EXPECTED EXTRACTION:**
+Input text: "Aquifer microbes are a subclass of microbial functional guilds. They are found in aquifers."
+
+Extracted axioms:
+1. {
+  "subject": "AquiferMicrobes",
+  "relation": "rdfs:subClassOf",
+  "object": "MicrobialFunctionalGuild",
+  "chunk": "ABSTRACT",
+  "evidence": "Aquifer microbes are a subclass of microbial functional guilds."
+}
+2. {
+  "subject": "foundIn",
+  "relation": "rdfs:domain",
+  "object": "AquiferMicrobes",
+  "chunk": "Introduction",
+  "evidence": "They are found in aquifers."
+}
+3. {
+  "subject": "foundIn",
+  "relation": "rdfs:range",
+  "object": "Aquifer",
+  "chunk": "Experiments",
+  "evidence": "They are found in aquifers."
+}
+
+**INPUT TEXT:**
+VissimRL: A Multi-Agent Reinforcement Learning Framework for Traffic Signal Control Based on Vissim
+
+ABSTRACT
+Traffic congestion remains a major challenge for urban transportation, leading to significant economic and environmental impacts. Traffic Signal Control (TSC) is one of the key measures to mitigate congestion, and recent studies have increasingly applied Reinforcement Learning (RL) for its adaptive capabilities. With respect to SUMO and CityFlow, the simulator Vissim offers high-fidelity driver behavior modeling and wide industrial adoption but remains underutilized in RL research due to its complex interface and lack of standardized frameworks. To address this gap, this paper proposes VissimRL, a modular RL framework for TSC that encapsulates Vissim’s COM interface through a high-level Python API, offering standardized environments for both single- and multi-agent training. Experiments show that VissimRL significantly reduces development effort while maintaining runtime efficiency, and supports consistent improvements in traffic performance during training, as well as emergent coordination in multi-agent control. Overall, VissimRL demonstrates the feasibility of applying RL in high-fidelity simulations and serves as a bridge between academic research and practical applications in intelligent traffic signal control.

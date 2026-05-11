@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PathLoss",
+  "calculatedFrom",
+  "StraightPathCenter",
+  "scheme_FineSync",
+  "isA",
+  "SpectrumSharingScheme",
+  "utilizes",
+  "SatelliteTerrestrialSynchronization",
+  "scheme_PartialPreScheme",
+  "LinkSchedulingScheme",
+  "scheme_RandScheme",
+  "CellularUser",
+  "Subcarrier",
+  "SatelliteUser",
+  "lacksFeature",
+  "PowerControl",
+  "Satellite",
+  "selectedBasedOn",
+  "SuSatelliteDistance",
+  "satellite_116E_40N",
+  "hasSubSatellitePoint",
+  "location_116E_40N",
+  "selectedBy",
+  "ProposedScheme",
+  "HybridNetwork",
+  "hasAvailableSatelliteCount",
+  "3",
+  "achievesImprovementOver",
+  "NoSharingCUs",
+  "hasAverageSumRateImprovement",
+  "23percent_at_0dBm",
+  "moreThan15percent_at_10dBm",
+  "achievesPerformanceFractionOf",
+  "FineSyncScheme",
+  "usesCoarseSynchronization",
+  "CoarseSatelliteTerrestrialSynchronization",
+  "satisfiesQoSFor",
+  "AllSecondaryUsers",
+  "RandScheme",
+  "violatesQoSFor",
+  "20percentOfSecondaryUsers",
+  "prioritizesQoSOf",
+  "considersSpatialDistributionOf",
+  "SecondaryUser",
+  "LinkFeatureSketchingAidedLinkScheduling",
+  "usesStatisticalCSI",
+  "StatisticalChannelStateInformation",
+  "scheduledInSameSubcarrierAs",
+  "HybridSatelliteTerrestrialNetwork",
+  "SatelliteNetwork",
+  "TerrestrialNetwork",
+  "university_minzuUniversityOfChina",
+  "city_beijing",
+  "country_china",
+  "university_tsinghua",
+  "university_durham",
+  "city_durham",
+  "country_uk",
+  "university_southeast",
+  "laboratory_purpleMountainLaboratories",
+  "city_nanjing",
+  "User",
+  "SpatialDistribution",
+  "HybridSatelliteUavTerrestrialMaritimeNetwork",
+  "MaritimeNetwork",
+  "SatelliteLink",
+  "TerrestrialLink",
+  "SatelliteComponent",
+  "BaseStation",
+  "TerrestrialComponent",
+  "Uav",
+  "AerialStation",
+  "TerrestrialBaseStation",
+  "SmartVehicle",
+  "TerrestrialTransmitterReceiverPair",
+  "PrimarySatelliteNetwork",
+  "SatelliteMulticastDownlink",
+  "TerrestrialDownlink",
+  "NonOrthogonalMultipleAccessUser",
+  "MobileWirelessService"
+]
+
+Triples:
+[
+  {
+    "subject": "PathLoss",
+    "relation": "calculatedFrom",
+    "object": "StraightPathCenter",
+    "chunk": "completedocument11",
+    "context": "In the simulations,lfor the links is obtained based on the centers of the straight paths for the CUs and SUs."
+  },
+  {
+    "subject": "scheme_FineSync",
+    "relation": "isA",
+    "object": "SpectrumSharingScheme",
+    "chunk": "completedocument11",
+    "context": "FineSyncis a spectrum sharing scheme with time-slot-based fine satellite-terrestrial synchronization, also developed based on cooperative optimization of link scheduling for the CUs and joint link scheduling and power control for the SUs."
+  },
+  {
+    "subject": "scheme_FineSync",
+    "relation": "utilizes",
+    "object": "SatelliteTerrestrialSynchronization",
+    "chunk": "completedocument11",
+    "context": "FineSyncis a spectrum sharing scheme with time-slot-based fine satellite-terrestrial synchronization, also developed based on cooperative optimization of link scheduling for the CUs and joint link scheduling and power control for the SUs."
+  },
+  {
+    "subject": "scheme_PartialPreScheme",
+    "relation": "isA",
+    "object": "LinkSchedulingScheme",
+    "chunk": "completedocument11",
+    "context": "PartialPreScheme is a cooperative satellite-terrestrial link scheduling scheme obtained partly following our previous work in [8]."
+  },
+  {
+    "subject": "scheme_RandScheme",
+    "relation": "isA",
+    "object": "SpectrumSharingScheme",
+    "chunk": "completedocument11",
+    "context": "RandSchemeis a random spectrum sharing scheme, in which the CUs and SUs utilize the subcarriers independently without power control."
+  },
+  {
+    "subject": "CellularUser",
+    "relation": "utilizes",
+    "object": "Subcarrier",
+    "chunk": "completedocument11",
+    "context": "RandSchemeis a random spectrum sharing scheme, in which the CUs and SUs utilize the subcarriers independently without power control."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "utilizes",
+    "object": "Subcarrier",
+    "chunk": "completedocument11",
+    "context": "RandSchemeis a random spectrum sharing scheme, in which the CUs and SUs utilize the subcarriers independently without power control."
+  },
+  {
+    "subject": "scheme_RandScheme",
+    "relation": "lacksFeature",
+    "object": "PowerControl",
+    "chunk": "completedocument11",
+    "context": "RandSchemeis a random spectrum sharing scheme, in which the CUs and SUs utilize the subcarriers independently without power control."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "selectedBasedOn",
+    "object": "SuSatelliteDistance",
+    "chunk": "completedocument11",
+    "context": "In bothPartialPreSchemeandRand- Scheme, the satellite with the smallest SU-Satellite distance is selected for each SU, and transmit power of the SUs is set as¯p(k∗ u,max) u = min{min (i,r,v)∈V k∗u¯p(i,r,v) u , Psu}based on (31b) and (32), withk∗ udenoting the subcarrier that SU uis served in."
+  },
+  {
+    "subject": "satellite_116E_40N",
+    "relation": "hasSubSatellitePoint",
+    "object": "location_116E_40N",
+    "chunk": "completedocument12",
+    "context": "It is noticed that among the 3 satellites available for all SUs, only the one with its sub-satellite point at (116◦E,40◦N) is actually selected in the simulation results for the proposed scheme."
+  },
+  {
+    "subject": "satellite_116E_40N",
+    "relation": "selectedBy",
+    "object": "ProposedScheme",
+    "chunk": "completedocument12",
+    "context": "It is noticed that among the 3 satellites available for all SUs, only the one with its sub-satellite point at (116◦E,40◦N) is actually selected in the simulation results for the proposed scheme."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "hasAvailableSatelliteCount",
+    "object": "3",
+    "chunk": "completedocument12",
+    "context": "It is noticed that among the 3 satellites available for all SUs, only the one with its sub-satellite point at (116◦E,40◦N) is actually selected in the simulation results for the proposed scheme."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "achievesImprovementOver",
+    "object": "NoSharingCUs",
+    "chunk": "completedocument12",
+    "context": "the improvement of average sum rate achieved by the proposed scheme is about 23% when the transmit power of the BSs for each CU, i.e., Pbs, is 0 dBm, and it remains at more than 15% when Pbs increases to 10 dBm."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "hasAverageSumRateImprovement",
+    "object": "23percent_at_0dBm",
+    "chunk": "completedocument12",
+    "context": "the improvement of average sum rate achieved by the proposed scheme is about 23% when the transmit power of the BSs for each CU, i.e., Pbs, is 0 dBm"
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "hasAverageSumRateImprovement",
+    "object": "moreThan15percent_at_10dBm",
+    "chunk": "completedocument12",
+    "context": "it remains at more than 15% when Pbs increases to 10 dBm."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "achievesPerformanceFractionOf",
+    "object": "FineSyncScheme",
+    "chunk": "completedocument12",
+    "context": "with only coarse satellite-terrestrial synchronization, the proposed scheme achieves more than 85% of the performance gain promised by the FineSync scheme."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "usesCoarseSynchronization",
+    "object": "CoarseSatelliteTerrestrialSynchronization",
+    "chunk": "completedocument12",
+    "context": "with only coarse satellite-terrestrial synchronization, the proposed scheme achieves more than 85% of the performance gain promised by the FineSync scheme."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "satisfiesQoSFor",
+    "object": "AllSecondaryUsers",
+    "chunk": "completedocument12",
+    "context": "QoS requirements of all the SUs are satisfied by both the proposed scheme and the FineSync scheme."
+  },
+  {
+    "subject": "FineSyncScheme",
+    "relation": "satisfiesQoSFor",
+    "object": "AllSecondaryUsers",
+    "chunk": "completedocument12",
+    "context": "QoS requirements of all the SUs are satisfied by both the proposed scheme and the FineSync scheme."
+  },
+  {
+    "subject": "RandScheme",
+    "relation": "violatesQoSFor",
+    "object": "20percentOfSecondaryUsers",
+    "chunk": "completedocument12",
+    "context": "QoS requirements of about 20% of the SUs cannot be satisfied on average in order to ensure QoS for the CUs in the RandScheme."
+  },
+  {
+    "subject": "RandScheme",
+    "relation": "prioritizesQoSOf",
+    "object": "CellularUser",
+    "chunk": "completedocument12",
+    "context": "QoS requirements of about 20% of the SUs cannot be satisfied on average in order to ensure QoS for the CUs in the RandScheme."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "considersSpatialDistributionOf",
+    "object": "CellularUser",
+    "chunk": "completedocument12",
+    "context": "the spatial distribution of the CUs and SUs is well considered in the link-feature-sketching-aided link scheduling in the proposed scheme via its impact on the statistical CSI of the links."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "considersSpatialDistributionOf",
+    "object": "SecondaryUser",
+    "chunk": "completedocument12",
+    "context": "the spatial distribution of the CUs and SUs is well considered in the link-feature-sketching-aided link scheduling in the proposed scheme via its impact on the statistical CSI of the links."
+  },
+  {
+    "subject": "LinkFeatureSketchingAidedLinkScheduling",
+    "relation": "usesStatisticalCSI",
+    "object": "StatisticalChannelStateInformation",
+    "chunk": "completedocument12",
+    "context": "the spatial distribution of the CUs and SUs is well considered in the link-feature-sketching-aided link scheduling in the proposed scheme via its impact on the statistical CSI of the links."
+  },
+  {
+    "subject": "CellularUser",
+    "relation": "scheduledInSameSubcarrierAs",
+    "object": "SecondaryUser",
+    "chunk": "completedocument12",
+    "context": "CUs and SUs scheduled in the same subcarrier are well separated with each other by relatively-large distances."
+  }
+]

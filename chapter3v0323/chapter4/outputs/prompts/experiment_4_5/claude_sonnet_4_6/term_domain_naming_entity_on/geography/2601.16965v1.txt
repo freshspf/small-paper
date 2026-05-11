@@ -1,0 +1,391 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AiAgent",
+  "SpatialConcept",
+  "FunctionalRole",
+  "GeoFlowGraph",
+  "DirectedAcyclicGraph",
+  "GisTool",
+  "Dataset",
+  "BaselineMethod",
+  "RealWorldApplication",
+  "GeoAnalyticalQuestion",
+  "OperatorConceptHypergraph",
+  "ConceptNode",
+  "FactorNode",
+  "SpatialOperator",
+  "GeospatialReasoning",
+  "aiAgent_spatialAgent",
+  "spatialConcept_object",
+  "spatialConcept_field",
+  "spatialConcept_event",
+  "spatialConcept_network",
+  "spatialConcept_location",
+  "spatialConcept_amount",
+  "spatialConcept_proportion",
+  "functionalRole_extent",
+  "functionalRole_textent",
+  "functionalRole_subCond",
+  "functionalRole_cond",
+  "functionalRole_support",
+  "functionalRole_measure",
+  "dataset_mapEvalApi",
+  "dataset_mapQa",
+  "dataset_geoQa",
+  "dataset_tourismQa",
+  "gisTool_postGis",
+  "gisTool_arcGis",
+  "gisTool_qGis",
+  "baselineMethod_reAct",
+  "baselineMethod_reflexion",
+  "baselineMethod_directLlm",
+  "baselineMethod_planAndSolve",
+  "realWorldApplication_urbanAnalytics",
+  "realWorldApplication_transportationPlanning",
+  "realWorldApplication_environmentalMonitoring",
+  "realWorldApplication_disasterResponse",
+  "realWorldApplication_publicHealth",
+  "constraint_acyclicity",
+  "constraint_roleOrdering",
+  "constraint_typeCompatibility",
+  "constraint_dataAvailability",
+  "constraint_connectivity",
+  "extractsConcept",
+  "assignsRole",
+  "parsesInto",
+  "evaluatedOn",
+  "outperforms",
+  "appliedTo",
+  "usesTool",
+  "representedAs",
+  "containsNode",
+  "groundedIn",
+  "executesBefore",
+  "satisfiesConstraint",
+  "mappedTo",
+  "requires"
+]
+
+Triples:
+[
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "groundedIn",
+    "object": "GeospatialReasoning"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "extractsConcept",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "assignsRole",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "generates",
+    "object": "GeoFlowGraph"
+  },
+  {
+    "subject": "GeoAnalyticalQuestion",
+    "relation": "parsesInto",
+    "object": "GeoFlowGraph"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "representedAs",
+    "object": "DirectedAcyclicGraph"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "mappedTo",
+    "object": "OperatorConceptHypergraph"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "containsNode",
+    "object": "ConceptNode"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "containsNode",
+    "object": "FactorNode"
+  },
+  {
+    "subject": "GeoAnalyticalQuestion",
+    "relation": "requires",
+    "object": "GeospatialReasoning"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "appliedTo",
+    "object": "realWorldApplication_urbanAnalytics"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "appliedTo",
+    "object": "realWorldApplication_transportationPlanning"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "appliedTo",
+    "object": "realWorldApplication_environmentalMonitoring"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "appliedTo",
+    "object": "realWorldApplication_disasterResponse"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "appliedTo",
+    "object": "realWorldApplication_publicHealth"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "usesTool",
+    "object": "gisTool_postGis"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "usesTool",
+    "object": "gisTool_arcGis"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "usesTool",
+    "object": "gisTool_qGis"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "evaluatedOn",
+    "object": "dataset_mapEvalApi"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "evaluatedOn",
+    "object": "dataset_mapQa"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "outperforms",
+    "object": "baselineMethod_reAct"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "outperforms",
+    "object": "baselineMethod_reflexion"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "outperforms",
+    "object": "baselineMethod_directLlm"
+  },
+  {
+    "subject": "aiAgent_spatialAgent",
+    "relation": "outperforms",
+    "object": "baselineMethod_planAndSolve"
+  },
+  {
+    "subject": "spatialConcept_object",
+    "relation": "classifiedAs",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "spatialConcept_field",
+    "relation": "classifiedAs",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "spatialConcept_event",
+    "relation": "classifiedAs",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "spatialConcept_network",
+    "relation": "classifiedAs",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "spatialConcept_location",
+    "relation": "classifiedAs",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "spatialConcept_amount",
+    "relation": "classifiedAs",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "spatialConcept_proportion",
+    "relation": "classifiedAs",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "functionalRole_extent",
+    "relation": "classifiedAs",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "functionalRole_textent",
+    "relation": "classifiedAs",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "functionalRole_subCond",
+    "relation": "classifiedAs",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "functionalRole_cond",
+    "relation": "classifiedAs",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "functionalRole_support",
+    "relation": "classifiedAs",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "functionalRole_measure",
+    "relation": "classifiedAs",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "functionalRole_subCond",
+    "relation": "executesBefore",
+    "object": "functionalRole_cond"
+  },
+  {
+    "subject": "functionalRole_cond",
+    "relation": "executesBefore",
+    "object": "functionalRole_support"
+  },
+  {
+    "subject": "functionalRole_support",
+    "relation": "executesBefore",
+    "object": "functionalRole_measure"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "satisfiesConstraint",
+    "object": "constraint_acyclicity"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "satisfiesConstraint",
+    "object": "constraint_roleOrdering"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "satisfiesConstraint",
+    "object": "constraint_typeCompatibility"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "satisfiesConstraint",
+    "object": "constraint_dataAvailability"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "satisfiesConstraint",
+    "object": "constraint_connectivity"
+  },
+  {
+    "subject": "BaselineMethod",
+    "relation": "lacks",
+    "object": "GeospatialReasoning"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "transforms",
+    "object": "SpatialConcept"
+  }
+]

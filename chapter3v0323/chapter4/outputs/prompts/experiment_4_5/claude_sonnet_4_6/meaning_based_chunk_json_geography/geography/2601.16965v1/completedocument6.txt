@@ -1,0 +1,156 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument6",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument6
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+The benchmark spans 180 cities across
+54 countries, providing diverse geographic cover-
+age for evaluating tool-augmented spatial reason-
+ing.MapQA(Li et al., 2025) is an open-domain
+geospatial QA dataset with 3,154 question-answer
+pairs spanning nine question types, constructed
+from OpenStreetMap data covering Southern Cali-
+fornia and Illinois.
+Baselines.We compare SpatialAgent against the
+following methods: (1)Direct LLM, which di-
+rectly prompts the language model without agent
+scaffolding; (2)ReAct(Yao et al., 2022), an
+agent that interleaves reasoning and acting through
+thought-action-observation loops; (3)Reflexion
+(Shinn et al., 2023), an agent that learns from ex-
+ecution failures through self-reflection and mem-
+ory; and (4)Plan-and-Solve(Wang et al., 2023),
+a prompting strategy that first generates an overall
+plan before execution.
+4.2 Main Results
+Results on MapEval-API.Table 1 presents the
+results on the MapEval-API benchmark across four
+task categories. SpatialAgent consistently out-
+performs all baselines across different backbone
+LLMs. For closed-source models, SpatialAgent
+with GPT-4o-mini achieves an overall accuracy of
+6
+
+45.15%, representing a 96.30% relative improve-
+ment over the MapEval API baseline (23.00%).
+The improvement is particularly pronounced on
+Place Info(+149.91%) andNearby(+133.26%)
+tasks, where structured tool invocation and spatial
+reasoning are critical. When equipped with GPT-5,
+SpatialAgent reaches the best overall accuracy of
+71.88%, with strong performance across all cate-
+gories, especially onRouting(75.76%) andTrip
+(77.61%) tasks that require multi-step planning.
+For open-source LLMs, SpatialAgent demon-
+strates competitive performance. Qwen2.5-72B-
+Instruct achieves the best overall accuracy of
+53.41% among open-source models, with the
+highestTripaccuracy (61.19%), while Qwen2.5-
+32B-Instruct achieves the bestRoutingaccuracy
+(50.00%). With LLaMA-70B, our method achieves
+47.77% overall accuracy (+26.82% over base-
+line), with substantial improvements onPlace Info
+(+35.29%) andNearby(+62.96%). We observe
+thatRoutingtasks remain challenging for LLaMA-
+70B (-17.85%), suggesting that complex navigation
+queries benefit more from models with stronger rea-
+soning capabilities.
+Results on MapQA.Table 2 presents the re-
+sults on the MapQA benchmark across six ques-
+tion types. For closed-source models, SpatialA-
+gent (GPT-4o-mini) achieves the best overall accu-
+racy of 61.45%, substantially outperforming Di-
+rect LLM (13.55%), ReAct (43.79%), and Re-
+flexion (53.79%). The improvement is particu-
+larly notable onAmenities-AroundandAmenities-
+Around-Specifictasks, demonstrating the effective-
+ness of our spatial reasoning framework for com-
+plex location-based queries.
+For open-source models, SpatialAgent with
+LLaMA-70B achieves the highest overall accuracy
+of 62.45%, with the best performance onAmenities
+(84.00%). Qwen2.5-72B-Instruct achieves com-
+parable overall accuracy (61.45%) and the high-
+estAmenities-Around-Specificaccuracy (78.00%).
+Notably, the open-source SpatialAgent variants
+achieve competitive or superior performance com-
+pared to the closed-source GPT-4o-mini configu-
+ration, demonstrating the generalizability of our
+framework across different model families.
+4.3 Analysis
+Error Analysis.To understand the limitations of
+SpatialAgent, we manually analyzed 68 incorrect
+predictions on MapEval-API, categorizing errors
+Figure 3: Distribution of error categories in SpatialA-
+gent. Data Quality Issues (45.6%) and Search Result
+Mismatch (33.8%) account for the majority of errors,
+both occurring during the execution stage.
+Figure 4: Average latency per query (seconds) across
+task types. All methods use GPT-4o-mini.
+according to our four-stage pipeline (Figure 3).
+We categorize errors into four types (Figure 3):
+Data Quality Issues (45.6%) and Search Result
+Mismatch (33.8%) occur during execution when ex-
+ternal APIs return incomplete data or mismatched
+results; Concept & Role Assignment (10.3%) in-
+volves misidentifying concepts or functional roles;
+Response Generation (10.3%) occurs when correct
+execution leads to incorrect answer selection. No-
+tably, no errors originated from GeoFlow Graph
+construction itself, validating our template-based
+approach. This confirms that the primary bottle-
+neck lies in external API interactions rather than
+reasoning components.
+Latency Analysis.Figure 4 compares response
+latency across methods using GPT-4o-mini. Direct
+LLM achieves the lowest latency (0.6s) but poor
+accuracy due to lack of grounding. Among agentic
+methods, SpatialAgent shows competitive latency:
+fastest on Routing (7.5s), comparable to ReAct on
+Nearby (8.3s vs 7.6s) and Trip (10.4s vs 12.3s),
+slightly slower on POI (10.9s vs 9.0s).

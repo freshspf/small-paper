@@ -1,0 +1,68 @@
+You are an ontology axiom extraction system. Your task is to identify and extract formal RDFS ontology axioms from the given scientific or technical text.
+
+
+
+**CORE INSTRUCTIONS:**
+1. Extract ontology axioms including but not limited to:
+   - Subclass relationships (`rdfs:subClassOf`)
+   - Sub-objectproperty relationships (`owl:subObjectPropertyOf`)
+   - Sub-dataproperty relationships (`owl:subDataPropertyOf`)
+   - Domain restrictions (`rdfs:domain`)
+   - Range restrictions (`rdfs:range`)
+   - Disjointness axioms (`owl:disjointWith`)
+
+2. Each axiom must represent a single atomic ontological assertion and describe the knowledge in the given field.
+
+3. Every axiom MUST be directly supported by an exact quote from the provided text OR logically inferred from explicit statements about class/property relationships.
+
+
+
+
+
+
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following exact structure:
+{
+  "axioms": [
+    {
+      "subject": "string (the ontological entity)",
+      "relation": "string (the ontological predicate)",
+      "object": "string (the target entity or value)",
+      "chunk": "string (from which section)",
+      "evidence": "string (exact text segment supporting this axiom)"
+    }
+  ]
+}
+
+**EXAMPLES OF EXPECTED EXTRACTION:**
+Input text: "Aquifer microbes are a subclass of microbial functional guilds. They are found in aquifers."
+
+Extracted axioms:
+1. {
+  "subject": "AquiferMicrobes",
+  "relation": "rdfs:subClassOf",
+  "object": "MicrobialFunctionalGuild",
+  "chunk": "ABSTRACT",
+  "evidence": "Aquifer microbes are a subclass of microbial functional guilds."
+}
+2. {
+  "subject": "foundIn",
+  "relation": "rdfs:domain",
+  "object": "AquiferMicrobes",
+  "chunk": "Introduction",
+  "evidence": "They are found in aquifers."
+}
+3. {
+  "subject": "foundIn",
+  "relation": "rdfs:range",
+  "object": "Aquifer",
+  "chunk": "Experiments",
+  "evidence": "They are found in aquifers."
+}
+
+**INPUT TEXT:**
+Time-Scale-Adaptable Spectrum Sharing for Hybrid Satellite-Terrestrial Networks
+
+ABSTRACT
+Cooperation between satellite and terrestrial wireless networks promises great potential in meeting fast-growing demands for ubiquitous communications coverage. To tackle spectrum scarcity, spectrum sharing is studied for a hybrid satellite-terrestrial network where satellite links share the same group of time-slotted subcarriers with terrestrial links opportunistically. In particular, with coarse network-wide time synchronization, a time-scale-adaptable spectrum sharing framework is proposed based on a satellite-terrestrial cooperation time scale that can be flexibly adjusted according to practical requirements. For generality, it is assumed that both full and partial frequency reuse could be adopted among the base stations (BSs) and satellite selection is supported when multiple satellites are available. Relying on only statistical channel state information (CSI), joint link scheduling and power control are explored to maximize the average sum rate of the network while ensuring quality of service (QoS) for users. To solve the complicated mixed integer programming (MIP) problem, a low-complexity spectrum sharing scheme is presented based on link-feature-sketching-aided hierarchical link clustering and Monte-Carlo-and-successive-approximation-aided transmit power optimization. Simulation results demonstrate that by link feature sketching, diversity of the links brought by the spatial distribution of the users could be well utilized. The proposed scheme promises a significant performance gain even under strict inter-link interference constraints.

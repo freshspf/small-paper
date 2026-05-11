@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AerialActiveRis",
+  "locatedNear",
+  "SignalSource",
+  "enhances",
+  "SignalPower",
+  "separatedFrom",
+  "UavBaseStation",
+  "balances",
+  "PowerConsumption",
+  "FermatTorricelliProblem",
+  "solvedBy",
+  "WeiszfeldsAlgorithm",
+  "FronthaulLink",
+  "operatesOver",
+  "frequencyBand_2ghz",
+  "BackhaulLink",
+  "frequencyBand_sub6ghz",
+  "DirectionalAntenna",
+  "locatedAt",
+  "SourceNode",
+  "followsPattern",
+  "RadiationPattern",
+  "User",
+  "associatedWith",
+  "UavBs",
+  "AerialActiveRisConfiguration",
+  "includesComponent",
+  "ActiveRis",
+  "comparedTo",
+  "AerialAfRelay",
+  "locatedIn",
+  "RisMainLobe",
+  "hasBandwidth",
+  "bandwidth_50mhz",
+  "UrbanRegion",
+  "hasSpatialDimension",
+  "dimension_500x500m",
+  "AerialRis",
+  "operatesAtAltitude",
+  "altitude_180m",
+  "hasMaximumAmplificationGain",
+  "gain_40db",
+  "ActiveHardwareComponent",
+  "consumesPower",
+  "power_minus3_8dbm",
+  "AerialPassiveRis",
+  "hasMetric",
+  "EnergyEfficiency",
+  "utilizes",
+  "servesAsAlternativeTo",
+  "consumes",
+  "HardwarePowerCost",
+  "operatesIn",
+  "FullDuplexMode",
+  "requiresMorePowerThan",
+  "AerialBackhaulArchitecture",
+  "Full3dCoverage",
+  "HighAltitudeAerialPlatform",
+  "LineOfSightLink",
+  "MultiplicativeFading",
+  "TrafficSurge",
+  "UrbanArea",
+  "BackhaulSignal",
+  "Blockage",
+  "AerialBaseStation",
+  "NetworkCoverage",
+  "HighTrafficScenario",
+  "HighAltitudeOperation",
+  "Obstacle",
+  "DirectBackhaulLink",
+  "ReconfigurableIntelligentSurface",
+  "WirelessCoverage",
+  "PassiveReflectingElement",
+  "IncidentSignal",
+  "ConventionalRis",
+  "PassiveReflectionElement",
+  "ReflectionTypeAmplifier",
+  "SignalAmplification",
+  "ConventionalPassiveRis",
+  "DoubleFadingLoss"
+]
+
+Triples:
+[
+  {
+    "subject": "AerialActiveRis",
+    "relation": "locatedNear",
+    "object": "SignalSource",
+    "chunk": "completedocument7",
+    "context": "The obtainedq∗provides a clear deployment insight: the aerial-active-RIS should be placed sufficiently closer to the source in terms of 2D distance to enhance the incident signal power, while maintaining a moderate distance from the UA V-BSs to balance the overall power consumption."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "enhances",
+    "object": "SignalPower",
+    "chunk": "completedocument7",
+    "context": "The obtainedq∗provides a clear deployment insight: the aerial-active-RIS should be placed sufficiently closer to the source in terms of 2D distance to enhance the incident signal power, while maintaining a moderate distance from the UA V-BSs to balance the overall power consumption."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "separatedFrom",
+    "object": "UavBaseStation",
+    "chunk": "completedocument7",
+    "context": "The obtainedq∗provides a clear deployment insight: the aerial-active-RIS should be placed sufficiently closer to the source in terms of 2D distance to enhance the incident signal power, while maintaining a moderate distance from the UA V-BSs to balance the overall power consumption."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "balances",
+    "object": "PowerConsumption",
+    "chunk": "completedocument7",
+    "context": "The obtainedq∗provides a clear deployment insight: the aerial-active-RIS should be placed sufficiently closer to the source in terms of 2D distance to enhance the incident signal power, while maintaining a moderate distance from the UA V-BSs to balance the overall power consumption."
+  },
+  {
+    "subject": "FermatTorricelliProblem",
+    "relation": "solvedBy",
+    "object": "WeiszfeldsAlgorithm",
+    "chunk": "completedocument7",
+    "context": "Problem (38) is known as the Fermat-Torricelli problem, which is convex and can therefore be efficiently solved using Weiszfeld’s algorithm [63] with guaranteeing the optimal solution [64]."
+  },
+  {
+    "subject": "FronthaulLink",
+    "relation": "operatesOver",
+    "object": "frequencyBand_2ghz",
+    "chunk": "completedocument8",
+    "context": "The fronthaul and backhaul links were assumed to operate over 2 GHz and sub-6 GHz frequency bands, respectively [68]."
+  },
+  {
+    "subject": "BackhaulLink",
+    "relation": "operatesOver",
+    "object": "frequencyBand_sub6ghz",
+    "chunk": "completedocument8",
+    "context": "The fronthaul and backhaul links were assumed to operate over 2 GHz and sub-6 GHz frequency bands, respectively [68]."
+  },
+  {
+    "subject": "DirectionalAntenna",
+    "relation": "locatedAt",
+    "object": "SourceNode",
+    "chunk": "completedocument8",
+    "context": "Furthermore, the directional antennas at source were assumed to follow the radiation pattern described in [68]."
+  },
+  {
+    "subject": "DirectionalAntenna",
+    "relation": "followsPattern",
+    "object": "RadiationPattern",
+    "chunk": "completedocument8",
+    "context": "Furthermore, the directional antennas at source were assumed to follow the radiation pattern described in [68]."
+  },
+  {
+    "subject": "User",
+    "relation": "associatedWith",
+    "object": "UavBs",
+    "chunk": "completedocument8",
+    "context": "We considered103independent realizations of randomly distributed users and their associated UA V-BSs [8]."
+  },
+  {
+    "subject": "AerialActiveRisConfiguration",
+    "relation": "includesComponent",
+    "object": "ActiveRis",
+    "chunk": "completedocument8",
+    "context": "Fig. 3. Simulated aerial-active-RIS configuration with anN-element active-RIS andM 0UA V-BSs."
+  },
+  {
+    "subject": "AerialActiveRisConfiguration",
+    "relation": "includesComponent",
+    "object": "UavBs",
+    "chunk": "completedocument8",
+    "context": "Fig. 3. Simulated aerial-active-RIS configuration with anN-element active-RIS andM 0UA V-BSs."
+  },
+  {
+    "subject": "AerialActiveRisConfiguration",
+    "relation": "comparedTo",
+    "object": "AerialAfRelay",
+    "chunk": "completedocument8",
+    "context": "Fig. 4. Simulated aerial-active-RIS configuration compared toM-array aerial-AF-relay."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "locatedIn",
+    "object": "RisMainLobe",
+    "chunk": "completedocument8",
+    "context": "Furthermore, when the phase-alignment/partitioning design keeps all UA V-BSs within the RIS main lobe, the passive beamforming gain satisfiesg m≃ N2[43]."
+  },
+  {
+    "subject": "BackhaulLink",
+    "relation": "hasBandwidth",
+    "object": "bandwidth_50mhz",
+    "chunk": "completedocument8",
+    "context": "BbBandwidth of the backhaul link\n(unless referred)50 (MHz)"
+  },
+  {
+    "subject": "UrbanRegion",
+    "relation": "hasSpatialDimension",
+    "object": "dimension_500x500m",
+    "chunk": "completedocument8",
+    "context": "G Targeted urban region 500×500(m)"
+  },
+  {
+    "subject": "AerialRis",
+    "relation": "operatesAtAltitude",
+    "object": "altitude_180m",
+    "chunk": "completedocument8",
+    "context": "HHeight of aerial-RIS\n(unless referred)180 (m)"
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "hasMaximumAmplificationGain",
+    "object": "gain_40db",
+    "chunk": "completedocument8",
+    "context": "α2\nmaxMaximum amplification gain of the\nactive-RIS40 (dB) [32]"
+  },
+  {
+    "subject": "ActiveHardwareComponent",
+    "relation": "consumesPower",
+    "object": "power_minus3_8dbm",
+    "chunk": "completedocument8",
+    "context": "PEPower consumed by\nsingle active hardware component-3.8 (dBm)\n[28], [32]"
+  },
+  {
+    "subject": "AerialPassiveRis",
+    "relation": "hasMetric",
+    "object": "EnergyEfficiency",
+    "chunk": "completedocument9",
+    "context": "able rate{C m}m∈M , the energy-efficiencyη pfor passive-RIS is given by [43], [58]"
+  },
+  {
+    "subject": "UavBs",
+    "relation": "utilizes",
+    "object": "AerialPassiveRis",
+    "chunk": "completedocument9",
+    "context": "whereP m,p is the source transmit power corresponds to UA V-BSmwith aerial-passive-RIS, which also makes the backhaul rate{C m}m∈M for each UA V-BSm[43]."
+  },
+  {
+    "subject": "AerialAfRelay",
+    "relation": "servesAsAlternativeTo",
+    "object": "AerialActiveRis",
+    "chunk": "completedocument9",
+    "context": "In such a case, an AF relay on the aerial platform serves as a natural alternative, as it similarly receives the incoming signal and forwards an amplified one to the destination."
+  },
+  {
+    "subject": "AerialAfRelay",
+    "relation": "consumes",
+    "object": "HardwarePowerCost",
+    "chunk": "completedocument9",
+    "context": "whereP m∈MPm,AF is the source transmit power needed to support the target rate,P R,AF is the relay transmit power (amplification power) required under the AF protocol,P circ,AF is hardware power cost of theN-element AF relay [69]:"
+  },
+  {
+    "subject": "AerialAfRelay",
+    "relation": "operatesIn",
+    "object": "FullDuplexMode",
+    "chunk": "completedocument9",
+    "context": "Although the aerial-AF-relay operates in full-duplex mode, it incurs additional hardware complexity to suppress self-interference [27], [70]."
+  },
+  {
+    "subject": "AerialAfRelay",
+    "relation": "requiresMorePowerThan",
+    "object": "AerialActiveRis",
+    "chunk": "completedocument9",
+    "context": "As a result, the aerial-AF-relay suffers from significantly higher power demands, particularly on the relay side, making it substantially less energy-efficient than the proposed aerial-active-RIS architecture."
+  }
+]

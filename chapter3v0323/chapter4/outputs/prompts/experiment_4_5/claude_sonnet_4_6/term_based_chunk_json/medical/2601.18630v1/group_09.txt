@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CognitiveBehavioralTherapy",
+  "addresses",
+  "DistortedThought",
+  "TraumaFocusedTherapy",
+  "treats",
+  "Trauma",
+  "Medication",
+  "manages",
+  "Anxiety",
+  "Depression",
+  "contributesTo",
+  "Derealization",
+  "IntrusiveThought",
+  "GroundingTechnique",
+  "Detachment",
+  "SensationOfUnreality",
+  "relatesTo",
+  "Depersonalization",
+  "reduces",
+  "Stress",
+  "triggers",
+  "MentalHealthProfessional",
+  "providesTool",
+  "Tool",
+  "providesStrategy",
+  "Strategy",
+  "reconnectsWith",
+  "Surroundings",
+  "Mindfulness",
+  "anchorsIn",
+  "PresentMoment",
+  "SupportGroup",
+  "providesSpace",
+  "SafeSpace",
+  "Feeling",
+  "manifestsAs",
+  "Symptom",
+  "indicatesSymptomOf",
+  "MentalHealthCondition",
+  "PostTraumaticStressDisorder",
+  "Thought",
+  "manifestsFrom",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "LargeLanguageModel",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "ClosedSourceModel",
+  "OpenSourceModel",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "CognitiveReliability",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "model_gpt4o",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern",
+  "SocialMediaPlatform",
+  "platform_reddit",
+  "CounselingConversation",
+  "dataset_mentalChat16k",
+  "dataset_emoCare",
+  "dataset_counselChat",
+  "MentalHealthScreening",
+  "condition_depression",
+  "condition_suicideRisk",
+  "llm_gpt3"
+]
+
+Triples:
+[
+  {
+    "subject": "CognitiveBehavioralTherapy",
+    "relation": "addresses",
+    "object": "DistortedThought",
+    "chunk": "completedocument12",
+    "context": "Treatment options can vary depending on the underlying cause, but often include therapy, such as cognitive behavioral therapy (CBT) to address anxiety and distorted thoughts, or trauma-focused therapy if there’s a history of trauma."
+  },
+  {
+    "subject": "TraumaFocusedTherapy",
+    "relation": "treats",
+    "object": "Trauma",
+    "chunk": "completedocument12",
+    "context": "Treatment options can vary depending on the underlying cause, but often include therapy, such as cognitive behavioral therapy (CBT) to address anxiety and distorted thoughts, or trauma-focused therapy if there’s a history of trauma."
+  },
+  {
+    "subject": "Medication",
+    "relation": "manages",
+    "object": "Anxiety",
+    "chunk": "completedocument12",
+    "context": "In some cases, medication may also be helpful to manage symptoms like anxiety or depression that could be contributing to the derealization and intrusive thoughts."
+  },
+  {
+    "subject": "Medication",
+    "relation": "manages",
+    "object": "Depression",
+    "chunk": "completedocument12",
+    "context": "In some cases, medication may also be helpful to manage symptoms like anxiety or depression that could be contributing to the derealization and intrusive thoughts."
+  },
+  {
+    "subject": "Anxiety",
+    "relation": "contributesTo",
+    "object": "Derealization",
+    "chunk": "completedocument12",
+    "context": "In some cases, medication may also be helpful to manage symptoms like anxiety or depression that could be contributing to the derealization and intrusive thoughts."
+  },
+  {
+    "subject": "Anxiety",
+    "relation": "contributesTo",
+    "object": "IntrusiveThought",
+    "chunk": "completedocument12",
+    "context": "In some cases, medication may also be helpful to manage symptoms like anxiety or depression that could be contributing to the derealization and intrusive thoughts."
+  },
+  {
+    "subject": "Depression",
+    "relation": "contributesTo",
+    "object": "Derealization",
+    "chunk": "completedocument12",
+    "context": "In some cases, medication may also be helpful to manage symptoms like anxiety or depression that could be contributing to the derealization and intrusive thoughts."
+  },
+  {
+    "subject": "Depression",
+    "relation": "contributesTo",
+    "object": "IntrusiveThought",
+    "chunk": "completedocument12",
+    "context": "In some cases, medication may also be helpful to manage symptoms like anxiety or depression that could be contributing to the derealization and intrusive thoughts."
+  },
+  {
+    "subject": "GroundingTechnique",
+    "relation": "manages",
+    "object": "Detachment",
+    "chunk": "completedocument12",
+    "context": "Grounding techniques, which involve focusing on your senses to bring you back to the present moment, can be helpful when you’re feeling detached."
+  },
+  {
+    "subject": "SensationOfUnreality",
+    "relation": "relatesTo",
+    "object": "Depersonalization",
+    "chunk": "completedocument12",
+    "context": "The sensation of unreality you’ve described might be related to a phenomenon known as depersonalization or derealization."
+  },
+  {
+    "subject": "SensationOfUnreality",
+    "relation": "relatesTo",
+    "object": "Derealization",
+    "chunk": "completedocument12",
+    "context": "The sensation of unreality you’ve described might be related to a phenomenon known as depersonalization or derealization."
+  },
+  {
+    "subject": "CognitiveBehavioralTherapy",
+    "relation": "reduces",
+    "object": "Anxiety",
+    "chunk": "completedocument12",
+    "context": "Cognitive-behavioral therapy (CBT), for example, is often effective in addressing these kinds of experiences by helping to ground you in reality and reduce anxiety."
+  },
+  {
+    "subject": "Stress",
+    "relation": "triggers",
+    "object": "Derealization",
+    "chunk": "completedocument12",
+    "context": "Many people experience these sensations, especially during periods of stress or anxiety, but it can be particularly difficult when they become more intense or chronic, as you’ve described."
+  },
+  {
+    "subject": "Stress",
+    "relation": "triggers",
+    "object": "Depersonalization",
+    "chunk": "completedocument12",
+    "context": "Many people experience these sensations, especially during periods of stress or anxiety, but it can be particularly difficult when they become more intense or chronic, as you’ve described."
+  },
+  {
+    "subject": "MentalHealthProfessional",
+    "relation": "providesTool",
+    "object": "Tool",
+    "chunk": "completedocument13",
+    "context": "They can provide you with tools and strategies to manage these thoughts and feelings, helping you to regain a sense of control and reality."
+  },
+  {
+    "subject": "MentalHealthProfessional",
+    "relation": "providesStrategy",
+    "object": "Strategy",
+    "chunk": "completedocument13",
+    "context": "They can provide you with tools and strategies to manage these thoughts and feelings, helping you to regain a sense of control and reality."
+  },
+  {
+    "subject": "GroundingTechnique",
+    "relation": "reconnectsWith",
+    "object": "Surroundings",
+    "chunk": "completedocument13",
+    "context": "In the meantime, grounding techniques may be useful to help you reconnect with your surroundings."
+  },
+  {
+    "subject": "Mindfulness",
+    "relation": "anchorsIn",
+    "object": "PresentMoment",
+    "chunk": "completedocument13",
+    "context": "Simple practices like focusing on your breath, engaging your senses (noticing what you see, hear, and feel), or practicing mindfulness can help you anchor yourself in the present moment."
+  },
+  {
+    "subject": "SupportGroup",
+    "relation": "providesSpace",
+    "object": "SafeSpace",
+    "chunk": "completedocument13",
+    "context": "It’s also important to reach out for support from friends, family, or support groups who can provide a safe space for you to express yourself."
+  },
+  {
+    "subject": "Feeling",
+    "relation": "manifestsAs",
+    "object": "Symptom",
+    "chunk": "completedocument13",
+    "context": "You are not defined by these feelings or thoughts; they are symptoms that can be addressed and managed."
+  },
+  {
+    "subject": "Derealization",
+    "relation": "indicatesSymptomOf",
+    "object": "MentalHealthCondition",
+    "chunk": "completedocument13",
+    "context": "The feeling of being in a fake or game-like reality is often referred to as derealization, which can be a symptom of various mental health conditions, such as anxiety, depression, or even post-traumatic stress disorder (PTSD)."
+  },
+  {
+    "subject": "Derealization",
+    "relation": "indicatesSymptomOf",
+    "object": "Anxiety",
+    "chunk": "completedocument13",
+    "context": "The feeling of being in a fake or game-like reality is often referred to as derealization, which can be a symptom of various mental health conditions, such as anxiety, depression, or even post-traumatic stress disorder (PTSD)."
+  },
+  {
+    "subject": "Derealization",
+    "relation": "indicatesSymptomOf",
+    "object": "Depression",
+    "chunk": "completedocument13",
+    "context": "The feeling of being in a fake or game-like reality is often referred to as derealization, which can be a symptom of various mental health conditions, such as anxiety, depression, or even post-traumatic stress disorder (PTSD)."
+  },
+  {
+    "subject": "Derealization",
+    "relation": "indicatesSymptomOf",
+    "object": "PostTraumaticStressDisorder",
+    "chunk": "completedocument13",
+    "context": "The feeling of being in a fake or game-like reality is often referred to as derealization, which can be a symptom of various mental health conditions, such as anxiety, depression, or even post-traumatic stress disorder (PTSD)."
+  },
+  {
+    "subject": "Thought",
+    "relation": "manifestsFrom",
+    "object": "Anxiety",
+    "chunk": "completedocument13",
+    "context": "It’s possible that these thoughts are a manifestation of your anxiety, fear, or a sense of feeling overwhelmed."
+  }
+]

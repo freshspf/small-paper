@@ -1,0 +1,78 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "method3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: method3
+- section_title: Method
+- page_start: 3
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+Subsequently, by constructing a foreground seman-ModelLEVIR-CD WHU-CD CLCD
+F1 IoU OA F1 IoU OA F1 IoU OA
+SNUNet 89.96 81.75 98.97 79.69 66.23 96.82 64.01 47.06 94.62
+ChangeFormer 89.10 80.34 98.89 83.77 72.07 97.84 64.16 47.24 94.84
+DMINet 88.78 79.82 98.85 82.11 69.65 98.39 63.08 46.07 94.36
+SAM-CD 89.53 81.06 98.48 91.40 84.51 99.41 63.74 46.78 94.73
+CDMask 90.48 82.61 99.21 91.44 84.23 99.39 67.13 50.53 94.94
+ChangeMamba 90.37 82.43 99.03 91.96 85.11 99.45 71.71 55.89 95.98
+Meta-CD 91.25 83.91 99.11 92.16 85.46 99.44 70.24 54.13 94.95
+MDENet 91.33 84.05 99.11 91.92 85.05 99.35 71.53 55.68 95.70
+DA²Net 91.40 84.17 99.12 92.48 86.02 99.42 71.99 56.24 96.20
+UniCDv1 91.55 84.43 99.16 93.38 87.58 99.47 72.70 57.11 96.29
+UniCDv2 92.10 85.36 99.19 93.94 88.57 99.51 75.94 61.22 96.55
+Table 1: Supervised results (%) on LEVIR-CD, WHU-CD and
+CLCD. We highlight the best and second best value in red and blue
+colors.
+tic vocabularyT fgand a background semantic vocabulary
+Tbg, and feeding them into CLIP’s text encoderE tto extract
+semantic feature vectors. Meanwhile,Mis fed into CLIP’s
+image encoderE i. By calculating the cosine similarity be-
+tween instance masks and semantic categories, the model can
+obtain the foreground probability scores for each instance.
+P(m j) =P
+t∈T fgexp(cos(E i(I⊙m j), Et(t)))
+P
+t∈T fg∪Tbgexp(cos(E i(I⊙m j), Et(t))),(7)
+By conducting a weighted mapping of the probability
+scores over their corresponding instances masks, the fore-.

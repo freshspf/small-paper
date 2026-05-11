@@ -1,0 +1,382 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "EnvironmentalMonitoring",
+  "PublicHealth",
+  "system_spatialAgent",
+  "GeoAnalyticalQuestion",
+  "ExecutableWorkflow",
+  "GeoFlowGraph",
+  "SpatialConcept",
+  "ConceptTransformation",
+  "FunctionalRole",
+  "SpatialOperator",
+  "GISTool",
+  "tool_postGIS",
+  "tool_arcGIS",
+  "tool_qgis",
+  "dataset_mapEvalAPI",
+  "dataset_mapQA",
+  "system_reAct",
+  "system_reflexion",
+  "system_planAndSolve",
+  "concept_object",
+  "concept_field",
+  "concept_event",
+  "concept_network",
+  "concept_location",
+  "concept_amount",
+  "concept_proportion",
+  "role_extent",
+  "role_textent",
+  "role_subCondition",
+  "role_condition",
+  "role_support",
+  "role_measure",
+  "operator_buffering",
+  "operator_overlay",
+  "operator_routing",
+  "operator_aggregation",
+  "operator_geocoding",
+  "operator_spatialSearch",
+  "operator_geometricComputation",
+  "operator_tripOptimization",
+  "GraphTemplate"
+]
+
+Triples:
+[
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "appliesTo",
+    "object": "UrbanAnalytics"
+  },
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "appliesTo",
+    "object": "TransportationPlanning"
+  },
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "appliesTo",
+    "object": "DisasterResponse"
+  },
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "appliesTo",
+    "object": "EnvironmentalMonitoring"
+  },
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "appliesTo",
+    "object": "PublicHealth"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "answers",
+    "object": "GeoAnalyticalQuestion"
+  },
+  {
+    "subject": "GeoAnalyticalQuestion",
+    "relation": "parsedInto",
+    "object": "ExecutableWorkflow"
+  },
+  {
+    "subject": "ExecutableWorkflow",
+    "relation": "representedAs",
+    "object": "GeoFlowGraph"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "hasNode",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "hasEdge",
+    "object": "ConceptTransformation"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "extracts",
+    "object": "SpatialConcept"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "assigns",
+    "object": "FunctionalRole"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "composes",
+    "object": "ConceptTransformation"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "leverages",
+    "object": "GraphTemplate"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "evaluatedOn",
+    "object": "dataset_mapEvalAPI"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "evaluatedOn",
+    "object": "dataset_mapQA"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "outperforms",
+    "object": "system_reAct"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "outperforms",
+    "object": "system_reflexion"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "outperforms",
+    "object": "system_planAndSolve"
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "includes",
+    "object": "concept_object"
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "includes",
+    "object": "concept_field"
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "includes",
+    "object": "concept_event"
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "includes",
+    "object": "concept_network"
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "includes",
+    "object": "concept_location"
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "includes",
+    "object": "concept_amount"
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "includes",
+    "object": "concept_proportion"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "role_extent"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "role_textent"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "role_subCondition"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "role_condition"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "role_support"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "role_measure"
+  },
+  {
+    "subject": "role_subCondition",
+    "relation": "precedes",
+    "object": "role_condition"
+  },
+  {
+    "subject": "role_condition",
+    "relation": "precedes",
+    "object": "role_support"
+  },
+  {
+    "subject": "role_support",
+    "relation": "precedes",
+    "object": "role_measure"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_buffering"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_overlay"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_routing"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_aggregation"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_geocoding"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_spatialSearch"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_geometricComputation"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "operator_tripOptimization"
+  },
+  {
+    "subject": "GISTool",
+    "relation": "includes",
+    "object": "tool_postGIS"
+  },
+  {
+    "subject": "GISTool",
+    "relation": "includes",
+    "object": "tool_arcGIS"
+  },
+  {
+    "subject": "GISTool",
+    "relation": "includes",
+    "object": "tool_qgis"
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "groundedIn",
+    "object": "GISTool"
+  },
+  {
+    "subject": "GeoAnalyticalQuestion",
+    "relation": "requires",
+    "object": "GeospatialReasoning"
+  },
+  {
+    "subject": "GraphTemplate",
+    "relation": "defines",
+    "object": "ConceptTransformation"
+  }
+]

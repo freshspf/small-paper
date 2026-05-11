@@ -1,0 +1,91 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "varyingconsumption",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: varyingconsumption
+- section_title: Varying Consumption
+- page_start: 3
+- page_end: 3
+
+**INPUT TEXT CHUNK:**
+In order to illustrate how blockchains consume band-
+width, we present heatmaps with colors representing
+bandwidth usage. We then compare the transaction size
+produced by each blockchain.
+4.1 Bandwidth consumptions as heatmaps
+Figure 1 depicts one heatmap per blockchain protocol
+for nodes that all act as validators where the color of
+cellM i,jrepresents the bandwidth consumed by noden i
+when sending to noden j. A warmer color (e.g., yellow)
+thus represents a higher bandwidth usage than a colder
+color (e.g., dark blue) while the white color indicates
+zero or negligible traffic. Note that nodesn 1, . . . ,n 5are
+the nodes receiving transaction requests from the clients,
+while nodesn 6, . . . ,n 20may receive messages from other
+nodes but not transactions directly from clients. With a
+maximum of 17,812 KiB, Solana consumes more band-
+width than the other tested blockchains, namely Algo-
+rand, Aptos, Avalanche and Redbelly. In particular, Algo-
+rand, the second most bandwidth consuming blockchain
+uses a maximum of 11,240 KiB. This 58% increase com-
+pared to Algorand can be due to several factors: more
+metadata sent per transaction or higher duplication of the
+same information.
+The reason is probably that Solana exploits erasure
+coding in order to maximize dissemination of informa-
+tion despite failures [6]. Its lack of fault tolerance, al-
+ready previously observed [20], probably motivated this
+design decision. Erasure coding relies on sending addi-
+tional data in order to reconstruct the relevant informa-
+tion in case of partial loss. The other blockchains do not
+consume as much traffic likely because they do not use
+erasure coding.
+4.2 Transaction sizes
+In order to exclude other factors that could have invali-
+dated our hypothesis that Solana uses more bandwidth
+due to erasure coding, we measured empirically the size
+of transactions sent by each blockchain. After all, it was
+previously noted that distributed ledger technologies like
+Corda send transactions as large as 8 KiB, which is an
+overkill [22].
+3

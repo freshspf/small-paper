@@ -1,0 +1,88 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "multiobjectivereinforcementlearningliterature",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: multiobjectivereinforcementlearningliterature
+- section_title: Multi-Objective Reinforcement Learning Literature
+- page_start: 10
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+Recent surveys emphasize the need for specialized MORL
+methods beyond naive weighting objectives [Hayeset al.,
+2022; Zhanget al., 2023 ]. The paper [Hayeset al., 2022 ]
+notes that if the user’s utility function is known and static,
+a single-policy approach (learning one policy conditioned
+on preferences) may suffice, whereas if the utility is un-
+known or may change, one should compute acoverage set
+of Pareto-optimal policies (a multi-policy solution). Single-
+policy methods (e.g., universal value function approxima-
+tors or multi-head networks) aim to generalize across prefer-
+ences, while multi-policy approaches explicitly approximate
+the Pareto front. These approaches also differ in whether they
+are model-free or model-based, on-policy or off-policy, and in
+how they reuse past experience. In short, MORL methods can
+be classified by solution concept (single vs. multi policy), op-
+timization strategy, and how they trade off exploration versus
+reuse of data.
+Many recent works instantiate these categories with con-
+crete algorithms. The paper [Xuet al., 2020 ]proposes a
+prediction-guided evolutionary MORL algorithm for contin-
+uous control that extends deep RL with an analytic improve-
+ment model using evolutionary algorithm. At each genera-
+tion, they fit a model of expected performance improvement
+and solve a guiding optimization to select which preference
+vectors to train next. Another work [Zhouet al., 2023 ]
+focuses on constrained RL and proposes Gradient-Adaptive
+Constrained Policy Optimization (GCPO), which rebalances
+policy gradients adaptively to emphasize under-optimized ob-
+jectives while enforcing cost constraints. The paper [Cai
+et al., 2023 ]extends Pareto-optimality to full return dis-
+tributions, introducing Distributional Pareto-Optimal MORL
+(DPMORL), which captures uncertainty in returns—an im-
+portant consideration in safety-critical domains such as au-
+tonomous driving. Meanwhile, another work [Feltenet al.,
+2023 ]releasesMO-GymnasiumandMORL-Baselines, pro-
+viding standardized environments and algorithmic implemen-
+tations that enable rigorous benchmarking of MORL meth-
+ods.

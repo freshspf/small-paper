@@ -1,0 +1,91 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic triples.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use only normalized terms from the input.
+   - Do not invent new terms unless absolutely necessary.
+   - Do not introduce external background knowledge.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by context.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf only when a subclass relation is explicit or strongly implied.
+   - Avoid overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Only assign domain/range when the subject/object types are clear from normalized terms and updated triples.
+   - Avoid speculative domain/range assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication
+   - Prefer fewer but higher-confidence axioms
+   - Keep results logically coherent
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[{"term": "country_japan", "type": "Instance"}, {"term": "country_germany", "type": "Instance"}, {"term": "prefecture_tokyo", "type": "Instance"}, {"term": "prefecture_hyogo", "type": "Instance"}, {"term": "city_sagamihara", "type": "Instance"}, {"term": "city_wako", "type": "Instance"}, {"term": "city_heidelberg", "type": "Instance"}, {"term": "city_schenefeld", "type": "Instance"}, {"term": "city_toki", "type": "Instance"}, {"term": "city_chofu", "type": "Instance"}, {"term": "city_miyazaki", "type": "Instance"}, {"term": "city_sayo", "type": "Instance"}, {"term": "ward_bunkyo", "type": "Instance"}, {"term": "ward_chuo", "type": "Instance"}, {"term": "ward_toshima", "type": "Instance"}, {"term": "district_hongo", "type": "Instance"}, {"term": "district_yoshinodai", "type": "Instance"}, {"term": "district_hirosawa", "type": "Instance"}, {"term": "district_oroshiCho", "type": "Instance"}, {"term": "district_chofugaoka", "type": "Instance"}, {"term": "district_nishiIkebukuro", "type": "Instance"}, {"term": "district_gakuenKibanadaiNishi", "type": "Instance"}, {"term": "district_kouto", "type": "Instance"}, {"term": "facility_universityOfTokyo", "type": "Instance"}, {"term": "facility_isas", "type": "Instance"}, {"term": "facility_jaxa", "type": "Instance"}, {"term": "facility_rikenPioneeringResearchInstitute", "type": "Instance"}, {"term": "facility_maxPlanckInstitut", "type": "Instance"}, {"term": "facility_europeanXfel", "type": "Instance"}, {"term": "facility_nationalInstituteForFusionScience", "type": "Instance"}, {"term": "facility_universityOfElectroCommunications", "type": "Instance"}, {"term": "facility_rikkyoUniversity", "type": "Instance"}, {"term": "facility_universityOfMiyazaki", "type": "Instance"}, {"term": "facility_rikenSpring8Center", "type": "Instance"}, {"term": "facility_spring8", "type": "Instance"}, {"term": "facility_bl17su", "type": "Instance"}, {"term": "facility_jaxaEbit", "type": "Instance"}, {"term": "facility_lawrenceLivermoreNationalLaboratory", "type": "Instance"}, {"term": "facility_nationalInstituteOfStandardsAndTechnology", "type": "Instance"}, {"term": "locatedIn", "type": "Property"}, {"term": "contains", "type": "Property"}]
+
+Triples:
+[{"subject": "district_hongo", "relation": "locatedIn", "object": "ward_bunkyo"}, {"subject": "ward_bunkyo", "relation": "locatedIn", "object": "prefecture_tokyo"}, {"subject": "prefecture_tokyo", "relation": "locatedIn", "object": "country_japan"}, {"subject": "facility_universityOfTokyo", "relation": "locatedIn", "object": "district_hongo"}, {"subject": "district_yoshinodai", "relation": "locatedIn", "object": "ward_chuo"}, {"subject": "ward_chuo", "relation": "locatedIn", "object": "city_sagamihara"}, {"subject": "city_sagamihara", "relation": "locatedIn", "object": "country_japan"}, {"subject": "facility_isas", "relation": "locatedIn", "object": "district_yoshinodai"}, {"subject": "facility_jaxa", "relation": "locatedIn", "object": "district_yoshinodai"}, {"subject": "facility_jaxaEbit", "relation": "locatedIn", "object": "facility_isas"}, {"subject": "district_hirosawa", "relation": "locatedIn", "object": "city_wako"}, {"subject": "city_wako", "relation": "locatedIn", "object": "country_japan"}, {"subject": "facility_rikenPioneeringResearchInstitute", "relation": "locatedIn", "object": "district_hirosawa"}, {"subject": "city_heidelberg", "relation": "locatedIn", "object": "country_germany"}, {"subject": "facility_maxPlanckInstitut", "relation": "locatedIn", "object": "city_heidelberg"}, {"subject": "city_schenefeld", "relation": "locatedIn", "object": "country_germany"}, {"subject": "facility_europeanXfel", "relation": "locatedIn", "object": "city_schenefeld"}, {"subject": "district_oroshiCho", "relation": "locatedIn", "object": "city_toki"}, {"subject": "city_toki", "relation": "locatedIn", "object": "country_japan"}, {"subject": "facility_nationalInstituteForFusionScience", "relation": "locatedIn", "object": "district_oroshiCho"}, {"subject": "district_chofugaoka", "relation": "locatedIn", "object": "city_chofu"}, {"subject": "city_chofu", "relation": "locatedIn", "object": "country_japan"}, {"subject": "facility_universityOfElectroCommunications", "relation": "locatedIn", "object": "district_chofugaoka"}, {"subject": "district_nishiIkebukuro", "relation": "locatedIn", "object": "ward_toshima"}, {"subject": "ward_toshima", "relation": "locatedIn", "object": "prefecture_tokyo"}, {"subject": "facility_rikkyoUniversity", "relation": "locatedIn", "object": "district_nishiIkebukuro"}, {"subject": "district_gakuenKibanadaiNishi", "relation": "locatedIn", "object": "city_miyazaki"}, {"subject": "city_miyazaki", "relation": "locatedIn", "object": "country_japan"}, {"subject": "facility_universityOfMiyazaki", "relation": "locatedIn", "object": "district_gakuenKibanadaiNishi"}, {"subject": "district_kouto", "relation": "locatedIn", "object": "city_sayo"}, {"subject": "city_sayo", "relation": "locatedIn", "object": "prefecture_hyogo"}, {"subject": "prefecture_hyogo", "relation": "locatedIn", "object": "country_japan"}, {"subject": "facility_rikenSpring8Center", "relation": "locatedIn", "object": "district_kouto"}, {"subject": "facility_spring8", "relation": "locatedIn", "object": "prefecture_hyogo"}, {"subject": "facility_bl17su", "relation": "locatedIn", "object": "facility_spring8"}, {"subject": "country_japan", "relation": "contains", "object": "prefecture_tokyo"}, {"subject": "country_japan", "relation": "contains", "object": "prefecture_hyogo"}, {"subject": "country_japan", "relation": "contains", "object": "city_sagamihara"}, {"subject": "country_japan", "relation": "contains", "object": "city_wako"}, {"subject": "country_japan", "relation": "contains", "object": "city_toki"}, {"subject": "country_japan", "relation": "contains", "object": "city_chofu"}, {"subject": "country_japan", "relation": "contains", "object": "city_miyazaki"}, {"subject": "country_germany", "relation": "contains", "object": "city_heidelberg"}, {"subject": "country_germany", "relation": "contains", "object": "city_schenefeld"}]

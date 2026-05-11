@@ -1,0 +1,130 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+The main con-
+tributions of this work are: (1) the first open-source
+ELM architecture and training framework; (2) an
+expert-validated dataset for training ELMs to in-
+terpret embeddings of clinical trials; (3) a trained
+ELM that can interpret embeddings of clinical tri-
+als; and (4) ablation studies adding to knowledge
+of optimal ELM training.
+2 Background
+2.1 Text Embeddings
+Early, “shallow” embeddings operated on individ-
+ual tokens and were learned using neural networks
+with single hidden layers or matrix factorization
+methods (Mikolov et al., 2013; Pennington et al.,
+2014). Following the introduction of pretrained
+transformers (Vaswani et al., 2017; Radford et al.,
+2019; Devlin et al., 2019), sentence-level, and sub-
+sequently document-level text embeddings became
+viable using contrastive learning on pooled contex-
+tual embeddings for individual tokens (Reimers and
+Gurevych, 2019; Gao et al., 2021; BehnamGhader
+et al., 2024; Xiao et al., 2024).
+2.2 Inversion as Vulnerability
+One line of research on embeddings assumes an
+attacker trying to access private information that
+would have been thought to be inherently secure
+due to the ‘black box’ nature of embeddings (Song
+and Raghunathan, 2020). This line gave rise
+to GEIA (Generative Embedding Inversion At-
+tack) (Li et al., 2023a). GEIA projects a vec-
+tor embedding to the token embedding layer in
+place of the first token of input to a decoder-only
+transformer-based language model, in this case us-
+ing the GPT-2 architecture (Radford et al., 2019).
+The model is then trained from random weights us-
+ing teacher forcing to recover the original sentence
+one token at a time.
+Building on this work, Vec2Text (Morris et al.,
+2023) fine-tunes encoder-decoder transformer lan-
+guage models to become an ‘inverter’ and a ‘correc-
+tor,’ in this case both based on pretrained T5 (Raffel
+et al., 2020). Given an embedding, the inverter istrained to make an initial hypothesis of the original
+text, and the corrector is trained to move the hypoth-
+esis text closer to the target embedding by making
+discrete updates, based on both the target embed-
+ding and the embedding of the current hypothesis.
+Given enough iterative updates, this method can
+accurately recover short text sequences from em-
+beddings alone. The introduction of Vec2Text has
+spurred subsequent research on defending against
+embedding inversion attacks (Zhuang et al., 2024).
+A reproduction study of Vec2Text by Seputis et al.
+(2025) also confirmed the major findings of Morris
+et al. (2023). Aside from fixed-length semantic em-
+beddings, Kugler et al. (2024) showed that text can
+also be recovered from the token-level contextual
+embeddings of BERT (Devlin et al., 2019).
+2.3 Vector-Controlled Generation
+Another line of work seeks to understand and re-
+verse embedding spaces in order to use directions
+in those spaces to control content. The beginnings
+of this paradigm can be seen in Bolukbasi et al.,
+2016, in which a gender axis is identified in a shal-
+low word embedding space, and this axis neutral-
+ized in word embeddings that are undesirably gen-
+dered. More recently, Tennenholtz et al. (2024) in-
+troduce Embedding Language Models, partly with
+the aim of exploring embedding spaces to generate
+more novel text content. This work explored mov-
+ing embeddings of film plots with reviews along
+axes (representing attributes such as comedy or
+drama) identified in the embedding space using
+Concept Activation Vectors (CA Vs) (Kim et al.,
+2018). CA Vs are essentially vectors orthogonal
+to the decision plane of a linear classifier for a
+concept of interest and were originally developed
+for explaining predictions of vision models based
+on internal activations. Steerability in LLMs has
+also been explored using Concept Bottlenecks (Sun
+et al., 2025).

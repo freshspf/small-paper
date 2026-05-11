@@ -1,0 +1,89 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument14",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument14
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+**INPUT TEXT CHUNK:**
+Bao, A novel multi-loss dynamic fusion-enhanced
+image segmentation model for welding spatter measurement, Journal of
+Manufacturing Processes 128 (2024) 125–132.
+[32] S. Wazir, M. M. Fraz, HistoSeg: Quick attention with multi-loss func-
+tion for multi-structure segmentation in digital histology images, in:
+2022 12th International Conference on Pattern Recognition Systems
+(ICPRS), IEEE, 2022, pp. 1–7.
+[33] H. N. Thi, Q. N. Huu, Q. D. T. Thuy, N. T. T. Le, T. N. Van, H. N. Huu,
+A Multi-Loss Hybrid CNN-ViT Model for Efficient Image Retrieval,
+in: 2025 International Conference on Multimedia Analysis and Pattern
+Recognition (MAPR), IEEE, 2025, pp. 1–6.
+[34] T. Barros, P. Conde, G. Gon¸ calves, C. Premebida, M. Monteiro, C. S. S.
+Ferreira, U. J. Nunes, Multispectral vineyard segmentation: A deep
+learning comparison study, Computers and electronics in agriculture
+195 (2022) 106782.
+[35] D. K. Barbole, P. M. Jadhav, GrapesNet: Indian RGB & RGB-D vine-
+yard image datasets for deep learning applications, Data in Brief 48
+(2023) 109100.
+[36] F. Abdelghafour, B. Keresztes, A. Deshayes, C. Germain, J.-P.
+Da Costa, An annotated image dataset of downy mildew symptoms on
+Merlot grape variety, Data in Brief 37 (2021) 107250.
+[37] R. Polvara, S. Molina, I. Hroob, A. Papadimitriou, K. Tsiolis, D. Giak-
+oumis, S. Likothanassis, D. Tzovaras, G. Cielniak, M. Hanheide, Bac-
+chus Long-Term (BLT) data set: Acquisition of the agricultural multi-
+modal BLT data set with automated robot deployment, Journal of Field
+Robotics 41 (7) (2024) 2280–2298.
+34
+
+[38] M. Martini, M. Ambrosio, J. Vilella-Cantos, A. Navone, M. Chiaberge,
+TEMPO-VINE: A Multi-Temporal Sensor Fusion Dataset for Localiza-
+tion and Mapping in Vineyards, arXiv preprint arXiv:2512.04772 (2025).
+doi:https://doi.org/10.48550/arXiv.2512.04772.
+[39] J. Komorowski, Improving point cloud based place recognition with
+ranking-based loss and large batch training, in: 2022 26th international
+conference on pattern recognition (ICPR), IEEE, 2022, pp. 3699–3705.
+[40] R. B. Rusu, N. Blodow, M. Beetz, Fast point feature histograms (FPFH)
+for 3D registration, in: 2009 IEEE international conference on robotics
+and automation, IEEE, 2009, pp. 3212–3217.
+35.

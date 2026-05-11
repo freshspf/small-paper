@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ArtificialIntelligence",
+  "transforms",
+  "Healthcare",
+  "MedicalLargeVisionLanguageModel",
+  "advances",
+  "IntelligentDiagnosis",
+  "facesIssue",
+  "ReliabilityIssue",
+  "generates",
+  "NonFactualMedicalResponse",
+  "DiagnosticError",
+  "leadsTo",
+  "SevereConsequence",
+  "FineTuning",
+  "improvesFactualityOf",
+  "RetrievalAugmentedGeneration",
+  "improves",
+  "ModelPerformance",
+  "MedicalDomain",
+  "lacks",
+  "HighQualityLabeledData",
+  "DistributionShift",
+  "worsens",
+  "groundsOutputsIn",
+  "ExternalKnowledge",
+  "framework_medrag",
+  "adapts",
+  "CausalityBasedMethod",
+  "RetrievalAccuracy",
+  "framework_causalrag",
+  "ranksContextsBy",
+  "CausalImportance",
+  "framework_cmcrl",
+  "learns",
+  "SharedCausalRepresentation",
+  "CausalGraph",
+  "Interpretability",
+  "ExplicitCausalGraph",
+  "guides",
+  "RagRetrieval",
+  "framework_mcrag",
+  "Factuality",
+  "introduces",
+  "CausalAlignmentGraph",
+  "captures",
+  "StructuredDependency",
+  "McragFramework",
+  "MedLvlm",
+  "couplesRetrievalWith",
+  "StructuralCausalModel",
+  "hasStage",
+  "DomainAwareRetrieval",
+  "AdaptiveContextSelection",
+  "RagBasedPreferenceFineTuning",
+  "LowRankAdaptation",
+  "MedicalField",
+  "framework_mmedrag",
+  "SemanticOverReliance",
+  "CrossModalityMisalignment",
+  "RepresentationLearning",
+  "HolisticFramework",
+  "Alignment",
+  "Robustness",
+  "OptimalRetriever",
+  "Evidence",
+  "MedicalKnowledge",
+  "EndogenousVariable",
+  "ObservableVariable",
+  "ImageRegion",
+  "ClinicalFinding",
+  "PatientSymptom",
+  "DiagnosticOutcome",
+  "ExogenousVariable",
+  "UnobservedFactor",
+  "GeneticPredisposition",
+  "DataHeterogeneity",
+  "StructuralEquation",
+  "LanguageModel",
+  "model_llavaMed157b",
+  "method_lora"
+]
+
+Triples:
+[
+  {
+    "subject": "ArtificialIntelligence",
+    "relation": "transforms",
+    "object": "Healthcare",
+    "chunk": "introduction",
+    "context": "Artificial Intelligence (AI) has already transformed healthcare and continues to hold substantial potential for further inno-vation within clinical ecosystems."
+  },
+  {
+    "subject": "MedicalLargeVisionLanguageModel",
+    "relation": "advances",
+    "object": "IntelligentDiagnosis",
+    "chunk": "introduction",
+    "context": "Recently, Medical Large Vision-Language Models (Med-LVLMs) have shown great promise for advancing interactive and intelligent diagnosis [1, 2]."
+  },
+  {
+    "subject": "MedicalLargeVisionLanguageModel",
+    "relation": "facesIssue",
+    "object": "ReliabilityIssue",
+    "chunk": "introduction",
+    "context": "Despite this potential, current Med-LVLMs still face sig-nificant reliability issues, particularly their tendency to gen-erate non-factual medical responses [3], making them unreli-able in critical medical applications."
+  },
+  {
+    "subject": "MedicalLargeVisionLanguageModel",
+    "relation": "generates",
+    "object": "NonFactualMedicalResponse",
+    "chunk": "introduction",
+    "context": "Despite this potential, current Med-LVLMs still face sig-nificant reliability issues, particularly their tendency to gen-erate non-factual medical responses [3], making them unreli-able in critical medical applications."
+  },
+  {
+    "subject": "DiagnosticError",
+    "relation": "leadsTo",
+    "object": "SevereConsequence",
+    "chunk": "introduction",
+    "context": "These factuality issues raise serious concerns when deploying such models in clini-cal settings, where even small diagnostic errors could lead to severe consequences for patient care."
+  },
+  {
+    "subject": "FineTuning",
+    "relation": "improvesFactualityOf",
+    "object": "MedicalLargeVisionLanguageModel",
+    "chunk": "introduction",
+    "context": "Recently, researchers have begun to focus on improving the factuality of Med-LVLMs through various techniques, in-cluding fine-tuning [1], low-rank adaptation [4], and retrieval-augmented generation (RAG) [5, 6]."
+  },
+  {
+    "subject": "RetrievalAugmentedGeneration",
+    "relation": "improvesFactualityOf",
+    "object": "MedicalLargeVisionLanguageModel",
+    "chunk": "introduction",
+    "context": "Recently, researchers have begun to focus on improving the factuality of Med-LVLMs through various techniques, in-cluding fine-tuning [1], low-rank adaptation [4], and retrieval-augmented generation (RAG) [5, 6]."
+  },
+  {
+    "subject": "FineTuning",
+    "relation": "improves",
+    "object": "ModelPerformance",
+    "chunk": "introduction",
+    "context": "Fine-tuning is a direct method to improve model performance, but faces several lim-itations in the medical field."
+  },
+  {
+    "subject": "MedicalDomain",
+    "relation": "lacks",
+    "object": "HighQualityLabeledData",
+    "chunk": "introduction",
+    "context": "First, there is a lack of sufficient high-quality labeled data for fine-tuning in the medical do-main."
+  },
+  {
+    "subject": "DistributionShift",
+    "relation": "worsens",
+    "object": "ModelPerformance",
+    "chunk": "introduction",
+    "context": "Second, a distribution shift often exists between train-ing datasets the real-world deployment data, leading to signif-icantly worse model performance during deployment."
+  },
+  {
+    "subject": "RetrievalAugmentedGeneration",
+    "relation": "groundsOutputsIn",
+    "object": "ExternalKnowledge",
+    "chunk": "introduction",
+    "context": "Hence, Retrieval-Augmented Generation (RAG) [5] has emerged as a promising solution, grounding model outputs in external knowledge to improve factuality."
+  },
+  {
+    "subject": "framework_medrag",
+    "relation": "adapts",
+    "object": "RetrievalAugmentedGeneration",
+    "chunk": "introduction",
+    "context": "Recent works adapted RAG for medicine, including MedRAG [6], MMed-RAG [7]."
+  },
+  {
+    "subject": "CausalityBasedMethod",
+    "relation": "improves",
+    "object": "RetrievalAccuracy",
+    "chunk": "introduction",
+    "context": "Causality-based methods seek to improve retrieval accu-racy and representation learning, but critical limitations per-sist [8]."
+  },
+  {
+    "subject": "framework_causalrag",
+    "relation": "ranksContextsBy",
+    "object": "CausalImportance",
+    "chunk": "introduction",
+    "context": "CausalRAG [9] ranks contexts by causal importance, but does not address cross-modal alignment."
+  },
+  {
+    "subject": "framework_cmcrl",
+    "relation": "learns",
+    "object": "SharedCausalRepresentation",
+    "chunk": "introduction",
+    "context": "Similarly, CM-CRL [10] learns shared causal representations but underuses the structural dependencies needed for medical reasoning."
+  },
+  {
+    "subject": "CausalGraph",
+    "relation": "improves",
+    "object": "Interpretability",
+    "chunk": "introduction",
+    "context": "Al-though causal graphs improve interpretability [11, 12], cur-rent approaches mainly rely on language-only causal discov-ery [9]."
+  },
+  {
+    "subject": "ExplicitCausalGraph",
+    "relation": "guides",
+    "object": "RagRetrieval",
+    "chunk": "introduction",
+    "context": "Ac-cordingly, we propose to build explicit causal graphs from multimodal data and use them to guide RAG retrieval for medical reasoning."
+  },
+  {
+    "subject": "framework_mcrag",
+    "relation": "improves",
+    "object": "Factuality",
+    "chunk": "introduction",
+    "context": "In this paper, we propose MCRAG (Multimodal Causal Retrieval-Augmented Generation), a retrieval framework de-signed to improve factuality and robustness in Med-LVLMs."
+  },
+  {
+    "subject": "framework_mcrag",
+    "relation": "introduces",
+    "object": "CausalAlignmentGraph",
+    "chunk": "introduction",
+    "context": "MCRAG introduces a causal alignment graph constructed from verifiable medical literature, capturing structured depen-dencies between visual and textual modalities."
+  },
+  {
+    "subject": "CausalAlignmentGraph",
+    "relation": "captures",
+    "object": "StructuredDependency",
+    "chunk": "introduction",
+    "context": "MCRAG introduces a causal alignment graph constructed from verifiable medical literature, capturing structured depen-dencies between visual and textual modalities."
+  },
+  {
+    "subject": "McragFramework",
+    "relation": "improvesFactualityOf",
+    "object": "MedLvlm",
+    "chunk": "methodology",
+    "context": "In this section, we presentMCRAG—a multi-modal, causal retrieval-augmented generation framework that improves the factuality of Med-LVLMs by tightly coupling retrieval with an explicit Structural Causal Model (SCM)."
+  },
+  {
+    "subject": "McragFramework",
+    "relation": "couplesRetrievalWith",
+    "object": "StructuralCausalModel",
+    "chunk": "methodology",
+    "context": "In this section, we presentMCRAG—a multi-modal, causal retrieval-augmented generation framework that improves the factuality of Med-LVLMs by tightly coupling retrieval with an explicit Structural Causal Model (SCM)."
+  },
+  {
+    "subject": "McragFramework",
+    "relation": "hasStage",
+    "object": "DomainAwareRetrieval",
+    "chunk": "methodology",
+    "context": "The framework has three stages: (1)domain-aware retrieval, which selects the optimal retriever for each input; (2)adaptive context se- lection, which filters and sizes evidence on the fly; and (3)RAG-based preference fine-tuning, which aligns responses with SCM-supported evidence."
+  },
+  {
+    "subject": "McragFramework",
+    "relation": "hasStage",
+    "object": "AdaptiveContextSelection",
+    "chunk": "methodology",
+    "context": "The framework has three stages: (1)domain-aware retrieval, which selects the optimal retriever for each input; (2)adaptive context se- lection, which filters and sizes evidence on the fly; and (3)RAG-based preference fine-tuning, which aligns responses with SCM-supported evidence."
+  },
+  {
+    "subject": "McragFramework",
+    "relation": "hasStage",
+    "object": "RagBasedPreferenceFineTuning",
+    "chunk": "methodology",
+    "context": "The framework has three stages: (1)domain-aware retrieval, which selects the optimal retriever for each input; (2)adaptive context se- lection, which filters and sizes evidence on the fly; and (3)RAG-based preference fine-tuning, which aligns responses with SCM-supported evidence."
+  }
+]

@@ -1,0 +1,112 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: problemformulation
+- section_title: Problem Formulation
+- page_start: 2
+- page_end: 2
+
+INPUT TEXT CHUNK:
+2.1 Decision Making in Traffic Environment
+We study the problem of tactical decision making for a heavy-
+duty truck in a stochastic highway environment, with multi-
+ple conflicting objectives. Tactical decisions include adaptive
+cruise control and lane changes, and with the objectives to
+balance safety, time efficiency, and energy efficiency.
+The environment is implemented using the open-source
+traffic simulator SUMO (Simulation of Urban MObility),
+which provides realistic microscopic vehicle dynamics. The
+simulation consists of a three-lane highway segment popu-
+lated by mixed traffic, including passenger cars and trucks.
+The ego vehicle is modeled as a tractor–semitrailer combina-
+tion with realistic dynamics. To maintain a stationary traf-
+fic distribution around the ego vehicle, a moving window is
+used, with vehicles dynamically re-spawned at the bound-
+aries. Traffic density is varied across experiments to assess
+robustness under different congestion levels. Additional de-
+tails of traffic modeling with parameters and illustrations are
+provided in Appendix B.
+2.2 Multi-Objective Reinforcement Learning
+The tactical decision-making problem is inherently multi-
+objective: strategies that improve travel time often increase
+energy consumption or safety risk, while conservative driv-
+ing may degrade operational efficiency. To explicitly capture
+these trade-offs, we formulate the problem within a multi-
+objective reinforcement learning (MORL) framework.
+The environment is modeled as a Multi-Objective Markov
+Decision Process (MOMDP), defined by the tupleM=
+(S,A, p, γ,r)whereSandAdenote the state and action
+spaces, respectively, andp(·|s, a)is the transition probabil-
+ity distribution over next states given the current state–action
+pair(s, a). The reward functionr:S × A × S →Rdis
+vector-valued, withdcomponents corresponding to distinct
+objectives. The agent’s experience thus consists of transitions
+(st, at, st+1,rt+1), wherer t= (r(1)
+t, . . . , r(d)
+t)quantifies the
+instantaneous contributions to each objective.γ∈[0,1)is a
+discount factor.
+A policyπ:S → Adefines the agent’s decision rule,
+mapping states to actions, and value function of the policy is
+defined as,
+Vπ(s) =E π"∞X
+t=0γtrt+1|st=s#
+.(1)
+where the value functionVπ(s)∈Rdis vector valued.
+Optimality is defined in terms of Pareto dominance: a pol-
+icyπ′dominatesπif it performs at least as well in all ob-
+jectives and strictly better in at least one. The set of non-

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ObstacleSet",
+  "dividedInto",
+  "Partition",
+  "TrajectoryOptimizationAlgorithm",
+  "isBenchmarkedIn",
+  "RandomizedMap",
+  "operatesIn",
+  "ObstacleDenseEnvironment",
+  "FullSystem",
+  "isDeployedOn",
+  "RealMobileManipulator",
+  "RealWorldScene",
+  "Controller",
+  "generates",
+  "CollisionAwareMotion",
+  "intercepts",
+  "IncomingBall",
+  "GcdfValue",
+  "enforces",
+  "CollisionAvoidance",
+  "TrajectoryOptimization",
+  "isPerformedIn",
+  "ConfigurationSpace",
+  "TargetEnvironmentPoint",
+  "isLocatedAround",
+  "MobileBase",
+  "Robot",
+  "isInitializedFrom",
+  "ArmConfiguration",
+  "GcdfProjection",
+  "moves",
+  "SdfGradient",
+  "isBackPropagatedThrough",
+  "NonlinearForwardKinematics",
+  "TrainingProcess",
+  "isExecutedOn",
+  "NvidiaRtx3090Gpu",
+  "MobileManipulator",
+  "queries",
+  "uses",
+  "TimeVaryingControlTarget",
+  "ContinuousMotion",
+  "drives",
+  "approaches",
+  "blocks",
+  "Shot",
+  "prevents",
+  "Goal",
+  "Map",
+  "populatedWith",
+  "RectangularObstacle",
+  "VerticalStacking",
+  "induces",
+  "NonConvexGeometry",
+  "posesDifficultyFor",
+  "CoordinatedBaseArmMotion",
+  "startsAt",
+  "MapCenter",
+  "Arm",
+  "initializedTo",
+  "ZeroConfiguration",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity"
+]
+
+Triples:
+[
+  {
+    "subject": "ObstacleSet",
+    "relation": "dividedInto",
+    "object": "Partition",
+    "chunk": "completedocument12",
+    "context": "We divide it intoNpartitions, denoted byI M,i fori∈1,2, . . . N, representing potential collision points at each step."
+  },
+  {
+    "subject": "TrajectoryOptimizationAlgorithm",
+    "relation": "isBenchmarkedIn",
+    "object": "RandomizedMap",
+    "chunk": "completedocument13",
+    "context": "Second, we benchmark our GCDF-constrained trajectory optimization algorithm against the state-of-the-art (SOTA) pipelines in multiple randomized maps to demonstrate efficiency, robustness, and solution quality in obstacle-dense environments."
+  },
+  {
+    "subject": "TrajectoryOptimizationAlgorithm",
+    "relation": "operatesIn",
+    "object": "ObstacleDenseEnvironment",
+    "chunk": "completedocument13",
+    "context": "Second, we benchmark our GCDF-constrained trajectory optimization algorithm against the state-of-the-art (SOTA) pipelines in multiple randomized maps to demonstrate efficiency, robustness, and solution quality in obstacle-dense environments."
+  },
+  {
+    "subject": "FullSystem",
+    "relation": "isDeployedOn",
+    "object": "RealMobileManipulator",
+    "chunk": "completedocument13",
+    "context": "Third, we deploy the full system on a real mobile manipulator to verify practicality in real-world scenes."
+  },
+  {
+    "subject": "RealMobileManipulator",
+    "relation": "operatesIn",
+    "object": "RealWorldScene",
+    "chunk": "completedocument13",
+    "context": "Third, we deploy the full system on a real mobile manipulator to verify practicality in real-world scenes."
+  },
+  {
+    "subject": "Controller",
+    "relation": "generates",
+    "object": "CollisionAwareMotion",
+    "chunk": "completedocument13",
+    "context": "At each time step, the controller evaluates the value and gradient of the GCDF online and applies the corresponding projection to generate real-time, collision-aware motions that intercept the incoming ball."
+  },
+  {
+    "subject": "CollisionAwareMotion",
+    "relation": "intercepts",
+    "object": "IncomingBall",
+    "chunk": "completedocument13",
+    "context": "At each time step, the controller evaluates the value and gradient of the GCDF online and applies the corresponding projection to generate real-time, collision-aware motions that intercept the incoming ball."
+  },
+  {
+    "subject": "GcdfValue",
+    "relation": "enforces",
+    "object": "CollisionAvoidance",
+    "chunk": "completedocument13",
+    "context": "Preserving this property with accurate first-order information is a core theoretical pillar of our framework: it underpins the use of GCDF values and gradients to enforce collision avoidance and perform trajectory optimization directly in configuration space, thereby avoiding the intricate nonlinear mapping and kinematic coupling between workspace collision constraints and configuration space variables."
+  },
+  {
+    "subject": "TrajectoryOptimization",
+    "relation": "isPerformedIn",
+    "object": "ConfigurationSpace",
+    "chunk": "completedocument13",
+    "context": "Preserving this property with accurate first-order information is a core theoretical pillar of our framework: it underpins the use of GCDF values and gradients to enforce collision avoidance and perform trajectory optimization directly in configuration space, thereby avoiding the intricate nonlinear mapping and kinematic coupling between workspace collision constraints and configuration space variables."
+  },
+  {
+    "subject": "TargetEnvironmentPoint",
+    "relation": "isLocatedAround",
+    "object": "MobileBase",
+    "chunk": "completedocument13",
+    "context": "Specifically, we randomly sample 128 target environment points within threex–yranges (±4m, ±5m, and±6m) around the mobile base to cover varying proximity and difficulty."
+  },
+  {
+    "subject": "Robot",
+    "relation": "isInitializedFrom",
+    "object": "ArmConfiguration",
+    "chunk": "completedocument13",
+    "context": "For each target point p, we initialize the robot from 128 different arm configurations q and apply the projection in Theorem 1 to obtain a projected configuration q+."
+  },
+  {
+    "subject": "GcdfProjection",
+    "relation": "moves",
+    "object": "Robot",
+    "chunk": "completedocument13",
+    "context": "Our GCDF projection brings the robot to (or extremely close to) the target point’s zero-level set in a single step across all ranges, whereas the SDF-based method often requires multiple iterations."
+  },
+  {
+    "subject": "SdfGradient",
+    "relation": "isBackPropagatedThrough",
+    "object": "NonlinearForwardKinematics",
+    "chunk": "completedocument13",
+    "context": "This gap is as expected:the SDF gradient must be back-propagated through nonlinear forward kinematics, so its induced updates in configuration space are strongly coupled and effective only locally, leading to slower contraction toward the contact manifold."
+  },
+  {
+    "subject": "TrainingProcess",
+    "relation": "isExecutedOn",
+    "object": "NvidiaRtx3090Gpu",
+    "chunk": "completedocument13",
+    "context": "Training takes approximately 2 hours on four NVIDIA RTX 3090 GPUs."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "queries",
+    "object": "GcdfValue",
+    "chunk": "completedocument14",
+    "context": "In this example, a ball is launched toward the goal mouth from different initial states, and the mobile manipulator reacts online by querying GCDF values and gradients and using the resulting projection as a time-varying control target."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "uses",
+    "object": "TimeVaryingControlTarget",
+    "chunk": "completedocument14",
+    "context": "In this example, a ball is launched toward the goal mouth from different initial states, and the mobile manipulator reacts online by querying GCDF values and gradients and using the resulting projection as a time-varying control target."
+  },
+  {
+    "subject": "ContinuousMotion",
+    "relation": "drives",
+    "object": "Robot",
+    "chunk": "completedocument14",
+    "context": "The target is recomputed at every timestep, yielding smooth and continuous motions that drive the robot toward interception."
+  },
+  {
+    "subject": "Robot",
+    "relation": "approaches",
+    "object": "IncomingBall",
+    "chunk": "completedocument14",
+    "context": "As visualized in Fig. 8, the robot approaches the incoming ball and makes contact to block the shot, preventing a goal."
+  },
+  {
+    "subject": "Robot",
+    "relation": "blocks",
+    "object": "Shot",
+    "chunk": "completedocument14",
+    "context": "As visualized in Fig. 8, the robot approaches the incoming ball and makes contact to block the shot, preventing a goal."
+  },
+  {
+    "subject": "Robot",
+    "relation": "prevents",
+    "object": "Goal",
+    "chunk": "completedocument14",
+    "context": "As visualized in Fig. 8, the robot approaches the incoming ball and makes contact to block the shot, preventing a goal."
+  },
+  {
+    "subject": "Map",
+    "relation": "populatedWith",
+    "object": "RectangularObstacle",
+    "chunk": "completedocument14",
+    "context": "Environment Settings.As illustrated in Fig. 9, we con- struct a14m×14m map and randomly populate it with a prescribed number of rectangular obstacles placed at vary- ing heights."
+  },
+  {
+    "subject": "VerticalStacking",
+    "relation": "induces",
+    "object": "NonConvexGeometry",
+    "chunk": "completedocument14",
+    "context": "We remark that our setup is substantially more challenging than commonly used discrete pillar-forest envi- ronments: obstacles have diverse sizes and configurations, are allowed to overlap, and their vertical stacking naturally induces highly non-convex geometry across different height levels, which poses significant difficulty for coordinated base–arm motion."
+  },
+  {
+    "subject": "NonConvexGeometry",
+    "relation": "posesDifficultyFor",
+    "object": "CoordinatedBaseArmMotion",
+    "chunk": "completedocument14",
+    "context": "We remark that our setup is substantially more challenging than commonly used discrete pillar-forest envi- ronments: obstacles have diverse sizes and configurations, are allowed to overlap, and their vertical stacking naturally induces highly non-convex geometry across different height levels, which poses significant difficulty for coordinated base–arm motion."
+  },
+  {
+    "subject": "Robot",
+    "relation": "startsAt",
+    "object": "MapCenter",
+    "chunk": "completedocument14",
+    "context": "The robot starts at the map center with the arm initialized to the zero configuration (upright)."
+  },
+  {
+    "subject": "Arm",
+    "relation": "initializedTo",
+    "object": "ZeroConfiguration",
+    "chunk": "completedocument14",
+    "context": "The robot starts at the map center with the arm initialized to the zero configuration (upright)."
+  }
+]

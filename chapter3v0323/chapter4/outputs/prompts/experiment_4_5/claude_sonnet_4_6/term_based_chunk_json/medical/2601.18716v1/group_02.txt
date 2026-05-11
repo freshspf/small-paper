@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Mdm2",
+  "regulates",
+  "P53",
+  "MolecularGlueDiscovery",
+  "reliesOn",
+  "ChemicalLibraryScreening",
+  "ArtificialIntelligenceModel",
+  "enables",
+  "DeNovoDesign",
+  "SequenceBasedModel",
+  "SmilesRepresentation",
+  "suffersFrom",
+  "SyntacticError",
+  "model_jtvae",
+  "encodes",
+  "MolecularStructure",
+  "isA",
+  "GraphBasedModel",
+  "generates",
+  "DrugLikeMolecule",
+  "preserves",
+  "ChemicalRule",
+  "integrates",
+  "TorsionalAngle",
+  "TernaryComplex",
+  "includes",
+  "protein_abeta42",
+  "ligase_vhl",
+  "E3UbiquitinLigase",
+  "ligase_crbn",
+  "ligase_mdm2",
+  "mediates",
+  "TargetedDegradation",
+  "targets",
+  "correspondsTo",
+  "protein_app",
+  "structure_7q4b",
+  "derivedFrom",
+  "HumanBrainTissue",
+  "adopts",
+  "SShapedConformation",
+  "influences",
+  "Aggregation",
+  "disease_alzheimersDisease",
+  "involves",
+  "ExtracellularFibril",
+  "originatesFrom",
+  "IntracellularOligomerization",
+  "PdbStructure",
+  "preprocessedBy",
+  "software_proteinPreparationWizard",
+  "PreprocessingStep",
+  "BondOrderAssignment",
+  "RestrainedEnergyMinimization",
+  "uses",
+  "forcefield_opls4",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "UbiquitinProteasomeSystem",
+  "E3Ligase",
+  "Crbn",
+  "Vhl",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration"
+]
+
+Triples:
+[
+  {
+    "subject": "Mdm2",
+    "relation": "regulates",
+    "object": "P53",
+    "chunk": "completedocument1",
+    "context": "VHL, associated with hypoxia signaling; CRBN, known for ligand -dependent substrate recruitment; and MDM2, a versatile p53 regulator, offer complementary substrate specificities that could be leveraged for Aβ42 targeting."
+  },
+  {
+    "subject": "MolecularGlueDiscovery",
+    "relation": "reliesOn",
+    "object": "ChemicalLibraryScreening",
+    "chunk": "completedocument2",
+    "context": "Traditional molecular glue discovery relies on extensive chemical library screening, making it slow and resource -intensive."
+  },
+  {
+    "subject": "ArtificialIntelligenceModel",
+    "relation": "enables",
+    "object": "DeNovoDesign",
+    "chunk": "completedocument2",
+    "context": "Artificial intelligence (AI) models now provide a powerful alternative, enabling efficient de novo design, lead optimization, and vi rtual screening [25 -30]."
+  },
+  {
+    "subject": "SequenceBasedModel",
+    "relation": "reliesOn",
+    "object": "SmilesRepresentation",
+    "chunk": "completedocument2",
+    "context": "Sequence -based models, such as those relying on SMILES representations, often suffer from non -uniqueness and syn tactic errors that lead to chemically invalid molecules, complicating the learning process and limiting their reliability in drug discovery [35]."
+  },
+  {
+    "subject": "SequenceBasedModel",
+    "relation": "suffersFrom",
+    "object": "SyntacticError",
+    "chunk": "completedocument2",
+    "context": "Sequence -based models, such as those relying on SMILES representations, often suffer from non -uniqueness and syn tactic errors that lead to chemically invalid molecules, complicating the learning process and limiting their reliability in drug discovery [35]."
+  },
+  {
+    "subject": "model_jtvae",
+    "relation": "encodes",
+    "object": "MolecularStructure",
+    "chunk": "completedocument2",
+    "context": "To overcome these challenges, we selected the Junction Tree Variational Autoencoder (JTVAE) [31 -34], a graph -based model that encodes molecular structures as hierarchical trees of chemically meaningful substructures, enabling the generation of valid, drug -like molecules with superior structural fidelity."
+  },
+  {
+    "subject": "model_jtvae",
+    "relation": "isA",
+    "object": "GraphBasedModel",
+    "chunk": "completedocument2",
+    "context": "To overcome these challenges, we selected the Junction Tree Variational Autoencoder (JTVAE) [31 -34], a graph -based model that encodes molecular structures as hierarchical trees of chemically meaningful substructures, enabling the generation of valid, drug -like molecules with superior structural fidelity."
+  },
+  {
+    "subject": "model_jtvae",
+    "relation": "generates",
+    "object": "DrugLikeMolecule",
+    "chunk": "completedocument2",
+    "context": "To overcome these challenges, we selected the Junction Tree Variational Autoencoder (JTVAE) [31 -34], a graph -based model that encodes molecular structures as hierarchical trees of chemically meaningful substructures, enabling the generation of valid, drug -like molecules with superior structural fidelity."
+  },
+  {
+    "subject": "model_jtvae",
+    "relation": "preserves",
+    "object": "ChemicalRule",
+    "chunk": "completedocument2",
+    "context": "Unlike sequence -based or flat graph models, JT VAE preserves chemical rules during molecule generation, making it particularly well -suited for drug design applications."
+  },
+  {
+    "subject": "model_jtvae",
+    "relation": "integrates",
+    "object": "TorsionalAngle",
+    "chunk": "completedocument2",
+    "context": "To address this limitation, we extended JTVAE by explicitly integrating torsiona l angles into bond representations, enabling the model to capture conformational dynamics and generate structurally diverse, chemically realistic molecules with improved 3D predictive fidelity."
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "includes",
+    "object": "protein_abeta42",
+    "chunk": "completedocument2",
+    "context": "This allowed the model to learn ligase -specifi c binding patterns, enabling conditional generation of molecular glues optimized for forming stable ternary complexes between Aβ42 and individual E3 ligases."
+  },
+  {
+    "subject": "ligase_vhl",
+    "relation": "isA",
+    "object": "E3UbiquitinLigase",
+    "chunk": "completedocument2",
+    "context": "In this study, we investigate the potential of three widely studied E3 ubiquitin ligases -VHL, CRBN, and MDM2 -for mediating the targeted degradation of amyloid beta (Aβ42) through molecular glue strategies."
+  },
+  {
+    "subject": "ligase_crbn",
+    "relation": "isA",
+    "object": "E3UbiquitinLigase",
+    "chunk": "completedocument2",
+    "context": "In this study, we investigate the potential of three widely studied E3 ubiquitin ligases -VHL, CRBN, and MDM2 -for mediating the targeted degradation of amyloid beta (Aβ42) through molecular glue strategies."
+  },
+  {
+    "subject": "ligase_mdm2",
+    "relation": "isA",
+    "object": "E3UbiquitinLigase",
+    "chunk": "completedocument2",
+    "context": "In this study, we investigate the potential of three widely studied E3 ubiquitin ligases -VHL, CRBN, and MDM2 -for mediating the targeted degradation of amyloid beta (Aβ42) through molecular glue strategies."
+  },
+  {
+    "subject": "E3UbiquitinLigase",
+    "relation": "mediates",
+    "object": "TargetedDegradation",
+    "chunk": "completedocument2",
+    "context": "In this study, we investigate the potential of three widely studied E3 ubiquitin ligases -VHL, CRBN, and MDM2 -for mediating the targeted degradation of amyloid beta (Aβ42) through molecular glue strategies."
+  },
+  {
+    "subject": "TargetedDegradation",
+    "relation": "targets",
+    "object": "protein_abeta42",
+    "chunk": "completedocument2",
+    "context": "In this study, we investigate the potential of three widely studied E3 ubiquitin ligases -VHL, CRBN, and MDM2 -for mediating the targeted degradation of amyloid beta (Aβ42) through molecular glue strategies."
+  },
+  {
+    "subject": "protein_abeta42",
+    "relation": "correspondsTo",
+    "object": "protein_app",
+    "chunk": "completedocument2",
+    "context": "For structural studies of Aβ42, which corresponds to residues 627 -713 of the full-length APP, we selected the cryo -EM structure of Type I Aβ42 filaments from human brain tissue (PDB ID: 7Q4B) [42]."
+  },
+  {
+    "subject": "structure_7q4b",
+    "relation": "derivedFrom",
+    "object": "HumanBrainTissue",
+    "chunk": "completedocument2",
+    "context": "For structural studies of Aβ42, which corresponds to residues 627 -713 of the full-length APP, we selected the cryo -EM structure of Type I Aβ42 filaments from human brain tissue (PDB ID: 7Q4B) [42]."
+  },
+  {
+    "subject": "protein_abeta42",
+    "relation": "adopts",
+    "object": "SShapedConformation",
+    "chunk": "completedocument2",
+    "context": "These fibrils, resolved at 2.5 Å, represent a homo -decameric assembly of Aβ42 peptides adopting an S -shaped conformation, a structural feature crucial to their aggregation and stability in Alzheimer's disease pathology [43]."
+  },
+  {
+    "subject": "SShapedConformation",
+    "relation": "influences",
+    "object": "Aggregation",
+    "chunk": "completedocument2",
+    "context": "These fibrils, resolved at 2.5 Å, represent a homo -decameric assembly of Aβ42 peptides adopting an S -shaped conformation, a structural feature crucial to their aggregation and stability in Alzheimer's disease pathology [43]."
+  },
+  {
+    "subject": "disease_alzheimersDisease",
+    "relation": "involves",
+    "object": "Aggregation",
+    "chunk": "completedocument2",
+    "context": "These fibrils, resolved at 2.5 Å, represent a homo -decameric assembly of Aβ42 peptides adopting an S -shaped conformation, a structural feature crucial to their aggregation and stability in Alzheimer's disease pathology [43]."
+  },
+  {
+    "subject": "ExtracellularFibril",
+    "relation": "originatesFrom",
+    "object": "IntracellularOligomerization",
+    "chunk": "completedocument2",
+    "context": "Although 7Q4B depicts extracellular fibrils, they originate from intracellular oligomeriz ation processes, making this structure highly relevant to the pathological cascade [44]."
+  },
+  {
+    "subject": "PdbStructure",
+    "relation": "preprocessedBy",
+    "object": "software_proteinPreparationWizard",
+    "chunk": "completedocument2",
+    "context": "The raw PDB structure was preprocessed using Schrödinger’s Protein Preparation Wizard in Maestro [45]."
+  },
+  {
+    "subject": "PreprocessingStep",
+    "relation": "includes",
+    "object": "BondOrderAssignment",
+    "chunk": "completedocument2",
+    "context": "Preprocessing steps included bond order assignment, addition of missing hydrogen atoms, removal of water molecules beyond 5 Å, protonation state adjustme nt with Epik at pH 7.0 ± 2.0, and optimization of the hydrogen bonding network."
+  },
+  {
+    "subject": "RestrainedEnergyMinimization",
+    "relation": "uses",
+    "object": "forcefield_opls4",
+    "chunk": "completedocument2",
+    "context": "A restrained energy minimization was performed with the OPLS4 force field, allowing hydrogen atoms to relax while constraining heavy atoms."
+  }
+]

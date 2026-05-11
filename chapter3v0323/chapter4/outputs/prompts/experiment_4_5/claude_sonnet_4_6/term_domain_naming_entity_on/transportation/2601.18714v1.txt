@@ -1,0 +1,379 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MobileRobot",
+  "Vineyard",
+  "Route",
+  "LidarSensor",
+  "RgbdCamera",
+  "Dataset",
+  "algorithm_minkUNeXtVine",
+  "task_placeRecognition",
+  "task_autonomousNavigation",
+  "task_slam",
+  "task_localization",
+  "task_pathDetection",
+  "property_traversability",
+  "robot_thorvaldII",
+  "robot_huskyUgv",
+  "sensor_ousterOs116",
+  "sensor_sickMrs1000",
+  "sensor_zed2i",
+  "sensor_fpsBx992",
+  "sensor_rskUm7",
+  "sensor_livoxMid360",
+  "sensor_velodyneVlp16",
+  "sensor_intelRealsenseD435",
+  "sensor_swiftNavigationDuro",
+  "sensor_microstrain3dmGx5",
+  "dataset_blt",
+  "dataset_tempoVine",
+  "vineyard_aglie",
+  "vineyard_ktimaGerovassiliou",
+  "vineyard_riseholme",
+  "location_northernItaly",
+  "location_greece",
+  "location_unitedKingdom",
+  "environment_pergola",
+  "environment_trellis",
+  "route_pergolaRow",
+  "route_trellisRow",
+  "route_ktimaRow",
+  "data_pointCloud",
+  "condition_tallGrass",
+  "condition_denseFoliage",
+  "pattern_timeOfFlight",
+  "pattern_nonRepetitiveScanning",
+  "performs",
+  "solves",
+  "enables",
+  "supports",
+  "equippedWith",
+  "locatedIn",
+  "travelsAlong",
+  "collectedIn",
+  "containsInfrastructure",
+  "testedOn",
+  "captures",
+  "processes",
+  "navigatesIn",
+  "obstructs",
+  "occludes",
+  "utilizes",
+  "determines",
+  "requires",
+  "designedFor"
+]
+
+Triples:
+[
+  {
+    "subject": "MobileRobot",
+    "relation": "navigatesIn",
+    "object": "Vineyard"
+  },
+  {
+    "subject": "MobileRobot",
+    "relation": "travelsAlong",
+    "object": "Route"
+  },
+  {
+    "subject": "MobileRobot",
+    "relation": "requires",
+    "object": "task_localization"
+  },
+  {
+    "subject": "MobileRobot",
+    "relation": "performs",
+    "object": "task_autonomousNavigation"
+  },
+  {
+    "subject": "algorithm_minkUNeXtVine",
+    "relation": "designedFor",
+    "object": "Vineyard"
+  },
+  {
+    "subject": "algorithm_minkUNeXtVine",
+    "relation": "solves",
+    "object": "task_placeRecognition"
+  },
+  {
+    "subject": "algorithm_minkUNeXtVine",
+    "relation": "processes",
+    "object": "data_pointCloud"
+  },
+  {
+    "subject": "algorithm_minkUNeXtVine",
+    "relation": "testedOn",
+    "object": "dataset_blt"
+  },
+  {
+    "subject": "algorithm_minkUNeXtVine",
+    "relation": "testedOn",
+    "object": "dataset_tempoVine"
+  },
+  {
+    "subject": "task_placeRecognition",
+    "relation": "supports",
+    "object": "task_slam"
+  },
+  {
+    "subject": "task_placeRecognition",
+    "relation": "enables",
+    "object": "task_autonomousNavigation"
+  },
+  {
+    "subject": "task_pathDetection",
+    "relation": "determines",
+    "object": "property_traversability"
+  },
+  {
+    "subject": "robot_thorvaldII",
+    "relation": "equippedWith",
+    "object": "sensor_ousterOs116"
+  },
+  {
+    "subject": "robot_thorvaldII",
+    "relation": "equippedWith",
+    "object": "sensor_sickMrs1000"
+  },
+  {
+    "subject": "robot_thorvaldII",
+    "relation": "equippedWith",
+    "object": "sensor_zed2i"
+  },
+  {
+    "subject": "robot_thorvaldII",
+    "relation": "equippedWith",
+    "object": "sensor_fpsBx992"
+  },
+  {
+    "subject": "robot_thorvaldII",
+    "relation": "equippedWith",
+    "object": "sensor_rskUm7"
+  },
+  {
+    "subject": "robot_thorvaldII",
+    "relation": "travelsAlong",
+    "object": "route_ktimaRow"
+  },
+  {
+    "subject": "robot_huskyUgv",
+    "relation": "equippedWith",
+    "object": "sensor_livoxMid360"
+  },
+  {
+    "subject": "robot_huskyUgv",
+    "relation": "equippedWith",
+    "object": "sensor_velodyneVlp16"
+  },
+  {
+    "subject": "robot_huskyUgv",
+    "relation": "equippedWith",
+    "object": "sensor_intelRealsenseD435"
+  },
+  {
+    "subject": "robot_huskyUgv",
+    "relation": "equippedWith",
+    "object": "sensor_swiftNavigationDuro"
+  },
+  {
+    "subject": "robot_huskyUgv",
+    "relation": "equippedWith",
+    "object": "sensor_microstrain3dmGx5"
+  },
+  {
+    "subject": "robot_huskyUgv",
+    "relation": "travelsAlong",
+    "object": "route_pergolaRow"
+  },
+  {
+    "subject": "robot_huskyUgv",
+    "relation": "travelsAlong",
+    "object": "route_trellisRow"
+  },
+  {
+    "subject": "dataset_blt",
+    "relation": "collectedIn",
+    "object": "vineyard_ktimaGerovassiliou"
+  },
+  {
+    "subject": "dataset_blt",
+    "relation": "collectedIn",
+    "object": "vineyard_riseholme"
+  },
+  {
+    "subject": "dataset_tempoVine",
+    "relation": "collectedIn",
+    "object": "vineyard_aglie"
+  },
+  {
+    "subject": "vineyard_aglie",
+    "relation": "locatedIn",
+    "object": "location_northernItaly"
+  },
+  {
+    "subject": "vineyard_aglie",
+    "relation": "containsInfrastructure",
+    "object": "environment_pergola"
+  },
+  {
+    "subject": "vineyard_aglie",
+    "relation": "containsInfrastructure",
+    "object": "environment_trellis"
+  },
+  {
+    "subject": "vineyard_ktimaGerovassiliou",
+    "relation": "locatedIn",
+    "object": "location_greece"
+  },
+  {
+    "subject": "vineyard_riseholme",
+    "relation": "locatedIn",
+    "object": "location_unitedKingdom"
+  },
+  {
+    "subject": "environment_pergola",
+    "relation": "locatedIn",
+    "object": "vineyard_aglie"
+  },
+  {
+    "subject": "environment_trellis",
+    "relation": "locatedIn",
+    "object": "vineyard_aglie"
+  },
+  {
+    "subject": "route_pergolaRow",
+    "relation": "locatedIn",
+    "object": "environment_pergola"
+  },
+  {
+    "subject": "route_trellisRow",
+    "relation": "locatedIn",
+    "object": "environment_trellis"
+  },
+  {
+    "subject": "route_ktimaRow",
+    "relation": "locatedIn",
+    "object": "vineyard_ktimaGerovassiliou"
+  },
+  {
+    "subject": "sensor_ousterOs116",
+    "relation": "captures",
+    "object": "data_pointCloud"
+  },
+  {
+    "subject": "sensor_livoxMid360",
+    "relation": "captures",
+    "object": "data_pointCloud"
+  },
+  {
+    "subject": "sensor_velodyneVlp16",
+    "relation": "captures",
+    "object": "data_pointCloud"
+  },
+  {
+    "subject": "sensor_livoxMid360",
+    "relation": "utilizes",
+    "object": "pattern_nonRepetitiveScanning"
+  },
+  {
+    "subject": "sensor_velodyneVlp16",
+    "relation": "utilizes",
+    "object": "pattern_timeOfFlight"
+  },
+  {
+    "subject": "condition_tallGrass",
+    "relation": "obstructs",
+    "object": "sensor_livoxMid360"
+  },
+  {
+    "subject": "condition_denseFoliage",
+    "relation": "occludes",
+    "object": "Vineyard"
+  }
+]

@@ -1,0 +1,745 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MPSCLIP",
+  "RemoteSensingImageTextRetrieval",
+  "RemoteSensingImagery",
+  "OverheadImagery",
+  "OverheadPerspective",
+  "DenseObjectDistribution",
+  "SpatialRelationship",
+  "TextDescription",
+  "SemanticKeyword",
+  "ObjectCategory",
+  "SubPerspective",
+  "LargeLanguageModel",
+  "DeepseekV3_2",
+  "SamGeo",
+  "CLIP",
+  "GatedGlobalAttentionAdapter",
+  "MultiPerspectiveRepresentationModule",
+  "HybridObjective",
+  "MultiPerspectiveContrastiveLoss",
+  "WeightedTripletLoss",
+  "RSICD",
+  "RSITMD",
+  "UrbanPlanning",
+  "QinghaiUniversity",
+  "Xining",
+  "China",
+  "QinghaiProvincialLaboratoryForIntelligentComputingAndApplication",
+  "SchoolOfComputerTechnologyAndApplications",
+  "VisionLanguagePreTrainingModel",
+  "GlobalAlignmentParadigm",
+  "FineGrainedAlignment",
+  "KeywordGuidedFramework",
+  "GlobalVisualFeature",
+  "GlobalTextFeature",
+  "LocalVisualFeature",
+  "MultiPerspectiveVisualFeature",
+  "Image",
+  "Text",
+  "CLIPTextEncoder",
+  "CLIPVisualEncoder",
+  "TransformerLayer",
+  "TokenFeature",
+  "VisionBranch",
+  "TextBranch",
+  "SpatialPatchToken",
+  "CLSToken",
+  "SequenceLength",
+  "FeatureDimension",
+  "Channel",
+  "Height",
+  "Width",
+  "DualStreamArchitecture",
+  "CNNBackbone",
+  "TransformerArchitecture",
+  "SharedLatentSpace",
+  "MetricLearningObjective",
+  "LabeledRSDataset",
+  "ZeroShotTransferCapability",
+  "FullFineTuning",
+  "ParameterEfficientFineTuning",
+  "CLIPAdapter",
+  "CrossModalAdapter",
+  "UniAdapter",
+  "PERSITR",
+  "HarMA",
+  "SkyCLIP",
+  "SingleLanguage",
+  "NaturalScene",
+  "NaturalImage",
+  "RemoteSensingScene",
+  "ComplexSpatialStructure",
+  "LocalCue",
+  "GlobalFeatureEmbedding",
+  "FineTunedCLIPTextEncoder",
+  "FineTunedCLIPVisualEncoder",
+  "GlobalBranch",
+  "LocalBranch",
+  "Keyword",
+  "ImageSubPerspective",
+  "MeanRecall",
+  "StateOfTheArtPerformance",
+  "CodeRepository",
+  "GithubRepository"
+]
+
+Triples:
+[
+  {
+    "subject": "MPSCLIP",
+    "relation": "isDesignedFor",
+    "object": "RemoteSensingImageTextRetrieval"
+  },
+  {
+    "subject": "RemoteSensingImageTextRetrieval",
+    "relation": "bridges",
+    "object": "VisionLanguagePreTrainingModel"
+  },
+  {
+    "subject": "RemoteSensingImageTextRetrieval",
+    "relation": "supportsApplication",
+    "object": "UrbanPlanning"
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "hasPerspective",
+    "object": "OverheadPerspective"
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "hasDistribution",
+    "object": "DenseObjectDistribution"
+  },
+  {
+    "subject": "TextDescription",
+    "relation": "hasProperty",
+    "object": "SpatialRelationship"
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "hinders",
+    "object": "FineGrainedAlignment"
+  },
+  {
+    "subject": "TextDescription",
+    "relation": "hinders",
+    "object": "FineGrainedAlignment"
+  },
+  {
+    "subject": "EarlyRSITRApproach",
+    "relation": "reliesOn",
+    "object": "DualStreamArchitecture"
+  },
+  {
+    "subject": "DualStreamArchitecture",
+    "relation": "uses",
+    "object": "CNNBackbone"
+  },
+  {
+    "subject": "DualStreamArchitecture",
+    "relation": "uses",
+    "object": "TransformerArchitecture"
+  },
+  {
+    "subject": "VisualFeature",
+    "relation": "isAlignedIn",
+    "object": "SharedLatentSpace"
+  },
+  {
+    "subject": "TextualFeature",
+    "relation": "isAlignedIn",
+    "object": "SharedLatentSpace"
+  },
+  {
+    "subject": "SharedLatentSpace",
+    "relation": "isOptimizedBy",
+    "object": "MetricLearningObjective"
+  },
+  {
+    "subject": "TrainingFromScratchParadigm",
+    "relation": "isConstrainedBy",
+    "object": "LabeledRSDataset"
+  },
+  {
+    "subject": "CLIP",
+    "relation": "isA",
+    "object": "VisionLanguagePreTrainingModel"
+  },
+  {
+    "subject": "CLIP",
+    "relation": "hasCapability",
+    "object": "ZeroShotTransferCapability"
+  },
+  {
+    "subject": "ExistingCLIPBasedRSMethod",
+    "relation": "inherits",
+    "object": "GlobalAlignmentParadigm"
+  },
+  {
+    "subject": "GlobalAlignmentParadigm",
+    "relation": "isIllSuitedFor",
+    "object": "RemoteSensingImagery"
+  },
+  {
+    "subject": "KeySemantic",
+    "relation": "isEmbeddedIn",
+    "object": "DenseObjectDistribution"
+  },
+  {
+    "subject": "KeySemantic",
+    "relation": "isEmbeddedIn",
+    "object": "SpatialRelationship"
+  },
+  {
+    "subject": "GlobalFeatureEmbedding",
+    "relation": "overlooks",
+    "object": "LocalCue"
+  },
+  {
+    "subject": "FullFineTuning",
+    "relation": "incurs",
+    "object": "HighComputationalCost"
+  },
+  {
+    "subject": "FullFineTuning",
+    "relation": "posesRiskOf",
+    "object": "Overfitting"
+  },
+  {
+    "subject": "FullFineTuning",
+    "relation": "posesRiskOf",
+    "object": "CatastrophicForgetting"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "shiftsFrom",
+    "object": "GlobalAlignmentParadigm"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "shiftsTo",
+    "object": "FineGrainedAlignment"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "isA",
+    "object": "KeywordGuidedFramework"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "uses",
+    "object": "LargeLanguageModel"
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "extracts",
+    "object": "SemanticKeyword"
+  },
+  {
+    "subject": "SemanticKeyword",
+    "relation": "includes",
+    "object": "ObjectCategory"
+  },
+  {
+    "subject": "SemanticKeyword",
+    "relation": "includes",
+    "object": "SpatialRelationship"
+  },
+  {
+    "subject": "SemanticKeyword",
+    "relation": "guides",
+    "object": "SamGeo"
+  },
+  {
+    "subject": "SamGeo",
+    "relation": "generates",
+    "object": "SubPerspective"
+  },
+  {
+    "subject": "SubPerspective",
+    "relation": "isSemanticallyRelevantTo",
+    "object": "SemanticKeyword"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "uses",
+    "object": "CLIP"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "introduces",
+    "object": "GatedGlobalAttentionAdapter"
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "captures",
+    "object": "GlobalContext"
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "captures",
+    "object": "LongRangeDependency"
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "hasProperty",
+    "object": "MinimalComputationalOverhead"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "includes",
+    "object": "MultiPerspectiveRepresentationModule"
+  },
+  {
+    "subject": "MultiPerspectiveRepresentationModule",
+    "relation": "aggregates",
+    "object": "LocalCue"
+  },
+  {
+    "subject": "MultiPerspectiveRepresentationModule",
+    "relation": "produces",
+    "object": "MultiPerspectiveVisualFeature"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "isOptimizedBy",
+    "object": "HybridObjective"
+  },
+  {
+    "subject": "HybridObjective",
+    "relation": "combines",
+    "object": "MultiPerspectiveContrastiveLoss"
+  },
+  {
+    "subject": "HybridObjective",
+    "relation": "combines",
+    "object": "WeightedTripletLoss"
+  },
+  {
+    "subject": "WeightedTripletLoss",
+    "relation": "selects",
+    "object": "MaximumResponsePerspective"
+  },
+  {
+    "subject": "WeightedTripletLoss",
+    "relation": "suppresses",
+    "object": "Noise"
+  },
+  {
+    "subject": "WeightedTripletLoss",
+    "relation": "enforces",
+    "object": "PreciseSemanticMatching"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "isEvaluatedOn",
+    "object": "RSICD"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "isEvaluatedOn",
+    "object": "RSITMD"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "achieves",
+    "object": "StateOfTheArtPerformance"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "hasMeanRecallOn",
+    "object": "RSICD"
+  },
+  {
+    "subject": "RSICD",
+    "relation": "hasMeanRecallValue",
+    "object": "35.18Percent"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "hasMeanRecallOn",
+    "object": "RSITMD"
+  },
+  {
+    "subject": "RSITMD",
+    "relation": "hasMeanRecallValue",
+    "object": "48.40Percent"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "outperforms",
+    "object": "FullFineTuning"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "outperforms",
+    "object": "RecentCompetitiveMethod"
+  },
+  {
+    "subject": "CodeRepository",
+    "relation": "isAvailableAt",
+    "object": "GithubRepository"
+  },
+  {
+    "subject": "SchoolOfComputerTechnologyAndApplications",
+    "relation": "isPartOf",
+    "object": "QinghaiUniversity"
+  },
+  {
+    "subject": "QinghaiUniversity",
+    "relation": "locatedIn",
+    "object": "Xining"
+  },
+  {
+    "subject": "Xining",
+    "relation": "locatedIn",
+    "object": "China"
+  },
+  {
+    "subject": "QinghaiProvincialLaboratoryForIntelligentComputingAndApplication",
+    "relation": "locatedIn",
+    "object": "Xining"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "consistsOf",
+    "object": "GatedGlobalAttentionAdapter"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "consistsOf",
+    "object": "MultiPerspectiveRepresentationModule"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "consistsOf",
+    "object": "HybridObjective"
+  },
+  {
+    "subject": "Text",
+    "relation": "isEncodedBy",
+    "object": "FineTunedCLIPTextEncoder"
+  },
+  {
+    "subject": "Image",
+    "relation": "isEncodedBy",
+    "object": "FineTunedCLIPVisualEncoder"
+  },
+  {
+    "subject": "FineTunedCLIPTextEncoder",
+    "relation": "uses",
+    "object": "GatedGlobalAttentionAdapter"
+  },
+  {
+    "subject": "FineTunedCLIPVisualEncoder",
+    "relation": "uses",
+    "object": "GatedGlobalAttentionAdapter"
+  },
+  {
+    "subject": "FineTunedCLIPTextEncoder",
+    "relation": "extracts",
+    "object": "GlobalTextFeature"
+  },
+  {
+    "subject": "FineTunedCLIPVisualEncoder",
+    "relation": "extracts",
+    "object": "GlobalVisualFeature"
+  },
+  {
+    "subject": "ImageFeatureExtraction",
+    "relation": "hasBranch",
+    "object": "GlobalBranch"
+  },
+  {
+    "subject": "ImageFeatureExtraction",
+    "relation": "hasBranch",
+    "object": "LocalBranch"
+  },
+  {
+    "subject": "GlobalBranch",
+    "relation": "produces",
+    "object": "GlobalVisualFeature"
+  },
+  {
+    "subject": "LocalBranch",
+    "relation": "uses",
+    "object": "DeepseekV3_2"
+  },
+  {
+    "subject": "DeepseekV3_2",
+    "relation": "isA",
+    "object": "LargeLanguageModel"
+  },
+  {
+    "subject": "DeepseekV3_2",
+    "relation": "extracts",
+    "object": "Keyword"
+  },
+  {
+    "subject": "Keyword",
+    "relation": "isExtractedFrom",
+    "object": "Text"
+  },
+  {
+    "subject": "Keyword",
+    "relation": "guides",
+    "object": "SamGeo"
+  },
+  {
+    "subject": "SamGeo",
+    "relation": "generates",
+    "object": "ImageSubPerspective"
+  },
+  {
+    "subject": "ImageSubPerspective",
+    "relation": "isProcessedBy",
+    "object": "FineTunedCLIPVisualEncoder"
+  },
+  {
+    "subject": "FineTunedCLIPVisualEncoder",
+    "relation": "yields",
+    "object": "LocalVisualFeature"
+  },
+  {
+    "subject": "LocalVisualFeature",
+    "relation": "isInputTo",
+    "object": "MultiPerspectiveRepresentationModule"
+  },
+  {
+    "subject": "MultiPerspectiveRepresentationModule",
+    "relation": "generates",
+    "object": "MultiPerspectiveVisualFeature"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "outputs",
+    "object": "GlobalVisualFeature"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "outputs",
+    "object": "GlobalTextFeature"
+  },
+  {
+    "subject": "MPSCLIP",
+    "relation": "outputs",
+    "object": "MultiPerspectiveVisualFeature"
+  },
+  {
+    "subject": "GlobalVisualFeature",
+    "relation": "isUsedFor",
+    "object": "CrossModalMatching"
+  },
+  {
+    "subject": "GlobalTextFeature",
+    "relation": "isUsedFor",
+    "object": "CrossModalMatching"
+  },
+  {
+    "subject": "MultiPerspectiveVisualFeature",
+    "relation": "isUsedFor",
+    "object": "CrossModalMatching"
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "isInsertedInto",
+    "object": "TransformerLayer"
+  },
+  {
+    "subject": "CLIPBackbone",
+    "relation": "isFrozenIn",
+    "object": "MPSCLIP"
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "isUpdatedIn",
+    "object": "MPSCLIP"
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "mitigates",
+    "object": "CatastrophicForgetting"
+  },
+  {
+    "subject": "VisionBranch",
+    "relation": "contains",
+    "object": "SpatialPatchToken"
+  },
+  {
+    "subject": "VisionBranch",
+    "relation": "mayContain",
+    "object": "CLSToken"
+  },
+  {
+    "subject": "TextBranch",
+    "relation": "correspondsTo",
+    "object": "SequenceLength"
+  },
+  {
+    "subject": "SkyCLIP",
+    "relation": "explores",
+    "object": "ContinualPreTraining"
+  },
+  {
+    "subject": "SingleLanguage",
+    "relation": "explores",
+    "object": "MultilingualAdaptation"
+  },
+  {
+    "subject": "ParameterEfficientFineTuning",
+    "relation": "isMainstreamSolutionFor",
+    "object": "CLIPAdaptation"
+  },
+  {
+    "subject": "CLIPAdapter",
+    "relation": "inserts",
+    "object": "LightweightBottleneckLayer"
+  },
+  {
+    "subject": "CrossModalAdapter",
+    "relation": "inserts",
+    "object": "LightweightBottleneckLayer"
+  },
+  {
+    "subject": "UniAdapter",
+    "relation": "optimizes",
+    "object": "Efficiency"
+  },
+  {
+    "subject": "PERSITR",
+    "relation": "optimizes",
+    "object": "Efficiency"
+  },
+  {
+    "subject": "HarMA",
+    "relation": "optimizes",
+    "object": "Efficiency"
+  },
+  {
+    "subject": "UniAdapter",
+    "relation": "uses",
+    "object": "WeightSharing"
+  },
+  {
+    "subject": "HarMA",
+    "relation": "uses",
+    "object": "HierarchicalDesign"
+  },
+  {
+    "subject": "AdapterBasedMethod",
+    "relation": "reduces",
+    "object": "ComputationalOverhead"
+  },
+  {
+    "subject": "AdapterBasedMethod",
+    "relation": "inherits",
+    "object": "GlobalAlignmentParadigm"
+  },
+  {
+    "subject": "AdapterBasedMethod",
+    "relation": "overlooks",
+    "object": "ComplexSpatialStructure"
+  },
+  {
+    "subject": "AdapterBasedMethod",
+    "relation": "overlooks",
+    "object": "LocalSemantic"
+  },
+  {
+    "subject": "ComplexSpatialStructure",
+    "relation": "isInherentIn",
+    "object": "RemoteSensingImagery"
+  },
+  {
+    "subject": "LocalSemantic",
+    "relation": "isInherentIn",
+    "object": "RemoteSensingImagery"
+  }
+]

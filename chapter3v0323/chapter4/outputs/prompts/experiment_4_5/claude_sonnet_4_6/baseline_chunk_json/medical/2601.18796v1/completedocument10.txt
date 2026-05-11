@@ -1,0 +1,175 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument10
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+InProceedings of the
+10
+
+2020 conference on empirical methods in natural
+language processing: system demonstrations, pages
+38–45.
+Shitao Xiao, Zheng Liu, Peitian Zhang, Niklas Muen-
+nighoff, Defu Lian, and Jian-Yun Nie. 2024. C-pack:
+Packed resources for general chinese embeddings.
+InProceedings of the 47th International ACM SI-
+GIR Conference on Research and Development in
+Information Retrieval, page 641–649, New York, NY ,
+USA. Association for Computing Machinery.
+Wenda Xu, Guanglei Zhu, Xuandong Zhao, Liangming
+Pan, Lei Li, and William Wang. 2024. Pride and
+prejudice: Llm amplifies self-bias in self-refinement.
+InProceedings of the 62nd Annual Meeting of the
+Association for Computational Linguistics (Volume
+1: Long Papers), pages 15474–15492.
+Catherine Yeh, Donghao Ren, Yannick Assogba, Do-
+minik Moritz, and Fred Hohman. 2025. Exploring
+empty spaces: Human-in-the-loop data augmenta-
+tion. InProceedings of the 2025 CHI Conference on
+Human Factors in Computing Systems, pages 1–19.
+Jingyi Zhang, Jiaxing Huang, Sheng Jin, and Shijian Lu.
+2024a. Vision-language models for vision tasks: A
+survey.IEEE Transactions on Pattern Analysis and
+Machine Intelligence.
+Xin Zhang, Yanzhao Zhang, Dingkun Long, Wen
+Xie, Ziqi Dai, Jialong Tang, Huan Lin, Baosong
+Yang, Pengjun Xie, Fei Huang, and 1 others. 2024b.
+mgte: Generalized long-context text representation
+and reranking models for multilingual text retrieval.
+arXiv preprint arXiv:2407.19669.
+Xingjian Zhang, Ziyang Xiong, Shixuan Liu, Yutong
+Xie, Tolga Ergen, Dongsub Shim, Hua Xu, Honglak
+Lee, and Qiaozhu Mei. 2025. Mapexplorer: New
+content generation from low-dimensional visualiza-
+tions. InProceedings of the 31st ACM SIGKDD Con-
+ference on Knowledge Discovery and Data Mining V .
+2, pages 3843–3854.
+Shengyao Zhuang, Bevan Koopman, Xiaoran Chu, and
+Guido Zuccon. 2024. Understanding and mitigating
+the threat of vec2text to dense retrieval systems. In
+Proceedings of the 2024 Annual International ACM
+SIGIR Conference on Research and Development
+in Information Retrieval in the Asia Pacific Region,
+pages 259–268.
+A Data Preparation foremb2pls
+We generate the plain language summary for
+each abstract using gpt-4o-mini with the prompt
+shown in Fig. 4. To measure the quality of the
+generated summaries, we had two physicians (both
+women) review 20 sampled summaries generated
+from gpt-4o-mini . The physicians had a stand-
+ing contract with our organization to annotate data
+and had expectations to do similar work and werecompensated according to skill level. We discussed
+with the physicians the goals of the project and
+role of their evaluations, and defined annotation
+guidelines (see the attached supplementary file)
+measuring four aspects: simplicity, accuracy, com-
+pleteness, and relevance. Each metric is measured
+using a 5-point Likert scale (1=Poor, and 5=Excel-
+lent). To further contextualize these scores, we
+also have the physicians rate 20 expert-written
+summaries (which we expect to be of high qual-
+ity) and 20 summaries of poor quality. Expert
+and poor-quality summaries were derived from the
+TREC Plain Language Adaptation of Biomedical
+Abstracts (PLABA) task (data obtained upon re-
+quest to organizers). Poor summaries were those
+with the lowest scores from PLABA’s human eval-
+uators. All 60 summaries were shuffled, and their
+sources were blind to the two physicians. Fig. 5
+presents the scatter plot for scores between two
+physicians, where the score of each summary is
+the sum of four metrics. The Pearson correla-
+tion coefficient ( r= 0.52 ) suggests a moderate
+correlations in two physicians’ annotated scores.
+We conduct the Wilcoxon rank-sum test (Mann
+and Whitney, 1947) to test whether the median is
+different between groups ( gpt-4o-mini summary
+versus human-written summary and gpt-4o-mini
+versus poor summary). Fig. 6 shows that there
+is no significant difference between median score
+ofgpt-4o-mini summaries and that of human-
+written summaries. At the same time, there is a
+significant difference between gpt-4o-mini and
+the poor summaries, validating the evaluation pro-
+cess. These results suggest the plain language sum-
+maries generated by gpt-4o-mini are of sufficient
+quality for trainingctELM.
+B Data Preparation foremb2comand
+emb2dif
+We use gpt-4o-mini to generate commonality and
+difference analyses for each abstract pair, using
+prompts shown in Fig. 7 and Fig. 8. To construct
+diverse and meaningful abstract pairs, we apply
+BERTopic (Grootendorst, 2022), a Python-based
+topic modeling framework, to cluster abstracts in
+the embedding space. The procedure involves
+three main steps. First, all abstracts are embed-
+ded using BAAI/bge-large-en-v1.5 model (Xiao
+et al., 2024). Second, we reduce the high-
+dimensional embeddings into a five-dimensional
+space using UMAP (McInnes et al., 2018) with
+11
+
+You are a medical writing assistant
+with expertise in creating plain
+language summaries of scientific
+research .

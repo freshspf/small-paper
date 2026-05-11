@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ProximalPolicyOptimization",
+  "providedBy",
+  "RLlib",
+  "advantageousFor",
+  "ContinuousControl",
+  "PolicyUpdate",
+  "SingleAgentSetting",
+  "uses",
+  "LocalObservationFunction",
+  "considersTrafficStateAt",
+  "Intersection",
+  "MultiAgentSetting",
+  "GlobalObservationFunction",
+  "integratesObservationFrom",
+  "produces",
+  "TrafficState",
+  "supports",
+  "CoordinatedDecisionMaking",
+  "RewardFunction",
+  "basedOn",
+  "DefaultRewardFunction",
+  "hasDesign",
+  "MultiObjectiveWeightedDesign",
+  "balances",
+  "TrafficPerformanceIndicator",
+  "InternalWaitingTime",
+  "penalizes",
+  "CongestionPenalty",
+  "BoundaryWaitingTime",
+  "measuresCongestionsAt",
+  "Throughput",
+  "encourages",
+  "VehicleVolume",
+  "SpeedIndicator",
+  "promotes",
+  "TrafficSmoothness",
+  "balancesObjective",
+  "DelayReduction",
+  "EfficiencyImprovement",
+  "Wrapper",
+  "improves",
+  "DevelopmentEfficiency",
+  "IterationSpeed",
+  "W1Workload",
+  "hasAPICallCount",
+  "41760",
+  "hasWrapperAPICallCount",
+  "37442",
+  "W2Workload",
+  "51132",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch"
+]
+
+Triples:
+[
+  {
+    "subject": "ProximalPolicyOptimization",
+    "relation": "providedBy",
+    "object": "RLlib",
+    "chunk": "experiments3",
+    "context": "The RL algorithm is implemented using Proximal Policy Optimization (PPO) provided by RLlib, chosen for its advantages in continuous control and stable policy updates."
+  },
+  {
+    "subject": "ProximalPolicyOptimization",
+    "relation": "advantageousFor",
+    "object": "ContinuousControl",
+    "chunk": "experiments3",
+    "context": "chosen for its advantages in continuous control and stable policy updates."
+  },
+  {
+    "subject": "ProximalPolicyOptimization",
+    "relation": "advantageousFor",
+    "object": "PolicyUpdate",
+    "chunk": "experiments3",
+    "context": "chosen for its advantages in continuous control and stable policy updates."
+  },
+  {
+    "subject": "SingleAgentSetting",
+    "relation": "uses",
+    "object": "LocalObservationFunction",
+    "chunk": "experiments3",
+    "context": "the single-agent setting utilizes the LocalObservationFunction, which considers localized traffic states at the target intersection"
+  },
+  {
+    "subject": "LocalObservationFunction",
+    "relation": "considersTrafficStateAt",
+    "object": "Intersection",
+    "chunk": "experiments3",
+    "context": "the single-agent setting utilizes the LocalObservationFunction, which considers localized traffic states at the target intersection"
+  },
+  {
+    "subject": "MultiAgentSetting",
+    "relation": "uses",
+    "object": "GlobalObservationFunction",
+    "chunk": "experiments3",
+    "context": "the multi-agent setting employs the GlobalObservationFunction, which integrates local observation vectors from multiple intersections into a global traffic state to support coordinated decision-making."
+  },
+  {
+    "subject": "GlobalObservationFunction",
+    "relation": "integratesObservationFrom",
+    "object": "Intersection",
+    "chunk": "experiments3",
+    "context": "the multi-agent setting employs the GlobalObservationFunction, which integrates local observation vectors from multiple intersections into a global traffic state to support coordinated decision-making."
+  },
+  {
+    "subject": "GlobalObservationFunction",
+    "relation": "produces",
+    "object": "TrafficState",
+    "chunk": "experiments3",
+    "context": "which integrates local observation vectors from multiple intersections into a global traffic state to support coordinated decision-making."
+  },
+  {
+    "subject": "GlobalObservationFunction",
+    "relation": "supports",
+    "object": "CoordinatedDecisionMaking",
+    "chunk": "experiments3",
+    "context": "which integrates local observation vectors from multiple intersections into a global traffic state to support coordinated decision-making."
+  },
+  {
+    "subject": "RewardFunction",
+    "relation": "basedOn",
+    "object": "DefaultRewardFunction",
+    "chunk": "experiments3",
+    "context": "The reward function is based on the DefaultRewardFunction (see Table IX) with a multi-objective weighted design to balance different traffic performance indicators."
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "hasDesign",
+    "object": "MultiObjectiveWeightedDesign",
+    "chunk": "experiments3",
+    "context": "The reward function is based on the DefaultRewardFunction (see Table IX) with a multi-objective weighted design to balance different traffic performance indicators."
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "balances",
+    "object": "TrafficPerformanceIndicator",
+    "chunk": "experiments3",
+    "context": "with a multi-objective weighted design to balance different traffic performance indicators."
+  },
+  {
+    "subject": "InternalWaitingTime",
+    "relation": "penalizes",
+    "object": "CongestionPenalty",
+    "chunk": "experiments3",
+    "context": "Internal waiting time and boundary waiting time penalize congestion inside intersections and at network boundaries, respectively."
+  },
+  {
+    "subject": "BoundaryWaitingTime",
+    "relation": "penalizes",
+    "object": "CongestionPenalty",
+    "chunk": "experiments3",
+    "context": "Internal waiting time and boundary waiting time penalize congestion inside intersections and at network boundaries, respectively."
+  },
+  {
+    "subject": "InternalWaitingTime",
+    "relation": "measuresCongestionsAt",
+    "object": "Intersection",
+    "chunk": "experiments3",
+    "context": "Internal waiting time and boundary waiting time penalize congestion inside intersections and at network boundaries, respectively."
+  },
+  {
+    "subject": "Throughput",
+    "relation": "encourages",
+    "object": "VehicleVolume",
+    "chunk": "experiments3",
+    "context": "Throughput encourages higher vehicle volumes within a unit of time, while speed promotes smooth traffic flow by discouraging low-speed conditions."
+  },
+  {
+    "subject": "SpeedIndicator",
+    "relation": "promotes",
+    "object": "TrafficSmoothness",
+    "chunk": "experiments3",
+    "context": "while speed promotes smooth traffic flow by discouraging low-speed conditions."
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "balancesObjective",
+    "object": "DelayReduction",
+    "chunk": "experiments3",
+    "context": "This weighting scheme provides an example of balancing delay reduction, efficiency improvement, and traffic smoothness."
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "balancesObjective",
+    "object": "EfficiencyImprovement",
+    "chunk": "experiments3",
+    "context": "This weighting scheme provides an example of balancing delay reduction, efficiency improvement, and traffic smoothness."
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "balancesObjective",
+    "object": "TrafficSmoothness",
+    "chunk": "experiments3",
+    "context": "This weighting scheme provides an example of balancing delay reduction, efficiency improvement, and traffic smoothness."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "improves",
+    "object": "DevelopmentEfficiency",
+    "chunk": "experiments3",
+    "context": "This substantially improves development efficiency and iteration speed."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "improves",
+    "object": "IterationSpeed",
+    "chunk": "experiments3",
+    "context": "This substantially improves development efficiency and iteration speed."
+  },
+  {
+    "subject": "W1Workload",
+    "relation": "hasAPICallCount",
+    "object": "41760",
+    "chunk": "experiments3",
+    "context": "W1 Step+TS 417603744210.340 %"
+  },
+  {
+    "subject": "W1Workload",
+    "relation": "hasWrapperAPICallCount",
+    "object": "37442",
+    "chunk": "experiments3",
+    "context": "W1 Step+TS 417603744210.340 %"
+  },
+  {
+    "subject": "W2Workload",
+    "relation": "hasAPICallCount",
+    "object": "51132",
+    "chunk": "experiments3",
+    "context": "W2 Step+TS+Eval 511324032221.141 %"
+  }
+]

@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  background:
+    radial-gradient(circle at top left, rgba(143, 168, 161, 0.16), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(216, 195, 165, 0.16), transparent 28%),
+    linear-gradient(180deg, #f8f6f2 0%, #f4f6f7 100%);
+}
+
+body {
+  color: #1f2933;
+  min-height: 100vh;
+  background:
+    linear-gradient(to right, rgba(226, 232, 240, 0.45) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(226, 232, 240, 0.42) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+* {
+  border-color: #d8dee4;
+}
+
+::selection {
+  background: rgba(143, 168, 161, 0.3);
+}
+
+@layer components {
+  .paper-table {
+    @apply min-w-full text-sm;
+  }
+
+  .paper-table thead {
+    @apply bg-[#f5f7f7] text-left text-slate-500;
+  }
+
+  .paper-table thead th {
+    @apply px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em];
+  }
+
+  .paper-table tbody {
+    @apply divide-y divide-line bg-white/90;
+  }
+
+  .paper-table tbody tr {
+    @apply transition-colors hover:bg-[#f7faf9];
+  }
+
+  .paper-table tbody td {
+    @apply px-6 py-4 align-top text-slate-600;
+  }
+
+  .paper-table tbody td:first-child {
+    @apply font-medium text-ink;
+  }
+
+  .paper-input {
+    @apply w-full rounded-xl border border-line bg-white/90 px-4 py-3 text-sm text-ink shadow-sm outline-none transition;
+    @apply focus:border-sage focus:ring-4 focus:ring-sage/10;
+  }
+
+  .paper-textarea {
+    @apply min-h-28 w-full rounded-xl border border-line bg-white/90 px-4 py-3 text-sm text-ink shadow-sm outline-none transition;
+    @apply focus:border-sage focus:ring-4 focus:ring-sage/10;
+  }
+
+  .paper-dialog {
+    @apply w-full rounded-[28px] border border-white/70 bg-[#fbfcfb]/95 p-6 shadow-soft backdrop-blur;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    padding: 20px;
+  }
+
+  .print-area > * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .paper-table tbody,
+  .paper-table thead {
+    background: #ffffff !important;
+  }
+}

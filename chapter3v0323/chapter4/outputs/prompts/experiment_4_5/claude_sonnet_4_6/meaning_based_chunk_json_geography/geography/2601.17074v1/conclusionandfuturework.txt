@@ -1,0 +1,116 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "conclusionandfuturework",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: conclusionandfuturework
+- section_title: Conclusion and Future Work
+- page_start: 10
+- page_end: 11
+
+**INPUT TEXT CHUNK:**
+Published as a conference paper at ICLR 2026
+6 CONCLUSION ANDFUTUREWORK
+We presented PhysE-Inv, a physics-encoded inverse modeling framework designed to estimate time-
+varying hidden geophysical parameters from sparse observations to predict real-world Arctic snow
+depth. The core novelty lies in combining a lightweight inverse head with physics-guided contrastive
+learning to achieve a surjective inversion strategy . PhysE-Inv accurately reconstructed the seasonal
+evolution of snow depth and consistently outperformed both physics-regularized and data-driven
+baselines, demonstrating that simple, interpretable physics encoding yields substantial gains over
+generic PIML methods when data are limited. This approach establishes a robust methodology
+for handling ill-posed inverse problems in environmental science, paving the way for more reliable
+estimation of unobserved variables globally. Future work will incorporate Bayesian uncertainty
+quantification to validate learned parameters against independent remote-sensing and in-situ sources.
+ACKNOWLEDGMENTS
+This research is funded by the NSF grant from the HDR Institute: HARP - Harnessing Data and
+Model Revolution in the Polar Regions (2118285).
+
+Published as a conference paper at ICLR 2026
+https://doi.org/10.1002/qj.3803. URLhttps://rmets.onlinelibrary.wiley.com/
+doi/abs/10.1002/qj.3803.
+M. Innes, A. Edelman, K. Fischer, C. Rackauckas, E. Saba, V . Shah, and W. Tebbutt. A differen-
+tiable programming system to bridge machine learning and scientific computing.ArXiv Preprint
+ArXiv:1907.07587, 2019.
+L. Jing and Y . Tian. Self-supervised visual feature learning with deep neural networks: A survey.
+IEEE Transactions On Pattern Analysis And Machine Intelligence, 43:4037–4058, 2020.
+A. Karpatne, X. Jia, and V . Kumar. Knowledge-guided machine learning: Current trends and future
+prospects.ArXiv Preprint ArXiv:2403.15989, 2024.
+S. Karumuri and I. Bilionis. Learning to solve bayesian inverse problems: An amortized variational
+inference approach using gaussian and flow guides.Journal Of Computational Physics, 511:
+111903, 2024.
+Y . Khoo and L. Ying. Switchnet: a neural network model for forward and inverse scattering prob-
+lems.SIAM Journal On Scientific Computing, 43:A1105–A1132, 2021.
+N. Kovachki, Z. Li, B. Liu, K. Azizzadenesheli, K. Bhattacharya, A. Stuart, and A. Anandkumar.
+Neural operator: Learning maps between function spaces.ArXiv Preprint ArXiv:2108.08481,
+2021.
+K. Kuang, F. Dean, J. B Jedlicki, D. Ouyang, A. Philippakis, D. Sontag, and A. Alaa. Med-real2sim:
+Non-invasive medical digital twins using physics-informed self-supervised learning.Advances In
+Neural Information Processing Systems, 37:5757–5788, 2025.
+F. Kwasniok. Linear inverse modeling of large-scale atmospheric flow using optimal mode decom-
+position.Journal Of The Atmospheric Sciences, 79:2181–2204, 2022.
+R. Kwok and G. Cunningham. Icesat over arctic sea ice: Estimation of snow depth and ice thickness.
+Journal Of Geophysical Research: Oceans, 113, 2008.
+Haili Li, Chang-Qing Ke, Xiaoyi Shen, Qinghui Zhu, Yu Cai, and Lanhua Luo.
+The varied role of atmospheric rivers in arctic snow depth variations.Geophys-
+ical Research Letters, 51(14):e2024GL110163, 2024. doi: https://doi.org/10.1029/
+2024GL110163. URLhttps://agupubs.onlinelibrary.wiley.com/doi/abs/
+10.1029/2024GL110163. e2024GL110163 2024GL110163.
+T. Liao and G. Li. Metaheuristic-based inverse design of materials–a survey.Journal Of Materi-
+omics, 6:414–430, 2020.
+X. Liu, F. Zhang, Z. Hou, L. Mian, Z. Wang, J. Zhang, and J. Tang. Self-supervised learning:
+Generative or contrastive.IEEE Transactions On Knowledge And Data Engineering, 35:857–
+876, 2021.
+Lu Lu, Pengzhan Jin, Guofei Pang, Zhongqiang Zhang, and George Em Karniadakis. Learning
+nonlinear operators via deeponet based on the universal approximation theorem of operators.
+Nature Machine Intelligence, 3(3):218–229, March 2021. ISSN 2522-5839. doi: 10.1038/
+s42256-021-00302-5. URLhttp://dx.doi.org/10.1038/s42256-021-00302-5.
+S. Mo, N. Zabaras, X. Shi, and J. Wu. Deep-learning-based inverse modeling approaches: A sub-
+surface flow example.Water Resources Research, 56:e2019WR026731, 2020.
+Tung Nguyen, Johannes Brandstetter, Ashish Kapoor, Jayesh K. Gupta, and Aditya Grover. Cli-
+max: A foundation model for weather and climate. 2023. URLhttps://arxiv.org/abs/
+2301.10343.
+Tung Nguyen, Arsh Koneru, Shufan Li, and Aditya Grover. Physix: A foundation model for physics
+simulations. 2025. URLhttps://arxiv.org/abs/2506.17774.
+Maziar Raissi, Paris Perdikaris, and George E Karniadakis. Physics-informed neural networks: A
+deep learning framework for solving forward and inverse problems involving nonlinear partial
+differential equations.Journal of Computational physics, 378:686–707, 2019.
+11

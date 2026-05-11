@@ -1,0 +1,167 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument12",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument12
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Each dataset contains a
+balanced number of same-topic and different-topic pairs
+to ensure diversity and control for topic-based variation.
+Training Dataset
+emb2com emb2dif
+Pairs from the Same Topic 120,897 120,897
+Pairs from Different Topics 120,897 120,897
+Validation Dataset
+emb2com emb2dif
+Pairs from the Same Topic 1,562 1,562
+Pairs from Different Topics 1,564 1,564
+Testing Dataset
+emb2com emb2dif
+Pairs from the Same Topic 1,589 1,589
+Pairs from Different Topics 1,591 1,591
+ctELM ’s robustness in handling unseen, interpo-
+lated representations.
+E Consistency and Fluency
+We measureconsistencyandfluencyquantitatively
+with G-Eval (Liu et al., 2023), using the open-
+source DeepEval framework.2To define metrics,
+the framework requires ‘criteria’ and ‘evaluation
+steps,’ which we provide for consistency and flu-
+ency in Figures 10 and 11, respectively.
+Table 7 shows G-Eval scores for the best-
+performing baseline and the ctELM 5-task 1P-1E
+model. Though consistency of both models can
+be improved, we find that ctELM has 31% higher
+consistency and 317% higher fluency.
+To further investigate these scores, we manually
+review 25 outputs from Vec2Text-sect-ft and ctELM
+for errors in consistency and fluency. We analyze
+these qualitatively by extracting common themes
+and finding representative examples, as shown in
+Table 6.
+F Effect of Base Chat Model
+In addition to Llama-3.1-8B-Instruct , we also
+explore 3 variants of Gemma 3 (Team et al., 2025),
+spanning different model sizes and domain-specific
+training:
+•gemma-3-1b-it : 1B parameters, instruction-
+tuned, text-only, open-domain training.
+2https://github.com/confident-ai/deepeval
+13
+
+Consistency
+Criteria:“Determine whether the actual output describes the same clinical trial as the input.”
+Evaluation steps:
+• “Check whether the medical condition in ‘actual output’ reflects that of ‘input’.”
+•“Check whether the study design (e.g., randomized controlled trial, observational study) in ‘actual output’ reflects
+that of ‘input’.”
+• “Check whether the intervention (e.g., drug, therapy) in ‘actual output’ reflects that of ‘input’.”
+• “Check whether the population (e.g., age group, sex, health status) in ‘actual output’ reflects that of ‘input’.”
+Figure 10: Prompts to evaluateconsistencyusing G-Eval via the DeepEval framework.
+Fluency
+Criteria: “Determine the quality of the ’actual output’ in terms of grammar, spelling, punctuation, word choice, and
+sentence structure.”
+Evaluation steps:
+• “Check whether ‘actual output’ follows standard grammar rules”
+• “Check whether ‘actual output’ is free of spelling and punctuation errors”
+• “Check whether ‘actual output’ uses appropriate word choice”
+• “Check whether ‘actual output’ has a coherent sentence structure”
+Figure 11: Prompts to evaluatefluencyusing G-Eval via the DeepEval framework.
+14
+
+Table 5: Performance of semantic consistency on inter-
+polated testing set. ctELM is trained on either 190K or
+1.2M data. ( xP-yE) represents x-phase training proce-
+dure is adopted for yepochs. Best performance for each
+task is marked in bold.
+Modelemb2abs
+(pen.=1.2)emb2abs
+(pen.=1.0)emb2pls
+Llama-3.1-8B-Instruct(190K training pairs)
+1-task (1P-1E) 0.80±0.03 0.79±0.04 -
+3-task (1P-1E) 0.80±0.04 0.79±0.04 0.74±0.04
+3-task (1P-2E) 0.81±0.03 0.80±0.04 0.75±0.04
+3-task (2P-1E) 0.82±0.03 0.81±0.03 0.76±0.03
+5-task (1P-1E) 0.80±0.03 0.79±0.04 0.74±0.04
+Llama-3.1-8B-Instruct(1.2M training pairs)
+5-task (1P-1E) 0.82±0.03 0.81±0.03 0.76±0.04
+5-task (1P-2E)0.83±0.030.81±0.040.77±0.04
+5-task (2P-1E)0.83±0.03 0.82±0.03 0.77±0.04
+Gemma 3 (1.2M training pairs, 5-task 1P-1E)
+gemma-3-1b-it0.77±0.04 - 0.72±0.04
+gemma-3-1b-it0.78±0.04 - 0.73±0.04
+medgemma-4b-it0.80±0.03 - 0.74±0.04
+•gemma-3-4b-it : 4B parameters, instruction-
+tuned, multi-modal, open-domain training.
+•medgemma-4b-it : 4B parameters, multi-
+modal, instruction-tuned, further pretraining
+and finetuning on biomedical data starting
+fromgemma-3-4b-itcheckpoint.
+For multimodal models ( gemma-3-4b-it and
+medgemma-4b-it ), we load only the text module
+without the vision module. Results are shown in Ta-
+ble 8. Performance generally increases with either
+model size (in parameters) or domain-specific train-
+ing. Though Llama 3.1 8B performs better than
+Gemma 3 models, it is not clear if this is due only
+to number of parameters, as models of equivalent
+sizes are not available for these two architectures.
+We also include Gemma 3 models in our analyses
+in Appendices D and H.
+G Effect of Embedding Model
+To explore how well ctELM generalizes over
+embedding models, we compare our original
+BAAI/bge-large-en-v1.5 model to two addi-
+tional options forE emb:
+•BAAI/bge-large-en-v1.5 (original): open-
+domain, 1,024 dimensions, 335M parame-
+ters (Xiao et al., 2024).
+•Alibaba-NLP/gte-large-en-v1.5 : open-
+domain, 1,024 dimensions, 434M parame-
+ters (Zhang et al., 2024b; Li et al., 2023b).•NeuML/pubmedbert-base-embeddings :
+biomedical, 768 dimensions, 109M pa-
+rameters; model of Gu et al.

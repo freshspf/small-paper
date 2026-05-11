@@ -1,0 +1,161 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+INPUT TEXT CHUNK:
+To
+maximize the received SNR and minimize the transmit
+power, we show that the maximum-ratio transmission
+(MRT) strategy achieves the purpose.
+2) We verify that equal amplification gain across active-RIS
+elements is a feasible approach for optimizing the energy-
+efficiency by minimizing the total consumed power of the
+system. Under this assumption, an optimization frame-
+work is developed to determine the placement, array-
+partitioning strategy, phase control and optimal ampli-
+fication gain of the aerial-active-RIS with the objective
+of maximizing energy-efficiency. Specifically, a nonzero
+closed-form value of the source transmit power for each
+UA V-BS is derived, and a minimization problem is for-
+mulated by adjusting the numerator and denominator
+of the value. The problem is efficiently solved using
+the global criterion method, which selects a minimal-
+total-distance operating point corresponding to a Pareto-
+efficient solution, and considering the partition of full RIS
+array, respectively.
+3) The proposed approach is evaluated numerically in a
+realistic urban outdoor environment with103randomly
+distributed ground users and corresponding UA V-BSs.
+Extensive numerical results demonstrate that the pro-
+posed aerial-active-RIS scheme significantly outperforms
+conventional benchmarks including the aerial-AF-relay
+and the aerial-passive-RIS schemes and aerial-active-RIS
+with randomly determined amplification gain in terms of
+energy-efficiency.
+II. SYSTEMMODEL
+A. Aerial Backhaul with Conventional Passive-RIS
+We consider an urban areaGwith originρ ρρGon xy-plane, as
+depicted in Fig. 1(a). We assume thatGcontainsN 0ground
+users equipped with omnidirectional antenna, and served by
+multiple stationary UA V-BSs with a directional antenna, rep-
+resented asM={1,···, M 0}. The directional antenna of
+each UA V-BS has different azimuth and elevation half-power
+beamwidths (HPBW) [42]. The 3D coordinates of a UA V-BS
+mare expressed asρ ρρm≜
+wT
+mhmT, with its 2D coordinate
+wmand altitudeh m.
+To alleviate interference among adjacent cells, we assume
+that each UA V-BS serves a distinct, non-overlapping subset of
+users. In this context, the Ellipse Clustering algorithm [8] is
+employed to allocate ground users and determineM 0, while
+significantly reducing the transmit power through optimized
+3D deployment. Under this setup, the throughputC mof UA V-
+BSmis expressed as
+Cm=X
+n∈UmBf
+|Um|log2
+1 +Pf,n
+σ2
+f
+,(1)
+whereU mrepresents the user set served by UA V-BSm,
+Bfdenotes the fronthaul bandwidth, which is evenly divided
+among the|U m|users inU m,Pf,nis the received power at
+
+3
+Fig. 1. (a) UA V-BS access network supported by an aerial-active-RIS backhaul and (b) signal model illustration of the aerial-active-RIS.
+usern∈U m, andσ2
+f,mrepresents the noise power of the
+fronthaul link for UA V-BSm. By adopting the frequency-
+division-multiple-access (FDMA) within each cell and non-
+overlapping UA V-BS coverage regions, both intra- and inter-
+cell interference are eliminated, and the achievable rate in (1)
+directly follows.
+For an aerial-active-RIS which maintains an altitudeH, and
+designating the first element as the reference, the 3D coordi-
+nates of the aerial-RIS are expressed asρ ρρRIS≜
+qTHT. We
+consider a source at origin, which is equipped with a uniform
+linear array (ULA) comprisingMantennas with inter-element
+spacingd sand an antenna gain ofG s. Note that although the
+source and the aerial-active-RIS employ ULAs, the considered
+coverage is inherently “three-dimensional”, as the RIS and
+UA V-BS location, propagation distance, and elevation angle
+are explicitly characterized in a 3D coordinate system [43]–
+[45]. In particular,Hand{h m}induce elevation-dependent
+path loss and phase variations, which are fully captured in the
+channel model.
+The distance between the source and the center of the
+coverage area is denoted byd G≜||ρρρG||2, and is assumed to
+be sufficiently large and the direct transmission path from the
+source to the UA V-BS is blocked. The aerial-RIS is modeled
+as a ULA comprisingNreflecting elements with inter-element
+spacingd RIS, and carrier wavelengthλ. We assumed an
+uncoupled model for the RIS elements under this ULA-spacing
+configuration [46]–[48]. Without loss of generality, the RIS is
+assumed to be aligned parallel to the x-axis.
+Due to the elevated altitude of the aerial-RIS, the backhaul
+link is assumed to be dominated by an LoS component.
+Considering thatd RISis significantly smaller than bothHand
+dG, the backhaul link is approximated using a uniform plane-
+wave model, implying that the path loss is assumed to be
+identical across all RIS-element pairs.

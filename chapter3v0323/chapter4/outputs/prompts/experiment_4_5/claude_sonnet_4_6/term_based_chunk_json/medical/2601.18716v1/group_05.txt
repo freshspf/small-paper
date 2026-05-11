@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MachineLearningModel",
+  "computes",
+  "KlDivergence",
+  "TrainingProcedure",
+  "implementedIn",
+  "Python",
+  "GoogleColabPro",
+  "utilizes",
+  "gpu_nvidia_l4",
+  "BindingSiteAnalysis",
+  "reveals",
+  "BindingPocket",
+  "locatedIn",
+  "Cleft",
+  "locatedBetween",
+  "Protofilament",
+  "TernaryComplexFormation",
+  "requiredFor",
+  "TargetedProteinDegradation",
+  "InterfacialRegion",
+  "supports",
+  "SmallMolecule",
+  "PhysicochemicalFilter",
+  "appliedTo",
+  "library_vitas",
+  "PharmacokineticFilter",
+  "library_chembl",
+  "AdmetProperty",
+  "includes",
+  "MolecularWeight",
+  "Lipophilicity",
+  "ConditionalGeneration",
+  "uses",
+  "JtnnvaeFramework",
+  "MolecularGlueCompound",
+  "promotes",
+  "MolecularDockingStudy",
+  "involves",
+  "ligase_vhl",
+  "ligase_crbn",
+  "ligase_mdm2",
+  "interactsWith",
+  "AmyloidBeta42",
+  "E3Ligase",
+  "stabilizes",
+  "TernaryComplex",
+  "MolecularGlue",
+  "bridges",
+  "AmyloidBeta42Residue",
+  "forms",
+  "HydrogenBond",
+  "HydrophobicContact",
+  "PiPiStackingInteraction",
+  "AlzheimerDisease",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "UbiquitinProteasomeSystem",
+  "Crbn",
+  "Vhl",
+  "Mdm2",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability"
+]
+
+Triples:
+[
+  {
+    "subject": "MachineLearningModel",
+    "relation": "computes",
+    "object": "KlDivergence",
+    "chunk": "completedocument5",
+    "context": "For each batch, the model computed the total loss, KL divergence, and three reconstruction metrics: word accuracy (wacc), topology accuracy (tacc), and stereochemistry accuracy (sacc), which were monitored across epochs for convergence evaluation."
+  },
+  {
+    "subject": "TrainingProcedure",
+    "relation": "implementedIn",
+    "object": "Python",
+    "chunk": "completedocument5",
+    "context": "All training, validation, and generation procedures were implemented in Python using PyTorch (v1.12) and executed on Google Colab Pro with GPU acceleration [55], utilizing NVIDIA L4 GPUs (22,000+ MiB VRAM), CUDA version 12.4, and driver version 550.54.15."
+  },
+  {
+    "subject": "GoogleColabPro",
+    "relation": "utilizes",
+    "object": "gpu_nvidia_l4",
+    "chunk": "completedocument5",
+    "context": "All training, validation, and generation procedures were implemented in Python using PyTorch (v1.12) and executed on Google Colab Pro with GPU acceleration [55], utilizing NVIDIA L4 GPUs (22,000+ MiB VRAM), CUDA version 12.4, and driver version 550.54.15."
+  },
+  {
+    "subject": "BindingSiteAnalysis",
+    "relation": "reveals",
+    "object": "BindingPocket",
+    "chunk": "completedocument5",
+    "context": "The binding site (BS) analysis revealed three potential binding pockets on the fibrillar assembly as shown in the Figure 3 ."
+  },
+  {
+    "subject": "BindingPocket",
+    "relation": "locatedIn",
+    "object": "Cleft",
+    "chunk": "completedocument5",
+    "context": "Of these, two sites were located in clefts ( Figure 3a -b) between adjacent protofilaments."
+  },
+  {
+    "subject": "Cleft",
+    "relation": "locatedBetween",
+    "object": "Protofilament",
+    "chunk": "completedocument5",
+    "context": "Of these, two sites were located in clefts ( Figure 3a -b) between adjacent protofilaments."
+  },
+  {
+    "subject": "TernaryComplexFormation",
+    "relation": "requiredFor",
+    "object": "TargetedProteinDegradation",
+    "chunk": "completedocument5",
+    "context": "These  buried sites are unlikely to support the geometric and spatial constraints r equired for ternary complex formation necessary for targeted protein degradation."
+  },
+  {
+    "subject": "InterfacialRegion",
+    "relation": "supports",
+    "object": "SmallMolecule",
+    "chunk": "completedocument5",
+    "context": "This site resides at a junction where structural accessibility and spatial exposure are compatible with simultaneous engagement of a small molecule and an E3 ligase recept or."
+  },
+  {
+    "subject": "PhysicochemicalFilter",
+    "relation": "appliedTo",
+    "object": "library_vitas",
+    "chunk": "completedocument5",
+    "context": "To prioritize drug -like compounds suitable for E3 ligase engagement and generative modeling, we applied a series of physicochemical and pharmacokinetic filters to the combined Vitas and ChEMBL compound libraries."
+  },
+  {
+    "subject": "PharmacokineticFilter",
+    "relation": "appliedTo",
+    "object": "library_chembl",
+    "chunk": "completedocument5",
+    "context": "To prioritize drug -like compounds suitable for E3 ligase engagement and generative modeling, we applied a series of physicochemical and pharmacokinetic filters to the combined Vitas and ChEMBL compound libraries."
+  },
+  {
+    "subject": "AdmetProperty",
+    "relation": "includes",
+    "object": "MolecularWeight",
+    "chunk": "completedocument5",
+    "context": "The filtering criteria were based on predic ted ADMET properties and included: molecular weight (MW) between 130 and 725 Da, lipophilicity (logPo/w) between -2 and 6.5, aqueous solubility (logS) between -6.5 and 0.5, predicted hERG liability (logHERG) < -5, number of predicted metabolic reactions (# metab) between 1 and 8, and no more than one violation of Lipinski’s Rule of Five."
+  },
+  {
+    "subject": "AdmetProperty",
+    "relation": "includes",
+    "object": "Lipophilicity",
+    "chunk": "completedocument5",
+    "context": "The filtering criteria were based on predic ted ADMET properties and included: molecular weight (MW) between 130 and 725 Da, lipophilicity (logPo/w) between -2 and 6.5, aqueous solubility (logS) between -6.5 and 0.5, predicted hERG liability (logHERG) < -5, number of predicted metabolic reactions (# metab) between 1 and 8, and no more than one violation of Lipinski’s Rule of Five."
+  },
+  {
+    "subject": "ConditionalGeneration",
+    "relation": "uses",
+    "object": "JtnnvaeFramework",
+    "chunk": "completedocument5",
+    "context": "This refined set served as the basis for downstream docking, model training, and conditional generation using the JTNNVAE framework ."
+  },
+  {
+    "subject": "MolecularGlueCompound",
+    "relation": "promotes",
+    "object": "TernaryComplexFormation",
+    "chunk": "completedocument5",
+    "context": "To investigate the potential of molecular glue compounds in promoting ternary complex formation between Aβ42 and E3 ligases, we performed molecular docking studies involving three key E3 ligases: VHL, CRBN, and MDM2."
+  },
+  {
+    "subject": "MolecularDockingStudy",
+    "relation": "involves",
+    "object": "ligase_vhl",
+    "chunk": "completedocument5",
+    "context": "To investigate the potential of molecular glue compounds in promoting ternary complex formation between Aβ42 and E3 ligases, we performed molecular docking studies involving three key E3 ligases: VHL, CRBN, and MDM2."
+  },
+  {
+    "subject": "MolecularDockingStudy",
+    "relation": "involves",
+    "object": "ligase_crbn",
+    "chunk": "completedocument5",
+    "context": "To investigate the potential of molecular glue compounds in promoting ternary complex formation between Aβ42 and E3 ligases, we performed molecular docking studies involving three key E3 ligases: VHL, CRBN, and MDM2."
+  },
+  {
+    "subject": "MolecularDockingStudy",
+    "relation": "involves",
+    "object": "ligase_mdm2",
+    "chunk": "completedocument5",
+    "context": "To investigate the potential of molecular glue compounds in promoting ternary complex formation between Aβ42 and E3 ligases, we performed molecular docking studies involving three key E3 ligases: VHL, CRBN, and MDM2."
+  },
+  {
+    "subject": "SmallMolecule",
+    "relation": "interactsWith",
+    "object": "AmyloidBeta42",
+    "chunk": "completedocument5",
+    "context": "A representative small molecule with gl ue-like properties was docked to evaluate its ability to simultaneously interact with both Aβ42 and each of the E3 ligases, thereby stabilizing the formation of a ternary complex."
+  },
+  {
+    "subject": "SmallMolecule",
+    "relation": "interactsWith",
+    "object": "E3Ligase",
+    "chunk": "completedocument5",
+    "context": "A representative small molecule with gl ue-like properties was docked to evaluate its ability to simultaneously interact with both Aβ42 and each of the E3 ligases, thereby stabilizing the formation of a ternary complex."
+  },
+  {
+    "subject": "SmallMolecule",
+    "relation": "stabilizes",
+    "object": "TernaryComplex",
+    "chunk": "completedocument5",
+    "context": "A representative small molecule with gl ue-like properties was docked to evaluate its ability to simultaneously interact with both Aβ42 and each of the E3 ligases, thereby stabilizing the formation of a ternary complex."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "bridges",
+    "object": "AmyloidBeta42Residue",
+    "chunk": "completedocument5",
+    "context": "The molecular glue bridges key residues on Aβ42 and the E3 ligases, forming a network of hydrogen bonds, hydrophobic contacts, and π -π stacking interactions essential for ternary complex stabilization."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "forms",
+    "object": "HydrogenBond",
+    "chunk": "completedocument5",
+    "context": "The molecular glue bridges key residues on Aβ42 and the E3 ligases, forming a network of hydrogen bonds, hydrophobic contacts, and π -π stacking interactions essential for ternary complex stabilization."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "forms",
+    "object": "HydrophobicContact",
+    "chunk": "completedocument5",
+    "context": "The molecular glue bridges key residues on Aβ42 and the E3 ligases, forming a network of hydrogen bonds, hydrophobic contacts, and π -π stacking interactions essential for ternary complex stabilization."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "forms",
+    "object": "PiPiStackingInteraction",
+    "chunk": "completedocument5",
+    "context": "The molecular glue bridges key residues on Aβ42 and the E3 ligases, forming a network of hydrogen bonds, hydrophobic contacts, and π -π stacking interactions essential for ternary complex stabilization."
+  },
+  {
+    "subject": "HydrogenBond",
+    "relation": "stabilizes",
+    "object": "TernaryComplex",
+    "chunk": "completedocument5",
+    "context": "The molecular glue bridges key residues on Aβ42 and the E3 ligases, forming a network of hydrogen bonds, hydrophobic contacts, and π -π stacking interactions essential for ternary complex stabilization."
+  }
+]

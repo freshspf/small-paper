@@ -1,0 +1,116 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiments",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiments
+- section_title: Experiments
+- page_start: 8
+- page_end: 9
+
+**INPUT TEXT CHUNK:**
+We evaluate a diverse set of open-source and remote-sensing–oriented vision–language models
+(VLMs) on the five tasks introduced in Section 3: Building Function Classification (BFC), Dam-
+age Level Classification (DLC), Disaster Type Classification (DTC), Building Counting (BC),
+and Structured Report Generation (SRG). The evaluated models include LLaVA-OneVision [11],
+Qwen2.5-VL-7B [12], Qwen3-VL-8B, Qwen3-VL-30B [27], TeoChat [5], and two domain-adapted
+baselines obtained via instruction fine-tuning on DisasterInsight, denoted as DI-Chat (TeoChat)
+and DI-Chat (Qwen2.5-VL). All models are evaluated on the same held-out test split consisting
+of 67,259 instruction-following instances, with uniform random prompt selection as described in
+Section 3.4. Unless otherwise specified, all reported results are averaged over the full evaluation
+set.
+4.1 Experimental Setup
+WeinstantiatetheDI-Chatframeworkbyfine-tuningtwovision–languagebackbones,TeoChat[5]
+and Qwen2.5-VL-7B [12], using parameter-efficient Low-Rank Adaptation (LoRA) within a
+Video-LLaVA-inspiredmultimodaltrainingframework. LoRAuses(r,α) = (64,128)forTeoChat
+and(32,64)for Qwen2.5-VL-7B, with LoRA applied to the language model only and frozen vi-
+sion backbones in both cases.
+8
+
+Table 2: Quantitative performance comparison of vision–language models on DisasterInsight.
+Classification results are reported using macro F1 and accuracy for BFC, DLC, and DTC, with
+ordinal MAE for DLC (range [0,3]). Structured report generation uses BLEU-4, ROUGE-L, and
+BERTScore F1 (in %), and building counting is evaluated with MAE and RMSE.
+MethodF1 (%)↑ Accuracy (%)↑ DLC Report Gen.↑ Counting↓
+AVG BFC DLC DTC AVG BFC DLC DTC Ord. MAE↓ BLEU R-L BERT MAE RMSE
+LLaVA-
+OneVision19.1418.2228.02 11.19 54.92 82.93 68.02 13.82 0.549 2.25 19.28 84.69 3.76 6.19
+Qwen2.5-VL-
+7B16.20 14.51 18.36 15.73 65.80 82.50 74.49 24.12 0.498 1.87 18.66 83.93 4.21 6.60
+Qwen3-VL-8B 20.67 16.89 34.51 10.60 57.47 84.01 69.93 18.48 0.561 1.22 16.59 82.75 4.17 7.38
+Qwen3-VL-30B 21.24 15.43 28.72 19.57 60.12 84.21 68.31 27.85 0.657 1.17 16.52 82.50 3.60 5.68
+TeoChat 15.73 4.99 14.19 28.02 67.35 78.06 54.67 60.14 0.406 3.38 22.15 84.42 4.43 7.07
+DI-Chat
+(TeoChat)46.365.9454.41 78.73 87.7683.3784.20 95.70 0.220 18.45 35.8588.03 3.31 5.82
+DI-Chat
+(Qwen2.5-
+VL-7B)46.13 17.74 45.19 75.46 85.2386.8080.44 88.45 0.352 16.43 35.1989.45 3.82 6.36
+4.2 Task Difficulty and Category Imbalance
+Fig. 2(c) illustrates the class distributions across training and validation splits for each task.
+Building Function Classification (BFC) exhibits severe imbalance, with residential buildings
+dominating the dataset, while functionally critical categories such as medical, government, and
+religious structures are sparsely represented. Damage Level Classification shows a similar skew
+toward “no-damage” instances, whereas Disaster Type Classification is comparatively more bal-
+anced across hazards. These distributions highlight inherent challenges for learning function-
+aware and fine-grained disaster assessment from satellite imagery.
+4.3 Quantitative Results Across Tasks
+Table2summarizesperformanceacrossclassification, structuredreportgeneration, andcounting
+tasks. Generic vision–language models achieve moderate accuracy on Damage Level and Dis-
+aster Type Classification, but perform poorly on Building Function Classification, highlighting
+the difficulty of inferring fine-grained functional semantics from satellite imagery under severe
+class imbalance. TeoChat improves Disaster Type Classification relative to generic models, yet
+remains constrained on Building Function Classification.
+Both DI-Chat variants consistently outperform generic and remote-sensing baselines on
+Damage Level and Disaster Type Classification, structured report generation, and building
+counting. For Building Function Classification, DI-Chat improves performance relative to its
+corresponding backbone models, but does not surpass the strongest generic baseline (LLaVA-
+OneVision), indicating that function inference remains a challenging open problem. Notably,
+DI-Chat (Qwen2.5-VL-7B) substantially outperforms DI-Chat (TeoChat) on BFC, suggesting
+that stronger vision–language backbones benefit more from domain-specific instruction tuning.
+As shown in Fig. 4(a), generic models struggle to produce grounded and structured narra-
+tives, often omitting building-level details, whereas both DI-Chat variants achieve the highest
+BLEU-4, ROUGE-L, and BERTScore F1 values, indicating improved grounding and closer ad-
+herence to professional reporting conventions. The radar visualization in Fig. 4(b) provides a
+unified view across tasks. Generic models exhibit unbalanced profiles, while DI-Chat demon-
+strates more consistent performance across damage assessment, report generation, and counting,
+even though building-function classification remains a limiting factor.
+9

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "VissimWrapper",
+  "hasThroughputRatioForWorkload",
+  "0.961 for W0",
+  "hasSimulationStepThroughputForWorkload",
+  "1208.045 steps/s for W1",
+  "RawCOM",
+  "1125.551 steps/s for W1",
+  "1.073 for W1",
+  "1179.033 steps/s for W2",
+  "1034.438 steps/s for W2",
+  "1.140 for W2",
+  "PerStepLatency",
+  "measuresAverageExecutionTimeOf",
+  "SimulationStep",
+  "SimulationStepThroughput",
+  "representsOverallEfficiencyOf",
+  "SimulationNetwork",
+  "WorkloadW0",
+  "showsNegligibleOverheadFor",
+  "DayuanInterchange",
+  "hasVehicleComposition",
+  "Scooter",
+  "hasDesiredSpeed",
+  "50 km/h",
+  "evaluatedUsing",
+  "BenchmarkWorkload",
+  "rangesFrom",
+  "BasicSimulationAdvancement",
+  "rangesTo",
+  "SignalControlAndPerformanceEvaluation",
+  "Wrapper",
+  "achievesLowerLatency",
+  "W1Workload",
+  "W2Workload",
+  "achievesHigherThroughput",
+  "reducesCOMAPICallsBy",
+  "10.340%",
+  "21.141%",
+  "W0Workload",
+  "hasAPICallReduction",
+  "0%",
+  "usesMechanism",
+  "BatchingOperation",
+  "CachingMechanism",
+  "reducesCallFrequency",
+  "COMAPICall",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasThroughputRatioForWorkload",
+    "object": "0.961 for W0",
+    "chunk": "experiments2",
+    "context": "W0 Step-only 1270.496 1220.949 0.961"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasSimulationStepThroughputForWorkload",
+    "object": "1208.045 steps/s for W1",
+    "chunk": "experiments2",
+    "context": "W1 Step+TS 1125.551 1208.045 1.073"
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "hasSimulationStepThroughputForWorkload",
+    "object": "1125.551 steps/s for W1",
+    "chunk": "experiments2",
+    "context": "W1 Step+TS 1125.551 1208.045 1.073"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasThroughputRatioForWorkload",
+    "object": "1.073 for W1",
+    "chunk": "experiments2",
+    "context": "W1 Step+TS 1125.551 1208.045 1.073"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasSimulationStepThroughputForWorkload",
+    "object": "1179.033 steps/s for W2",
+    "chunk": "experiments2",
+    "context": "W2 Step+TS+Eval 1034.438 1179.033 1.140"
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "hasSimulationStepThroughputForWorkload",
+    "object": "1034.438 steps/s for W2",
+    "chunk": "experiments2",
+    "context": "W2 Step+TS+Eval 1034.438 1179.033 1.140"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasThroughputRatioForWorkload",
+    "object": "1.140 for W2",
+    "chunk": "experiments2",
+    "context": "W2 Step+TS+Eval 1034.438 1179.033 1.140"
+  },
+  {
+    "subject": "PerStepLatency",
+    "relation": "measuresAverageExecutionTimeOf",
+    "object": "SimulationStep",
+    "chunk": "experiments2",
+    "context": "per-step latency, which measures the average execution time of each simulation step to reflect fine-grained computational overhead"
+  },
+  {
+    "subject": "SimulationStepThroughput",
+    "relation": "representsOverallEfficiencyOf",
+    "object": "SimulationNetwork",
+    "chunk": "experiments2",
+    "context": "simulation-step throughput, representing the overall simulation efficiency."
+  },
+  {
+    "subject": "WorkloadW0",
+    "relation": "showsNegligibleOverheadFor",
+    "object": "VissimWrapper",
+    "chunk": "experiments2",
+    "context": "For the W0 workload, which involves only simulation stepping, the Wrapper showed only a 4% increase in per-step latency compared to Raw COM, indicating negligible overhead."
+  },
+  {
+    "subject": "DayuanInterchange",
+    "relation": "hasVehicleComposition",
+    "object": "Scooter",
+    "chunk": "experiments2",
+    "context": "Vehicle composition includes cars, buses, and scooters (with a desired speed of 50 km/h)."
+  },
+  {
+    "subject": "DayuanInterchange",
+    "relation": "hasDesiredSpeed",
+    "object": "50 km/h",
+    "chunk": "experiments2",
+    "context": "Vehicle composition includes cars, buses, and scooters (with a desired speed of 50 km/h)."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "evaluatedUsing",
+    "object": "BenchmarkWorkload",
+    "chunk": "experiments2",
+    "context": "To ensure consistency and comparability, we define three standardized benchmark workloads."
+  },
+  {
+    "subject": "BenchmarkWorkload",
+    "relation": "rangesFrom",
+    "object": "BasicSimulationAdvancement",
+    "chunk": "experiments2",
+    "context": "They represent progressively more complex levels of interaction, ranging from basic simulation advancement to the combination of signal control and performance evaluation."
+  },
+  {
+    "subject": "BenchmarkWorkload",
+    "relation": "rangesTo",
+    "object": "SignalControlAndPerformanceEvaluation",
+    "chunk": "experiments2",
+    "context": "They represent progressively more complex levels of interaction, ranging from basic simulation advancement to the combination of signal control and performance evaluation."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "achievesLowerLatency",
+    "object": "W1Workload",
+    "chunk": "experiments3",
+    "context": "in the more interactive W1 and W2 workloads, the Wrapper not only avoids performance degradation but also achieves lower per-step latency, reduced by 6.8% and 12.3%, respectively"
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "achievesLowerLatency",
+    "object": "W2Workload",
+    "chunk": "experiments3",
+    "context": "in the more interactive W1 and W2 workloads, the Wrapper not only avoids performance degradation but also achieves lower per-step latency, reduced by 6.8% and 12.3%, respectively"
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "achievesHigherThroughput",
+    "object": "W1Workload",
+    "chunk": "experiments3",
+    "context": "the Wrapper not only avoids performance degradation but also achieves lower per-step latency, reduced by 6.8% and 12.3%, respectively, along with higher throughput (1.07x and 1.14x)"
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "achievesHigherThroughput",
+    "object": "W2Workload",
+    "chunk": "experiments3",
+    "context": "the Wrapper not only avoids performance degradation but also achieves lower per-step latency, reduced by 6.8% and 12.3%, respectively, along with higher throughput (1.07x and 1.14x)"
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "reducesCOMAPICallsBy",
+    "object": "10.340%",
+    "chunk": "experiments3",
+    "context": "W1 Step+TS 417603744210.340 %"
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "reducesCOMAPICallsBy",
+    "object": "21.141%",
+    "chunk": "experiments3",
+    "context": "W2 Step+TS+Eval 511324032221.141 %"
+  },
+  {
+    "subject": "W0Workload",
+    "relation": "hasAPICallReduction",
+    "object": "0%",
+    "chunk": "experiments3",
+    "context": "W0 Step-only36000 360000 %"
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "usesMechanism",
+    "object": "BatchingOperation",
+    "chunk": "experiments3",
+    "context": "The major reason is that the Wrapper substantially reduces the number of calls by batching operations and caching repeated queries."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "usesMechanism",
+    "object": "CachingMechanism",
+    "chunk": "experiments3",
+    "context": "The major reason is that the Wrapper substantially reduces the number of calls by batching operations and caching repeated queries."
+  },
+  {
+    "subject": "BatchingOperation",
+    "relation": "reducesCallFrequency",
+    "object": "COMAPICall",
+    "chunk": "experiments3",
+    "context": "This reduction in call frequency accounts for the improved runtime performance despite the additional abstraction layer."
+  }
+]

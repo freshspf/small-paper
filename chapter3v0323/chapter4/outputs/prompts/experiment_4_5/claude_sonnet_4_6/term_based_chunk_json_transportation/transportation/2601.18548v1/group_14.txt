@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "OursTopAyInit",
+  "achieves",
+  "BestRobustness",
+  "GCDF",
+  "enforces",
+  "CollisionAvoidance",
+  "provides",
+  "LocalGradient",
+  "REMANI",
+  "functionsAs",
+  "TwoStageMethod",
+  "TopAY",
+  "NaiveInitialization",
+  "causes",
+  "CollisionProneTrajectory",
+  "ESDFSphereBackend",
+  "convergesTo",
+  "TopAYParallelCandidateStrategy",
+  "selects",
+  "ConservativeBaseRoute",
+  "LocalDecomp",
+  "prioritizes",
+  "LocalTraversability",
+  "induces",
+  "BaseAndArmRotation",
+  "ProposedFramework",
+  "optimizesIn",
+  "ConfigurationSpace",
+  "produces",
+  "NonConservativeWholeBodyMotion",
+  "validatedOn",
+  "MobileManipulator",
+  "LaboratoryObstacleCourse",
+  "contains",
+  "StackedBlock",
+  "plans",
+  "MultiGoalRoute",
+  "navigatesThrough",
+  "ConfinedCorridor",
+  "generalizes",
+  "CDF",
+  "considers",
+  "hasJoint",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "TrainingPipeline",
+  "learns",
+  "ImplicitNeuralGCDF",
+  "SequentialConvexOptimizationAlgorithm",
+  "supports",
+  "NeuralImplicitConstraint",
+  "uses",
+  "BatchedGPUQuery",
+  "ObstacleGeometry",
+  "representedBy",
+  "SampledPoint",
+  "PrimitiveAwareConstraint",
+  "mitigates",
+  "FailureMode",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "Robot",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety",
+  "Planner"
+]
+
+Triples:
+[
+  {
+    "subject": "OursTopAyInit",
+    "relation": "achieves",
+    "object": "BestRobustness",
+    "chunk": "completedocument15",
+    "context": "In particular, Ours (TopAY-init) achieves the best robustness with the shortest runtime, underscoring a key practical insight: once the per-iteration cost (constraint evaluation, batching, and QP subproblem construction and solution) is optimized, the end-to-end runtime of an iterative solver is largely determined by the number of iterations required to reach a high-quality feasible solution."
+  },
+  {
+    "subject": "GCDF",
+    "relation": "enforces",
+    "object": "CollisionAvoidance",
+    "chunk": "completedocument15",
+    "context": "In our case, GCDF enforces collision avoidance directly in configuration space and provides accurate local gradients, yielding more reliable descent directions and faster contraction toward feasibility."
+  },
+  {
+    "subject": "GCDF",
+    "relation": "provides",
+    "object": "LocalGradient",
+    "chunk": "completedocument15",
+    "context": "In our case, GCDF enforces collision avoidance directly in configuration space and provides accurate local gradients, yielding more reliable descent directions and faster contraction toward feasibility."
+  },
+  {
+    "subject": "REMANI",
+    "relation": "functionsAs",
+    "object": "TwoStageMethod",
+    "chunk": "completedocument15",
+    "context": "For two-stage methods such as REMANI and TopAY, the hierarchical front-end search is typically fast when it succeeds; however, as obstacle density increases and the environment becomes more geometrically complex, front-end failures become frequent."
+  },
+  {
+    "subject": "TopAY",
+    "relation": "functionsAs",
+    "object": "TwoStageMethod",
+    "chunk": "completedocument15",
+    "context": "For two-stage methods such as REMANI and TopAY, the hierarchical front-end search is typically fast when it succeeds; however, as obstacle density increases and the environment becomes more geometrically complex, front-end failures become frequent."
+  },
+  {
+    "subject": "NaiveInitialization",
+    "relation": "causes",
+    "object": "CollisionProneTrajectory",
+    "chunk": "completedocument16",
+    "context": "In such cases, reverting to a naive initialization often causes the ESDF-sphere, penalty-based back end to stuck or converge to infeasible, collision-prone trajectories."
+  },
+  {
+    "subject": "ESDFSphereBackend",
+    "relation": "convergesTo",
+    "object": "CollisionProneTrajectory",
+    "chunk": "completedocument16",
+    "context": "In such cases, reverting to a naive initialization often causes the ESDF-sphere, penalty-based back end to stuck or converge to infeasible, collision-prone trajectories."
+  },
+  {
+    "subject": "TopAYParallelCandidateStrategy",
+    "relation": "selects",
+    "object": "ConservativeBaseRoute",
+    "chunk": "completedocument16",
+    "context": "TopAY’s parallel candidate strategy partially mitigates this issue by increasing the chance of finding a feasible front-end solution, but it also tends to select more conservative base routes with longer detours in dense clutter."
+  },
+  {
+    "subject": "LocalDecomp",
+    "relation": "prioritizes",
+    "object": "LocalTraversability",
+    "chunk": "completedocument16",
+    "context": "Moreover, since it prioritizes local traversability rather than global path quality, it often induces large and unnecessary base and arm rotations."
+  },
+  {
+    "subject": "LocalDecomp",
+    "relation": "induces",
+    "object": "BaseAndArmRotation",
+    "chunk": "completedocument16",
+    "context": "Moreover, since it prioritizes local traversability rather than global path quality, it often induces large and unnecessary base and arm rotations."
+  },
+  {
+    "subject": "ProposedFramework",
+    "relation": "optimizesIn",
+    "object": "ConfigurationSpace",
+    "chunk": "completedocument16",
+    "context": "In contrast, Ours and Ours (TopAY-init) optimize directly in configuration space with implicit GCDF constraints, consistently producing non-conservative whole-body motions in dense 3D clutter."
+  },
+  {
+    "subject": "ProposedFramework",
+    "relation": "produces",
+    "object": "NonConservativeWholeBodyMotion",
+    "chunk": "completedocument16",
+    "context": "In contrast, Ours and Ours (TopAY-init) optimize directly in configuration space with implicit GCDF constraints, consistently producing non-conservative whole-body motions in dense 3D clutter."
+  },
+  {
+    "subject": "ProposedFramework",
+    "relation": "validatedOn",
+    "object": "MobileManipulator",
+    "chunk": "completedocument16",
+    "context": "We further validate the proposed framework on a real mobile manipulator in two representative settings: (i) a laboratory obstacle course with manually arranged clutter consisting of stacked blocks of diverse shapes and heights, and (ii) an office environment that requires navigation through narrow passages while sequentially reaching multiple intermediate goals."
+  },
+  {
+    "subject": "LaboratoryObstacleCourse",
+    "relation": "contains",
+    "object": "StackedBlock",
+    "chunk": "completedocument16",
+    "context": "We further validate the proposed framework on a real mobile manipulator in two representative settings: (i) a laboratory obstacle course with manually arranged clutter consisting of stacked blocks of diverse shapes and heights, and (ii) an office environment that requires navigation through narrow passages while sequentially reaching multiple intermediate goals."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "plans",
+    "object": "MultiGoalRoute",
+    "chunk": "completedocument16",
+    "context": "In the office scenario (bottom, t 1–t12), the robot plans and executes a multi-goal route through confined corridors and furniture-dense areas (including an intermediate waypoint), producing smooth collision-free motions without oscillatory corrections or large unnecessary rotations."
+  },
+  {
+    "subject": "MultiGoalRoute",
+    "relation": "navigatesThrough",
+    "object": "ConfinedCorridor",
+    "chunk": "completedocument16",
+    "context": "In the office scenario (bottom, t 1–t12), the robot plans and executes a multi-goal route through confined corridors and furniture-dense areas (including an intermediate waypoint), producing smooth collision-free motions without oscillatory corrections or large unnecessary rotations."
+  },
+  {
+    "subject": "GCDF",
+    "relation": "generalizes",
+    "object": "CDF",
+    "chunk": "completedocument16",
+    "context": "We introduced GCDF as a generalization of CDF that can go beyond purely rotational manipulators and consider mobile manipulators with both translational and rotational joints."
+  },
+  {
+    "subject": "GCDF",
+    "relation": "considers",
+    "object": "MobileManipulator",
+    "chunk": "completedocument16",
+    "context": "We introduced GCDF as a generalization of CDF that can go beyond purely rotational manipulators and consider mobile manipulators with both translational and rotational joints."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "hasJoint",
+    "object": "TranslationalJoint",
+    "chunk": "completedocument16",
+    "context": "We introduced GCDF as a generalization of CDF that can go beyond purely rotational manipulators and consider mobile manipulators with both translational and rotational joints."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "hasJoint",
+    "object": "RotationalJoint",
+    "chunk": "completedocument16",
+    "context": "We introduced GCDF as a generalization of CDF that can go beyond purely rotational manipulators and consider mobile manipulators with both translational and rotational joints."
+  },
+  {
+    "subject": "TrainingPipeline",
+    "relation": "learns",
+    "object": "ImplicitNeuralGCDF",
+    "chunk": "completedocument16",
+    "context": "We developed a one-time offline data collection and training pipeline to learn an implicit neural GCDF with accurate values and first-order information."
+  },
+  {
+    "subject": "SequentialConvexOptimizationAlgorithm",
+    "relation": "supports",
+    "object": "NeuralImplicitConstraint",
+    "chunk": "completedocument16",
+    "context": "Building on this representation, we proposed a high-performance C++ sequential convex optimization algorithm that natively supports neural implicit constraints through batched GPU queries, sparsity-aware active-constraint selection, and online constraint injection."
+  },
+  {
+    "subject": "SequentialConvexOptimizationAlgorithm",
+    "relation": "uses",
+    "object": "BatchedGPUQuery",
+    "chunk": "completedocument16",
+    "context": "Building on this representation, we proposed a high-performance C++ sequential convex optimization algorithm that natively supports neural implicit constraints through batched GPU queries, sparsity-aware active-constraint selection, and online constraint injection."
+  },
+  {
+    "subject": "ObstacleGeometry",
+    "relation": "representedBy",
+    "object": "SampledPoint",
+    "chunk": "completedocument17",
+    "context": "Second, despite substantial efficiency optimizations, the overall computation can still be dominated by the scale of collision constraints, since obstacle geometries are represented by many sampled points."
+  },
+  {
+    "subject": "PrimitiveAwareConstraint",
+    "relation": "mitigates",
+    "object": "FailureMode",
+    "chunk": "completedocument17",
+    "context": "Such primitive-aware constraints could significantly reduce the number of constraints, improve geometric coverage, and mitigate failure modes caused by undersampling, while retaining the benefits of configuration-space collision reasoning."
+  }
+]

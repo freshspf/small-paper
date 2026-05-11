@@ -1,0 +1,202 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Generative Di!usion Augmentation with
+Quantum-Enhanced Discrimination for
+Medical Image Diagnosis
+Jingsong Xia 1,S i q iW a n g1
+1The Second Clinical Medical College, Nanjing Medical University
+xiajingsong2@gmail.com; wsq03925@163.com
+Abstract
+In biomedical engineering, artiﬁcial intelligence has become a pivotal tool for en-
+hancing medical diagnostics, particularly in medical image classiﬁcation tasks such
+as detecting pneumonia from chest X-rays and breast cancer screening. However,
+real-world medical datasets frequently exhibit severe class imbalance, where positive
+samples substantially outnumber negative samples, leading to biased models with
+low recall rates for minority classes. This imbalance not only compromises diagnostic
+accuracy but also poses clinical misdiagnosis risks. To address this challenge, we pro-
+pose SDA-QEC (Simpliﬁed Di!usion Augmentation with Quantum-Enhanced Clas-
+siﬁcation), an innovative framework that integrates simpliﬁed di!usion-based data
+augmentation with quantum-enhanced feature discrimination. Our approach em-
+ploys a lightweight di!usion augmentor to generate high-quality synthetic samples
+for minority classes, rebalancing the training distribution. Subsequently, a quantum
+feature layer embedded within MobileNetV2 architecture enhances the model’s dis-
+criminative capability through high-dimensional feature mapping in Hilbert space.
+Comprehensive experiments on coronary angiography image classiﬁcation demon-
+strate that SDA-QEC achieves 98.33% accuracy, 98.78% AUC, and 98.33% F1-score,
+signiﬁcantly outperforming classical baselines including ResNet18, MobileNetV2,
+DenseNet121, and VGG16. Notably, our framework simultaneously attains 98.33%
+sensitivity and 98.33% speciﬁcity, achieving a balanced performance critical for clin-
+ical deployment. The proposed method validates the feasibility of integrating gener-
+ative augmentation with quantum-enhanced modeling in real-world medical imaging
+tasks, o!ering a novel research pathway for developing highly reliable medical AI
+systems in small-sample, highly imbalanced, and high-risk diagnostic scenarios.
+Keywords: Medical Image Classiﬁcation, Class Imbalance, Di!usion Models, Quan-
+tum Machine Learning, Data Augmentation, Coronary Angiography
+1I n t r o d u c t i o n
+In the ﬁeld of biomedical engineering, artiﬁcial intelligence has emerged as a critical
+tool for enhancing medical diagnostics, particularly in medical image classiﬁcation tasks
+such as detecting pneumonia from chest X-rays or CT images [1] and breast cancer [2–4]
+arXiv:2601.18556v1 [cs.CV] 26 Jan 2026
+screening. These applications rely on deep learning models to extract features from images
+and perform classiﬁcation. However, real-world medical data frequently face the challenge
+of class imbalance; for instance, in COVID-19-related pneumonia datasets, the number of
+positive samples often far exceeds negative samples , leading to models biased toward the
+majority class and resulting in low recall rates for minority classes. This imbalance not
+only reduces diagnostic accuracy but also risks clinical misdiagnosis, thereby increasing
+patient risk.
+Traditional data augmentation techniques, such as rotation [5, 6], ﬂipping [7], and
+brightness adjustment [8], can enhance sample diversity but cannot generate truly novel
+samples. In medical imaging, excessive augmentation may introduce noise or alter patho-
+logical features. Generative models such as Generative Adversarial Networks can syn-
+thesize samples but su!er from training instability and mode collapse issues. Di!usion
+models, as an emerging generative paradigm, produce high-quality, diverse samples by
+simulating noise addition and denoising processes, achieving success in natural image
+domains. However, their application in medical imaging requires simpliﬁcation to adapt
+to resource-constrained clinical environments.
+Furthermore, Quantum Machine Learning [9–11], situated at the intersection of
+quantum computing and AI, leverages quantum entanglement and superposition to en-
+hance feature extraction, potentially improving model performance on high-dimensional
+medical images. Nevertheless, frameworks combining di!usion models [12] with quantum
+enhancement in biomedical engineering remain unexplored.
+Existing research on medical image classiﬁcation primarily employs Convolutional
+Neural Networks (CNNs) such as ResNet and MobileNet. For instance, mainstream
+models like ResNet50 are commonly used for pathological image classiﬁcation, achieving
+high accuracy while overlooking the imbalance problem. Strategies for addressing class
+imbalance include resampling and loss function modiﬁcations, such as focal loss. Gen-
+erative augmentation through GANs has been widely applied in medicine, but training
+complexity persists [13, 14]. Di!usion models generate samples through forward noise
+addition and reverse denoising, providing superior stability compared to GANs. In the
+medical context, studies have employed di!usion models to synthesize CT images, but
+their computational intensity limits practicality; this work simpliﬁes them into an aug-
+mentor focusing solely on forward processing for resource-limited scenarios [15].
+Quantum machine learning utilizes qubits for high-dimensional data processing, inte-
+grating quantum circuits into CNNs to improve MRI classiﬁcation. Here, we innovatively
+position a quantum layer after MobileNetV2 to enhance features. Generative models for
+auxiliary diagnosis emphasize this potential, but our study uniquely emphasizes di!usion
+augmentation combined with quantum methods to bridge existing gaps.
+1.1 Contributions
+In response to the data augmentation capabilities of di!usion models, this paper
+proposes the SDA-QEC (Simpliﬁed Di!usion Augmentation with Quantum-Enhanced
+Classiﬁcation) framework. The key innovations are as follows:
+1. Lightweight Di!usion Augmentor: A SimpleDi!usionAugmentor simulates the
+forward di!usion process to create “di!usion-like” variants, generating high-quality
+synthetic images for minority classes to alleviate imbalance.
+2. Quantum Feature Layer :I m p l e m e n t e d v i a t h e P e n n y l a n e l i b r a r y , t h e Q u a n -
+tumFeatureLayer employs quantum circuits to enhance features extracted by Mo-
+bileNetV2, improving sensitivity to pathological details.
+3. End-to-End Classiﬁer : Built on the lightweight MobileNetV2 architecture, sup-
+porting detailed epoch outputs and high-quality analysis results.
+4. Comprehensive Comparison: Comparative analysis with classical baselines (ResNet18,
+MobileNetV2, DenseNet121, VGG16) demonstrates the superiority of the proposed
+method.
+2M e t h o d s
+2.1 Overall Framework and Technical Roadmap
+The proposed SDA-QEC (Simpliﬁed Di!usion Augmentation with Quantum-Enhanced
+Classiﬁcation) framework addresses the prevalent class imbalance problem in medical im-
+age classiﬁcation through systematic design at two levels: data distribution reconstruc-
+tion and model discriminative capability enhancement. Unlike traditional end-to-end
+deep learning paradigms that directly train classiﬁers on imbalanced data, our method
+ﬁrst performs adaptive synthesis of minority class samples through a Simpliﬁed Di!usion
+Process, achieving class balance at the data level. Subsequently, a Lightweight Quantum
+Feature Mapping is introduced to nonlinearly enhance classical convolutional features,
+elevating the complexity of decision boundaries at the model level.
+The overall workﬂow consists of four core stages: (1) data loading and class distri-
+bution analysis; (2) adaptive generation of minority class samples based on the di!usion
+process; (3) discriminative feature extraction via lightweight convolutional networks; and
+(4) quantum-enhanced classiﬁcation module for ﬁnal diagnostic decisions.
+The framework’s design aims to achieve synergy between data and model: the dif-
+fusion augmentation module reshapes the training set’s class distribution, enabling the
+model to fully learn minority class feature patterns, while the quantum enhancement
+module embeds classical features into a high-dimensional Hilbert space, constructing
+more complex decision boundaries and enhancing the model’s capability to capture subtle
+pathological features. Notably, compared to complete di!usion generative models (such
+as DDPM), this work adopts a parameterized forward di!usion process for data augmen-
+tation, avoiding the high computational cost of reverse denoising networks, making the
+overall framework clinically deployable while maintaining high performance. Addition-
+ally, the quantum circuit adopts a small-scale parameterized design (4 qubits, 2-layer
+circuit) with total parameters approximately 1/20 of the classical counterpart, ensuring
+operational e"ciency on resource-constrained medical devices.
+At the theoretical level, this method can be viewed as a cascaded optimization
+strategy of distribution alignment-feature enhancement. Let the original training set be
+Dorig = {(xi,y i)}N
+i=1, where yi →{ 0, 1} denotes class labels, and the sample ratio of class
+0( m a j o r i t y )t oc l a s s1( m i n o r i t y )i sω = N0/N1 ↑ 1. The di!usion augmentation module
+generates a synthetic sample set Dsyn = {(˜xj , 1)}M
+j=1 such that the augmented dataset
+Daug = Dorig ↓D syn satisﬁes the target balance ratio ωtarget ↔ 1.4 (i.e., minority class
+samples reach 70% of majority class). Subsequently, the quantum-enhanced classiﬁer
+fω,ε(x) is trained on Daug, where ε represents classical convolutional network parameters
+and ϑ represents quantum circuit parameters. This design enables the model to learn
+on balanced data distributions while enhancing discriminative capability for boundary
+samples through quantum feature mapping.
+2.2 Simpliﬁed Di!usion Model-Driven Adaptive Data Augmen-
+tation
+In medical image classiﬁcation tasks, minority class samples (e.g., rare disease cases)
+are costly to obtain and scarce in number, leading to insu"cient learning of minority
+classes by models. Traditional data augmentation methods such as rotation, ﬂipping,
+and color jittering only perform geometric or photometric transformations on existing
+samples and cannot extend the coverage of the feature space. The simpliﬁed di!usion
+augmentation mechanism proposed in this paper approaches from a generative modeling
+perspective, constructing a synthetic sample set with controllable diversity for minority
+class samples by simulating the forward steps of the di!usion process.
+2.2.1 Forward Modeling of Di!usion Process
+Traditional di!usion models (such as DDPM) deﬁne a Markov chain that maps the
+data distribution to a standard Gaussian distribution by progressively adding Gaussian
+noise. This work simpliﬁes this process, retaining only the noise addition step of forward
+di!usion, avoiding training complex reverse denoising networks. Speciﬁcally, for minority
+class samples, the noise addition process at time step t →{ 0, 1,...,T ↗ 1} can be expressed
+as:
+xt = ↘ ¯ϖt · x0 +
+1 ↗ ¯ϖt · ω, ω ≃N (0, I) (1)
+where ¯ϖt = ∏t
+s=1(1 ↗ ϱs) is the cumulative noise scheduling coe"cient, and ϱs is the
+noise intensity parameter at step s. This work adopts a linear scheduling strategy:
+ϱs = ϱstart + s ↗ 1
+T ↗ 1 (ϱend ↗ ϱstart) (2)
+where ϱstart =0 .0001, ϱend =0 .02,a n d T =5 . This design ensures that early time
+steps add only slight noise to preserve the original image structure, while later time steps
+introduce stronger noise to increase diversity. Compared to DDPM’s 1000-step di!usion,
+this design dramatically reduces computational cost while maintaining sample quality.
+2.2.2 Adaptive Synthesis Quantity Control
+To avoid computational redundancy and p ossible mo de collapse caused by excessive
+generation, this work designs an adaptive synthesis mechanism based on the target bal-
+ance ratio. Let Nmaj be the number of majority class samples, Nmin be the number of
+minority class samples, and ωtarget be the target balance ratio. The required number of
+synthetic samples M is determined by:

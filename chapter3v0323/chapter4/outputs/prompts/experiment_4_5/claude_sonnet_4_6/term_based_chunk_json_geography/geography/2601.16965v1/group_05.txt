@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "role_measure",
+  "represents",
+  "FinalOutput",
+  "GeoFlowGraph",
+  "constructedFrom",
+  "Question",
+  "includes",
+  "ExplicitConcept",
+  "ImplicitConcept",
+  "mentionedIn",
+  "completes",
+  "Workflow",
+  "captures",
+  "ConceptLevelTransformation",
+  "GraphNode",
+  "SpatialCoreConcept",
+  "GraphEdge",
+  "denotes",
+  "SemanticDependency",
+  "reinterpretedAs",
+  "OperatorConceptHypergraph",
+  "contains",
+  "FactorNode",
+  "ConceptNode",
+  "extractedFrom",
+  "SupplementaryParameter",
+  "Operator",
+  "takesAsInput",
+  "producesAsOutput",
+  "includesFunction",
+  "Geocoding",
+  "SpatialSearch",
+  "Routing",
+  "mustSatisfy",
+  "constraint_acyclicity",
+  "constraint_roleOrdering",
+  "constraint_typeCompatibility",
+  "constraint_dataAvailability",
+  "constraint_connectivity",
+  "Agent",
+  "assembles",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "SpatialConcept",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "FunctionalRole",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Aggregation",
+  "GisTool",
+  "postgis",
+  "arcgis",
+  "qgis",
+  "BuildingBlockOfSpatialInformation",
+  "Object",
+  "Field",
+  "Event",
+  "Network",
+  "Measure",
+  "Condition",
+  "Subcondition",
+  "Support"
+]
+
+Triples:
+[
+  {
+    "subject": "role_measure",
+    "relation": "represents",
+    "object": "FinalOutput",
+    "chunk": "completedocument4",
+    "context": "This ordering reflects the inherent structure of geo-analytical workflows: sub-conditions restrict candidate entities, conditions constrain supports, supports establish the spatial basis, and measurements are the final outputs."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "constructedFrom",
+    "object": "Question",
+    "chunk": "completedocument4",
+    "context": "With the concept space Cand functional roles R established, we describe how to construct GeoFlow Graph Gfrom a question."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "includes",
+    "object": "ExplicitConcept",
+    "chunk": "completedocument4",
+    "context": "Vincludes bothexplicitconcepts directly mentioned in the question andimplicitconcepts inferred to complete the workflow."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "includes",
+    "object": "ImplicitConcept",
+    "chunk": "completedocument4",
+    "context": "Vincludes bothexplicitconcepts directly mentioned in the question andimplicitconcepts inferred to complete the workflow."
+  },
+  {
+    "subject": "ExplicitConcept",
+    "relation": "mentionedIn",
+    "object": "Question",
+    "chunk": "completedocument4",
+    "context": "Vincludes bothexplicitconcepts directly mentioned in the question andimplicitconcepts inferred to complete the workflow."
+  },
+  {
+    "subject": "ImplicitConcept",
+    "relation": "completes",
+    "object": "Workflow",
+    "chunk": "completedocument4",
+    "context": "Vincludes bothexplicitconcepts directly mentioned in the question andimplicitconcepts inferred to complete the workflow."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "captures",
+    "object": "ConceptLevelTransformation",
+    "chunk": "completedocument4",
+    "context": "GeoFlow Graphs capture concept-level transformations, where nodes represent spatial core concepts and edges denote semantic dependencies."
+  },
+  {
+    "subject": "GraphNode",
+    "relation": "represents",
+    "object": "SpatialCoreConcept",
+    "chunk": "completedocument4",
+    "context": "GeoFlow Graphs capture concept-level transformations, where nodes represent spatial core concepts and edges denote semantic dependencies."
+  },
+  {
+    "subject": "GraphEdge",
+    "relation": "denotes",
+    "object": "SemanticDependency",
+    "chunk": "completedocument4",
+    "context": "GeoFlow Graphs capture concept-level transformations, where nodes represent spatial core concepts and edges denote semantic dependencies."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "reinterpretedAs",
+    "object": "OperatorConceptHypergraph",
+    "chunk": "completedocument4",
+    "context": "To make GeoFlow Graphs executable, we reinterpret them as a factorized operator–concept hypergraph G′= (V′, E′)such that there is a bijective mapping between them G↔G′, where V′are the nodes consisting of spatial core concept nodes and factor nodes."
+  },
+  {
+    "subject": "OperatorConceptHypergraph",
+    "relation": "contains",
+    "object": "FactorNode",
+    "chunk": "completedocument4",
+    "context": "To make GeoFlow Graphs executable, we reinterpret them as a factorized operator–concept hypergraph G′= (V′, E′)such that there is a bijective mapping between them G↔G′, where V′are the nodes consisting of spatial core concept nodes and factor nodes."
+  },
+  {
+    "subject": "ConceptNode",
+    "relation": "extractedFrom",
+    "object": "Question",
+    "chunk": "completedocument4",
+    "context": "The concept nodes (e.g., the round nodes such as “Subway stations” and “Crime events” in Figure 2 (D)) are directly extracted from the question, while factor nodes (e.g., the pink boxes such as “Buffer Dist: 1 km” and “Population”) represent supplementary parameters required for operator execution."
+  },
+  {
+    "subject": "FactorNode",
+    "relation": "represents",
+    "object": "SupplementaryParameter",
+    "chunk": "completedocument4",
+    "context": "The concept nodes (e.g., the round nodes such as “Subway stations” and “Crime events” in Figure 2 (D)) are directly extracted from the question, while factor nodes (e.g., the pink boxes such as “Buffer Dist: 1 km” and “Population”) represent supplementary parameters required for operator execution."
+  },
+  {
+    "subject": "Operator",
+    "relation": "takesAsInput",
+    "object": "ConceptNode",
+    "chunk": "completedocument4",
+    "context": "Each operator takes concept nodes along with supplementary parameters as inputs and produces one or more downstream concept nodes as outputs."
+  },
+  {
+    "subject": "Operator",
+    "relation": "takesAsInput",
+    "object": "SupplementaryParameter",
+    "chunk": "completedocument4",
+    "context": "Each operator takes concept nodes along with supplementary parameters as inputs and produces one or more downstream concept nodes as outputs."
+  },
+  {
+    "subject": "Operator",
+    "relation": "producesAsOutput",
+    "object": "ConceptNode",
+    "chunk": "completedocument4",
+    "context": "Each operator takes concept nodes along with supplementary parameters as inputs and produces one or more downstream concept nodes as outputs."
+  },
+  {
+    "subject": "Operator",
+    "relation": "includesFunction",
+    "object": "Geocoding",
+    "chunk": "completedocument5",
+    "context": "The operators span geocoding, spatial search, routing, geometric computation, and trip optimization (see Appendix C for details)."
+  },
+  {
+    "subject": "Operator",
+    "relation": "includesFunction",
+    "object": "SpatialSearch",
+    "chunk": "completedocument5",
+    "context": "The operators span geocoding, spatial search, routing, geometric computation, and trip optimization (see Appendix C for details)."
+  },
+  {
+    "subject": "Operator",
+    "relation": "includesFunction",
+    "object": "Routing",
+    "chunk": "completedocument5",
+    "context": "The operators span geocoding, spatial search, routing, geometric computation, and trip optimization (see Appendix C for details)."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "mustSatisfy",
+    "object": "constraint_acyclicity",
+    "chunk": "completedocument5",
+    "context": "A valid GeoFlow Graph must satisfy:\n(1)Acyclicity( G1):G1={G|∄cycle inE} ,\nensuring a valid topological execution order."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "mustSatisfy",
+    "object": "constraint_roleOrdering",
+    "chunk": "completedocument5",
+    "context": "A valid GeoFlow Graph must satisfy:\n...\n(2)Role Ordering( G2):G2={G| ∀(v i, vj)∈\nE:ρ(v i)⪯ρ(v j)}."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "mustSatisfy",
+    "object": "constraint_typeCompatibility",
+    "chunk": "completedocument5",
+    "context": "A valid GeoFlow Graph must satisfy:\n...\n(3)Type Compatibility( G3):G3={G|\n∀(vi, vj)∈E:τ out(vi)⊆τ in(vj)}, where τout\nandτ indenote output and input concept types."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "mustSatisfy",
+    "object": "constraint_dataAvailability",
+    "chunk": "completedocument5",
+    "context": "A valid GeoFlow Graph must satisfy:\n...\n(4)Data Availability( G4):G4={G|G↔\nG′,∀e∈E′:eis executable}."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "mustSatisfy",
+    "object": "constraint_connectivity",
+    "chunk": "completedocument5",
+    "context": "A valid GeoFlow Graph must satisfy:\n...\n(5)Connectivity( G5):G5={G| ∀v∈\nV:∃v 0∈V ext, vm∈V meas :path(v 0, v)∧\npath(v, v m)}, where Vext={v:ρ(v)∈\n{EXTENT,TEXTENT}} andVmeas={v:ρ(v) =\nMEASURE}."
+  },
+  {
+    "subject": "Agent",
+    "relation": "assembles",
+    "object": "GeoFlowGraph",
+    "chunk": "completedocument5",
+    "context": "While the agent can assemble GeoFlow Graphs\nfrom primitive operators subject to the constraints\ndefined above, we observe that geo-analytical ques-\ntions exhibit recurring structural patterns."
+  }
+]

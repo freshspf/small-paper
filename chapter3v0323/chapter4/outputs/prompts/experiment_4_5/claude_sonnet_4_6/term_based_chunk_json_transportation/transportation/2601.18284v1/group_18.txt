@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "VissimWrapper",
+  "allowsControl",
+  "SimulationEnvironment",
+  "usesLanguage",
+  "Python",
+  "hasConfigurationParameter",
+  "net_path",
+  "sig_path",
+  "detector_path",
+  "specifiesInputFor",
+  "NetworkStructure",
+  "SignalControl",
+  "DetectorPlacement",
+  "hasType",
+  "StringType",
+  "describesFile",
+  "VissimNetworkFile",
+  "SignalControlFile",
+  "DetectorConfigurationFile",
+  "use_gui",
+  "BooleanType",
+  "hasDefaultValue",
+  "False",
+  "controls",
+  "SimulationGUI",
+  "quick_mode",
+  "True",
+  "enables",
+  "FasterSimulationMode",
+  "start_time",
+  "IntegerType",
+  "600",
+  "hasUnit",
+  "Second",
+  "sim_period",
+  "4200",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework",
+  "framework_sumo_rl",
+  "RlEnvironment",
+  "library_gymnasium",
+  "library_pettingzoo",
+  "SingleAgentScenario",
+  "MultiAgentScenario",
+  "State",
+  "Reward",
+  "framework_vissim_rl",
+  "IndustrialApplication",
+  "ModularArchitecture"
+]
+
+Triples:
+[
+  {
+    "subject": "VissimWrapper",
+    "relation": "allowsControl",
+    "object": "SimulationEnvironment",
+    "chunk": "conclusions1",
+    "context": "It allows users to initialize and control the Vissim simulation environment through Python."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "usesLanguage",
+    "object": "Python",
+    "chunk": "conclusions1",
+    "context": "It allows users to initialize and control the Vissim simulation environment through Python."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasConfigurationParameter",
+    "object": "net_path",
+    "chunk": "conclusions1",
+    "context": "Parameters such as net_path, sig_path, and detector_path must be provided by the user, as they specify the essential input files for network structure, signal control, and detector placement."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasConfigurationParameter",
+    "object": "sig_path",
+    "chunk": "conclusions1",
+    "context": "Parameters such as net_path, sig_path, and detector_path must be provided by the user, as they specify the essential input files for network structure, signal control, and detector placement."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasConfigurationParameter",
+    "object": "detector_path",
+    "chunk": "conclusions1",
+    "context": "Parameters such as net_path, sig_path, and detector_path must be provided by the user, as they specify the essential input files for network structure, signal control, and detector placement."
+  },
+  {
+    "subject": "net_path",
+    "relation": "specifiesInputFor",
+    "object": "NetworkStructure",
+    "chunk": "conclusions1",
+    "context": "Parameters such as net_path, sig_path, and detector_path must be provided by the user, as they specify the essential input files for network structure, signal control, and detector placement."
+  },
+  {
+    "subject": "sig_path",
+    "relation": "specifiesInputFor",
+    "object": "SignalControl",
+    "chunk": "conclusions1",
+    "context": "Parameters such as net_path, sig_path, and detector_path must be provided by the user, as they specify the essential input files for network structure, signal control, and detector placement."
+  },
+  {
+    "subject": "detector_path",
+    "relation": "specifiesInputFor",
+    "object": "DetectorPlacement",
+    "chunk": "conclusions1",
+    "context": "Parameters such as net_path, sig_path, and detector_path must be provided by the user, as they specify the essential input files for network structure, signal control, and detector placement."
+  },
+  {
+    "subject": "net_path",
+    "relation": "hasType",
+    "object": "StringType",
+    "chunk": "conclusions1",
+    "context": "net_path str -- Path to the Vissim network file"
+  },
+  {
+    "subject": "net_path",
+    "relation": "describesFile",
+    "object": "VissimNetworkFile",
+    "chunk": "conclusions1",
+    "context": "net_path str -- Path to the Vissim network file"
+  },
+  {
+    "subject": "sig_path",
+    "relation": "hasType",
+    "object": "StringType",
+    "chunk": "conclusions1",
+    "context": "sig_path str -- Path to the signal control file"
+  },
+  {
+    "subject": "sig_path",
+    "relation": "describesFile",
+    "object": "SignalControlFile",
+    "chunk": "conclusions1",
+    "context": "sig_path str -- Path to the signal control file"
+  },
+  {
+    "subject": "detector_path",
+    "relation": "hasType",
+    "object": "StringType",
+    "chunk": "conclusions1",
+    "context": "detector_path str -- Path to the detector configuration file"
+  },
+  {
+    "subject": "detector_path",
+    "relation": "describesFile",
+    "object": "DetectorConfigurationFile",
+    "chunk": "conclusions1",
+    "context": "detector_path str -- Path to the detector configuration file"
+  },
+  {
+    "subject": "use_gui",
+    "relation": "hasType",
+    "object": "BooleanType",
+    "chunk": "conclusions1",
+    "context": "use_gui bool False Whether to run simulation with GUI"
+  },
+  {
+    "subject": "use_gui",
+    "relation": "hasDefaultValue",
+    "object": "False",
+    "chunk": "conclusions1",
+    "context": "use_gui bool False Whether to run simulation with GUI"
+  },
+  {
+    "subject": "use_gui",
+    "relation": "controls",
+    "object": "SimulationGUI",
+    "chunk": "conclusions1",
+    "context": "use_gui bool False Whether to run simulation with GUI"
+  },
+  {
+    "subject": "quick_mode",
+    "relation": "hasType",
+    "object": "BooleanType",
+    "chunk": "conclusions1",
+    "context": "quick_mode bool True Enable faster simulation mode"
+  },
+  {
+    "subject": "quick_mode",
+    "relation": "hasDefaultValue",
+    "object": "True",
+    "chunk": "conclusions1",
+    "context": "quick_mode bool True Enable faster simulation mode"
+  },
+  {
+    "subject": "quick_mode",
+    "relation": "enables",
+    "object": "FasterSimulationMode",
+    "chunk": "conclusions1",
+    "context": "quick_mode bool True Enable faster simulation mode"
+  },
+  {
+    "subject": "start_time",
+    "relation": "hasType",
+    "object": "IntegerType",
+    "chunk": "conclusions1",
+    "context": "start_time int 600 Simulation start time (s)"
+  },
+  {
+    "subject": "start_time",
+    "relation": "hasDefaultValue",
+    "object": "600",
+    "chunk": "conclusions1",
+    "context": "start_time int 600 Simulation start time (s)"
+  },
+  {
+    "subject": "start_time",
+    "relation": "hasUnit",
+    "object": "Second",
+    "chunk": "conclusions1",
+    "context": "start_time int 600 Simulation start time (s)"
+  },
+  {
+    "subject": "sim_period",
+    "relation": "hasType",
+    "object": "IntegerType",
+    "chunk": "conclusions1",
+    "context": "sim_period int 4200 Total simulation duration (s)"
+  },
+  {
+    "subject": "sim_period",
+    "relation": "hasDefaultValue",
+    "object": "4200",
+    "chunk": "conclusions1",
+    "context": "sim_period int 4200 Total simulation duration (s)"
+  }
+]

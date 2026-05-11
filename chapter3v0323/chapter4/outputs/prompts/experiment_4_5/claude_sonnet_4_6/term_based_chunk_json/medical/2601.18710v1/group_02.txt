@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "VariationalQuantumClassifier",
+  "performsTask",
+  "QuantumMachineLearning",
+  "usesSystem",
+  "HybridSystem",
+  "containsComponent",
+  "QuantumUnit",
+  "isLinkedTo",
+  "ClassicalUnit",
+  "AreaFeature",
+  "measuresPixelCountOf",
+  "CellRegion",
+  "PerimeterFeature",
+  "measuresBoundaryLengthOf",
+  "MeanIntensityFeature",
+  "measuresAverageIntensityOf",
+  "BloodCellImage",
+  "GlcmTextureFeature",
+  "measuresIntensityVariationIn",
+  "EquilibriumPropagation",
+  "isImplementedOn",
+  "HopfieldNeuralNetwork",
+  "isImplementedWith",
+  "Qubit",
+  "ClassicalOptimizer",
+  "proposesParameterFor",
+  "QuantumCircuit",
+  "BinaryClassification",
+  "evaluatesCondition",
+  "disease_aml",
+  "healthStatus_healthy",
+  "VariationalQuantumCircuit",
+  "providesAdvantageFor",
+  "MedicalDomain",
+  "hasLimitation",
+  "AnnotationScarcity",
+  "QuantumMethod",
+  "benefits",
+  "RareDiseaseResearch",
+  "lacks",
+  "LargeAnnotatedDataset",
+  "QuantumInspiredEnergyBasedLearning",
+  "analyzes",
+  "ClinicalData",
+  "GradientDescentMethod",
+  "NeuromorphicChip",
+  "enables",
+  "PointOfCareDiagnostics",
+  "detects",
+  "Aml",
+  "MultiClassHematology",
+  "CellType",
+  "ClinicalBloodCellImage",
+  "usedFor",
+  "AmlDetection",
+  "performs",
+  "AcuteMyeloidLeukemia",
+  "BloodCellMicroscopyImage",
+  "dataset_aml_cytomorphology",
+  "ExpertAnnotatedImage",
+  "AutomatedMicroscopyBasedAnalysis",
+  "ClinicalWorkflow",
+  "BloodSmearAnalysis",
+  "BoneMarrowAspiration",
+  "DeepConvolutionalNetwork",
+  "BloodCellMorphology",
+  "ClassicalData",
+  "ImageAnalysis",
+  "CircuitParameter",
+  "detectedFrom",
+  "uses",
+  "contains",
+  "supports",
+  "isLessInvasiveThan",
+  "differentiates",
+  "encodes",
+  "optimizes",
+  "EpPipeline",
+  "EngineeredImageFeature",
+  "QuantumSupportVectorMachine"
+]
+
+Triples:
+[
+  {
+    "subject": "VariationalQuantumClassifier",
+    "relation": "performsTask",
+    "object": "QuantumMachineLearning",
+    "chunk": "completedocument3",
+    "context": "VQC gets around these problems to do QML by using a hybrid system that consists of a quantum unit linked to a classical unit."
+  },
+  {
+    "subject": "VariationalQuantumClassifier",
+    "relation": "usesSystem",
+    "object": "HybridSystem",
+    "chunk": "completedocument3",
+    "context": "VQC gets around these problems to do QML by using a hybrid system that consists of a quantum unit linked to a classical unit."
+  },
+  {
+    "subject": "HybridSystem",
+    "relation": "containsComponent",
+    "object": "QuantumUnit",
+    "chunk": "completedocument3",
+    "context": "VQC gets around these problems to do QML by using a hybrid system that consists of a quantum unit linked to a classical unit."
+  },
+  {
+    "subject": "QuantumUnit",
+    "relation": "isLinkedTo",
+    "object": "ClassicalUnit",
+    "chunk": "completedocument3",
+    "context": "VQC gets around these problems to do QML by using a hybrid system that consists of a quantum unit linked to a classical unit."
+  },
+  {
+    "subject": "AreaFeature",
+    "relation": "measuresPixelCountOf",
+    "object": "CellRegion",
+    "chunk": "completedocument3",
+    "context": "Area Number of pixels in cell region"
+  },
+  {
+    "subject": "PerimeterFeature",
+    "relation": "measuresBoundaryLengthOf",
+    "object": "CellRegion",
+    "chunk": "completedocument3",
+    "context": "Perimeter Boundary length of cell region"
+  },
+  {
+    "subject": "MeanIntensityFeature",
+    "relation": "measuresAverageIntensityOf",
+    "object": "BloodCellImage",
+    "chunk": "completedocument3",
+    "context": "Intensity StatisticsMean intensity Average pixel intensity across image"
+  },
+  {
+    "subject": "GlcmTextureFeature",
+    "relation": "measuresIntensityVariationIn",
+    "object": "BloodCellImage",
+    "chunk": "completedocument3",
+    "context": "GLCM TexturesContrast Local intensity variations in GLCM"
+  },
+  {
+    "subject": "EquilibriumPropagation",
+    "relation": "performsTask",
+    "object": "QuantumMachineLearning",
+    "chunk": "completedocument3",
+    "context": "EP provides a different approach to QML, implemented on Hopfield neural networks"
+  },
+  {
+    "subject": "EquilibriumPropagation",
+    "relation": "isImplementedOn",
+    "object": "HopfieldNeuralNetwork",
+    "chunk": "completedocument3",
+    "context": "EP provides a different approach to QML, implemented on Hopfield neural networks"
+  },
+  {
+    "subject": "VariationalQuantumClassifier",
+    "relation": "isImplementedWith",
+    "object": "Qubit",
+    "chunk": "completedocument3",
+    "context": "The VQC is implemented with 4 qubits"
+  },
+  {
+    "subject": "ClassicalOptimizer",
+    "relation": "proposesParameterFor",
+    "object": "QuantumCircuit",
+    "chunk": "completedocument3",
+    "context": "the classical optimizer (COBYLA, gradient-free) proposes new parameter values"
+  },
+  {
+    "subject": "BinaryClassification",
+    "relation": "evaluatesCondition",
+    "object": "disease_aml",
+    "chunk": "completedocument4",
+    "context": "Table II reports accuracy and runtime on 250 samples per class for binary classification (2 classes: AML vs. Healthy)."
+  },
+  {
+    "subject": "BinaryClassification",
+    "relation": "evaluatesCondition",
+    "object": "healthStatus_healthy",
+    "chunk": "completedocument4",
+    "context": "Table II reports accuracy and runtime on 250 samples per class for binary classification (2 classes: AML vs. Healthy)."
+  },
+  {
+    "subject": "VariationalQuantumCircuit",
+    "relation": "providesAdvantageFor",
+    "object": "MedicalDomain",
+    "chunk": "completedocument4",
+    "context": "This demonstrates VQC extracts robust discriminative features even from minimal training data—an advantage for medical domains with annotation scarcity."
+  },
+  {
+    "subject": "MedicalDomain",
+    "relation": "hasLimitation",
+    "object": "AnnotationScarcity",
+    "chunk": "completedocument4",
+    "context": "This demonstrates VQC extracts robust discriminative features even from minimal training data—an advantage for medical domains with annotation scarcity."
+  },
+  {
+    "subject": "QuantumMethod",
+    "relation": "benefits",
+    "object": "RareDiseaseResearch",
+    "chunk": "completedocument4",
+    "context": "However, the reduced data requirements of quantum methods may be relevant for rare disease research where large annotated datasets are difficult to acquire."
+  },
+  {
+    "subject": "RareDiseaseResearch",
+    "relation": "lacks",
+    "object": "LargeAnnotatedDataset",
+    "chunk": "completedocument4",
+    "context": "However, the reduced data requirements of quantum methods may be relevant for rare disease research where large annotated datasets are difficult to acquire."
+  },
+  {
+    "subject": "QuantumInspiredEnergyBasedLearning",
+    "relation": "analyzes",
+    "object": "ClinicalData",
+    "chunk": "completedocument4",
+    "context": "This demonstrates that quantum-inspired energy-based learning is competitive with gradient descent methods on real clinical data."
+  },
+  {
+    "subject": "GradientDescentMethod",
+    "relation": "analyzes",
+    "object": "ClinicalData",
+    "chunk": "completedocument4",
+    "context": "This demonstrates that quantum-inspired energy-based learning is competitive with gradient descent methods on real clinical data."
+  },
+  {
+    "subject": "NeuromorphicChip",
+    "relation": "enables",
+    "object": "PointOfCareDiagnostics",
+    "chunk": "completedocument5",
+    "context": "Projected deployment on neuromorphic chips (Intel Loihi) could reduce power consumption 250×(1W vs. 250W GPU), enabling battery-powered point-of-care diagnostics in resource-constrained settings [13]."
+  },
+  {
+    "subject": "BinaryClassification",
+    "relation": "detects",
+    "object": "Aml",
+    "chunk": "completedocument5",
+    "context": "binary classification (2 classes: AML vs. healthy) is simpler than multi-class hematology (5–10 cell types)."
+  },
+  {
+    "subject": "MultiClassHematology",
+    "relation": "analyzes",
+    "object": "CellType",
+    "chunk": "completedocument5",
+    "context": "binary classification (2 classes: AML vs. healthy) is simpler than multi-class hematology (5–10 cell types)."
+  },
+  {
+    "subject": "ClinicalBloodCellImage",
+    "relation": "usedFor",
+    "object": "AmlDetection",
+    "chunk": "completedocument5",
+    "context": "Benchmarked on 18,365 clinical blood cell images for AML detection via binary classification (2 classes: AML vs. Healthy), Equilibrium Propagation (quantum-inspired) achieved 86.4% accuracy"
+  },
+  {
+    "subject": "EquilibriumPropagation",
+    "relation": "performs",
+    "object": "AmlDetection",
+    "chunk": "completedocument5",
+    "context": "Benchmarked on 18,365 clinical blood cell images for AML detection via binary classification (2 classes: AML vs. Healthy), Equilibrium Propagation (quantum-inspired) achieved 86.4% accuracy"
+  }
+]

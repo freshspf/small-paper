@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "config_loraConfig",
+  "importedFrom",
+  "package_peft",
+  "model_ctELM",
+  "trainedOn",
+  "hardware_nvidiaH100Gpu",
+  "procedure_onePhaseTraining",
+  "takes",
+  "time_13Hours",
+  "procedure_twoPhaseTraining",
+  "time_26Hours",
+  "dataset_interpolatedTestingSet",
+  "constructedBy",
+  "concept_abstractEmbedding",
+  "concept_abstractPair",
+  "constructedUsing",
+  "algorithm_bertopic",
+  "GEval",
+  "measures",
+  "Consistency",
+  "Fluency",
+  "DeepEval",
+  "facilitatesMeasurementOf",
+  "Medgemma4bIt",
+  "BiomedicalData",
+  "initializedFrom",
+  "Gemma3_4bIt",
+  "StudyDesign",
+  "includes",
+  "RandomizedControlledTrial",
+  "ObservationalStudy",
+  "Intervention",
+  "Drug",
+  "Therapy",
+  "Population",
+  "AgeGroup",
+  "Sex",
+  "HealthStatus",
+  "NeumlPubmedbertBaseEmbeddings",
+  "belongsToDomain",
+  "BiomedicalDomain",
+  "Gemma3_1bIt",
+  "OpenDomainTraining",
+  "model_llama3_1_8b_instruct",
+  "usedAs",
+  "BaseModel",
+  "model_bge_large_en_v1_5",
+  "outperforms",
+  "model_vec2text",
+  "model_gte_large_en_v1_5",
+  "model_pubmedbert_base_embeddings",
+  "isA",
+  "DomainSpecificModel",
+  "model_gpt_4o_2024_11_20",
+  "employedAs",
+  "DiscriminatorAgent",
+  "ctelm",
+  "ClinicalTrialEmbedding",
+  "ClinicalTrial",
+  "LargeLanguageModel",
+  "EmbeddingLanguageModel",
+  "ConceptVector",
+  "Age",
+  "StudySubject",
+  "TextEmbedding",
+  "ClinicalTrialAbstract",
+  "vec2text",
+  "ConceptActivationVector",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer"
+]
+
+Triples:
+[
+  {
+    "subject": "config_loraConfig",
+    "relation": "importedFrom",
+    "object": "package_peft",
+    "chunk": "completedocument11",
+    "context": "As for the second phase of two-phase training procedure and one-phase training procedure, we use SFTTrainer with LoraConfig from peft package."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "trainedOn",
+    "object": "hardware_nvidiaH100Gpu",
+    "chunk": "completedocument11",
+    "context": "We train the model with the above settings on one Nvidia H100 GPU."
+  },
+  {
+    "subject": "procedure_onePhaseTraining",
+    "relation": "takes",
+    "object": "time_13Hours",
+    "chunk": "completedocument11",
+    "context": "The training time for ctELM on 1.2M data using one-phase training procedure for one epoch (1P-1E) takes around 13 hours."
+  },
+  {
+    "subject": "procedure_twoPhaseTraining",
+    "relation": "takes",
+    "object": "time_26Hours",
+    "chunk": "completedocument11",
+    "context": "On the other hand, the training time for ctELM on 1.2M data using two-phase training procedure for one epoch (2P-1E) takes around 26 hours."
+  },
+  {
+    "subject": "dataset_interpolatedTestingSet",
+    "relation": "constructedBy",
+    "object": "concept_abstractEmbedding",
+    "chunk": "completedocument11",
+    "context": "We construct an interpolated testing set by averaging embeddings from randomly selected pairs of test abstracts."
+  },
+  {
+    "subject": "concept_abstractPair",
+    "relation": "constructedUsing",
+    "object": "algorithm_bertopic",
+    "chunk": "completedocument11",
+    "context": "Pairs are constructed based on topic assignment using BERTopic."
+  },
+  {
+    "subject": "GEval",
+    "relation": "measures",
+    "object": "Consistency",
+    "chunk": "completedocument12",
+    "context": "We measureconsistencyandfluencyquantitatively with G-Eval (Liu et al., 2023), using the open-source DeepEval framework."
+  },
+  {
+    "subject": "GEval",
+    "relation": "measures",
+    "object": "Fluency",
+    "chunk": "completedocument12",
+    "context": "We measureconsistencyandfluencyquantitatively with G-Eval (Liu et al., 2023), using the open-source DeepEval framework."
+  },
+  {
+    "subject": "DeepEval",
+    "relation": "facilitatesMeasurementOf",
+    "object": "Consistency",
+    "chunk": "completedocument12",
+    "context": "We measureconsistencyandfluencyquantitatively with G-Eval (Liu et al., 2023), using the open-source DeepEval framework."
+  },
+  {
+    "subject": "Medgemma4bIt",
+    "relation": "trainedOn",
+    "object": "BiomedicalData",
+    "chunk": "completedocument12",
+    "context": "medgemma-4b-it : 4B parameters, multi-modal, instruction-tuned, further pretraining and finetuning on biomedical data starting fromgemma-3-4b-itcheckpoint."
+  },
+  {
+    "subject": "Medgemma4bIt",
+    "relation": "initializedFrom",
+    "object": "Gemma3_4bIt",
+    "chunk": "completedocument12",
+    "context": "medgemma-4b-it : 4B parameters, multi-modal, instruction-tuned, further pretraining and finetuning on biomedical data starting fromgemma-3-4b-itcheckpoint."
+  },
+  {
+    "subject": "StudyDesign",
+    "relation": "includes",
+    "object": "RandomizedControlledTrial",
+    "chunk": "completedocument12",
+    "context": "“Check whether the study design (e.g., randomized controlled trial, observational study) in ‘actual output’ reflects that of ‘input’.”"
+  },
+  {
+    "subject": "StudyDesign",
+    "relation": "includes",
+    "object": "ObservationalStudy",
+    "chunk": "completedocument12",
+    "context": "“Check whether the study design (e.g., randomized controlled trial, observational study) in ‘actual output’ reflects that of ‘input’.”"
+  },
+  {
+    "subject": "Intervention",
+    "relation": "includes",
+    "object": "Drug",
+    "chunk": "completedocument12",
+    "context": "“Check whether the intervention (e.g., drug, therapy) in ‘actual output’ reflects that of ‘input’.”"
+  },
+  {
+    "subject": "Intervention",
+    "relation": "includes",
+    "object": "Therapy",
+    "chunk": "completedocument12",
+    "context": "“Check whether the intervention (e.g., drug, therapy) in ‘actual output’ reflects that of ‘input’.”"
+  },
+  {
+    "subject": "Population",
+    "relation": "includes",
+    "object": "AgeGroup",
+    "chunk": "completedocument12",
+    "context": "“Check whether the population (e.g., age group, sex, health status) in ‘actual output’ reflects that of ‘input’.”"
+  },
+  {
+    "subject": "Population",
+    "relation": "includes",
+    "object": "Sex",
+    "chunk": "completedocument12",
+    "context": "“Check whether the population (e.g., age group, sex, health status) in ‘actual output’ reflects that of ‘input’.”"
+  },
+  {
+    "subject": "Population",
+    "relation": "includes",
+    "object": "HealthStatus",
+    "chunk": "completedocument12",
+    "context": "“Check whether the population (e.g., age group, sex, health status) in ‘actual output’ reflects that of ‘input’.”"
+  },
+  {
+    "subject": "NeumlPubmedbertBaseEmbeddings",
+    "relation": "belongsToDomain",
+    "object": "BiomedicalDomain",
+    "chunk": "completedocument12",
+    "context": "NeuML/pubmedbert-base-embeddings : biomedical, 768 dimensions, 109M parameters; model of Gu et al."
+  },
+  {
+    "subject": "Gemma3_1bIt",
+    "relation": "trainedOn",
+    "object": "OpenDomainTraining",
+    "chunk": "completedocument12",
+    "context": "gemma-3-1b-it : 1B parameters, instruction-tuned, text-only, open-domain training."
+  },
+  {
+    "subject": "model_llama3_1_8b_instruct",
+    "relation": "usedAs",
+    "object": "BaseModel",
+    "chunk": "completedocument13",
+    "context": "For all embedding models, we use Llama-3.1-8B-Instruct as the base model and the 1P-1E training procedure on the 1.2M 5-task training set."
+  },
+  {
+    "subject": "model_bge_large_en_v1_5",
+    "relation": "outperforms",
+    "object": "model_vec2text",
+    "chunk": "completedocument13",
+    "context": "We find that ctELM gen-eralizes well across embedding models, with bge-large-en-v1.5 and gte-large-en-v1.5 both exceeding the Vec2Text baselines (Table 9)."
+  },
+  {
+    "subject": "model_gte_large_en_v1_5",
+    "relation": "outperforms",
+    "object": "model_vec2text",
+    "chunk": "completedocument13",
+    "context": "We find that ctELM gen-eralizes well across embedding models, with bge-large-en-v1.5 and gte-large-en-v1.5 both exceeding the Vec2Text baselines (Table 9)."
+  },
+  {
+    "subject": "model_pubmedbert_base_embeddings",
+    "relation": "isA",
+    "object": "DomainSpecificModel",
+    "chunk": "completedocument13",
+    "context": "However, we find here no benefit from the domain-specific pubmedbert-base-embeddings model."
+  },
+  {
+    "subject": "model_gpt_4o_2024_11_20",
+    "relation": "employedAs",
+    "object": "DiscriminatorAgent",
+    "chunk": "completedocument13",
+    "context": "As the discriminator agent, we employ gpt-4o-2024-11-20 with the prompt shown in Fig. 12."
+  }
+]

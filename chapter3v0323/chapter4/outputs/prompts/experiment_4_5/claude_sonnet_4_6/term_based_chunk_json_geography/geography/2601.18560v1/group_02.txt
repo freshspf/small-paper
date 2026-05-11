@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "BadPixel",
+  "denotedAs",
+  "SaltAndPepperNoise",
+  "SensorOperatingFailure",
+  "causes",
+  "ScanningUnitSaturation",
+  "dataset_IndianPines",
+  "capturedBy",
+  "sensor_AVIRIS",
+  "includesFeature",
+  "category_LandCover",
+  "dataset_Salinas",
+  "acquiredBy",
+  "locatedIn",
+  "location_SalinasValley",
+  "location_California",
+  "dataset_PaviaUniversity",
+  "obtainedUsing",
+  "sensor_ROSIS",
+  "location_RegionOfPavia",
+  "location_NorthernItaly",
+  "method_proposedMethod",
+  "evaluatedOn",
+  "dataset_indianPines",
+  "dataset_paviaUniversity",
+  "dataset_salinas",
+  "utilizesFeature",
+  "feature_singlePixelLevelSpectralFeatures",
+  "eschewsFeature",
+  "feature_spatialInformation",
+  "exhibitsCharacteristic",
+  "characteristic_significantImbalanceInClassDistribution",
+  "characteristic_fewerThan30PixelsForClasses7And9",
+  "characteristic_smallerNumberOfCategories",
+  "method_existingMethods",
+  "integratesFeature",
+  "achievesMetric",
+  "metric_overallAccuracy99Percent",
+  "metric_improvementOf2Point1Percent",
+  "utilizesStrategy",
+  "strategy_fourSamplingStrategies",
+  "SensorNoise",
+  "affects",
+  "ImageQuality",
+  "EarthObservationMission",
+  "GlobalEnvironmentalChange",
+  "Satellite",
+  "Orbit",
+  "HyperspectralSensor",
+  "ContinuousSpectralInformation",
+  "HyperspectralSatellite",
+  "EarthObservationProduct",
+  "OfflineProcessing",
+  "TerrestrialSystem",
+  "DataTransmission",
+  "EmergencyScenario",
+  "DisasterMonitoring",
+  "EmergencyMapping",
+  "SatelliteOnboardProcessing",
+  "ArtificialIntelligenceAlgorithm",
+  "ValidationPlatform",
+  "platform_opsSat",
+  "mission_phiSat1",
+  "org_esa",
+  "DeepConvolutionalNetwork",
+  "CloudSegmentation",
+  "mission_hypso",
+  "OceanObservation",
+  "KMeansAlgorithm",
+  "mission_eo1",
+  "Sea",
+  "Land",
+  "Cloud",
+  "SmallSatellite",
+  "ComputationalResource",
+  "ImageQualityDegradation",
+  "MixedNoise",
+  "GaussianNoise",
+  "PoissonNoise",
+  "MisalignedPixel"
+]
+
+Triples:
+[
+  {
+    "subject": "BadPixel",
+    "relation": "denotedAs",
+    "object": "SaltAndPepperNoise",
+    "chunk": "introduction",
+    "context": "Bad pixels are often denoted as impulse noise or salt-and-pepper noise ,which appear as random white or black pixels in images due to sensor operating failures or saturation of the scanning unit [13][24][27]."
+  },
+  {
+    "subject": "SensorOperatingFailure",
+    "relation": "causes",
+    "object": "BadPixel",
+    "chunk": "introduction",
+    "context": "Bad pixels are often denoted as impulse noise or salt-and-pepper noise ,which appear as random white or black pixels in images due to sensor operating failures or saturation of the scanning unit [13][24][27]."
+  },
+  {
+    "subject": "ScanningUnitSaturation",
+    "relation": "causes",
+    "object": "BadPixel",
+    "chunk": "introduction",
+    "context": "Bad pixels are often denoted as impulse noise or salt-and-pepper noise ,which appear as random white or black pixels in images due to sensor operating failures or saturation of the scanning unit [13][24][27]."
+  },
+  {
+    "subject": "dataset_IndianPines",
+    "relation": "capturedBy",
+    "object": "sensor_AVIRIS",
+    "chunk": "result1",
+    "context": "It represents one of the first hyperspectral image datasets for classification, captured by the Airborne Visual Infrared Imaging Spectrometer (AVIRIS) in 1992."
+  },
+  {
+    "subject": "dataset_IndianPines",
+    "relation": "includesFeature",
+    "object": "category_LandCover",
+    "chunk": "result1",
+    "context": "The dataset has a spatial resolution of approximately 20 meters and includes 16 land cover categories."
+  },
+  {
+    "subject": "dataset_Salinas",
+    "relation": "acquiredBy",
+    "object": "sensor_AVIRIS",
+    "chunk": "result1",
+    "context": "The dataset was acquired by the AVIRIS sensor within the Salinas Valley in California."
+  },
+  {
+    "subject": "dataset_Salinas",
+    "relation": "locatedIn",
+    "object": "location_SalinasValley",
+    "chunk": "result1",
+    "context": "The dataset was acquired by the AVIRIS sensor within the Salinas Valley in California."
+  },
+  {
+    "subject": "location_SalinasValley",
+    "relation": "locatedIn",
+    "object": "location_California",
+    "chunk": "result1",
+    "context": "The dataset was acquired by the AVIRIS sensor within the Salinas Valley in California."
+  },
+  {
+    "subject": "dataset_Salinas",
+    "relation": "includesFeature",
+    "object": "category_LandCover",
+    "chunk": "result1",
+    "context": "It has 16 different land cover categories."
+  },
+  {
+    "subject": "dataset_PaviaUniversity",
+    "relation": "obtainedUsing",
+    "object": "sensor_ROSIS",
+    "chunk": "result1",
+    "context": "The dataset was obtained using the Reflective Optics System Imaging Spectrometer (ROSIS) sensor in the region of Pavia, located in northern Italy."
+  },
+  {
+    "subject": "dataset_PaviaUniversity",
+    "relation": "locatedIn",
+    "object": "location_RegionOfPavia",
+    "chunk": "result1",
+    "context": "The dataset was obtained using the Reflective Optics System Imaging Spectrometer (ROSIS) sensor in the region of Pavia, located in northern Italy."
+  },
+  {
+    "subject": "location_RegionOfPavia",
+    "relation": "locatedIn",
+    "object": "location_NorthernItaly",
+    "chunk": "result1",
+    "context": "The dataset was obtained using the Reflective Optics System Imaging Spectrometer (ROSIS) sensor in the region of Pavia, located in northern Italy."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "evaluatedOn",
+    "object": "dataset_indianPines",
+    "chunk": "result2",
+    "context": "In particular in the Indian Pines dataset, the proposed method achieves an increase in OA that exceeds 11% compared to the state-of-the-art method."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "evaluatedOn",
+    "object": "dataset_paviaUniversity",
+    "chunk": "result2",
+    "context": "Even with the Pavia University dataset, which demonstrates the least favorable outcomes, the proposed method maintains comparable performance on par with the state-of-the-art method and exceeds it as the number of sampled pixels increases."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "evaluatedOn",
+    "object": "dataset_salinas",
+    "chunk": "result2",
+    "context": "For the Salinas dataset, although existing methods already demonstrate high classification accuracy, the proposed method achieves a discernible degree of performance enhancement."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "utilizesFeature",
+    "object": "feature_singlePixelLevelSpectralFeatures",
+    "chunk": "result2",
+    "context": "Note that unlike existing methods that exhibit superior classification performance, our method exclusively utilizes the single-pixel-level spectral features, eschewing any incorporation of spatial information."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "eschewsFeature",
+    "object": "feature_spatialInformation",
+    "chunk": "result2",
+    "context": "Note that unlike existing methods that exhibit superior classification performance, our method exclusively utilizes the single-pixel-level spectral features, eschewing any incorporation of spatial information."
+  },
+  {
+    "subject": "dataset_indianPines",
+    "relation": "exhibitsCharacteristic",
+    "object": "characteristic_significantImbalanceInClassDistribution",
+    "chunk": "result2",
+    "context": "The Indian Pines dataset exhibits a significant imbalance in class distribution, notably with the 7 thand 9 thclasses comprising fewer than 30 pixels."
+  },
+  {
+    "subject": "dataset_indianPines",
+    "relation": "exhibitsCharacteristic",
+    "object": "characteristic_fewerThan30PixelsForClasses7And9",
+    "chunk": "result2",
+    "context": "Given that the Indian Pines dataset contains fewer than 30 pixels for the classes 7 and 9, a sampling size of 15 pixels is used for these classes instead of the standard 30 pixels."
+  },
+  {
+    "subject": "dataset_paviaUniversity",
+    "relation": "exhibitsCharacteristic",
+    "object": "characteristic_smallerNumberOfCategories",
+    "chunk": "result2",
+    "context": "In contrast to the first two datasets, the Pavia University dataset has a smaller number of categories."
+  },
+  {
+    "subject": "method_existingMethods",
+    "relation": "integratesFeature",
+    "object": "feature_spatialInformation",
+    "chunk": "result2",
+    "context": "The integration of spatial information is particularly crucial in existing methods when sample features are limited, as it facilitates the attainment of high classification accuracy."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "achievesMetric",
+    "object": "metric_overallAccuracy99Percent",
+    "chunk": "result2",
+    "context": "Specifically, when using a sampling strategy of 30 labeled pixels per class, our method achieves an overall accuracy of 99%."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "achievesMetric",
+    "object": "metric_improvementOf2Point1Percent",
+    "chunk": "result2",
+    "context": "Within the OA metric, the proposed method achieves an improvement of 2.1%."
+  },
+  {
+    "subject": "method_proposedMethod",
+    "relation": "utilizesStrategy",
+    "object": "strategy_fourSamplingStrategies",
+    "chunk": "result2",
+    "context": "To investigate the influence of the varying number of labeled samples on the method, we established four sampling strategies comprising 3, 5, 10, and30 samples per class."
+  },
+  {
+    "subject": "SensorNoise",
+    "relation": "affects",
+    "object": "ImageQuality",
+    "chunk": "result3",
+    "context": "In the Earth observation satellite, the main factors that affect image quality are sensor noise and atmospheric distortions[45]."
+  }
+]

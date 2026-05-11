@@ -1,0 +1,159 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "synchronizationintraffic",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: synchronizationintraffic
+- section_title: Synchronization in Traffic
+- page_start: 12
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+5.1.Kinetic Energy Dissipation Behind Hysteresis
+Buildingupontheprecedinganalysisofhysteresis, whatfundamentalimplicationscanbeextractedregardingdistinct
+hysteresis geometry? From the perspective of energy, the ellipse area in the(ξ ji,˙ξi)plane represents the kinetic energy
+dissipationKξji,˙ξiof traffic unitias it deviates from individual equilibrium state:
+Kξji,˙ξi=I
+Eξji,˙ξiFid(ξji) =m
+τI
+Eξji,˙ξi
+˙ξd−˙ξi
+d(ξji) =m
+τSξji,˙ξi,(54)
+Corresponding to Eq. (47) and phase lagϕξji,˙ξi, the area is:
+Sξji,˙ξi=πA ξjiA˙ξi|sinϕξji,˙ξi|.(55)
+Fromtheequilibriumstateofindividualperspective,thesystemmanifestsasthehysteresiswithzeroareainthephase
+space ofd jiandv i. This signifies the zero kinetic energy dissipation within the individual dynamics, corresponding to
+the conditionϕξji,˙ξi= 0, i.e.,TD=ϕ dji,vi/ω= 0. Revisiting Fig. 3 reveals that the reaction behavior enhances the
+kinetic energy dissipation of individuals deviating from the equilibrium state, whereas moderate anticipation behavior
+weakens such dissipation. However, when anticipation exceeds a critical threshold (TD=ϕ dji,vi/ω= 0), excessive
+anticipation leads to an increase in the dissipation magnitude.
+Consider an idealized periodic unidirectional flow consisting only of traffic unitsiandj. In this system,ξ ij=
+−ξji. The ellipse area in(ξ ji,˙ξij)plane, illustrating the systematic kinetic energy dissipationKξji,˙ξijaway from
+synchronization state within the traffic oscillations, is:
+
+13
+transient response
+steady -state response
+zero TD negative TD negative TD negative TD
+equilibrium state
+Figure 7: NumericalTDand hysteresis results of the four models under sinusoidal input (A= 0.8, ω= 1).
+
+14
+Figure 8: NumericalTTCand hysteresis results of the four models under sinusoidal input (A= 0.8, ω= 1).
+CosForce :                                                      CosForce :
+FVD:                                                              FVD :(a) Unidirectional interactions
+(b) Bidirectional interactionsDynamical function:
+Dynamical function:xj
+xiReaction model
+No behavior pattern( OV)
+Anticipation model ( FVD,CosForce )xj xi
+xj xi
+xj xi
+d>0
+t=cd<0
+t=c
+d=0 
+t=c
+d>0
+t=cinput                    output
+d>0
+t=c
+Anticipation in most 
+conditions
+(FVD,CosForce )j      i
+j          ii
+j          i
+(       )
+(       )
+Figure 9: Minimized interaction patterns in 1D and 2D spaces.
+
+15
+0 000
+Equilibrium,
+PolarizationTD<0                                                                            TD→0                                                                            TD>0
+00
+TD→0, TTC →000000
+0
+Self-organized criticality,
+Critical dissipative,
+Chaos0000
+Scale- free correlations,
+Non- dissipative system,
+Order0
+000TD→0, TTC→∞
+00
+0000
+0 000
+Slow to start,
+Stop- and-go wave,
+Reaction behavior00
+Self-organization,
+Game process,
+Anticipation behavior000
+00000
+Figure 10: Hysteresis characteristics under different dynamical states, characterized byTDandTTC.
+Kξji,˙ξij=I
+Eξji,˙ξijFid(ξji)+I
+Eξji,˙ξijFjd(ξij) =m
+τI
+Eξji,˙ξij
+˙ξd−˙ξi
+−
+˙ξd−˙ξj
+d(ξji) =m
+τI
+Eξji,˙ξij−˙ξijd(ξji) =m
+τSξji,˙ξij
+(56)
+Corresponding to phase lagϕξji,˙ξij=π/2, the area is:
+Sξji,˙ξij=πA ξjiA˙ξij|sinϕξji,˙ξij|=πA ξjiA˙ξij(57)
+Similarly, as illustrated in Fig. 3, the hysteresis loop in the(ξ ji,˙ξij)plane undergoes expansion in the reaction model
+and contraction in the anticipation model. This result indicates that reaction behavior enhances the systematic energy
+dissipation induced by traffic oscillations, whereas anticipation behavior attenuates it. Corresponding to synchroniza-
+tion state of system perspective, the hysteresis manifests as zero area in the(d ji, vij)plane. In this state,v ij→0
+approaches zero. The two cases whered ji= 0andd ji̸= 0represent the two extreme conditions of dynamical evolution,
+namely chaos and perfect order. These states correspond to the quantitative metric whereTTC=d ji/vij→0and
+TTC=d ji/vij→ ∞, respectively.
+5.2.Phase Diagram of Synchronization
+In the analysis above, our analytical investigation starting from the simplest 1D particle system. The mechanisms of
+the hysteresis elegant explained many obscure properties in traffic. Expanding the scope to a more general condition,

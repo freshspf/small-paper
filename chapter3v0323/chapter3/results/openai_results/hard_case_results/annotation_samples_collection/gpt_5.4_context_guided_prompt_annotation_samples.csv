@@ -1,0 +1,917 @@
+model,sample_id,axiom_type,axiom_text,context_info,model_output,explanation_text,explanation_label,is_explanation_correct,annotation_reason
+gpt-5.4,hard_case_0262,domain,domain(producedby) = product,"背景知识：
+条目1：
+- 名称：producedby
+- 类型：Class
+- 简介：producedby is a class in the NELL knowledge base.
+- 补充信息：generalizations: iteminvolvedwithagent, createdbyagent | domain: product | range: company
+
+条目2：
+- 名称：product
+- 类型：Class
+- 简介：{%%s is a %s, product}
+- 补充信息：generalizations: item","判断结果：正确
+解释：根据背景知识，producedby 的补充信息已明确给出 domain 为 product，而按 RDFS 语义规则这表示使用该属性的主体属于 product 类，因此该公理正确。",根据背景知识，producedby 的补充信息已明确给出 domain 为 product，而按 RDFS 语义规则这表示使用该属性的主体属于 product 类，因此该公理正确。,,,
+gpt-5.4,hard_case_0143,domain,domain(temperature) = Planet,"背景知识：
+条目1：
+- 名称：temperature
+- 类型：Property
+- 简介：temperature (K)
+
+条目2：
+- 名称：Planet
+- 类型：Class
+- 简介：planet","判断结果：正确
+解释：根据RDFS语义，domain(temperature)=Planet 表示凡是具有 temperature 属性的主体都可推断为 Planet，而背景知识中 temperature 是属性、Planet 是类，且“行星具有温度”在常识上合理，因此该公理成立。",根据RDFS语义，domain(temperature)=Planet 表示凡是具有 temperature 属性的主体都可推断为 Planet，而背景知识中 temperature 是属性、Planet 是类，且“行星具有温度”在常识上合理，因此该公理成立。,,,
+gpt-5.4,hard_case_0118,domain,domain(mass) = Planet,"背景知识：
+条目1：
+- 名称：mass
+- 类型：Property
+- 简介：mass (kg)
+
+条目2：
+- 名称：Planet
+- 类型：Class
+- 简介：planet","判断结果：正确
+解释：根据背景知识mass是一个属性而Planet是一个类，按RDFS语义domain(mass)=Planet表示凡使用mass属性的主体都应属于Planet，这与“行星具有质量”的常识及给定信息不冲突。",根据背景知识mass是一个属性而Planet是一个类，按RDFS语义domain(mass)=Planet表示凡使用mass属性的主体都应属于Planet，这与“行星具有质量”的常识及给定信息不冲突。,,,
+gpt-5.4,hard_case_0108,domain,domain(height) = ChemicalSubstance,"背景知识：
+条目1：
+- 名称：height
+- 类型：Property
+- 简介：height (mm)
+
+条目2：
+- 名称：ChemicalSubstance
+- 类型：Class
+- 简介：chemical substance","判断结果：错误
+解释：根据RDFS语义，domain(height)=ChemicalSubstance表示凡是具有height属性的主体都属于ChemicalSubstance，但“身高/高度（mm）”通常用于描述具有物理尺寸的对象而非化学物质类别，因此该领域约束与背景知识和常识不符。",根据RDFS语义，domain(height)=ChemicalSubstance表示凡是具有height属性的主体都属于ChemicalSubstance，但“身高/高度（mm）”通常用于描述具有物理尺寸的对象而非化学物质类别，因此该领域约束与背景知识和常识不符。,,,
+gpt-5.4,hard_case_0387,domain,domain(status) = MedicalStudy,"背景知识：
+条目1：
+- 名称：status
+- 类型：Property
+- 简介：The status of the study (enumerated).
+- 补充信息：domainIncludes: http://schema.org/MedicalCondition, http://schema.org/MedicalProcedure, http://schema.org/MedicalStudy | rangeIncludes: http://schema.org/EventStatusType, http://sc...
+
+条目2：
+- 名称：MedicalStudy
+- 类型：Property
+- 简介：MedicalStudy is a property in the knowledge base.","判断结果：正确
+解释：背景知识表明属性 status 的 domainIncludes 包含 MedicalStudy，因此按照 RDFS 中 domain 表示“使用该属性的主体属于该类”的语义，domain(status) = MedicalStudy 是合理的。",背景知识表明属性 status 的 domainIncludes 包含 MedicalStudy，因此按照 RDFS 中 domain 表示“使用该属性的主体属于该类”的语义，domain(status) = MedicalStudy 是合理的。,,,
+gpt-5.4,hard_case_0137,domain,domain(runtime) = Airline,"背景知识：
+条目1：
+- 名称：runtime
+- 类型：Property
+- 简介：runtime (m)
+
+条目2：
+- 名称：Airline
+- 类型：Class
+- 简介：airline","判断结果：错误
+解释：根据背景知识，runtime是表示“时长（分钟）”的属性，其domain应约束为具有运行时长的事物类型而非“航空公司”这一类，因此domain(runtime)=Airline与属性语义明显不符。",根据背景知识，runtime是表示“时长（分钟）”的属性，其domain应约束为具有运行时长的事物类型而非“航空公司”这一类，因此domain(runtime)=Airline与属性语义明显不符。,,,
+gpt-5.4,hard_case_0102,domain,domain(fileSize) = Software,"背景知识：
+条目1：
+- 名称：fileSize
+- 类型：Property
+- 简介：size of a file or software
+
+条目2：
+- 名称：Software
+- 类型：Class
+- 简介：software","判断结果：正确
+解释：根据背景知识，fileSize表示“文件或软件的大小”，将其domain设为Software表示凡使用fileSize属性的主体属于Software类，这与该属性可用于描述软件大小的语义一致，符合RDFS中domain的约束规则。",根据背景知识，fileSize表示“文件或软件的大小”，将其domain设为Software表示凡使用fileSize属性的主体属于Software类，这与该属性可用于描述软件大小的语义一致，符合RDFS中domain的约束规则。,,,
+gpt-5.4,hard_case_0080,domain,domain(apparentMagnitude) = Planet,"背景知识：
+条目1：
+- 名称：apparentMagnitude
+- 类型：Property
+- 简介：apparent magnitude
+
+条目2：
+- 名称：Planet
+- 类型：Class
+- 简介：planet","判断结果：正确
+解释：根据RDFS语义，domain(apparentMagnitude)=Planet 表示凡是具有 apparentMagnitude 属性的主体都被推断为 Planet，而 apparentMagnitude 作为描述天体亮度的属性可合理用于行星，因此该公理与背景知识不冲突。",根据RDFS语义，domain(apparentMagnitude)=Planet 表示凡是具有 apparentMagnitude 属性的主体都被推断为 Planet，而 apparentMagnitude 作为描述天体亮度的属性可合理用于行星，因此该公理与背景知识不冲突。,,,
+gpt-5.4,hard_case_0252,domain,domain(dateatwhichexistslocation) = date,"背景知识：
+条目1：
+- 名称：dateatwhichexistslocation
+- 类型：Class
+- 简介：dateatwhichexistslocation is a class in the NELL knowledge base.
+- 补充信息：generalizations: dateof | domain: date | range: location
+
+条目2：
+- 名称：date
+- 类型：Class
+- 简介：{%%s is a %s, date}
+- 补充信息：generalizations: abstractthing","判断结果：正确
+解释：根据背景知识，dateatwhichexistslocation 的补充信息明确给出其 domain 为 date，而按 RDFS 语义规则 domain(P)=C 表示属性 P 的主体属于类 C，因此该公理与背景知识一致。",根据背景知识，dateatwhichexistslocation 的补充信息明确给出其 domain 为 date，而按 RDFS 语义规则 domain(P)=C 表示属性 P 的主体属于类 C，因此该公理与背景知识一致。,,,
+gpt-5.4,hard_case_0111,domain,domain(lastLaunchDate) = LaunchPad,"背景知识：
+条目1：
+- 名称：lastLaunchDate
+- 类型：Property
+- 简介：last launch date
+
+条目2：
+- 名称：LaunchPad
+- 类型：Class
+- 简介：launch pad","判断结果：正确
+解释：根据背景知识，lastLaunchDate 是一个属性且其含义为“最后发射日期”，将其 domain 设为 LaunchPad 表示该属性的主体应为发射台，这与属性语义和 RDFS 中 domain 用于约束主体所属类的规则一致。",根据背景知识，lastLaunchDate 是一个属性且其含义为“最后发射日期”，将其 domain 设为 LaunchPad 表示该属性的主体应为发射台，这与属性语义和 RDFS 中 domain 用于约束主体所属类的规则一致。,,,
+gpt-5.4,hard_case_0073,domain,domain(agency) = BaseballPlayer,"背景知识：
+条目1：
+- 名称：agency
+- 类型：Property
+- 简介：agency
+
+条目2：
+- 名称：BaseballPlayer
+- 类型：Class
+- 简介：baseball player","判断结果：错误
+解释：根据RDFS语义，domain(agency)=BaseballPlayer 表示凡是使用属性 agency 的主体都必须是棒球运动员，但背景知识仅说明 agency 是一个一般属性，无法支持其主体被限定为 BaseballPlayer，且该限制明显过窄、不合理。",根据RDFS语义，domain(agency)=BaseballPlayer 表示凡是使用属性 agency 的主体都必须是棒球运动员，但背景知识仅说明 agency 是一个一般属性，无法支持其主体被限定为 BaseballPlayer，且该限制明显过窄、不合理。,,,
+gpt-5.4,hard_case_0094,domain,domain(canBaggageChecked) = Station,"背景知识：
+条目1：
+- 名称：canBaggageChecked
+- 类型：Property
+- 简介：Whether bags can be checked.
+
+条目2：
+- 名称：Station
+- 类型：Class
+- 简介：Public transport station (eg. railway station, metro station, bus station).","判断结果：正确
+解释：根据RDFS语义，domain(canBaggageChecked)=Station表示凡具有“是否可办理行李托运”这一属性的主体都应属于Station类，而该属性语义上适用于车站等公共交通站点，与背景知识一致。",根据RDFS语义，domain(canBaggageChecked)=Station表示凡具有“是否可办理行李托运”这一属性的主体都应属于Station类，而该属性语义上适用于车站等公共交通站点，与背景知识一致。,,,
+gpt-5.4,hard_case_0135,domain,domain(projectBudgetTotal) = Work,"背景知识：
+条目1：
+- 名称：projectBudgetTotal
+- 类型：Property
+- 简介：The total budget of the research project.
+
+条目2：
+- 名称：Work
+- 类型：Class
+- 简介：Item on which time has been spent for its realisation. Actor can be a human on not (machine, insects, nature...)","判断结果：错误
+解释：根据RDFS语义，domain(projectBudgetTotal)=Work 表示凡是具有“项目总预算”这一属性的主体都属于 Work，但背景中 Work 是“被实施并耗费时间的工作项”，而 projectBudgetTotal 描述的是“研究项目的总预算”，其主体应更可能是 Project 而非 Work，因此该公理不合理。",根据RDFS语义，domain(projectBudgetTotal)=Work 表示凡是具有“项目总预算”这一属性的主体都属于 Work，但背景中 Work 是“被实施并耗费时间的工作项”，而 projectBudgetTotal 描述的是“研究项目的总预算”，其主体应更可能是 Project 而非 Work，因此该公理不合理。,,,
+gpt-5.4,hard_case_0090,domain,domain(associatedRocket) = LaunchPad,"背景知识：
+条目1：
+- 名称：associatedRocket
+- 类型：Property
+- 简介：associated rocket
+
+条目2：
+- 名称：LaunchPad
+- 类型：Class
+- 简介：launch pad","判断结果：正确
+解释：根据背景知识，associatedRocket 是一个属性而 LaunchPad 是一个类，RDFS 中将某属性的 domain 设为某类表示“凡使用该属性作为主体的资源都属于该类”，这与“发射台关联火箭”的常识语义一致。",根据背景知识，associatedRocket 是一个属性而 LaunchPad 是一个类，RDFS 中将某属性的 domain 设为某类表示“凡使用该属性作为主体的资源都属于该类”，这与“发射台关联火箭”的常识语义一致。,,,
+gpt-5.4,hard_case_0264,domain,domain(professionactsatthesameareaofpoliticissue) = politicsissue,"背景知识：
+条目1：
+- 名称：professionactsatthesameareaofpoliticissue
+- 类型：Unknown
+- 简介：Describes professions that work at the area of a political issue
+- 补充信息：generalizations: relatedto | domain: politicsissue | range: profession
+
+条目2：
+- 名称：politicsissue
+- 类型：Unknown
+- 简介：An issue of political concern
+- 补充信息：generalizations: abstractthing","判断结果：正确
+解释：根据背景知识，属性professionactsatthesameareaofpoliticissue的补充信息已明确其domain为politicsissue，且RDFS中domain表示该属性主体所属的类，因此该公理与背景知识一致。",根据背景知识，属性professionactsatthesameareaofpoliticissue的补充信息已明确其domain为politicsissue，且RDFS中domain表示该属性主体所属的类，因此该公理与背景知识一致。,,,
+gpt-5.4,hard_case_0114,domain,domain(length) = Infrastructure,"背景知识：
+条目1：
+- 名称：length
+- 类型：Property
+- 简介：length (km)
+
+条目2：
+- 名称：Infrastructure
+- 类型：Class
+- 简介：infrastructure","判断结果：正确
+解释：根据RDFS语义，domain(length)=Infrastructure 表示凡是使用属性 length 的主体都属于 Infrastructure，且背景知识中 length 是属性、Infrastructure 是类，该约束在语义上成立且无冲突。",根据RDFS语义，domain(length)=Infrastructure 表示凡是使用属性 length 的主体都属于 Infrastructure，且背景知识中 length 是属性、Infrastructure 是类，该约束在语义上成立且无冲突。,,,
+gpt-5.4,hard_case_0105,domain,domain(firstLaunchRocket) = LaunchPad,"背景知识：
+条目1：
+- 名称：firstLaunchRocket
+- 类型：Property
+- 简介：first launch rocket
+
+条目2：
+- 名称：LaunchPad
+- 类型：Class
+- 简介：launch pad","判断结果：正确
+解释：根据背景知识，firstLaunchRocket 是一个属性且其含义为“首次发射所用火箭”，将其 domain 设为 LaunchPad 表示该属性的主体是发射台，这与属性语义及 RDFS 中 domain 表示主体所属类别的规则一致。",根据背景知识，firstLaunchRocket 是一个属性且其含义为“首次发射所用火箭”，将其 domain 设为 LaunchPad 表示该属性的主体是发射台，这与属性语义及 RDFS 中 domain 表示主体所属类别的规则一致。,,,
+gpt-5.4,hard_case_0112,domain,domain(lastLaunchRocket) = LaunchPad,"背景知识：
+条目1：
+- 名称：lastLaunchRocket
+- 类型：Property
+- 简介：last launch rocket
+
+条目2：
+- 名称：LaunchPad
+- 类型：Class
+- 简介：launch pad","判断结果：正确
+解释：根据RDFS语义，domain(lastLaunchRocket)=LaunchPad 表示凡是使用属性 lastLaunchRocket 的主体都应属于 LaunchPad，而“发射台的最后一次发射火箭”这一语义与背景知识一致，因此该公理合理。",根据RDFS语义，domain(lastLaunchRocket)=LaunchPad 表示凡是使用属性 lastLaunchRocket 的主体都应属于 LaunchPad，而“发射台的最后一次发射火箭”这一语义与背景知识一致，因此该公理合理。,,,
+gpt-5.4,hard_case_0124,domain,domain(nciId) = AdministrativeRegion,"背景知识：
+条目1：
+- 名称：nciId
+- 类型：Property
+- 简介：NCI
+
+条目2：
+- 名称：AdministrativeRegion
+- 类型：Class
+- 简介：A PopulatedPlace under the jurisdiction of an administrative body. This body may administer either a whole region or one or more adjacent Settlements (town administration)","判断结果：错误
+解释：根据背景知识，nciId仅说明为通用属性“NCI”而AdministrativeRegion是特定地点类，按RDFS语义domain(nciId)=AdministrativeRegion会推出凡使用nciId的主体都属于AdministrativeRegion，这与该属性显然不应只适用于行政区域的常识和背景不符。",根据背景知识，nciId仅说明为通用属性“NCI”而AdministrativeRegion是特定地点类，按RDFS语义domain(nciId)=AdministrativeRegion会推出凡使用nciId的主体都属于AdministrativeRegion，这与该属性显然不应只适用于行政区域的常识和背景不符。,,,
+gpt-5.4,hard_case_0265,domain,domain(superpartof) = everypromotedthing,"背景知识：
+条目1：
+- 名称：superpartof
+- 类型：Class
+- 简介：superpartof is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing
+
+条目2：
+- 名称：everypromotedthing
+- 类型：Class
+- 简介：{%%s is %s, something}","判断结果：正确
+解释：根据背景知识，superpartof 的补充信息已明确给出 domain 为 everypromotedthing，且按 RDFS 语义规则这表示凡使用 superpartof 作为主体的资源都应属于 everypromotedthing，因此该公理与背景知识一致。",根据背景知识，superpartof 的补充信息已明确给出 domain 为 everypromotedthing，且按 RDFS 语义规则这表示凡使用 superpartof 作为主体的资源都应属于 everypromotedthing，因此该公理与背景知识一致。,,,
+gpt-5.4,hard_case_0421,range,range(performers) = Person,"背景知识：
+条目1：
+- 名称：performers
+- 类型：Property
+- 简介：The main performer or performers of the event&#x2014;for example, a presenter, musician, or actor.
+- 补充信息：domainIncludes: http://schema.org/Event | rangeIncludes: http://schema.org/Organization, http://schema.org/Person
+
+条目2：
+- 名称：Person
+- 类型：Property
+- 简介：A person is a being who has certain capacities or attributes such as reason, morality, consciousness or self-consciousness, and being a part of a culturally established form of social relations such as kinship, ownership of property, or leg...","判断结果：正确
+解释：根据背景知识，属性 performers 的 rangeIncludes 包含 Person 和 Organization，因此将 range(performers) 设为 Person 与其客体可为 Person 的语义约束一致，不违反RDFS语义规则。",根据背景知识，属性 performers 的 rangeIncludes 包含 Person 和 Organization，因此将 range(performers) 设为 Person 与其客体可为 Person 的语义约束一致，不违反RDFS语义规则。,,,
+gpt-5.4,hard_case_0172,range,range(canonizedBy) = Person,"背景知识：
+条目1：
+- 名称：canonizedBy
+- 类型：Property
+- 简介：canonized by
+
+条目2：
+- 名称：Person
+- 类型：Class
+- 简介：person","判断结果：正确
+解释：根据背景知识，canonizedBy 是一个属性而 Person 是一个类，RDFS 中 range(canonizedBy)=Person 表示该属性的客体属于 Person，这在语义上合法且与“被某人封圣”这一常识不冲突。",根据背景知识，canonizedBy 是一个属性而 Person 是一个类，RDFS 中 range(canonizedBy)=Person 表示该属性的客体属于 Person，这在语义上合法且与“被某人封圣”这一常识不冲突。,,,
+gpt-5.4,hard_case_0208,range,range(editing) = Artery,"背景知识：
+条目1：
+- 名称：editing
+- 类型：Property
+- 简介：editing
+
+条目2：
+- 名称：Artery
+- 类型：Class
+- 简介：artery","判断结果：错误
+解释：根据背景知识，editing 是一个属性而 Artery 是“动脉”这一解剖学类，RDFS 中 range(editing)=Artery 表示 editing 的客体都应是动脉，但“编辑”行为的对象通常不是动脉，该语义约束明显不合理。",根据背景知识，editing 是一个属性而 Artery 是“动脉”这一解剖学类，RDFS 中 range(editing)=Artery 表示 editing 的客体都应是动脉，但“编辑”行为的对象通常不是动脉，该语义约束明显不合理。,,,
+gpt-5.4,hard_case_0272,range,range(inverseofcoachstudiedatuniversity) = coach,"背景知识：
+条目1：
+- 名称：inverseofcoachstudiedatuniversity
+- 类型：Unknown
+- 简介：Describes the university where the coach studied at
+- 补充信息：generalizations: relatedto | domain: university | range: coach
+
+条目2：
+- 名称：coach
+- 类型：Unknown
+- 简介：A coach is a trainer for a sports team. He leads the team in exercises and manages the team during gameplay. This category includes assistant coaches and other trainers.
+- 补充信息：generalizations: person","判断结果：正确
+解释：根据背景知识可知属性 inverseofcoachstudiedatuniversity 的补充信息已明确给出 range: coach，且按 RDFS 语义规则 range 表示该属性的客体属于类 coach，因此该公理合理。",根据背景知识可知属性 inverseofcoachstudiedatuniversity 的补充信息已明确给出 range: coach，且按 RDFS 语义规则 range 表示该属性的客体属于类 coach，因此该公理合理。,,,
+gpt-5.4,hard_case_0395,range,range(afterMedia) = MediaObject,"背景知识：
+条目1：
+- 名称：afterMedia
+- 类型：Property
+- 简介：A media object representing the circumstances after performing this direction.
+- 补充信息：domainIncludes: http://schema.org/HowToDirection | rangeIncludes: http://schema.org/MediaObject, http://schema.org/URL
+
+条目2：
+- 名称：MediaObject
+- 类型：Property
+- 简介：The Media Object Server (MOS) protocol allows newsroom computer systems (NRCS) to communicate using a standard protocol with video servers, audio servers, still stores, and character generators for broadcast production.","判断结果：正确
+解释：背景知识表明 afterMedia 是一个属性，且其 rangeIncludes 包含 MediaObject，因此根据 RDFS 中 range 表示该属性客体应属于该类的语义，range(afterMedia) = MediaObject 是合理的。",背景知识表明 afterMedia 是一个属性，且其 rangeIncludes 包含 MediaObject，因此根据 RDFS 中 range 表示该属性客体应属于该类的语义，range(afterMedia) = MediaObject 是合理的。,,,
+gpt-5.4,hard_case_0174,range,range(canton) = CareerStation,"背景知识：
+条目1：
+- 名称：canton
+- 类型：Property
+- 简介：canton
+
+条目2：
+- 名称：CareerStation
+- 类型：Class
+- 简介：this class marks a career step in the life of a person, e.g. a soccer player, holding information on the time span, matches and goals he or she achieved at a certain club","判断结果：错误
+解释：根据背景知识，canton是一个属性，而CareerStation表示“人的职业生涯中的一个阶段”，将canton的range限定为CareerStation意味着该属性的客体必须是职业阶段，这与“canton”通常指行政区划的常识语义明显不符，因此该公理错误。",根据背景知识，canton是一个属性，而CareerStation表示“人的职业生涯中的一个阶段”，将canton的range限定为CareerStation意味着该属性的客体必须是职业阶段，这与“canton”通常指行政区划的常识语义明显不符，因此该公理错误。,,,
+gpt-5.4,hard_case_0167,range,range(basedOn) = Band,"背景知识：
+条目1：
+- 名称：basedOn
+- 类型：Property
+- 简介：based on
+
+条目2：
+- 名称：Band
+- 类型：Class
+- 简介：Band","判断结果：错误
+解释：根据背景知识，basedOn 仅被说明为一个普通属性“based on”，而将其 range 限定为类 Band 意味着所有 basedOn 的客体都必须是乐队，这与该属性的常识语义明显不符，因此该公理不合理。",根据背景知识，basedOn 仅被说明为一个普通属性“based on”，而将其 range 限定为类 Band 意味着所有 basedOn 的客体都必须是乐队，这与该属性的常识语义明显不符，因此该公理不合理。,,,
+gpt-5.4,hard_case_0271,range,range(inverseofarthropodlooklikeinsect) = arthropod,"背景知识：
+条目1：
+- 名称：inverseofarthropodlooklikeinsect
+- 类型：Unknown
+- 简介：Describes the arthropod that look like specific insects
+- 补充信息：generalizations: relatedto | domain: insect | range: arthropod
+
+条目2：
+- 名称：arthropod
+- 类型：Unknown
+- 简介：Arthropods are members of the phylum Arthropoda.
+- 补充信息：generalizations: invertebrate","判断结果：正确
+解释：背景知识已明确给出属性 inverseofarthropodlooklikeinsect 的 range 为 arthropod，依据RDFS中range表示该属性客体属于该类，因此该公理成立。",背景知识已明确给出属性 inverseofarthropodlooklikeinsect 的 range 为 arthropod，依据RDFS中range表示该属性客体属于该类，因此该公理成立。,,,
+gpt-5.4,hard_case_0398,range,range(businessDays) = OpeningHoursSpecification,"背景知识：
+条目1：
+- 名称：businessDays
+- 类型：Property
+- 简介：Days of the week when the merchant typically operates, indicated via opening hours markup.
+- 补充信息：domainIncludes: http://schema.org/ServicePeriod, http://schema.org/ShippingDeliveryTime | rangeIncludes: http://schema.org/DayOfWeek, http://schema.org/OpeningHoursSpecification
+
+条目2：
+- 名称：OpeningHoursSpecification
+- 类型：Property
+- 简介：OpeningHoursSpecification is a property in the knowledge base.","判断结果：正确
+解释：根据背景知识，businessDays 的 rangeIncludes 包含 OpeningHoursSpecification，因此将其值域写为 OpeningHoursSpecification 与给定知识一致，作为范围约束是合理的。",根据背景知识，businessDays 的 rangeIncludes 包含 OpeningHoursSpecification，因此将其值域写为 OpeningHoursSpecification 与给定知识一致，作为范围约束是合理的。,,,
+gpt-5.4,hard_case_0200,range,range(derivative) = MilitaryUnit,"背景知识：
+条目1：
+- 名称：derivative
+- 类型：Property
+- 简介：derivative
+
+条目2：
+- 名称：MilitaryUnit
+- 类型：Class
+- 简介：military unit","判断结果：错误
+解释：根据RDFS语义，range(derivative)=MilitaryUnit表示任何derivative属性的客体都必须是军事单位，但背景中derivative仅表示一般“导数/派生”属性，与MilitaryUnit这一类之间无语义上的合理对应关系，因此该公理不合理。",根据RDFS语义，range(derivative)=MilitaryUnit表示任何derivative属性的客体都必须是军事单位，但背景中derivative仅表示一般“导数/派生”属性，与MilitaryUnit这一类之间无语义上的合理对应关系，因此该公理不合理。,,,
+gpt-5.4,hard_case_0177,range,range(chairman) = Place,"背景知识：
+条目1：
+- 名称：chairman
+- 类型：Property
+- 简介：chairman
+
+条目2：
+- 名称：Place
+- 类型：Class
+- 简介：place","判断结果：错误
+解释：根据背景知识，chairman 是一个属性而 Place 是表示地点的类，若设定 range(chairman)=Place 则意味着该属性的客体必须是地点，但“chairman”按常识应指向担任主席的人而非地点，因此该公理不合理。",根据背景知识，chairman 是一个属性而 Place 是表示地点的类，若设定 range(chairman)=Place 则意味着该属性的客体必须是地点，但“chairman”按常识应指向担任主席的人而非地点，因此该公理不合理。,,,
+gpt-5.4,hard_case_0195,range,range(cultivatedVariety) = CultivatedVariety,"背景知识：
+条目1：
+- 名称：cultivatedVariety
+- 类型：Property
+- 简介：Name of the cultivar (cultivated variety)
+
+条目2：
+- 名称：CultivatedVariety
+- 类型：Class
+- 简介：A cultivar is a plant or grouping of plants selected for desirable characteristics that can be maintained by propagation. A plant whose origin or selection is primarily due to intentional human activity.","判断结果：正确
+解释：根据背景知识，cultivatedVariety 是表示“栽培品种名称/栽培变种”的属性，而 CultivatedVariety 是对应的类，因此按照 RDFS 中 range 表示该属性客体应属于该类的语义，range(cultivatedVariety)=CultivatedVariety 是合理的。",根据背景知识，cultivatedVariety 是表示“栽培品种名称/栽培变种”的属性，而 CultivatedVariety 是对应的类，因此按照 RDFS 中 range 表示该属性客体应属于该类的语义，range(cultivatedVariety)=CultivatedVariety 是合理的。,,,
+gpt-5.4,hard_case_0178,range,range(championInDoubleMale) = Athlete,"背景知识：
+条目1：
+- 名称：championInDoubleMale
+- 类型：Property
+- 简介：winner of a competition in the male double session (as in tennis)
+
+条目2：
+- 名称：Athlete
+- 类型：Class
+- 简介：athlete","判断结果：正确
+解释：championInDoubleMale 是表示“男子双打比赛冠军”的属性，其 range 约束客体应为获得该冠军的对象，而该对象按常识应属于 Athlete 类，因此该公理符合 RDFS 中 range 表示客体类型约束的语义。",championInDoubleMale 是表示“男子双打比赛冠军”的属性，其 range 约束客体应为获得该冠军的对象，而该对象按常识应属于 Athlete 类，因此该公理符合 RDFS 中 range 表示客体类型约束的语义。,,,
+gpt-5.4,hard_case_0168,range,range(beatifiedBy) = Person,"背景知识：
+条目1：
+- 名称：beatifiedBy
+- 类型：Property
+- 简介：beatified by
+
+条目2：
+- 名称：Person
+- 类型：Class
+- 简介：person","判断结果：正确
+解释：根据背景知识，beatifiedBy 是一个属性，而 range(beatifiedBy)=Person 表示该属性的客体应属于 Person 类，这与“被某人宣福/册封”这一常识语义相符，符合 RDFS 的 range 约束规则。",根据背景知识，beatifiedBy 是一个属性，而 range(beatifiedBy)=Person 表示该属性的客体应属于 Person 类，这与“被某人宣福/册封”这一常识语义相符，符合 RDFS 的 range 约束规则。,,,
+gpt-5.4,hard_case_0415,range,range(meetsEmissionStandard) = URL,"背景知识：
+条目1：
+- 名称：meetsEmissionStandard
+- 类型：Property
+- 简介：Indicates that the vehicle meets the respective emission standard.
+- 补充信息：domainIncludes: http://schema.org/Vehicle | rangeIncludes: http://schema.org/QualitativeValue, http://schema.org/Text, http://schema.org/URL
+
+条目2：
+- 名称：URL
+- 类型：Property
+- 简介：A uniform resource locator (URL), colloquially known as a web address, is a reference to a resource on the World Wide Web. A URL specifies the location of a resource on a computer network and a mechanism for retrieving it. A URL is a specif...","判断结果：正确
+解释：背景知识表明属性 meetsEmissionStandard 的 rangeIncludes 包含 http://schema.org/URL，因此将其值域设为 URL 与已知语义约束相一致。",背景知识表明属性 meetsEmissionStandard 的 rangeIncludes 包含 http://schema.org/URL，因此将其值域设为 URL 与已知语义约束相一致。,,,
+gpt-5.4,hard_case_0205,range,range(distributor) = Artery,"背景知识：
+条目1：
+- 名称：distributor
+- 类型：Property
+- 简介：distributor
+
+条目2：
+- 名称：Artery
+- 类型：Class
+- 简介：artery","判断结果：错误
+解释：根据RDFS语义，range(distributor)=Artery 表示 distributor 属性的客体都应属于 Artery 类，但背景知识中 distributor 是“分发者”属性而 Artery 是“动脉”类，二者语义上明显不匹配，因此该公理错误。",根据RDFS语义，range(distributor)=Artery 表示 distributor 属性的客体都应属于 Artery 类，但背景知识中 distributor 是“分发者”属性而 Artery 是“动脉”类，二者语义上明显不匹配，因此该公理错误。,,,
+gpt-5.4,hard_case_0165,range,range(automobilePlatform) = Album,"背景知识：
+条目1：
+- 名称：automobilePlatform
+- 类型：Property
+- 简介：automobile platform
+
+条目2：
+- 名称：Album
+- 类型：Class
+- 简介：album","判断结果：错误
+解释：automobilePlatform 是表示“汽车平台”的属性，其 range 应约束为某类汽车平台相关对象而非表示音乐专辑的类 Album，因此该公理与背景知识和常识语义明显冲突。",automobilePlatform 是表示“汽车平台”的属性，其 range 应约束为某类汽车平台相关对象而非表示音乐专辑的类 Album，因此该公理与背景知识和常识语义明显冲突。,,,
+gpt-5.4,hard_case_0201,range,range(derivative) = MusicGenre,"背景知识：
+条目1：
+- 名称：derivative
+- 类型：Property
+- 简介：derivative
+
+条目2：
+- 名称：MusicGenre
+- 类型：Class
+- 简介：music genre","判断结果：正确
+解释：根据背景知识，derivative 是一个属性而 MusicGenre 是一个类，RDFS 中 range(derivative)=MusicGenre 表示该属性的客体应属于 MusicGenre 类，这一设定在类型上合法且与“衍生/派生”关系指向某种音乐流派的常识并不冲突。",根据背景知识，derivative 是一个属性而 MusicGenre 是一个类，RDFS 中 range(derivative)=MusicGenre 表示该属性的客体应属于 MusicGenre 类，这一设定在类型上合法且与“衍生/派生”关系指向某种音乐流派的常识并不冲突。,,,
+gpt-5.4,hard_case_0268,range,range(comediancanbethesameasmale) = male,"背景知识：
+条目1：
+- 名称：comediancanbethesameasmale
+- 类型：Class
+- 简介：{%%s %s %%s, is related to}
+- 补充信息：generalizations: canbethesameas | domain: comedian | range: male
+
+条目2：
+- 名称：male
+- 类型：Class
+- 简介：{%%s is a %s, male}
+- 补充信息：generalizations: person","判断结果：正确
+解释：根据背景知识，类“comediancanbethesameasmale”的补充信息已明确给出其range为male，而RDFS中range表示该关系的客体属于male类，因此该公理成立。",根据背景知识，类“comediancanbethesameasmale”的补充信息已明确给出其range为male，而RDFS中range表示该关系的客体属于male类，因此该公理成立。,,,
+gpt-5.4,hard_case_0155,range,range(album) = Athlete,"背景知识：
+条目1：
+- 名称：album
+- 类型：Property
+- 简介：album
+
+条目2：
+- 名称：Athlete
+- 类型：Class
+- 简介：athlete","判断结果：错误
+解释：根据RDFS语义，range(album)=Athlete 表示属性 album 的取值必须是运动员类实例，但“album”通常指专辑这一对象而非运动员，与背景知识和常识语义明显不符。",根据RDFS语义，range(album)=Athlete 表示属性 album 的取值必须是运动员类实例，但“album”通常指专辑这一对象而非运动员，与背景知识和常识语义明显不符。,,,
+gpt-5.4,hard_case_0289,subClassOf,Historical_Chinese_Q10913056 ⊑ Chinese_language,"背景知识：
+条目1：
+- 名称：Historical_Chinese_Q10913056
+- 类型：Class
+- 简介：Historical_Chinese_Q10913056 is a class in the knowledge base.
+
+条目2：
+- 名称：Chinese_language
+- 类型：Class
+- 简介：Chinese is an umbrella term for all Sinitic languages, widely recognized as a collection of language varieties, spoken natively by the ethnic Han Chinese majority and many minority ethnic groups in Greater China, as well as by various commu...","判断结果：正确
+解释：根据背景知识，Historical_Chinese_Q10913056和Chinese_language均为类，且“Historical Chinese”作为历史上的汉语形式或阶段，语义上可视为Chinese_language的子类，因此该subClassOf公理合理。",根据背景知识，Historical_Chinese_Q10913056和Chinese_language均为类，且“Historical Chinese”作为历史上的汉语形式或阶段，语义上可视为Chinese_language的子类，因此该subClassOf公理合理。,,,
+gpt-5.4,hard_case_0020,subClassOf,Person ⊑ Animal,"背景知识：
+条目1：
+- 名称：Person
+- 类型：Class
+- 简介：person
+
+条目2：
+- 名称：Animal
+- 类型：Class
+- 简介：animal","判断结果：正确
+解释：根据背景知识Person和Animal均为类，且依据常识“人是动物的一种”，因此公理Person ⊑ Animal作为subClassOf关系是合理的。",根据背景知识Person和Animal均为类，且依据常识“人是动物的一种”，因此公理Person ⊑ Animal作为subClassOf关系是合理的。,,,
+gpt-5.4,hard_case_0282,subClassOf,Fermier_Général_Q50376727 ⊑ Financier,"背景知识：
+条目1：
+- 名称：Fermier_Général_Q50376727
+- 类型：Class
+- 简介：Fermier_Général_Q50376727 is a class in the knowledge base.
+
+条目2：
+- 名称：Financier
+- 类型：Class
+- 简介：An investor is a person or entity that allocates financial capital with the expectation of a future return (profit) or to gain an advantage (interest). Through this allocated capital the investor usually purchases some species of property.....","判断结果：正确
+解释：根据RDFS中subClassOf语义，公理表示“Fermier_Général_Q50376727”的所有实例都属于“Financier”，而两者均为类且背景知识未给出任何冲突信息，因此该子类关系可以成立。",根据RDFS中subClassOf语义，公理表示“Fermier_Général_Q50376727”的所有实例都属于“Financier”，而两者均为类且背景知识未给出任何冲突信息，因此该子类关系可以成立。,,,
+gpt-5.4,hard_case_0280,subClassOf,Corps_de_l_u0027_armement ⊑ Engineer,"背景知识：
+条目1：
+- 名称：Corps_de_l_u0027_armement
+- 类型：Class
+- 简介：Corps_de_l_u0027_armement is a class in the knowledge base.
+
+条目2：
+- 名称：Engineer
+- 类型：Class
+- 简介：An engineer is a practitioner of engineering. The word engineer is derived from the Latin words ingeniare and ingenium (""cleverness""). The foundational qualifications of a licensed professional engineer typically include a four-year bachelo...","判断结果：正确
+解释：根据背景知识，Corps_de_l_u0027_armement 和 Engineer 都是类，公理“Corps_de_l_u0027_armement ⊑ Engineer”表示前者是后者的子类，这在RDFS的subClassOf语义下合法，且与已知信息不存在明显冲突。",根据背景知识，Corps_de_l_u0027_armement 和 Engineer 都是类，公理“Corps_de_l_u0027_armement ⊑ Engineer”表示前者是后者的子类，这在RDFS的subClassOf语义下合法，且与已知信息不存在明显冲突。,,,
+gpt-5.4,hard_case_0295,subClassOf,Rábula_Q10365511 ⊑ Lawyer,"背景知识：
+条目1：
+- 名称：Rábula_Q10365511
+- 类型：Class
+- 简介：Rábula_Q10365511 is a class in the knowledge base.
+
+条目2：
+- 名称：Lawyer
+- 类型：Class
+- 简介：A lawyer is a person who is qualified to offer advice about the law, draft legal documents, or represent individuals in legal matters.","判断结果：正确
+解释：根据背景知识，Rábula_Q10365511 是一个类而 Lawyer 也是一个类，公理“Rábula_Q10365511 ⊑ Lawyer”属于合法的 subClassOf 断言，且“Rábula”作为法律从业相关概念归入 Lawyer 不与已知信息或常识冲突。",根据背景知识，Rábula_Q10365511 是一个类而 Lawyer 也是一个类，公理“Rábula_Q10365511 ⊑ Lawyer”属于合法的 subClassOf 断言，且“Rábula”作为法律从业相关概念归入 Lawyer 不与已知信息或常识冲突。,,,
+gpt-5.4,hard_case_0216,subClassOf,caf_ ⊑ company,"背景知识：
+条目1：
+- 名称：caf_
+- 类型：Class
+- 简介：{%%s is a %s, café}
+- 补充信息：generalizations: location, company
+
+条目2：
+- 名称：company
+- 类型：Class
+- 简介：{%%s is a %s, company}
+- 补充信息：generalizations: organization","判断结果：正确
+解释：根据背景知识中“caf_”的补充信息含有generalizations: company，可知caf_是company的子类，符合RDFS中subClassOf表示类包含关系的语义。",根据背景知识中“caf_”的补充信息含有generalizations: company，可知caf_是company的子类，符合RDFS中subClassOf表示类包含关系的语义。,,,
+gpt-5.4,hard_case_0015,subClassOf,ChristianBishop ⊑ Archbishop,"背景知识：
+条目1：
+- 名称：ChristianBishop
+- 类型：Class
+- 简介：Christian Bishop
+
+条目2：
+- 名称：Archbishop
+- 类型：Class
+- 简介：archbishop","判断结果：错误
+解释：根据subClassOf语义，ChristianBishop若为Archbishop的子类则其所有实例都应是大主教，但从常识与名称语义看“大主教”是“基督教主教”的一种，因此更合理的是Archbishop ⊑ ChristianBishop，而不是ChristianBishop ⊑ Archbishop。",根据subClassOf语义，ChristianBishop若为Archbishop的子类则其所有实例都应是大主教，但从常识与名称语义看“大主教”是“基督教主教”的一种，因此更合理的是Archbishop ⊑ ChristianBishop，而不是ChristianBishop ⊑ Archbishop。,,,
+gpt-5.4,hard_case_0283,subClassOf,Fictional_Human_Q15632617 ⊑ Fictional_Human_Formerly_Considered_To_Be_Historical_Q64520857,"背景知识：
+条目1：
+- 名称：Fictional_Human_Q15632617
+- 类型：Class
+- 简介：Fictional_Human_Q15632617 is a class in the knowledge base.
+
+条目2：
+- 名称：Fictional_Human_Formerly_Considered_To_Be_Historical_Q64520857
+- 类型：Class
+- 简介：Fictional_Human_Formerly_Considered_To_Be_Historical_Q64520857 is a class in the knowledge base.","判断结果：错误
+解释：根据subClassOf语义，前者应是后者的子类，但“虚构人类”是更一般的类，而“曾被认为是历史人物的虚构人类”明显是其更特定的子类，因此该方向与常识性的类包含关系相冲突。",根据subClassOf语义，前者应是后者的子类，但“虚构人类”是更一般的类，而“曾被认为是历史人物的虚构人类”明显是其更特定的子类，因此该方向与常识性的类包含关系相冲突。,,,
+gpt-5.4,hard_case_0010,subClassOf,Attack ⊑ SocietalEvent,"背景知识：
+条目1：
+- 名称：Attack
+- 类型：Class
+- 简介：An Attack is not necessarily part of a Military Conflict
+
+条目2：
+- 名称：SocietalEvent
+- 类型：Class
+- 简介：an event that is clearly different from strictly personal events","判断结果：正确
+解释：根据subClassOf语义，Attack ⊑ SocietalEvent 表示所有Attack都是SocietalEvent，而背景中Attack是非严格个人事件、与SocietalEvent“明显不同于严格个人事件”的定义相容，且“未必属于军事冲突”并不构成冲突。",根据subClassOf语义，Attack ⊑ SocietalEvent 表示所有Attack都是SocietalEvent，而背景中Attack是非严格个人事件、与SocietalEvent“明显不同于严格个人事件”的定义相容，且“未必属于军事冲突”并不构成冲突。,,,
+gpt-5.4,hard_case_0293,subClassOf,Manbhumi_dialect ⊑ Bengali_language,"背景知识：
+条目1：
+- 名称：Manbhumi_dialect
+- 类型：Class
+- 简介：Western Bengali or Mānbhūmī Bengali is a set of western vernacular Bengali dialects spoken in Purulia, West Bardhaman, Bankura, Greater Medinipur, Birbhum, Singhbhum, Santal Parganas, Chotanagpur, Kakdwip of South 24 Parganas and other adja...
+
+条目2：
+- 名称：Bengali_language
+- 类型：Class
+- 简介：Bengali, also known by its endonym Bangla, is a classical Indo-Aryan language belonging to the Indo-Iranian branch of the Indo-European language family. It is primarily spoken by the Bengali people, native to the Bengal region. With over 24...","判断结果：正确
+解释：根据背景知识，Manbhumi_dialect 被描述为一组西部孟加拉语方言，而方言通常属于其对应语言的下位类别，因此依据 subClassOf 表示类包含关系可知 Manbhumi_dialect ⊑ Bengali_language 是合理的。",根据背景知识，Manbhumi_dialect 被描述为一组西部孟加拉语方言，而方言通常属于其对应语言的下位类别，因此依据 subClassOf 表示类包含关系可知 Manbhumi_dialect ⊑ Bengali_language 是合理的。,,,
+gpt-5.4,hard_case_0002,subClassOf,Album ⊑ MusicalWork,"背景知识：
+条目1：
+- 名称：Album
+- 类型：Class
+- 简介：album
+
+条目2：
+- 名称：MusicalWork
+- 类型：Class
+- 简介：musical work","判断结果：正确
+解释：根据背景知识，Album（专辑）是 MusicalWork（音乐作品）的一种更具体类型，因此将 Album 声明为 MusicalWork 的子类符合 subClassOf 的语义规则。",根据背景知识，Album（专辑）是 MusicalWork（音乐作品）的一种更具体类型，因此将 Album 声明为 MusicalWork 的子类符合 subClassOf 的语义规则。,,,
+gpt-5.4,hard_case_0284,subClassOf,Fictional_Human_Q15632617 ⊑ Immortal__u0028_Highlander_u0029_,"背景知识：
+条目1：
+- 名称：Fictional_Human_Q15632617
+- 类型：Class
+- 简介：Fictional_Human_Q15632617 is a class in the knowledge base.
+
+条目2：
+- 名称：Immortal__u0028_Highlander_u0029_
+- 类型：Class
+- 简介：Immortal__u0028_Highlander_u0029_ is a class in the knowledge base.","判断结果：错误
+解释：该公理表示“所有虚构人类都是《Highlander》中的不朽者”，但背景知识仅说明二者都是类，且从常识上“虚构人类”范围远大于特定作品设定中的“不朽者”，因此该子类关系不成立。",该公理表示“所有虚构人类都是《Highlander》中的不朽者”，但背景知识仅说明二者都是类，且从常识上“虚构人类”范围远大于特定作品设定中的“不朽者”，因此该子类关系不成立。,,,
+gpt-5.4,hard_case_0290,subClassOf,Lawyer ⊑ Rábula_Q10365511,"背景知识：
+条目1：
+- 名称：Lawyer
+- 类型：Class
+- 简介：A lawyer is a person who is qualified to offer advice about the law, draft legal documents, or represent individuals in legal matters.
+
+条目2：
+- 名称：Rábula_Q10365511
+- 类型：Class
+- 简介：Rábula_Q10365511 is a class in the knowledge base.","判断结果：错误
+解释：根据subClassOf语义，Lawyer 的所有实例都应属于 Rábula_Q10365511，但背景知识只表明 Lawyer 是“律师”这一明确职业类，而 Rábula_Q10365511 仅被说明为知识库中的一个类，缺乏其能涵盖 Lawyer 的语义依据，因此该公理不合理。",根据subClassOf语义，Lawyer 的所有实例都应属于 Rábula_Q10365511，但背景知识只表明 Lawyer 是“律师”这一明确职业类，而 Rábula_Q10365511 仅被说明为知识库中的一个类，缺乏其能涵盖 Lawyer 的语义依据，因此该公理不合理。,,,
+gpt-5.4,hard_case_0018,subClassOf,Genre ⊑ ArtisticGenre,"背景知识：
+条目1：
+- 名称：Genre
+- 类型：Class
+- 简介：genre
+
+条目2：
+- 名称：ArtisticGenre
+- 类型：Class
+- 简介：Genres of art, e.g. Pointillist, Modernist","判断结果：错误
+解释：根据背景知识，ArtisticGenre表示“艺术类型”而Genre是更一般的“类型”概念，因此按subClassOf语义应是ArtisticGenre ⊑ Genre而不是Genre ⊑ ArtisticGenre。",根据背景知识，ArtisticGenre表示“艺术类型”而Genre是更一般的“类型”概念，因此按subClassOf语义应是ArtisticGenre ⊑ Genre而不是Genre ⊑ ArtisticGenre。,,,
+gpt-5.4,hard_case_0017,subClassOf,Eukaryote ⊑ Animal,"背景知识：
+条目1：
+- 名称：Eukaryote
+- 类型：Class
+- 简介：eukaryote
+
+条目2：
+- 名称：Animal
+- 类型：Class
+- 简介：animal","判断结果：错误
+解释：依据subClassOf语义，公理“Eukaryote ⊑ Animal”表示所有真核生物都是动物，但背景中Eukaryote是比Animal更宽泛的类，包含植物、真菌等非动物生物，因此该公理与常识和类包含关系冲突。",依据subClassOf语义，公理“Eukaryote ⊑ Animal”表示所有真核生物都是动物，但背景中Eukaryote是比Animal更宽泛的类，包含植物、真菌等非动物生物，因此该公理与常识和类包含关系冲突。,,,
+gpt-5.4,hard_case_0019,subClassOf,GridironFootballPlayer ⊑ AmericanFootballPlayer,"背景知识：
+条目1：
+- 名称：GridironFootballPlayer
+- 类型：Class
+- 简介：Gradiron football, also called North American football, is a family of soccer team games played primarily in the United States and Canada.
+
+条目2：
+- 名称：AmericanFootballPlayer
+- 类型：Class
+- 简介：american football player","判断结果：错误
+解释：根据背景知识，GridironFootballPlayer表示更广义的北美橄榄球运动员，而AmericanFootballPlayer仅指美式橄榄球运动员，依据subClassOf语义子类应比父类更具体，因此将前者设为后者的子类不合理。",根据背景知识，GridironFootballPlayer表示更广义的北美橄榄球运动员，而AmericanFootballPlayer仅指美式橄榄球运动员，依据subClassOf语义子类应比父类更具体，因此将前者设为后者的子类不合理。,,,
+gpt-5.4,hard_case_0003,subClassOf,Ambassador ⊑ Politician,"背景知识：
+条目1：
+- 名称：Ambassador
+- 类型：Class
+- 简介：An ambassador is the highest ranking diplomat that represents a nation and is usually accredited to a foreign sovereign or government, or to an international organization.
+
+条目2：
+- 名称：Politician
+- 类型：Class
+- 简介：politician","判断结果：正确
+解释：根据背景知识，Ambassador（大使）是代表国家或政府的高级外交官，通常属于从事公共治理与政治职能的人群，因此将 Ambassador 作为 Politician 的子类符合 subClassOf 表示“前者属于后者”的RDFS语义。",根据背景知识，Ambassador（大使）是代表国家或政府的高级外交官，通常属于从事公共治理与政治职能的人群，因此将 Ambassador 作为 Politician 的子类符合 subClassOf 表示“前者属于后者”的RDFS语义。,,,
+gpt-5.4,hard_case_0291,subClassOf,Legal_Scholar_Q16012028 ⊑ Constitutional_Lawyer_Q2325224,"背景知识：
+条目1：
+- 名称：Legal_Scholar_Q16012028
+- 类型：Class
+- 简介：Legal_Scholar_Q16012028 is a class in the knowledge base.
+
+条目2：
+- 名称：Constitutional_Lawyer_Q2325224
+- 类型：Class
+- 简介：Constitutional_Lawyer_Q2325224 is a class in the knowledge base.","判断结果：错误
+解释：依据subClassOf语义该公理表示“所有法律学者都是宪法律师”，但背景知识仅说明二者都是类且从常识上“宪法律师”应是“法律学者”的更具体子类而非其上位类，因此该公理不合理。",依据subClassOf语义该公理表示“所有法律学者都是宪法律师”，但背景知识仅说明二者都是类且从常识上“宪法律师”应是“法律学者”的更具体子类而非其上位类，因此该公理不合理。,,,
+gpt-5.4,hard_case_0022,subClassOf,TopicalConcept ⊑ Type,"背景知识：
+条目1：
+- 名称：TopicalConcept
+- 类型：Class
+- 简介：topical concept
+
+条目2：
+- 名称：Type
+- 类型：Class
+- 简介：a category within a classification system","判断结果：错误
+解释：根据背景知识，TopicalConcept 表示“主题概念”而 Type 表示“分类体系中的类别”，二者语义上并不存在明确的 RDFS subclass 包含关系，因此公理 TopicalConcept ⊑ Type 缺乏依据且不合理。",根据背景知识，TopicalConcept 表示“主题概念”而 Type 表示“分类体系中的类别”，二者语义上并不存在明确的 RDFS subclass 包含关系，因此公理 TopicalConcept ⊑ Type 缺乏依据且不合理。,,,
+gpt-5.4,hard_case_0285,subClassOf,Fictional_Human_Q15632617 ⊑ Witcher_Q20011098,"背景知识：
+条目1：
+- 名称：Fictional_Human_Q15632617
+- 类型：Class
+- 简介：Fictional_Human_Q15632617 is a class in the knowledge base.
+
+条目2：
+- 名称：Witcher_Q20011098
+- 类型：Class
+- 简介：Witcher_Q20011098 is a class in the knowledge base.","判断结果：错误
+解释：该公理将 Fictional_Human_Q15632617 设为 Witcher_Q20011098 的子类，按 RDFS 的 subClassOf 语义这意味着所有虚构人类都是猎魔人，但背景知识仅表明二者都是类且常识上“猎魔人”应只是“虚构人类”的一部分，因此该包含关系不合理。",该公理将 Fictional_Human_Q15632617 设为 Witcher_Q20011098 的子类，按 RDFS 的 subClassOf 语义这意味着所有虚构人类都是猎魔人，但背景知识仅表明二者都是类且常识上“猎魔人”应只是“虚构人类”的一部分，因此该包含关系不合理。,,,
+gpt-5.4,hard_case_0034,subPropertyOf,code ⊑p dfE,"背景知识：
+条目1：
+- 名称：code
+- 类型：Property
+- 简介：Superproperty for any designation (string, integer as string) that is meant to identify an entity within the context of a system
+
+条目2：
+- 名称：dfE
+- 类型：Property
+- 简介：Department for Education (UK) number of a school in England or Wales","判断结果：错误
+解释：根据背景知识，code 是用于广泛标识实体的上位属性，而 dfE 是仅表示英格兰或威尔士学校教育部编号的更具体属性，因此应是 dfE ⊑p code 而非 code ⊑p dfE。",根据背景知识，code 是用于广泛标识实体的上位属性，而 dfE 是仅表示英格兰或威尔士学校教育部编号的更具体属性，因此应是 dfE ⊑p code 而非 code ⊑p dfE。,,,
+gpt-5.4,hard_case_0228,subPropertyOf,dateof ⊑p dateatwhichexistslocation,"背景知识：
+条目1：
+- 名称：dateof
+- 类型：Unknown
+- 简介：assigns dates to things.
+- 补充信息：generalizations: relatedto | domain: date | range: everypromotedthing
+
+条目2：
+- 名称：dateatwhichexistslocation
+- 类型：Unknown
+- 简介：Most general location-to-date relation. Note that locations are not eternal.
+- 补充信息：generalizations: dateof | domain: date | range: location","判断结果：错误
+解释：背景知识表明dateatwhichexistslocation generalizations: dateof，即dateatwhichexistslocation是dateof的子属性，因此正确的subPropertyOf方向应为dateatwhichexistslocation ⊑p dateof，而不是dateof ⊑p dateatwhichexistslocation。",背景知识表明dateatwhichexistslocation generalizations: dateof，即dateatwhichexistslocation是dateof的子属性，因此正确的subPropertyOf方向应为dateatwhichexistslocation ⊑p dateof，而不是dateof ⊑p dateatwhichexistslocation。,,,
+gpt-5.4,hard_case_0323,subPropertyOf,logo ⊑p image,"背景知识：
+条目1：
+- 名称：logo
+- 类型：Property
+- 简介：An associated logo.
+- 补充信息：domainIncludes: http://schema.org/Brand, http://schema.org/Certification, http://schema.org/Organization, http://schema.org/Place, http://schema.org/Product, http://schema.org/Serv...
+
+条目2：
+- 名称：image
+- 类型：Property
+- 简介：An image of the item. This can be a <a class=""localLink"" href=""/URL"">URL</a> or a fully described <a class=""localLink"" href=""/ImageObject"">ImageObject</a>.
+- 补充信息：domainIncludes: http://schema.org/Thing | rangeIncludes: http://schema.org/ImageObject, http://schema.org/URL","判断结果：正确
+解释：根据背景知识，logo 与 image 均为属性，且 logo 表示“关联的标志”可视为 image 所表示“条目的图像”的更具体形式，因此将 logo 视为 image 的子属性（logo ⊑p image）符合 subPropertyOf 的语义且与已有 domainIncludes 信息不冲突。",根据背景知识，logo 与 image 均为属性，且 logo 表示“关联的标志”可视为 image 所表示“条目的图像”的更具体形式，因此将 logo 视为 image 的子属性（logo ⊑p image）符合 subPropertyOf 的语义且与已有 domainIncludes 信息不冲突。,,,
+gpt-5.4,hard_case_0238,subPropertyOf,invertebratehascolor ⊑p relatedto,"背景知识：
+条目1：
+- 名称：invertebratehascolor
+- 类型：Class
+- 简介：{%%s %s %%s, is related to}
+- 补充信息：generalizations: relatedto | domain: invertebrate | range: color
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing","判断结果：正确
+解释：根据背景知识，invertebratehascolor 的 generalizations 明确包含 relatedto，且这对应于属性间的 subPropertyOf 关系，因此公理 invertebratehascolor ⊑p relatedto 合理。",根据背景知识，invertebratehascolor 的 generalizations 明确包含 relatedto，且这对应于属性间的 subPropertyOf 关系，因此公理 invertebratehascolor ⊑p relatedto 合理。,,,
+gpt-5.4,hard_case_0030,subPropertyOf,code ⊑p brinCode,"背景知识：
+条目1：
+- 名称：code
+- 类型：Property
+- 简介：Superproperty for any designation (string, integer as string) that is meant to identify an entity within the context of a system
+
+条目2：
+- 名称：brinCode
+- 类型：Property
+- 简介：The code used by the Dutch Ministry of Education to identify a school (as an organisation)","判断结果：错误
+解释：根据背景知识，code 是用于标识实体的更一般性属性，而 brinCode 是专门用于标识荷兰教育部学校的特定代码属性，依据 subPropertyOf 语义应为 brinCode ⊑p code 而非 code ⊑p brinCode。",根据背景知识，code 是用于标识实体的更一般性属性，而 brinCode 是专门用于标识荷兰教育部学校的特定代码属性，依据 subPropertyOf 语义应为 brinCode ⊑p code 而非 code ⊑p brinCode。,,,
+gpt-5.4,hard_case_0224,subPropertyOf,cityhostsattraction ⊑p cityattractions,"背景知识：
+条目1：
+- 名称：cityhostsattraction
+- 类型：Unknown
+- 简介：Attraction occurs in the city
+- 补充信息：generalizations: cityattractions | domain: city | range: attraction
+
+条目2：
+- 名称：cityattractions
+- 类型：Unknown
+- 简介：The city that an attraction is located in
+- 补充信息：generalizations: locationcontainslocation | domain: city | range: attraction","判断结果：正确
+解释：根据背景知识，cityhostsattraction 的 generalizations 明确指向 cityattractions，且二者的 domain 均为 city、range 均为 attraction，因此依据 RDFS 中 subPropertyOf 语义可知 cityhostsattraction ⊑p cityattractions 是合理的。",根据背景知识，cityhostsattraction 的 generalizations 明确指向 cityattractions，且二者的 domain 均为 city、range 均为 attraction，因此依据 RDFS 中 subPropertyOf 语义可知 cityhostsattraction ⊑p cityattractions 是合理的。,,,
+gpt-5.4,hard_case_0237,subPropertyOf,inverseofprofessionactsatthesameareaofpoliticissue ⊑p relatedto,"背景知识：
+条目1：
+- 名称：inverseofprofessionactsatthesameareaofpoliticissue
+- 类型：Class
+- 简介：inverseofprofessionactsatthesameareaofpoliticissue is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: profession | range: politicsissue
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing","判断结果：正确
+解释：根据背景知识，inverseofprofessionactsatthesameareaofpoliticissue 的 generalizations 明确包含 relatedto，且二者都表示关系型属性，因此依据 RDFS 中 subPropertyOf 的语义，该公理成立。",根据背景知识，inverseofprofessionactsatthesameareaofpoliticissue 的 generalizations 明确包含 relatedto，且二者都表示关系型属性，因此依据 RDFS 中 subPropertyOf 的语义，该公理成立。,,,
+gpt-5.4,hard_case_0047,subPropertyOf,featuring ⊑p artist,"背景知识：
+条目1：
+- 名称：featuring
+- 类型：Property
+- 简介：Name of the second artist, apart the main artist, reserved preferently for singles, promotional singles and songs.
+
+条目2：
+- 名称：artist
+- 类型：Property
+- 简介：The performer or creator of the musical work.","判断结果：正确
+解释：根据背景知识，featuring表示“第二艺人”而artist表示“音乐作品的表演者或创作者”，前者语义上是后者的更具体情形，因此可合理推断featuring是artist的子属性。",根据背景知识，featuring表示“第二艺人”而artist表示“音乐作品的表演者或创作者”，前者语义上是后者的更具体情形，因此可合理推断featuring是artist的子属性。,,,
+gpt-5.4,hard_case_0058,subPropertyOf,maximumDepth ⊑p depth,"背景知识：
+条目1：
+- 名称：maximumDepth
+- 类型：Property
+- 简介：Source of the value can be declare by .
+
+条目2：
+- 名称：depth
+- 类型：Property
+- 简介：Is a measure of the distance between a reference height and a point underneath. The exact meaning for a place is unclear. If possible, use or to be unambiguous.","判断结果：正确
+解释：根据背景知识，maximumDepth 和 depth 都是属性，且 maximumDepth 表示“最大深度”这一更具体的深度属性，符合 RDFS 中 subPropertyOf 表示“更具体属性包含于更一般属性”的语义，因此该公理合理。",根据背景知识，maximumDepth 和 depth 都是属性，且 maximumDepth 表示“最大深度”这一更具体的深度属性，符合 RDFS 中 subPropertyOf 表示“更具体属性包含于更一般属性”的语义，因此该公理合理。,,,
+gpt-5.4,hard_case_0048,subPropertyOf,followedBy ⊑p nextEvent,"背景知识：
+条目1：
+- 名称：followedBy
+- 类型：Property
+- 简介：followed by
+
+条目2：
+- 名称：nextEvent
+- 类型：Property
+- 简介：next event","判断结果：错误
+解释：根据背景知识，followedBy表示“被……跟随”而nextEvent表示“下一个事件”，两者语义方向与含义并不构成明显的属性包含关系，因此不能合理推出followedBy是nextEvent的子属性。",根据背景知识，followedBy表示“被……跟随”而nextEvent表示“下一个事件”，两者语义方向与含义并不构成明显的属性包含关系，因此不能合理推出followedBy是nextEvent的子属性。,,,
+gpt-5.4,hard_case_0035,subPropertyOf,code ⊑p dutchNAIdentifier,"背景知识：
+条目1：
+- 名称：code
+- 类型：Property
+- 简介：Superproperty for any designation (string, integer as string) that is meant to identify an entity within the context of a system
+
+条目2：
+- 名称：dutchNAIdentifier
+- 类型：Property
+- 简介：Identifier for Duch National Archive","判断结果：错误
+解释：根据背景知识，code 是“任何用于标识实体的标识符属性”的上位属性，而 dutchNAIdentifier 只是“荷兰国家档案馆标识符”这一更具体的属性，因此按 subPropertyOf 语义应是 dutchNAIdentifier ⊑p code，而不是 code ⊑p dutchNAIdentifier。",根据背景知识，code 是“任何用于标识实体的标识符属性”的上位属性，而 dutchNAIdentifier 只是“荷兰国家档案馆标识符”这一更具体的属性，因此按 subPropertyOf 语义应是 dutchNAIdentifier ⊑p code，而不是 code ⊑p dutchNAIdentifier。,,,
+gpt-5.4,hard_case_0049,subPropertyOf,followedBy ⊑p nextMission,"背景知识：
+条目1：
+- 名称：followedBy
+- 类型：Property
+- 简介：followed by
+
+条目2：
+- 名称：nextMission
+- 类型：Property
+- 简介：next mission","判断结果：错误
+解释：根据背景知识，followedBy 表示一般的“被跟随”关系而 nextMission 表示特定的“下一任务”关系，二者语义上不存在明确的属性包含关系，因此不能推出 followedBy 是 nextMission 的子属性。",根据背景知识，followedBy 表示一般的“被跟随”关系而 nextMission 表示特定的“下一任务”关系，二者语义上不存在明确的属性包含关系，因此不能推出 followedBy 是 nextMission 的子属性。,,,
+gpt-5.4,hard_case_0037,subPropertyOf,code ⊑p dutchWinkelID,"背景知识：
+条目1：
+- 名称：code
+- 类型：Property
+- 简介：Superproperty for any designation (string, integer as string) that is meant to identify an entity within the context of a system
+
+条目2：
+- 名称：dutchWinkelID
+- 类型：Property
+- 简介：Dutch Winkel ID is a code for an underground publication, as attributed by Lydia Winkel's work on the underground WW II press in the Netherlands.","判断结果：错误
+解释：根据背景知识，code 是通用的上位属性，而 dutchWinkelID 是其更具体的属性，依照 subPropertyOf 语义应为 dutchWinkelID ⊑p code，因此公理 code ⊑p dutchWinkelID 方向颠倒且不合理。",根据背景知识，code 是通用的上位属性，而 dutchWinkelID 是其更具体的属性，依照 subPropertyOf 语义应为 dutchWinkelID ⊑p code，因此公理 code ⊑p dutchWinkelID 方向颠倒且不合理。,,,
+gpt-5.4,hard_case_0032,subPropertyOf,code ⊑p codeStockExchange,"背景知识：
+条目1：
+- 名称：code
+- 类型：Property
+- 简介：Superproperty for any designation (string, integer as string) that is meant to identify an entity within the context of a system
+
+条目2：
+- 名称：codeStockExchange
+- 类型：Property
+- 简介：code Stock Exchange","判断结果：错误
+解释：根据背景知识，code 是用于标识实体的通用上位属性，而 codeStockExchange 是更具体的“证券交易所代码”属性，按 subPropertyOf 的RDFS语义应是 codeStockExchange ⊑p code 而非 code ⊑p codeStockExchange，因此该公理方向颠倒且不合理。",根据背景知识，code 是用于标识实体的通用上位属性，而 codeStockExchange 是更具体的“证券交易所代码”属性，按 subPropertyOf 的RDFS语义应是 codeStockExchange ⊑p code 而非 code ⊑p codeStockExchange，因此该公理方向颠倒且不合理。,,,
+gpt-5.4,hard_case_0236,subPropertyOf,inverseofplantgrowinginplant ⊑p relatedto,"背景知识：
+条目1：
+- 名称：inverseofplantgrowinginplant
+- 类型：Class
+- 简介：inverseofplantgrowinginplant is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: plant | range: plant
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing","判断结果：正确
+解释：根据背景知识，inverseofplantgrowinginplant 的 generalizations 为 relatedto，且二者都表示关系型属性语义，因此该公理可视为 subPropertyOf 关系，符合 RDFS 中子属性继承父属性语义的规则。",根据背景知识，inverseofplantgrowinginplant 的 generalizations 为 relatedto，且二者都表示关系型属性语义，因此该公理可视为 subPropertyOf 关系，符合 RDFS 中子属性继承父属性语义的规则。,,,
+gpt-5.4,hard_case_0039,subPropertyOf,code ⊑p individualisedGnd,"背景知识：
+条目1：
+- 名称：code
+- 类型：Property
+- 简介：Superproperty for any designation (string, integer as string) that is meant to identify an entity within the context of a system
+
+条目2：
+- 名称：individualisedGnd
+- 类型：Property
+- 简介：GND (Gemeinsame Normdatei) is an international authority file for the organisation of personal names, subject headings and corporate bodies from catalogues. It is used mainly for documentation in libraries and archives. The GND is managed b...","判断结果：错误
+解释：根据背景知识，code 是“任何用于标识实体的通用标识属性”的上位属性，而 individualisedGnd 是更具体的 GND 标识属性，因此按 subPropertyOf 语义应是 individualisedGnd ⊑p code，而不是 code ⊑p individualisedGnd。",根据背景知识，code 是“任何用于标识实体的通用标识属性”的上位属性，而 individualisedGnd 是更具体的 GND 标识属性，因此按 subPropertyOf 语义应是 individualisedGnd ⊑p code，而不是 code ⊑p individualisedGnd。,,,
+gpt-5.4,hard_case_0056,subPropertyOf,keyPerson ⊑p commandant,"背景知识：
+条目1：
+- 名称：keyPerson
+- 类型：Property
+- 简介：key person
+
+条目2：
+- 名称：commandant
+- 类型：Property
+- 简介：commandant","判断结果：错误
+解释：根据背景知识，keyPerson和commandant都只是独立的属性名称，且“关键人物”并不蕴含为“指挥官”，因此将keyPerson设为commandant的子属性缺乏语义依据，不符合subPropertyOf的合理推理。",根据背景知识，keyPerson和commandant都只是独立的属性名称，且“关键人物”并不蕴含为“指挥官”，因此将keyPerson设为commandant的子属性缺乏语义依据，不符合subPropertyOf的合理推理。,,,
+gpt-5.4,hard_case_0024,subPropertyOf,Wins ⊑p rankingWins,"背景知识：
+条目1：
+- 名称：Wins
+- 类型：Unknown
+- 简介：Wins
+
+条目2：
+- 名称：rankingWins
+- 类型：Property
+- 简介：ranking wins","判断结果：错误
+解释：根据背景知识，rankingWins 被明确标注为属性，而 p 表示 subPropertyOf 关系要求两侧都应为属性，但 Wins 的类型为 Unknown 且未显示其为属性，因此该公理缺乏语义支持并不合理。",根据背景知识，rankingWins 被明确标注为属性，而 p 表示 subPropertyOf 关系要求两侧都应为属性，但 Wins 的类型为 Unknown 且未显示其为属性，因此该公理缺乏语义支持并不合理。,,,
+gpt-5.4,hard_case_0219,subPropertyOf,agenthierarchicallyaboveagent ⊑p agentcontrols,"背景知识：
+条目1：
+- 名称：agenthierarchicallyaboveagent
+- 类型：Class
+- 简介：{%%s is hierarchically %s %%s, above}
+- 补充信息：generalizations: agentcontrols, agentcollaborateswithagent | domain: agent | range: agent
+
+条目2：
+- 名称：agentcontrols
+- 类型：Class
+- 简介：{%%s %s %%s, controls}
+- 补充信息：generalizations: relatedto | domain: agent | range: everypromotedthing","判断结果：正确
+解释：背景知识表明agenthierarchicallyaboveagent的generalizations包含agentcontrols，且两者均表示属性关系，因此根据RDFS中subPropertyOf表示子属性包含于父属性的语义，该公理成立。",背景知识表明agenthierarchicallyaboveagent的generalizations包含agentcontrols，且两者均表示属性关系，因此根据RDFS中subPropertyOf表示子属性包含于父属性的语义，该公理成立。,,,
+gpt-5.4,hard_case_0244,subPropertyOf,museumincity ⊑p attractionofcity,"背景知识：
+条目1：
+- 名称：museumincity
+- 类型：Class
+- 简介：{%%s is a museum %s %%s, in the city}
+- 补充信息：generalizations: attractionofcity, buildinglocatedincity | domain: museum | range: city
+
+条目2：
+- 名称：attractionofcity
+- 类型：Class
+- 简介：{%%s is a tourist attraction %s %%s, in the city}
+- 补充信息：generalizations: locationlocatedwithinlocation | domain: attraction | range: city","判断结果：正确
+解释：根据背景知识，museumincity 的 generalizations 明确包含 attractionofcity，且二者均描述“位于城市中的事物”这一属性关系，因此依据 RDFS 中 subPropertyOf 的语义可推出 museumincity 是 attractionofcity 的子属性。",根据背景知识，museumincity 的 generalizations 明确包含 attractionofcity，且二者均描述“位于城市中的事物”这一属性关系，因此依据 RDFS 中 subPropertyOf 的语义可推出 museumincity 是 attractionofcity 的子属性。,,,

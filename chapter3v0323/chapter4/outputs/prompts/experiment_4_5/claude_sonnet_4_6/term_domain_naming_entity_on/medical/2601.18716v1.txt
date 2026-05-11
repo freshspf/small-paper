@@ -1,0 +1,222 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "disease_alzheimers",
+  "peptide_amyloidBeta42",
+  "protein_app",
+  "disease_synapticDysfunction",
+  "disease_neurodegeneration",
+  "disease_toxicity",
+  "disease_cnsInflammation",
+  "system_ups",
+  "MolecularGlue",
+  "SecretaseInhibitor",
+  "Immunotherapy",
+  "ligase_vhl",
+  "ligase_crbn",
+  "ligase_mdm2",
+  "process_hypoxiaSignaling",
+  "protein_p53",
+  "model_lcJtVae",
+  "model_protbert",
+  "structure_7q4b",
+  "structure_4w9c",
+  "structure_4ci3",
+  "structure_4oas",
+  "drug_thalidomide",
+  "dataset_uniref100",
+  "barrier_bloodBrainBarrier"
+]
+
+Triples:
+[
+  {
+    "subject": "disease_alzheimers",
+    "relation": "characterizedBy",
+    "object": "peptide_amyloidBeta42"
+  },
+  {
+    "subject": "peptide_amyloidBeta42",
+    "relation": "causes",
+    "object": "disease_synapticDysfunction"
+  },
+  {
+    "subject": "peptide_amyloidBeta42",
+    "relation": "causes",
+    "object": "disease_neurodegeneration"
+  },
+  {
+    "subject": "peptide_amyloidBeta42",
+    "relation": "derivedFrom",
+    "object": "protein_app"
+  },
+  {
+    "subject": "system_ups",
+    "relation": "degrades",
+    "object": "peptide_amyloidBeta42"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "facilitatesDegradationOf",
+    "object": "peptide_amyloidBeta42"
+  },
+  {
+    "subject": "SecretaseInhibitor",
+    "relation": "hasSideEffect",
+    "object": "disease_toxicity"
+  },
+  {
+    "subject": "Immunotherapy",
+    "relation": "hasSideEffect",
+    "object": "disease_cnsInflammation"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "permeates",
+    "object": "barrier_bloodBrainBarrier"
+  },
+  {
+    "subject": "ligase_vhl",
+    "relation": "associatedWith",
+    "object": "process_hypoxiaSignaling"
+  },
+  {
+    "subject": "ligase_mdm2",
+    "relation": "regulates",
+    "object": "protein_p53"
+  },
+  {
+    "subject": "model_lcJtVae",
+    "relation": "generates",
+    "object": "MolecularGlue"
+  },
+  {
+    "subject": "peptide_amyloidBeta42",
+    "relation": "hasStructure",
+    "object": "structure_7q4b"
+  },
+  {
+    "subject": "ligase_vhl",
+    "relation": "hasStructure",
+    "object": "structure_4w9c"
+  },
+  {
+    "subject": "ligase_crbn",
+    "relation": "hasStructure",
+    "object": "structure_4ci3"
+  },
+  {
+    "subject": "ligase_mdm2",
+    "relation": "hasStructure",
+    "object": "structure_4oas"
+  },
+  {
+    "subject": "ligase_crbn",
+    "relation": "coCrystallizedWith",
+    "object": "drug_thalidomide"
+  },
+  {
+    "subject": "model_protbert",
+    "relation": "trainedOn",
+    "object": "dataset_uniref100"
+  },
+  {
+    "subject": "peptide_amyloidBeta42",
+    "relation": "formsComplexWith",
+    "object": "ligase_vhl"
+  },
+  {
+    "subject": "peptide_amyloidBeta42",
+    "relation": "formsComplexWith",
+    "object": "ligase_crbn"
+  },
+  {
+    "subject": "peptide_amyloidBeta42",
+    "relation": "formsComplexWith",
+    "object": "ligase_mdm2"
+  }
+]

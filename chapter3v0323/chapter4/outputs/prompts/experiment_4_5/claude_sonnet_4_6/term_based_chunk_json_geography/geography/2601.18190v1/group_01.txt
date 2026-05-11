@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RemoteSensingImageTextRetrieval",
+  "bridges",
+  "VisionModality",
+  "LanguageModality",
+  "underpins",
+  "UrbanPlanning",
+  "RemoteSensingImagery",
+  "isDistinctFrom",
+  "NaturalScene",
+  "features",
+  "OverheadPerspective",
+  "DenseObjectDistribution",
+  "SpatiallyComplexTextualDescription",
+  "hinders",
+  "ExistingMethod",
+  "EarlyRsitrApproach",
+  "reliesOn",
+  "DualStreamArchitecture",
+  "adopts",
+  "CnnBackbone",
+  "model_clip",
+  "instanceOf",
+  "VisionLanguagePreTrainingModel",
+  "advances",
+  "OverheadImagery",
+  "contains",
+  "DenseMultiScaleSemantics",
+  "model_mps_clip",
+  "ParameterEfficientFramework",
+  "LargeLanguageModel",
+  "extracts",
+  "CoreSemanticKeywords",
+  "model_sam_geo",
+  "generates",
+  "SemanticallyRelevantSubPerspectives",
+  "GatedGlobalAttentionAdapter",
+  "captures",
+  "GlobalContext",
+  "MultiPerspectiveRepresentationModule",
+  "aggregates",
+  "LocalCues",
+  "evaluatedOn",
+  "benchmark_rsicd",
+  "benchmark_rsitmd",
+  "OverheadPerspectives",
+  "DenseObjectDistributions",
+  "distinctFrom",
+  "NaturalScenes",
+  "EarlyRsitrApproaches",
+  "CnnBackbones",
+  "model_skyClip",
+  "explores",
+  "ContinualPreTraining",
+  "RetrievalTask",
+  "FineGrainedSemanticAlignment",
+  "model_singleLanguage",
+  "MultilingualAdaptation",
+  "model_mpsClip",
+  "MultiPerspectiveModelingMechanism",
+  "TextKeyword",
+  "ImageSubPerspective",
+  "MultiPerspectiveLossFunction",
+  "ClipTextEncoder",
+  "GlobalTextFeature",
+  "ClipVisualEncoder",
+  "GlobalVisualFeature",
+  "llm_deepseekV3_2",
+  "model_samGeo",
+  "LocalVisualFeature",
+  "TransformerLayer",
+  "Adapter",
+  "LongRangeDependencyModeling",
+  "GlobalAttentionBranch",
+  "FeedForwardBranch",
+  "ScalarGate",
+  "ContributionOfEnhancedFeatures",
+  "RemoteSensing",
+  "KeywordGuidedSubPerspective",
+  "ComplementaryCue",
+  "RedundantNoise"
+]
+
+Triples:
+[
+  {
+    "subject": "RemoteSensingImageTextRetrieval",
+    "relation": "bridges",
+    "object": "VisionModality",
+    "chunk": "introduction",
+    "context": "Remote Sensing Image-Text Retrieval (RSITR) bridges vi- sion and language modalities for retrieval tasks, underpinning applications such as urban planning [1]."
+  },
+  {
+    "subject": "RemoteSensingImageTextRetrieval",
+    "relation": "bridges",
+    "object": "LanguageModality",
+    "chunk": "introduction",
+    "context": "Remote Sensing Image-Text Retrieval (RSITR) bridges vi- sion and language modalities for retrieval tasks, underpinning applications such as urban planning [1]."
+  },
+  {
+    "subject": "RemoteSensingImageTextRetrieval",
+    "relation": "underpins",
+    "object": "UrbanPlanning",
+    "chunk": "introduction",
+    "context": "Remote Sensing Image-Text Retrieval (RSITR) bridges vi- sion and language modalities for retrieval tasks, underpinning applications such as urban planning [1]."
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "isDistinctFrom",
+    "object": "NaturalScene",
+    "chunk": "introduction",
+    "context": "However, distinct from natural scenes, remote sensing imagery features overhead perspectives and dense object distributions."
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "features",
+    "object": "OverheadPerspective",
+    "chunk": "introduction",
+    "context": "However, distinct from natural scenes, remote sensing imagery features overhead perspectives and dense object distributions."
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "features",
+    "object": "DenseObjectDistribution",
+    "chunk": "introduction",
+    "context": "However, distinct from natural scenes, remote sensing imagery features overhead perspectives and dense object distributions."
+  },
+  {
+    "subject": "SpatiallyComplexTextualDescription",
+    "relation": "hinders",
+    "object": "ExistingMethod",
+    "chunk": "introduction",
+    "context": "Coupled with spatially complex textual descriptions, these attributes hinder existing methods from achieving fine-grained semantic alignment."
+  },
+  {
+    "subject": "EarlyRsitrApproach",
+    "relation": "reliesOn",
+    "object": "DualStreamArchitecture",
+    "chunk": "introduction",
+    "context": "Early RSITR approaches primarily relied on training-from-scratch dual-stream architectures, adopting CNN backbones"
+  },
+  {
+    "subject": "EarlyRsitrApproach",
+    "relation": "adopts",
+    "object": "CnnBackbone",
+    "chunk": "introduction",
+    "context": "Early RSITR approaches primarily relied on training-from-scratch dual-stream architectures, adopting CNN backbones"
+  },
+  {
+    "subject": "model_clip",
+    "relation": "instanceOf",
+    "object": "VisionLanguagePreTrainingModel",
+    "chunk": "relatedwork",
+    "context": "Vision-Language Pre-training (VLP) models like CLIP have significantly advanced Remote Sensing Image-Text Retrieval (RSITR)."
+  },
+  {
+    "subject": "VisionLanguagePreTrainingModel",
+    "relation": "advances",
+    "object": "RemoteSensingImageTextRetrieval",
+    "chunk": "relatedwork",
+    "context": "Vision-Language Pre-training (VLP) models like CLIP have significantly advanced Remote Sensing Image-Text Retrieval (RSITR)."
+  },
+  {
+    "subject": "OverheadImagery",
+    "relation": "contains",
+    "object": "DenseMultiScaleSemantics",
+    "chunk": "relatedwork",
+    "context": "However, existing methods predominantly rely on coarse-grained global alignment, which often overlooks the dense, multi-scale semantics inherent in overhead imagery."
+  },
+  {
+    "subject": "model_mps_clip",
+    "relation": "instanceOf",
+    "object": "ParameterEfficientFramework",
+    "chunk": "relatedwork",
+    "context": "To address these challenges, we proposeMPS-CLIP, a parameter-efficient framework designed to shift the retrieval paradigm from global matching to keyword-guided fine-grained alignment."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "extracts",
+    "object": "CoreSemanticKeywords",
+    "chunk": "relatedwork",
+    "context": "Specifically, we leverage a Large Language Model (LLM) to extract core semantic keywords, guiding the Segment Anything Model (SamGeo) to generate semantically relevant sub-perspectives."
+  },
+  {
+    "subject": "model_sam_geo",
+    "relation": "generates",
+    "object": "SemanticallyRelevantSubPerspectives",
+    "chunk": "relatedwork",
+    "context": "Specifically, we leverage a Large Language Model (LLM) to extract core semantic keywords, guiding the Segment Anything Model (SamGeo) to generate semantically relevant sub-perspectives."
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "captures",
+    "object": "GlobalContext",
+    "chunk": "relatedwork",
+    "context": "To efficiently adapt the frozen backbone, we introduce a Gated Global Attention (G2A) adapter, which cap- tures global context and long-range dependencies with mini- mal overhead."
+  },
+  {
+    "subject": "MultiPerspectiveRepresentationModule",
+    "relation": "aggregates",
+    "object": "LocalCues",
+    "chunk": "relatedwork",
+    "context": "Furthermore, a Multi-Perspective Representation (MPR) module aggregates these local cues into robust multi- perspective embeddings."
+  },
+  {
+    "subject": "model_mps_clip",
+    "relation": "evaluatedOn",
+    "object": "benchmark_rsicd",
+    "chunk": "relatedwork",
+    "context": "Extensive experiments on the RSICD and RSITMD benchmarks demonstrate that MPS-CLIP achieves state-of-the-art performance with 35.18% and 48.40% mean Recall (mR), respectively, significantly outperforming full fine- tuning baselines and recent competitive methods."
+  },
+  {
+    "subject": "model_mps_clip",
+    "relation": "evaluatedOn",
+    "object": "benchmark_rsitmd",
+    "chunk": "relatedwork",
+    "context": "Extensive experiments on the RSICD and RSITMD benchmarks demonstrate that MPS-CLIP achieves state-of-the-art performance with 35.18% and 48.40% mean Recall (mR), respectively, significantly outperforming full fine- tuning baselines and recent competitive methods."
+  },
+  {
+    "subject": "RemoteSensingImageTextRetrieval",
+    "relation": "underpins",
+    "object": "UrbanPlanning",
+    "chunk": "relatedwork",
+    "context": "Remote Sensing Image-Text Retrieval (RSITR) bridges vi- sion and language modalities for retrieval tasks, underpinning applications such as urban planning [1]."
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "features",
+    "object": "OverheadPerspectives",
+    "chunk": "relatedwork",
+    "context": "However, distinct from natural scenes, remote sensing imagery features over- head perspectives and dense object distributions."
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "features",
+    "object": "DenseObjectDistributions",
+    "chunk": "relatedwork",
+    "context": "However, distinct from natural scenes, remote sensing imagery features over- head perspectives and dense object distributions."
+  },
+  {
+    "subject": "RemoteSensingImagery",
+    "relation": "distinctFrom",
+    "object": "NaturalScenes",
+    "chunk": "relatedwork",
+    "context": "However, distinct from natural scenes, remote sensing imagery features over- head perspectives and dense object distributions."
+  },
+  {
+    "subject": "EarlyRsitrApproaches",
+    "relation": "adopts",
+    "object": "CnnBackbones",
+    "chunk": "relatedwork",
+    "context": "Early RSITR approaches primarily relied on training-from- scratch dual-stream architectures, adopting CNN backbones"
+  },
+  {
+    "subject": "model_skyClip",
+    "relation": "explores",
+    "object": "ContinualPreTraining",
+    "chunk": "methods1",
+    "context": "To bridge the domain gap between natural and remote sensing scenes, methods like SkyCLIP [13] and SingleLanguage [24] explored continual pre-training and multilingual adaptation."
+  }
+]

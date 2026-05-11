@@ -1,0 +1,1180 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MultiObjectiveReinforcementLearning",
+  "TacticalDecisionMaking",
+  "Truck",
+  "HighwayTraffic",
+  "HeavyDutyVehicle",
+  "Safety",
+  "Efficiency",
+  "OperationalCost",
+  "ProximalPolicyOptimization",
+  "Framework",
+  "Policy",
+  "ParetoOptimalPolicy",
+  "TradeOff",
+  "Collision",
+  "SuccessfulCompletion",
+  "EnergyEfficiency",
+  "TimeEfficiency",
+  "EnergyCost",
+  "DriverCost",
+  "ParetoFrontier",
+  "DrivingBehavior",
+  "AutonomousTruckingApplication",
+  "AutonomousDriving",
+  "RealTimeDecisionMaking",
+  "Uncertainty",
+  "FuelConsumption",
+  "BrakingDistance",
+  "ControlError",
+  "ControlArchitecture",
+  "DenseTraffic",
+  "OpenHighway",
+  "ControlledSimulation",
+  "RuleBasedArchitecture",
+  "DecisionRule",
+  "SafetyConstraint",
+  "TrafficRule",
+  "TrafficScenario",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "MotionPlanningTask",
+  "EnvironmentModel",
+  "RealWorldTraffic",
+  "ReinforcementLearning",
+  "TrafficEnvironment",
+  "DeepRLAgent",
+  "LaneChanging",
+  "Merging",
+  "AdaptiveCruiseControl",
+  "ControlPolicy",
+  "ScalarRewardFunction",
+  "Comfort",
+  "Study",
+  "HierarchicalControlArchitecture",
+  "HighLevelTacticalDecision",
+  "LowLevelControl",
+  "PhysicsBasedModel",
+  "RewardFunction",
+  "Generalization",
+  "ActorCriticMORL",
+  "EnergyConsumption",
+  "TravelEfficiency",
+  "PassengerVehicle",
+  "TotalCostOfOperation",
+  "GeneralizedPolicyImprovementWithLinearSupport",
+  "PreferencePrioritization",
+  "OptimizationProblem",
+  "PolicyGradientApproach",
+  "RLAlgorithm",
+  "MultiObjectivePPO",
+  "VectorValuedCritic",
+  "ActionLogit",
+  "LossLevel",
+  "PreferenceConfiguration",
+  "Experience",
+  "HighwayDrivingTask",
+  "AutonomousTruck",
+  "CommercialTrucking",
+  "MicroscopicTrafficSimulator",
+  "ConvexCoverageSet",
+  "PreferenceAwarePolicySelection",
+  "OpenSource",
+  "DecisionMakingInTrafficEnvironment",
+  "StochasticHighwayEnvironment",
+  "SUMO",
+  "SimulationOfUrbanMObility",
+  "VehicleDynamics",
+  "ThreeLaneHighwaySegment",
+  "MixedTraffic",
+  "PassengerCar",
+  "EgoVehicle",
+  "TractorSemitrailerCombination",
+  "MovingWindow",
+  "Boundary",
+  "TrafficDensity",
+  "CongestionLevel",
+  "TrafficModeling",
+  "MultiObjectiveMarkovDecisionProcess",
+  "Tuple",
+  "StateSpace",
+  "ActionSpace",
+  "TransitionProbabilityDistribution",
+  "Reward",
+  "DiscountFactor",
+  "StateActionPair",
+  "ValueFunction",
+  "ParetoDominance",
+  "NonDominatedValueVector",
+  "ScalarizationFunction",
+  "UtilityFunction",
+  "UserPreference"
+]
+
+Triples:
+[
+  {
+    "subject": "MultiObjectiveReinforcementLearning",
+    "relation": "supports",
+    "object": "TacticalDecisionMaking"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "appliesTo",
+    "object": "Truck"
+  },
+  {
+    "subject": "Truck",
+    "relation": "operatesIn",
+    "object": "HighwayTraffic"
+  },
+  {
+    "subject": "HighwayDriving",
+    "relation": "requiresBalancing",
+    "object": "Safety"
+  },
+  {
+    "subject": "HighwayDriving",
+    "relation": "requiresBalancing",
+    "object": "Efficiency"
+  },
+  {
+    "subject": "HighwayDriving",
+    "relation": "requiresBalancing",
+    "object": "OperationalCost"
+  },
+  {
+    "subject": "Framework",
+    "relation": "basedOn",
+    "object": "ProximalPolicyOptimization"
+  },
+  {
+    "subject": "Framework",
+    "relation": "learns",
+    "object": "Policy"
+  },
+  {
+    "subject": "Policy",
+    "relation": "represents",
+    "object": "TradeOff"
+  },
+  {
+    "subject": "Framework",
+    "relation": "evaluatedOn",
+    "object": "SimulationPlatform"
+  },
+  {
+    "subject": "SimulationPlatform",
+    "relation": "supports",
+    "object": "TacticalDecisionMaking"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "performedBy",
+    "object": "Truck"
+  },
+  {
+    "subject": "Framework",
+    "relation": "learns",
+    "object": "ParetoOptimalPolicy"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "captures",
+    "object": "TradeOff"
+  },
+  {
+    "subject": "TradeOff",
+    "relation": "occursAmong",
+    "object": "Safety"
+  },
+  {
+    "subject": "TradeOff",
+    "relation": "occursAmong",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "TradeOff",
+    "relation": "occursAmong",
+    "object": "TimeEfficiency"
+  },
+  {
+    "subject": "Safety",
+    "relation": "quantifiedBy",
+    "object": "Collision"
+  },
+  {
+    "subject": "Safety",
+    "relation": "quantifiedBy",
+    "object": "SuccessfulCompletion"
+  },
+  {
+    "subject": "EnergyEfficiency",
+    "relation": "quantifiedBy",
+    "object": "EnergyCost"
+  },
+  {
+    "subject": "TimeEfficiency",
+    "relation": "quantifiedBy",
+    "object": "DriverCost"
+  },
+  {
+    "subject": "ParetoFrontier",
+    "relation": "is",
+    "object": "Smooth"
+  },
+  {
+    "subject": "ParetoFrontier",
+    "relation": "is",
+    "object": "Interpretable"
+  },
+  {
+    "subject": "ParetoFrontier",
+    "relation": "enables",
+    "object": "DrivingBehavior"
+  },
+  {
+    "subject": "DrivingBehavior",
+    "relation": "variesAlong",
+    "object": "TradeOff"
+  },
+  {
+    "subject": "Framework",
+    "relation": "allows",
+    "object": "TransitionBetweenPolicies"
+  },
+  {
+    "subject": "TransitionBetweenPolicies",
+    "relation": "occursWithout",
+    "object": "Retraining"
+  },
+  {
+    "subject": "Framework",
+    "relation": "yields",
+    "object": "AdaptiveDecisionMakingStrategy"
+  },
+  {
+    "subject": "AdaptiveDecisionMakingStrategy",
+    "relation": "appliesTo",
+    "object": "AutonomousTruckingApplication"
+  },
+  {
+    "subject": "AutonomousDriving",
+    "relation": "requires",
+    "object": "RealTimeDecisionMaking"
+  },
+  {
+    "subject": "RealTimeDecisionMaking",
+    "relation": "occursUnder",
+    "object": "Uncertainty"
+  },
+  {
+    "subject": "RealTimeDecisionMaking",
+    "relation": "balances",
+    "object": "Safety"
+  },
+  {
+    "subject": "RealTimeDecisionMaking",
+    "relation": "balances",
+    "object": "Efficiency"
+  },
+  {
+    "subject": "RealTimeDecisionMaking",
+    "relation": "balances",
+    "object": "OperationalCost"
+  },
+  {
+    "subject": "HeavyDutyVehicle",
+    "relation": "hasCharacteristic",
+    "object": "LargeSize"
+  },
+  {
+    "subject": "HeavyDutyVehicle",
+    "relation": "hasCharacteristic",
+    "object": "HighFuelConsumption"
+  },
+  {
+    "subject": "HeavyDutyVehicle",
+    "relation": "hasCharacteristic",
+    "object": "LongBrakingDistance"
+  },
+  {
+    "subject": "ControlError",
+    "relation": "causes",
+    "object": "SevereConsequence"
+  },
+  {
+    "subject": "ControlArchitecture",
+    "relation": "manages",
+    "object": "TradeOff"
+  },
+  {
+    "subject": "ControlArchitecture",
+    "relation": "prioritizes",
+    "object": "Safety"
+  },
+  {
+    "subject": "Safety",
+    "relation": "prioritizedIn",
+    "object": "DenseTraffic"
+  },
+  {
+    "subject": "FuelEconomy",
+    "relation": "prioritizedIn",
+    "object": "OpenHighway"
+  },
+  {
+    "subject": "ControlArchitecture",
+    "relation": "benchmarkedIn",
+    "object": "ControlledSimulation"
+  },
+  {
+    "subject": "RuleBasedArchitecture",
+    "relation": "reliesOn",
+    "object": "DecisionRule"
+  },
+  {
+    "subject": "RuleBasedArchitecture",
+    "relation": "uses",
+    "object": "SafetyConstraint"
+  },
+  {
+    "subject": "DecisionRule",
+    "relation": "governs",
+    "object": "VehicleBehavior"
+  },
+  {
+    "subject": "RuleBasedArchitecture",
+    "relation": "ensuresComplianceWith",
+    "object": "TrafficRule"
+  },
+  {
+    "subject": "RuleBasedArchitecture",
+    "relation": "offers",
+    "object": "Interpretability"
+  },
+  {
+    "subject": "RuleBasedArchitecture",
+    "relation": "offers",
+    "object": "RealTimePerformance"
+  },
+  {
+    "subject": "RuleBasedArchitecture",
+    "relation": "hasLimitation",
+    "object": "LimitedAdaptability"
+  },
+  {
+    "subject": "LimitedAdaptability",
+    "relation": "appliesIn",
+    "object": "TrafficScenario"
+  },
+  {
+    "subject": "DecisionTreeModel",
+    "relation": "appliesTo",
+    "object": "GoalRecognition"
+  },
+  {
+    "subject": "DecisionTreeModel",
+    "relation": "appliesTo",
+    "object": "TrajectoryPrediction"
+  },
+  {
+    "subject": "DecisionTreeModel",
+    "relation": "enables",
+    "object": "FastInference"
+  },
+  {
+    "subject": "DecisionTreeModel",
+    "relation": "enables",
+    "object": "FormalVerification"
+  },
+  {
+    "subject": "ModelPredictiveControl",
+    "relation": "appliedTo",
+    "object": "AutonomousVehicleManeuver"
+  },
+  {
+    "subject": "ModelPredictiveControl",
+    "relation": "performsWellIn",
+    "object": "MotionPlanningTask"
+  },
+  {
+    "subject": "ModelPredictiveControl",
+    "relation": "requires",
+    "object": "EnvironmentModel"
+  },
+  {
+    "subject": "ModelPredictiveControl",
+    "relation": "strugglesWith",
+    "object": "RealWorldTraffic"
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "learnsFrom",
+    "object": "TrafficEnvironment"
+  },
+  {
+    "subject": "DeepRLAgent",
+    "relation": "performsTask",
+    "object": "LaneChanging"
+  },
+  {
+    "subject": "DeepRLAgent",
+    "relation": "performsTask",
+    "object": "Merging"
+  },
+  {
+    "subject": "DeepRLAgent",
+    "relation": "performsTask",
+    "object": "AdaptiveCruiseControl"
+  },
+  {
+    "subject": "DeepRLAgent",
+    "relation": "discovers",
+    "object": "ControlPolicy"
+  },
+  {
+    "subject": "ControlPolicy",
+    "relation": "outperforms",
+    "object": "HandCraftedControlStrategy"
+  },
+  {
+    "subject": "ControlPolicy",
+    "relation": "appliesIn",
+    "object": "HighwayEnvironment"
+  },
+  {
+    "subject": "ScalarRewardFunction",
+    "relation": "combines",
+    "object": "Safety"
+  },
+  {
+    "subject": "ScalarRewardFunction",
+    "relation": "combines",
+    "object": "Comfort"
+  },
+  {
+    "subject": "ScalarRewardFunction",
+    "relation": "combines",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "ScalarRewardFunction",
+    "relation": "constrains",
+    "object": "Policy"
+  },
+  {
+    "subject": "Policy",
+    "relation": "has",
+    "object": "FixedTradeOff"
+  },
+  {
+    "subject": "Study",
+    "relation": "applies",
+    "object": "DeepReinforcementLearning"
+  },
+  {
+    "subject": "DeepReinforcementLearning",
+    "relation": "appliesTo",
+    "object": "TacticalDecisionMaking"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "appliesTo",
+    "object": "AutonomousTruck"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "includes",
+    "object": "LaneChanging"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "includes",
+    "object": "AdaptiveCruiseControl"
+  },
+  {
+    "subject": "HierarchicalControlArchitecture",
+    "relation": "uses",
+    "object": "ReinforcementLearning"
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "handles",
+    "object": "HighLevelTacticalDecision"
+  },
+  {
+    "subject": "RewardFunction",
+    "relation": "incorporates",
+    "object": "Safety"
+  },
+  {
+    "subject": "RewardFunction",
+    "relation": "incorporates",
+    "object": "Efficiency"
+  },
+  {
+    "subject": "RewardFunction",
+    "relation": "incorporates",
+    "object": "OperationalCost"
+  },
+  {
+    "subject": "LowLevelControl",
+    "relation": "managedBy",
+    "object": "PhysicsBasedModel"
+  },
+  {
+    "subject": "SingleScalarReward",
+    "relation": "makesChallenging",
+    "object": "OptimalPerformance"
+  },
+  {
+    "subject": "Agent",
+    "relation": "learns",
+    "object": "StableBehavior"
+  },
+  {
+    "subject": "StableBehavior",
+    "relation": "associatedWith",
+    "object": "SafetyFocusedReward"
+  },
+  {
+    "subject": "Agent",
+    "relation": "strugglesWith",
+    "object": "JointReward"
+  },
+  {
+    "subject": "JointReward",
+    "relation": "captures",
+    "object": "Safety"
+  },
+  {
+    "subject": "JointReward",
+    "relation": "captures",
+    "object": "Efficiency"
+  },
+  {
+    "subject": "JointReward",
+    "relation": "captures",
+    "object": "OperationalCost"
+  },
+  {
+    "subject": "CompetingObjective",
+    "relation": "difficultToBalanceWithin",
+    "object": "SingleRewardSignal"
+  },
+  {
+    "subject": "SingleRewardSignal",
+    "relation": "leadsTo",
+    "object": "PoorGeneralization"
+  },
+  {
+    "subject": "MultiObjectiveReinforcementLearning",
+    "relation": "optimizes",
+    "object": "MultipleObjective"
+  },
+  {
+    "subject": "MultiObjectiveReinforcementLearning",
+    "relation": "avoidsCollapsingInto",
+    "object": "SingleScalar"
+  },
+  {
+    "subject": "ActorCriticMORL",
+    "relation": "supports",
+    "object": "PreferenceConditionedDecisionMaking"
+  },
+  {
+    "subject": "PreferenceConditionedDecisionMaking",
+    "relation": "tradesOff",
+    "object": "EnergyConsumption"
+  },
+  {
+    "subject": "PreferenceConditionedDecisionMaking",
+    "relation": "tradesOff",
+    "object": "TravelEfficiency"
+  },
+  {
+    "subject": "MORL",
+    "relation": "proposedFor",
+    "object": "HighwayDecisionMaking"
+  },
+  {
+    "subject": "AdaptiveMORLPolicy",
+    "relation": "adjustsTo",
+    "object": "UserPreference"
+  },
+  {
+    "subject": "MORLStudy",
+    "relation": "focusesOn",
+    "object": "PassengerVehicle"
+  },
+  {
+    "subject": "MORLStudy",
+    "relation": "overlooks",
+    "object": "HeavyDutyTruckChallenge"
+  },
+  {
+    "subject": "HeavyDutyTruckChallenge",
+    "relation": "becomesSignificantWhenUsing",
+    "object": "TotalCostOfOperation"
+  },
+  {
+    "subject": "Framework",
+    "relation": "tailoredFor",
+    "object": "HeavyDutyVehicle"
+  },
+  {
+    "subject": "Framework",
+    "relation": "buildsOn",
+    "object": "GeneralizedPolicyImprovementWithLinearSupport"
+  },
+  {
+    "subject": "GeneralizedPolicyImprovementWithLinearSupport",
+    "relation": "formulates",
+    "object": "PreferencePrioritization"
+  },
+  {
+    "subject": "PreferencePrioritization",
+    "relation": "as",
+    "object": "OptimizationProblem"
+  },
+  {
+    "subject": "GeneralizedPolicyImprovementWithLinearSupport",
+    "relation": "achieves",
+    "object": "FasterConvergence"
+  },
+  {
+    "subject": "GeneralizedPolicyImprovementWithLinearSupport",
+    "relation": "achieves",
+    "object": "HigherUtility"
+  },
+  {
+    "subject": "HigherUtility",
+    "relation": "spans",
+    "object": "MultipleObjective"
+  },
+  {
+    "subject": "Framework",
+    "relation": "extendsTo",
+    "object": "PolicyGradientApproach"
+  },
+  {
+    "subject": "PolicyGradientApproach",
+    "relation": "appliedTo",
+    "object": "TacticalDecisionMaking"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "forVehicleType",
+    "object": "Truck"
+  },
+  {
+    "subject": "ProximalPolicyOptimization",
+    "relation": "usedAs",
+    "object": "RLAlgorithm"
+  },
+  {
+    "subject": "ProximalPolicyOptimization",
+    "relation": "hasProvenPerformanceIn",
+    "object": "TacticalDrivingTask"
+  },
+  {
+    "subject": "Framework",
+    "relation": "develops",
+    "object": "MultiObjectivePPO"
+  },
+  {
+    "subject": "MultiObjectivePPO",
+    "relation": "hasComponent",
+    "object": "VectorValuedCritic"
+  },
+  {
+    "subject": "MultiObjectivePPO",
+    "relation": "hasComponent",
+    "object": "ActionLogit"
+  },
+  {
+    "subject": "ActionLogit",
+    "relation": "assignedPer",
+    "object": "Objective"
+  },
+  {
+    "subject": "MultiObjectivePPO",
+    "relation": "appliesScalarizationAt",
+    "object": "LossLevel"
+  },
+  {
+    "subject": "Design",
+    "relation": "preserves",
+    "object": "ObjectiveStructure"
+  },
+  {
+    "subject": "Design",
+    "relation": "facilitates",
+    "object": "PolicyImprovement"
+  },
+  {
+    "subject": "PolicyImprovement",
+    "relation": "spans",
+    "object": "PreferenceConfiguration"
+  },
+  {
+    "subject": "Design",
+    "relation": "allowsReuseOf",
+    "object": "Experience"
+  },
+  {
+    "subject": "Experience",
+    "relation": "collectedUnder",
+    "object": "TradeOffSetting"
+  },
+  {
+    "subject": "Learning",
+    "relation": "is",
+    "object": "Stable"
+  },
+  {
+    "subject": "Learning",
+    "relation": "is",
+    "object": "SampleEfficient"
+  },
+  {
+    "subject": "Framework",
+    "relation": "validatedOn",
+    "object": "HighwayDrivingTask"
+  },
+  {
+    "subject": "HighwayDrivingTask",
+    "relation": "involves",
+    "object": "AdaptiveCruiseControl"
+  },
+  {
+    "subject": "HighwayDrivingTask",
+    "relation": "involves",
+    "object": "LaneChanging"
+  },
+  {
+    "subject": "AdaptiveCruiseControl",
+    "relation": "performedBy",
+    "object": "AutonomousTruck"
+  },
+  {
+    "subject": "LaneChanging",
+    "relation": "performedBy",
+    "object": "AutonomousTruck"
+  },
+  {
+    "subject": "Problem",
+    "relation": "formulatedWithObjective",
+    "object": "Safety"
+  },
+  {
+    "subject": "Problem",
+    "relation": "formulatedWithObjective",
+    "object": "TimeEfficiency"
+  },
+  {
+    "subject": "Problem",
+    "relation": "formulatedWithObjective",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "Objective",
+    "relation": "reflects",
+    "object": "CommercialTrucking"
+  },
+  {
+    "subject": "Framework",
+    "relation": "uses",
+    "object": "MicroscopicTrafficSimulator"
+  },
+  {
+    "subject": "Method",
+    "relation": "approximates",
+    "object": "ConvexCoverageSet"
+  },
+  {
+    "subject": "ConvexCoverageSet",
+    "relation": "of",
+    "object": "ParetoFrontier"
+  },
+  {
+    "subject": "Method",
+    "relation": "enables",
+    "object": "PreferenceAwarePolicySelection"
+  },
+  {
+    "subject": "Framework",
+    "relation": "releasedAs",
+    "object": "OpenSource"
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "releasedAs",
+    "object": "OpenSource"
+  },
+  {
+    "subject": "DecisionMakingInTrafficEnvironment",
+    "relation": "studies",
+    "object": "TacticalDecisionMaking"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "forVehicleType",
+    "object": "HeavyDutyTruck"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "occursIn",
+    "object": "StochasticHighwayEnvironment"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "includes",
+    "object": "AdaptiveCruiseControl"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "includes",
+    "object": "LaneChanging"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "balances",
+    "object": "Safety"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "balances",
+    "object": "TimeEfficiency"
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "balances",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "Environment",
+    "relation": "implementedUsing",
+    "object": "SUMO"
+  },
+  {
+    "subject": "SUMO",
+    "relation": "expandedAs",
+    "object": "SimulationOfUrbanMObility"
+  },
+  {
+    "subject": "SUMO",
+    "relation": "provides",
+    "object": "VehicleDynamics"
+  },
+  {
+    "subject": "Simulation",
+    "relation": "consistsOf",
+    "object": "ThreeLaneHighwaySegment"
+  },
+  {
+    "subject": "ThreeLaneHighwaySegment",
+    "relation": "populatedBy",
+    "object": "MixedTraffic"
+  },
+  {
+    "subject": "MixedTraffic",
+    "relation": "includes",
+    "object": "PassengerCar"
+  },
+  {
+    "subject": "MixedTraffic",
+    "relation": "includes",
+    "object": "Truck"
+  },
+  {
+    "subject": "EgoVehicle",
+    "relation": "modeledAs",
+    "object": "TractorSemitrailerCombination"
+  },
+  {
+    "subject": "TractorSemitrailerCombination",
+    "relation": "has",
+    "object": "RealisticDynamics"
+  },
+  {
+    "subject": "MovingWindow",
+    "relation": "usedFor",
+    "object": "StationaryTrafficDistribution"
+  },
+  {
+    "subject": "StationaryTrafficDistribution",
+    "relation": "locatedAround",
+    "object": "EgoVehicle"
+  },
+  {
+    "subject": "Vehicle",
+    "relation": "respawnedAt",
+    "object": "Boundary"
+  },
+  {
+    "subject": "TrafficDensity",
+    "relation": "variedAcross",
+    "object": "Experiment"
+  },
+  {
+    "subject": "TrafficDensity",
+    "relation": "assesses",
+    "object": "Robustness"
+  },
+  {
+    "subject": "Robustness",
+    "relation": "evaluatedUnder",
+    "object": "CongestionLevel"
+  },
+  {
+    "subject": "Problem",
+    "relation": "formulatedAs",
+    "object": "MultiObjectiveMarkovDecisionProcess"
+  },
+  {
+    "subject": "MultiObjectiveMarkovDecisionProcess",
+    "relation": "definedBy",
+    "object": "Tuple"
+  },
+  {
+    "subject": "Tuple",
+    "relation": "hasComponent",
+    "object": "StateSpace"
+  },
+  {
+    "subject": "Tuple",
+    "relation": "hasComponent",
+    "object": "ActionSpace"
+  },
+  {
+    "subject": "Tuple",
+    "relation": "hasComponent",
+    "object": "TransitionProbabilityDistribution"
+  },
+  {
+    "subject": "Tuple",
+    "relation": "hasComponent",
+    "object": "DiscountFactor"
+  },
+  {
+    "subject": "Tuple",
+    "relation": "hasComponent",
+    "object": "Reward"
+  },
+  {
+    "subject": "TransitionProbabilityDistribution",
+    "relation": "definesNextStateGiven",
+    "object": "StateActionPair"
+  },
+  {
+    "subject": "Reward",
+    "relation": "is",
+    "object": "VectorValued"
+  },
+  {
+    "subject": "Reward",
+    "relation": "hasComponentFor",
+    "object": "Objective"
+  },
+  {
+    "subject": "AgentExperience",
+    "relation": "consistsOf",
+    "object": "Transition"
+  },
+  {
+    "subject": "Transition",
+    "relation": "includes",
+    "object": "Reward"
+  },
+  {
+    "subject": "Reward",
+    "relation": "quantifies",
+    "object": "ObjectiveContribution"
+  },
+  {
+    "subject": "DiscountFactor",
+    "relation": "hasRange",
+    "object": "[0,1)"
+  },
+  {
+    "subject": "Policy",
+    "relation": "maps",
+    "object": "StateSpace"
+  },
+  {
+    "subject": "Policy",
+    "relation": "mapsTo",
+    "object": "ActionSpace"
+  },
+  {
+    "subject": "ValueFunction",
+    "relation": "definedFor",
+    "object": "Policy"
+  },
+  {
+    "subject": "ValueFunction",
+    "relation": "is",
+    "object": "VectorValued"
+  },
+  {
+    "subject": "Optimality",
+    "relation": "definedInTermsOf",
+    "object": "ParetoDominance"
+  },
+  {
+    "subject": "Policy",
+    "relation": "dominates",
+    "object": "OtherPolicy"
+  },
+  {
+    "subject": "DominatingPolicy",
+    "relation": "performsAtLeastAsWellIn",
+    "object": "AllObjective"
+  },
+  {
+    "subject": "DominatingPolicy",
+    "relation": "performsStrictlyBetterIn",
+    "object": "AtLeastOneObjective"
+  },
+  {
+    "subject": "NonDominatedValueVector",
+    "relation": "forms",
+    "object": "ParetoFrontier"
+  },
+  {
+    "subject": "ParetoFrontier",
+    "relation": "represents",
+    "object": "AchievableTradeOff"
+  },
+  {
+    "subject": "ImprovementInOneObjective",
+    "relation": "degrades",
+    "object": "AnotherObjective"
+  },
+  {
+    "subject": "MultiObjectiveReinforcementLearning",
+    "relation": "aimsToApproximate",
+    "object": "ParetoFrontier"
+  },
+  {
+    "subject": "MultiObjectiveReinforcementLearning",
+    "relation": "doesNotIdentifyOnly",
+    "object": "SingleOptimalPolicy"
+  },
+  {
+    "subject": "UserPreference",
+    "relation": "incorporatedVia",
+    "object": "ScalarizationFunction"
+  },
+  {
+    "subject": "UserPreference",
+    "relation": "incorporatedVia",
+    "object": "UtilityFunction"
+  },
+  {
+    "subject": "ScalarizationFunction",
+    "relation": "maps",
+    "object": "ValueVector"
+  },
+  {
+    "subject": "ScalarizationFunction",
+    "relation": "mapsTo",
+    "object": "ScalarUtility"
+  },
+  {
+    "subject": "UtilityFunction",
+    "relation": "definedAccordingTo",
+    "object": "UserPreference"
+  }
+]

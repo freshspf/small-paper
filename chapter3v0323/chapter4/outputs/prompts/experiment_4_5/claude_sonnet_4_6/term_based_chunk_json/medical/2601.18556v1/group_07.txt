@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "examination_falsePositiveInvasive",
+  "hasCost",
+  "HighFinancialCost",
+  "model_vgg16",
+  "generates",
+  "expenditure_additionalMedical",
+  "model_sda_qec",
+  "saves",
+  "expenditure_savedMedical",
+  "InvasiveExamination",
+  "carriesRiskOf",
+  "RadiationExposure",
+  "ContrastAllergy",
+  "Bleeding",
+  "FalsePositive",
+  "causes",
+  "PsychologicalBurden",
+  "MissedDiagnosis",
+  "resultsIn",
+  "DiseaseProgression",
+  "AcuteMyocardialInfarction",
+  "SuddenDeath",
+  "Patient",
+  "misses",
+  "OptimalTreatmentWindow",
+  "model_densenet121",
+  "produces",
+  "limitsRateOf",
+  "represents",
+  "ClinicalRisk",
+  "ViolinWidth",
+  "ProbabilityDensity",
+  "indicates",
+  "HigherOccurrenceFrequency",
+  "Figure6",
+  "displays",
+  "BootstrapDistribution",
+  "utilizes",
+  "ResamplingIteration",
+  "evaluates",
+  "EvaluationModel",
+  "measures",
+  "AccuracyMetric",
+  "AucMetric",
+  "F1Metric",
+  "CenterWhiteDot",
+  "Median",
+  "BlackThickLine",
+  "InterquartileRange",
+  "consistsOf",
+  "ViolinPlot",
+  "ArtificialIntelligence",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "Pneumonia",
+  "ChestXRay",
+  "CtImage",
+  "BreastCancer",
+  "DeepLearningModel",
+  "Image",
+  "Classification",
+  "MedicalData",
+  "ClassImbalance",
+  "dataset_covid19Pneumonia",
+  "LowRecallRate",
+  "DiagnosticAccuracy",
+  "ClinicalMisdiagnosis",
+  "PatientRisk",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "Noise",
+  "PathologicalFeature",
+  "GenerativeAdversarialNetwork",
+  "Sample",
+  "TrainingInstability",
+  "ModeCollapse",
+  "DiffusionModel",
+  "DiverseSample",
+  "NoiseAddition"
+]
+
+Triples:
+[
+  {
+    "subject": "examination_falsePositiveInvasive",
+    "relation": "hasCost",
+    "object": "HighFinancialCost",
+    "chunk": "results4",
+    "context": "Assuming a $5,000 average cost per false-positive invasive examination, for screening 100 negative patients, VGG16’s 78.33% false-positive rate would generate approximately $390,000 in additional medical expenditure"
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "generates",
+    "object": "expenditure_additionalMedical",
+    "chunk": "results4",
+    "context": "Assuming a $5,000 average cost per false-positive invasive examination, for screening 100 negative patients, VGG16’s 78.33% false-positive rate would generate approximately $390,000 in additional medical expenditure"
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "saves",
+    "object": "expenditure_savedMedical",
+    "chunk": "results4",
+    "context": "whereas SDA-QEC produces only about 1–2 false positives, costing approximately $8,350, thereby saving approximately $382,000 per batch."
+  },
+  {
+    "subject": "InvasiveExamination",
+    "relation": "carriesRiskOf",
+    "object": "RadiationExposure",
+    "chunk": "results5",
+    "context": "If scaled to approximately 10 million annual cardiovascular screenings in the United States, the potential savings could reach approximately $38.2 billion, while simultaneously reducing psychological burden on patients from false positives and minimizing risks associated with invasive examinations, including radiation exposure, contrast allergies, and bleeding."
+  },
+  {
+    "subject": "InvasiveExamination",
+    "relation": "carriesRiskOf",
+    "object": "ContrastAllergy",
+    "chunk": "results5",
+    "context": "If scaled to approximately 10 million annual cardiovascular screenings in the United States, the potential savings could reach approximately $38.2 billion, while simultaneously reducing psychological burden on patients from false positives and minimizing risks associated with invasive examinations, including radiation exposure, contrast allergies, and bleeding."
+  },
+  {
+    "subject": "InvasiveExamination",
+    "relation": "carriesRiskOf",
+    "object": "Bleeding",
+    "chunk": "results5",
+    "context": "If scaled to approximately 10 million annual cardiovascular screenings in the United States, the potential savings could reach approximately $38.2 billion, while simultaneously reducing psychological burden on patients from false positives and minimizing risks associated with invasive examinations, including radiation exposure, contrast allergies, and bleeding."
+  },
+  {
+    "subject": "FalsePositive",
+    "relation": "causes",
+    "object": "PsychologicalBurden",
+    "chunk": "results5",
+    "context": "If scaled to approximately 10 million annual cardiovascular screenings in the United States, the potential savings could reach approximately $38.2 billion, while simultaneously reducing psychological burden on patients from false positives and minimizing risks associated with invasive examinations, including radiation exposure, contrast allergies, and bleeding."
+  },
+  {
+    "subject": "MissedDiagnosis",
+    "relation": "resultsIn",
+    "object": "DiseaseProgression",
+    "chunk": "results5",
+    "context": "Conversely, while maintaining 98.33% sensitivity, SDA-QEC limits the missed diagnosis rate to 1.67%, missing only one case among 60 true patients, whereas DenseNet121’s 33.3% missed diagnosis rate implies that a substantial proportion of patients may miss optimal treatment windows, potentially resulting in disease progression, acute myocardial infarction, or even sudden death, with profound and immeasurable social and economic consequences."
+  },
+  {
+    "subject": "MissedDiagnosis",
+    "relation": "resultsIn",
+    "object": "AcuteMyocardialInfarction",
+    "chunk": "results5",
+    "context": "Conversely, while maintaining 98.33% sensitivity, SDA-QEC limits the missed diagnosis rate to 1.67%, missing only one case among 60 true patients, whereas DenseNet121’s 33.3% missed diagnosis rate implies that a substantial proportion of patients may miss optimal treatment windows, potentially resulting in disease progression, acute myocardial infarction, or even sudden death, with profound and immeasurable social and economic consequences."
+  },
+  {
+    "subject": "MissedDiagnosis",
+    "relation": "resultsIn",
+    "object": "SuddenDeath",
+    "chunk": "results5",
+    "context": "Conversely, while maintaining 98.33% sensitivity, SDA-QEC limits the missed diagnosis rate to 1.67%, missing only one case among 60 true patients, whereas DenseNet121’s 33.3% missed diagnosis rate implies that a substantial proportion of patients may miss optimal treatment windows, potentially resulting in disease progression, acute myocardial infarction, or even sudden death, with profound and immeasurable social and economic consequences."
+  },
+  {
+    "subject": "Patient",
+    "relation": "misses",
+    "object": "OptimalTreatmentWindow",
+    "chunk": "results5",
+    "context": "Conversely, while maintaining 98.33% sensitivity, SDA-QEC limits the missed diagnosis rate to 1.67%, missing only one case among 60 true patients, whereas DenseNet121’s 33.3% missed diagnosis rate implies that a substantial proportion of patients may miss optimal treatment windows, potentially resulting in disease progression, acute myocardial infarction, or even sudden death, with profound and immeasurable social and economic consequences."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "produces",
+    "object": "MissedDiagnosis",
+    "chunk": "results5",
+    "context": "Conversely, while maintaining 98.33% sensitivity, SDA-QEC limits the missed diagnosis rate to 1.67%, missing only one case among 60 true patients, whereas DenseNet121’s 33.3% missed diagnosis rate implies that a substantial proportion of patients may miss optimal treatment windows, potentially resulting in disease progression, acute myocardial infarction, or even sudden death, with profound and immeasurable social and economic consequences."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "limitsRateOf",
+    "object": "MissedDiagnosis",
+    "chunk": "results5",
+    "context": "Conversely, while maintaining 98.33% sensitivity, SDA-QEC limits the missed diagnosis rate to 1.67%, missing only one case among 60 true patients, whereas DenseNet121’s 33.3% missed diagnosis rate implies that a substantial proportion of patients may miss optimal treatment windows, potentially resulting in disease progression, acute myocardial infarction, or even sudden death, with profound and immeasurable social and economic consequences."
+  },
+  {
+    "subject": "MissedDiagnosis",
+    "relation": "represents",
+    "object": "ClinicalRisk",
+    "chunk": "results5",
+    "context": "MobileNetV2’s sensitivity 95% CI is [0.73, 0.87], with interval width reaching 0.14, indicating sensitivity may drop as low as 73% (missed diagnosis rate as high as 27%) on some data subsets, representing clinically unacceptable high risk."
+  },
+  {
+    "subject": "ViolinWidth",
+    "relation": "represents",
+    "object": "ProbabilityDensity",
+    "chunk": "results6",
+    "context": "Violin width represents probability density in that region; greater width indicates higher occurrence frequency of that value."
+  },
+  {
+    "subject": "ViolinWidth",
+    "relation": "indicates",
+    "object": "HigherOccurrenceFrequency",
+    "chunk": "results6",
+    "context": "Violin width represents probability density in that region; greater width indicates higher occurrence frequency of that value."
+  },
+  {
+    "subject": "Figure6",
+    "relation": "displays",
+    "object": "BootstrapDistribution",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "BootstrapDistribution",
+    "relation": "utilizes",
+    "object": "ResamplingIteration",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "Figure6",
+    "relation": "evaluates",
+    "object": "EvaluationModel",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "Figure6",
+    "relation": "measures",
+    "object": "AccuracyMetric",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "Figure6",
+    "relation": "measures",
+    "object": "AucMetric",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "Figure6",
+    "relation": "measures",
+    "object": "F1Metric",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "CenterWhiteDot",
+    "relation": "represents",
+    "object": "Median",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "BlackThickLine",
+    "relation": "represents",
+    "object": "InterquartileRange",
+    "chunk": "results6",
+    "context": "Figure 6 displays Bootstrap distributions (n=300 resampling iterations) for five models across accuracy, AUC, and F1 metrics, with each violin’s center white dot representing the median and black thick line representing interquartile range."
+  },
+  {
+    "subject": "Figure6",
+    "relation": "consistsOf",
+    "object": "ViolinPlot",
+    "chunk": "results6",
+    "context": "Figure 6: Performance distribution (Bootstrap) - Violin plots"
+  }
+]

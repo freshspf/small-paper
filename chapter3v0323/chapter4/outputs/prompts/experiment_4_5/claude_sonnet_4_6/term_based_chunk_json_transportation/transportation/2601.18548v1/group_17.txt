@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Quadrotor",
+  "utilizes",
+  "SafeFlightCorridor",
+  "operatesIn",
+  "ComplexEnvironment",
+  "locatedIn",
+  "TrajectoryPlanner",
+  "navigatesIn",
+  "UnknownEnvironment",
+  "Uav",
+  "ClutteredEnvironment",
+  "TrajectoryGeneration",
+  "appliedTo",
+  "AutonomousDriving",
+  "usesMethod",
+  "ConstrainedIterativeLqr",
+  "MultiagentEnvironment",
+  "DynamicEnvironment",
+  "CollisionAvoidance",
+  "avoids",
+  "DynamicObstacle",
+  "ModelPredictiveControl",
+  "SignedDistanceField",
+  "supports",
+  "MavPlanning",
+  "ThreeDimensionalMapping",
+  "ImplicitNeuralRepresentation",
+  "RobotPerception",
+  "MotionPlanningAlgorithm",
+  "CollisionDetectionFramework",
+  "enhances",
+  "CollisionFreeRobotMotion",
+  "NeuralSignedDistanceFunction",
+  "models",
+  "ArticulatedRobotMorphology",
+  "NeuralConfigurationSpaceBarrier",
+  "ManipulationPlanning",
+  "DifferentiableDistanceField",
+  "enables",
+  "SafeDynamicMotion",
+  "ConfigurationSpaceDistanceField",
+  "facilitates",
+  "ManipulatorMotionPlanning",
+  "SequentialConvexOptimization",
+  "optimizes",
+  "ContactImplicitMotionPlanning",
+  "Ocs2Library",
+  "controls",
+  "SwitchedSystem",
+  "PinocchioLibrary",
+  "implements",
+  "RigidBodyDynamicsAlgorithm",
+  "DrakeFramework",
+  "verifies",
+  "RoboticsModelDesign",
+  "CasadiFramework",
+  "performs",
+  "NonlinearOptimization",
+  "MobileManipulator",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "Robot",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety"
+]
+
+Triples:
+[
+  {
+    "subject": "Quadrotor",
+    "relation": "utilizes",
+    "object": "SafeFlightCorridor",
+    "chunk": "completedocument19",
+    "context": "[59] S. Liu, M. Watterson, K. Mohta, K. Sun, S. Bhattacharya, C. J. Taylor, and V . Kumar, “Planning dynamically feasible trajectories for quadrotors using safe flight corridors in 3D complex environments,”IEEE Robotics and Automation Letters, vol. 2, no. 3, pp. 1688–1695, 2017."
+  },
+  {
+    "subject": "Quadrotor",
+    "relation": "operatesIn",
+    "object": "ComplexEnvironment",
+    "chunk": "completedocument19",
+    "context": "[59] S. Liu, M. Watterson, K. Mohta, K. Sun, S. Bhattacharya, C. J. Taylor, and V . Kumar, “Planning dynamically feasible trajectories for quadrotors using safe flight corridors in 3D complex environments,”IEEE Robotics and Automation Letters, vol. 2, no. 3, pp. 1688–1695, 2017."
+  },
+  {
+    "subject": "SafeFlightCorridor",
+    "relation": "locatedIn",
+    "object": "ComplexEnvironment",
+    "chunk": "completedocument19",
+    "context": "[59] S. Liu, M. Watterson, K. Mohta, K. Sun, S. Bhattacharya, C. J. Taylor, and V . Kumar, “Planning dynamically feasible trajectories for quadrotors using safe flight corridors in 3D complex environments,”IEEE Robotics and Automation Letters, vol. 2, no. 3, pp. 1688–1695, 2017."
+  },
+  {
+    "subject": "TrajectoryPlanner",
+    "relation": "navigatesIn",
+    "object": "UnknownEnvironment",
+    "chunk": "completedocument20",
+    "context": "[64] J. Tordesillas, B. T. Lopez, M. Everett, and J. P. How, “FASTER: Fast and safe trajectory planner for navigation in unknown environments,” IEEE Transactions on Robotics, vol. 38, no. 2, pp. 922–938, 2021."
+  },
+  {
+    "subject": "Uav",
+    "relation": "operatesIn",
+    "object": "ClutteredEnvironment",
+    "chunk": "completedocument20",
+    "context": "[67] R. Deits and R. Tedrake, “Efficient mixed-integer planning for uavs in cluttered environments,” in2015 IEEE International Conference on Robotics and Automation (ICRA), 2015, pp. 42–49."
+  },
+  {
+    "subject": "TrajectoryGeneration",
+    "relation": "appliedTo",
+    "object": "Quadrotor",
+    "chunk": "completedocument20",
+    "context": "[68] D. Mellinger and V . Kumar, “Minimum snap trajectory generation and control for quadrotors,” in2011 IEEE International Conference on Robotics and Automation (ICRA), 2011, pp. 2520–2525."
+  },
+  {
+    "subject": "AutonomousDriving",
+    "relation": "usesMethod",
+    "object": "ConstrainedIterativeLqr",
+    "chunk": "completedocument20",
+    "context": "[69] J. Ma, Z. Cheng, X. Zhang, M. Tomizuka, and T. H. Lee, “Alternating direction method of multipliers for constrained iterative LQR in autonomous driving,”IEEE Transactions on Intelligent Transportation Systems, vol. 23, no. 12, pp. 23 031–23 042, 2022."
+  },
+  {
+    "subject": "TrajectoryPlanner",
+    "relation": "operatesIn",
+    "object": "MultiagentEnvironment",
+    "chunk": "completedocument20",
+    "context": "[71] J. Tordesillas and J. P. How, “MADER: Trajectory planner in multiagent and dynamic environments,”IEEE Transactions on Robotics, vol. 38, no. 1, pp. 463–476, 2022."
+  },
+  {
+    "subject": "TrajectoryPlanner",
+    "relation": "operatesIn",
+    "object": "DynamicEnvironment",
+    "chunk": "completedocument20",
+    "context": "[71] J. Tordesillas and J. P. How, “MADER: Trajectory planner in multiagent and dynamic environments,”IEEE Transactions on Robotics, vol. 38, no. 1, pp. 463–476, 2022."
+  },
+  {
+    "subject": "CollisionAvoidance",
+    "relation": "avoids",
+    "object": "DynamicObstacle",
+    "chunk": "completedocument20",
+    "context": "[72] S. H. Nair, E. H. Tseng, and F. Borrelli, “Collision avoidance for dynamic obstacles with uncertain predictions using model predictive control,” in2022 IEEE 61st Conference on Decision and Control (CDC), 2022, pp. 5267–5272."
+  },
+  {
+    "subject": "CollisionAvoidance",
+    "relation": "usesMethod",
+    "object": "ModelPredictiveControl",
+    "chunk": "completedocument20",
+    "context": "[72] S. H. Nair, E. H. Tseng, and F. Borrelli, “Collision avoidance for dynamic obstacles with uncertain predictions using model predictive control,” in2022 IEEE 61st Conference on Decision and Control (CDC), 2022, pp. 5267–5272."
+  },
+  {
+    "subject": "SignedDistanceField",
+    "relation": "supports",
+    "object": "MavPlanning",
+    "chunk": "completedocument20",
+    "context": "[75] H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, “V oxblox: Incremental 3D Euclidean signed distance fields for on-board mav planning,” in2017 IEEE International Conference on Intelligent Robots and Systems (IROS), 2017, pp. 1366–1373."
+  },
+  {
+    "subject": "ThreeDimensionalMapping",
+    "relation": "usesMethod",
+    "object": "ImplicitNeuralRepresentation",
+    "chunk": "completedocument20",
+    "context": "[76] X. Zhong, Y . Pan, J. Behley, and C. Stachniss, “SHINE-mapping: Large-scale 3D mapping using sparse hierarchical implicit neural representations,” in2023 IEEE International Conference on Robotics and Automation (ICRA), 2023, pp. 8371–8377."
+  },
+  {
+    "subject": "SignedDistanceField",
+    "relation": "supports",
+    "object": "RobotPerception",
+    "chunk": "completedocument20",
+    "context": "[77] J. Ortiz, A. Clegg, J. Dong, E. Sucar, D. Novotny, M. Zollhoefer, and M. Mukadam, “iSDF: Real-time neural signed distance fields for robot perception,” inRobotics: Science and Systems (RSS), 2022."
+  },
+  {
+    "subject": "MotionPlanningAlgorithm",
+    "relation": "operatesIn",
+    "object": "ClutteredEnvironment",
+    "chunk": "completedocument20",
+    "context": "[63] Y . Suh, J. Kang, and D. Lee, “A fast and safe motion planning algorithm in cluttered environment using maximally occupying convex space,” in 2020 20th International Conference on Control, Automation and Systems (ICCAS), 2020, pp. 173–178."
+  },
+  {
+    "subject": "CollisionDetectionFramework",
+    "relation": "enhances",
+    "object": "CollisionFreeRobotMotion",
+    "chunk": "completedocument21",
+    "context": "Efficient collision detection framework for enhancing collision-free robot motion,"
+  },
+  {
+    "subject": "NeuralSignedDistanceFunction",
+    "relation": "models",
+    "object": "ArticulatedRobotMorphology",
+    "chunk": "completedocument21",
+    "context": "Implicit articulated robot morphology modeling with configuration space neural signed distance functions,"
+  },
+  {
+    "subject": "NeuralConfigurationSpaceBarrier",
+    "relation": "supports",
+    "object": "ManipulationPlanning",
+    "chunk": "completedocument21",
+    "context": "Neural configuration-space barriers for manipulation planning and control,"
+  },
+  {
+    "subject": "DifferentiableDistanceField",
+    "relation": "enables",
+    "object": "SafeDynamicMotion",
+    "chunk": "completedocument21",
+    "context": "Safe dynamic motion generation in configuration space using differentiable distance fields,"
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "facilitates",
+    "object": "ManipulatorMotionPlanning",
+    "chunk": "completedocument21",
+    "context": "One-step model predictive path integral for manipulator motion planning using configuration space distance fields,"
+  },
+  {
+    "subject": "SequentialConvexOptimization",
+    "relation": "optimizes",
+    "object": "ContactImplicitMotionPlanning",
+    "chunk": "completedocument21",
+    "context": "On the surprising robustness of sequential convex optimization for contact-implicit motion planning,"
+  },
+  {
+    "subject": "Ocs2Library",
+    "relation": "controls",
+    "object": "SwitchedSystem",
+    "chunk": "completedocument21",
+    "context": "OCS2: An open source library for optimal control of switched systems,"
+  },
+  {
+    "subject": "PinocchioLibrary",
+    "relation": "implements",
+    "object": "RigidBodyDynamicsAlgorithm",
+    "chunk": "completedocument21",
+    "context": "The Pinocchio C++ library – a fast and flexible implementation of rigid body dynamics algorithms and their analytical derivatives,"
+  },
+  {
+    "subject": "DrakeFramework",
+    "relation": "verifies",
+    "object": "RoboticsModelDesign",
+    "chunk": "completedocument21",
+    "context": "Drake: Model-based design and verification for robotics,"
+  },
+  {
+    "subject": "CasadiFramework",
+    "relation": "performs",
+    "object": "NonlinearOptimization",
+    "chunk": "completedocument21",
+    "context": "CasADi: a software framework for nonlinear optimization and optimal control,"
+  }
+]

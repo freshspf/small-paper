@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["BiomedicalEngineering","ArtificialIntelligence","MedicalDiagnostics","MedicalImageClassification","Pneumonia","ChestXRay","BreastCancer","BreastCancerScreening","DeepLearningModel","ClassImbalance","COVID19RelatedPneumoniaDataset","PositiveSample","NegativeSample","MajorityClass","MinorityClass","LowRecallRate","DiagnosticAccuracy","ClinicalMisdiagnosis","PatientRisk","TraditionalDataAugmentation","Rotation","Flipping","BrightnessAdjustment","Noise","PathologicalFeature","GenerativeAdversarialNetwork","TrainingInstability","ModeCollapse","DiffusionModel","NaturalImageDomain","MedicalImaging","ResourceConstrainedClinicalEnvironment","QuantumMachineLearning","QuantumComputing","QuantumEntanglement","Superposition","FeatureExtraction","HighDimensionalMedicalImage","ConvolutionalNeuralNetwork","ResNet"]
+
+Triples:
+[{"subject":"ArtificialIntelligence","relation":"enhances","object":"MedicalDiagnostics"},{"subject":"MedicalImageClassification","relation":"includesTask","object":"Pneumonia"},{"subject":"Pneumonia","relation":"detectedFrom","object":"ChestXRay"},{"subject":"MedicalImageClassification","relation":"includesTask","object":"BreastCancerScreening"},{"subject":"DeepLearningModel","relation":"extractsFeatureFrom","object":"MedicalImageClassification"},{"subject":"DeepLearningModel","relation":"performs","object":"MedicalImageClassification"},{"subject":"MedicalImageClassification","relation":"hasChallenge","object":"ClassImbalance"},{"subject":"COVID19RelatedPneumoniaDataset","relation":"hasMoreSamplesOf","object":"PositiveSample"},{"subject":"COVID19RelatedPneumoniaDataset","relation":"hasFewerSamplesOf","object":"NegativeSample"},{"subject":"ClassImbalance","relation":"biasesToward","object":"MajorityClass"},{"subject":"ClassImbalance","relation":"causes","object":"LowRecallRate"},{"subject":"LowRecallRate","relation":"affects","object":"MinorityClass"},{"subject":"ClassImbalance","relation":"reduces","object":"DiagnosticAccuracy"},{"subject":"ClassImbalance","relation":"increasesRiskOf","object":"ClinicalMisdiagnosis"},{"subject":"ClinicalMisdiagnosis","relation":"increases","object":"PatientRisk"},{"subject":"TraditionalDataAugmentation","relation":"includes","object":"Rotation"},{"subject":"TraditionalDataAugmentation","relation":"includes","object":"Flipping"},{"subject":"TraditionalDataAugmentation","relation":"includes","object":"BrightnessAdjustment"},{"subject":"TraditionalDataAugmentation","relation":"enhances","object":"SampleDiversity"},{"subject":"TraditionalDataAugmentation","relation":"cannotGenerate","object":"NovelSample"},{"subject":"ExcessiveAugmentation","relation":"mayIntroduce","object":"Noise"},{"subject":"ExcessiveAugmentation","relation":"mayAlter","object":"PathologicalFeature"},{"subject":"GenerativeAdversarialNetwork","relation":"synthesizes","object":"Sample"},{"subject":"GenerativeAdversarialNetwork","relation":"suffersFrom","object":"TrainingInstability"},{"subject":"GenerativeAdversarialNetwork","relation":"suffersFrom","object":"ModeCollapse"},{"subject":"DiffusionModel","relation":"produces","object":"HighQualitySample"},{"subject":"DiffusionModel","relation":"produces","object":"DiverseSample"},{"subject":"DiffusionModel","relation":"simulates","object":"NoiseAdditionStep"},{"subject":"DiffusionModel","relation":"simulates","object":"DenoisingProcess"},{"subject":"DiffusionModel","relation":"achievesSuccessIn","object":"NaturalImageDomain"},{"subject":"DiffusionModel","relation":"requiresSimplificationFor","object":"MedicalImaging"},{"subject":"MedicalImaging","relation":"occursIn","object":"ResourceConstrainedClinicalEnvironment"},{"subject":"QuantumMachineLearning","relation":"isIntersectionOf","object":"QuantumComputing"},{"subject":"QuantumMachineLearning","relation":"isIntersectionOf","object":"ArtificialIntelligence"},{"subject":"QuantumMachineLearning","relation":"leverages","object":"QuantumEntanglement"},{"subject":"QuantumMachineLearning","relation":"leverages","object":"Superposition"},{"subject":"QuantumMachineLearning","relation":"enhances","object":"FeatureExtraction"},{"subject":"QuantumMachineLearning","relation":"potentiallyImproves","object":"ModelPerformance"},{"subject":"ModelPerformance","relation":"appliesTo","object":"HighDimensionalMedicalImage"},{"subject":"ExistingFramework","relation":"doesNotCombine","object":"DiffusionModel"}]

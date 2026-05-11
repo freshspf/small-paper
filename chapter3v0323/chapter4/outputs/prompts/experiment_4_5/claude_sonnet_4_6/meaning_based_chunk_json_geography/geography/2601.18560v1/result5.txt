@@ -1,0 +1,135 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "result5",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: result5
+- section_title: Result
+- page_start: 3
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+(d) 10 training samples per class.
+(e) 30 training samples per class.
+Table 4OAs of Different Methods on the Indian Pines, Salinas, and Pavia University Datasets With Different Numbers
+of Training Pixels of Each Class
+Number CNN-PPF[32] GFHF[33] PL[34] FSS[35] SGL[28] STSE-DWLR[36] DSSPL[37] Ours
+Indian Pines3 0.2169 0.6056 0.6251 0.7043 0.6882 0.7514 0.79240.8798
+5 0.3087 0.6499 0.7060 0.8142 0.7270 0.8052 0.85910.9663
+10 0.6132 0.7125 0.7238 0.8691 0.7695 0.8829 0.88100.9845
+30/15 0.7986 0.8026 0.7948 0.9666 0.8570 0.9625 0.94330.9977
+Salinas3 0.1168 0.8124 0.8347 0.8528 0.8831 0.9259 0.93580.9631
+5 0.3943 0.9473 0.9347 0.9549 0.9469 0.9630 0.96750.9885
+10 0.7765 0.9547 0.9412 0.9789 0.9617 0.9745 0.97990.9971
+30 0.9051 0.9723 0.9622 0.9860 0.9695 0.9814 0.98870.9957
+Pavia University3 0.4780 0.7015 0.7098 0.7482 0.7581 0.79310.84190.8242
+5 0.5996 0.7252 0.7151 0.8039 0.8569 0.8302 0.86740.8721
+10 0.7417 0.7524 0.7418 0.8517 0.8826 0.9218 0.92420.9292
+30 0.8919 0.8269 0.8325 0.9564 0.9234 0.9369 0.94290.9514
+8
+
+Table 5Clustering Performance of Different Methods on the Salinas, and Pavia University Datasets
+Datasets Metrics K-means FCM FSCAG[38] SGCNR[39] HESSC[40] NCSC[41] SGLSC[42]S3AGC[43] SAPC[44] Ours
+SalinasACC↑0.6456 0.6065 0.6590 0.6224 0.5293 0.7497 0.7664 0.7465 0.78810.8869
+Kappa↑0.6044 0.5671 0.6212 0.5790 0.4787 0.7206 0.7407 0.7181 0.76370.9069
+NMI↑0.7275 0.7072 0.7412 0.7124 0.6238 0.8176 0.8388 0.7836 0.84640.8843
+Purity↑0.6640 0.6686 0.7070 0.6688 0.5881 0.7638 0.7679 0.7521 0.80560.9120
+ARI↑0.5392 0.4761 0.5444 0.4978 0.4150 0.6650 0.6553 0.6095 0.69290.8322
+F-Score↑0.5549 0.5911 0.5818 0.5462 0.4375 0.5821 0.6072 0.6668 0.69720.8869
+Pavia UniversityACC↑0.5370 0.5263 0.5288 0.5019 0.4790 0.4392 0.6245 0.48550.63940.6188
+Kappa↑0.4357 0.4245 0.4291 0.4039 0.3663 0.2952 0.4885 0.37740.52940.4433
+NMI↑0.5321 0.5291 0.5588 0.5068 0.4982 0.4355 0.5410 0.47670.61890.4392
+Purity↑0.6957 0.6936 0.7055 0.6628 0.6397 0.6037 0.6769 0.6341 0.71320.8916
+ARI↑0.3255 0.3167 0.3306 0.2982 0.3020 0.2905 0.5063 0.26160.44910.4128
+F-Score↑0.5079 0.5036 0.5309 0.4767 0.4130 0.3656 0.4201 0.4815 0.56020.6108
+Table 6AAs, OAs, and Kappa Coefficients of Different Methods on the Indian Pines Dataset with Different Level of
+Gaussian Noise, Impulse Noise, and Possion Noise
+0.1 0.2 0.3
+SGL[28] STSE-DWLR[36] Ours SGL[28] STSE-DWLR[36] Ours SGL[28] STSE-DWLR[36] Ours
+Gaussian NoiseAA 0.8086 0.8217 0.9164 0.8132 0.7520 0.9141 0.7672 0.7114 0.8987
+OA 0.6993 0.7322 0.9656 0.6922 0.6556 0.9633 0.7672 0.6100 0.9450
+Kappa 0.6632 0.6976 0.9608 0.6571 0.6098 0.9582 0.6148 0.5570 0.9373
+Impulse NoiseAA 0.8006 0.7724 0.8454 0.7434 0.7220 0.7678 0.7402 0.6986 0.6847
+OA 0.6838 0.6809 0.8933 0.5994 0.6270 0.8210 0.6005 0.5963 0.7571
+Kappa 0.6476 0.6384 0.8773 0.5581 0.5761 0.7924 0.5589 0.5406 0.7157
+Poission NoiseAA 0.7756 0.7122 0.8923 0.7258 0.6801 0.8455 0.7314 0.6616 0.8022
+OA 0.6768 0.6149 0.9389 0.5914 0.5772 0.8878 0.6246 0.5607 0.8214
+Kappa 0.6399 0.5620 0.9303 0.5509 0.5192 0.8715 0.5842 0.4997 0.7951
+classification labels. As an alternative, we omit
+the sparse graph-based label propagation. In this
+case, we investigate the extent to which over-
+all classification accuracy can be maintained by
+employing rapid label propagation via the anchor
+graph. Table 7 presents the results of the ablation
+studies conducted on the three evaluated datasets.
+It is evident that a certain level of performance
+degradation is observed across all three datasets
+upon the removal ofF 0orF∗. This substantiates
+the effectiveness of the proposed two-stage label
+propagation method. The use of a fully connected
+graph instead of the pruned sparse graph may
+result in a marginal enhancement in classifica-
+tion performance. Nevertheless, this improvement
+is not substantial when compared to the classifica-
+tion performance achieved through sparse graphs.
+In contrast, the adoption of a fully connected
+graph leads to an exponential escalation in com-
+putational time. Consequently, with respect to the
+algorithm’s overall computational efficiency, the
+sparse graph is deemed to be more suitable.2.5 Parameter Sensitivity
+In this subsection of the experiments, we inves-
+tigate the sensitivity of the proposed method
+with respect to the parameter configurations. The
+parameter settings are divided into two distinct
+categories: the sensitivity analysis of parameters
+for the label propagation phase and the sensi-
+tivity analysis for the parameters related to the
+clustering phase. Two critical parameters must be
+manually configured during the label propagation
+process: the bandwidthσof the Gaussian ker-
+nel function used in graph construction and the
+value ofkrequired for selection in the pruning
+stage. The bandwidthσis a fundamental parame-
+ter of the Gaussian kernel function, which plays a
+crucial role in defining the smoothness of the func-
+tion. Fig.5 illustrates the impact of differentσon
+the overall accuracy of the classification.

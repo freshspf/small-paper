@@ -1,0 +1,160 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument5
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+INPUT TEXT CHUNK:
+MSS Results
+We ﬁrst investigate the MSS problem by applying
+FALQON and ITE-FALQON to the Hamiltonian HMSS.
+Figure 2 shows the time evolution of the energy E(t) =
+∝an}bracketle{tψ(t)|HMSS|ψ(t)∝an}bracketri}htfor several values of the penalty pa-
+rameterα, which controls the energetic cost of violating
+harmful-interaction constraints.
+For all values of α, FALQON drives the system toward
+thecorrectlow-energysubspaceandreliablyidentiﬁesthe
+optimal safe conﬁguration. However, because the evolu-
+tion is purely unitary, the ﬁnal energy saturates slightly
+above the exact ground-state value. This residual oﬀset
+reﬂects the presence ofexcited-statecomponents that are
+not explicitly suppressed under unitary dynamics.
+In contrast, ITE-FALQON converges rapidly and
+reaches the exact ground-state energy for all tested val-
+ues ofα. The imaginary-time component eﬀectively ﬁl-
+ters out higher-energy contributions, leading to a sharp
+projection onto the ground state and signiﬁcantly faster
+convergence.
+The role of the penalty parameter αis also evident.
+Increasingαampliﬁes the energetic separation between
+valid(harm-free)conﬁgurationsandinvalidones, thereby
+enlarging the spectral gap of HMSS. This enhanced
+separation accelerates convergence in both algorithms,
+with the eﬀect being particularly pronounced for ITE-
+FALQON, which exploits the widened gap through ex-
+ponential suppression of excited states.
+These results demonstrate that while FALQON is suf-
+ﬁcient to identify the correct MSS solution, the inclusion
+of imaginary-time evolution substantially improves con-
+vergence speed and accuracy by enforcing explicit energy
+ﬁltering.
+Figure 3(a) shows the measurement probabilities after
+the FALQON evolution. As expected for the MSS objec-
+tive, signiﬁcant probability accumulates only on conﬁgu-
+rations that contain no harmful interactions. The distri-
+bution is strongly dominated by two bitstrings, 111000
+and 110100, with probabilities of approximately0 .49 and
+0.46, respectively. All remaining bitstrings appear with
+probabilities below 2 ×10−2, indicating that unsafe con-
+ﬁgurations are eﬀectively suppressed.
+Importantly, the identity of these dominant bitstrings
+is independent of the speciﬁc value of the penalty coef-
+ﬁcientα, provided that αis large enough to energeti-
+cally separate unsafe states. Increasing αtherefore does
+not change which conﬁgurations are optimal, but instead
+reinforces the energetic separation between feasible and
+infeasible subsets. In Fig. 3, we use α= 5. The coex-
+istence of two dominant solutions reﬂects the fact that
+the MSS problem admits multiple maximum safe subsetsFIG. 2. Energy evolution obtained using FALQON and ITE-
+FALQONfor diﬀerentpenaltycoeﬃcients α. While FALQON
+reliably identiﬁes the correct optimal bitstring, its ﬁnal en-
+ergy remains slightly above the exact ground-state energy
+due to the purely unitary nature of the dynamics, which
+does not explicitly suppress excited-state components. In
+contrast, ITE-FALQON rapidly reaches the ground-state en-
+ergy by eﬀectively ﬁltering out higher-energy contributio ns
+through imaginary-time evolution. This comparison high-
+lights the complementary roles of feedback-based control a nd
+non-unitary energy ﬁltering in accelerating convergence.
+with equal cardinality and nearly degenerate energies.
+Figure 3(b) shows the corresponding results obtained
+using ITE-FALQON. In this case, the probability dis-
+tribution becomes even more sharply concentrated: es-
+sentially all probability mass collapses onto the same
+two bitstrings, 111000 and 110100, with nearly equal
+weights. All other conﬁgurations are suppressed to negli-
+gible probabilities. This behavior is a direct consequence
+of the imaginary-time component, which exponentially
+ﬁlters out excited-state contributions and projects the
+system more eﬃciently onto the ground-state subspace
+[36].
+The network visualizations in Fig. 3(b) illustrate the
+drug subsets represented by these two bitstrings. Shaded
+nodes indicate the selected drugs. Both conﬁgurations
+exclude all major harmful interactions, conﬁrming that
+they correspond to valid maximum safe subsets. The
+near-equal probabilities and energies of the two solutions
+highlight the intrinsic degeneracy of the MSS problem
+and demonstrate that ITE-FALQON faithfully recovers
+the complete set of optimal safe regimens.
+C. SCO Results
+We now turn to the SCO problem, which extends the
+MSS formulation by incorporating both synergistic re-
+wards and an explicit cardinality constraint. The objec-
+tive is to identify drug combinations of ﬁxed size Kthat
+maximize therapeutic synergy while suppressing harm-
+ful interactions. In the results shown here, we apply the
+
+6
+(a) 
+(b) 
+FIG. 3. Final probability distributions and dominant MSS so -
+lutions. (a) FALQON concentrates probability on two harm-
+free bitstrings, 111000 and 110100, while suppressing unsa fe
+conﬁgurations.

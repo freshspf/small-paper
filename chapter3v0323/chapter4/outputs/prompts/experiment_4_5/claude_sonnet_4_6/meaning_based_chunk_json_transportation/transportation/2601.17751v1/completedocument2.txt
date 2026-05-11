@@ -1,0 +1,133 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+This capability fun-
+damentally changes the power-rate trade-off and opens up
+new possibilities for performance enhancement in future 6G
+wireless networks.
+Early studies, such as [27], focused on characterizing the
+performance gains of active-RIS over passive-RIS through
+sum-rate maximization and comparative analyses, demonstrat-
+ing that active-RIS can effectively mitigate the double-fading
+loss inherent in passive architectures. These works established
+the potential of active-RIS as a promising technology for
+next-generation systems. Building upon this foundation, subse-
+quent research addressed practical implementation challenges.
+In particular, [31] investigated a sub-connected active-RIS
+architecture and proposed a joint beamforming design that
+balances hardware complexity and performance, revealing
+important trade-offs between achievable gains and circuit-level
+constraints. From a performance perspective, [28], [32] further
+examined the SNR advantages of active-RIS under a unified
+power budget, showing that, when properly optimized, active-
+RIS can significantly outperform passive-RIS counterparts.arXiv:2601.17751v1  [eess.SP]  25 Jan 2026
+
+2
+More recently after performance characterization and architec-
+tural investigations, attention has shifted toward robustness and
+practical deployability. To bridge the gap between theoretical
+analysis and real-world operation, [33], [34] studied active-RIS
+transmission designs under partial channel state information
+(CSI). Specifically, [33] aimed at maximizing the average sum-
+rate, while [34] focused on minimizing the average total trans-
+mit power subject to rate and outage probability constraints.
+These works highlight the importance of accounting for CSI
+uncertainty when designing active-RIS-assisted systems.
+Most prior work, however, has primarily focused on deploy-
+ing the active-RIS in terrestrial environments, such as those
+involving buildings and walls. These environments impose
+several limitations on communication performance. In dense
+urban areas with many buildings, reliable transmission often
+depends on multiple reflections, which requires deploying a
+large number of RIS units to alleviate severe signal attenuation.
+Moreover, a terrestrial RIS can only reflect signals from
+the source to destinations located on the same side, thereby
+restricting the angular range of reflection and preventing
+isotropic coverage over0◦∼360◦arrival angles. Several
+studies have investigated the deployment of RIS on aerial
+platforms (e.g., [35]–[37]); however, most of these works focus
+on conventional passive RIS architectures and consider only
+2D coverage, or assume fixed transmit power at the source,
+thereby largely overlooking energy-efficiency considerations.
+Although a few recent studies have explored active-RIS-
+assisted aerial systems [38]–[40], they still restrict their scope
+to 2D coverage scenarios1, which limits their applicability in
+dense urban 6G environments with heterogeneous mobility and
+altitude-dependent service demands.
+In contrast, this paper proposes a novel aerial active-RIS
+architecture that explicitly distinguishes the geometric benefits
+of aerial deployment from the amplification-enabled gains in-
+troduced by the active-RIS itself. While the elevated platform
+inherently improves LoS availability and alleviates blockage
+through favorable 3D geometry, the active-RIS provides an ad-
+ditional and fundamentally different advantage by amplifying
+the reflected signals at the element level. This amplification
+capability mitigates the multiplicative path-loss of cascaded
+source-RIS-destination links, which is an important issue due
+to the long link distance of aerial platform and cannot be
+achieved by aerial placement or passive RIS alone under the
+same power budget [41]. As a result, the proposed architecture
+enables energy-efficient 3D coverage and, for the first time,
+facilitates an aerial-active-RIS-assisted backhaul network ca-
+pable of reliably supporting UA V-BSs and heterogeneous users
+in future 6G wireless networks.
+The key contributions are summarized as follows:
+1) We propose a novel aerial-active-RIS architecture aimed
+at enhancing 3D backhaul connectivity to UA V-BSs in
+urban environments characterized by severe blockages.
+1In this paper, we define “2D coverage” as the servicing of only ground
+users, whereas “3D coverage” refers to the service of both aerial and
+ground users, which constitutes a geometrical extension of 2D coverage. It is
+emphasized that the term “3D coverage” in this work refers to geometry-aware
+coverage over a three-dimensional spatial region, rather than full-dimensional
+beamforming enabled by planar arrays.The proposed scheme deploys an RIS on a high-altitude
+platform, where each RIS element is equipped with an
+active amplifier, ensuring both a rich LoS component and
+robustness against multiplicative fading, respectively.

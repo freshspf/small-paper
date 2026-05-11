@@ -1,0 +1,146 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: conclusions2
+- section_title: Conclusions
+- page_start: 11
+- page_end: 15
+
+INPUT TEXT CHUNK:
+The simulation settings are identical
+to those of the Vissim Wrapper, as the RL environment automatically initializes the wrapper during instantiate.
+TABLE XIX: RL Environment Framework configuration parameters.
+Parameter Type Default Setting Description
+Simulation settings
+net_path str --File path of the Vissim network model
+sig_path str --File path of the signal control configuration
+detector_path str --File path of the detector configuration
+use_gui bool FalseRun simulation with graphical user interface
+quick_mode bool TrueEnable faster simulation mode
+start_time int 600Simulation start time (s)
+sim_period int 4200Total simulation duration (s)
+sim_res int 10Simulation resolution (steps per second)
+seed int 42Random seed for reproducibility
+Traffic signal settings
+yellow_time int 3Duration of yellow phase (s)
+intergreen_time int 5Duration of the intergreen phase (s)
+min_green int 8Minimum green phase duration (s)
+max_green int 120Maximum green phase duration (s)
+Continued on next page
+
+Table XIX (continued)
+Parameter Type Default Setting Description
+RL settings
+single_agent bool FalseWhether to returns single values like regular
+Gym style
+ctrl_intersections list/str "all"Controlled intersections (list of IDs or ’all’)
+observation_config dict{class:
+DefaultObservationFunction,
+args:{}}Observation function and arguments
+action_config dict{class:
+SwitchNextOrNot,
+args:{}}Action function and arguments
+reward_config dict{class:
+DefaultRewardFunction,
+args:{}}Reward function and arguments
+Logger settings
+enable_loggers None/list/str ["vissim_rl.environment.env"]Enabled loggers (’all’, None, or list of module
+paths)
+log_dir str "logs"Directory for log files
+log_suffix str "VissimRL"Log file name suffix
+log_to_file bool FalseWhether to write logs to file
+log_to_console bool TrueWhether to output logs to console
+log_level str "INFO"Logging level (e.g., DEBUG, INFO, ERROR)
+Note.The environment can be instantiated with a single line:
+-gym.make( **config)for single-agent
+-parallel_env( **config)for multi-agent training.
+Parameters marked with “–” have no default values and must be specified by the user.
+APPENDIXB
+RL SETTINGS FORPERFORMANCEVALIDATION
+Table XX summarizes the RL configurations used in the performance validation experiments of the proposed VissimRL
+framework. These settings were used to train the RL agents under consistent conditions across both single-agent and multi-
+agent scenarios. The Proximal Policy Optimization (PPO) algorithm implemented in RLlib was adopted for all experiments.
+Different observation functions were used to accommodate the scope of perception in each scenario, while the reward function
+followed a unified multi-objective design that combines internal and boundary waiting times, throughput, and average speed
+with their respective weights. This configuration ensured comparability of performance metrics across experimental settings.
+TABLE XX: RL settings for performance validation experiments.
+Item Setting
+RL algorithm PPO
+Observation Single-agent:LocalObservationFunction
+Multi-agent:GlobalObservationFunction
+Reward functionDefaultRewardFunction(multi-objective weights)
+- itwt (Internal waiting time)−0.0001
+- btwt (Boundary waiting time)−0.0001
+- throughput0.01
+- speed0.001
+Note.Observation functions differ by scenario (single vs. multi-agent); Reward function applies
+the same weighted combination across all experiments.
+APPENDIXC
+SUPPLEMENTARYPERFORMANCECOMPARISON ATDAYUANINTERCHANGE
+Table XXI presents a supplementary comparison of three action designs implemented within the proposed VissimRL
+framework. While the main text (Section IV-C3) discusses theSwitchNextOrNotaction as the primary design due to its stable
+and well-coordinated control performance, two additional action designs—ChooseNextPhaseandSetPhaseDuration—were
+evaluated to provide a more comprehensive understanding of the framework’s behavior under different control paradigms. All
+experiments were conducted at the Dayuan Interchange using identical network and training configurations, and the reported
+results are averaged over five random seeds for statistical consistency.
+TheSwitchNextOrNotaction serves as the baseline reinforcement learning design, where agents decide whether to switch
+to the next predefined phase or keep the current one. This constraint simplifies the coordination process among intersections
+and yields stable performance across all evaluated metrics.
+
+TheChooseNextPhaseaction extends flexibility by allowing agents to directly select any subsequent phase, unconstrained
+by a fixed sequence. This design improves responsiveness and adaptability to local traffic variations, resulting in lower average
+delay and travel time.

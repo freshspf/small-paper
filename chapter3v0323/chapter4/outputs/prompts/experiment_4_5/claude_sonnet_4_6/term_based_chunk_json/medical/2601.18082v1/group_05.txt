@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "drug_favipiravir",
+  "hasMechanismOfAction",
+  "moa_rdrp_inhibitor",
+  "drug_ribavirin",
+  "moa_guanosine_analog",
+  "drug_nirmatrelvir_ritonavir",
+  "moa_sars_cov_2_main_protease_inhibitor",
+  "drug_lopinavir_ritonavir",
+  "moa_hiv_protease_inhibitor",
+  "drug_nitazoxanide",
+  "inhibitsProcess",
+  "process_viral_entry_assembly",
+  "drug_hydroxychloroquine",
+  "moa_antimalarial",
+  "drug_dexamethasone",
+  "moa_corticosteroid",
+  "hasSynergisticInteractionWith",
+  "drug_remdesivir",
+  "drug_molnupiravir",
+  "hasHarmfulInteractionWith",
+  "combination_rdv_rbv_mov",
+  "suppressesReplicationOf",
+  "virus_sars_cov_2",
+  "enhancesEfficacyOf",
+  "treatment_antiviral_efficacy",
+  "database_drugbank",
+  "containsInformationOn",
+  "Drug",
+  "database_synergxdb",
+  "DrugDrugInteraction",
+  "CombinationTherapy",
+  "HarmfulSideEffect",
+  "TreatmentFailure",
+  "HospitalAdmission",
+  "Patient",
+  "MultipleDrugs",
+  "CancerTherapy",
+  "ChronicDisease",
+  "InfectiousDisease",
+  "SevereBleeding",
+  "BloodThinnerCombination",
+  "MuscleDamage",
+  "KidneyFailure",
+  "CholesterolLoweringDrug",
+  "Antibiotic",
+  "HivTreatment",
+  "CancerChemotherapy",
+  "AntibioticRegimen",
+  "Effectiveness",
+  "Resistance",
+  "TreatmentStrategy",
+  "AntiviralDrug",
+  "AntiInflammatoryDrug",
+  "SupportiveDrug",
+  "algorithm_falqon",
+  "algorithm_ite_falqon",
+  "optimization_ddi_aware_drug_combination",
+  "problem_maximum_safe_subset",
+  "concept_harmful_interaction",
+  "problem_synergy_constrained_optimization",
+  "concept_efficacy",
+  "concept_toxicity",
+  "concept_regimen_size",
+  "data_interaction_data",
+  "database_drugs_com",
+  "network_six_drug_network",
+  "drug_ritonavir",
+  "drug_everolimus",
+  "drug_cabazitaxel",
+  "drug_metformin",
+  "drug_erlotinib",
+  "drug_topotecan",
+  "study_covid19_case_study",
+  "concept_nine_drug_candidates",
+  "data_ddi_data",
+  "model_weighted_graph",
+  "model_graph_vertices",
+  "concept_drugs",
+  "model_graph_edges",
+  "concept_synergistic_interaction"
+]
+
+Triples:
+[
+  {
+    "subject": "drug_favipiravir",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_rdrp_inhibitor",
+    "chunk": "completedocument7",
+    "context": "Favipiravir FPV Purine analog; selective RdRp inhibitor [3 8, 39]"
+  },
+  {
+    "subject": "drug_ribavirin",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_guanosine_analog",
+    "chunk": "completedocument7",
+    "context": "Ribavirin RBV Guanosine analog; interferes with RNA synthe sis [38, 39]"
+  },
+  {
+    "subject": "drug_nirmatrelvir_ritonavir",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_sars_cov_2_main_protease_inhibitor",
+    "chunk": "completedocument7",
+    "context": "Nirmatrelvir/Ritonavir PAX SARS-CoV-2 main protease (Mpr o/3CLpro) inhibitor [38, 39]"
+  },
+  {
+    "subject": "drug_lopinavir_ritonavir",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_hiv_protease_inhibitor",
+    "chunk": "completedocument7",
+    "context": "Lopinavir/Ritonavir LPV HIV protease inhibitor (repurpos ed) [38, 39]"
+  },
+  {
+    "subject": "drug_nitazoxanide",
+    "relation": "inhibitsProcess",
+    "object": "process_viral_entry_assembly",
+    "chunk": "completedocument7",
+    "context": "Nitazoxanide NTZ Broad-spectrum; inhibits viral entry/as sembly [38, 39]"
+  },
+  {
+    "subject": "drug_hydroxychloroquine",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_antimalarial",
+    "chunk": "completedocument7",
+    "context": "Hydroxychloroquine HCQ Antimalarial; modulates endosoma l pH [38, 39]"
+  },
+  {
+    "subject": "drug_dexamethasone",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_corticosteroid",
+    "chunk": "completedocument7",
+    "context": "Dexamethasone DEX Corticosteroid; anti-inﬂammatory/imm unomodulator [38, 39]"
+  },
+  {
+    "subject": "drug_ribavirin",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_remdesivir",
+    "chunk": "completedocument7",
+    "context": "RBV RDV synergy 0.95"
+  },
+  {
+    "subject": "drug_molnupiravir",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_nirmatrelvir_ritonavir",
+    "chunk": "completedocument7",
+    "context": "MOV PAX synergy 0.90"
+  },
+  {
+    "subject": "drug_molnupiravir",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_remdesivir",
+    "chunk": "completedocument7",
+    "context": "MOV RDV synergy 0.80"
+  },
+  {
+    "subject": "drug_molnupiravir",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_ribavirin",
+    "chunk": "completedocument7",
+    "context": "MOV RBV synergy 0.60"
+  },
+  {
+    "subject": "drug_nirmatrelvir_ritonavir",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_remdesivir",
+    "chunk": "completedocument7",
+    "context": "PAX RDV synergy 0.55"
+  },
+  {
+    "subject": "drug_favipiravir",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_molnupiravir",
+    "chunk": "completedocument7",
+    "context": "FPV MOV synergy 0.95"
+  },
+  {
+    "subject": "drug_nitazoxanide",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_remdesivir",
+    "chunk": "completedocument7",
+    "context": "NTZ RDV synergy 0.85"
+  },
+  {
+    "subject": "drug_hydroxychloroquine",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_remdesivir",
+    "chunk": "completedocument7",
+    "context": "HCQ RDV harm 0.95"
+  },
+  {
+    "subject": "drug_hydroxychloroquine",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_nirmatrelvir_ritonavir",
+    "chunk": "completedocument7",
+    "context": "HCQ PAX harm 0.40"
+  },
+  {
+    "subject": "drug_lopinavir_ritonavir",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_nirmatrelvir_ritonavir",
+    "chunk": "completedocument7",
+    "context": "LPV PAX harm 0.75"
+  },
+  {
+    "subject": "drug_lopinavir_ritonavir",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_remdesivir",
+    "chunk": "completedocument7",
+    "context": "LPV RDV harm 0.40"
+  },
+  {
+    "subject": "drug_dexamethasone",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_hydroxychloroquine",
+    "chunk": "completedocument7",
+    "context": "DEX HCQ harm 0.75"
+  },
+  {
+    "subject": "drug_dexamethasone",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_nirmatrelvir_ritonavir",
+    "chunk": "completedocument7",
+    "context": "DEX PAX harm 0.30"
+  },
+  {
+    "subject": "drug_favipiravir",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_lopinavir_ritonavir",
+    "chunk": "completedocument7",
+    "context": "FPV LPV harm 0.70"
+  },
+  {
+    "subject": "combination_rdv_rbv_mov",
+    "relation": "suppressesReplicationOf",
+    "object": "virus_sars_cov_2",
+    "chunk": "completedocument7",
+    "context": "Moreover, in vitro and an- imal model studies have shown that both combinations can enhance antiviral eﬃcacy including synergistic sup- pression of SARS-CoV-2 replication."
+  },
+  {
+    "subject": "combination_rdv_rbv_mov",
+    "relation": "enhancesEfficacyOf",
+    "object": "treatment_antiviral_efficacy",
+    "chunk": "completedocument7",
+    "context": "Moreover, in vitro and an- imal model studies have shown that both combinations can enhance antiviral eﬃcacy including synergistic sup- pression of SARS-CoV-2 replication."
+  },
+  {
+    "subject": "database_drugbank",
+    "relation": "containsInformationOn",
+    "object": "Drug",
+    "chunk": "completedocument7",
+    "context": "Large clinical DDI databases such as DrugBank or SYNERGxDB con- tain hundreds of drugs, but the corresponding interaction graphs are highly sparse: only a small fraction of drug pairs exhibit clinically documented interactions."
+  },
+  {
+    "subject": "database_synergxdb",
+    "relation": "containsInformationOn",
+    "object": "Drug",
+    "chunk": "completedocument7",
+    "context": "Large clinical DDI databases such as DrugBank or SYNERGxDB con- tain hundreds of drugs, but the corresponding interaction graphs are highly sparse: only a small fraction of drug pairs exhibit clinically documented interactions."
+  }
+]

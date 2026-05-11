@@ -1,0 +1,146 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument18",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument18
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Second, dynamical fric-
+tionoperatesmostefficientlyonmassivesatellites,causingrapidloss
+of orbital energy and angular momentum prior to significant stellar
+stripping.Asaresult,starsarepreferentiallystrippedfromsatellites
+thathavealreadymigratedontomoreboundorbits,whereasthebulk
+of the DM is removed earlier at higher energies.
+Themostextremecaseofthisprocesscorrespondstomajormerg-
+ers,whichareexpectedtodominatethedirectbuild-upofthecentral
+MNRAS000, 1–26 (2026)
+
+16G. Martin et al.
+102
+101
+100
+r/R200103
+102
+101
+100/DM
+Simulation ResultsHorizon-AGN
+Hydrangea
+TNG100
+The300 GIZMO 7k
+102
+101
+100
+r/R200Model PredictionModel prediction
+Model envelope
+(assumed maximum
+merger ratio)
+102
+101
+100
+r/R200ComparisonSimulation
+Model prediction102
+101
+100 0.2
+0.1
+0.00.10.2[dex]
+Figure12.Radialprofilesofthestellar–to–DMdensityratio,𝜌 ★/𝜌DM,shownasafunctionofcluster-centricradiusnormalisedby𝑅 200,comparingcosmological
+simulationsandthemodelpredictions.Leftpanel:Mean𝜌 ★/𝜌DMprofilesmeasureddirectlyfromthesimulations(Horizon-AGN,Hydrangea,TNG100,and
+TheThreeHundred), with shaded regions indicating the cluster–to–cluster scatter (±1𝜎).Middle panel:Model predictions for the same quantity. Hatched
+regions show the envelope of model central galaxy responses obtained by varying the assumed maximum satellite–to–host merger mass ratio, and dashed lines
+show the fiducial case corresponding to a maximum infalling satellite stellar mass of1011.5M⊙.Right panel:Direct comparison between simulations (solid
+lines) and the fiducial model predictions (dashed lines). The inset shows the logarithmic residual,Δ=log10[(𝜌★/𝜌DM)model/(𝜌★/𝜌DM)sim], as a function of
+radius for each simulation along with a filled grey region indicating the1𝜎inter-simulation scatter measured between the four simulations.
+galaxy while also contributing a centrally concentrated component
+to the ICL (e.g. Contini et al. 2018). For near equal mass ratios,
+dynamical friction and torques operate on short timescales, leading
+torapidorbitaldecaypriortostellarstripping.Crucially,thesesame
+massive progenitors are also responsible for the largest stellar–to–
+DM phase-space offsets. The dynamical imprint of these events is
+therefore established over relatively short timescales, and is shared
+betweenthecentralgalaxyandthemosttightlyboundcomponentof
+the ICL.
+TheanalysispresentedinSection3.4placesimportantcontexton
+this interpretation. Even for near equal-mass mergers, where the in-
+teraction is most violent and the orbital decay is most rapid, the net
+transfer of orbital energy into the cluster halo itself remains small.
+This indicates that the large stellar–to–DM phase-space offsets as-
+sociated with major mergers do not arise from a strong global re-
+structuringorheatingoftheclusterpotential.Instead,theyprimarily
+reflectdifferencesinhowstarsandDMaredepositedinphase-space
+duringtheinspiralandstrippingprocess,withstellarmaterialretain-
+ingtheimprintofdeeperorbitaldecaydespiteminimalmodification
+of the host halo as a whole.
+7.1.1 The role of orbital angular momentum
+Duringinfall,themodificationofboththeorbitalenergyandangular
+momentumofthesatelliteplayaroleindeterminingwherestripped
+stars and DM are deposited. While orbital energy primarily sets the
+outer scale of an orbit, angular momentum also plays a crucial role
+indeterminingtheradialdistributionofstrippedmaterialwithinthe
+cluster. As discussed in Section 5.3, reducing angular momentum at
+fixed energy allows orbits to reach significantly smaller pericentric
+radiiinthenon-Keplerianregimecharacteristicofclusterpotentials,
+thereby reducing the time-averaged radius and contributing to the
+radial concentration of the ICL.
+This effect is particularly important because, as seen in Figure
+5, angular momentum is more readily modified than orbital energy.
+Because angular momentum is a vector quantity, even modest de-
+flections of particle trajectories can produce substantial changes inh=r×v, while energy changes depend only on the component of
+force parallel to the satellite’s velocity. The bulk of stellar mass is
+removednearpericentre,wheretidalforcesarethestrongest,leading
+to substantial reductions in angular momentum with comparatively
+modest changes in orbital energy. The cluster halo’s dynamical re-
+sponseanddynamicalfrictionfurtherdrivecoupledlossesofenergy
+and angular momentum (Chandrasekhar 1943; Taffoni et al. 2003),
+whichnaturallyleadstosubstantiallylargerevolutionanddispersion
+in angular momentum ratios than in energy ratios. The combined
+effect of both energy and angular momentum loss is therefore im-
+portant for producing the observed radial concentration of the ICL
+relative to the DM.
+7.2 Thedominanceofmassivesatellitesandstochasticaccretion
+An important implication of our results, given previous findings
+that the ICL is likely dominated by a relatively small number of
+massive progenitors (e.g. Murante et al. 2007; Montes & Trujillo
+2018; DeMaio et al. 2018; Montes et al. 2021; Brown et al.

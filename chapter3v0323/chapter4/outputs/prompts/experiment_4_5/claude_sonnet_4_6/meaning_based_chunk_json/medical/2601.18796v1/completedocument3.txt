@@ -1,0 +1,169 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+However, these require labels during
+LLM training, making them less flexible than align-
+ing to an embedding space, and the training process
+significantly degrades language modeling ability.
+3 Methods
+3.1 Preliminaries
+Let the embedding model Eembdenote a map-
+ping from a sequence of language tokens to an
+embedding space, formally expressed as: Eemb:
+X 7→ Z emb, where the length of the token se-
+quence Xis bounded by the context length lim-
+2
+
+Abstract       embeddings
+Expert       review
+Oracle      model
+❄
+Embedding       model
+❄
+Structured         abstract         sections
+Unstructured         clinical trial        abstracts
+Similarities      & differences
+Concatenate      sections
+Plain   Language   Summaries
+Task promptsWrite the {background, methods, …} section for the abstract <emb>.Provide the text of the abstract <emb>.Write a plain language summary of the abstract <emb>.List five commonalities between the first abstract <emb> and the second abstract <emb>.List five differences between the first abstract <emb> and the second abstract <emb>.
+Interface
+Base chat model   transformer layers
+!ctELM
+Adapter
+!
+Base tokenembedder
+❄
+LLM
+FFN
+Vector data
+Text data
+Unstructured         clinical trial        abstracts
+Similarities      & differences
+Plain   Language   SummariesNegative log-likelihood lossPubMedRCT
+Structured         abstract         sections
+Figure 1: The data generation and training pipeline for ctELM.
+itation inherent to Eemb. The base chat model,
+represented by M, is a text-only, instruction-tuned
+large language model (LLM). Formally, this model
+translates one sequence of language tokens into
+another: M:X 7→ X . The chat model com-
+prises two primary components, namely the to-
+ken embedding layer Ebaseand the transformer
+layers Mbase. The token embedding layer Ebase
+maps input tokens to a token embedding space:
+Ebase:X 7→ Z base, where each token x∈ X is
+encoded into a token embedding vectorz∈ Z base.
+The transformer layers Mbasesubsequently trans-
+forms these token embeddings into output token
+sequences:M base:Zbase7→ X.
+3.2 Architecture
+Our objective is to extend the base model Mto
+a target model ( Mtgt) capable of processing and
+interpreting embeddings produced by the external
+embedding model Eemb, alongside standard lan-
+guage tokens. Specifically, Mtgtoperates on a
+combination of tokens and embeddings to produce
+text output: Mtgt: (X,Z emb)7→ X . To accom-
+plish this, we adapt the approach proposed by Ten-
+nenholtz et al. (2024). We introduce an adapter
+module Ato align the embedding spaces of Zemb
+andZbase. Consequently, the target model is de-
+fined as: Mtgt= (A, E base, M base). The adapter
+Ais a two-layer multilayer perceptron (MLP):W1(σ(W 0Zemb+b0)) +b 1,(1)
+where W0, b0, W1, b1are learnable weights and σ
+is a non-linear activation function. The adapter
+ensures that the embeddings Zembproduced by
+the external embedding model Eembare projected
+into the embedding space Zbase, thereby enabling
+Mbaseto generate output texts by effectively lever-
+aging both token-derived contextual information
+(Zbase) and the semantic content encoded within
+Zemb. In this sense, the ELM architecture has simi-
+larities with Vision Language Models (Zhang et al.,
+2024a), which must also use adapters to align lan-
+guage models to a dense vector space containing
+visual information.
+3.3 Data & Task Preparation
+We use PubMed 200K RCT (Dernoncourt and Lee,
+2017), which contains 190,654, 2,500, and 2,500
+abstracts for training, validation, and testing sets,
+respectively. This dataset was created to aid in
+classifying structured abstract sections; here we
+will use it to generate those sections, and as a clean
+collection of randomized controlled trials. Since
+each abstract is structured and separated by section,
+we concatenate all sections into an unstructured
+clinical trial abstract. A selected embedding model
+Eembis then employed to generate embedding z∈
+Zembfor each abstract.
+3
+
+ELMs are aligned to embedding spaces by per-
+forming various tasks that would require detailed
+knowledge of the content of the embeddings. To
+train ctELM using the Mtgtmodel architecture, we
+prepare five diverse tasks relevant to clinical trial
+abstracts, as illustrated in Fig. 1. A training in-
+stance is formulated as the input pand the output o.
+The input pis constructed as a prompt combining
+text tokens X(i.e., the task instruction) and abstract
+embedding z∈Z emb. The output ois the targeted
+text. Both input and output vary depending on the
+task. The following are the details of five different
+tasks (see Table 1 for statistics):
+emb2abs : Decode an abstract embedding back to
+an abstract; pis “Provide the text of the abstract z”,
+ois the original abstract text.
+emb2sec : Decode an abstract embedding to a spe-
+cific section. The input pis asks to generate texts
+for a section from an abstract embedding z: “Write
+the {background, objective, method, result, or con-
+clusion} section for the abstract z”;ois the cor-
+responding section text.

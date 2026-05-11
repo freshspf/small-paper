@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "FloodNet",
+  "emphasizes",
+  "SceneLevelLabel",
+  "xBD",
+  "lacksSupport",
+  "FunctionAwareEvaluation",
+  "BRIGHT",
+  "InstanceLevelEvaluation",
+  "StructuredReporting",
+  "alignsWith",
+  "HumanitarianAssessment",
+  "agency_FEMA",
+  "conductsAssessment",
+  "PostDisasterAssessment",
+  "agency_INSARAG",
+  "benchmark_DisasterInsight",
+  "reflectsProcess",
+  "buildsUpon",
+  "dataset_xBD",
+  "providesImage",
+  "SatelliteImage",
+  "capturedBy",
+  "HighSpatialResolutionSensor",
+  "coversEvent",
+  "DisasterEvent",
+  "BuildingCenteredInstance",
+  "comprisesImage",
+  "PreDisasterImagePatch",
+  "PostDisasterImagePatch",
+  "comprisesLocation",
+  "BoundingBoxCoordinate",
+  "hasAttribute",
+  "DamageLevel",
+  "augmentsData",
+  "BuildingInstance",
+  "FunctionalSemantic",
+  "derivedFrom",
+  "dataset_OpenStreetMap",
+  "OSM",
+  "isA",
+  "VolunteeredGeographicInformation",
+  "SatelliteImagery",
+  "DisasterResponse",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "BuildingLevelAssessment",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "FEMA",
+  "PhysicalDamage",
+  "DamagedBuilding",
+  "Hospital",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "BuildingFunction",
+  "BuildingUse",
+  "LargeScaleHazard",
+  "LinköpingUniversity",
+  "Vantor",
+  "ComputerVisionLaboratory",
+  "RemoteSensing",
+  "DisasterAssessment",
+  "Dataset",
+  "DamageMapping",
+  "ChangeAnalysis",
+  "PreEventImagery",
+  "PostEventImagery",
+  "DamageAnnotation",
+  "Hazard",
+  "Building",
+  "BuildingFootprint"
+]
+
+Triples:
+[
+  {
+    "subject": "FloodNet",
+    "relation": "emphasizes",
+    "object": "SceneLevelLabel",
+    "chunk": "relatedwork",
+    "context": "but largely treat buildings as a single class and emphasize scene-level labels."
+  },
+  {
+    "subject": "xBD",
+    "relation": "lacksSupport",
+    "object": "FunctionAwareEvaluation",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "lacksSupport",
+    "object": "FunctionAwareEvaluation",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "lacksSupport",
+    "object": "FunctionAwareEvaluation",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "xBD",
+    "relation": "lacksSupport",
+    "object": "InstanceLevelEvaluation",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "lacksSupport",
+    "object": "InstanceLevelEvaluation",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "lacksSupport",
+    "object": "InstanceLevelEvaluation",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "xBD",
+    "relation": "lacksSupport",
+    "object": "StructuredReporting",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "lacksSupport",
+    "object": "StructuredReporting",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "lacksSupport",
+    "object": "StructuredReporting",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "StructuredReporting",
+    "relation": "alignsWith",
+    "object": "HumanitarianAssessment",
+    "chunk": "relatedwork",
+    "context": "As a result, they do not support function-aware, instance-level evaluation or structured reporting aligned with humanitarian assessment practices."
+  },
+  {
+    "subject": "agency_FEMA",
+    "relation": "conductsAssessment",
+    "object": "PostDisasterAssessment",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "In practice, agencies such as FEMA and INSARAG conduct post-disaster assessment by integrating information about building function, damage level, hazard context, and situational risk to support response planning and reporting."
+  },
+  {
+    "subject": "agency_INSARAG",
+    "relation": "conductsAssessment",
+    "object": "PostDisasterAssessment",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "In practice, agencies such as FEMA and INSARAG conduct post-disaster assessment by integrating information about building function, damage level, hazard context, and situational risk to support response planning and reporting."
+  },
+  {
+    "subject": "benchmark_DisasterInsight",
+    "relation": "reflectsProcess",
+    "object": "PostDisasterAssessment",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "As illustrated in Fig. 1, DisasterInsight is designed to reflect the analytical steps performed during post-disaster assessment."
+  },
+  {
+    "subject": "benchmark_DisasterInsight",
+    "relation": "buildsUpon",
+    "object": "dataset_xBD",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "DisasterInsight builds upon the xBD dataset, which provides 1024×1024 pre- and post-disaster RGB satellite images from very high spatial resolution (sub-0.8m GSD) sensors, covering 19 disastereventsacrossfivehazardtypes."
+  },
+  {
+    "subject": "dataset_xBD",
+    "relation": "providesImage",
+    "object": "SatelliteImage",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "DisasterInsight builds upon the xBD dataset, which provides 1024×1024 pre- and post-disaster RGB satellite images from very high spatial resolution (sub-0.8m GSD) sensors, covering 19 disastereventsacrossfivehazardtypes."
+  },
+  {
+    "subject": "SatelliteImage",
+    "relation": "capturedBy",
+    "object": "HighSpatialResolutionSensor",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "DisasterInsight builds upon the xBD dataset, which provides 1024×1024 pre- and post-disaster RGB satellite images from very high spatial resolution (sub-0.8m GSD) sensors, covering 19 disastereventsacrossfivehazardtypes."
+  },
+  {
+    "subject": "dataset_xBD",
+    "relation": "coversEvent",
+    "object": "DisasterEvent",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "DisasterInsight builds upon the xBD dataset, which provides 1024×1024 pre- and post-disaster RGB satellite images from very high spatial resolution (sub-0.8m GSD) sensors, covering 19 disastereventsacrossfivehazardtypes."
+  },
+  {
+    "subject": "BuildingCenteredInstance",
+    "relation": "comprisesImage",
+    "object": "PreDisasterImagePatch",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "Each building-centered instance comprises paired pre- and post-disaster image patches, bounding-box coordinates, disaster type and event identifier, damage level, and a building- function label (Section 3.2)."
+  },
+  {
+    "subject": "BuildingCenteredInstance",
+    "relation": "comprisesImage",
+    "object": "PostDisasterImagePatch",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "Each building-centered instance comprises paired pre- and post-disaster image patches, bounding-box coordinates, disaster type and event identifier, damage level, and a building- function label (Section 3.2)."
+  },
+  {
+    "subject": "BuildingCenteredInstance",
+    "relation": "comprisesLocation",
+    "object": "BoundingBoxCoordinate",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "Each building-centered instance comprises paired pre- and post-disaster image patches, bounding-box coordinates, disaster type and event identifier, damage level, and a building- function label (Section 3.2)."
+  },
+  {
+    "subject": "BuildingCenteredInstance",
+    "relation": "hasAttribute",
+    "object": "DamageLevel",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "Each building-centered instance comprises paired pre- and post-disaster image patches, bounding-box coordinates, disaster type and event identifier, damage level, and a building- function label (Section 3.2)."
+  },
+  {
+    "subject": "benchmark_DisasterInsight",
+    "relation": "augmentsData",
+    "object": "BuildingInstance",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "To enable function-aware disaster assessment, DisasterInsight augments xBD building instances with functional semantics derived from OpenStreetMap (OSM)."
+  },
+  {
+    "subject": "FunctionalSemantic",
+    "relation": "derivedFrom",
+    "object": "dataset_OpenStreetMap",
+    "chunk": "thedisasterinsightbenchmark1",
+    "context": "To enable function-aware disaster assessment, DisasterInsight augments xBD building instances with functional semantics derived from OpenStreetMap (OSM)."
+  },
+  {
+    "subject": "OSM",
+    "relation": "isA",
+    "object": "VolunteeredGeographicInformation",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "OSM is a widely used volunteered geographic information resource with extensive global coverage and rich annotations describing building usage and infrastructure roles"
+  }
+]

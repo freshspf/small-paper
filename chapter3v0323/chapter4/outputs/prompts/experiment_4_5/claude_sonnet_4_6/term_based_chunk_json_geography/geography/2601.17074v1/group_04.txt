@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_LSTM",
+  "servesAs",
+  "MinimalRecurrentBaseline",
+  "model_NeuralODE",
+  "comparesTo",
+  "ContinuousTimeModelingApproach",
+  "model_ResNet50",
+  "provides",
+  "DeepConvolutionalBenchmark",
+  "model_PINNs",
+  "usesMethod",
+  "method_AutomaticDifferentiation",
+  "model_PhysEInv",
+  "performsTask",
+  "method_ParameterEstimation",
+  "augmentedWith",
+  "InverseModelingModule",
+  "combinesWith",
+  "component_PhysicsGuidedContrastiveLearning",
+  "metric_MSE",
+  "quantifiesEfficacyOf",
+  "Model",
+  "metric_RMSE",
+  "reduces",
+  "model_BiLSTM",
+  "evaluates",
+  "TemporalContext",
+  "model_physeInv",
+  "InverseModeling",
+  "ParameterEstimation",
+  "PhysicsEncoding",
+  "embeds",
+  "PhysicalKnowledge",
+  "captures",
+  "SnowDepthAnomaly",
+  "predicts",
+  "NormalizedSnowDepthProxyTimeSeries",
+  "tracks",
+  "SeasonalVariation",
+  "ExtremeEvent",
+  "RapidCompaction",
+  "isA",
+  "PhysicalProcess",
+  "MeltEvent",
+  "PredictiveError",
+  "characterizedBy",
+  "Smoothing",
+  "PhaseLag",
+  "localizedAround",
+  "AbruptTransition",
+  "generalizes",
+  "NonLinearRelationship",
+  "SnowDepth",
+  "ArcticSeaIceThickness",
+  "ReanalysisProduct",
+  "era5",
+  "SeaIceThermodynamics",
+  "SnowDensity",
+  "PhysicsEncodedNeuralNetwork",
+  "SeaIcePhysics",
+  "HydrostaticBalanceEquation",
+  "IntrinsicPhysicalParameter",
+  "LakeTemperatureModeling",
+  "Tomography",
+  "SeismicWaveformAnalysis",
+  "MaterialsScience",
+  "Hydrology",
+  "PhysicalPrior",
+  "PosteriorDistribution",
+  "region_arctic",
+  "DataSparseDomain",
+  "ForwardModel",
+  "NoisyInput",
+  "system_arcticSeaIce",
+  "DynamicPhysicalSystem",
+  "TimeVaryingParameter",
+  "model_physEInv",
+  "SnowVariable",
+  "SeaIceVariable",
+  "ModelLatentSpace"
+]
+
+Triples:
+[
+  {
+    "subject": "model_LSTM",
+    "relation": "servesAs",
+    "object": "MinimalRecurrentBaseline",
+    "chunk": "baselines1",
+    "context": "LSTM serves as the minimal recurrent baseline, directly aligning with the core temporal backbone of our encoder-decoder structure."
+  },
+  {
+    "subject": "model_NeuralODE",
+    "relation": "comparesTo",
+    "object": "ContinuousTimeModelingApproach",
+    "chunk": "baselines1",
+    "context": "Neural ODE offers a direct comparison to an intrinsically continuous-time modeling approach, often considered ideal for latent physical dynamics, testing the efficacy of our explicit physics-guided architecture."
+  },
+  {
+    "subject": "model_ResNet50",
+    "relation": "provides",
+    "object": "DeepConvolutionalBenchmark",
+    "chunk": "baselines1",
+    "context": "ResNet-50 (1D variant) provides a non-recurrent, deep convolutional benchmark."
+  },
+  {
+    "subject": "model_PINNs",
+    "relation": "usesMethod",
+    "object": "method_AutomaticDifferentiation",
+    "chunk": "baselines1",
+    "context": "For example, we fundamentally differ from PINNs Raissi et al. (2019), which use automatic differentiation to solve PDEs for numerical simulation."
+  },
+  {
+    "subject": "model_PhysEInv",
+    "relation": "performsTask",
+    "object": "method_ParameterEstimation",
+    "chunk": "baselines1",
+    "context": "Therefore, in our study, to facilitate a fair comparison across different architectural paradigms, we chose to augment each of our selected baselines with an inverse modeling module, enabling them to perform the same joint parameter estimation and prediction task as our proposed PhysE-Inv framework."
+  },
+  {
+    "subject": "model_LSTM",
+    "relation": "augmentedWith",
+    "object": "InverseModelingModule",
+    "chunk": "baselines1",
+    "context": "Therefore, in our study, to facilitate a fair comparison across different architectural paradigms, we chose to augment each of our selected baselines with an inverse modeling module, enabling them to perform the same joint parameter estimation and prediction task as our proposed PhysE-Inv framework."
+  },
+  {
+    "subject": "model_PhysEInv",
+    "relation": "combinesWith",
+    "object": "component_PhysicsGuidedContrastiveLearning",
+    "chunk": "baselines1",
+    "context": "It is noteworthy that our proposed model combines inverse modeling (specifically through its parameter estimation process) with physics-guided contrastive learning (Fig. 1)."
+  },
+  {
+    "subject": "metric_MSE",
+    "relation": "quantifiesEfficacyOf",
+    "object": "Model",
+    "chunk": "baselines1",
+    "context": "Model efficacy is quantified using two standard error metrics (MSE and RMSE)."
+  },
+  {
+    "subject": "metric_RMSE",
+    "relation": "quantifiesEfficacyOf",
+    "object": "Model",
+    "chunk": "baselines1",
+    "context": "Model efficacy is quantified using two standard error metrics (MSE and RMSE)."
+  },
+  {
+    "subject": "method_ParameterEstimation",
+    "relation": "reduces",
+    "object": "metric_MSE",
+    "chunk": "baselines1",
+    "context": "The results indicate that the application of parameter estimation generally correlates with a reduction in both MSE and RMSE across the evaluated models, suggesting an enhancement in predictive accuracy."
+  },
+  {
+    "subject": "method_ParameterEstimation",
+    "relation": "reduces",
+    "object": "metric_RMSE",
+    "chunk": "baselines1",
+    "context": "The results indicate that the application of parameter estimation generally correlates with a reduction in both MSE and RMSE across the evaluated models, suggesting an enhancement in predictive accuracy."
+  },
+  {
+    "subject": "model_BiLSTM",
+    "relation": "evaluates",
+    "object": "TemporalContext",
+    "chunk": "baselines1",
+    "context": "BiLSTM is included to evaluate whether performance gains are due to the structural enforcement of physical rules, or simply from leveraging broader (non-causal) temporal context."
+  },
+  {
+    "subject": "model_physeInv",
+    "relation": "usesMethod",
+    "object": "InverseModeling",
+    "chunk": "baselines2",
+    "context": "Notably, the proposed model demonstrates the lowest error values both in its base form (without inverse modeling and parameter estimation) and in its form with inverse modeling and parameter estimation (PhysE-Inv), indicating superior performance in this specific prediction task."
+  },
+  {
+    "subject": "model_physeInv",
+    "relation": "usesMethod",
+    "object": "ParameterEstimation",
+    "chunk": "baselines2",
+    "context": "Notably, the proposed model demonstrates the lowest error values both in its base form (without inverse modeling and parameter estimation) and in its form with inverse modeling and parameter estimation (PhysE-Inv), indicating superior performance in this specific prediction task."
+  },
+  {
+    "subject": "PhysicsEncoding",
+    "relation": "embeds",
+    "object": "PhysicalKnowledge",
+    "chunk": "baselines2",
+    "context": "Since ’Physics Encoding’ (surjective inversion with parameter estimation) plays a key role in embedding physical knowledge into the model, removing it entirely would fundamentally alter and misrepresent our proposed model’s structure."
+  },
+  {
+    "subject": "model_physeInv",
+    "relation": "captures",
+    "object": "SnowDepthAnomaly",
+    "chunk": "baselines2",
+    "context": "Overall, PhysE-Inv provides the most reliable and consistent estimates, successfully capturing both the central tendency and variability of snow depth anomalies."
+  },
+  {
+    "subject": "model_physeInv",
+    "relation": "predicts",
+    "object": "NormalizedSnowDepthProxyTimeSeries",
+    "chunk": "baselines2",
+    "context": "Figure 3 illustrates the strong predictive performance of the proposed PhysE-Inv model on the test dataset, validated by the close alignment between the predicted and estimated normalized snow depth proxy time series."
+  },
+  {
+    "subject": "model_physeInv",
+    "relation": "tracks",
+    "object": "SeasonalVariation",
+    "chunk": "baselines2",
+    "context": "The model effectively captures the highly dynamic and cyclical behavior of the proxy, demonstrating exceptional fidelity in tracking both the long-term seasonal variation and the abrupt transitions that define extreme events."
+  },
+  {
+    "subject": "model_physeInv",
+    "relation": "tracks",
+    "object": "ExtremeEvent",
+    "chunk": "baselines2",
+    "context": "The model effectively captures the highly dynamic and cyclical behavior of the proxy, demonstrating exceptional fidelity in tracking both the long-term seasonal variation and the abrupt transitions that define extreme events."
+  },
+  {
+    "subject": "RapidCompaction",
+    "relation": "isA",
+    "object": "PhysicalProcess",
+    "chunk": "baselines2",
+    "context": "Specifically, the model accurately follows the sharp drops from the high baseline (normalized value near 0) down to the seasonal minimums (near -2), which likely correspond to critical physical processes such as rapid compaction or melt events."
+  },
+  {
+    "subject": "MeltEvent",
+    "relation": "isA",
+    "object": "PhysicalProcess",
+    "chunk": "baselines2",
+    "context": "Specifically, the model accurately follows the sharp drops from the high baseline (normalized value near 0) down to the seasonal minimums (near -2), which likely correspond to critical physical processes such as rapid compaction or melt events."
+  },
+  {
+    "subject": "PredictiveError",
+    "relation": "characterizedBy",
+    "object": "Smoothing",
+    "chunk": "baselines3",
+    "context": "While minor predictive errors, characterized by slight smoothing or phase lag, are primarily localized around these abrupt transitions, the overall temporal fidelity and quantitative accuracy remain high."
+  },
+  {
+    "subject": "PredictiveError",
+    "relation": "characterizedBy",
+    "object": "PhaseLag",
+    "chunk": "baselines3",
+    "context": "While minor predictive errors, characterized by slight smoothing or phase lag, are primarily localized around these abrupt transitions, the overall temporal fidelity and quantitative accuracy remain high."
+  },
+  {
+    "subject": "PredictiveError",
+    "relation": "localizedAround",
+    "object": "AbruptTransition",
+    "chunk": "baselines3",
+    "context": "While minor predictive errors, characterized by slight smoothing or phase lag, are primarily localized around these abrupt transitions, the overall temporal fidelity and quantitative accuracy remain high."
+  },
+  {
+    "subject": "Model",
+    "relation": "generalizes",
+    "object": "NonLinearRelationship",
+    "chunk": "baselines3",
+    "context": "This close correspondence confirms the model’s robustness and its ability to generalize the complex non-linear relationship between the input snow density field and the normalized snow depth proxy."
+  }
+]

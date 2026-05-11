@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MobileRobot",
+  "performsTask",
+  "PlaceRecognitionTask",
+  "MinkunextVine",
+  "operatesIn",
+  "VineyardEnvironment",
+  "RoboticSystem",
+  "navigates",
+  "Environment",
+  "localizesIn",
+  "GpsDeniedEnvironment",
+  "isComponentOf",
+  "AutonomousNavigationSystem",
+  "Vineyard",
+  "isA",
+  "AgriculturalEnvironment",
+  "AgriculturalVehicle",
+  "AutonomousNavigation",
+  "designedFor",
+  "AgriculturalRobotics",
+  "MrlApproach",
+  "optimizes",
+  "LprMethod",
+  "sensor_livox",
+  "isInstanceOf",
+  "LidarSensor",
+  "sensor_velodyne",
+  "hasAttribute",
+  "LowCost",
+  "LowResolution",
+  "method_minkunext_vine",
+  "validatedIn",
+  "CrossSeasonScenario",
+  "characterizedBy",
+  "DenseFoliage",
+  "RobotFieldOfVision",
+  "constrainedIn",
+  "PathDetectionFramework",
+  "detects",
+  "Traversability",
+  "usesSource",
+  "RgbDImageSource",
+  "LocalizationSolution",
+  "usesMethod",
+  "DepthMap",
+  "ModifiedMobileNet",
+  "performs",
+  "ObjectClassification",
+  "method_triloc_netvlad",
+  "LprSolution",
+  "consistsOf",
+  "SpatialContextDescriptor",
+  "TripletNeuralNetwork",
+  "fusesFeaturesWith",
+  "NetvladAggregationModule",
+  "method_spvsoap3d",
+  "method_spv",
+  "DeepLearningMethod",
+  "LprNetwork",
+  "VineyardDataset",
+  "FeatureExtractionModule",
+  "PointCloud",
+  "LidarTechnology",
+  "InvarianceToLightningChanges",
+  "LprDeepLearningAlgorithm",
+  "PointnetArchitecture",
+  "ContextualInformation",
+  "MinkowskiConvolution",
+  "SparseTensor",
+  "method_soap",
+  "method_pointnetpgap_slc",
+  "method_pointnet",
+  "method_pointnetvlad",
+  "method_lpd_net",
+  "method_minkloc3d",
+  "minkunext",
+  "DeepNetwork",
+  "LprTask",
+  "TransposedMinkowskiConvolution",
+  "HandcraftedGlobalDescriptor"
+]
+
+Triples:
+[
+  {
+    "subject": "MobileRobot",
+    "relation": "performsTask",
+    "object": "PlaceRecognitionTask",
+    "chunk": "completedocument1",
+    "context": "Although agricultural settings have been studied in the context of object classification and segmentation, the place recognition task for mobile robots is not trivial in the current state of the art."
+  },
+  {
+    "subject": "MinkunextVine",
+    "relation": "operatesIn",
+    "object": "VineyardEnvironment",
+    "chunk": "completedocument1",
+    "context": "In this study, we propose MinkUNeXt-VINE, a lightweight, deep-learning-based method that surpasses state-of-the-art methods in vineyard environments thanks to its pre-processing and Matryoshka Representation Learning multi-loss approach."
+  },
+  {
+    "subject": "RoboticSystem",
+    "relation": "navigates",
+    "object": "Environment",
+    "chunk": "completedocument1",
+    "context": "A robust solution to this problem allows any robotic system to navigate the environment accurately and successfully localize itself in GPS-denied environments."
+  },
+  {
+    "subject": "RoboticSystem",
+    "relation": "localizesIn",
+    "object": "GpsDeniedEnvironment",
+    "chunk": "completedocument1",
+    "context": "A robust solution to this problem allows any robotic system to navigate the environment accurately and successfully localize itself in GPS-denied environments."
+  },
+  {
+    "subject": "PlaceRecognitionTask",
+    "relation": "isComponentOf",
+    "object": "AutonomousNavigationSystem",
+    "chunk": "completedocument1",
+    "context": "Therefore, applying deep learning techniques to point clouds for place recognition tasks has become a critical component in modern autonomous navigation systems."
+  },
+  {
+    "subject": "Vineyard",
+    "relation": "isA",
+    "object": "AgriculturalEnvironment",
+    "chunk": "completedocument1",
+    "context": "In this study, the research is conducted in a specific agricultural context: vineyards."
+  },
+  {
+    "subject": "AgriculturalVehicle",
+    "relation": "performsTask",
+    "object": "AutonomousNavigation",
+    "chunk": "completedocument1",
+    "context": "The identification of a robust solution to the LiDAR place recognition (LPR) problem in agricultural settings has the potential to facilitate the development of advanced applications in precision agriculture [9], field and crop monitoring [10], phenotyping [11], and autonomous navigation of agricultural vehicles [12]."
+  },
+  {
+    "subject": "MinkunextVine",
+    "relation": "designedFor",
+    "object": "AgriculturalRobotics",
+    "chunk": "completedocument1",
+    "context": "We introduce MinkUNeXt-VINE, a lightweight LPR network designed for agricultural robotics."
+  },
+  {
+    "subject": "MrlApproach",
+    "relation": "optimizes",
+    "object": "LprMethod",
+    "chunk": "completedocument2",
+    "context": "This is the first contribution using a MRL approach for optimizing a LPR method."
+  },
+  {
+    "subject": "sensor_livox",
+    "relation": "isInstanceOf",
+    "object": "LidarSensor",
+    "chunk": "completedocument2",
+    "context": "We establish a comparison between the impact of our method on different cost and resolution LiDAR sensors such as Livox and Velodyne."
+  },
+  {
+    "subject": "sensor_velodyne",
+    "relation": "isInstanceOf",
+    "object": "LidarSensor",
+    "chunk": "completedocument2",
+    "context": "We establish a comparison between the impact of our method on different cost and resolution LiDAR sensors such as Livox and Velodyne."
+  },
+  {
+    "subject": "sensor_livox",
+    "relation": "hasAttribute",
+    "object": "LowCost",
+    "chunk": "completedocument2",
+    "context": "proving the efficacy of our pruning strategy in inputs such as a Livox LiDAR sensor (low-cost, low-resolution)."
+  },
+  {
+    "subject": "sensor_livox",
+    "relation": "hasAttribute",
+    "object": "LowResolution",
+    "chunk": "completedocument2",
+    "context": "proving the efficacy of our pruning strategy in inputs such as a Livox LiDAR sensor (low-cost, low-resolution)."
+  },
+  {
+    "subject": "method_minkunext_vine",
+    "relation": "validatedIn",
+    "object": "CrossSeasonScenario",
+    "chunk": "completedocument2",
+    "context": "We present an extensive validation of MinkUNeXt-VINE in cross-season scenarios, testing the robustness of our method across the different months and seasons conforming the phenological cycle of the vineyards."
+  },
+  {
+    "subject": "VineyardEnvironment",
+    "relation": "characterizedBy",
+    "object": "DenseFoliage",
+    "chunk": "completedocument2",
+    "context": "In particular, within vineyard environments characterized by dense foliage, the robot’s field of vision is constrained to the immediate row in which it is operating."
+  },
+  {
+    "subject": "RobotFieldOfVision",
+    "relation": "constrainedIn",
+    "object": "VineyardEnvironment",
+    "chunk": "completedocument2",
+    "context": "In particular, within vineyard environments characterized by dense foliage, the robot’s field of vision is constrained to the immediate row in which it is operating."
+  },
+  {
+    "subject": "PathDetectionFramework",
+    "relation": "detects",
+    "object": "Traversability",
+    "chunk": "completedocument2",
+    "context": "This approach utilizes a path detection framework that detects traversability from the RGB-D image source."
+  },
+  {
+    "subject": "PathDetectionFramework",
+    "relation": "usesSource",
+    "object": "RgbDImageSource",
+    "chunk": "completedocument2",
+    "context": "This approach utilizes a path detection framework that detects traversability from the RGB-D image source."
+  },
+  {
+    "subject": "LocalizationSolution",
+    "relation": "usesMethod",
+    "object": "DepthMap",
+    "chunk": "completedocument2",
+    "context": "In [16], the authors propose a localization solution that uses an estimation of the location of the end of the vineyard row through a depth map and a modified MobileNet [17] for the classification of objects detected in the vision system."
+  },
+  {
+    "subject": "LocalizationSolution",
+    "relation": "usesMethod",
+    "object": "ModifiedMobileNet",
+    "chunk": "completedocument2",
+    "context": "In [16], the authors propose a localization solution that uses an estimation of the location of the end of the vineyard row through a depth map and a modified MobileNet [17] for the classification of objects detected in the vision system."
+  },
+  {
+    "subject": "ModifiedMobileNet",
+    "relation": "performs",
+    "object": "ObjectClassification",
+    "chunk": "completedocument2",
+    "context": "In [16], the authors propose a localization solution that uses an estimation of the location of the end of the vineyard row through a depth map and a modified MobileNet [17] for the classification of objects detected in the vision system."
+  },
+  {
+    "subject": "method_triloc_netvlad",
+    "relation": "isInstanceOf",
+    "object": "LprSolution",
+    "chunk": "completedocument2",
+    "context": "In TriLoc-NetVLAD [18], the authors propose an orchard-focused, long-term LPR solution consisting of a spatial context descriptor based on point cloud density, height, and spatial information."
+  },
+  {
+    "subject": "method_triloc_netvlad",
+    "relation": "consistsOf",
+    "object": "SpatialContextDescriptor",
+    "chunk": "completedocument2",
+    "context": "In TriLoc-NetVLAD [18], the authors propose an orchard-focused, long-term LPR solution consisting of a spatial context descriptor based on point cloud density, height, and spatial information."
+  },
+  {
+    "subject": "TripletNeuralNetwork",
+    "relation": "fusesFeaturesWith",
+    "object": "NetvladAggregationModule",
+    "chunk": "completedocument2",
+    "context": "Then, they use a triplet neural network that fuses high-dimensional and low-dimensional features with a NetVLAD [19] aggregation module."
+  },
+  {
+    "subject": "method_spvsoap3d",
+    "relation": "consistsOf",
+    "object": "method_spv",
+    "chunk": "completedocument2",
+    "context": "The methodology in SPVSoAP3D [20] consists of a voxel-based feature extraction module (SPV), followed by a feature extraction module that combines second-order pooling, log-Euclidean projection, and power normalization (SoAP)."
+  }
+]

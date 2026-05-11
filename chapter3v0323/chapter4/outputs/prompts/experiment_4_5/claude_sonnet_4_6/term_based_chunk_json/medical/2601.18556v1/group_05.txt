@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_sdaQec",
+  "ensures",
+  "optimal_treatment_window",
+  "model_sdaqec",
+  "demonstrates",
+  "TechnicalImprovement",
+  "model_mobilenetv2",
+  "exhibits",
+  "ClassImbalanceEffect",
+  "model_densenet121",
+  "SpecificityBiasedPattern",
+  "hasStructure",
+  "DenseConnectionStructure",
+  "model_vgg16",
+  "SensitivityBiasedPattern",
+  "causes",
+  "FalsePositiveAlert",
+  "leadsTo",
+  "procedure_coronaryAngiography",
+  "procedure_stentImplantation",
+  "isA",
+  "InvasiveExamination",
+  "hasRisk",
+  "risk_radiationExposure",
+  "risk_contrastAgentAllergy",
+  "PhysicalRisk",
+  "DeepNetworkStructure",
+  "lacksFeature",
+  "BatchNormalization",
+  "metric_auc",
+  "evaluates",
+  "ClassifierPerformance",
+  "model_sda_qec",
+  "maintains",
+  "Specificity",
+  "detects",
+  "TruePatient",
+  "ClinicalScreeningScenario",
+  "requiresMinimizing",
+  "FalsePositive",
+  "requiresMaintaining",
+  "Sensitivity",
+  "model_resnet18",
+  "hasAuc",
+  "0.9844",
+  "exhibitsOverfittingOn",
+  "SmallSampleMedicalDataset",
+  "0.9272",
+  "ArtificialIntelligence",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "Pneumonia",
+  "ChestXRay",
+  "CtImage",
+  "BreastCancer",
+  "DeepLearningModel",
+  "Image",
+  "Classification",
+  "MedicalData",
+  "ClassImbalance",
+  "dataset_covid19Pneumonia",
+  "LowRecallRate",
+  "DiagnosticAccuracy",
+  "ClinicalMisdiagnosis",
+  "PatientRisk",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "Noise",
+  "PathologicalFeature",
+  "GenerativeAdversarialNetwork",
+  "Sample",
+  "TrainingInstability",
+  "ModeCollapse",
+  "DiffusionModel",
+  "DiverseSample",
+  "NoiseAddition",
+  "DenoisingProcess",
+  "Simplification",
+  "QuantumMachineLearning"
+]
+
+Triples:
+[
+  {
+    "subject": "model_sdaQec",
+    "relation": "ensures",
+    "object": "optimal_treatment_window",
+    "chunk": "results1",
+    "context": "From a clinical decision-making perspective, SDA-QEC’s low false positive rate significantly reduces unnecessary medical interventions, while its low false negative rate ensures patients do not miss optimal treatment windows."
+  },
+  {
+    "subject": "model_sdaqec",
+    "relation": "demonstrates",
+    "object": "TechnicalImprovement",
+    "chunk": "results2",
+    "context": "This performance gap highlights the practical value of SDA-QEC’s technical improvements."
+  },
+  {
+    "subject": "model_mobilenetv2",
+    "relation": "exhibits",
+    "object": "ClassImbalanceEffect",
+    "chunk": "results2",
+    "context": "MobileNetV2’s confusion matrix shows more pronounced class imbalance effectsA-mong negative samples, 7 are misclassified as positive (false positive rate 11.7%); among positive samples, 12 are misclassified as negative (false negative rate 20.0%)."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "exhibits",
+    "object": "SpecificityBiasedPattern",
+    "chunk": "results2",
+    "context": "DenseNet121’sconfusionmatrixpresentsspecificity-biasedextremepatterns."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "hasStructure",
+    "object": "DenseConnectionStructure",
+    "chunk": "results2",
+    "context": "This im-balanced performance may stem from DenseNet121’s dense connection structure, which, when trained on imbalanced data, tends to learn majority class discriminative features whileformingconservativepredictionstrategiesforminorityclasses(i.e., tendencytoward negative predictions)."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "exhibits",
+    "object": "SensitivityBiasedPattern",
+    "chunk": "results2",
+    "context": "VGG16’s confusion matrix demonstrates another extreme of sensitivity-biased pat-terns."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "causes",
+    "object": "FalsePositiveAlert",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "FalsePositiveAlert",
+    "relation": "leadsTo",
+    "object": "procedure_coronaryAngiography",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "FalsePositiveAlert",
+    "relation": "leadsTo",
+    "object": "procedure_stentImplantation",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "procedure_coronaryAngiography",
+    "relation": "isA",
+    "object": "InvasiveExamination",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "procedure_stentImplantation",
+    "relation": "isA",
+    "object": "InvasiveExamination",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "procedure_coronaryAngiography",
+    "relation": "hasRisk",
+    "object": "risk_radiationExposure",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "procedure_coronaryAngiography",
+    "relation": "hasRisk",
+    "object": "risk_contrastAgentAllergy",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "risk_radiationExposure",
+    "relation": "isA",
+    "object": "PhysicalRisk",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "risk_contrastAgentAllergy",
+    "relation": "isA",
+    "object": "PhysicalRisk",
+    "chunk": "results2",
+    "context": "From a clinical perspective, this strategy leads to massive false pos-itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent implantation, and other invasive examinations, not only increasing medical costs (as-suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but also imposing enormous psychological burden and physical risks on patients (angiogra-phy itself involves radiation exposure, contrast agent allergy, and other risks)."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "hasStructure",
+    "object": "DeepNetworkStructure",
+    "chunk": "results2",
+    "context": "VGG16’s imbalanced performance stems from its overly deep network structure (16 convolutional layers) and massive fully connected layer parameters (approximately 138M), making it highly prone to overfitting on small-sample medical image datasets, and lacking modern regularization techniques like Batch Normalization, resulting in extremely weak general-ization capability."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "lacksFeature",
+    "object": "BatchNormalization",
+    "chunk": "results2",
+    "context": "VGG16’s imbalanced performance stems from its overly deep network structure (16 convolutional layers) and massive fully connected layer parameters (approximately 138M), making it highly prone to overfitting on small-sample medical image datasets, and lacking modern regularization techniques like Batch Normalization, resulting in extremely weak general-ization capability."
+  },
+  {
+    "subject": "metric_auc",
+    "relation": "evaluates",
+    "object": "ClassifierPerformance",
+    "chunk": "results2",
+    "context": "AUC is a comprehensive metric for mea-suring classifier performance: AUC=1.0 represents a perfect classifier, while AUC=0.5 represents random guessing."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "maintains",
+    "object": "Specificity",
+    "chunk": "results3",
+    "context": "Specifically, in the low false positive rate region (FPR < 0.1), SDA-QEC’s true positive rate exceeds 95%, meaning that while maintaining high specificity (misclassifying fewer than 10 out of 100 negative samples), the model can still detect over 95% of true patients."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "detects",
+    "object": "TruePatient",
+    "chunk": "results3",
+    "context": "Specifically, in the low false positive rate region (FPR < 0.1), SDA-QEC’s true positive rate exceeds 95%, meaning that while maintaining high specificity (misclassifying fewer than 10 out of 100 negative samples), the model can still detect over 95% of true patients."
+  },
+  {
+    "subject": "ClinicalScreeningScenario",
+    "relation": "requiresMinimizing",
+    "object": "FalsePositive",
+    "chunk": "results3",
+    "context": "This characteristic is crucial in clinical screening scenarios—screening tasks require minimizing false positives (avoiding unnecessary further examinations) while maintaining high sensitivity (avoiding missed diagnoses)."
+  },
+  {
+    "subject": "ClinicalScreeningScenario",
+    "relation": "requiresMaintaining",
+    "object": "Sensitivity",
+    "chunk": "results3",
+    "context": "This characteristic is crucial in clinical screening scenarios—screening tasks require minimizing false positives (avoiding unnecessary further examinations) while maintaining high sensitivity (avoiding missed diagnoses)."
+  },
+  {
+    "subject": "model_resnet18",
+    "relation": "hasAuc",
+    "object": "0.9844",
+    "chunk": "results3",
+    "context": "ResNet18’s ROC curve is slightly below SDA-QEC, in a suboptimal position with AUC of 0.9844, a gap of only 0.0034."
+  },
+  {
+    "subject": "model_resnet18",
+    "relation": "exhibitsOverfittingOn",
+    "object": "SmallSampleMedicalDataset",
+    "chunk": "results3",
+    "context": "This instability may stem from ResNet18’s larger parameter count (approximately 11.2M) exhibiting slight overfitting on small-sample medical datasets, leading to greater performance fluctuation across different data subsets."
+  },
+  {
+    "subject": "model_mobilenetv2",
+    "relation": "hasAuc",
+    "object": "0.9272",
+    "chunk": "results3",
+    "context": "MobileNetV2 and DenseNet121’s ROC curves occupy middle positions with AUCs of 0.9272 and 0.9506 respectively, with further expanded confidence intervals."
+  }
+]

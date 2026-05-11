@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["TrafficDynamics","Synchronization","Hysteresis","TimeDelay","TimeToCollision","PhaseSpace","LissajousFigure","EnergyDissipation","EquilibriumState","SynchronizationState","PhaseDiagram","TrafficFlow","BehaviorPattern","PureResponse","ReactionBehavior","AnticipationBehavior","DynamicalEquation","SecondOrderLinearDifferentialEquation","ConstantTimeHeadwayStrategy","TimeHeadway","PedestrianContext","ParticleSystem","TrafficUnit","FollowerTrafficUnit","PrecedingTrafficUnit","DesiredSpeed","OptimalVelocity","Position","Speed","RelaxationTime","OscillationDynamics","PerturbationTerm","OVModel","ReactionModel","CosForceModel","FVDModel","DelayDifferentialEquation","TaylorExpansionEstimator","RelativeDistance","TransferFunction"]
+
+Triples:
+[{"subject":"TrafficHysteresis","relation":"originatesFrom","object":"TimeDelay"},{"subject":"ReactionBehavior","relation":"resultsIn","object":"TimeDelayVariation"},{"subject":"AnticipationBehavior","relation":"resultsIn","object":"TimeDelayVariation"},{"subject":"TimeDelayVariation","relation":"manifestsAs","object":"HysteresisExpansion"},{"subject":"TimeDelayVariation","relation":"manifestsAs","object":"HysteresisContraction"},{"subject":"Hysteresis","relation":"connectsTo","object":"StringStability"},{"subject":"Hysteresis","relation":"occursIn","object":"TrafficDynamics"},{"subject":"PeriodicEvolutionTrajectory","relation":"occursIn","object":"PhaseSpace"},{"subject":"PhaseSpace","relation":"hasDimension","object":"3D"},{"subject":"PhaseSpace","relation":"includesVariable","object":"vi"},{"subject":"PhaseSpace","relation":"includesVariable","object":"vj"},{"subject":"PhaseSpace","relation":"includesVariable","object":"dji"},{"subject":"AnalyticalHysteresis","relation":"forms","object":"LissajousFigure"},{"subject":"TimeDelay","relation":"isMetricOf","object":"ZeroDissipation"},{"subject":"TimeToCollision","relation":"isMetricOf","object":"ZeroDissipation"},{"subject":"ZeroDissipation","relation":"occursUnder","object":"EquilibriumState"},{"subject":"ZeroDissipation","relation":"occursUnder","object":"SynchronizationState"},{"subject":"PhaseDiagram","relation":"basedOn","object":"TimeDelay"},{"subject":"PhaseDiagram","relation":"basedOn","object":"TimeToCollision"},{"subject":"PhaseDiagram","relation":"bridges","object":"TrafficDynamicalBehavior"},{"subject":"TrafficDynamicalBehavior","relation":"across","object":"R1Space"},{"subject":"TrafficDynamicalBehavior","relation":"across","object":"R2Space"},{"subject":"TimeDelay","relation":"induces","object":"HysteresisFlip"},{"subject":"HysteresisFlip","relation":"changesOrientationFrom","object":"Clockwise"},{"subject":"HysteresisFlip","relation":"changesOrientationTo","object":"Counterclockwise"},{"subject":"HysteresisFlip","relation":"occursIn","object":"FD"},{"subject":"TrafficFlow","relation":"usesStrategy","object":"ConstantTimeHeadwayStrategy"},{"subject":"TimeHeadway","relation":"hasValue","object":"1.3s"},{"subject":"TimeHeadway","relation":"isCommonIn","object":"PedestrianContext"},{"subject":"DesiredSpeed","relation":"definedAs","object":"PositionDifferenceDividedByTimeHeadway"},{"subject":"PositionDifferenceDividedByTimeHeadway","relation":"uses","object":"PrecedingTrafficUnitPosition"},{"subject":"PositionDifferenceDividedByTimeHeadway","relation":"uses","object":"FollowerTrafficUnitPosition"},{"subject":"DesiredSpeed","relation":"appliesTo","object":"TrafficUnit"},{"subject":"PrecedingTrafficUnit","relation":"hasPosition","object":"xj"},{"subject":"FollowerTrafficUnit","relation":"hasPosition","object":"xi"},{"subject":"FollowerTrafficUnit","relation":"approaches","object":"DesiredSpeed"},{"subject":"DynamicResponse","relation":"describedBy","object":"AccelerationEqualsSpeedDifferenceOverRelaxationTime"},{"subject":"RelaxationTime","relation":"hasValue","object":"0.5s"},{"subject":"DynamicalSystem","relation":"expressedAs","object":"SecondOrderLinearDifferentialEquation"},{"subject":"BehaviorPatternTimeScale","relation":"representedBy","object":"delta"}]

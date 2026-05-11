@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ligase_mdm2",
+  "categorizedAs",
+  "E3Ligase",
+  "framework_lcJtVae",
+  "generates",
+  "MolecularGlue",
+  "Molecule",
+  "metric_validity",
+  "PerformanceMetric",
+  "metric_qed",
+  "compound_vhl",
+  "contains",
+  "RingSystem",
+  "AliphaticChain",
+  "Heteroatom",
+  "EsterFunctionality",
+  "engages",
+  "VhlBindingPocket",
+  "compound_mdm2",
+  "AromaticStructure",
+  "PolycyclicStructure",
+  "ExtendedPlanarRegion",
+  "locatedIn",
+  "Mdm2BindingCleft",
+  "compound_crbn",
+  "FragmentLikeStructure",
+  "PhthalimideCore",
+  "FlexibleLinker",
+  "learns",
+  "ChemicalPrior",
+  "targets",
+  "Vhl",
+  "Mdm2",
+  "Crbn",
+  "RdkitEtkdgAlgorithm",
+  "evaluates",
+  "LigaseSpecificCompound",
+  "compound_vhl_cmpd_1",
+  "hasProperty",
+  "13RotatableBonds",
+  "compound_vhl_cmpd_8",
+  "12RotatableBonds",
+  "compound_mdm2_cmpd_6",
+  "22RotatableBonds",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "UbiquitinProteasomeSystem",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability",
+  "HypoxiaSignaling",
+  "P53",
+  "MolecularGlueDiscovery",
+  "ChemicalLibraryScreening",
+  "ArtificialIntelligenceModel",
+  "DeNovoDesign",
+  "SequenceBasedModel",
+  "SmilesRepresentation",
+  "SyntacticError",
+  "model_jtvae",
+  "MolecularStructure"
+]
+
+Triples:
+[
+  {
+    "subject": "ligase_mdm2",
+    "relation": "categorizedAs",
+    "object": "E3Ligase",
+    "chunk": "completedocument8",
+    "context": "To en able clear visualization of the chemical space, we randomly selected 100 training compounds for each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "framework_lcJtVae",
+    "relation": "generates",
+    "object": "MolecularGlue",
+    "chunk": "completedocument8",
+    "context": "Collectively, these visualizations demonstrate that the Ligase -Conditioned JT-VAE framework is capable of generating structurally diverse and target -specific molecular glues, while modulating novelty depending on training data distribution and target bindi ng site complexity"
+  },
+  {
+    "subject": "framework_lcJtVae",
+    "relation": "generates",
+    "object": "Molecule",
+    "chunk": "completedocument8",
+    "context": "To evaluate the quality of molecules generated by our Ligase -Conditioned JT-VAE (LC -JT-VAE) framework, we assessed five key performance metrics: validity, uniqueness, novelty, average quantitative estimate of drug -likeness (QED), and Lipinski’s rule -of-five adherence across three target E3 ligases: VHL, MDM2, and CRBN ( Figure 10 )."
+  },
+  {
+    "subject": "metric_validity",
+    "relation": "categorizedAs",
+    "object": "PerformanceMetric",
+    "chunk": "completedocument8",
+    "context": "To evaluate the quality of molecules generated by our Ligase -Conditioned JT-VAE (LC -JT-VAE) framework, we assessed five key performance metrics: validity, uniqueness, novelty, average quantitative estimate of drug -likeness (QED), and Lipinski’s rule -of-five adherence across three target E3 ligases: VHL, MDM2, and CRBN ( Figure 10 )."
+  },
+  {
+    "subject": "metric_qed",
+    "relation": "categorizedAs",
+    "object": "PerformanceMetric",
+    "chunk": "completedocument8",
+    "context": "To evaluate the quality of molecules generated by our Ligase -Conditioned JT-VAE (LC -JT-VAE) framework, we assessed five key performance metrics: validity, uniqueness, novelty, average quantitative estimate of drug -likeness (QED), and Lipinski’s rule -of-five adherence across three target E3 ligases: VHL, MDM2, and CRBN ( Figure 10 )."
+  },
+  {
+    "subject": "compound_vhl",
+    "relation": "contains",
+    "object": "RingSystem",
+    "chunk": "completedocument8",
+    "context": "The generated compounds for VHL ( Figure 11(a) ) displayed diverse ring systems, aliphatic chains, and heteroatoms (e.g., nitrogen, oxygen) that are consistent with features found in known VHL binders."
+  },
+  {
+    "subject": "compound_vhl",
+    "relation": "contains",
+    "object": "AliphaticChain",
+    "chunk": "completedocument8",
+    "context": "The generated compounds for VHL ( Figure 11(a) ) displayed diverse ring systems, aliphatic chains, and heteroatoms (e.g., nitrogen, oxygen) that are consistent with features found in known VHL binders."
+  },
+  {
+    "subject": "compound_vhl",
+    "relation": "contains",
+    "object": "Heteroatom",
+    "chunk": "completedocument8",
+    "context": "The generated compounds for VHL ( Figure 11(a) ) displayed diverse ring systems, aliphatic chains, and heteroatoms (e.g., nitrogen, oxygen) that are consistent with features found in known VHL binders."
+  },
+  {
+    "subject": "compound_vhl",
+    "relation": "contains",
+    "object": "EsterFunctionality",
+    "chunk": "completedocument8",
+    "context": "Notably, several molecules contained ester, amide, and cyclic amine functionalities, which are import ant pharmacophoric elements for engaging VHL binding pockets."
+  },
+  {
+    "subject": "EsterFunctionality",
+    "relation": "engages",
+    "object": "VhlBindingPocket",
+    "chunk": "completedocument8",
+    "context": "Notably, several molecules contained ester, amide, and cyclic amine functionalities, which are import ant pharmacophoric elements for engaging VHL binding pockets."
+  },
+  {
+    "subject": "compound_mdm2",
+    "relation": "contains",
+    "object": "AromaticStructure",
+    "chunk": "completedocument8",
+    "context": "For MDM2 ( Figure 11(b) ), the model generated the molecules having scaffolds enriched with aromatic and polycyclic structures, some bearing fused heterocycles or alkyl substitutions that resemble known MDM2 -p53 interaction inhibitors."
+  },
+  {
+    "subject": "compound_mdm2",
+    "relation": "contains",
+    "object": "PolycyclicStructure",
+    "chunk": "completedocument8",
+    "context": "For MDM2 ( Figure 11(b) ), the model generated the molecules having scaffolds enriched with aromatic and polycyclic structures, some bearing fused heterocycles or alkyl substitutions that resemble known MDM2 -p53 interaction inhibitors."
+  },
+  {
+    "subject": "compound_mdm2",
+    "relation": "contains",
+    "object": "ExtendedPlanarRegion",
+    "chunk": "completedocument8",
+    "context": "The generated compounds often featured exten ded planar regions, suggesting favorable π -π stacking potential within the MDM2 binding cleft."
+  },
+  {
+    "subject": "ExtendedPlanarRegion",
+    "relation": "locatedIn",
+    "object": "Mdm2BindingCleft",
+    "chunk": "completedocument8",
+    "context": "The generated compounds often featured exten ded planar regions, suggesting favorable π -π stacking potential within the MDM2 binding cleft."
+  },
+  {
+    "subject": "compound_crbn",
+    "relation": "contains",
+    "object": "FragmentLikeStructure",
+    "chunk": "completedocument8",
+    "context": "In the case of CRBN ( Figure 11(c) ), the generated compounds included many small fragment -like structures and thalidomide -inspired motifs such as phthalimide cores and flexible linkers."
+  },
+  {
+    "subject": "compound_crbn",
+    "relation": "contains",
+    "object": "PhthalimideCore",
+    "chunk": "completedocument8",
+    "context": "In the case of CRBN ( Figure 11(c) ), the generated compounds included many small fragment -like structures and thalidomide -inspired motifs such as phthalimide cores and flexible linkers."
+  },
+  {
+    "subject": "compound_crbn",
+    "relation": "contains",
+    "object": "FlexibleLinker",
+    "chunk": "completedocument8",
+    "context": "In the case of CRBN ( Figure 11(c) ), the generated compounds included many small fragment -like structures and thalidomide -inspired motifs such as phthalimide cores and flexible linkers."
+  },
+  {
+    "subject": "framework_lcJtVae",
+    "relation": "learns",
+    "object": "ChemicalPrior",
+    "chunk": "completedocument8",
+    "context": "These metrics validate the LC -JT-VAE model’s capability to generate novel, chemically valid, and E3 -selecti ve molecular glues, with each E3 -specific model learning distinct chemical priors reflective of its ligase binding site context."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "targets",
+    "object": "Vhl",
+    "chunk": "completedocument9",
+    "context": "Together, these AI -generated molecular glues show ligand diversity tailored to the unique binding environments of VHL, MDM2, and CRBN, supporting the effectiveness of our protein -conditioned generation strategy."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "targets",
+    "object": "Mdm2",
+    "chunk": "completedocument9",
+    "context": "Together, these AI -generated molecular glues show ligand diversity tailored to the unique binding environments of VHL, MDM2, and CRBN, supporting the effectiveness of our protein -conditioned generation strategy."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "targets",
+    "object": "Crbn",
+    "chunk": "completedocument9",
+    "context": "Together, these AI -generated molecular glues show ligand diversity tailored to the unique binding environments of VHL, MDM2, and CRBN, supporting the effectiveness of our protein -conditioned generation strategy."
+  },
+  {
+    "subject": "RdkitEtkdgAlgorithm",
+    "relation": "evaluates",
+    "object": "LigaseSpecificCompound",
+    "chunk": "completedocument9",
+    "context": "To assess the 3D conformational stability of the ligase -specific compounds generated by our model, we applied  RDKit’s ETKDG algorithm to independently generate multiple conformers for each molecule."
+  },
+  {
+    "subject": "compound_vhl_cmpd_1",
+    "relation": "hasProperty",
+    "object": "13RotatableBonds",
+    "chunk": "completedocument9",
+    "context": "RMSD values were negligibly small across all compounds -ranging from 0 to approximately 1.3×10⁻⁷ Å -even for highly flexible molecules such as VHL_Cmpd_1 (13 rotatable bonds), VHL_Cmpd_8 (12 rotatable bonds)  (Supplement Table S3 ), and MDM2_Cmpd_6 (22 rotatable bonds) (Supplement Table S 5)."
+  },
+  {
+    "subject": "compound_vhl_cmpd_8",
+    "relation": "hasProperty",
+    "object": "12RotatableBonds",
+    "chunk": "completedocument9",
+    "context": "RMSD values were negligibly small across all compounds -ranging from 0 to approximately 1.3×10⁻⁷ Å -even for highly flexible molecules such as VHL_Cmpd_1 (13 rotatable bonds), VHL_Cmpd_8 (12 rotatable bonds)  (Supplement Table S3 ), and MDM2_Cmpd_6 (22 rotatable bonds) (Supplement Table S 5)."
+  },
+  {
+    "subject": "compound_mdm2_cmpd_6",
+    "relation": "hasProperty",
+    "object": "22RotatableBonds",
+    "chunk": "completedocument9",
+    "context": "RMSD values were negligibly small across all compounds -ranging from 0 to approximately 1.3×10⁻⁷ Å -even for highly flexible molecules such as VHL_Cmpd_1 (13 rotatable bonds), VHL_Cmpd_8 (12 rotatable bonds)  (Supplement Table S3 ), and MDM2_Cmpd_6 (22 rotatable bonds) (Supplement Table S 5)."
+  }
+]

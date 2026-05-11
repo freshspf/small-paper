@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CachingMechanism",
+  "reducesCallFrequency",
+  "COMAPICall",
+  "Wrapper",
+  "providesInterface",
+  "HighLevelAPI",
+  "VissimRL",
+  "provides",
+  "VissimWrapper",
+  "providesFoundationFor",
+  "RLEnvironment",
+  "SourceLinesOfCode",
+  "measures",
+  "DevelopmentEffort",
+  "W2Workload",
+  "involves",
+  "SimulationStepping",
+  "SignalControl",
+  "PerformanceQuery",
+  "representsTypicalOperationsIn",
+  "RLTrainingProcess",
+  "RawCOM",
+  "requiresSourceLinesOfCode",
+  "207",
+  "32",
+  "reducesCodeBy",
+  "84.5%",
+  "ObjectHierarchy",
+  "abstractsFrom",
+  "BatchingOperation",
+  "enablesExperimentAdjustmentVia",
+  "ConfigurationChange",
+  "SimulationTime",
+  "hasDuration",
+  "4200seconds",
+  "WarmupPeriod",
+  "600seconds",
+  "stabilizes",
+  "TrafficFlow",
+  "SignalTiming",
+  "hasMinGreenDuration",
+  "5seconds",
+  "hasMaxGreenDuration",
+  "120seconds",
+  "hasYellowChangeInterval",
+  "3seconds",
+  "hasAllRedInterval",
+  "2seconds",
+  "followsRequirementsOf",
+  "TrafficControl",
+  "RLAlgorithm",
+  "implementedUsing",
+  "ProximalPolicyOptimization",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment"
+]
+
+Triples:
+[
+  {
+    "subject": "CachingMechanism",
+    "relation": "reducesCallFrequency",
+    "object": "COMAPICall",
+    "chunk": "experiments3",
+    "context": "The major reason is that the Wrapper substantially reduces the number of calls by batching operations and caching repeated queries."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "providesInterface",
+    "object": "HighLevelAPI",
+    "chunk": "experiments3",
+    "context": "the wrapper version achieved the same functionality through a concise high-level API provided by VissimRL."
+  },
+  {
+    "subject": "VissimRL",
+    "relation": "provides",
+    "object": "VissimWrapper",
+    "chunk": "experiments3",
+    "context": "the wrapper version achieved the same functionality through a concise high-level API provided by VissimRL."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "providesFoundationFor",
+    "object": "RLEnvironment",
+    "chunk": "experiments3",
+    "context": "providing a reliable foundation for building RL environments."
+  },
+  {
+    "subject": "SourceLinesOfCode",
+    "relation": "measures",
+    "object": "DevelopmentEffort",
+    "chunk": "experiments3",
+    "context": "this paper adopts source lines of code (SLOC) as a quantitative metric. SLOC counts only effective code containing logic, excluding comments and blank lines, thereby reflecting the development effort required to complete equivalent tasks."
+  },
+  {
+    "subject": "W2Workload",
+    "relation": "involves",
+    "object": "SimulationStepping",
+    "chunk": "experiments3",
+    "context": "The benchmark task follows the W2 workload, which involves simulation stepping, signal control, and performance queries, representing the typical operations in an RL training process."
+  },
+  {
+    "subject": "W2Workload",
+    "relation": "involves",
+    "object": "SignalControl",
+    "chunk": "experiments3",
+    "context": "The benchmark task follows the W2 workload, which involves simulation stepping, signal control, and performance queries, representing the typical operations in an RL training process."
+  },
+  {
+    "subject": "W2Workload",
+    "relation": "involves",
+    "object": "PerformanceQuery",
+    "chunk": "experiments3",
+    "context": "The benchmark task follows the W2 workload, which involves simulation stepping, signal control, and performance queries, representing the typical operations in an RL training process."
+  },
+  {
+    "subject": "W2Workload",
+    "relation": "representsTypicalOperationsIn",
+    "object": "RLTrainingProcess",
+    "chunk": "experiments3",
+    "context": "which involves simulation stepping, signal control, and performance queries, representing the typical operations in an RL training process."
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "requiresSourceLinesOfCode",
+    "object": "207",
+    "chunk": "experiments3",
+    "context": "using the Raw COM for the implementation of the task required 207 lines of code, while using the Wrapper for the same task required only 32, representing an 84.5% reduction."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "requiresSourceLinesOfCode",
+    "object": "32",
+    "chunk": "experiments3",
+    "context": "using the Raw COM for the implementation of the task required 207 lines of code, while using the Wrapper for the same task required only 32, representing an 84.5% reduction."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "reducesCodeBy",
+    "object": "84.5%",
+    "chunk": "experiments3",
+    "context": "using the Raw COM for the implementation of the task required 207 lines of code, while using the Wrapper for the same task required only 32, representing an 84.5% reduction."
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "involves",
+    "object": "ObjectHierarchy",
+    "chunk": "experiments3",
+    "context": "the Raw COM implementation involves complex object hierarchies and property configurations that impose considerable effort for development and maintenance."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "abstractsFrom",
+    "object": "CachingMechanism",
+    "chunk": "experiments3",
+    "context": "the Wrapper also hides the details of caching and batching from users, as mentioned in the previous subsection."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "abstractsFrom",
+    "object": "BatchingOperation",
+    "chunk": "experiments3",
+    "context": "the Wrapper also hides the details of caching and batching from users, as mentioned in the previous subsection."
+  },
+  {
+    "subject": "Wrapper",
+    "relation": "enablesExperimentAdjustmentVia",
+    "object": "ConfigurationChange",
+    "chunk": "experiments3",
+    "context": "enabling researchers to reproduce or adjust experiments through simple configuration changes."
+  },
+  {
+    "subject": "SimulationTime",
+    "relation": "hasDuration",
+    "object": "4200seconds",
+    "chunk": "experiments3",
+    "context": "All experiments in this section are conducted using the simulation parameters listed in Table XVI, with a total duration of 4200 seconds including a 600-second warm-up period to stabilize traffic flow."
+  },
+  {
+    "subject": "WarmupPeriod",
+    "relation": "hasDuration",
+    "object": "600seconds",
+    "chunk": "experiments3",
+    "context": "with a total duration of 4200 seconds including a 600-second warm-up period to stabilize traffic flow."
+  },
+  {
+    "subject": "WarmupPeriod",
+    "relation": "stabilizes",
+    "object": "TrafficFlow",
+    "chunk": "experiments3",
+    "context": "with a total duration of 4200 seconds including a 600-second warm-up period to stabilize traffic flow."
+  },
+  {
+    "subject": "SignalTiming",
+    "relation": "hasMinGreenDuration",
+    "object": "5seconds",
+    "chunk": "experiments3",
+    "context": "Signal timing settings, such as green duration limits and safety intervals (yellow and all-red), follow realistic traffic control requirements to ensure feasibility and safety."
+  },
+  {
+    "subject": "SignalTiming",
+    "relation": "hasMaxGreenDuration",
+    "object": "120seconds",
+    "chunk": "experiments3",
+    "context": "Min green duration 5 Max green duration 120"
+  },
+  {
+    "subject": "SignalTiming",
+    "relation": "hasYellowChangeInterval",
+    "object": "3seconds",
+    "chunk": "experiments3",
+    "context": "Yellow change interval 3"
+  },
+  {
+    "subject": "SignalTiming",
+    "relation": "hasAllRedInterval",
+    "object": "2seconds",
+    "chunk": "experiments3",
+    "context": "All-red interval 2"
+  },
+  {
+    "subject": "SignalTiming",
+    "relation": "followsRequirementsOf",
+    "object": "TrafficControl",
+    "chunk": "experiments3",
+    "context": "Signal timing settings, such as green duration limits and safety intervals (yellow and all-red), follow realistic traffic control requirements to ensure feasibility and safety."
+  },
+  {
+    "subject": "RLAlgorithm",
+    "relation": "implementedUsing",
+    "object": "ProximalPolicyOptimization",
+    "chunk": "experiments3",
+    "context": "The RL algorithm is implemented using Proximal Policy Optimization (PPO) provided by RLlib, chosen for its advantages in continuous control and stable policy updates."
+  }
+]

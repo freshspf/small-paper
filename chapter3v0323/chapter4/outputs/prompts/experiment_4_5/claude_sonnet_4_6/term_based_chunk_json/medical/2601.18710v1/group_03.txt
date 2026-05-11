@@ -1,0 +1,242 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ConvolutionalNeuralNetwork",
+  "performs",
+  "ClassificationTask",
+  "RareDiseaseResearch",
+  "limitedBy",
+  "ExpertAnnotationResource",
+  "AmlCytomorphologyDataset",
+  "hostedOn",
+  "TheCancerImagingArchive",
+  "AmlPatient",
+  "provides",
+  "Leukocyte",
+  "NeuralNetwork",
+  "detects",
+  "MalignantLeukocyte",
+  "DeepLearningApproach",
+  "AcuteMyeloidLeukemia",
+  "DeepNeuralNetwork",
+  "differentiates",
+  "BoneMarrowCellMorphology",
+  "utilizes",
+  "LargeImageDataset",
+  "ParameterizedQuantumCircuit",
+  "functionsAs",
+  "MachineLearningModel",
+  "QuantumNeuralNetwork",
+  "VariationalQuantumEigensolver",
+  "analyzes",
+  "SmallMolecule",
+  "EquilibriumPropagation",
+  "VariationalQuantumCircuit",
+  "BloodCellMicroscopyImage",
+  "QuantumMethod",
+  "dataset_aml_cytomorphology",
+  "ExpertAnnotatedImage",
+  "AutomatedMicroscopyBasedAnalysis",
+  "ClinicalWorkflow",
+  "BloodSmearAnalysis",
+  "BoneMarrowAspiration",
+  "DeepConvolutionalNetwork",
+  "BloodCellMorphology",
+  "ClassicalData",
+  "ImageAnalysis",
+  "CircuitParameter",
+  "detectedFrom",
+  "uses",
+  "contains",
+  "supports",
+  "isLessInvasiveThan",
+  "encodes",
+  "optimizes",
+  "EpPipeline",
+  "AmlDetection",
+  "EngineeredImageFeature",
+  "QuantumSupportVectorMachine",
+  "MriTumorClassification",
+  "BloodSmearMicroscopyImage",
+  "Patient",
+  "MunichUniversityHospital",
+  "MayGrunwaldGiemsaStainingProtocol",
+  "Hematologist",
+  "WhoDiagnosticCriteria",
+  "Feature",
+  "BloodCellImage",
+  "InputFeature",
+  "PrincipalComponentAnalysis",
+  "VariationalQuantumClassifier",
+  "QuantumMachineLearning",
+  "HybridSystem",
+  "QuantumUnit",
+  "ClassicalUnit",
+  "AreaFeature",
+  "CellRegion",
+  "PerimeterFeature",
+  "MeanIntensityFeature",
+  "GlcmTextureFeature",
+  "HopfieldNeuralNetwork",
+  "Qubit",
+  "ClassicalOptimizer",
+  "QuantumCircuit"
+]
+
+Triples:
+[
+  {
+    "subject": "ConvolutionalNeuralNetwork",
+    "relation": "performs",
+    "object": "ClassificationTask",
+    "chunk": "completedocument5",
+    "context": "Classical CNNs achieve higher absolute accuracy (98.4% vs. 83%), demonstrating their current superiority for this classification task."
+  },
+  {
+    "subject": "RareDiseaseResearch",
+    "relation": "limitedBy",
+    "object": "ExpertAnnotationResource",
+    "chunk": "completedocument5",
+    "context": "This reduced data requirement may be relevant for rare disease research where expert annotation resources are limited."
+  },
+  {
+    "subject": "AmlCytomorphologyDataset",
+    "relation": "hostedOn",
+    "object": "TheCancerImagingArchive",
+    "chunk": "completedocument5",
+    "context": "The AML-Cytomorphology dataset is publicly available at The Cancer Imaging Archive: https://doi.org/10.7937/tcia.2019.36f5o9ld"
+  },
+  {
+    "subject": "AmlPatient",
+    "relation": "provides",
+    "object": "Leukocyte",
+    "chunk": "completedocument5",
+    "context": "[1] C. Matek, S. Schwarz, C. Marr, and K. Spiekermann, “A single-cell morphological dataset of leukocytes from AML patients and non-malignant controls,”The Cancer Imaging Archive, 2019"
+  },
+  {
+    "subject": "NeuralNetwork",
+    "relation": "detects",
+    "object": "MalignantLeukocyte",
+    "chunk": "completedocument5",
+    "context": "[2] J. Schouten, C. Matek, L. Jacobs, M. Buck, D, Bo ˇsnaˇcki and Carsten Marr, ”Tens of images can suffice to train neural networks for malignant leukocyte detection,”Scientific Reportsvol. 11, p. 7995 (2021)."
+  },
+  {
+    "subject": "DeepLearningApproach",
+    "relation": "detects",
+    "object": "AcuteMyeloidLeukemia",
+    "chunk": "completedocument6",
+    "context": "[10] J. P. Schouten, J. H. Roos, and M. W. Heymans, “A deep learning ap- proach for the detection of acute myeloid leukemia,”Scientific Reports, vol. 11, no. 1, p. 14882, 2021."
+  },
+  {
+    "subject": "DeepNeuralNetwork",
+    "relation": "differentiates",
+    "object": "BoneMarrowCellMorphology",
+    "chunk": "completedocument6",
+    "context": "[11] C. Matek, S. Schwarz, K. Spiekermann, and C. Marr, “Highly accurate differentiation of bone marrow cell morphologies using deep neural networks on a large image dataset,”Blood, vol. 138, no. 20, pp. 1917– 1927, 2021."
+  },
+  {
+    "subject": "DeepNeuralNetwork",
+    "relation": "utilizes",
+    "object": "LargeImageDataset",
+    "chunk": "completedocument6",
+    "context": "[11] C. Matek, S. Schwarz, K. Spiekermann, and C. Marr, “Highly accurate differentiation of bone marrow cell morphologies using deep neural networks on a large image dataset,”Blood, vol. 138, no. 20, pp. 1917– 1927, 2021."
+  },
+  {
+    "subject": "ParameterizedQuantumCircuit",
+    "relation": "functionsAs",
+    "object": "MachineLearningModel",
+    "chunk": "completedocument6",
+    "context": "[6] M. Benedetti, E. Lloyd, S. Sack, and M. Fiorentini, “Parameterized quantum circuits as machine learning models,”Quantum Science and Technology, vol. 4, no. 4, p. 043001, 2019."
+  },
+  {
+    "subject": "QuantumNeuralNetwork",
+    "relation": "performs",
+    "object": "ClassificationTask",
+    "chunk": "completedocument6",
+    "context": "[7] E. Farhi and H. Neven, “Classification with quantum neural networks on near-term processors,” arXiv:1802.06002, 2018."
+  },
+  {
+    "subject": "VariationalQuantumEigensolver",
+    "relation": "analyzes",
+    "object": "SmallMolecule",
+    "chunk": "completedocument6",
+    "context": "[12] A. Kandalaet al., “Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets,”Nature, vol. 549, no. 7671, pp. 242–246, 2017."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_synergyConstrainedOptimization",
+  "incorporates",
+  "synergistic_drug_pairs",
+  "algorithm_falqon",
+  "findsSolutionFor",
+  "hamiltonian_hmss",
+  "algorithm_ite_falqon",
+  "hamiltonian_hsco",
+  "ProblemHamiltonian",
+  "containsInformation",
+  "PharmacologicalInformation",
+  "GroundState",
+  "correspondsTo",
+  "OptimalDrugCombination",
+  "suppresses",
+  "UnsafeDrugCombination",
+  "DrugInteractionNetwork",
+  "constructedFrom",
+  "ClinicallyDocumentedData",
+  "DrugSet",
+  "includesDrug",
+  "drug_ritonavir",
+  "drug_everolimus",
+  "drug_cabazitaxel",
+  "drug_metformin",
+  "drug_erlotinib",
+  "drug_topotecan",
+  "coversTherapy",
+  "AntiviralTherapy",
+  "OncologicalTherapy",
+  "MetabolicTherapy",
+  "exhibitsInteraction",
+  "HarmfulInteraction",
+  "SynergisticInteraction",
+  "InteractionGraph",
+  "determines",
+  "IsingHamiltonian",
+  "Drug",
+  "encodedBy",
+  "Qubit",
+  "LowEnergyState",
+  "CandidateDrugCombination",
+  "identifies",
+  "OptimalSafeConfiguration",
+  "penalty_parameter_alpha",
+  "controls",
+  "EnergeticCost",
+  "recovers",
+  "OptimalSafeRegimen",
+  "Bitstring",
+  "represents",
+  "DrugSubset",
+  "DrugDrugInteraction",
+  "CombinationTherapy",
+  "HarmfulSideEffect",
+  "TreatmentFailure",
+  "HospitalAdmission",
+  "Patient",
+  "MultipleDrugs",
+  "CancerTherapy",
+  "ChronicDisease",
+  "InfectiousDisease",
+  "SevereBleeding",
+  "BloodThinnerCombination",
+  "MuscleDamage",
+  "KidneyFailure",
+  "CholesterolLoweringDrug",
+  "Antibiotic",
+  "HivTreatment",
+  "CancerChemotherapy",
+  "AntibioticRegimen",
+  "Effectiveness",
+  "Resistance",
+  "TreatmentStrategy",
+  "AntiviralDrug",
+  "AntiInflammatoryDrug",
+  "SupportiveDrug",
+  "optimization_ddi_aware_drug_combination",
+  "problem_maximum_safe_subset",
+  "concept_harmful_interaction"
+]
+
+Triples:
+[
+  {
+    "subject": "model_synergyConstrainedOptimization",
+    "relation": "incorporates",
+    "object": "synergistic_drug_pairs",
+    "chunk": "completedocument3",
+    "context": "To accommodate these competing re- quirements, we introduce the Synergy-Constrained Opti- mization (SCO) model, which extends the MSS formal- ism by incorporating synergistic rewards and a cardinal- ity constraint."
+  },
+  {
+    "subject": "algorithm_falqon",
+    "relation": "findsSolutionFor",
+    "object": "hamiltonian_hmss",
+    "chunk": "completedocument4",
+    "context": "To ﬁnd the ground energy and ground state (bitstring solution) of HMSSandHSCO, we apply the feedback-based quantum control algorithm (FALQON) [35] and a recent developed method imaginary-time evolution enhanced FALQON (ITE-FALQON) [36]."
+  },
+  {
+    "subject": "algorithm_ite_falqon",
+    "relation": "findsSolutionFor",
+    "object": "hamiltonian_hsco",
+    "chunk": "completedocument4",
+    "context": "To ﬁnd the ground energy and ground state (bitstring solution) of HMSSandHSCO, we apply the feedback-based quantum control algorithm (FALQON) [35] and a recent developed method imaginary-time evolution enhanced FALQON (ITE-FALQON) [36]."
+  },
+  {
+    "subject": "ProblemHamiltonian",
+    "relation": "containsInformation",
+    "object": "PharmacologicalInformation",
+    "chunk": "completedocument4",
+    "context": "All pharmacological information is contained in Hp; therefore, its ground state corresponds to the optimal drug combination."
+  },
+  {
+    "subject": "GroundState",
+    "relation": "correspondsTo",
+    "object": "OptimalDrugCombination",
+    "chunk": "completedocument4",
+    "context": "All pharmacological information is contained in Hp; therefore, its ground state corresponds to the optimal drug combination."
+  },
+  {
+    "subject": "algorithm_falqon",
+    "relation": "suppresses",
+    "object": "UnsafeDrugCombination",
+    "chunk": "completedocument4",
+    "context": "In the DDI setting, this dynamical process naturally suppresses unsafe drug combinations while amplifying conﬁgurations that satisfy the MSS or SCO objectives."
+  },
+  {
+    "subject": "DrugInteractionNetwork",
+    "relation": "constructedFrom",
+    "object": "ClinicallyDocumentedData",
+    "chunk": "completedocument4",
+    "context": "We construct a six-drug interaction network from clinically documented data, as shown in Fig. 1 and Tab. I."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "includesDrug",
+    "object": "drug_ritonavir",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "includesDrug",
+    "object": "drug_everolimus",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "includesDrug",
+    "object": "drug_cabazitaxel",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "includesDrug",
+    "object": "drug_metformin",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "includesDrug",
+    "object": "drug_erlotinib",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "includesDrug",
+    "object": "drug_topotecan",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "coversTherapy",
+    "object": "AntiviralTherapy",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "coversTherapy",
+    "object": "OncologicalTherapy",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "coversTherapy",
+    "object": "MetabolicTherapy",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "exhibitsInteraction",
+    "object": "HarmfulInteraction",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "DrugSet",
+    "relation": "exhibitsInteraction",
+    "object": "SynergisticInteraction",
+    "chunk": "completedocument4",
+    "context": "The drug set includes Ritonavir, Everolimus, Cabazitaxel, Metformin, Erlotinib, and Topotecan, which covers antiviral, oncological, and metabolic therapies and exhibits a range of harmful and synergistic interactions."
+  },
+  {
+    "subject": "InteractionGraph",
+    "relation": "determines",
+    "object": "IsingHamiltonian",
+    "chunk": "completedocument4",
+    "context": "This graph fully determines the Ising Hamiltonians used in the FALQON and ITE-FALQON simulations."
+  },
+  {
+    "subject": "Drug",
+    "relation": "encodedBy",
+    "object": "Qubit",
+    "chunk": "completedocument4",
+    "context": "Each drug is encoded by a single qubit, and the corresponding Ising Hamiltonians areconstructedfromstandardPauli- ZandZZoperators according to HMSSandHSCO."
+  },
+  {
+    "subject": "LowEnergyState",
+    "relation": "correspondsTo",
+    "object": "CandidateDrugCombination",
+    "chunk": "completedocument4",
+    "context": "After the ﬁnal evolution, measurements yield a probability distribution over all bitstrings, where the most probable low-energy states correspond to candidate drug combinations satisfying the MSS or SCO criteria."
+  },
+  {
+    "subject": "algorithm_falqon",
+    "relation": "identifies",
+    "object": "OptimalSafeConfiguration",
+    "chunk": "completedocument5",
+    "context": "For all values of α, FALQON drives the system toward thecorrectlow-energysubspaceandreliablyidentiﬁesthe optimal safe conﬁguration."
+  },
+  {
+    "subject": "penalty_parameter_alpha",
+    "relation": "controls",
+    "object": "EnergeticCost",
+    "chunk": "completedocument5",
+    "context": "Figure 2 shows the time evolution of the energy E(t) = ∝an}bracketle{tψ(t)|HMSS|ψ(t)∝an}bracketri}htfor several values of the penalty pa- rameterα, which controls the energetic cost of violating harmful-interaction constraints."
+  },
+  {
+    "subject": "algorithm_ite_falqon",
+    "relation": "recovers",
+    "object": "OptimalSafeRegimen",
+    "chunk": "completedocument5",
+    "context": "The near-equal probabilities and energies of the two solutions highlight the intrinsic degeneracy of the MSS problem and demonstrate that ITE-FALQON faithfully recovers the complete set of optimal safe regimens."
+  },
+  {
+    "subject": "Bitstring",
+    "relation": "represents",
+    "object": "DrugSubset",
+    "chunk": "completedocument5",
+    "context": "The network visualizations in Fig. 3(b) illustrate the drug subsets represented by these two bitstrings."
+  }
+]

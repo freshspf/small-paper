@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RemoteSensingChangeDetection",
+  "dividedInto",
+  "UnsupervisedCd",
+  "SupervisedCd",
+  "reliesOn",
+  "PixelLevelAnnotation",
+  "dsamnet",
+  "integrates",
+  "DeepSupervision",
+  "bit",
+  "uses",
+  "SelfAttention",
+  "sam_cd",
+  "incorporates",
+  "VisualFoundationModel",
+  "WeaklySupervisedCd",
+  "ImageLevelAnnotation",
+  "RegionLevelAnnotation",
+  "cs_wscd",
+  "leverages",
+  "ClassActivationMap",
+  "dsfa",
+  "characterizes",
+  "PotentialChangeArea",
+  "anychange",
+  "introduces",
+  "Sam",
+  "omni_res",
+  "proposes",
+  "UnifiedModelingParadigm",
+  "omni_detr",
+  "employs",
+  "SharedFeatureRepresentation",
+  "fcd_gan",
+  "SimultaneousModelingMethod",
+  "lacksExplicitConstraintOn",
+  "StructuralStability",
+  "SemanticDiscriminability",
+  "framework_UniCD",
+  "unifies",
+  "ChangeDetectionTask",
+  "module_STAM",
+  "supports",
+  "SupervisedLearning",
+  "module_CRR",
+  "WeaklySupervisedLearning",
+  "module_SPCI",
+  "UnsupervisedLearning",
+  "model_FastSAM",
+  "actsAs",
+  "FeatureEncoder",
+  "fineTunedWith",
+  "Adapter",
+  "Model",
+  "processes",
+  "BiTemporalImage",
+  "produces",
+  "MultiScaleFeatureRepresentation",
+  "fuses",
+  "MultiScaleFeature",
+  "models",
+  "SpatialStructure",
+  "ChangeDetection",
+  "LandCoverChange",
+  "MultiTemporalRemoteSensingImage",
+  "LandResourceMonitoring",
+  "UrbanExpansionAnalysis",
+  "DisasterAssessment",
+  "AgriculturalMonitoring",
+  "model_uniCd",
+  "SupervisionAdaptiveFramework",
+  "SupervisedChangeDetectionTask",
+  "WeaklySupervisedChangeDetectionTask",
+  "UnsupervisedChangeDetectionTask",
+  "RemoteSensingPlatform",
+  "MultiTemporalObservationData",
+  "SurfaceDynamics",
+  "TimeSeriesComparison",
+  "TimeVaryingFeature",
+  "LandCoverEvolution"
+]
+
+Triples:
+[
+  {
+    "subject": "RemoteSensingChangeDetection",
+    "relation": "dividedInto",
+    "object": "UnsupervisedCd",
+    "chunk": "relatedwork",
+    "context": "Categorized by supervision information, remote sensing CD tasks can generally be divided into three main paradigms: su- pervised, weakly-supervised, and unsupervised CD."
+  },
+  {
+    "subject": "SupervisedCd",
+    "relation": "reliesOn",
+    "object": "PixelLevelAnnotation",
+    "chunk": "relatedwork",
+    "context": "Super- vised CDrelies on pixel-level change annotations, enabling direct learning of precise change boundaries."
+  },
+  {
+    "subject": "dsamnet",
+    "relation": "integrates",
+    "object": "DeepSupervision",
+    "chunk": "relatedwork",
+    "context": "DSAMNet inte- grates deep supervision with attention-based metric learning to better model bi-temporal differences [Liu and Shi, 2021 ]."
+  },
+  {
+    "subject": "bit",
+    "relation": "uses",
+    "object": "SelfAttention",
+    "chunk": "relatedwork",
+    "context": "BIT pioneers Transformer-based CD by using self-attention to capture long-range spatial–temporal dependencies [Chenet al., 2021 ]."
+  },
+  {
+    "subject": "sam_cd",
+    "relation": "incorporates",
+    "object": "VisualFoundationModel",
+    "chunk": "relatedwork",
+    "context": "Moreover, SAM-CD incorporates a visual foun- dation model as the backbone [Dinget al., 2024 ], leverag- ing large-scale pretraining priors to improve robustness in complex scenes."
+  },
+  {
+    "subject": "WeaklySupervisedCd",
+    "relation": "reliesOn",
+    "object": "ImageLevelAnnotation",
+    "chunk": "relatedwork",
+    "context": "Weakly-supervised CDrelies solely on image-level or region-level annotations, attempting to locate change areas through indirect supervision signals."
+  },
+  {
+    "subject": "WeaklySupervisedCd",
+    "relation": "reliesOn",
+    "object": "RegionLevelAnnotation",
+    "chunk": "relatedwork",
+    "context": "Weakly-supervised CDrelies solely on image-level or region-level annotations, attempting to locate change areas through indirect supervision signals."
+  },
+  {
+    "subject": "cs_wscd",
+    "relation": "leverages",
+    "object": "ClassActivationMap",
+    "chunk": "relatedwork",
+    "context": "CS-WSCD leverages Class Activation Maps (CAM) to extract spatial responses from classification networks, thereby delineating potential change regions [Wanget al., 2023 ]."
+  },
+  {
+    "subject": "dsfa",
+    "relation": "characterizes",
+    "object": "PotentialChangeArea",
+    "chunk": "relatedwork",
+    "context": "DSFA [Duet al., 2019 ] characterize potential change areas by measuring differences between bi-temporal images in latent space."
+  },
+  {
+    "subject": "anychange",
+    "relation": "introduces",
+    "object": "Sam",
+    "chunk": "relatedwork",
+    "context": "AnyChange [Zhenget al., 2024 ]introduces SAM to identify changes through bi-temporal latent matching."
+  },
+  {
+    "subject": "omni_res",
+    "relation": "proposes",
+    "object": "UnifiedModelingParadigm",
+    "chunk": "relatedwork",
+    "context": "For instance, in image seg- mentation tasks, Omni-RES proposes a unified modeling paradigm for referential segmentation learning [Huanget al., 2024 ]."
+  },
+  {
+    "subject": "omni_detr",
+    "relation": "employs",
+    "object": "SharedFeatureRepresentation",
+    "chunk": "relatedwork",
+    "context": "In object detection tasks, Omni- DETR employs shared feature representations while adopting differentiated optimization strategies for different supervision conditions, thereby avoiding separate model designs for each supervision paradigm [Wanget al., 2022 ]."
+  },
+  {
+    "subject": "fcd_gan",
+    "relation": "proposes",
+    "object": "SimultaneousModelingMethod",
+    "chunk": "relatedwork",
+    "context": "In remote sensing CD, to address the longstanding frag- mentation between supervised, weakly-supervised, and unsu- pervised CD tasks, FCD-GAN pioneeringly proposes a repre- sentative method for simultaneous modeling across all three supervision paradigms [Wuet al., 2023 ]."
+  },
+  {
+    "subject": "fcd_gan",
+    "relation": "lacksExplicitConstraintOn",
+    "object": "StructuralStability",
+    "chunk": "relatedwork",
+    "context": "However, FCD-GAN lacks explicit constraints on the structural stability and semantic discriminability of changed"
+  },
+  {
+    "subject": "fcd_gan",
+    "relation": "lacksExplicitConstraintOn",
+    "object": "SemanticDiscriminability",
+    "chunk": "relatedwork",
+    "context": "However, FCD-GAN lacks explicit constraints on the structural stability and semantic discriminability of changed"
+  },
+  {
+    "subject": "framework_UniCD",
+    "relation": "unifies",
+    "object": "ChangeDetectionTask",
+    "chunk": "method1",
+    "context": "As shown in Fig. 2, we propose a unified framework UniCD, which aims to unify CD tasks with varying supervision levels."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "supports",
+    "object": "SupervisedLearning",
+    "chunk": "method1",
+    "context": "Specifically, STAM for supervised learning inSection 3.2, CRR for weakly-supervised learning inSection 3.3, SPCI for unsupervised learning inSection 3.4."
+  },
+  {
+    "subject": "module_CRR",
+    "relation": "supports",
+    "object": "WeaklySupervisedLearning",
+    "chunk": "method1",
+    "context": "Specifically, STAM for supervised learning inSection 3.2, CRR for weakly-supervised learning inSection 3.3, SPCI for unsupervised learning inSection 3.4."
+  },
+  {
+    "subject": "module_SPCI",
+    "relation": "supports",
+    "object": "UnsupervisedLearning",
+    "chunk": "method1",
+    "context": "Specifically, STAM for supervised learning inSection 3.2, CRR for weakly-supervised learning inSection 3.3, SPCI for unsupervised learning inSection 3.4."
+  },
+  {
+    "subject": "model_FastSAM",
+    "relation": "actsAs",
+    "object": "FeatureEncoder",
+    "chunk": "method1",
+    "context": "Initially, we employ the frozen FastSAM as the feature encoderϕ(·), fine-tuned with adapter."
+  },
+  {
+    "subject": "model_FastSAM",
+    "relation": "fineTunedWith",
+    "object": "Adapter",
+    "chunk": "method1",
+    "context": "Initially, we employ the frozen FastSAM as the feature encoderϕ(·), fine-tuned with adapter."
+  },
+  {
+    "subject": "Model",
+    "relation": "processes",
+    "object": "BiTemporalImage",
+    "chunk": "method1",
+    "context": "Given a pair of bi- temporal images, the model produces a set of multi-scale fea- ture representations{Ft i}t=1,2 i=1,2,3,4after passing throughϕ(·)."
+  },
+  {
+    "subject": "Model",
+    "relation": "produces",
+    "object": "MultiScaleFeatureRepresentation",
+    "chunk": "method1",
+    "context": "Given a pair of bi- temporal images, the model produces a set of multi-scale fea- ture representations{Ft i}t=1,2 i=1,2,3,4after passing throughϕ(·)."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "fuses",
+    "object": "MultiScaleFeature",
+    "chunk": "method1",
+    "context": "In the supervised branch, multi-scale features are fused by STAM to model spatial structures and temporal variations, generating the prediction map ˆYthrough the decoder."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "models",
+    "object": "SpatialStructure",
+    "chunk": "method1",
+    "context": "In the supervised branch, multi-scale features are fused by STAM to model spatial structures and temporal variations, generating the prediction map ˆYthrough the decoder."
+  }
+]

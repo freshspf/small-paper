@@ -1,0 +1,124 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+MNRAS000, 1–26 (2026) Preprint 27 January 2026 Compiled using MNRAS L ATEX style file v3.3
+Intracluster light as a dark matter tracer: how their spatial and kinematic
+relationship is shaped by satellite demographics
+G. Martin ,1★F. R. Pearce ,1N. A. Hatch ,1H. J. Brown ,1J. Butler ,1Y. M. Bahé ,1,2
+W. Cui,3,4,5Y. Dubois6, and A. Knebe3,4,7
+1School of Physics & Astronomy, University of Nottingham, University Park, Nottingham NG7 2RD, UK
+2Laboratoire d’Astrophysique, École Polytechnique Fédérale de Lausanne (EPFL), Observatoire de Sauverny, 1290 Versoix, Switzerland
+3Departamento de Física Teórica, Módulo 15, Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain
+4Centro de Investigación Avanzada en Física Fundamental (CIAFF), Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain
+5Institute for Astronomy, Royal Observatory, Edinburgh EH9 3HJ, UK
+6Institut d’Astrophysique de Paris, UMR 7095, CNRS, Sorbonne Université, 98 bis boulevard Arago, 75014 Paris, France
+7International Centre for Radio Astronomy Research, University of Western Australia, 35 Stirling Highway, Crawley, Western Australia 6009, Australia
+Accepted XXX. Received YYY; in original form ZZZ
+ABSTRACT
+We investigate how the orbital evolution and mass distribution of infalling satellite galaxies shape the phase-space and radial
+distributionsofintraclusterlight(ICL)relativetotheunderlyingclusterdarkmatter(DM)halo.Usingcontrolled,self-consistent
+𝑁-bodysimulations,wefollowthetidalstrippingandorbitalevolutionofsatellitegalaxiesastheyareaccretedintoalivecluster
+halo,systematicallyvaryingsatellite–to–hostmassratioandorbitalcircularity.Fromtheseexperiments,wemeasurethespecific
+orbital energy and angular momentum of stripped stellar and DM material, finding that the stripped stars consistently occupy
+lower-energy and lower-angular momentum regions of phase-space than the stripped DM. The magnitude of this difference
+increases strongly towards more equal satellite–to–host mass ratios, while the dependence on orbital circularity is weak. We
+construct a predictive model for the phase-space properties of stripped stars and DM from a whole infalling satellite population
+andfindthattheresultingphase-spacedifferencebetweenthecomponentsaredrivenprimarilybythecharacteristicmassofthe
+infallingsatellitestellarmassfunction.WefindthattheICLisalwaysmorecentrallyconcentratedthantheDM.Themagnitude
+of this offset depends on the characteristic mass and increases towards higher characteristic masses. Comparisons with four
+independent cosmological hydrodynamical simulations show that, once the infalling satellite stellar mass function is matched,
+themodelreproducestheradialstellar–to–DMdensityprofileoffsetstobetterthantheinter-simulationscatter.Thisdemonstrates
+thattheradialrelationshipbetweentheICLandtheDMdistributionislargelygovernedbysatellitedemographics.Withadequate
+constraintsontheinfallingsatellitepopulation,ICLdensityprofilescanthereforebeusedasinformativetracersoftheunderlying
+radial DM distribution in clusters.
+Key words:galaxies: clusters: general – galaxies: interactions – methods: numerical
+1 INTRODUCTION
+Galaxyclustersarekeylaboratoriesforcosmologybecausetheyare
+themostmassivevirialisedstructuresexpectedtoformthroughhier-
+archical growth in aΛCDM Universe. Their mass, spatial structure,
+andassemblyhistoryencodeboththeunderlyingcosmologyandthe
+nonlinear physics of structure formation. For example, cluster-scale
+halo shapes anddensity profiles provide constraints on thenature of
+dark matter (DM), while their abundances and scaling relations test
+cosmologicalparameters(e.g.Allenetal.2011;Kravtsov&Borgani
+2012).MappingthesestructuresrequirestracersofthedominantDM
+halo,whichisnotdirectlyobservable(e.g.Westetal.1995;Borgani
+& Guzzo 2001; Arnaboldi et al. 2004; Gifford et al. 2013; Kluge
+et al. 2025).
+Clusters are also permeated by intracluster light (ICL), the com-
+★E-mail: garreth.martin@nottingham.ac.ukbined light emitted by the diffuse component of stars not bound
+to any individual galaxy. These stars originate predominantly from
+tidalstrippingandmergingofsatellitesduringclusterassembly,with
+some additional contribution from pre-processed stars already lib-
+erated from their parent galaxies upon cluster infall (e.g. Byrd &
+Valtonen1990;Muranteetal.2007;Continietal.2014;Mihosetal.
+2017; Contini et al. 2019; Chun et al. 2023; Ragusa et al. 2023;
+Brownetal.2024).TheICLformedthroughthisprocessisexpected
+to be dominated by a small number of progenitors and to retain
+memory of the timing and orbital properties of individual accretion
+events (Bullock & Johnston 2005; Johnston et al. 2008). The ICL
+constitutes asignificant fraction1of thestellar mass budget ofclus-
+1The ICL fraction is definition- and method-dependent; observational and
+simulation studies suggest it typically contributes 5–40 per cent of the to-
+tal stellar light in clusters, with the exact value varying with measurement
+methodology (Brough et al.

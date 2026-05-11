@@ -1,0 +1,160 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument29
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+(2014)EAGLE TNG Simba-c
+Volume(142 Mpc)3Zoom-in(110 Mpc)3Zoom-in
+𝑚DM[M⊙]8×1079.7×1067.5×1062.7×108
+𝑚★[M⊙]2×1061.8×1061.4×1064.4×107
+𝜖[kpc]1.0(minimum cell size)0.7 0.7 3.7
+Cosmology WMAP7 Planck 2014 Planck 2016 Planck 2016
+Ωm 0.272 0.307 0.3089 0.3089
+ΩΛ 0.728 0.693 0.6911 0.6911
+Ωb 0.045 0.04825 0.0486 0.0486
+𝜎8 0.81 0.8288 0.8159 0.8159
+𝑛𝑠 0.967 0.9611 0.9667 0.9667
+𝐻0[km s−1Mpc−1] 70.4 67.77 67.74 67.74
+11.0 11.5
+log10(M/M)
+1.5
+1.4
+1.3
+1.2
+1.1
+1.0
+ Range 9 95%
+Simulation stacked average
+Horizon-AGN
+Hydrangea
+TNG100
+The300 GIZMO 7k
+FigureC1.Stellarmass–functionparameterspaceforinfallingsatellitepop-
+ulationsacrossfourhydrodynamicalsimulationsuites.Pointswitherrorbars
+showbest-fittingSchechterparametersforindividualclusters,withhorizontal
+and vertical bars indicating1𝜎uncertainties on the faint-end slope𝛼and
+characteristic masslog10𝑀★, respectively. Coloured rectangles denote the
+5th–95th percentile ranges of(𝛼,log10𝑀★)derived from the ensemble of
+individuallyfittedclusterswithineachsimulation.Theblackdashedrectangle
+marks the combined envelope adopted in this work, defined by the smallest
+minima and largest maxima across all suites, and used to set the parameter
+rangeslistedinTable1.Fitsforwhichtheexponentialcutoffisunconstrained
+are excluded.
+and the initial baryonic mass resolution is𝑚 gas=107M⊙; star
+particles form with a minimum mass of𝑚 ★=2×106M⊙.
+The maximum physical spatial resolution isΔ𝑥=1 kpc(proper).
+The simulation includes radiative cooling, star formation, stellar
+feedback, and dual-mode AGN feedback implemented in thermal
+and kinetic modes.Horizon-AGNadopts a WMAP7-like cos-
+mology (Komatsu et al. 2011) with(Ω m,ΩΛ,Ωb,𝜎8,𝑛𝑠,𝐻0)=
+(0.272,0.728,0.045,0.81,0.967,70.4 km s−1Mpc−1).
+FigureD1.Population-averagedratioofthespecificorbitalenergyofstripped
+starstothatofstrippedDM,⟨𝜀 ★/𝜀DM⟩,asafunctionoftheminimumstellar
+mass included in the infalling satellite population. We sample a continuous
+range of characteristic stellar masses𝑀★indicated by the colour bar. The
+dashed line indicates the infaller stellar mass above which 95 per cent of the
+energy ratio is explained.
+E2Hydrangea
+Hydrangea(Bahé et al. 2017) is a suite of hydrodynamical
+zoom simulations of galaxy clusters, built using the modified
+Gadget-3smoothed particle hydrodynamics code and theEA-
+GLEsubgrid model (Schaye et al. 2015), with initial condi-
+tions consistent with theEAGLEreference resolution:𝑚 DM=
+9.7×106M⊙and𝑚 gas=1.8×106M⊙. The Plummer-
+equivalent gravitational softening length is𝜖=0.7 kpc. The sim-
+ulation includes radiative cooling, star formation, stellar feed-
+back, and thermal AGN feedback following the EAGLE model.
+The simulations assume aΛCDM cosmology consistent with
+MNRAS000, 1–26 (2026)
+
+26G. Martin et al.
+Planck Collaboration XVI (2014), with(Ω m,ΩΛ,Ωb,𝜎8,𝑛𝑠,𝐻0)=
+(0.307,0.693,0.04825,0.8288,0.9611,67.77 km s−1Mpc−1).
+E3TNG100
+TNG100(Marinacci et al. 2018; Nelson et al. 2018; Pillepich et al.
+2018;Naimanetal.2018;Springeletal.2018)isacosmologicalmag-
+netohydrodynamical simulation evolving a(110 Mpc)3comoving
+volumeusingthemoving-meshcodeArepo(Springel2010).Forthe
+TNG100-1run,theDMparticlemassis𝑚 DM=7.5×106M⊙andthe
+targetbaryonicmassresolutionis𝑚 b=1.4×106M⊙.ThePlummer-
+equivalentgravitationalsofteninglengthforcollisionlessparticlesis
+𝜖=0.7 kpcat𝑧=0. The simulation includes ideal MHD, radia-
+tive cooling, star formation, kinetic stellar feedback, and dual-mode
+AGN feedback. AΛCDM cosmology consistent with Planck Col-
+laboration XIII (2016) is adopted, with(Ω m,ΩΛ,Ωb,𝜎8,𝑛𝑠,𝐻0)=
+(0.3089,0.6911,0.0486,0.8159,0.9667,67.74 km s−1Mpc−1).
+E4TheThreeHundred GIZMO 7K
+TheThreeHundredproject (Cui et al. 2018) comprises 324 zoom-
+in simulations of a mass-complete sample of massive galaxy clus-
+ters at𝑧=0, selected from a large cosmological DM only simu-
+lation, MDPL2 (Klypin et al. 2016). In this work we use the latest
+GIZMO 7K run (Cui et al., in prep.), which employs the meshless
+finite-masshydrodynamicssolver,GIZMO,coupledwithanupdated
+Simba-Cmodel (Hough et al. 2023) from theSimbagalaxy forma-
+tion model (Davé et al. 2019). The DM mass resolution is𝑚 DM=
+2.7×108M⊙and the stellar mass resolution is𝑚 ★=4.4×107M⊙
+(Cui et al. 2022). The simulations include radiative cooling, star
+formation, stellar feedback, and multi-mode AGN feedback includ-
+ing kinetic jets. AΛCDM cosmology consistent with Planck Col-
+laboration XIII (2016) is adopted, with(Ω m,ΩΛ,Ωb,𝜎8,𝑛𝑠,𝐻0)=
+(0.3089,0.6911,0.0486,0.8159,0.9667,67.74 km s−1Mpc−1).
+This paper has been typeset from a T EX/LATEX file prepared by the author.
+MNRAS000, 1–26 (2026).

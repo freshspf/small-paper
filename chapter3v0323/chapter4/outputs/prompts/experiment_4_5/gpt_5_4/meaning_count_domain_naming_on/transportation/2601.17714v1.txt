@@ -1,0 +1,245 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Draft version January 27, 2026
+Synchronization in Traffic Dynamics: Mechanisms of Hysteresis
+Jinghui W ang1,∗ and Wei L v1, 2,†
+1School of Safety Science and Emergency Management
+Wuhan University of Technology
+Wuhan, China
+2China Research Center for Emergency Management
+Wuhan University of Technology
+Wuhan, China
+ABSTRACT
+Starting from a second-order linear differential equation, we analyze the dynamical mechanisms of
+no behavior pattern (pure response), reaction and anticipation behaviors in traffic. As an emergence of
+the underlying dynamical evolution, the periodic evolution trajectories (3D hysteresis) in phase space
+(vi, vj, dji) exhibit fascinating characters. We investigate the emerging Time-Delay (T D) phenomena
+and the resulting analytical hysteresis, an equal frequency sets of Lissajous figures. By quantifying
+energy dissipation through individual and system perspectives, we demonstrate thatT Dand Time-To-
+Collision (T T C) are direct metrics of zero-dissipation under equilibrium and synchronization states.
+Finally, a phase diagram based onT DandT T Cis developed to bridge the dynamical behaviors
+in traffic acrossR 1 andR 2 spaces. Our results provide a theoretical foundation upon which many
+obscure mechanisms become self-evident, such as theT D-induced flip of the hysteresis (clockwise to
+counterclockwise in FD) and the crossed hysteresis, etc.
+Keywords:Dynamical system, Synchronization, Kinetic energy dissipation, Hysteresis
+1.INTRODUCTION
+The phenomenon of hysteresis in traffic has long received extensive attention (Treiterer & Myers 1974). Researchers
+have understood that the traffic hysteresis originates from the Time-Delay (T D) phenomena in dynamics, based on
+response mechanisms (Zhang 1999). The reaction and anticipation behavior in the dynamical evolution (Treiber et al.
+2006; Kesting & Treiber 2008; Cordes et al. 2023) will result in theT Dvariation and manifested as the expansion and
+contraction of the hysteresis. Established from numerical and analytical investigation, researchers have analyzed many
+aspects of the hysteresis, including the evolution orientation of hysteresis (Laval 2011; Gayah & Daganzo 2011; Jiang
+et al. 2024), the connection between the hysteresis and string stability (Mattas et al. 2023), hysteresis with multiple
+rendezvous points (Zhang 1999; Ni 2025), and the performance of hysteresis in the relative space-speed phase plane (Ni
+2025), among others. A fundamental problem is that these properties appear to be interconnected yet lack a unified
+theoretical explanation. To this end, we attempt to employ a concise framework to bridge these concepts.
+2.DYNAMIC FRAMEWORK
+In this study, the dynamical equations are developed based on a fundamental characteristic of traffic: the constant
+time headway (th) strategy. We setth = 1.3s, which is a common empirical character in pedestrian context. Within
+1D system of particles, the desired speed (optimal velocity) of traffic unitiunder constrained motion (0< vi < v max)
+for a given headway is defined asvd = (x j −x i)/th, wherex j represents the position of the preceding traffic unitj.
+The dynamic response of the follower traffic unitias it approaches its desired speed can be described by the equation
+a= (v d −v i)/τ, whereτdenotes the relaxation time and set to 0.5 s. Following these settings, when the speed ranges
+between0andv max, the dynamical system can be complete expressed as a second order linear differential equation.
+Letδrepresent the corresponding time scale of the behavior patterns, whereδ <0signifies reaction behavior and
+∗ zhux083@gmail.com
+† weil@whut.edu.cn
+arXiv:2601.17714v1 [physics.soc-ph] 25 Jan 2026
+δ >0signifies anticipation behavior. Based on these definitions, dynamical equations for different behavioral patterns
+can be derived, and ensuring that all parameters maintain explicit physical meanings. In the following, four specific
+models will be introduced.
+2.1.OV Model (No Behavior Pattern, Pure Response Mechanism)
+When behavioral patterns are not considered, traffic evolution is dominated by the pure response, where the desired
+speed is defined asvd = xj −xi
+. The underlying dynamics are governed by the differential equation, i.e., linearized OV
+model (Bando et al. 1995):
+¨xi + ˙xi
+τ = xj −x i
+thτ (1)
+Whereτandt h are positive time constants. This study focuses on the oscillation dynamics surrounding the syn-
+chronization state. Consequently, in a dynamical system governed by second order linear differential equations, we
+can shift the oscillations of the synchronized traffic flow to the origin within the phase space. This allows for the
+construction of dynamical equations specifically regarding the perturbation terms:
+¨ξi +
+˙ξi
+τ = ξj −ξ i
+thτ .(2)
+Based on the properties of linear differential equations, for traffic speeds within the rangev∈(0, vmax), the governing
+equation of the oscillation describes the complete evolution of the traffic flow as it deviates the synchronized state.
+Clearly, Eq. (2) represents a response unit. To obtain the analytical dynamic results, the Laplace transform is applied
+to this governing equation, yielding the following poles from the characteristic equation:
+s1,2 =− 1
+2τ ± 1√thτ
+4τ −1.(3)
+Based on the parameter settings whereth = 1.3s andτ= 0.5s, it can be determined that the poles are complex
+conjugate pairs with negative real parts, and the transient response exhibits an underdamped pattern. By applying
+the direct inputξ j, taking the Laplace transform under zero initial conditions, and solving forGov(s) =ξ i(s)/ξj(s),
+we obtain:
+Gov(s) = 1
+thτ s2 +t hs+ 1 .(4)
+Given a wave function inputξj(t) =Asin(ωt)representing the simple harmonic oscillation of position, corresponding
+steady state output can be derived based on the transfer function as follows:
+ξi(t) =A· |G ov(jω)| ·sin(ωt+ϕ ov),(5)
+WhereG ov(s)is the specific system transfer function andϕ ov =∠G ov(jω). LetM ov =|G ov(jω)|, we obtain the
+steady-state response wave:
+ξi,ov(t) =A·M ov ·sin(ωt+ϕ ov),(6)
+with
+Mov = 1√
+(1−thτ ω2)2+(thω)2 ,
+ϕov =−arg
+1−t hτ ω2 +jt hω
+(7)
+Now, we have obtained the analytical wave output of the response system under the given input. By extending these
+results to the complex plane, we can analytically examine all properties of this dynamical system.
+2.2.Reaction Model (Reaction Behavior + Response Mechanism)
+The reaction behavior pattern, characterized by a systematic lag of the input in the response unit, can be described
+using delay-differential equations (DDEs). In the dynamic equation, we define the time scale of the reaction behavior
+asδ, which yields the desired speedvd = xj(t+δ)−xi(t)
+, δ <0. The corresponding DDE is:
+¨xi + ˙xi
+τ = xj(t+δ) −x i
+thτ .(8)
+In line with the previous analysis, we obtain the dynamic equation of the perturbation term as it deviates from the
+synchronized flow:
+¨ξi +
+˙ξi
+τ = ξj(t+δ) −ξ i
+thτ .(9)
+The poles of this dynamical system are consistent with those of the OV model, meaning they share the same transient
+response pattern. Taking the Laplace transform under zero initial conditions and solving forGre(s) =ξ i(s)/ξj(s)yields:
+Gre(s) = eδs
+thτ s2 +t hs+ 1 .(10)
+Given the wave function inputξj(t) =Asin(ωt), the steady state wave response is given by:
+ξi,re(t) =A·M re ·sin(ωt+ϕ re),(11)
+with
+Mre = 1√
+(1−thτ ω2)2+(thω)2 ,
+ϕre =δω−arg
+1−t hτ ω2 +jt hω
+(12)
+2.3.CosForce Model (Anticipation Behavior + Response Mechanism)
+Theanticipationbehaviorpatternischaracterizedbytheresponseunitestimatingfuturestatesbasedonagiveninput
+to establish the response dynamics. The desired speed is defined asvd = ˆxj(t+δ)−xi
+, δ >0. Here,ˆx j(t+δ) =x j +δ˙xj
+represents the first order Taylor expansion estimator ofxj at timet+δ. We refer to this as the CosForce model, and
+the governing dynamic equation is:
+¨xi + ˙xi
+τ = (xj +δ˙xj)−x i
+thτ .(13)
+Leads to the modified perturbation dynamics:
+¨ξi +
+˙ξi
+τ = (ξj +δ ˙ξj)−ξ i
+thτ .(14)
+The form of the homogeneous differential equation remains unchanged, leading to the identical poles of these dy-
+namical systems. By taking the Laplace transform under zero initial conditions and solving forGcf(s) =ξ i(s)/ξj(s),
+we obtain:
+Gcf(s) = 1 +δs
+thτ s2 +t hs+ 1 .(15)
+Under the wave function inputξj(t) =Asin(ωt), the steady state wave response is given by:
+ξi,cf(t) =A·M cf ·sin(ωt+ϕ cf),(16)
+with
+Mcf =
+1+(δω) 2
+(1−thτ ω2)2+(thω)2 ,
+ϕcf = arg
+1 +j δω
+−arg
+1−t hτ ω2 +j t hω
+(17)
+2.4.FVD Model (Anticipation Behavior + Response Mechanism)
+Another classic form of the anticipation behavior model defines the desired speed asvd = ˆxj(t+δ)−ˆxi(t+δ)
+,δ >0.
+Here,ˆxj(t+δ)−ˆx i(t+δ) =x j +δ˙xj −x i −δ˙xi represents the first order Taylor expansion estimator of the relative
+distancex j −x i at timet+δ. This model corresponds to the linearized FVD model (Jiang et al. 2001):
+¨xi + ˙xi
+τ = (xj −x i) +δ( ˙xj −˙xi)
+thτ .(18)
+Leads to the perturbation dynamics
+¨ξi +
+˙ξi
+τ = (ξj −ξ i) +δ( ˙ξj − ˙ξi)
+thτ .(19)
+Apply the Laplace transform, the poles of the FVD model are
+s1,2 = −(th +δ)±
+(th +δ) 2 −4t hτ
+2thτ .(20)
+The additional termδ >0shifts both poles further to the left in the complex plane, resulting in enhanced damping
+within the FVD model. The associated transfer function is:
+Gfvd(s) = 1 +δs
+thτ s2 + (th +δ)s+ 1 .(21)
+Given the wave function inputξj(t) =Asin(ωt), the steady state response is:
+ξi,fvd(t) =A·M fvd ·sin (ωt+ϕ fvd),(22)
+where
+Mfvd =
+1+(δω) 2
+(1−thτ ω2)2+
+(th+δ)ω
+ϕfvd = arg
+1 +j δω
+−arg
+1−t hτ ω2 +j(t h +δ)ω
+(23)
+2.5.Stability of String Dynamics
+Based on the above analysis of complex frequency domain, we obtain the analytical forms for the steady state
+amplitude gainMand phaseϕ. Corresponding analytical Bode plot is presented in Fig. 1. According to the results,
+it can be observed that the dynamical system under discussion exhibits low pass characteristics. From the magnitude
+plot, we can evaluate the string stability of the traffic, where the stability criterion is defined byM≤1. In the
+OV model, according to Eq. (7), corresponding to stability condition isth ≥2τ,∀ω >0. Similarly, we can conclude
+that the string stability condition of the reaction model is identical to that of the OV model, owing to their perfectly
+consistent magnitude plot characteristics. The corresponding stability condition isth ≥2τfor allω >0.
+In the anticipation model, the introduction of the time scaleδclearly modifies the form of the transfer function,
+thereby leading to changes in string stability. In the CosForce model, the stability condition for string dynamics is
+Mcf ≤1, which corresponds to the conditionδ 2 ≤t 2
+h −2t hτ,∀ω >0. This appears to be a quite strict condition in
+traffic. Conversely, in the FVD model, the stability condition for string dynamics isMfvd ≤1, corresponding to the
+stability conditionδ≥τ−t h/2,∀ω >0. Fig. 2 presents the stability phase diagrams for the two anticipation models
+under given parameters, wheret h = 1.3s andτ= 0.5s are constant parameters. We can clearly observe that the
+stability conditions of the FVD model are more relaxed. This indicates that the FVD model offers greater flexibility
+in parameter settings in traffic platoon modeling.
+3.ANALYTICAL HYSTERESIS
+Based on the analytical wave function derived, we can analyze various properties of the traffic oscillations, the most
+important is hysteresis. From the phase plot in Fig. 1, we observe that the output of the dynamical system exhibits
+a phase lag relative to the input. What statistical consequences will such a lag produce? How does this lag influence
+the geometry of hysteresis? This section will discuss these properties. Before we dive into the analysis, it should be
+Figure 1: Bode diagram of transfer function (G(jω)) in the four models.
+Figure 2: Phase diagrams for string stability in CosForce and FVD models.
+clarified that for the sake of simplicity, our oscillation analysis essentially shifts the system from the synchronization
+point to the origin. When the conversion from relative states to absolute states is required, the process is essentially

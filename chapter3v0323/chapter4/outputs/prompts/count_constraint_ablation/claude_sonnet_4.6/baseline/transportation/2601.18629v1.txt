@@ -1,0 +1,68 @@
+You are an ontology axiom extraction system. Your task is to identify and extract formal RDFS ontology axioms from the given scientific or technical text.
+
+
+
+**CORE INSTRUCTIONS:**
+1. Extract ontology axioms including but not limited to:
+   - Subclass relationships (`rdfs:subClassOf`)
+   - Sub-objectproperty relationships (`owl:subObjectPropertyOf`)
+   - Sub-dataproperty relationships (`owl:subDataPropertyOf`)
+   - Domain restrictions (`rdfs:domain`)
+   - Range restrictions (`rdfs:range`)
+   - Disjointness axioms (`owl:disjointWith`)
+
+2. Each axiom must represent a single atomic ontological assertion and describe the knowledge in the given field.
+
+3. Every axiom MUST be directly supported by an exact quote from the provided text OR logically inferred from explicit statements about class/property relationships.
+
+
+
+
+
+
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following exact structure:
+{
+  "axioms": [
+    {
+      "subject": "string (the ontological entity)",
+      "relation": "string (the ontological predicate)",
+      "object": "string (the target entity or value)",
+      "chunk": "string (from which section)",
+      "evidence": "string (exact text segment supporting this axiom)"
+    }
+  ]
+}
+
+**EXAMPLES OF EXPECTED EXTRACTION:**
+Input text: "Aquifer microbes are a subclass of microbial functional guilds. They are found in aquifers."
+
+Extracted axioms:
+1. {
+  "subject": "AquiferMicrobes",
+  "relation": "rdfs:subClassOf",
+  "object": "MicrobialFunctionalGuild",
+  "chunk": "ABSTRACT",
+  "evidence": "Aquifer microbes are a subclass of microbial functional guilds."
+}
+2. {
+  "subject": "foundIn",
+  "relation": "rdfs:domain",
+  "object": "AquiferMicrobes",
+  "chunk": "Introduction",
+  "evidence": "They are found in aquifers."
+}
+3. {
+  "subject": "foundIn",
+  "relation": "rdfs:range",
+  "object": "Aquifer",
+  "chunk": "Experiments",
+  "evidence": "They are found in aquifers."
+}
+
+**INPUT TEXT:**
+ExoGS: A 4D Real-to-Sim-to-Real Framework for Scalable Manipulation Data Collection
+
+ABSTRACT
+Real-to-Sim-to-Real technique is gaining increasing interest for robotic manipulation, as it can generate scalable data in simulation while having narrower sim-to-real gap. However, previous methods mainly focused on environment-level visual real-to-sim transfer, ignoring the transfer of interactions, which could be challenging and inefficient to obtain purely in simulation especially for contact-rich tasks. We propose ExoGS, a robot-free 4D Real-to-Sim-to-Real framework that captures both static environments and dynamic interactions in the real world and transfers them seamlessly to a simulated environment. It provides a new solution for scalable manipulation data collection and policy learning. ExoGS employs a self-designed robot-isomorphic passive exoskeleton AirExo-3 to capture kinematically consistent trajectories with millimeter-level accuracy and synchronized RGB observations during direct human demonstrations. The robot, objects, and environment are reconstructed as editable 3D Gaussian Splatting assets, enabling geometry-consistent replay and large-scale data augmentation. Additionally, a lightweight Mask Adapter injects instance-level semantics into the policy to enhance robustness under visual domain shifts. Real-world experiments demonstrate that ExoGS significantly improves data efficiency and policy generalization compared to teleoperation-based baselines. Code and hardware files have been released on https://github.com/zaixiabalala/ExoGS.

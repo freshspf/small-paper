@@ -1,0 +1,249 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_physe_inv",
+  "predictsFeature",
+  "MeanSnowDepthAnomaly",
+  "capturesFeature",
+  "GroundTruthDistribution",
+  "incorporatesFeature",
+  "PhysicsEncoding",
+  "RealWorldVariability",
+  "reducesMetric",
+  "PredictionError",
+  "hasInputFeature",
+  "SnowDensityField",
+  "hasTarget",
+  "NormalizedSnowDepthProxy",
+  "usesLossFunction",
+  "loss_mse",
+  "usesOptimizer",
+  "optimizer_adam",
+  "runsOnHardware",
+  "hardware_nvidiaV100Gpu",
+  "usesArchitecture",
+  "architecture_lstm",
+  "architecture_selfAttention",
+  "SnowDepth",
+  "ArcticSeaIceThickness",
+  "ReanalysisProduct",
+  "era5",
+  "SeaIceThermodynamics",
+  "SnowDensity",
+  "PhysicsEncodedNeuralNetwork",
+  "InverseModeling",
+  "SeaIcePhysics",
+  "HydrostaticBalanceEquation",
+  "IntrinsicPhysicalParameter",
+  "LakeTemperatureModeling",
+  "Tomography",
+  "SeismicWaveformAnalysis",
+  "MaterialsScience",
+  "Hydrology",
+  "PhysicalPrior",
+  "PosteriorDistribution",
+  "region_arctic",
+  "DataSparseDomain",
+  "ForwardModel",
+  "NoisyInput",
+  "system_arcticSeaIce",
+  "DynamicPhysicalSystem",
+  "TimeVaryingParameter",
+  "model_physEInv",
+  "SnowVariable",
+  "SeaIceVariable",
+  "ModelLatentSpace",
+  "ArcticSnow",
+  "BijectiveMapping",
+  "EvolvingRelationship",
+  "PeNN",
+  "Rigor",
+  "MachineLearningEnhancedInverseModeling",
+  "HiddenPhysicalParameter",
+  "ObservableGeospatialPhenomenon",
+  "Dataset",
+  "Era5ReanalysisData",
+  "EuropeanCentreForMediumRangeWeatherForecasts",
+  "ObservationalData",
+  "RemoteSensingInstrument",
+  "SpatiotemporalData",
+  "region_centralArcticOcean",
+  "latitudeRange_70Nto85N",
+  "resolution_25km",
+  "feature_snowDepth",
+  "feature_seaIceThickness",
+  "feature_snowAlbedo",
+  "feature_snowDensity",
+  "feature_seaIceConcentration",
+  "ProxyModel",
+  "SeaIceConcentration",
+  "GeophysicalObservation",
+  "SnowAlbedo",
+  "DensityField",
+  "IceThickness"
+]
+
+Triples:
+[
+  {
+    "subject": "model_physe_inv",
+    "relation": "predictsFeature",
+    "object": "MeanSnowDepthAnomaly",
+    "chunk": "appendix2",
+    "context": "Figure 6: PDF of mean snow depth anomalies for true values and PhysE-Inv predictions."
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "capturesFeature",
+    "object": "GroundTruthDistribution",
+    "chunk": "appendix2",
+    "context": "The PhysE-Inv model successfully captures the unimodal nature of the measured deviations in the ground truth distribution (Fig. 6)."
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "incorporatesFeature",
+    "object": "PhysicsEncoding",
+    "chunk": "appendix2",
+    "context": "By incorporating physics encoding, it captures real-world variabilities, reducing prediction error and producing more physically consistent and robust predictions."
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "capturesFeature",
+    "object": "RealWorldVariability",
+    "chunk": "appendix2",
+    "context": "By incorporating physics encoding, it captures real-world variabilities, reducing prediction error and producing more physically consistent and robust predictions."
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "reducesMetric",
+    "object": "PredictionError",
+    "chunk": "appendix2",
+    "context": "By incorporating physics encoding, it captures real-world variabilities, reducing prediction error and producing more physically consistent and robust predictions."
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "hasInputFeature",
+    "object": "SnowDensityField",
+    "chunk": "appendix2",
+    "context": "Input Feature Snow density field (time series)"
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "hasTarget",
+    "object": "NormalizedSnowDepthProxy",
+    "chunk": "appendix2",
+    "context": "Target Normalized snow depth proxy"
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "usesLossFunction",
+    "object": "loss_mse",
+    "chunk": "appendix2",
+    "context": "Loss Function Mean Squared Error (MSE)"
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "usesOptimizer",
+    "object": "optimizer_adam",
+    "chunk": "appendix2",
+    "context": "Optimizer Adam,η= 0.0005"
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "runsOnHardware",
+    "object": "hardware_nvidiaV100Gpu",
+    "chunk": "appendix2",
+    "context": "Implementation / Hardware PyTorch on NVIDIA V100 GPU"
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "usesArchitecture",
+    "object": "architecture_lstm",
+    "chunk": "appendix2",
+    "context": "Encoder/Decoder 2-layer LSTM (64 hidden units)"
+  },
+  {
+    "subject": "model_physe_inv",
+    "relation": "usesArchitecture",
+    "object": "architecture_selfAttention",
+    "chunk": "appendix2",
+    "context": "Attention Mechanism 4-headed self-attention"
+  }
+]

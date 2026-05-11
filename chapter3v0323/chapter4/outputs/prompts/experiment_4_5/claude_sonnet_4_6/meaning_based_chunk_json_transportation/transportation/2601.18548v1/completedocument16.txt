@@ -1,0 +1,134 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument16",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument16
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+In such cases, reverting to a naive initialization
+often causes the ESDF-sphere, penalty-based back end to stuck
+or converge to infeasible, collision-prone trajectories.TopAY’s
+parallel candidate strategy partially mitigates this issue by
+increasing the chance of finding a feasible front-end solution,
+but it also tends to select more conservative base routes with
+longer detours in dense clutter.
+LocalDecompexhibits a different failure mode due to its
+local, reactive nature. Because it reasons only about obstacles
+in a limited neighborhood, its performance is less sensitive
+to obstacle count than to global layout complexity; it is
+
+16
+particularly prone to getting stuck or colliding in “bridge-like”
+structures and stacked non-convex geometries. Moreover, since
+it prioritizes local traversability rather than global path quality,
+it often induces large and unnecessary base and arm rotations.
+In contrast,OursandOurs (TopAY-init)optimize di-
+rectly in configuration space with implicit GCDF constraints,
+consistently producing non-conservative whole-body motions
+in dense 3D clutter. In particular, the naive-initialization
+variant keeps the base close to a straight-line route and
+relies on coordinated arm reconfiguration to negotiate tight
+clearances, resulting in the shortest traversal distance with
+smooth configuration-space evolution. Fig. 11 further illus-
+trates these safe and agile behaviors, showing coordinated
+base–arm maneuvers that maintain clearance without excessive
+detours. Overall, these results validate the effectiveness of our
+learned implicit GCDF and training pipeline, together with
+our customized high-performance numerical algorithm, and
+highlight the benefit of enforcing collision avoidance directly
+in configuration space for robust and efficient whole-body
+trajectory optimization.
+B. Real-World Validation
+We further validate the proposed framework on a real mo-
+bile manipulator in two representative settings: (i) a laboratory
+obstacle course with manually arranged clutter consisting of
+stacked blocks of diverse shapes and heights, and (ii) an office
+environment that requires navigation through narrow pas-
+sages while sequentially reaching multiple intermediate goals.
+Fig. 12 visualizes execution with snapshots along the planned
+trajectories. These deployments are intentionally challenging
+for whole-body mobile manipulation: the scenes exhibit tight
+3D clearances across multiple height layers and non-convex,
+overlapping geometry (e.g., stacked blocks and bridge-like
+structures). In the laboratory course (top,t 1–t8), the robot
+navigates through densely placed obstacles with limited clear-
+ance. It exhibits non-conservative whole-body reconfiguration:
+the base commits to narrow passages. At the same time, the
+arm continuously adjusts its posture to maintain clearance
+against obstacles at different heights, thereby avoiding ex-
+cessive detours. In the office scenario (bottom,t 1–t12), the
+robot plans and executes a multi-goal route through confined
+corridors and furniture-dense areas (including an intermediate
+waypoint), producing smooth collision-free motions without
+oscillatory corrections or large unnecessary rotations. Across
+both settings, the executed trajectories maintain consistent
+clearance in tight spaces, indicating that the learned neural
+GCDF provides sufficiently accurate local geometry and first-
+order information to support reliable configuration-space opti-
+mization on hardware. Overall, these real-world trials validate
+the practicality of our approach and its ability to generate safe,
+agile, and dynamic feasible whole-body motions.
+VI. CONCLUSION
+We presented a configuration-space collision reasoning and
+trajectory optimization framework for whole-body mobile ma-
+nipulation in dense, cluttered, and unbounded environments.
+We introduced GCDF as a generalization of CDF that cango beyond purely rotational manipulators and consider mobile
+manipulators with both translational and rotational joints.
+We developed a one-time offline data collection and training
+pipeline to learn an implicit neural GCDF with accurate values
+and first-order information. Building on this representation,
+we proposed a high-performance C++ sequential convex opti-
+mization algorithm that natively supports neural implicit con-
+straints through batched GPU queries, sparsity-aware active-
+constraint selection, and online constraint injection. Extensive
+randomized clutter benchmarks and real-world experiments
+demonstrate robust, efficient, and non-conservative whole-
+body motion generation, highlighting the benefit of enforcing
+collision avoidance directly in configuration space.
+Future directions.First, in the training stage, we did not
+exhaustively explore how network architecture choices and hy-
+perparameters (e.g., loss-term weights) affect the fidelity of the
+learned implicit GCDF.

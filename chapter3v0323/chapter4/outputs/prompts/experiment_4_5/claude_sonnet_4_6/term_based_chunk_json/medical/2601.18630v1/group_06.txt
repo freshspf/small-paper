@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LargeLanguageModel",
+  "demonstrates",
+  "CognitiveReliability",
+  "showsInconsistent",
+  "AffectiveSkill",
+  "model_gpt4o",
+  "isA",
+  "ClosedSourceModel",
+  "model_gemini2_0_flash",
+  "outperforms",
+  "OpenSourceModel",
+  "TopTierSystem",
+  "exhibitsFailureIn",
+  "EmotionalResonance",
+  "MentalHealthLLM",
+  "lacks",
+  "EmotionalCalibration",
+  "FineTuningStrategy",
+  "optimizes",
+  "InformationalAccuracy",
+  "InterpersonalSensitivity",
+  "HumanEvaluationFramework",
+  "benchmarks",
+  "TherapeuticBehavior",
+  "functionsAs",
+  "CoCreatorInCare",
+  "doesNotReplace",
+  "HumanTherapist",
+  "User",
+  "overlyReliesOn",
+  "AiGeneratedResponse",
+  "exhibits",
+  "DemographicBias",
+  "CulturalBias",
+  "compromises",
+  "Fairness",
+  "HumanAnnotator",
+  "reviews",
+  "DistressingContent",
+  "experiences",
+  "EmotionalBurden",
+  "tool_ChatGPT",
+  "evaluatedIn",
+  "SuicideRiskAssessment",
+  "evaluatedFor",
+  "MentalHealthSupport",
+  "influences",
+  "DiagnosticReasoning",
+  "usedIn",
+  "ClinicalDecisionMaking",
+  "GenerativeAiChatbot",
+  "usedFor",
+  "MentalHealthTreatment",
+  "LlmDerivedEmbedding",
+  "DepressionDetection",
+  "analyzes",
+  "SocialMediaText",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern"
+]
+
+Triples:
+[
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "demonstrates",
+    "object": "CognitiveReliability",
+    "chunk": "completedocument8",
+    "context": "Most LLMs demonstrate strong cognitive reli-ability—especially inSafety,Interpretation, andInforma-tiveness—but show inconsistent affective skills inEmpathy andHelpfulness."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "showsInconsistent",
+    "object": "AffectiveSkill",
+    "chunk": "completedocument8",
+    "context": "Most LLMs demonstrate strong cognitive reli-ability—especially inSafety,Interpretation, andInforma-tiveness—but show inconsistent affective skills inEmpathy andHelpfulness."
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "isA",
+    "object": "ClosedSourceModel",
+    "chunk": "completedocument8",
+    "context": "Closed-source models such as GPT-4o and Gem-ini 2.0-Flash consistently outperform open-source models, achieving over 90% high-confidence ratings with the lowest incidence of low-scoring responses."
+  },
+  {
+    "subject": "model_gemini2_0_flash",
+    "relation": "isA",
+    "object": "ClosedSourceModel",
+    "chunk": "completedocument8",
+    "context": "Closed-source models such as GPT-4o and Gem-ini 2.0-Flash consistently outperform open-source models, achieving over 90% high-confidence ratings with the lowest incidence of low-scoring responses."
+  },
+  {
+    "subject": "ClosedSourceModel",
+    "relation": "outperforms",
+    "object": "OpenSourceModel",
+    "chunk": "completedocument8",
+    "context": "Closed-source models such as GPT-4o and Gem-ini 2.0-Flash consistently outperform open-source models, achieving over 90% high-confidence ratings with the lowest incidence of low-scoring responses."
+  },
+  {
+    "subject": "TopTierSystem",
+    "relation": "exhibitsFailureIn",
+    "object": "EmotionalResonance",
+    "chunk": "completedocument8",
+    "context": "Yet even top-tier sys-tems exhibit subtle failures in emotional resonance, indi-cating that advances in conversational safety have not been matched by equivalent progress in affective alignment."
+  },
+  {
+    "subject": "MentalHealthLLM",
+    "relation": "lacks",
+    "object": "EmotionalCalibration",
+    "chunk": "completedocument8",
+    "context": "Our findings highlight that the core limitation of current mental-health LLMs is not overt harm but a lack of con-sistent emotional calibration—responses that are accurate and safe yet fail to convey warmth or relational understand-ing."
+  },
+  {
+    "subject": "FineTuningStrategy",
+    "relation": "optimizes",
+    "object": "InformationalAccuracy",
+    "chunk": "completedocument8",
+    "context": "This “cognitive-affective gap” underscores the need for multi-dimensional fine-tuning strategies that jointly opti-mize informational accuracy and interpersonal sensitivity."
+  },
+  {
+    "subject": "FineTuningStrategy",
+    "relation": "optimizes",
+    "object": "InterpersonalSensitivity",
+    "chunk": "completedocument8",
+    "context": "This “cognitive-affective gap” underscores the need for multi-dimensional fine-tuning strategies that jointly opti-mize informational accuracy and interpersonal sensitivity."
+  },
+  {
+    "subject": "HumanEvaluationFramework",
+    "relation": "benchmarks",
+    "object": "TherapeuticBehavior",
+    "chunk": "completedocument8",
+    "context": "The multi-attribute human evaluation framework introduced here provides a transparent foundation for benchmarking therapeutic behaviors and advancing standardized assess-ment in digital mental health research."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "functionsAs",
+    "object": "CoCreatorInCare",
+    "chunk": "completedocument8",
+    "context": "It also supports re-framing LLMs from mere assistants to potentialco-creators in care, provided their design and deployment remain ethi-cally grounded and clinically supervised."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "doesNotReplace",
+    "object": "HumanTherapist",
+    "chunk": "completedocument8",
+    "context": "The models evaluated in this study are not intended to re-place human therapists, and there remains a significant risk that users may misinterpret or overly rely on AI-generated responses (Badawi et al. 2025a)."
+  },
+  {
+    "subject": "User",
+    "relation": "overlyReliesOn",
+    "object": "AiGeneratedResponse",
+    "chunk": "completedocument8",
+    "context": "The models evaluated in this study are not intended to re-place human therapists, and there remains a significant risk that users may misinterpret or overly rely on AI-generated responses (Badawi et al. 2025a)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "exhibits",
+    "object": "DemographicBias",
+    "chunk": "completedocument8",
+    "context": "Moreover, LLMs can ex-hibit demographic and cultural biases that may compromise fairness, particularly when applied to diverse populations (Obadinma et al. 2025)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "exhibits",
+    "object": "CulturalBias",
+    "chunk": "completedocument8",
+    "context": "Moreover, LLMs can ex-hibit demographic and cultural biases that may compromise fairness, particularly when applied to diverse populations (Obadinma et al. 2025)."
+  },
+  {
+    "subject": "DemographicBias",
+    "relation": "compromises",
+    "object": "Fairness",
+    "chunk": "completedocument8",
+    "context": "Moreover, LLMs can ex-hibit demographic and cultural biases that may compromise fairness, particularly when applied to diverse populations (Obadinma et al. 2025)."
+  },
+  {
+    "subject": "HumanAnnotator",
+    "relation": "reviews",
+    "object": "DistressingContent",
+    "chunk": "completedocument8",
+    "context": "The optimization for structured met-rics may overlook deeper therapeutic nuances, and the po-tential emotional burden on human annotators reviewing dis-tressing content was acknowledged and addressed."
+  },
+  {
+    "subject": "HumanAnnotator",
+    "relation": "experiences",
+    "object": "EmotionalBurden",
+    "chunk": "completedocument8",
+    "context": "The optimization for structured met-rics may overlook deeper therapeutic nuances, and the po-tential emotional burden on human annotators reviewing dis-tressing content was acknowledged and addressed."
+  },
+  {
+    "subject": "tool_ChatGPT",
+    "relation": "evaluatedIn",
+    "object": "SuicideRiskAssessment",
+    "chunk": "completedocument9",
+    "context": "Beyond human ex- pertise: the promise and limitations of ChatGPT in suicide risk assessment."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "evaluatedFor",
+    "object": "MentalHealthSupport",
+    "chunk": "completedocument9",
+    "context": "Can AI Relate: Testing Large Language Model Re- sponse for Mental Health Support."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "influences",
+    "object": "DiagnosticReasoning",
+    "chunk": "completedocument9",
+    "context": "Large language model influence on diagnostic reason- ing: a randomized clinical trial."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "usedIn",
+    "object": "ClinicalDecisionMaking",
+    "chunk": "completedocument9",
+    "context": "Evaluation and mitigation of the limitations of large language models in clinical decision- making."
+  },
+  {
+    "subject": "GenerativeAiChatbot",
+    "relation": "usedFor",
+    "object": "MentalHealthTreatment",
+    "chunk": "completedocument9",
+    "context": "Randomized trial of a generative AI chatbot for mental health treatment."
+  },
+  {
+    "subject": "LlmDerivedEmbedding",
+    "relation": "usedFor",
+    "object": "DepressionDetection",
+    "chunk": "completedocument9",
+    "context": "Interpretable Depres- sion Detection from Social Media Text Using LLM-Derived Embeddings."
+  },
+  {
+    "subject": "DepressionDetection",
+    "relation": "analyzes",
+    "object": "SocialMediaText",
+    "chunk": "completedocument9",
+    "context": "Interpretable Depres- sion Detection from Social Media Text Using LLM-Derived Embeddings."
+  }
+]

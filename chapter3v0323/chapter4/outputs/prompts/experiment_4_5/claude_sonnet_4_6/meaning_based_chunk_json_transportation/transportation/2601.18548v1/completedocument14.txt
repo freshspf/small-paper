@@ -1,0 +1,137 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument14",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument14
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+In this example, a ball is
+launched toward the goal mouth from different initial states,
+and the mobile manipulator reacts online by querying GCDF
+values and gradients and using the resulting projection as a
+time-varying control target. The target is recomputed at every
+timestep, yielding smooth and continuous motions that drive
+the robot toward interception. As visualized in Fig. 8, the robot
+approaches the incoming ball and makes contact to block the
+shot, preventing a goal.
+3) Benchmark Comparisons:In this part, we conduct a
+comprehensive benchmark study to demonstrate the effective-
+ness and superiority of the proposed trajectory optimization
+algorithm in complex environments.
+Environment Settings.As illustrated in Fig. 9, we con-
+struct a14m×14m map and randomly populate it with a
+prescribed number of rectangular obstacles placed at vary-
+
+13
+Fig. 9: Environment setting for benchmark evaluation. We
+generate 50 random feasible start–goal configurations in each
+map. The robot arm is a 6-DoF Kinova Gen3.
+ing heights. We remark that our setup is substantially more
+challenging than commonly used discrete pillar-forest envi-
+ronments: obstacles have diverse sizes and configurations, are
+allowed to overlap, and their vertical stacking naturally induces
+highly non-convex geometry across different height levels,
+which poses significant difficulty for coordinated base–arm
+motion. We consider three difficulty tiers by varying the
+obstacle count to80,100, and120, respectively. The robot
+starts at the map center with the arm initialized to the zero
+configuration (upright). We randomly sample 50 collision-
+free and kinematically feasible goal whole-body poses whose
+base locations are at least3m away from the center. For
+each difficulty tier, we generate 5 random maps, resulting in
+50×5 = 250planning trials per tier.
+Baselines.We remark that, under our benchmark setting,
+most existing methods fail to produce feasible solutions as
+the environments are deliberately dense and geometrically
+complex. We compare our method against four representa-
+tive baselines. (1)RRT[95]: a direct sampling-based planner
+that searches in the full whole-body configuration space and
+performs collision checking using the environment ESDF. (2)
+LocalDecomp[33]: a SOTA free-space decomposition method
+that acts as a local reactive controller. At each step, it con-
+structs link-wise safe regions from obstacle information and
+plans the next motion within these regions to maintain safety.
+For fairness, we assume the full map is known in advance
+and thus exclude perception-induced errors. (3)REMANI[10]
+and (4)TopAY[35]: SOTA two-stage pipelines that decouple
+base and arm planning in the front end, followed by trajectory
+optimization in the back end.REMANIplans the base using
+Hybrid A* and then searches for a discrete arm trajectory
+along the base path via constrained RRT*-Connect.TopAYfirst
+(a) Base Translation
+(b) Rotational Joints
+Fig. 10: Boxplots of configuration-space path-length ratios
+in randomized clutter benchmarks. Ratios are computed over
+successful trials as each baseline’s trajectory length normal-
+ized by ours (lower is better) under three obstacle densities
+(80/100/120): (a) base translation component and (b) rotational
+joint component.
+performs parallel topological search on the mobile base to
+generate multiple independent candidate base references, then
+refines each candidate by searching nearby arm motions using
+constrained Bi-RRT*, selecting the best trajectory among
+candidates with parallel acceleration. Both methods employ
+penalty-based back-end optimization that augments constraints
+into the objective as soft penalties, requiring tuning of penalty
+weights for reliable convergence. For collision avoidance, they
+rely on the environment ESDF and approximate the robot
+using a set of collision spheres, minimizing the sum of ESDF
+values over spheres. This formulation is common in aerial
+robotics, where the robot can often be approximated as a
+point (or a single sphere), and it has the practical advantage
+that the collision-evaluation cost does not grow with obstacle
+density. Tuning the penalty weights across multiple terms can
+be challenging for these methods. We therefore adopt a unified
+strategy that prioritizes collision costs and reports the best
+performance achieved after careful parameter tuning. The col-
+lision spheres are also carefully fitted to closely approximate
+the robot’s link geometries to avoid conservative behaviors.
+Finally, since our goal is a robust and efficient back-end
+trajectory optimization algorithm that can produce meaningful
+
+14
+Fig. 11: Visualization of representative trajectories generated byOursin randomized maps. For each map, we overlay 24 planned
+motions (different goals) and plot the corresponding end-effector traces. Rows correspond to obstacle densities (80/100/120).

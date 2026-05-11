@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TransportImpactQuantification",
+  "evaluates",
+  "AdaptationOption",
+  "ReinforcementLearning",
+  "usedFor",
+  "ReactiveControl",
+  "EmergencyRouting",
+  "isA",
+  "AdaptationPathway",
+  "couples",
+  "HazardEvolution",
+  "IntegratedAssessmentModel",
+  "ClimateSystem",
+  "MachineLearning",
+  "increases",
+  "IntegratedAssessmentModelAccessibility",
+  "Emulator",
+  "approximates",
+  "IntegratedAssessmentModelBehavior",
+  "ArtificialIntelligence",
+  "supports",
+  "ClosedLoopDecisionSupport",
+  "DecisionMaker",
+  "selects",
+  "Intervention",
+  "InfrastructureSystemPerformanceSimulation",
+  "includes",
+  "MultiModalTransport",
+  "uses",
+  "finds",
+  "TransportRelatedAdaptationPolicy",
+  "Agent",
+  "observes",
+  "State",
+  "Action",
+  "receives",
+  "Reward",
+  "modeledAs",
+  "Graph",
+  "Node",
+  "represents",
+  "TrafficAssignmentZone",
+  "Edge",
+  "SpatialAdjacency",
+  "DirectInfrastructureDamage",
+  "TravelDelay",
+  "TripCancellation",
+  "deployedIn",
+  "Zone",
+  "hasProperty",
+  "DrainageCapacity",
+  "LifetimeDuration",
+  "ClimateChange",
+  "ExtremePrecipitation",
+  "PluvialFlooding",
+  "City",
+  "UrbanTransportNetwork",
+  "Speed",
+  "Rerouting",
+  "RoadClosure",
+  "RailClosure",
+  "Accessibility",
+  "EconomicActivity",
+  "cloudburst_copenhagen2011",
+  "Disruption",
+  "DamageCost",
+  "ClimateAdaptationStrategy",
+  "InfrastructureDecision",
+  "ReinforcementLearningFramework",
+  "TransportationSystemSimulation",
+  "AdaptivePolicy",
+  "municipality_copenhagen",
+  "AdaptationIntervention",
+  "ClimateScenario",
+  "ClimateAdaptationPlanning",
+  "InterventionSequence",
+  "Impact",
+  "UrbanSystem",
+  "Transport",
+  "DecisionSupportTool"
+]
+
+Triples:
+[
+  {
+    "subject": "TransportImpactQuantification",
+    "relation": "evaluates",
+    "object": "AdaptationOption",
+    "chunk": "background",
+    "context": "Quantifying both direct and indirect transport impacts is therefore central for evaluating adaptation options and conducting cost-benefit analyses [Chang et al., 2010; Shahdaniet al., 2022; Ding and Wu, 2023 ]."
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "usedFor",
+    "object": "ReactiveControl",
+    "chunk": "background",
+    "context": "In flood-related settings, RL has been used mainly for reactive control and response (e.g., drainage/stormwater control, emergency routing) [Tianet al., 2023; Boweset al., 2021; Liet al., 2024; Fanet al., 2021 ]."
+  },
+  {
+    "subject": "EmergencyRouting",
+    "relation": "isA",
+    "object": "ReactiveControl",
+    "chunk": "background",
+    "context": "In flood-related settings, RL has been used mainly for reactive control and response (e.g., drainage/stormwater control, emergency routing) [Tianet al., 2023; Boweset al., 2021; Liet al., 2024; Fanet al., 2021 ]."
+  },
+  {
+    "subject": "AdaptationPathway",
+    "relation": "couples",
+    "object": "HazardEvolution",
+    "chunk": "background",
+    "context": "We target the complementary problem of learning long-horizon, fine-grained adaptation pathways that couple hazard evolution with infrastructure-system impacts."
+  },
+  {
+    "subject": "IntegratedAssessmentModel",
+    "relation": "couples",
+    "object": "ClimateSystem",
+    "chunk": "background",
+    "context": "Integrated assessment models (IAMs) couple representations of the climate system with human and technological systems (e.g., energy, land use, macroeconomy) to explore long-run consequences of alternative assumptions and policy choices."
+  },
+  {
+    "subject": "MachineLearning",
+    "relation": "increases",
+    "object": "IntegratedAssessmentModelAccessibility",
+    "chunk": "background",
+    "context": "A growing literature therefore uses AI and machine learning (ML) to increase the accessibility and decision-relevance of IAMs."
+  },
+  {
+    "subject": "Emulator",
+    "relation": "approximates",
+    "object": "IntegratedAssessmentModelBehavior",
+    "chunk": "background",
+    "context": "One line of work builds emulators (surrogates) that approximate IAM behavior at a fraction of the computational cost, enabling rapid exploration of scenario spaces and sensitivity analyses."
+  },
+  {
+    "subject": "ArtificialIntelligence",
+    "relation": "supports",
+    "object": "ClosedLoopDecisionSupport",
+    "chunk": "background",
+    "context": "Beyond acceleration, AI methods support (i) calibration and uncertainty analysis of high-dimensional model components, and (ii) closed-loop decision support, where policies are optimized against long-horizon, uncertain dynamics."
+  },
+  {
+    "subject": "DecisionMaker",
+    "relation": "selects",
+    "object": "Intervention",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "We study long-horizon climate adaptation planning as a se- quential decision problem in which a decision-maker selects spatially distributed interventions over multiple decades and evaluates them under uncertain climate-driven hazards."
+  },
+  {
+    "subject": "IntegratedAssessmentModel",
+    "relation": "couples",
+    "object": "InfrastructureSystemPerformanceSimulation",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "We implement the planning problem as an Integrated Assess- ment Model environment (Fig. 1) that couples (i) climate- driven forcing and hazard generation (e.g., sampling extreme- weather drivers from scenario-based projections), (ii) event- based physical impact modeling, (iii) infrastructure-system performance simulation (here, multi-modal transport), and (iv) valuation of direct and indirect consequences and costs of interventions."
+  },
+  {
+    "subject": "InfrastructureSystemPerformanceSimulation",
+    "relation": "includes",
+    "object": "MultiModalTransport",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "We implement the planning problem as an Integrated Assess- ment Model environment (Fig. 1) that couples (i) climate- driven forcing and hazard generation (e.g., sampling extreme- weather drivers from scenario-based projections), (ii) event- based physical impact modeling, (iii) infrastructure-system performance simulation (here, multi-modal transport), and (iv) valuation of direct and indirect consequences and costs of interventions."
+  },
+  {
+    "subject": "IntegratedAssessmentModel",
+    "relation": "uses",
+    "object": "ReinforcementLearning",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "Figure 1: Integrated Assessment Model using reinforcement learning to find the best sequence of transport-related adaptation policies for rainfall events in Copenhagen from 2024–2100."
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "finds",
+    "object": "TransportRelatedAdaptationPolicy",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "Figure 1: Integrated Assessment Model using reinforcement learning to find the best sequence of transport-related adaptation policies for rainfall events in Copenhagen from 2024–2100."
+  },
+  {
+    "subject": "Agent",
+    "relation": "observes",
+    "object": "State",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "At step t∈ {1, . . . , T}, the agent observess t∈ S, selectsa t∈ A, transitions tos t+1∼ P(· |s t, at)through the IAM dynam- ics, and receives a rewardr t=r(s t, at)."
+  },
+  {
+    "subject": "Agent",
+    "relation": "selects",
+    "object": "Action",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "At step t∈ {1, . . . , T}, the agent observess t∈ S, selectsa t∈ A, transitions tos t+1∼ P(· |s t, at)through the IAM dynam- ics, and receives a rewardr t=r(s t, at)."
+  },
+  {
+    "subject": "Agent",
+    "relation": "receives",
+    "object": "Reward",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "At step t∈ {1, . . . , T}, the agent observess t∈ S, selectsa t∈ A, transitions tos t+1∼ P(· |s t, at)through the IAM dynam- ics, and receives a rewardr t=r(s t, at)."
+  },
+  {
+    "subject": "IntegratedAssessmentModel",
+    "relation": "modeledAs",
+    "object": "Graph",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "To capture spatial dependence in flood and transport disruption, we model our representation of the IAM as a graphG= (V, E)with nodesi∈V(traffic-assignment zones) and edges(i, j)∈E(spatial adjacency)."
+  },
+  {
+    "subject": "Node",
+    "relation": "represents",
+    "object": "TrafficAssignmentZone",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "To capture spatial dependence in flood and transport disruption, we model our representation of the IAM as a graphG= (V, E)with nodesi∈V(traffic-assignment zones) and edges(i, j)∈E(spatial adjacency)."
+  },
+  {
+    "subject": "Edge",
+    "relation": "represents",
+    "object": "SpatialAdjacency",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "To capture spatial dependence in flood and transport disruption, we model our representation of the IAM as a graphG= (V, E)with nodesi∈V(traffic-assignment zones) and edges(i, j)∈E(spatial adjacency)."
+  },
+  {
+    "subject": "State",
+    "relation": "includes",
+    "object": "DirectInfrastructureDamage",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "The state at timetis{x i,t}with xi,t= Ii,t, Di,t, Ci,t,zi,t , whereI i,t,Di,t, andC i,tare IAM-derived impacts (described below) at stept(typically one year): direct infrastructure damage, travel delays, and trip cancellations."
+  },
+  {
+    "subject": "State",
+    "relation": "includes",
+    "object": "TravelDelay",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "The state at timetis{x i,t}with xi,t= Ii,t, Di,t, Ci,t,zi,t , whereI i,t,Di,t, andC i,tare IAM-derived impacts (described below) at stept(typically one year): direct infrastructure damage, travel delays, and trip cancellations."
+  },
+  {
+    "subject": "State",
+    "relation": "includes",
+    "object": "TripCancellation",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "The state at timetis{x i,t}with xi,t= Ii,t, Di,t, Ci,t,zi,t , whereI i,t,Di,t, andC i,tare IAM-derived impacts (described below) at stept(typically one year): direct infrastructure damage, travel delays, and trip cancellations."
+  },
+  {
+    "subject": "Intervention",
+    "relation": "deployedIn",
+    "object": "Zone",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "Once an intervention is deployed in a zone, it remains active for its defined lifetime, and its effectiveness decays over time."
+  },
+  {
+    "subject": "Action",
+    "relation": "hasProperty",
+    "object": "DrainageCapacity",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "Each possible action has different properties (drainage capacity, lifetime duration, conditions where it can be applied, implementation and maintenance costs) and effects, resulting in different sets of trade-offs between what, where, and when actions can be applied."
+  },
+  {
+    "subject": "Action",
+    "relation": "hasProperty",
+    "object": "LifetimeDuration",
+    "chunk": "problemformulationandiamenvironment1",
+    "context": "Each possible action has different properties (drainage capacity, lifetime duration, conditions where it can be applied, implementation and maintenance costs) and effects, resulting in different sets of trade-offs between what, where, and when actions can be applied."
+  }
+]

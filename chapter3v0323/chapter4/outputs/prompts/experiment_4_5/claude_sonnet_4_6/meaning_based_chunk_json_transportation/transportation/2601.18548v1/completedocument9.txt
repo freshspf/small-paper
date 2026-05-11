@@ -1,0 +1,167 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument9",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument9
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+The stan-
+dard loss functions designed for fixed-base manipulators fail to
+capture the unique properties of mobile manipulator GCDFs.
+We require modified loss formulations that account for the
+increased dimensionality and ensure the learned distance field
+exhibits the smoothness and gradient consistency necessary for
+effective collision avoidance optimization. We now present our
+solutions to these challenges.
+Data Preparation.Our data preparation process consists
+of two phases: (1) offline computation of zero-level sets, and
+(2) online sampling of representative workspace-configuration
+pairs with their corresponding GCDF values. As we noted
+earlier, when constructing the zero-level sets ofp, considering
+all possible base positions(qt
+x, qt
+y)would lead to data explo-
+sion and information redundancy, as the reachable workspace
+becomes unbounded when the base can translate freely. To
+mitigate this issue, we fix the base position at the origin
+(qt
+x=qt
+y= 0) during the offline phase, computing only a
+
+8
+representative subset of the true zero-level set:
+˜Z(p) ={q∈ Z(p)|qt
+x= 0, qt
+y= 0}(5)
+Specifically, as shown in Fig. 4(a), we first discretize the
+workspace around the robot center into aT×T×Tvolumetric
+grid. For each grid pointp, we compute a dense subset ˜Z(p)
+efficiently by concurrently solving the following unconstrained
+optimization problem from a batch of randomly sampled
+initial arm configurations ofNinitial arm and base rotational
+configurations using a quasi-Newton method [87]:
+min
+qf2
+s(p,q),(6)
+Note that we freeze the translational elements inqat the origin
+during optimization, focusing solely on finding optimal arm
+and base rotations. This subset ˜Z(p)addresses the computa-
+tional challenge and avoids the data explosion problem, but it
+inevitably loses information about base mobility.
+To recover the missing information during the online phase,
+we leverage a key insight about mobile manipulators:the arm’s
+relative reachability with respect to obstacles is translation-
+equivariant in the horizontal plane.. In other words, if a
+manipulator can reach a pointpfrom base position(0,0)
+with joint configurationqr, then it can reach pointp′from
+base position(∆x,∆y)with the same joint configurationqr,
+wherep′=p+ [∆x,∆y,0]⊤.
+Based on this observation, for a new query pointp=
+[px, py, pz]⊤, we can reconstruct its complete zero-level set
+Z(p)by aggregating the precomputed subsets from all grid
+pointsp icentered aroundpwith the same height, as illustrated
+in Fig. 4(b)-Fig. 4(c), while compensating for the horizontal
+displacement:
+Z(p) =[
+i:pi,z=pzn
+[pi,x,pi,y,qr⊤]⊤|qr∈˜Z(pi)o
+.(7)
+Intuitively, this is equivalent to virtually translating the robot
+base to positionp i, treating it as the new origin, and then
+combining the configurations from ˜Z(pi)to reach the target
+point. This concatenation of zero-level sets from theT×Tgrid
+pointsp i, with appropriate base position adjustments, recovers
+the rich information about base mobility that was sacrificed in
+the offline phase.
+For each workspace-configuration pair(p,q), the ground
+truth GCDF value is computed as:
+fg
+c(p,q) =sgn(f s) min
+qi∈Z(p)∥q−q i∥M,(8)
+whereMis the weight matrices defined in Definition 1,
+and sgn(f s)indicates the collision status determined by the
+sign of the SDF valuef s(p,q). This formulation accounts for
+both the joint-space distance and the horizontal displacement
+cost, providing a comprehensive measure of configuration
+proximity.
+Network Architecture and Loss Design.The Neural
+GCDF employs a 7-layer MLP architecture. The MLP is
+trained using the concatenation ofpandqas input, we
+randomly sampleb 1grid points in the workspace andb 2con-
+figurations for each point, resulting in an input tensor of size
+R(b1b2)×(3+n). The network outputs the corresponding GCDFTABLE I:Loss function design for training neural GCDF.
+Loss Definition
+Ldist1
+b1b2b1X
+i=1b2X
+j=1
+ˆfg
+c(pi, qj)−fg
+c(pi, qj)2
+Lgrad1
+b1b2b1X
+i=1b2X
+j=1 
+1−∇qˆfg
+c(pi,qj)T· ∇qfg
+c(pi,qj)
+∥∇qˆfg
+c(pi,qj)∥∥∇qfg
+c(pi,qj)∥!2
+Leikonal1
+b1b2b1X
+i=1b2X
+j=1(∥∇qfg
+c(p,q)∥M−1−1)2
+Ltension1
+b1b2b1X
+i=1b2X
+j=1∥∇qˆfg
+c(pi, qj)∥2
+value for each input pair, resulting in an output of sizeRb1×b2.
+The design of our neural GCDF loss function is inspired by the
+original CDF framework [43] and tailored to the theoretical
+properties of GCDF established in Theorem 1.

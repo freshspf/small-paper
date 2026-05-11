@@ -1,0 +1,277 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TradeOff",
+  "occursInCondition",
+  "MediumTraffic",
+  "figure_8",
+  "showsMetric",
+  "SuccessRate",
+  "ParetoFront",
+  "showsTradeOffBetween",
+  "DriverCost",
+  "EnergyCost",
+  "evaluatedIn",
+  "HighTraffic",
+  "includesMetric",
+  "PolicyNumber",
+  "referencedIn",
+  "table_5",
+  "table_4",
+  "evaluates",
+  "ParetoOptimalPolicy",
+  "hasPerformanceMetric",
+  "AvgSpeed",
+  "hasCostMetric",
+  "TotalCostOfOwnership",
+  "AutonomousDriving",
+  "RealTimeDecisionMaking",
+  "requires",
+  "HeavyDutyTruck",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "hasCharacteristic",
+  "TraditionalApproach",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "reliesOn",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "VehicleBehavior",
+  "governs",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "performs",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "appliedTo",
+  "ReinforcementLearning",
+  "ControlPolicy",
+  "learns",
+  "DeepRlAgent",
+  "LaneChanging",
+  "AdaptiveCruiseControl",
+  "RlApproach",
+  "ScalarRewardFunction",
+  "HierarchicalControlArchitecture",
+  "uses",
+  "HighLevelTacticalDecision",
+  "handles",
+  "LowLevelControl",
+  "PhysicsBasedModel",
+  "managedBy",
+  "TacticalDecision",
+  "LaneChange",
+  "Safety",
+  "TimeEfficiency",
+  "EnergyEfficiency",
+  "Environment",
+  "sumo_simulator",
+  "MicroscopicVehicleDynamics",
+  "Simulation",
+  "ThreeLaneHighwaySegment",
+  "MixedTraffic",
+  "PassengerCar",
+  "Truck",
+  "EgoVehicle",
+  "TractorSemitrailerCombination",
+  "TacticalDecisionMakingProblem",
+  "MultiObjectiveReinforcementLearningFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "TradeOff",
+    "relation": "occursInCondition",
+    "object": "MediumTraffic",
+    "chunk": "detailedresults2",
+    "context": "Figure 8: Pareto Front showing the trade off between driver cost and energy cost in medium traffic, along with the success rate."
+  },
+  {
+    "subject": "figure_8",
+    "relation": "showsMetric",
+    "object": "SuccessRate",
+    "chunk": "detailedresults2",
+    "context": "Figure 8: Pareto Front showing the trade off between driver cost and energy cost in medium traffic, along with the success rate."
+  },
+  {
+    "subject": "ParetoFront",
+    "relation": "showsTradeOffBetween",
+    "object": "DriverCost",
+    "chunk": "detailedresults3",
+    "context": "Figure 9: Pareto Front showing the trade off between driver cost and energy cost in high traffic, along with the success rate."
+  },
+  {
+    "subject": "ParetoFront",
+    "relation": "showsTradeOffBetween",
+    "object": "EnergyCost",
+    "chunk": "detailedresults3",
+    "context": "Figure 9: Pareto Front showing the trade off between driver cost and energy cost in high traffic, along with the success rate."
+  },
+  {
+    "subject": "ParetoFront",
+    "relation": "evaluatedIn",
+    "object": "HighTraffic",
+    "chunk": "detailedresults3",
+    "context": "Figure 9: Pareto Front showing the trade off between driver cost and energy cost in high traffic, along with the success rate."
+  },
+  {
+    "subject": "ParetoFront",
+    "relation": "includesMetric",
+    "object": "SuccessRate",
+    "chunk": "detailedresults3",
+    "context": "Figure 9: Pareto Front showing the trade off between driver cost and energy cost in high traffic, along with the success rate."
+  },
+  {
+    "subject": "PolicyNumber",
+    "relation": "referencedIn",
+    "object": "table_5",
+    "chunk": "detailedresults3",
+    "context": "The annotated numbers denote the policy numbers referred in the Table 5"
+  },
+  {
+    "subject": "table_4",
+    "relation": "evaluates",
+    "object": "ParetoOptimalPolicy",
+    "chunk": "detailedresults3",
+    "context": "Table 4: Evaluation of Pareto-optimal policies in Medium Traffic"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "evaluatedIn",
+    "object": "MediumTraffic",
+    "chunk": "detailedresults3",
+    "context": "Table 4: Evaluation of Pareto-optimal policies in Medium Traffic"
+  },
+  {
+    "subject": "table_5",
+    "relation": "evaluates",
+    "object": "ParetoOptimalPolicy",
+    "chunk": "detailedresults3",
+    "context": "Table 5: Evaluation of Pareto-optimal policies in High Traffic"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "evaluatedIn",
+    "object": "HighTraffic",
+    "chunk": "detailedresults3",
+    "context": "Table 5: Evaluation of Pareto-optimal policies in High Traffic"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "hasPerformanceMetric",
+    "object": "SuccessRate",
+    "chunk": "detailedresults3",
+    "context": "Table 4: Evaluation of Pareto-optimal policies in Medium Traffic\nPolicy Success Failure Max Step Avg. Speed Energy Driver Distance TCOP TCOP\nNumber Rate (%) Rate (%) Rate (%) (m/s) Cost (euros) Cost (euros) (m) (euros) per m (euros)"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "hasPerformanceMetric",
+    "object": "AvgSpeed",
+    "chunk": "detailedresults3",
+    "context": "Table 4: Evaluation of Pareto-optimal policies in Medium Traffic\nPolicy Success Failure Max Step Avg. Speed Energy Driver Distance TCOP TCOP\nNumber Rate (%) Rate (%) Rate (%) (m/s) Cost (euros) Cost (euros) (m) (euros) per m (euros)"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "hasCostMetric",
+    "object": "EnergyCost",
+    "chunk": "detailedresults3",
+    "context": "Table 4: Evaluation of Pareto-optimal policies in Medium Traffic\nPolicy Success Failure Max Step Avg. Speed Energy Driver Distance TCOP TCOP\nNumber Rate (%) Rate (%) Rate (%) (m/s) Cost (euros) Cost (euros) (m) (euros) per m (euros)"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "hasCostMetric",
+    "object": "DriverCost",
+    "chunk": "detailedresults3",
+    "context": "Table 4: Evaluation of Pareto-optimal policies in Medium Traffic\nPolicy Success Failure Max Step Avg. Speed Energy Driver Distance TCOP TCOP\nNumber Rate (%) Rate (%) Rate (%) (m/s) Cost (euros) Cost (euros) (m) (euros) per m (euros)"
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "hasCostMetric",
+    "object": "TotalCostOfOwnership",
+    "chunk": "detailedresults3",
+    "context": "Table 4: Evaluation of Pareto-optimal policies in Medium Traffic\nPolicy Success Failure Max Step Avg. Speed Energy Driver Distance TCOP TCOP\nNumber Rate (%) Rate (%) Rate (%) (m/s) Cost (euros) Cost (euros) (m) (euros) per m (euros)"
+  }
+]

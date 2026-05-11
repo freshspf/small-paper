@@ -1,0 +1,139 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: introduction1
+- section_title: Introduction
+- page_start: 1
+- page_end: 2
+
+INPUT TEXT CHUNK:
+Reducing fatalities and increasing the survival rate in road
+transport remains a global challenge, despite the rapid deploy-
+ment of advanced safety technologies such as Advanced Driver
+Assistance Systems (ADAS) and Automated Driving Systems
+(ADS). While these technological advancements are widely pro-
+moted for their potential to improve road safety, a reduction in
+serious and fatal crashes has not yet materialised. Achieving
+meaningful and measurable safety gain requires a comprehen-
+sive approach that integrates public perception and infrastructure
+readiness into every stage of system design and throughout the
+operational life cycle [ 1,2]. Neglecting these essential interac-
+tions between people, technology and infrastructure not only
+undermines the potential benefits of automation but may also
+introduce new risks that might increase the likelihood of serious
+or fatal incidents [ 3,4]. The safe deployment of these tech-
+nologies depends on social acceptance and the adaptability of
+existing road infrastructure, factors often overlooked in techni-
+cal analyses. Statistical evidence reinforces the necessity of a
+systemic approach. The World Health Organisation reports that
+1.9 million people die each year from road traffic injuries and
+millions suffer from disability [5].
+Persistence or rising Killed or Seriously Injured (KSI) statis-
+tics worldwide demonstrate that current strategies, often built
+∗Corresponding Author
+Email address:halima.el-badaoui@warwick.ac.uk(Halima El
+Badaoui)around retrospective crash data, are not achieving the targeted
+reductions in harm [ 5,6]. Multiple critical factors from road
+geometry, infrastructure quality and driver behaviour impact the
+severity of road crashes and their outcomes[ 1]. If strategies and
+action plans fail to address the combined and evolving effects of
+these factors, especially as new technologies are introduced, pre-
+ventable losses will continue to occur [ 7]. Traditional analytical
+methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA),
+Event Tree Analysis (ETA), Failure Mode and Effects Analy-
+sis (FMEA), and Hazard and Operability Analysis (HAZOP),
+alongside road-specific approaches such as blackspot analysis[ 8],
+and crash-based statistical models, remain reactive and limited
+in scope. They mainly focus on historical collision data and
+correlations, rather than the underlying systemic causes of risk
+[9–11]. These methods tend to assume that risk is static and pre-
+dictable and overlook feedback loops and emergent properties
+arising from stakeholder interactions. The current stagnation
+in fatality and injury reduction signals the need to shift from
+retrospective crash data analysis toward continuous system-level
+risk monitoring [12–14].
+Recent developments in safety science, particularly the System-
+Theoretic Accident Model and Processes (STAMP) perspec-
+tive, have helped shift the focus from linear accident causation
+to understanding accidents as emergent properties of complex
+socio-technical systems[ 15,16]. STAMP-based method, such
+as System-Theoretic Process Analysis (STPA), incorporates sys-
+tem thinking to enable hazard identification and the definition of
+safety constraints across technical, human and organisational fac-arXiv:2601.14292v1  [physics.soc-ph]  14 Jan 2026
+
+tors. However, while systems thinking can reveal what might go
+wrong, it does not guarantee that identified hazards and assump-
+tions will remain valid once systems are deployed [ 17]. The
+challenge of maintaining the validity of assumptions throughout
+the entire lifecycle, particularly as road systems adapt to techno-
+logical, behavioural and policy changes, remains insufficiently
+addressed.
+1.1. Literature Review
+Recent national and international road safety reports high-
+light that the persistent issue of reducing injury rates remains
+unresolved. In the United Kingdom, recent statistics published
+by the Department for Transport (DfT) report that "There has
+been no significant reduction in serious injuries". Despite years
+of investigation and investment in road safety programmes, the
+progress in reducing fatalities has stagnated. In [ 18],the authors
+further highlights a critical mismatch between global estimates
+of road safety performance and local data. This discrepancy
+creates uncertainty regarding what is actually being addressed
+by policymakers and researchers. which may help explain the
+lack of improvement in road safety outcomes. Traditional ap-
+proaches focus mainly on road safety behaviour, treating road
+safety as a transport issue.

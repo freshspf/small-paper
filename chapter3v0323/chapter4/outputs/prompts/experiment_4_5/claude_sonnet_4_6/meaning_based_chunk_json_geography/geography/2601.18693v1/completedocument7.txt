@@ -1,0 +1,128 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument7",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument7
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+The time when each
+satellite reaches its first pericentric passage is marked by a filled circle.
+blue corresponding to the earliest stripped particles and red to the
+mostrecentlystripped.Wedonotplotseparatetracksforthestripped
+DM and stars as no significant difference is observed between the
+average final orbital energy or angular momentum of stars and DM
+provided they are stripped at the same point in time.
+Particles stripped later consistently occupy lower energy and an-
+gular momentum states than those stripped earlier, independent of
+the satellite mass ratio. We do not plot separate tracks for stripped
+DM and stars as no significant difference is observed between their
+average final orbital energy or angular momentum when stripped at
+thesameepoch.Thisreflectsthefactthat,inthesatellite’srestframe,
+stripped stars and DM are distributed approximately symmetrically
+about zero (e.g. Johnston 1998), acquiring no systematic offset at
+a fixed stripping time. The observed offset between the host-frame
+distributions of stripped DM and stars is instead a consequence of
+their different stripping histories along the satellite’s decaying orbit.
+Stars are stripped predominantly after the satellite has already lost
+orbitalenergyandangularmomentum,whileDMisstrippedearlier.
+The magnitude of this offset scales with satellite mass ratio, since
+more massive satellites experience faster orbital decay (Figure 3).
+This effect is particularly important for high-mass satellites. As
+shown in Section 3.2, strong dynamical friction causes these satel-
+lites to lose orbital energy and angular momentum rapidly. As a
+result, stripped stars from massive satellites can fall to very low en-
+ergies and angular momenta, often ending up close to or within the
+central galaxy. In contrast, DM is always stripped early during the
+infall, retaining a broader energy and angular momentum distribu-
+tion and remaining more widely distributed throughout the cluster
+halo. Consequently, the gap in the energies and angular momenta of
+stripped stars and DM increases as the satellite–to–host mass ratio
+decreases.
+Varying orbital circularity (which can be explored in the inter-
+active version of this plot) does not produce any significant corre-sponding change in the final orbital energy distribution, although it
+does affect the final angular momentum distribution (partly because
+lower-circularityorbitsbeginwithlowerangularmomentum).How-
+ever, decreasing circularity reduces the average angular momentum
+ofbothstellaranddark-mattercomponentsinsimilarfashion,sothis
+does not substantially contribute to the phase-space offset between
+them.
+3.3.2 Dependence on mass ratio
+Figure 5 shows the ratio of the mean specific orbital energy (top)
+andangularmomentum(bottom)ofstrippedstarstothatofstripped
+DM as a function of the satellite–to–host mass ratio. Error bars
+denote the1𝜎dispersion across orbital circularities, weighted by
+the circularity probability distribution. Fainter square markers and
+error bars indicate results obtained when excluding particles within
+100kpcofthecluster’scentralgalaxy,correspondingtoacommonly
+used boundary to isolate the ICL (e.g. Brough et al. 2024; Butler
+et al. 2025). In both panels, we fit the model
+𝑦(𝑥)=𝐴+𝐵exp(−𝑘𝑥)(4)
+using Markov Chain Monte Carlo (MCMC) sampling with uninfor-
+mative priors. Data points are again weighted according to orbital
+circularity distribution (Figure 1a), with weights applied directly to
+the per-point log-likelihood. Sampling is performed with the NUTS
+(Homan & Gelman 2014) algorithm implemented inPyMC(Abril-
+Plaetal.2023),andconvergenceisverifiedusingstandarddiagnos-
+tics.
+For the most unequal-mass mergers, stars and DM exhibit almost
+identical mean specific orbital energies and angular momenta. The
+twocomponentsonlybegintodivergeformorecomparablemassra-
+tios.Ata1:3satellite–to–hostmassratio,starshaveonaverageabout
+60%oftheorbitalenergyandonly∼20%oftheangularmomentum
+ofthestrippedDM,indicatingthatstrippedstellarmaterialbecomes
+significantly more bound and dynamically colder than the stripped
+DM.
+Excluding the inner 100 kpc leaves the stellar–to–DM ratios un-
+changed at disparate ratios but begins to diverge at mass ratios of
+∼1:10.Atclosermassratios,thestellar–to–DMenergyratioremains
+higher than in the full sample, implying that the strongest energy
+offsets are driven by stars deposited at small radii. This reflects the
+fact that, in near-equal mergers, a large fraction of stripped stellar
+mass settles into the central galaxy, while the corresponding DM is
+distributedthroughouttheclusterhalo.Theangularmomentumratio
+shows a similar but much weaker response to the radial cut.
+The evolution and dispersion in angular momentum ratios is sub-
+stantially larger than for the orbital energy.

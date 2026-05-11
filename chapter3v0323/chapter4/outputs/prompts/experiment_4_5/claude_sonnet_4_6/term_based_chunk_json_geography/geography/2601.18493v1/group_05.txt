@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "BuildingFunctionClassification",
+  "operatesAt",
+  "ObjectLevelTask",
+  "DamageLevelClassification",
+  "uses",
+  "BoundingBox",
+  "DisasterTypeClassification",
+  "SceneLevelTask",
+  "BuildingCounting",
+  "StructuredReportGeneration",
+  "derivedFrom",
+  "SubImage",
+  "DisasterInsightBenchmark",
+  "hasUniqueBuildingInstances",
+  "112507BuildingInstances",
+  "hasTotalInstructionInstances",
+  "270096InstructionFollowingInstances",
+  "hasTrainingInstances",
+  "202837TrainingInstances",
+  "hasEvaluationInstances",
+  "67259EvaluationInstances",
+  "ClassificationTask",
+  "formulatedAs",
+  "ClosedSetPrediction",
+  "requiresSelectionFrom",
+  "PredefinedCategorySet",
+  "MultiPromptEvaluation",
+  "designedFor",
+  "VisionLanguageModel",
+  "hasPromptCategoryCount",
+  "SixPromptCategories",
+  "PromptCategory",
+  "hasInstance",
+  "SimpleDirectClassificationPrompt",
+  "AnalystStyleQueryPrompt",
+  "ShortConciseInstructionPrompt",
+  "ExplicitReasoningCuePrompt",
+  "ConversationalPrompt",
+  "HumanitarianAssessmentContextPrompt",
+  "ImagePatch",
+  "hasSpatialDimension",
+  "256x256Pixels",
+  "mayContain",
+  "BuildingInstance",
+  "SatelliteImagery",
+  "DisasterResponse",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "BuildingLevelAssessment",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "FEMA",
+  "PhysicalDamage",
+  "DamagedBuilding",
+  "Hospital",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "BuildingFunction",
+  "BuildingUse",
+  "LargeScaleHazard",
+  "LinköpingUniversity",
+  "Vantor",
+  "ComputerVisionLaboratory",
+  "RemoteSensing",
+  "DisasterAssessment",
+  "Dataset",
+  "DamageMapping",
+  "ChangeAnalysis",
+  "xBD",
+  "BRIGHT",
+  "FloodNet"
+]
+
+Triples:
+[
+  {
+    "subject": "BuildingFunctionClassification",
+    "relation": "operatesAt",
+    "object": "ObjectLevelTask",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Building Function Classification and Damage Level Classification operate at the object level, using individual bounding-box instances."
+  },
+  {
+    "subject": "DamageLevelClassification",
+    "relation": "operatesAt",
+    "object": "ObjectLevelTask",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Building Function Classification and Damage Level Classification operate at the object level, using individual bounding-box instances."
+  },
+  {
+    "subject": "BuildingFunctionClassification",
+    "relation": "uses",
+    "object": "BoundingBox",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Building Function Classification and Damage Level Classification operate at the object level, using individual bounding-box instances."
+  },
+  {
+    "subject": "DamageLevelClassification",
+    "relation": "uses",
+    "object": "BoundingBox",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Building Function Classification and Damage Level Classification operate at the object level, using individual bounding-box instances."
+  },
+  {
+    "subject": "DisasterTypeClassification",
+    "relation": "operatesAt",
+    "object": "SceneLevelTask",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In contrast, Disaster Type Classification, Building Counting, and Structured Report Generation operate at the scene level, using summarized building metadata derived from all structures within a sub-image."
+  },
+  {
+    "subject": "BuildingCounting",
+    "relation": "operatesAt",
+    "object": "SceneLevelTask",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In contrast, Disaster Type Classification, Building Counting, and Structured Report Generation operate at the scene level, using summarized building metadata derived from all structures within a sub-image."
+  },
+  {
+    "subject": "StructuredReportGeneration",
+    "relation": "operatesAt",
+    "object": "SceneLevelTask",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In contrast, Disaster Type Classification, Building Counting, and Structured Report Generation operate at the scene level, using summarized building metadata derived from all structures within a sub-image."
+  },
+  {
+    "subject": "SceneLevelTask",
+    "relation": "derivedFrom",
+    "object": "SubImage",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "using summarized building metadata derived from all structures within a sub-image."
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "hasUniqueBuildingInstances",
+    "object": "112507BuildingInstances",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "While the benchmark contains 112,507 unique building-centered instances, each instance participates in multiple tasks with varying levels of granularity."
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "hasTotalInstructionInstances",
+    "object": "270096InstructionFollowingInstances",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "this design yields a total of 270,096 instruction-following instances across the benchmark (202,837 for training and 67,259 for evaluation)"
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "hasTrainingInstances",
+    "object": "202837TrainingInstances",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "this design yields a total of 270,096 instruction-following instances across the benchmark (202,837 for training and 67,259 for evaluation)"
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "hasEvaluationInstances",
+    "object": "67259EvaluationInstances",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "this design yields a total of 270,096 instruction-following instances across the benchmark (202,837 for training and 67,259 for evaluation)"
+  },
+  {
+    "subject": "ClassificationTask",
+    "relation": "formulatedAs",
+    "object": "ClosedSetPrediction",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "All classification tasks in DisasterInsight are formulated as closed-set, multi-option prediction problems."
+  },
+  {
+    "subject": "ClosedSetPrediction",
+    "relation": "requiresSelectionFrom",
+    "object": "PredefinedCategorySet",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Models are instructed to select exactly one label from a predefined category set (e.g., building function, damage level, or disaster type)"
+  },
+  {
+    "subject": "MultiPromptEvaluation",
+    "relation": "designedFor",
+    "object": "VisionLanguageModel",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "Vision–language models are known to be sensitive to prompt phrasing. To reduce reliance on any single instruction style, DisasterInsight evaluates all tasks under prompt diversity."
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "uses",
+    "object": "MultiPromptEvaluation",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "To reduce reliance on any single instruction style, DisasterInsight evaluates all tasks under prompt diversity."
+  },
+  {
+    "subject": "MultiPromptEvaluation",
+    "relation": "hasPromptCategoryCount",
+    "object": "SixPromptCategories",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "We design six prompt categories that vary in tone, structure, and contextual framing"
+  },
+  {
+    "subject": "PromptCategory",
+    "relation": "hasInstance",
+    "object": "SimpleDirectClassificationPrompt",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "We design six prompt categories that vary in tone, structure, and contextual framing: (i) simple direct classification, (ii) analyst-style queries, (iii) short and concise instructions, (iv) instructions with explicit reasoning cues, (v) conversational prompts, and (vi) prompts framed in a humanitarian assessment context."
+  },
+  {
+    "subject": "PromptCategory",
+    "relation": "hasInstance",
+    "object": "AnalystStyleQueryPrompt",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "We design six prompt categories that vary in tone, structure, and contextual framing: (i) simple direct classification, (ii) analyst-style queries, (iii) short and concise instructions, (iv) instructions with explicit reasoning cues, (v) conversational prompts, and (vi) prompts framed in a humanitarian assessment context."
+  },
+  {
+    "subject": "PromptCategory",
+    "relation": "hasInstance",
+    "object": "ShortConciseInstructionPrompt",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "We design six prompt categories that vary in tone, structure, and contextual framing: (i) simple direct classification, (ii) analyst-style queries, (iii) short and concise instructions, (iv) instructions with explicit reasoning cues, (v) conversational prompts, and (vi) prompts framed in a humanitarian assessment context."
+  },
+  {
+    "subject": "PromptCategory",
+    "relation": "hasInstance",
+    "object": "ExplicitReasoningCuePrompt",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "We design six prompt categories that vary in tone, structure, and contextual framing: (i) simple direct classification, (ii) analyst-style queries, (iii) short and concise instructions, (iv) instructions with explicit reasoning cues, (v) conversational prompts, and (vi) prompts framed in a humanitarian assessment context."
+  },
+  {
+    "subject": "PromptCategory",
+    "relation": "hasInstance",
+    "object": "ConversationalPrompt",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "We design six prompt categories that vary in tone, structure, and contextual framing: (i) simple direct classification, (ii) analyst-style queries, (iii) short and concise instructions, (iv) instructions with explicit reasoning cues, (v) conversational prompts, and (vi) prompts framed in a humanitarian assessment context."
+  },
+  {
+    "subject": "PromptCategory",
+    "relation": "hasInstance",
+    "object": "HumanitarianAssessmentContextPrompt",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "We design six prompt categories that vary in tone, structure, and contextual framing: (i) simple direct classification, (ii) analyst-style queries, (iii) short and concise instructions, (iv) instructions with explicit reasoning cues, (v) conversational prompts, and (vi) prompts framed in a humanitarian assessment context."
+  },
+  {
+    "subject": "ImagePatch",
+    "relation": "hasSpatialDimension",
+    "object": "256x256Pixels",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In dense urban scenes, a single 256×256 image patch may contain over one hundred building instances."
+  },
+  {
+    "subject": "ImagePatch",
+    "relation": "mayContain",
+    "object": "BuildingInstance",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "In dense urban scenes, a single 256×256 image patch may contain over one hundred building instances."
+  }
+]

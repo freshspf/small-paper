@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "q_heart",
+  "isType",
+  "EcgLanguageModel",
+  "mds_ed",
+  "MultimodalClassificationModel",
+  "comprisesModelFor",
+  "deterioration",
+  "icu",
+  "mortality",
+  "unipact",
+  "achievesAuroc",
+  "score_89_37",
+  "outperformsModel",
+  "BaselineMethod",
+  "surpassesModel",
+  "demonstratesStrongPerformanceOn",
+  "sub_tasks_883",
+  "sub_tasks_623",
+  "benchmarkedAgainst",
+  "gpt_5_chat",
+  "gemini_2_5_pro",
+  "ProprietaryLlm",
+  "fineTunedOn",
+  "TaskSpecificData",
+  "processesData",
+  "RawEcgWaveform",
+  "LlmApi",
+  "promptedIn",
+  "ZeroShotManner",
+  "givenInput",
+  "TextualDescription",
+  "Diagnosis",
+  "framework_unipact",
+  "isA",
+  "UnifiedFramework",
+  "integrates",
+  "StructuredEhrData",
+  "usedFor",
+  "LlmBasedPrognosis",
+  "NumericalEhr",
+  "translatedInto",
+  "SemanticPrompt",
+  "fusedWith",
+  "DeepEcgFeature",
+  "PatientPrognosis",
+  "IcuAdmission",
+  "TreatmentSelection",
+  "RiskIntervention",
+  "Clinician",
+  "Prognosis",
+  "HolisticView",
+  "StaticBaseline",
+  "DynamicState",
+  "AcutePhysiologicalSignal",
+  "Electrocardiogram",
+  "Comorbidity",
+  "Ehr",
+  "TWaveInversion",
+  "CriticalMortalityRisk",
+  "AbnormalPotassiumLevel",
+  "HypertensionHistory",
+  "CrossModalReasoning",
+  "ComputationalPrognosis",
+  "MachineLearningModel",
+  "SingleTaskPredictor",
+  "DenseSignal",
+  "UniPACT",
+  "MultimodalPrognosticQuestionAnswering",
+  "DedicatedWaveformEncoder",
+  "TwelveLeadEcgSignal",
+  "StructuredPromptingMechanism",
+  "NumericalData",
+  "UniPACTFramework",
+  "PrognosticQuestionAnswering",
+  "GenerativeModel",
+  "UniPACTArchitecture",
+  "EcgEncoder",
+  "LargeLanguageModel",
+  "MultimodalRepresentation",
+  "FinalPrediction"
+]
+
+Triples:
+[
+  {
+    "subject": "q_heart",
+    "relation": "isType",
+    "object": "EcgLanguageModel",
+    "chunk": "results",
+    "context": "The baselines include two recent ECG–language models, ECG-Chat [15] and Q-HEART [16], as well as a specialized multimodal classification model, MDS-ED [3]."
+  },
+  {
+    "subject": "mds_ed",
+    "relation": "isType",
+    "object": "MultimodalClassificationModel",
+    "chunk": "results",
+    "context": "The baselines include two recent ECG–language models, ECG-Chat [15] and Q-HEART [16], as well as a specialized multimodal classification model, MDS-ED [3]."
+  },
+  {
+    "subject": "mds_ed",
+    "relation": "comprisesModelFor",
+    "object": "deterioration",
+    "chunk": "results",
+    "context": "The latter comprises two independently trained models: one for Deterioration, and another for Deterioration, ICU, and Mortality."
+  },
+  {
+    "subject": "mds_ed",
+    "relation": "comprisesModelFor",
+    "object": "icu",
+    "chunk": "results",
+    "context": "The latter comprises two independently trained models: one for Deterioration, and another for Deterioration, ICU, and Mortality."
+  },
+  {
+    "subject": "mds_ed",
+    "relation": "comprisesModelFor",
+    "object": "mortality",
+    "chunk": "results",
+    "context": "The latter comprises two independently trained models: one for Deterioration, and another for Deterioration, ICU, and Mortality."
+  },
+  {
+    "subject": "unipact",
+    "relation": "achievesAuroc",
+    "object": "score_89_37",
+    "chunk": "results",
+    "context": "UniPACT achieves an overall AUROC of 89.37%, outperforming all baselines."
+  },
+  {
+    "subject": "unipact",
+    "relation": "outperformsModel",
+    "object": "BaselineMethod",
+    "chunk": "results",
+    "context": "UniPACT achieves an overall AUROC of 89.37%, outperforming all baselines."
+  },
+  {
+    "subject": "unipact",
+    "relation": "surpassesModel",
+    "object": "mds_ed",
+    "chunk": "results",
+    "context": "Notably, it surpasses the highly specialized MDS-ED model, highlighting the strength of our framework."
+  },
+  {
+    "subject": "unipact",
+    "relation": "demonstratesStrongPerformanceOn",
+    "object": "sub_tasks_883",
+    "chunk": "results",
+    "context": "UniPACT demonstrates strong performance on 883 sub-tasks, a significant increase from the 623 achieved by the MDS-ED, indicating greater reliability across a wider range of clinical scenarios."
+  },
+  {
+    "subject": "mds_ed",
+    "relation": "demonstratesStrongPerformanceOn",
+    "object": "sub_tasks_623",
+    "chunk": "results",
+    "context": "UniPACT demonstrates strong performance on 883 sub-tasks, a significant increase from the 623 achieved by the MDS-ED, indicating greater reliability across a wider range of clinical scenarios."
+  },
+  {
+    "subject": "unipact",
+    "relation": "benchmarkedAgainst",
+    "object": "gpt_5_chat",
+    "chunk": "results",
+    "context": "We conducted an exploratory study to benchmark UniPACT against powerful, proprietary LLMs like GPT-5-Chat and Gemini-2.5 Pro, as shown in Table 2."
+  },
+  {
+    "subject": "unipact",
+    "relation": "benchmarkedAgainst",
+    "object": "gemini_2_5_pro",
+    "chunk": "results",
+    "context": "We conducted an exploratory study to benchmark UniPACT against powerful, proprietary LLMs like GPT-5-Chat and Gemini-2.5 Pro, as shown in Table 2."
+  },
+  {
+    "subject": "gpt_5_chat",
+    "relation": "isType",
+    "object": "ProprietaryLlm",
+    "chunk": "results",
+    "context": "We conducted an exploratory study to benchmark UniPACT against powerful, proprietary LLMs like GPT-5-Chat and Gemini-2.5 Pro, as shown in Table 2."
+  },
+  {
+    "subject": "gemini_2_5_pro",
+    "relation": "isType",
+    "object": "ProprietaryLlm",
+    "chunk": "results",
+    "context": "We conducted an exploratory study to benchmark UniPACT against powerful, proprietary LLMs like GPT-5-Chat and Gemini-2.5 Pro, as shown in Table 2."
+  },
+  {
+    "subject": "unipact",
+    "relation": "fineTunedOn",
+    "object": "TaskSpecificData",
+    "chunk": "results",
+    "context": "While UniPACT is fine-tuned on the task-specific data and processes raw ECG waveforms, the LLM APIs were prompted in a zero-shot manner and were given atextual description and diagnosesof the ECG findings instead of the raw signal itself."
+  },
+  {
+    "subject": "unipact",
+    "relation": "processesData",
+    "object": "RawEcgWaveform",
+    "chunk": "results",
+    "context": "While UniPACT is fine-tuned on the task-specific data and processes raw ECG waveforms, the LLM APIs were prompted in a zero-shot manner and were given atextual description and diagnosesof the ECG findings instead of the raw signal itself."
+  },
+  {
+    "subject": "LlmApi",
+    "relation": "promptedIn",
+    "object": "ZeroShotManner",
+    "chunk": "results",
+    "context": "While UniPACT is fine-tuned on the task-specific data and processes raw ECG waveforms, the LLM APIs were prompted in a zero-shot manner and were given atextual description and diagnosesof the ECG findings instead of the raw signal itself."
+  },
+  {
+    "subject": "LlmApi",
+    "relation": "givenInput",
+    "object": "TextualDescription",
+    "chunk": "results",
+    "context": "While UniPACT is fine-tuned on the task-specific data and processes raw ECG waveforms, the LLM APIs were prompted in a zero-shot manner and were given atextual description and diagnosesof the ECG findings instead of the raw signal itself."
+  },
+  {
+    "subject": "LlmApi",
+    "relation": "givenInput",
+    "object": "Diagnosis",
+    "chunk": "results",
+    "context": "While UniPACT is fine-tuned on the task-specific data and processes raw ECG waveforms, the LLM APIs were prompted in a zero-shot manner and were given atextual description and diagnosesof the ECG findings instead of the raw signal itself."
+  },
+  {
+    "subject": "framework_unipact",
+    "relation": "isA",
+    "object": "UnifiedFramework",
+    "chunk": "conclusion",
+    "context": "We presented UniPACT, a unified framework that effectively integrates raw ECG waveforms and structured EHR data for LLM-based prognosis."
+  },
+  {
+    "subject": "framework_unipact",
+    "relation": "integrates",
+    "object": "RawEcgWaveform",
+    "chunk": "conclusion",
+    "context": "We presented UniPACT, a unified framework that effectively integrates raw ECG waveforms and structured EHR data for LLM-based prognosis."
+  },
+  {
+    "subject": "framework_unipact",
+    "relation": "integrates",
+    "object": "StructuredEhrData",
+    "chunk": "conclusion",
+    "context": "We presented UniPACT, a unified framework that effectively integrates raw ECG waveforms and structured EHR data for LLM-based prognosis."
+  },
+  {
+    "subject": "framework_unipact",
+    "relation": "usedFor",
+    "object": "LlmBasedPrognosis",
+    "chunk": "conclusion",
+    "context": "We presented UniPACT, a unified framework that effectively integrates raw ECG waveforms and structured EHR data for LLM-based prognosis."
+  },
+  {
+    "subject": "NumericalEhr",
+    "relation": "translatedInto",
+    "object": "SemanticPrompt",
+    "chunk": "conclusion",
+    "context": "By translating numerical EHR into semantic prompts and fusing them with deep ECG features, our model achieves superior performance on the MDS-ED benchmark, outperforming established baselines."
+  },
+  {
+    "subject": "SemanticPrompt",
+    "relation": "fusedWith",
+    "object": "DeepEcgFeature",
+    "chunk": "conclusion",
+    "context": "By translating numerical EHR into semantic prompts and fusing them with deep ECG features, our model achieves superior performance on the MDS-ED benchmark, outperforming established baselines."
+  }
+]

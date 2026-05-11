@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "NonLinearRelationship",
+  "involves",
+  "SnowDensityField",
+  "NormalizedSnowDepthProxy",
+  "relatedTo",
+  "model_physEInv",
+  "estimates",
+  "parameter_hiddenGeophysicalParameters",
+  "predicts",
+  "parameter_snowDepth",
+  "locatedIn",
+  "region_arctic",
+  "reconstructs",
+  "project_harp",
+  "focusesOn",
+  "region_polarRegions",
+  "instrument_icesat",
+  "observes",
+  "feature_arcticSeaIce",
+  "measuredIn",
+  "parameter_iceThickness",
+  "phenomenon_atmosphericRivers",
+  "influences",
+  "occursIn",
+  "Snow",
+  "overlies",
+  "SeaIce",
+  "region_centralArcticOcean",
+  "classifiedAs",
+  "RegionOfImportance",
+  "isComponentOf",
+  "system_globalClimate",
+  "usedFor",
+  "ParameterExtraction",
+  "DataCollection",
+  "parameter_snowAlbedo",
+  "categorizedAs",
+  "TimeSeries",
+  "parameter_seawaterDensity",
+  "ConstantParameter",
+  "parameter_seaIceDensity",
+  "HydrostaticEquation",
+  "produces",
+  "UncertaintyInSnowDepth",
+  "causesErrorIn",
+  "SeaIceThicknessEstimates",
+  "ProbabilityDistribution",
+  "actsAs",
+  "EvaluationCriterion",
+  "Model",
+  "generalizesProcess",
+  "GenerativeProcess",
+  "SnowDepth",
+  "ArcticSeaIceThickness",
+  "ReanalysisProduct",
+  "era5",
+  "SeaIceThermodynamics",
+  "SnowDensity",
+  "PhysicsEncodedNeuralNetwork",
+  "InverseModeling",
+  "SeaIcePhysics",
+  "HydrostaticBalanceEquation",
+  "IntrinsicPhysicalParameter",
+  "LakeTemperatureModeling",
+  "Tomography",
+  "SeismicWaveformAnalysis",
+  "MaterialsScience",
+  "Hydrology",
+  "PhysicalPrior",
+  "PosteriorDistribution",
+  "DataSparseDomain",
+  "ForwardModel",
+  "NoisyInput",
+  "system_arcticSeaIce",
+  "DynamicPhysicalSystem",
+  "TimeVaryingParameter",
+  "SnowVariable",
+  "SeaIceVariable",
+  "ModelLatentSpace",
+  "ArcticSnow"
+]
+
+Triples:
+[
+  {
+    "subject": "NonLinearRelationship",
+    "relation": "involves",
+    "object": "SnowDensityField",
+    "chunk": "baselines3",
+    "context": "This close correspondence confirms the model’s robustness and its ability to generalize the complex non-linear relationship between the input snow density field and the normalized snow depth proxy."
+  },
+  {
+    "subject": "NonLinearRelationship",
+    "relation": "involves",
+    "object": "NormalizedSnowDepthProxy",
+    "chunk": "baselines3",
+    "context": "This close correspondence confirms the model’s robustness and its ability to generalize the complex non-linear relationship between the input snow density field and the normalized snow depth proxy."
+  },
+  {
+    "subject": "SnowDensityField",
+    "relation": "relatedTo",
+    "object": "NormalizedSnowDepthProxy",
+    "chunk": "baselines3",
+    "context": "This close correspondence confirms the model’s robustness and its ability to generalize the complex non-linear relationship between the input snow density field and the normalized snow depth proxy."
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "estimates",
+    "object": "parameter_hiddenGeophysicalParameters",
+    "chunk": "conclusionandfuturework",
+    "context": "We presented PhysE-Inv, a physics-encoded inverse modeling framework designed to estimate time-varying hidden geophysical parameters from sparse observations to predict real-world Arctic snow depth."
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "predicts",
+    "object": "parameter_snowDepth",
+    "chunk": "conclusionandfuturework",
+    "context": "We presented PhysE-Inv, a physics-encoded inverse modeling framework designed to estimate time-varying hidden geophysical parameters from sparse observations to predict real-world Arctic snow depth."
+  },
+  {
+    "subject": "parameter_snowDepth",
+    "relation": "locatedIn",
+    "object": "region_arctic",
+    "chunk": "conclusionandfuturework",
+    "context": "We presented PhysE-Inv, a physics-encoded inverse modeling framework designed to estimate time-varying hidden geophysical parameters from sparse observations to predict real-world Arctic snow depth."
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "reconstructs",
+    "object": "parameter_snowDepth",
+    "chunk": "conclusionandfuturework",
+    "context": "PhysE-Inv accurately reconstructed the seasonal evolution of snow depth and consistently outperformed both physics-regularized and data-driven baselines, demonstrating that simple, interpretable physics encoding yields substantial gains over generic PIML methods when data are limited."
+  },
+  {
+    "subject": "project_harp",
+    "relation": "focusesOn",
+    "object": "region_polarRegions",
+    "chunk": "conclusionandfuturework",
+    "context": "This research is funded by the NSF grant from the HDR Institute: HARP - Harnessing Data and Model Revolution in the Polar Regions (2118285)."
+  },
+  {
+    "subject": "instrument_icesat",
+    "relation": "observes",
+    "object": "feature_arcticSeaIce",
+    "chunk": "conclusionandfuturework",
+    "context": "Icesat over arctic sea ice: Estimation of snow depth and ice thickness."
+  },
+  {
+    "subject": "parameter_snowDepth",
+    "relation": "measuredIn",
+    "object": "feature_arcticSeaIce",
+    "chunk": "conclusionandfuturework",
+    "context": "Icesat over arctic sea ice: Estimation of snow depth and ice thickness."
+  },
+  {
+    "subject": "parameter_iceThickness",
+    "relation": "measuredIn",
+    "object": "feature_arcticSeaIce",
+    "chunk": "conclusionandfuturework",
+    "context": "Icesat over arctic sea ice: Estimation of snow depth and ice thickness."
+  },
+  {
+    "subject": "phenomenon_atmosphericRivers",
+    "relation": "influences",
+    "object": "parameter_snowDepth",
+    "chunk": "conclusionandfuturework",
+    "context": "The varied role of atmospheric rivers in arctic snow depth variations."
+  },
+  {
+    "subject": "phenomenon_atmosphericRivers",
+    "relation": "occursIn",
+    "object": "region_arctic",
+    "chunk": "conclusionandfuturework",
+    "context": "The varied role of atmospheric rivers in arctic snow depth variations."
+  },
+  {
+    "subject": "Snow",
+    "relation": "overlies",
+    "object": "SeaIce",
+    "chunk": "appendix1",
+    "context": "The behavior of sea ice and its overlying snow is analyzed within a specific geographical domain."
+  },
+  {
+    "subject": "region_centralArcticOcean",
+    "relation": "classifiedAs",
+    "object": "RegionOfImportance",
+    "chunk": "appendix1",
+    "context": "This Region of Importance, the central Arctic Ocean, is an essential component of the global climate system."
+  },
+  {
+    "subject": "region_centralArcticOcean",
+    "relation": "isComponentOf",
+    "object": "system_globalClimate",
+    "chunk": "appendix1",
+    "context": "This Region of Importance, the central Arctic Ocean, is an essential component of the global climate system."
+  },
+  {
+    "subject": "region_centralArcticOcean",
+    "relation": "usedFor",
+    "object": "ParameterExtraction",
+    "chunk": "appendix1",
+    "context": "Figure 4 illustrates the exact spatial extent of this region, which is used for extracting all atmospheric and oceanographic parameters."
+  },
+  {
+    "subject": "region_centralArcticOcean",
+    "relation": "usedFor",
+    "object": "DataCollection",
+    "chunk": "appendix1",
+    "context": "Figure 4: Map showing the spatial extent of the central Arctic Ocean, highlighting (orange line) the region used for data collection."
+  },
+  {
+    "subject": "parameter_snowAlbedo",
+    "relation": "categorizedAs",
+    "object": "TimeSeries",
+    "chunk": "appendix1",
+    "context": "Known parametersSnow albedoΩTime series"
+  },
+  {
+    "subject": "parameter_seawaterDensity",
+    "relation": "categorizedAs",
+    "object": "ConstantParameter",
+    "chunk": "appendix1",
+    "context": "Seawater densityρ w Constant"
+  },
+  {
+    "subject": "parameter_seaIceDensity",
+    "relation": "categorizedAs",
+    "object": "ConstantParameter",
+    "chunk": "appendix1",
+    "context": "Sea ice densityρ i Constant"
+  },
+  {
+    "subject": "HydrostaticEquation",
+    "relation": "produces",
+    "object": "parameter_iceThickness",
+    "chunk": "appendix1",
+    "context": "Given the true snow depthh sand freeboardf b, the hydrostatic equation produces a unique ice thicknessh i."
+  },
+  {
+    "subject": "UncertaintyInSnowDepth",
+    "relation": "causesErrorIn",
+    "object": "SeaIceThicknessEstimates",
+    "chunk": "appendix1",
+    "context": "Prior studies show that uncertainty in snow depth is the dominant source of error in satellite-derived sea ice thickness estimates (Kwok & Cunningham, 2008)."
+  },
+  {
+    "subject": "ProbabilityDistribution",
+    "relation": "actsAs",
+    "object": "EvaluationCriterion",
+    "chunk": "appendix2",
+    "context": "In climate science, where a perfect one-to-one match in geospatial grids is often not expected, the alignment of the probability distributions becomes a more crucial evaluation criterion."
+  },
+  {
+    "subject": "Model",
+    "relation": "generalizesProcess",
+    "object": "GenerativeProcess",
+    "chunk": "appendix2",
+    "context": "A strong correspondence between the predicted and true PDFs indicates that the model is not merely a regression function for individual data points but is capable of generalizing the data’s generative process."
+  }
+]

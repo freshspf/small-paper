@@ -1,0 +1,128 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "discussion1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: discussion1
+- section_title: Discussion
+- page_start: 13
+- page_end: 13
+
+**INPUT TEXT CHUNK:**
+This paper addressed a long-standing challenge in road
+safety: Despite the application of multiple safety analysis tech-
+niques, both proactive and reactive, fatality rates have not con-
+sistently decreased. Recent statistics show either a plateau or
+an increase in road deaths and serious injuries, indicating that
+existing safety assessment practices are insufficient to drive sig-
+nificant improvement. The persistent issue suggests that the
+problem may not lie in the lack of safety tools, but rather in what
+is being analysed and how. Traditional approaches focus heavily
+on accident data and hazard identification, which is important
+for that end, but only that might overlook a fundamental dimen-
+sion of system behaviour: the assumption that the system design
+and operation are built upon. This study contributes a novel
+perspective by shifting the safety focus from hazards alone to
+the assumptions embedded within the system control structure.
+Unlike conventional methods, this approach examines whether
+the system behaves as expected under real operating conditions
+and whether its presumed assumptions hold across the entire
+lifecycle. By integrating system engineering principles, which
+incorporate a system thinking perspective, the study enabled
+a holistic understanding of the road safety system across its
+lifecycle, capturing technical, organisational and operational
+interactions. The use of system thinking was essential, as it al-
+lowed the road safety system to be modelled not as an abstract set
+of actors but as a functional architecture of dependent stakehold-
+ers. Through control structure modelling, it became possible to
+visualise decision hierarchies, control action, and feedback flows
+across government, agencies, emergency services, infrastructure,
+commercial fleets, research bodies, and road users. The novelty
+of this work lies in making implicit system assumptions explicit
+and traceable. When assumptions remain undocumented, they
+are highly vulnerable to being overlooked, misunderstood or vio-
+lated, leading to unsafe operating conditions without immediate
+detection. This response the (RQ1- How to ensure the validity
+of assumptions through the entire lifecycle?). As this ensure
+lifecycle validity by:
+•Maintaining an assumption documented linked to control
+loop.
+•Defining leading indicators.
+•Setting trigger thresholds for corrective action.
+Documenting these assumptions was the critical first step; how-
+ever, documentation alone is not sufficient. Safety cannot rely on
+static expectations; assumptions must be continuously validated
+as the system evolves. For this reason, the study introduced
+monitoring of assumptions using leading indicators. These Indi-
+cators provide early warning signals when reality begins to drift
+away from what the system presumes to be true.
+Our approach was applied to demonstrate how the explicit
+documentation, monitoring, and management of lifecycle as-
+sumptions can translate the static text or thought into tangible
+improvements in road safety outcomes. By embedding the mon-
+itoring of assumptions within control loops, such as temporarytraffic management at work zone, in-vehicle eCall communica-
+tion, and trauma triage with correct and direct conveyance, the
+approach addresses the persistent gap between intended safety
+performance and operational reality. Looking at the first case
+study presented in this paper about the eCall deliveryTable 2,
+regular supervision of assumptions related to availability of the
+the function, the completeness of data, and communication la-
+tency ensures that emergency notifications are delivered reliably
+and and within the acceptable time-frames. This assumption
+is significant given the time-sensitive nature of post-crash in-
+terventions. where a reduction in emergency response time is
+directly associated with improved survivability. and highlighting
+technical and procedural assumptions, will supports the early
+identification of weakness within the emergency communication
+chain. the second case study presented, and which is related to
+temporary traffic managementTable 4, monitoring assumptions
+related to the correct and timely deployment of temporary safety
+measure, ensures that any non-conformities or deviation from
+approved plan will be detected and addresses in real time. this
+enables the prompt mitigation of work zone collisions, thereby
+reducing both the likelihood and severity of such events. Trauma
+triageTable 3, is an essential factors for increasing survivabil-
+ity rates, the accuracy of triage protocols creates a transparent
+feedback loop that facilitates continuous improvement.
+In this context, of this case study on road safety, the modelled
+control structure provides complete visibility of responsibilities
+and the interactions.

@@ -1,0 +1,120 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: introduction
+- section_title: Introduction
+- page_start: 1
+- page_end: 1
+
+INPUT TEXT CHUNK:
+Autonomous driving requires real-time decision-making un-
+der uncertainty, where multiple conflicting objectives must
+be simultaneously balanced [Campbellet al., 2010; Abdal-
+laouiet al., 2023 ]. For heavy-duty trucks, this challenge be-
+comes even more pronounced due to their large size, high fuel
+consumption, long braking distances, and the severe conse-
+quences that can result from even minor control errors [Zhang
+et al., 2020; Engstr ¨omet al., 2018 ]. Designing control archi-
+tectures that can adaptively manage these trade-offs, priori-
+tizing safety in dense traffic and fuel economy on open high-
+ways, and benchmarking them in controlled simulations are
+therefore essential for the reliable and economically viable
+deployment of autonomous trucks [Schwartinget al., 2018;
+Eleonoraet al., 2023 ].Traditional approaches to modeling autonomous driving
+have relied on rule-based architectures, optimization-based
+control, and data-driven learning methods. Early rule-based
+systems relied on hand-crafted decision rules and safety con-
+straints to govern vehicle behavior and ensure compliance
+with traffic rules, offering strong interpretability and real-time
+performance but limited adaptability to complex or rapidly
+changing traffic scenarios [Padenet al., 2016 ]. More re-
+cent work has explored the use of interpretable decision-
+tree models for specific sub-tasks such as goal recognition
+and trajectory prediction, enabling fast inference and for-
+mal verification of prediction behavior [Brewittet al., 2021 ].
+Optimization-based frameworks, most notably Model Predic-
+tive Control (MPC) [Isaksson Palmqvist, 2016 ], have also
+been applied to autonomous vehicle maneuvers [Nilssonet
+al., 2015; Musaet al., 2021 ]. While these methods perform
+well in motion-planning tasks, they often require accurate
+models of the environment and struggle to scale with the in-
+creasing complexity of real-world traffic.
+A number of these challenges have been mitigated through
+Reinforcement Learning (RL), which has emerged as a
+promising alternative capable of learning control policies di-
+rectly from interactions with traffic environments. Deep RL
+agents have demonstrated strong performance in tasks such as
+lane changing, merging, and adaptive cruise control, discov-
+ering policies that can outperform hand-crafted control strate-
+gies in complex and dynamic highway environments [Kiran
+et al., 2022; Hoelet al., 2020; Pathareet al., 2023 ]. However,
+most RL approaches in autonomous driving rely on a single
+scalar reward function that combines multiple objectives such
+as safety, comfort, and energy efficiency. Although this sim-
+plification facilitates training, it constrains the learned policy
+to a fixed trade-off between objectives.
+A recent study [Pathareet al., 2026 ]has investigated this
+paradigm in detail for heavy duty vehicles. It showed that
+deep reinforcement learning can be applied effectively to tac-
+tical decision making for autonomous trucks for lane chang-
+ing and adaptive cruise control in highway traffic simulations.
+The authors propose a hierarchical control architecture where
+RL handles high-level tactical decisions using reward func-
+tions incorporating safety, efficiency, and total operational
+cost, while low-level control is managed by physics-based
+models. While this study established the practical feasibil-
+ity of RL for tactical driving, it also reveals a key limitation:arXiv:2601.18783v1  [cs.LG]  26 Jan 2026

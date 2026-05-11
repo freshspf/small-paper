@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "blt_dataset",
+  "comprisesFeature",
+  "vineyard",
+  "ktima_gerovassiliou",
+  "locatedIn",
+  "greece",
+  "riseholme",
+  "united_kingdom",
+  "tempo_vine_dataset",
+  "collectedIn",
+  "northern_italy",
+  "hasSetting",
+  "pergola_setting",
+  "trellis_setting",
+  "run1",
+  "encompassesRowCount",
+  "10",
+  "run2",
+  "8",
+  "row",
+  "hasLength",
+  "110_meters",
+  "recordedAtSpeed",
+  "1_meter_per_second",
+  "husky_ugv",
+  "manufacturedBy",
+  "clearpath_robotics",
+  "collectedUsing",
+  "velodyne_vlp_16_lidar",
+  "livox_mid360_lidar",
+  "employsPattern",
+  "non_repetitive_scanning_pattern",
+  "adheresToPattern",
+  "time_of_flight_pattern",
+  "pergola_row",
+  "hasWidth",
+  "3.5_meters",
+  "trellis_row",
+  "2_meters",
+  "pergola_section",
+  "15_meters",
+  "experiment",
+  "evaluatesSystem",
+  "minkunext_vine",
+  "trajectory",
+  "subdividedInto",
+  "zone",
+  "definedBy",
+  "gps_position",
+  "radius",
+  "BLTDataset",
+  "hasRadius",
+  "13Meters",
+  "Vineyard",
+  "MobileRobot",
+  "PlaceRecognitionTask",
+  "MinkunextVine",
+  "DeepLearningMethod",
+  "VineyardEnvironment",
+  "RoboticSystem",
+  "Environment",
+  "GpsDeniedEnvironment",
+  "AutonomousNavigationSystem",
+  "AgriculturalEnvironment",
+  "AgriculturalVehicle",
+  "AutonomousNavigation",
+  "AgriculturalRobotics",
+  "LprNetwork",
+  "MrlApproach",
+  "LprMethod",
+  "LidarSensor",
+  "LowCost",
+  "LowResolution",
+  "CrossSeasonScenario",
+  "VineyardDataset",
+  "DenseFoliage",
+  "RobotFieldOfVision",
+  "PathDetectionFramework",
+  "Traversability",
+  "RgbDImageSource"
+]
+
+Triples:
+[
+  {
+    "subject": "blt_dataset",
+    "relation": "comprisesFeature",
+    "object": "vineyard",
+    "chunk": "completedocument5",
+    "context": "Figure 2 depicts the two vineyards that comprise the BLT dataset with their corresponding extension."
+  },
+  {
+    "subject": "ktima_gerovassiliou",
+    "relation": "locatedIn",
+    "object": "greece",
+    "chunk": "completedocument5",
+    "context": "a) Ktima Gerovassiliou (Greece)."
+  },
+  {
+    "subject": "riseholme",
+    "relation": "locatedIn",
+    "object": "united_kingdom",
+    "chunk": "completedocument5",
+    "context": "b) Riseholme (United Kingdom)."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "collectedIn",
+    "object": "northern_italy",
+    "chunk": "completedocument5",
+    "context": "The TEMPO-VINE dataset [38] was collected in northern Italy (Agli` e) in two distinct vineyard settings: pergola and trellis."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "hasSetting",
+    "object": "pergola_setting",
+    "chunk": "completedocument5",
+    "context": "The TEMPO-VINE dataset [38] was collected in northern Italy (Agli` e) in two distinct vineyard settings: pergola and trellis."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "hasSetting",
+    "object": "trellis_setting",
+    "chunk": "completedocument5",
+    "context": "The TEMPO-VINE dataset [38] was collected in northern Italy (Agli` e) in two distinct vineyard settings: pergola and trellis."
+  },
+  {
+    "subject": "run1",
+    "relation": "encompassesRowCount",
+    "object": "10",
+    "chunk": "completedocument5",
+    "context": "Specifically, ”run1” encompasses 10 rows, while ”run2” encompasses 8 rows."
+  },
+  {
+    "subject": "run2",
+    "relation": "encompassesRowCount",
+    "object": "8",
+    "chunk": "completedocument5",
+    "context": "Specifically, ”run1” encompasses 10 rows, while ”run2” encompasses 8 rows."
+  },
+  {
+    "subject": "row",
+    "relation": "hasLength",
+    "object": "110_meters",
+    "chunk": "completedocument5",
+    "context": "Each row in both the pergola and trellis settings is 110 meters long."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "recordedAtSpeed",
+    "object": "1_meter_per_second",
+    "chunk": "completedocument5",
+    "context": "This dataset’s distinctive features are its captions of the diverse growth stages of grass in a field and the fact that the dataset was recorded at a linear speed of one meter per second."
+  },
+  {
+    "subject": "husky_ugv",
+    "relation": "manufacturedBy",
+    "object": "clearpath_robotics",
+    "chunk": "completedocument5",
+    "context": "Regarding the robotic setup of this dataset, a Husky UGV platform from Clearpath Robotics was used."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "collectedUsing",
+    "object": "velodyne_vlp_16_lidar",
+    "chunk": "completedocument5",
+    "context": "The dataset was collected using two different LiDARs: a Velodyne VLP-16 and a Livox MID360."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "collectedUsing",
+    "object": "livox_mid360_lidar",
+    "chunk": "completedocument5",
+    "context": "The dataset was collected using two different LiDARs: a Velodyne VLP-16 and a Livox MID360."
+  },
+  {
+    "subject": "livox_mid360_lidar",
+    "relation": "employsPattern",
+    "object": "non_repetitive_scanning_pattern",
+    "chunk": "completedocument5",
+    "context": "The Livox employs a non-repetitive scanning pattern, whereby the point clouds are constructed from the exposure time."
+  },
+  {
+    "subject": "velodyne_vlp_16_lidar",
+    "relation": "adheresToPattern",
+    "object": "time_of_flight_pattern",
+    "chunk": "completedocument5",
+    "context": "In contrast, the Velodyne adheres to a conventional time-of-flight (TOF) pattern."
+  },
+  {
+    "subject": "pergola_row",
+    "relation": "hasWidth",
+    "object": "3.5_meters",
+    "chunk": "completedocument5",
+    "context": "In the pergola scenario, the rows are wider (3.5 meters), while in the trellis, the rows have a width of 2 meters."
+  },
+  {
+    "subject": "trellis_row",
+    "relation": "hasWidth",
+    "object": "2_meters",
+    "chunk": "completedocument5",
+    "context": "In the pergola scenario, the rows are wider (3.5 meters), while in the trellis, the rows have a width of 2 meters."
+  },
+  {
+    "subject": "pergola_section",
+    "relation": "hasWidth",
+    "object": "15_meters",
+    "chunk": "completedocument5",
+    "context": "The pergola section measures 15 meters in width, with a length of 110 meters that aligns with the westernmost section of the trellis."
+  },
+  {
+    "subject": "pergola_section",
+    "relation": "hasLength",
+    "object": "110_meters",
+    "chunk": "completedocument5",
+    "context": "The pergola section measures 15 meters in width, with a length of 110 meters that aligns with the westernmost section of the trellis."
+  },
+  {
+    "subject": "experiment",
+    "relation": "evaluatesSystem",
+    "object": "minkunext_vine",
+    "chunk": "completedocument5",
+    "context": "In order to assess the efficacy of the proposed MinkUNeXt-VINE, a series of experiments were conducted on two distinct datasets, as outlined in Section 4."
+  },
+  {
+    "subject": "trajectory",
+    "relation": "subdividedInto",
+    "object": "zone",
+    "chunk": "completedocument5",
+    "context": "The trajectory of the vehicle is subdivided into a series of zones, defined by a predetermined set of points."
+  },
+  {
+    "subject": "zone",
+    "relation": "definedBy",
+    "object": "gps_position",
+    "chunk": "completedocument5",
+    "context": "These points are determined by the robot’s GPS position and a radius in meters, which is used to delineate the area of interest."
+  },
+  {
+    "subject": "zone",
+    "relation": "definedBy",
+    "object": "radius",
+    "chunk": "completedocument5",
+    "context": "These points are determined by the robot’s GPS position and a radius in meters, which is used to delineate the area of interest."
+  },
+  {
+    "subject": "BLTDataset",
+    "relation": "hasRadius",
+    "object": "13Meters",
+    "chunk": "completedocument6",
+    "context": "For the BLT, the radius was set to 13 meters, and three reference points for the test zones were chosen in different areas of the vineyard."
+  },
+  {
+    "subject": "BLTDataset",
+    "relation": "locatedIn",
+    "object": "Vineyard",
+    "chunk": "completedocument6",
+    "context": "For the BLT, the radius was set to 13 meters, and three reference points for the test zones were chosen in different areas of the vineyard."
+  }
+]

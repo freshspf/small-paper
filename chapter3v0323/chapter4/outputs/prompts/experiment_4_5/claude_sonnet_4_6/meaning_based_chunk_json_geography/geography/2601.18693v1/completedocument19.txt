@@ -1,0 +1,133 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument19",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument19
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+2024;
+Contreras-Santosetal.2024),isthatthecharacteristicmassscaleof
+the infalling satellite stellar mass function emerges as the dominant
+parameter controlling the population-averaged offsets between the
+ICLandDM.Variationsinthesatellitemassfunctionproducelarge
+changesinthepredictedstellar–to–DMenergyandangularmomen-
+tum ratios (Figure 9), while variations in the orbital satellite infall
+circularity distribution have a comparatively weak effect.
+This sensitivity arises because higher satellite masses lead to
+greaterlossesinbothorbitalenergyandangularmomentumpriorto
+stellarstripping.AsshowninFigure5,thestellar–to–DMenergyand
+angular momentum ratios decrease systematically with increasing
+satellite–to–host mass ratio. These enhanced phase-space offsets di-
+rectlytranslateintosteeperradialdensityprofiles:starsstrippedfrom
+moremassivesatellitesaredepositedatsmallerradiiandhighercon-
+centrationsrelativetotheDM,producingasteeperlogarithmicslope
+in the𝜌★/𝜌DMprofile. Consequently, infalling satellite populations
+withhighercharacteristicmassesnaturallyproduceICLdistributions
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM17
+that are more centrally concentrated relative to the underlying DM
+halo.
+Importantly, the uncertainty is driven primarily by the abundance
+of intermediate- and high-mass satellites, which consistently domi-
+nate the ICL mass budget and the population-averaged phase-space
+offsets regardless of our chosen characteristic mass scale. As shown
+inAppendixDandFigureD1,thestellar–DMspecificorbitalenergy
+ratiosarelargelyinsensitivetothedetailedtreatmentofthefaintend
+of the satellite mass function. Across the full range of characteristic
+masses explored here, satellites below𝑀 ★∼1010–1010.5M⊙have
+negligible impact on the resulting ratios.
+The phase-space structure of the ICL is therefore inherently sen-
+sitivetostochasticaccretionevents,reflectingthedynamicalimprint
+of a few satellites that undergo substantial orbital decay before dis-
+ruption. In this sense, the ICL should be viewed both as a tracer of
+the cluster potential, and also as an accumulated record of a limited
+numberofdynamicallyimportantmergers.Thisstochasticnaturehas
+important observational implications. Measurements of the stellar–
+to–DMphase-spaceoffsetsinindividualclusterswillbesensitiveto
+their specific accretion histories, and in particular to whether they
+haverecentlyhostedthemassivesatellitemergersthatdominateboth
+the ICL budget and the magnitude of the phase-space separation.
+Clusterdynamicalstatemayprovidesomeindicationofrecentmajor
+merger activity, though the connection between current relaxation
+stateandintegratedaccretionhistoryisnotstraightforward(e.g.Ra-
+gusa et al. 2023; Contini et al. 2024; Contreras-Santos et al. 2024;
+Kimmig et al. 2025; Golden-Marx et al. 2025; Canepa et al. 2025).
+7.3 Model validation and limitations
+While our controlled simulations allow us to isolate the effects of
+satellitemassratioandorbitalconfigurationonthestellar–DMphase-
+spaceoffsets,theymakeseveralsimplifyingassumptionsthatwarrant
+discussion.
+7.3.1 Fixed satellite structural properties
+Our model adopts fixed satellite structural properties for a given
+stellar mass. Martin et al. (2024) shows that the efficiency of stellar
+strippingvariessignificantlydependingontheextentofthesatellite’s
+stellar component relative to its halo’s scale radius, while Figure 1
+illustrates that halo concentrations evolve systematically between
+𝑧=1and𝑧=0,implyingthatsatellitesstarsspanarangeofbinding
+energies across cosmic time. A fixed prescription therefore cannot
+capturethisevolution,northeassociatedvariationinstellarstripping
+efficiency. In more realistic models, such as the four cosmological
+simulations used in this study, the specific implementation of dif-
+ferent physical processes such as feedback, ISM and star-formation
+physicsaltersthedistributionandstructureofstarsandthereforethe
+efficiencyofstellarstripping(Watkinsetal.2025;Martinetal.2025).
+Theseprocessescanalsodrivedifferentialevolutionofthestellarand
+DMcomponents,modifyingtheirrelativedistributionsdirectly(e.g.
+Pontzen&Governato2012;Teyssieretal.2013;Schalleretal.2015;
+Jackson et al. 2025). Consequently, variations in these physical pre-
+scriptions should modify the resulting stellar–to–DM orbital energy
+and angular momentum ratios.
+7.3.2 The adiabatic assumption
+Additionally, our analysis of the orbital energies and angular mo-
+menta of stars and DM neglects the growth of the cluster potential.We assume that the cluster potential evolves adiabatically and that
+⟨𝜀⟩★/⟨𝜀⟩ DMand⟨ℎ⟩★/⟨ℎ⟩ DMwouldthereforeremaineffectivelycon-
+stant as the cluster evolves.
+Although increasingly rare for cluster-mass haloes at late times
+(Fakhouri et al. 2010), haloes are expected to undergo diverse evo-
+lutionary paths (Onions et al. 2025) including periods of growth
+under non-adiabatic conditions (Tormen 1997; Valluri et al. 2007;
+Ogiya et al.

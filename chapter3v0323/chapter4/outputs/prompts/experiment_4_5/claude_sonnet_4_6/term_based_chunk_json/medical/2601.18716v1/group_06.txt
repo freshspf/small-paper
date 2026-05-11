@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "vhl_complex",
+  "containsResidue",
+  "glu11",
+  "his13",
+  "tyr112",
+  "molecular_glue",
+  "bindsTo",
+  "crbn_complex",
+  "trp86",
+  "his380",
+  "asn351",
+  "mdm2_complex",
+  "glu15",
+  "his19",
+  "trp23",
+  "promotesDegradationOf",
+  "amyloid_beta_42",
+  "formsComplexWith",
+  "e3_ligase",
+  "ternary_complex",
+  "containsEntity",
+  "vhl",
+  "isA",
+  "crbn",
+  "mdm2",
+  "degradedVia",
+  "ubiquitin_proteasome_system",
+  "lcjtvae_model",
+  "generates",
+  "novel_compounds",
+  "chembl",
+  "Library",
+  "vitas",
+  "AdmetPropertyWindow",
+  "influences",
+  "DockingPerformance",
+  "BindingPotential",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "UbiquitinProteasomeSystem",
+  "E3Ligase",
+  "Crbn",
+  "Vhl",
+  "Mdm2",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability",
+  "HypoxiaSignaling",
+  "P53",
+  "MolecularGlueDiscovery",
+  "ChemicalLibraryScreening",
+  "ArtificialIntelligenceModel",
+  "DeNovoDesign",
+  "SequenceBasedModel",
+  "SmilesRepresentation",
+  "SyntacticError",
+  "model_jtvae",
+  "MolecularStructure",
+  "GraphBasedModel",
+  "DrugLikeMolecule"
+]
+
+Triples:
+[
+  {
+    "subject": "vhl_complex",
+    "relation": "containsResidue",
+    "object": "glu11",
+    "chunk": "completedocument6",
+    "context": "In the VHL complex, key hydrogen bonds were observed between the molecular glue and residues such as GLU11, HIS13, and TYR112."
+  },
+  {
+    "subject": "vhl_complex",
+    "relation": "containsResidue",
+    "object": "his13",
+    "chunk": "completedocument6",
+    "context": "In the VHL complex, key hydrogen bonds were observed between the molecular glue and residues such as GLU11, HIS13, and TYR112."
+  },
+  {
+    "subject": "vhl_complex",
+    "relation": "containsResidue",
+    "object": "tyr112",
+    "chunk": "completedocument6",
+    "context": "In the VHL complex, key hydrogen bonds were observed between the molecular glue and residues such as GLU11, HIS13, and TYR112."
+  },
+  {
+    "subject": "molecular_glue",
+    "relation": "bindsTo",
+    "object": "glu11",
+    "chunk": "completedocument6",
+    "context": "In the VHL complex, key hydrogen bonds were observed between the molecular glue and residues such as GLU11, HIS13, and TYR112."
+  },
+  {
+    "subject": "crbn_complex",
+    "relation": "containsResidue",
+    "object": "trp86",
+    "chunk": "completedocument6",
+    "context": "For the CRBN complex, stabilizing interactions involved TRP86, HIS380 , and ASN351."
+  },
+  {
+    "subject": "crbn_complex",
+    "relation": "containsResidue",
+    "object": "his380",
+    "chunk": "completedocument6",
+    "context": "For the CRBN complex, stabilizing interactions involved TRP86, HIS380 , and ASN351."
+  },
+  {
+    "subject": "crbn_complex",
+    "relation": "containsResidue",
+    "object": "asn351",
+    "chunk": "completedocument6",
+    "context": "For the CRBN complex, stabilizing interactions involved TRP86, HIS380 , and ASN351."
+  },
+  {
+    "subject": "mdm2_complex",
+    "relation": "containsResidue",
+    "object": "glu15",
+    "chunk": "completedocument6",
+    "context": "The MDM2 complex exhibited critical interactions with residues including GLU15, HIS19, and TRP23, contributing to the anchoring of the glue compound."
+  },
+  {
+    "subject": "mdm2_complex",
+    "relation": "containsResidue",
+    "object": "his19",
+    "chunk": "completedocument6",
+    "context": "The MDM2 complex exhibited critical interactions with residues including GLU15, HIS19, and TRP23, contributing to the anchoring of the glue compound."
+  },
+  {
+    "subject": "mdm2_complex",
+    "relation": "containsResidue",
+    "object": "trp23",
+    "chunk": "completedocument6",
+    "context": "The MDM2 complex exhibited critical interactions with residues including GLU15, HIS19, and TRP23, contributing to the anchoring of the glue compound."
+  },
+  {
+    "subject": "molecular_glue",
+    "relation": "promotesDegradationOf",
+    "object": "amyloid_beta_42",
+    "chunk": "completedocument6",
+    "context": "These docking results provide evidence for the potential of specific molecular glues to promote targeted protein degradation of Aβ42 by facilitating the formation of ternary complexes with E3 ligases."
+  },
+  {
+    "subject": "molecular_glue",
+    "relation": "formsComplexWith",
+    "object": "e3_ligase",
+    "chunk": "completedocument6",
+    "context": "These docking results provide evidence for the potential of specific molecular glues to promote targeted protein degradation of Aβ42 by facilitating the formation of ternary complexes with E3 ligases."
+  },
+  {
+    "subject": "ternary_complex",
+    "relation": "containsEntity",
+    "object": "amyloid_beta_42",
+    "chunk": "completedocument6",
+    "context": "Following docking, molecular dynamics (MD) simulations were performed on the top -ranked ternary complexes formed by amyloid beta -42, the molecular glue compound, and each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "ternary_complex",
+    "relation": "containsEntity",
+    "object": "molecular_glue",
+    "chunk": "completedocument6",
+    "context": "Following docking, molecular dynamics (MD) simulations were performed on the top -ranked ternary complexes formed by amyloid beta -42, the molecular glue compound, and each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "ternary_complex",
+    "relation": "containsEntity",
+    "object": "e3_ligase",
+    "chunk": "completedocument6",
+    "context": "Following docking, molecular dynamics (MD) simulations were performed on the top -ranked ternary complexes formed by amyloid beta -42, the molecular glue compound, and each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "vhl",
+    "relation": "isA",
+    "object": "e3_ligase",
+    "chunk": "completedocument6",
+    "context": "Following docking, molecular dynamics (MD) simulations were performed on the top -ranked ternary complexes formed by amyloid beta -42, the molecular glue compound, and each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "crbn",
+    "relation": "isA",
+    "object": "e3_ligase",
+    "chunk": "completedocument6",
+    "context": "Following docking, molecular dynamics (MD) simulations were performed on the top -ranked ternary complexes formed by amyloid beta -42, the molecular glue compound, and each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "mdm2",
+    "relation": "isA",
+    "object": "e3_ligase",
+    "chunk": "completedocument6",
+    "context": "Following docking, molecular dynamics (MD) simulations were performed on the top -ranked ternary complexes formed by amyloid beta -42, the molecular glue compound, and each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "amyloid_beta_42",
+    "relation": "degradedVia",
+    "object": "ubiquitin_proteasome_system",
+    "chunk": "completedocument6",
+    "context": "These findings reinforce the potential of our AI-generated compounds to facilitate stable ternary complex formation, a prerequisite for targeted Aβ42 degradation via the ubiquitin -proteasome system."
+  },
+  {
+    "subject": "lcjtvae_model",
+    "relation": "generates",
+    "object": "novel_compounds",
+    "chunk": "completedocument6",
+    "context": "To develop LCJTVAE model capable of generating novel compounds that facilitate the E3 specific amyloid beta42 degradation."
+  },
+  {
+    "subject": "novel_compounds",
+    "relation": "promotesDegradationOf",
+    "object": "amyloid_beta_42",
+    "chunk": "completedocument6",
+    "context": "To develop LCJTVAE model capable of generating novel compounds that facilitate the E3 specific amyloid beta42 degradation."
+  },
+  {
+    "subject": "chembl",
+    "relation": "isA",
+    "object": "Library",
+    "chunk": "completedocument6",
+    "context": "Table 2 shows that based on these docking score total of 65,998 compounds from both the library ChEMBL and Vitas..."
+  },
+  {
+    "subject": "vitas",
+    "relation": "isA",
+    "object": "Library",
+    "chunk": "completedocument6",
+    "context": "Table 2 shows that based on these docking score total of 65,998 compounds from both the library ChEMBL and Vitas..."
+  },
+  {
+    "subject": "AdmetPropertyWindow",
+    "relation": "influences",
+    "object": "DockingPerformance",
+    "chunk": "completedocument7",
+    "context": "These quantitative trends highlight that docking performan ce and binding potential are influenced by distinct ADMET property windows, which were integrated as features in the training dataset for the AI model."
+  },
+  {
+    "subject": "AdmetPropertyWindow",
+    "relation": "influences",
+    "object": "BindingPotential",
+    "chunk": "completedocument7",
+    "context": "These quantitative trends highlight that docking performan ce and binding potential are influenced by distinct ADMET property windows, which were integrated as features in the training dataset for the AI model."
+  }
+]

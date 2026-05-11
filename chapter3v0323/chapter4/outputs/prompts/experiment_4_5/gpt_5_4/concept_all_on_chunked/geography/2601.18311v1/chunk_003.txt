@@ -1,0 +1,91 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic triples.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use only normalized terms from the input.
+   - Do not invent new terms unless absolutely necessary.
+   - Do not introduce external background knowledge.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by context.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf only when a subclass relation is explicit or strongly implied.
+   - Avoid overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Only assign domain/range when the subject/object types are clear from normalized terms and updated triples.
+   - Avoid speculative domain/range assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication
+   - Prefer fewer but higher-confidence axioms
+   - Keep results logically coherent
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[{"term":"chianti","type":"Instance"},{"term":"lawrence_livermore_national_laboratory","type":"Instance"},{"term":"national_institute_of_standards_and_technology","type":"Instance"},{"term":"HighlyChargedIon","type":"Class"},{"term":"HighlyChargedIronIon","type":"Class"},{"term":"NeLikeFe16PlusIon","type":"Class"},{"term":"HeLikeO6PlusIon","type":"Class"},{"term":"ResonantPhotoexcitation","type":"Class"},{"term":"PhotonIonInteraction","type":"Class"},{"term":"ActiveSpectroscopy","type":"Class"},{"term":"PassiveSpectroscopy","type":"Class"},{"term":"PhotonBeam","type":"Class"},{"term":"MonochromaticElectronBeam","type":"Class"},{"term":"XRayPhoton","type":"Class"},{"term":"ElectronBeamIonTrap","type":"Class"},{"term":"AtomicData","type":"Class"},{"term":"institute_of_space_and_astronautical_science","type":"Instance"},{"term":"max_planck_institut_fur_kernphysik","type":"Instance"},{"term":"XRayEmission","type":"Class"},{"term":"SynchrotronRadiation","type":"Class"},{"term":"IncidentPhotonEnergyScanning","type":"Class"},{"term":"EbitPlasmaEmission","type":"Class"},{"term":"ElectronImpactExcitation","type":"Class"},{"term":"Recombination","type":"Class"},{"term":"CrystalSpectrometer","type":"Class"},{"term":"instanceOf","type":"Property"},{"term":"usedToObtain","type":"Property"},{"term":"basedOnDesignOf","type":"Property"},{"term":"developedInCollaborationWith","type":"Property"},{"term":"completedIn","type":"Property"},{"term":"operatedWith","type":"Property"},{"term":"usedAt","type":"Property"},{"term":"broughtTo","type":"Property"},{"term":"receivesBeamFrom","type":"Property"},{"term":"uses","type":"Property"}]
+
+Triples:
+[{"subject":"PassiveSpectroscopy","relation":"observes","object":"EbitPlasmaEmission"},{"subject":"EbitPlasmaEmission","relation":"inducedBy","object":"ElectronImpactExcitation"},{"subject":"EbitPlasmaEmission","relation":"inducedBy","object":"Recombination"},{"subject":"PassiveSpectroscopy","relation":"uses","object":"CrystalSpectrometer"},{"subject":"PassiveSpectroscopy","relation":"uses","object":"GratingSpectrometer"},{"subject":"PassiveSpectroscopy","relation":"uses","object":"Microcalorimeter"},{"subject":"SupernovaRemnant","relation":"instanceOf","object":"AstrophysicalObject"},{"subject":"GalaxyCluster","relation":"instanceOf","object":"AstrophysicalObject"},{"subject":"AstrophysicalObject","relation":"contains","object":"XRayEmittingHotPlasma"},{"subject":"XRayEmittingHotPlasma","relation":"instanceOf","object":"HotPlasma"},{"subject":"XRISM","relation":"hasInstrument","object":"Resolve"},{"subject":"Resolve","relation":"instanceOf","object":"Spectrometer"},{"subject":"Resolve","relation":"resolves","object":"IronKShellEmissionLineStructure"},{"subject":"atomdb_apec","relation":"instanceOf","object":"PlasmaModelingFramework"},{"subject":"spex","relation":"instanceOf","object":"PlasmaModelingFramework"},{"subject":"chianti","relation":"instanceOf","object":"PlasmaModelingFramework"},{"subject":"ObservedSpectrum","relation":"analysedByComparingWith","object":"SynthesizedSpectrum"},{"subject":"SynthesizedSpectrum","relation":"generatedBy","object":"PlasmaModelingFramework"},{"subject":"PlasmaModelingFramework","relation":"uses","object":"AtomicData"},{"subject":"AtomicData","relation":"crucialFor","object":"ReliablePlasmaDiagnostics"},{"subject":"CurrentAtomicData","relation":"reliesOn","object":"TheoreticalCalculation"},{"subject":"LaboratoryMeasurement","relation":"necessaryFor","object":"PreciseAtomicData"},{"subject":"LawrenceLivermoreNationalLaboratory","relation":"developed","object":"ElectronBeamIonTrap"},{"subject":"ElectronBeamIonTrap","relation":"developedIn","object":"1980s"},{"subject":"LawrenceLivermoreNationalLaboratory","relation":"locatedIn","object":"UnitedStates"},{"subject":"NationalInstituteOfStandardsAndTechnology","relation":"operates","object":"ElectronBeamIonTrap"},{"subject":"MaxPlanckInstitutFurKernphysik","relation":"operates","object":"ElectronBeamIonTrap"},{"subject":"Experiment","relation":"targetsElement","object":"Oxygen"},{"subject":"Experiment","relation":"targetsElement","object":"Silicon"},{"subject":"Experiment","relation":"targetsElement","object":"Sulfur"},{"subject":"Experiment","relation":"targetsElement","object":"Argon"},{"subject":"Experiment","relation":"targetsElement","object":"Iron"},{"subject":"FeLComplex","relation":"associatedWith","object":"HighlyChargedIronIon"},{"subject":"FeLComplex","relation":"highlightedInStudyOf","object":"GalaxyCluster"},{"subject":"FeLComplex","relation":"highlightedInStudyOf","object":"SupernovaRemnant"}]

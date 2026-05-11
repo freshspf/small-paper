@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "OrbitalDistributionVariation",
+  "broadens",
+  "AngularMomentumDistribution",
+  "RadialDensityProfile",
+  "dependsOn",
+  "InfallingSatelliteStellarMassFunction",
+  "IclDensityProfileMapping",
+  "governedBy",
+  "MassScale",
+  "Model",
+  "captures",
+  "StellarToDmOffset",
+  "IntraclusterStellarProfile",
+  "isMoreCentrallyConcentratedThan",
+  "DarkMatter",
+  "CosmicEnvironmentDifference",
+  "imprintsVariationsOn",
+  "RelativeRadialDistribution",
+  "RadialOffset",
+  "setBy",
+  "SpatialOffset",
+  "arisesFrom",
+  "InfallingSatellitePopulationDemographics",
+  "CharacteristicMassScale",
+  "controls",
+  "RadialProfileOfIcl",
+  "IntraclusterLight",
+  "encodes",
+  "SatelliteAccretionRecord",
+  "supercomputer_hazelHen",
+  "locatedAt",
+  "facility_highPerformanceComputingCenterStuttgart",
+  "facility_maxPlanckComputingAndDataFacility",
+  "locatedIn",
+  "city_garching",
+  "country_germany",
+  "supercomputer_mareNostrum",
+  "facility_barcelonaSupercomputingCenter",
+  "service_diRacDataIntensive",
+  "institution_universityOfLeicester",
+  "supercomputer_niagara",
+  "institution_sciNetHpcConsortium",
+  "cluster_infinity",
+  "hostedBy",
+  "institution_institutDAstrophysiqueDeParis",
+  "project_lacegal3",
+  "includesRegion",
+  "region_latinAmerica",
+  "region_china",
+  "region_europe",
+  "region_comunidadDeMadrid",
+  "providesFunding",
+  "fellowship_atraccionDeTalento",
+  "entity_icl",
+  "hasSpatialDistribution",
+  "space_phaseSpace",
+  "entity_dm21",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "street_boulevardArago",
+  "city_paris",
+  "country_france",
+  "university_universityOfWesternAustralia"
+]
+
+Triples:
+[
+  {
+    "subject": "OrbitalDistributionVariation",
+    "relation": "broadens",
+    "object": "AngularMomentumDistribution",
+    "chunk": "completedocument22",
+    "context": "Variations in the orbital distribution mainly broaden the angular momentum distribution and have only a weak effect on the mean offsets, consistent with the limited sensitivity to orbital circularity seen for individual satellites (Figure 9)."
+  },
+  {
+    "subject": "RadialDensityProfile",
+    "relation": "dependsOn",
+    "object": "InfallingSatelliteStellarMassFunction",
+    "chunk": "completedocument22",
+    "context": "(vii)The corresponding radial stellar–to–DM density profiles alsodependprimarilyontheinfallingsatellitestellarmassfunction."
+  },
+  {
+    "subject": "IclDensityProfileMapping",
+    "relation": "governedBy",
+    "object": "MassScale",
+    "chunk": "completedocument22",
+    "context": "As a result, the mapping between ICL density profiles and the underlying DM distribution is governed primarily by the mass scale oftheinfallingsatellitepopulationratherthanbyitsorbitalstructure."
+  },
+  {
+    "subject": "Model",
+    "relation": "captures",
+    "object": "StellarToDmOffset",
+    "chunk": "completedocument22",
+    "context": "(viii)Stellar–to–DM energy and angular momentum offsets in cosmologicalsimulationsarebroadlycapturedbythemodel."
+  },
+  {
+    "subject": "IntraclusterStellarProfile",
+    "relation": "isMoreCentrallyConcentratedThan",
+    "object": "DarkMatter",
+    "chunk": "completedocument22",
+    "context": "This extends previous studies showing that intracluster stellar profiles are typically steeper and more centrally concentrated than the DM, and demonstrates that differences in the cosmic environments and physical models employed by each simulation imprint measurable variations on therelativeradialdistributionofstarsandDM(Figure12,leftpanel)."
+  },
+  {
+    "subject": "CosmicEnvironmentDifference",
+    "relation": "imprintsVariationsOn",
+    "object": "RelativeRadialDistribution",
+    "chunk": "completedocument22",
+    "context": "This extends previous studies showing that intracluster stellar profiles are typically steeper and more centrally concentrated than the DM, and demonstrates that differences in the cosmic environments and physical models employed by each simulation imprint measurable variations on therelativeradialdistributionofstarsandDM(Figure12,leftpanel)."
+  },
+  {
+    "subject": "RadialOffset",
+    "relation": "setBy",
+    "object": "InfallingSatelliteStellarMassFunction",
+    "chunk": "completedocument22",
+    "context": "This indicates that the dominant radial offsets be-tweenstarsandDMinclustersarelargelysetbytheinfallingsatellite stellar mass function."
+  },
+  {
+    "subject": "SpatialOffset",
+    "relation": "arisesFrom",
+    "object": "InfallingSatellitePopulationDemographics",
+    "chunk": "completedocument22",
+    "context": "Our results establish that the phase-space and spatial offsets be-tweenintraclusterstarsandDMarisenaturallyfromthedemograph-icsoftheinfallingsatellitepopulation."
+  },
+  {
+    "subject": "CharacteristicMassScale",
+    "relation": "controls",
+    "object": "RadialProfileOfIcl",
+    "chunk": "completedocument22",
+    "context": "The characteristic mass scale of infalling satellites emerges as the key parameter controlling both the population-averaged energy and angular momentum offsets andtheradialprofileoftheICL."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "encodes",
+    "object": "SatelliteAccretionRecord",
+    "chunk": "completedocument22",
+    "context": "These results indicate that ICL encodes a robust record of satellite accre-tion,andthatitsspatialandkinematicstructurecanbeinterpretedin termsoftheunderlyingDMhalooncethepropertiesoftheinfalling satellite population are properly accounted for."
+  },
+  {
+    "subject": "supercomputer_hazelHen",
+    "relation": "locatedAt",
+    "object": "facility_highPerformanceComputingCenterStuttgart",
+    "chunk": "completedocument23",
+    "context": "TheIllustrisTNGsimulations, of whichTNG100ispart,wereundertakenwithcomputetimeawarded\nby the Gauss Centre for Supercomputing (GCS) under GCS Large-\nScale Projects GCS-ILLU and GCS-DWAR on the GCS share of\nthe supercomputer Hazel Hen at the High Performance Computing\nCenter Stuttgart (HLRS), as well as on the machines of the Max\nPlanck Computing and Data Facility (MPCDF) in Garching, Ger-\nmany."
+  },
+  {
+    "subject": "facility_maxPlanckComputingAndDataFacility",
+    "relation": "locatedIn",
+    "object": "city_garching",
+    "chunk": "completedocument23",
+    "context": "TheIllustrisTNGsimulations, of whichTNG100ispart,wereundertakenwithcomputetimeawarded\nby the Gauss Centre for Supercomputing (GCS) under GCS Large-\nScale Projects GCS-ILLU and GCS-DWAR on the GCS share of\nthe supercomputer Hazel Hen at the High Performance Computing\nCenter Stuttgart (HLRS), as well as on the machines of the Max\nPlanck Computing and Data Facility (MPCDF) in Garching, Ger-\nmany."
+  },
+  {
+    "subject": "city_garching",
+    "relation": "locatedIn",
+    "object": "country_germany",
+    "chunk": "completedocument23",
+    "context": "TheIllustrisTNGsimulations, of whichTNG100ispart,wereundertakenwithcomputetimeawarded\nby the Gauss Centre for Supercomputing (GCS) under GCS Large-\nScale Projects GCS-ILLU and GCS-DWAR on the GCS share of\nthe supercomputer Hazel Hen at the High Performance Computing\nCenter Stuttgart (HLRS), as well as on the machines of the Max\nPlanck Computing and Data Facility (MPCDF) in Garching, Ger-\nmany."
+  },
+  {
+    "subject": "facility_maxPlanckComputingAndDataFacility",
+    "relation": "locatedIn",
+    "object": "city_garching",
+    "chunk": "completedocument23",
+    "context": "Further simulations were performed at the Max Planck Computing and\nDataFacility(MPCDF)inGarching,Germany."
+  },
+  {
+    "subject": "city_garching",
+    "relation": "locatedIn",
+    "object": "country_germany",
+    "chunk": "completedocument23",
+    "context": "Further simulations were performed at the Max Planck Computing and\nDataFacility(MPCDF)inGarching,Germany."
+  },
+  {
+    "subject": "supercomputer_mareNostrum",
+    "relation": "locatedAt",
+    "object": "facility_barcelonaSupercomputingCenter",
+    "chunk": "completedocument23",
+    "context": "TheThreeHundredsimulations used in this paper have been per-\nformedintheMareNostrumSupercomputerattheBarcelonaSuper-\ncomputingCenter,thankstoCPUtimegrantedbytheRedEspañola\nde Supercomputación."
+  },
+  {
+    "subject": "service_diRacDataIntensive",
+    "relation": "locatedAt",
+    "object": "institution_universityOfLeicester",
+    "chunk": "completedocument23",
+    "context": "The high-resolution (7K) simulations from\nTheThreeHundredwere performed on multiple Supercomputers:\nMareNostrum, Finisterrae3, and Cibeles through The Red Española\nde Supercomputación grants, DIaL3 – DiRAC Data Intensive ser-\nMNRAS000, 1–26 (2026)\n\n20G. Martin et al.\nviceattheUniversityofLeicesterthroughtheRAC15grant,andthe\nNiagara supercomputer at the SciNet HPC Consortium."
+  },
+  {
+    "subject": "supercomputer_niagara",
+    "relation": "locatedAt",
+    "object": "institution_sciNetHpcConsortium",
+    "chunk": "completedocument23",
+    "context": "The high-resolution (7K) simulations from\nTheThreeHundredwere performed on multiple Supercomputers:\nMareNostrum, Finisterrae3, and Cibeles through The Red Española\nde Supercomputación grants, DIaL3 – DiRAC Data Intensive ser-\nMNRAS000, 1–26 (2026)\n\n20G. Martin et al.\nviceattheUniversityofLeicesterthroughtheRAC15grant,andthe\nNiagara supercomputer at the SciNet HPC Consortium."
+  },
+  {
+    "subject": "cluster_infinity",
+    "relation": "hostedBy",
+    "object": "institution_institutDAstrophysiqueDeParis",
+    "chunk": "completedocument23",
+    "context": "ThisworkhasmadeuseoftheInfinitycluster,hostedbytheInstitut\nd’AstrophysiquedeParis."
+  },
+  {
+    "subject": "project_lacegal3",
+    "relation": "includesRegion",
+    "object": "region_latinAmerica",
+    "chunk": "completedocument23",
+    "context": "He further acknowledges the Project PID2024-156100NB-C21 fi-\nnanced by MICIU/AEI /10.13039/501100011033/FEDER, EU and\nERC: HORIZON-TMA-MSCA-SE for supporting the LACEGAL-\nIII (Latin American Chinese European Galaxy Formation Net-\nwork) project with grant number 101086388 and the science re-\nsearch grants from the China Manned Space Project."
+  },
+  {
+    "subject": "project_lacegal3",
+    "relation": "includesRegion",
+    "object": "region_china",
+    "chunk": "completedocument23",
+    "context": "He further acknowledges the Project PID2024-156100NB-C21 fi-\nnanced by MICIU/AEI /10.13039/501100011033/FEDER, EU and\nERC: HORIZON-TMA-MSCA-SE for supporting the LACEGAL-\nIII (Latin American Chinese European Galaxy Formation Net-\nwork) project with grant number 101086388 and the science re-\nsearch grants from the China Manned Space Project."
+  },
+  {
+    "subject": "project_lacegal3",
+    "relation": "includesRegion",
+    "object": "region_europe",
+    "chunk": "completedocument23",
+    "context": "He further acknowledges the Project PID2024-156100NB-C21 fi-\nnanced by MICIU/AEI /10.13039/501100011033/FEDER, EU and\nERC: HORIZON-TMA-MSCA-SE for supporting the LACEGAL-\nIII (Latin American Chinese European Galaxy Formation Net-\nwork) project with grant number 101086388 and the science re-\nsearch grants from the China Manned Space Project."
+  },
+  {
+    "subject": "region_comunidadDeMadrid",
+    "relation": "providesFunding",
+    "object": "fellowship_atraccionDeTalento",
+    "chunk": "completedocument23",
+    "context": "W. C gratefully\nthanks Comunidad de Madrid for the Atracción de Talento fellow-\nship no. 2020-T1/TIC19882 and Agencia Estatal de Investigación\n(AEI) for the Consolidación Investigadora Grant CNS2024-154838."
+  },
+  {
+    "subject": "entity_icl",
+    "relation": "hasSpatialDistribution",
+    "object": "space_phaseSpace",
+    "chunk": "completedocument24",
+    "context": "The phase-space distribution of ICL and DM21"
+  },
+  {
+    "subject": "entity_dm21",
+    "relation": "hasSpatialDistribution",
+    "object": "space_phaseSpace",
+    "chunk": "completedocument24",
+    "context": "The phase-space distribution of ICL and DM21"
+  }
+]

@@ -1,0 +1,82 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "relatedwork",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: relatedwork
+- section_title: Related Work
+- page_start: 9
+- page_end: 9
+
+**INPUT TEXT CHUNK:**
+Blockchain benchmarkingExisting frameworks like
+Blockbench [17] and Hyperledger Caliper [24] standard-ize the evaluation of throughput, latency, and fault toler-
+ance. Gromit [28] further addresses ad-hoc testing limi-
+tations. However, these frameworks prioritize execution
+capacity (TPS) and treat the network layer as secondary.
+Our work builds upon Diablo [19] and STABL[20] to rig-
+orously isolate bandwidth consumption, a critical metric
+overlooked by execution-focused benchmarks.
+Network traffic and block propagationEarly studies
+analyzed propagation delays in Bitcoin [14], leading to
+bandwidth optimization protocols like Graphene [29],
+Compact Blocks [10], and the BloXroute [25] Layer-0
+CDN. While these works propose techniques to minimize
+traffic, our paper provides a comparative measurement
+of modern Layer-1 protocols. We reveal that contempo-
+rary systems like Solana often prioritize data redundancy
+over the bandwidth efficiency emphasized in earlier Bit-
+coin and Ethereum research.
+Communication complexity vs. empirical reality
+While theoretical literature favors linear communica-
+tion complexity (O(n)) protocols like HotStuff [38] over
+quadratic BFT implementations [5], theoretical bounds
+often fail to predict real-world behavior. By con-
+trast, Voron and Gramoli [35] showed empirically that
+quadratic complexity can achieve significantly better per-
+formance when well balanced across a quadratic num-
+ber of routes of a WAN. Di Perna et al. [15] showed that
+dense network topologies improve performance under
+load, a finding correlated with higher energy usage [16].
+Our empirical results confirm this divergence between
+redundancy-heavy architectures like Solana and the lean
+traffic profiles of Redbelly.

@@ -1,0 +1,136 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument26
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+Even at this resolution, the simulation
+remains stable outside the central kpc where we find no significant
+deviation from the initial profile.
+We perform further tests on the stability of each satellite model,
+alsoevolvingeachoneinisolationfor2Gyr.Nosignificantdeviations
+fromtheinitialconditionsarefound,withanydeviationsconfinedto
+well within the stellar effective radius of the satellite.
+APPENDIX B: MODEL PREDICTIONS
+Figure B1 presents the evolution of the specific orbital energy and
+angular momentum ratios between stripped stars and stripped DM
+as functions of the infall circularity, for the set of satellite–to–host
+mass ratios indicated in the legend. The top panels show the energy
+ratios,computedforallstrippedparticles(left)andforparticleswith
+𝑟 >100kpc(right).Weincludebreakinthe𝑦-axisofthetoppanels
+becausethe1:1mergerproducesmarkedlylowerratiosthantheother
+cases. The bottom panels show the corresponding ratios for angular
+momentum.
+For the energy ratios, most of the variation arises from the mass
+ratio, with only a modest dependence on circularity. The trend is
+monotonic: closer mass ratios produce greater stellar energy loss
+relative to the DM. The difference between the all particles and
+when only particles at𝑟 >100kpc are included is smaller, since
+excluding the innermost region removes the lowest-energy material.
+At more unequal mass ratios the two selections agree much more
+MNRAS000, 1–26 (2026)
+
+22G. Martin et al.
+𝑀★/M⊙𝑀h,200/M⊙𝑟1/2/kpc𝑐 200𝑀sat/𝑀 host𝑚★/M⊙𝑚DM/M⊙
+108.51011.02.03 6.47 0.0006 104.3105.3
+109.91011.72.96 5.86 0.0029 105.3106.0
+1010.51012.13.58 5.61 0.0075 105.8106.5
+1010.91012.74.67 5.22 0.0312 106.3107.0
+1011.11013.05.35 5.08 0.0644 106.3107.0
+1011.31013.35.98 4.92 0.1229 106.3107.0
+1011.51013.77.42 4.88 0.2900 106.3107.0
+1012.21014.212.5 4.96 1.0000— —
+Table B1.Properties and numerical resolution used for the satellite and cluster models. Columns list the stellar mass𝑀 ★, halo mass𝑀 h,200, stellar half-mass
+radius𝑟 1/2, halo concentration𝑐 200, satellite–to–host mass ratio𝑀 sat/𝑀 hostand the stellar and DM particle masses𝑚 ★and𝑚 DM. Satellite model properties
+are assigned using scaling relations at𝑧=1, while the cluster is defined at its formation redshift𝑧=0.6. The cluster model is indicated in bold. The cluster
+model is not assigned an independent particle resolution; instead, its effective mass resolution is inherited from the satellite.
+101
+100101102103
+r [kpc]10710810910101011101210131014M(<r) [M]
+N-body, initial
+N-body, post-relaxation
+Analytic
+Cluster halo
+Central galaxy
+FigureA1.TheDMandstellarcumulativeradialmassprofilesofthecluster
+haloandcentralgalaxymeasuredoutto𝑅 200.Filledsquaresindicateanalytic
+Hernquist mass profile while open diamonds indicate the mass profile mea-
+sured from theGalICgenerated initial conditions. Thin faint lines indicate
+the mass profile over the lowest adopted resolution shown in Table B1 after
+the isolated cluster has been evolved for between 0.25 and 2 Gyr.
+closely, due to the fact that most stripped material remains at large
+radii in these cases.
+The angular momentum ratios show a similar overall pattern but
+with a stronger dependence on the orbital angular momentum, par-
+ticularly for the most radial orbits. This introduces a wider spread
+across circularity than is seen in the energy ratios.
+To quantify the contribution of each satellite to the phase-space
+properties of ICL and the cluster’s DM halo, it is also necessary to
+measurethefractionofmassthatisactuallydepositedintoclusterthe
+halo. Figure B2 presents this for both DM and stellar components:
+the top panels show the stripped stellar mass as a fraction of the
+satellite’s infall stellar mass (left) and the fraction of that mass that
+ends up at𝑟 >100kpc by the end of the simulation, again as a
+fractionoftheinfallstellarmass(right).Thebottompanelsshowthe
+same quantities for DM.
+Thebehaviourofthestrippedfractionsislessstraightforwardthan
+thatoftheenergyandangularmomentumratios.Strippingefficiency
+increases as satellites lose orbital energy, but the material in low-
+mass systems is also more weakly bound resulting in an increase instripping efficiency.

@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["MobileNet","ResNet50","PathologicalImageClassification","Resampling","LossFunctionModification","FocalLoss","CTImage","MRIClassification","QuantumCircuit","MobileNetV2","SDAQEC","SimplifiedDiffusionAugmentation","QuantumEnhancedClassification","SimpleDiffusionAugmentor","SyntheticImage","QuantumFeatureLayer","PennylaneLibrary","PathologicalDetail","EndToEndClassifier","ResNet18","DenseNet121","VGG16","CoronaryAngiographyImageClassification","Accuracy","AUC","F1Score","Sensitivity","Specificity","ClinicalDeployment","MedicalAISystem","SmallSampleDiagnosticScenario","HighRiskDiagnosticScenario","DataDistributionReconstruction","ModelDiscriminativeCapabilityEnhancement","SimplifiedDiffusionProcess","LightweightQuantumFeatureMapping","ConvolutionalFeature","DecisionBoundary","DataLoading","ClassDistributionAnalysis"]
+
+Triples:
+[{"subject":"ExistingFramework","relation":"doesNotCombine","object":"QuantumMachineLearning"},{"subject":"MedicalImageClassification","relation":"primarilyEmploys","object":"ConvolutionalNeuralNetwork"},{"subject":"ConvolutionalNeuralNetwork","relation":"includes","object":"ResNet"},{"subject":"ConvolutionalNeuralNetwork","relation":"includes","object":"MobileNet"},{"subject":"ResNet50","relation":"usedFor","object":"PathologicalImageClassification"},{"subject":"ResNet50","relation":"achieves","object":"HighAccuracy"},{"subject":"ResNet50","relation":"overlooks","object":"ClassImbalance"},{"subject":"ClassImbalance","relation":"addressedBy","object":"Resampling"},{"subject":"ClassImbalance","relation":"addressedBy","object":"LossFunctionModification"},{"subject":"LossFunctionModification","relation":"includes","object":"FocalLoss"},{"subject":"GenerativeAdversarialNetwork","relation":"widelyAppliedIn","object":"Medicine"},{"subject":"GenerativeAdversarialNetwork","relation":"hasIssue","object":"TrainingComplexity"},{"subject":"DiffusionModel","relation":"generatesSampleThrough","object":"ForwardDiffusion"},{"subject":"DiffusionModel","relation":"generatesSampleThrough","object":"ReverseDenoisingProcess"},{"subject":"DiffusionModel","relation":"hasSuperiorStabilityComparedTo","object":"GenerativeAdversarialNetwork"},{"subject":"DiffusionModel","relation":"usedToSynthesize","object":"CTImage"},{"subject":"DiffusionModel","relation":"hasLimitation","object":"ComputationalIntensity"},{"subject":"ComputationalIntensity","relation":"limits","object":"Practicality"},{"subject":"ThisWork","relation":"simplifiesInto","object":"SimpleDiffusionAugmentor"},{"subject":"SimpleDiffusionAugmentor","relation":"focusesOn","object":"ForwardDiffusion"},{"subject":"SimpleDiffusionAugmentor","relation":"targets","object":"ResourceLimitedScenario"},{"subject":"QuantumMachineLearning","relation":"utilizes","object":"Qubit"},{"subject":"QuantumMachineLearning","relation":"supports","object":"HighDimensionalDataProcessing"},{"subject":"QuantumCircuit","relation":"integratedInto","object":"ConvolutionalNeuralNetwork"},{"subject":"QuantumCircuit","relation":"improves","object":"MRIClassification"},{"subject":"ThisWork","relation":"positionsAfter","object":"MobileNetV2"},{"subject":"QuantumFeatureLayer","relation":"enhances","object":"Feature"},{"subject":"SDAQEC","relation":"standsFor","object":"SimplifiedDiffusionAugmentation"},{"subject":"SDAQEC","relation":"standsFor","object":"QuantumEnhancedClassification"},{"subject":"SDAQEC","relation":"integrates","object":"SimplifiedDiffusionAugmentation"},{"subject":"SDAQEC","relation":"integrates","object":"QuantumEnhancedClassification"},{"subject":"SimpleDiffusionAugmentor","relation":"simulates","object":"ForwardDiffusion"},{"subject":"SimpleDiffusionAugmentor","relation":"creates","object":"DiffusionLikeVariant"},{"subject":"SimpleDiffusionAugmentor","relation":"generates","object":"SyntheticImage"},{"subject":"SyntheticImage","relation":"targets","object":"MinorityClass"},{"subject":"SimpleDiffusionAugmentor","relation":"alleviates","object":"ClassImbalance"},{"subject":"QuantumFeatureLayer","relation":"implementedVia","object":"PennylaneLibrary"},{"subject":"QuantumFeatureLayer","relation":"employs","object":"QuantumCircuit"},{"subject":"QuantumFeatureLayer","relation":"enhancesFeatureExtractedBy","object":"MobileNetV2"},{"subject":"QuantumFeatureLayer","relation":"improvesSensitivityTo","object":"PathologicalDetail"}]

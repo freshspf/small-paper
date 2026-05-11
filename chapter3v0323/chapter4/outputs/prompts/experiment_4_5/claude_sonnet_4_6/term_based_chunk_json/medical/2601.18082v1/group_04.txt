@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Configuration",
+  "excludes",
+  "HarmfulInteraction",
+  "correspondsTo",
+  "MaximumSafeSubset",
+  "problem_sco",
+  "incorporates",
+  "SynergisticReward",
+  "CardinalityConstraint",
+  "DrugCombination",
+  "maximizes",
+  "TherapeuticSynergy",
+  "suppresses",
+  "Drug",
+  "testedAgainst",
+  "virus_sarsCov2",
+  "belongsToClass",
+  "ViralReplicationInhibitor",
+  "EntryAndPostTranslationalInhibitor",
+  "ImmuneResponseRegulator",
+  "drug_remdesivir",
+  "hasSynergisticInteractionWith",
+  "drug_ribavirin",
+  "hasHarmfulInteractionWith",
+  "drug_hydroxychloroquine",
+  "reducesAntiviralEfficacyWith",
+  "optimal_solution_set",
+  "containsDrug",
+  "drug_rdv",
+  "drug_rbv",
+  "drug_pax",
+  "drug_ntz",
+  "drug_mov",
+  "drug_fpv",
+  "drug_dex",
+  "hasMechanismOfAction",
+  "moa_nucleoside_analog",
+  "moa_rdrp_inhibitor",
+  "drug_molnupiravir",
+  "moa_ribonucleoside_analog",
+  "drug_favipiravir",
+  "moa_purine_analog",
+  "DrugDrugInteraction",
+  "CombinationTherapy",
+  "HarmfulSideEffect",
+  "TreatmentFailure",
+  "HospitalAdmission",
+  "Patient",
+  "MultipleDrugs",
+  "CancerTherapy",
+  "ChronicDisease",
+  "InfectiousDisease",
+  "SevereBleeding",
+  "BloodThinnerCombination",
+  "MuscleDamage",
+  "KidneyFailure",
+  "CholesterolLoweringDrug",
+  "Antibiotic",
+  "HivTreatment",
+  "CancerChemotherapy",
+  "AntibioticRegimen",
+  "Effectiveness",
+  "Resistance",
+  "TreatmentStrategy",
+  "AntiviralDrug",
+  "AntiInflammatoryDrug",
+  "SupportiveDrug",
+  "algorithm_falqon",
+  "algorithm_ite_falqon",
+  "optimization_ddi_aware_drug_combination",
+  "problem_maximum_safe_subset",
+  "concept_harmful_interaction",
+  "problem_synergy_constrained_optimization",
+  "concept_efficacy",
+  "concept_toxicity",
+  "concept_regimen_size",
+  "data_interaction_data",
+  "database_drugs_com",
+  "database_synergxdb",
+  "network_six_drug_network"
+]
+
+Triples:
+[
+  {
+    "subject": "Configuration",
+    "relation": "excludes",
+    "object": "HarmfulInteraction",
+    "chunk": "completedocument5",
+    "context": "Both conﬁgurations exclude all major harmful interactions, conﬁrming that they correspond to valid maximum safe subsets."
+  },
+  {
+    "subject": "Configuration",
+    "relation": "correspondsTo",
+    "object": "MaximumSafeSubset",
+    "chunk": "completedocument5",
+    "context": "Both conﬁgurations exclude all major harmful interactions, conﬁrming that they correspond to valid maximum safe subsets."
+  },
+  {
+    "subject": "problem_sco",
+    "relation": "incorporates",
+    "object": "SynergisticReward",
+    "chunk": "completedocument5",
+    "context": "We now turn to the SCO problem, which extends the MSS formulation by incorporating both synergistic re- wards and an explicit cardinality constraint."
+  },
+  {
+    "subject": "problem_sco",
+    "relation": "incorporates",
+    "object": "CardinalityConstraint",
+    "chunk": "completedocument5",
+    "context": "We now turn to the SCO problem, which extends the MSS formulation by incorporating both synergistic re- wards and an explicit cardinality constraint."
+  },
+  {
+    "subject": "DrugCombination",
+    "relation": "maximizes",
+    "object": "TherapeuticSynergy",
+    "chunk": "completedocument5",
+    "context": "The objective is to identify drug combinations of ﬁxed size Kthat maximize therapeutic synergy while suppressing harm- ful interactions."
+  },
+  {
+    "subject": "DrugCombination",
+    "relation": "suppresses",
+    "object": "HarmfulInteraction",
+    "chunk": "completedocument5",
+    "context": "The objective is to identify drug combinations of ﬁxed size Kthat maximize therapeutic synergy while suppressing harm- ful interactions."
+  },
+  {
+    "subject": "Drug",
+    "relation": "testedAgainst",
+    "object": "virus_sarsCov2",
+    "chunk": "completedocument6",
+    "context": "During the early stages of the COVID-19 pandemic, many drugs were tested in clinical trials to ﬁnd eﬀective combinations against SARS-CoV-2."
+  },
+  {
+    "subject": "Drug",
+    "relation": "belongsToClass",
+    "object": "ViralReplicationInhibitor",
+    "chunk": "completedocument6",
+    "context": "The drugs are grouped into three functional classes: viral replication inhibitors, entry and post-translational inhibitors, and immune response regulators."
+  },
+  {
+    "subject": "Drug",
+    "relation": "belongsToClass",
+    "object": "EntryAndPostTranslationalInhibitor",
+    "chunk": "completedocument6",
+    "context": "The drugs are grouped into three functional classes: viral replication inhibitors, entry and post-translational inhibitors, and immune response regulators."
+  },
+  {
+    "subject": "Drug",
+    "relation": "belongsToClass",
+    "object": "ImmuneResponseRegulator",
+    "chunk": "completedocument6",
+    "context": "The drugs are grouped into three functional classes: viral replication inhibitors, entry and post-translational inhibitors, and immune response regulators."
+  },
+  {
+    "subject": "drug_remdesivir",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_ribavirin",
+    "chunk": "completedocument6",
+    "context": "For example, Remdesivir and Ribavirin show synergistic antiviral activity and are therefore assigned a high synergy weight, whereas the combination of Remdesivir and Hydroxychloroquine is known to reduce antiviral eﬃcacy and is classiﬁed as harmful."
+  },
+  {
+    "subject": "drug_remdesivir",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_hydroxychloroquine",
+    "chunk": "completedocument6",
+    "context": "For example, Remdesivir and Ribavirin show synergistic antiviral activity and are therefore assigned a high synergy weight, whereas the combination of Remdesivir and Hydroxychloroquine is known to reduce antiviral eﬃcacy and is classiﬁed as harmful."
+  },
+  {
+    "subject": "drug_remdesivir",
+    "relation": "reducesAntiviralEfficacyWith",
+    "object": "drug_hydroxychloroquine",
+    "chunk": "completedocument6",
+    "context": "For example, Remdesivir and Ribavirin show synergistic antiviral activity and are therefore assigned a high synergy weight, whereas the combination of Remdesivir and Hydroxychloroquine is known to reduce antiviral eﬃcacy and is classiﬁed as harmful."
+  },
+  {
+    "subject": "optimal_solution_set",
+    "relation": "containsDrug",
+    "object": "drug_rdv",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "optimal_solution_set",
+    "relation": "containsDrug",
+    "object": "drug_rbv",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "optimal_solution_set",
+    "relation": "containsDrug",
+    "object": "drug_pax",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "optimal_solution_set",
+    "relation": "containsDrug",
+    "object": "drug_ntz",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "optimal_solution_set",
+    "relation": "containsDrug",
+    "object": "drug_mov",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "optimal_solution_set",
+    "relation": "containsDrug",
+    "object": "drug_fpv",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "optimal_solution_set",
+    "relation": "containsDrug",
+    "object": "drug_dex",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "drug_pax",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_dex",
+    "chunk": "completedocument6",
+    "context": "For relatively small values of α (e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX, NTZ, MOV, FPV, DEX }, which still contains harmful terms, such as the PAX-DEX pair because the energy of adding a new drug can outweigh the penalty imposed by a harmful interaction."
+  },
+  {
+    "subject": "drug_remdesivir",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_nucleoside_analog",
+    "chunk": "completedocument7",
+    "context": "Remdesivir RDV Nucleoside analog; RdRp inhibitor [38, 39]"
+  },
+  {
+    "subject": "drug_remdesivir",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_rdrp_inhibitor",
+    "chunk": "completedocument7",
+    "context": "Remdesivir RDV Nucleoside analog; RdRp inhibitor [38, 39]"
+  },
+  {
+    "subject": "drug_molnupiravir",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_ribonucleoside_analog",
+    "chunk": "completedocument7",
+    "context": "Molnupiravir MOV Ribonucleoside analog; induces lethal mu tagenesis [38, 39]"
+  },
+  {
+    "subject": "drug_favipiravir",
+    "relation": "hasMechanismOfAction",
+    "object": "moa_purine_analog",
+    "chunk": "completedocument7",
+    "context": "Favipiravir FPV Purine analog; selective RdRp inhibitor [3 8, 39]"
+  }
+]

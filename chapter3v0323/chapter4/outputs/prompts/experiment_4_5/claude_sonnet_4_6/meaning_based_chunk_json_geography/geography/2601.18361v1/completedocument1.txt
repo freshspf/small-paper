@@ -1,0 +1,135 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+1
+Integrating HAPS, LEO, and Terrestrial Networks: A
+Cost-Performance Study for IoT Connectivity
+Jean Michel de Souza Sant’Ana, Felipe Augusto Tondo, Nurul Huda Mahmood, Aamir Mahmood.
+Abstract—This work evaluates the potential of High-Altitude
+Platform Stations (HAPS) and Low Earth Orbit (LEO) satellites
+as alternative or complementary systems to enhance Internet
+of Things (IoT) connectivity. We first analyze the transmission
+erasure probability under different connectivity configurations,
+including only HAPS or LEO satellites, as well as hybrid
+architectures that integrate both aerial/spatial and terrestrial
+infrastructures. To make the analysis more realistic, we con-
+sidered movement of LEO satellites regarding a fixed region,
+elevation angle between gateway and devices, and different fading
+models for terrestrial and non-terrestrial communication. We
+also analyze LR-FHSS (Long-Range Frequency Hopping Spread
+Spectrum) random access uplink technology as a potential use
+case for IoT connectivity, showing the scalability impact of the
+scenarios. The simulation results demonstrate that HAPS can
+effectively complement sparse terrestrial networks and improve
+the performance of satellite-based systems in specific scenarios.
+Furthermore, considering the deployment and operational costs,
+respectively, CAPEX and OPEX, the economic analysis reveals
+that although HAPS exhibits higher costs, these remain within a
+comparable order of magnitude to LEO and terrestrial deploy-
+ments. In addition, specific use cases, such as natural disasters,
+transform HAPS into a competitive technology for conventional
+infrastructures.
+Keywords—Internet of Things (IoT), Non-terrestrial networks
+(NTNs), High-Altitude Platform Stations (HAPS), Low Earth Orbit
+(LEO) satellite.
+I. INTRODUCTION
+Expanding Internet of Things (IoT) connectivity to remote
+and underserved regions remains a major challenge to achieve
+global digital inclusion [1]. Areas lacking basic network infras-
+tructure, due to geographic, economic, or political constraints,
+require alternative connectivity solutions that can establish
+connectivity where none exists or enhance and complement
+existing systems. Typical applications include herd and wildlife
+tracking [2], forest fire detection [3], agricultural and aquacul-
+ture monitoring, offshore ship tracking [4], and cargo moni-
+toring [5].
+J. M. S. Sant’Ana and N. H. Mahmood are with the Cen-
+tre for Wireless Communications (CWC), University of Oulu, Finland
+({Jean.DeSouzaSantana, NurulHuda.Mahmood}@oulu.fi).
+F. A. Tondo is with the Federal University of Santa Catarina (UFSC),
+Florianpolis, SC, Brazil. (felipe.tondo@posgrad.ufsc.br).
+A. Mahmood is with the Department of Computer and Electri-
+cal Engineering, Mid Sweden University, 851 70 Sundsvall, Sweden
+(aamir.mahmood@miun.se).
+This research was partially supported in Finland and Sweden by the
+European Union through the Interreg Aurora project ENSURE-6G (Grant
+Number: 20361812); in Finland by the Research Council of Finland through
+the project 6G Flagship (Grant Number: 369116); and in Brazil by the PIPD
+CAPES-UFSC (88887.103181/2025-00).As a potential solution, Low Earth Orbit (LEO) satellites
+offer global coverage and scalability [6]. Their reduced costs
+and recent technological advancements make them an attrac-
+tive option for extending IoT connectivity. They provide wide
+coverage per satellite, and their non-stationary orbits enable
+communication with remote regions. However, a large con-
+stellation is required to ensure continuous service and, in most
+cases, devices must coordinate with the satellites to determine
+when transmission opportunities occur [7]. Furthermore, the
+link budget can restrict device operation, especially in indoor
+environments or areas without line-of-sight, where higher an-
+tenna gains, transmission power, or specific configurations may
+be needed to maintain reliable communication. Furthermore,
+since LEO satellites simultaneously cover large portions of the
+Earth’s surface due to their high orbital altitude, they can lead
+to interference challenges in massive IoT scenarios [8].
+Another alternative for non-terrestrial networks (NTN) is
+the High Altitude Platform (HAPS) mounted network, which
+is a quasi-stationary aerial system operating in the stratosphere,
+typically between 8 and 50 km of altitude [9]. Positioned
+above weather disturbances, yet much closer to the ground
+than satellites, HAPS can provide direct communication links
+to IoT devices with a more favorable link budget and lower
+round trip time (RTT) latencies. These characteristics allow
+for intermittent or regional coverage, eliminate the need for
+gateway synchronization, and offer greater flexibility compared
+to terrestrial base stations (BS). Recent developments, such
+as SoftBank’s Sunglider [10] and Aaltos Zephyr [11], have
+demonstrated the feasibility of multi-week autonomous solar-
+powered operation, with both companies planning to begin
+commercial services in 2026.

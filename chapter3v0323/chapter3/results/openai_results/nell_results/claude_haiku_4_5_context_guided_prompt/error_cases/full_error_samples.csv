@@ -1,0 +1,520 @@
+﻿id,axiom_type,axiom_text,context_info,label,model_name,temperature,max_tokens,base_url,model_output,model_label,is_correct,error
+sample_0020,subClassOf,caf_ ⊑ company,"背景知识：
+条目1：
+- 名称：caf_
+- 类型：Class
+- 简介：{%%s is a %s, café}
+- 补充信息：generalizations: location, company
+
+条目2：
+- 名称：company
+- 类型：Class
+- 简介：{%%s is a %s, company}
+- 补充信息：generalizations: organization",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，caf_的泛化关系包括location和company，而company的泛化关系是organization，这表明caf_和company是兄弟类关系（都继承自更高层概念），而非caf_⊆company的包含关系，因此该subClassOf公理不正确。",0,0,
+sample_0057,subClassOf,stateorprovince ⊑ geopoliticalorganization,"背景知识：
+条目1：
+- 名称：stateorprovince
+- 类型：Unknown
+- 简介：In general, the top-level administrative or political subdivision within a country.
+- 补充信息：generalizations: geopoliticallocation, geopoliticalorganization, geolocatablething
+
+条目2：
+- 名称：geopoliticalorganization
+- 类型：Unknown
+- 简介：Those geopolitical entities that are organizations
+- 补充信息：generalizations: geopoliticalentity, organization",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，stateorprovince的上位概念包括geopoliticallocation、geopoliticalorganization和geolocatablething，而geopoliticalorganization的上位概念是geopoliticalentity和organization，两者存在并列的泛化关系而非包含关系，且stateorprovince作为地理政治位置的子类，其主要语义特征是地理位置属性，不能直接归属于强调组织性质的geopoliticalorganization。",0,0,
+sample_0063,subPropertyOf,bombingvictim ⊑p relatedto,"背景知识：
+条目1：
+- 名称：bombingvictim
+- 类型：Class
+- 简介：bombingvictim is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: bombingevent | range: person
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：bombingvictim是Class类型，relatedto是Class类型，两者都不是属性，因此不能使用subPropertyOf(⊑p)关系进行关联，该公理混淆了类与属性的概念。",0,0,
+sample_0064,subPropertyOf,inverseofautomobilemakerchiefexecutiveceo ⊑p ceoof,"背景知识：
+条目1：
+- 名称：inverseofautomobilemakerchiefexecutiveceo
+- 类型：Class
+- 简介：inverseofautomobilemakerchiefexecutiveceo is a class in the NELL knowledge base.
+- 补充信息：generalizations: ceoof | domain: ceo | range: automobilemaker
+
+条目2：
+- 名称：ceoof
+- 类型：Class
+- 简介：{%%s is the %s %%s, CEO of}
+- 补充信息：generalizations: topmemberoforganization | domain: ceo | range: company",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：inverseofautomobilemakerchiefexecutiveceo的domain为ceo、range为automobilemaker，而ceoof的domain为ceo、range为company，两者的range约束不一致（automobilemaker ≠ company），因此前者不能作为后者的子属性。",0,0,
+sample_0069,subPropertyOf,inverseofpersongraduatedfromuniversity ⊑p schoolgraduatedperson,"背景知识：
+条目1：
+- 名称：inverseofpersongraduatedfromuniversity
+- 类型：Class
+- 简介：inverseofpersongraduatedfromuniversity is a class in the NELL knowledge base.
+- 补充信息：generalizations: schoolgraduatedperson | domain: university | range: person
+
+条目2：
+- 名称：schoolgraduatedperson
+- 类型：Class
+- 简介：schoolgraduatedperson is a class in the NELL knowledge base.
+- 补充信息：generalizations: schoolattendedbyperson | domain: school | range: person",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：inverseofpersongraduatedfromuniversity的domain为university、range为person，而schoolgraduatedperson的domain为school、range为person，两者domain不同（university vs school），违反了RDFS中subClassOf关系的domain-range一致性原则，因此该包含关系不成立。",0,0,
+sample_0073,subPropertyOf,inverseofcriminalssuchascriminals ⊑p specializationof,"背景知识：
+条目1：
+- 名称：inverseofcriminalssuchascriminals
+- 类型：Unknown
+- 简介：Describes the criminals types that are generalizations of specific criminals
+- 补充信息：generalizations: specializationof | domain: criminal | range: criminal
+
+条目2：
+- 名称：specializationof
+- 类型：Unknown
+- 简介：one thing is a more specific kind of another thing
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：inverseofcriminalssuchascriminals的domain和range均为criminal，而specializationof的domain和range均为everypromotedthing，两者定义域和值域不兼容，不能构成subPropertyOf关系。",0,0,
+sample_0078,subPropertyOf,buildingbelongstoorganization ⊑p locationactedinbyorganization,"背景知识：
+条目1：
+- 名称：buildingbelongstoorganization
+- 类型：Class
+- 简介：{%%s %s %%s, is a building belonging to}
+- 补充信息：generalizations: locationactedinbyorganization | domain: building | range: organization
+
+条目2：
+- 名称：locationactedinbyorganization
+- 类型：Class
+- 简介：locationactedinbyorganization is a class in the NELL knowledge base.
+- 补充信息：generalizations: locationactedinbyagent | domain: location | range: organization",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：buildingbelongstoorganization的domain为building、range为organization，而locationactedinbyorganization的domain为location、range为organization，两者domain不同（building ≠ location），违反了RDFS中subPropertyOf的语义规则——子属性必须继承父属性的domain和range约束。",0,0,
+sample_0084,subPropertyOf,inverseofanimalssuchasmammals ⊑p specializationof,"背景知识：
+条目1：
+- 名称：inverseofanimalssuchasmammals
+- 类型：Unknown
+- 简介：Describes the animal types that are generalizations of mammals
+- 补充信息：generalizations: specializationof | domain: mammal | range: animal
+
+条目2：
+- 名称：specializationof
+- 类型：Unknown
+- 简介：one thing is a more specific kind of another thing
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：inverseofanimalssuchasmammals是一个类（描述动物类型），而specializationof是一个属性（描述事物间的关系），两者属于不同的语义层级，不能用subClassOf（⊑p）关系进行连接。",0,0,
+sample_0086,subPropertyOf,inverseofmammalsuchasmammal ⊑p specializationof,"背景知识：
+条目1：
+- 名称：inverseofmammalsuchasmammal
+- 类型：Class
+- 简介：inverseofmammalsuchasmammal is a class in the NELL knowledge base.
+- 补充信息：generalizations: specializationof | domain: mammal | range: mammal
+
+条目2：
+- 名称：specializationof
+- 类型：Class
+- 简介：{%%s is a %s %%s, kind of}
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：inverseofmammalsuchasmammal是一个Class（类），而specializationof也是一个Class（类），两个类之间不能使用subPropertyOf（⊑p）关系，subPropertyOf仅用于属性之间的包含关系，应使用subClassOf（⊑）表示类的包含关系。",0,0,
+sample_0088,subPropertyOf,citysportsteams ⊑p proxyfor,"背景知识：
+条目1：
+- 名称：citysportsteams
+- 类型：Class
+- 简介：citysportsteams is a class in the NELL knowledge base.
+- 补充信息：generalizations: proxyfor, locationactedinbyorganization | domain: city | range: sportsteam
+
+条目2：
+- 名称：proxyfor
+- 类型：Class
+- 简介：{%%s is a %s for %%s, proxy}
+- 补充信息：generalizations: mutualproxyfor | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：citysportsteams的domain为city、range为sportsteam，而proxyfor的domain和range均为everypromotedthing，两者的定义域和值域约束不兼容，citysportsteams不能作为proxyfor的子属性。",0,0,
+sample_0099,subPropertyOf,cityhostsattraction ⊑p cityattractions,"背景知识：
+条目1：
+- 名称：cityhostsattraction
+- 类型：Unknown
+- 简介：Attraction occurs in the city
+- 补充信息：generalizations: cityattractions | domain: city | range: attraction
+
+条目2：
+- 名称：cityattractions
+- 类型：Unknown
+- 简介：The city that an attraction is located in
+- 补充信息：generalizations: locationcontainslocation | domain: city | range: attraction",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：cityhostsattraction和cityattractions的domain和range完全相同（都是domain: city, range: attraction），但它们的语义含义相反——前者表示""城市拥有景点""，后者表示""景点所在的城市""，两者是互为逆属性的关系而非包含关系，因此不能用subPropertyOf连接。",0,0,
+sample_0105,subPropertyOf,productinstanceof ⊑p specializationof,"背景知识：
+条目1：
+- 名称：productinstanceof
+- 类型：Unknown
+- 简介：Specifies that a particular product is a particular kind of thing
+- 补充信息：generalizations: specializationof | domain: product | range: item
+
+条目2：
+- 名称：specializationof
+- 类型：Unknown
+- 简介：one thing is a more specific kind of another thing
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：productinstanceof的domain为product、range为item，而specializationof的domain和range均为everypromotedthing，两者的定义域和值域不兼容，productinstanceof不能作为specializationof的子属性。",0,0,
+sample_0106,subPropertyOf,agenthierarchicallyaboveagent ⊑p agentcollaborateswithagent,"背景知识：
+条目1：
+- 名称：agenthierarchicallyaboveagent
+- 类型：Class
+- 简介：{%%s is hierarchically %s %%s, above}
+- 补充信息：generalizations: agentcontrols, agentcollaborateswithagent | domain: agent | range: agent
+
+条目2：
+- 名称：agentcollaborateswithagent
+- 类型：Class
+- 简介：{%%s %s with %%s, collaborates}
+- 补充信息：generalizations: agentinteractswithagent | domain: agent | range: agent",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，agenthierarchicallyaboveagent的泛化关系是agentcontrols和agentcollaborateswithagent，这表示前者是后两者的子属性，但""层级关系""与""协作关系""在语义上存在本质区别，层级关系强调的是权力或控制的纵向差异，而协作关系强调的是平等的横向互动，因此不能将层级关系作为协作关系的子属性。",0,0,
+sample_0107,subPropertyOf,animalssuchasmammals ⊑p generalizationof,"背景知识：
+条目1：
+- 名称：animalssuchasmammals
+- 类型：Class
+- 简介：{%%s %s %%s, is a generalization of}
+- 补充信息：generalizations: generalizationof | domain: animal | range: mammal
+
+条目2：
+- 名称：generalizationof
+- 类型：Class
+- 简介：generalizationof is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，animalssuchasmammals的domain为animal、range为mammal，而generalizationof的domain和range均为everypromotedthing，两者的domain和range约束不匹配，且animalssuchasmammals作为类不应直接用subClassOf关系指向作为属性的generalizationof，违反了RDFS中类和属性的基本类型区分原则。",0,0,
+sample_0108,subPropertyOf,inverseofcoachcanspeaklanguage ⊑p relatedto,"背景知识：
+条目1：
+- 名称：inverseofcoachcanspeaklanguage
+- 类型：Unknown
+- 简介：Describes the languages that coaches might speak
+- 补充信息：generalizations: relatedto | domain: language | range: coach
+
+条目2：
+- 名称：relatedto
+- 类型：Unknown
+- 简介：associated; connected (http://dictionary.reference.com/browse/related)
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：inverseofcoachcanspeaklanguage的domain为language、range为coach，而relatedto的domain和range均为everypromotedthing，两者的domain-range约束不兼容，不满足subPropertyOf的语义要求（子属性的domain应包含于父属性的domain，range应包含于父属性的range）。",0,0,
+sample_0110,subPropertyOf,hobbiessuchashobbies ⊑p generalizationof,"背景知识：
+条目1：
+- 名称：hobbiessuchashobbies
+- 类型：Class
+- 简介：{%%s %s %%s, is a generalization of}
+- 补充信息：generalizations: generalizationof | domain: hobby | range: hobby
+
+条目2：
+- 名称：generalizationof
+- 类型：Class
+- 简介：generalizationof is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，hobbiessuchashobbies的domain和range均为hobby，而generalizationof的domain和range均为everypromotedthing，两者的定义域和值域不兼容，不满足RDFS中subPropertyOf的语义约束（子属性的domain应包含于父属性的domain，子属性的range应包含于父属性的range）。",0,0,
+sample_0112,subPropertyOf,sportsgamewinnerscore ⊑p relatedto,"背景知识：
+条目1：
+- 名称：sportsgamewinnerscore
+- 类型：Unknown
+- 简介：Specifies the score with which the winning team in a particular sportsGame lost.
+- 补充信息：generalizations: relatedto | domain: sportsgame | range: nonneginteger
+
+条目2：
+- 名称：relatedto
+- 类型：Unknown
+- 简介：associated; connected (http://dictionary.reference.com/browse/related)
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：sportsgamewinnerscore的domain为sportsgame、range为nonneginteger，而relatedto的domain和range均为everypromotedthing，两者的定义域和值域约束不兼容，不满足subPropertyOf的RDFS语义规则（子属性必须继承父属性的domain和range约束）。",0,0,
+sample_0115,subPropertyOf,locationofevent ⊑p locatedat,"背景知识：
+条目1：
+- 名称：locationofevent
+- 类型：Unknown
+- 简介：the location that an event is happened at
+- 补充信息：generalizations: locatedat | domain: location | range: event
+
+条目2：
+- 名称：locatedat
+- 类型：Unknown
+- 简介：assigns locations to things.
+- 补充信息：generalizations: relatedto | domain: location | range: everypromotedthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，locationofevent的domain为location而range为event，locatedat的domain为location而range为everypromotedthing，若locationofevent ⊑p locatedat成立，则locationofevent的range（event）应为locatedat的range（everypromotedthing）的子集，但event与everypromotedthing的包含关系在背景知识中未能确立，且两个属性的range定义存在语义冲突，违反了RDFS中subPropertyOf的range兼容性原则。",0,0,
+sample_0127,domain,domain(inverseofanimalssuchasmammals) = mammal,"背景知识：
+条目1：
+- 名称：inverseofanimalssuchasmammals
+- 类型：Unknown
+- 简介：Describes the animal types that are generalizations of mammals
+- 补充信息：generalizations: specializationof | domain: mammal | range: animal
+
+条目2：
+- 名称：mammal
+- 类型：Unknown
+- 简介：Mammals (formally Mammalia) are a class of vertebrate, air-breathing animals whose females are characterized by the possession of mammary glands while both males and females are characterized by hair and/or fur, three middle ear bones used....
+- 补充信息：generalizations: vertebrate",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，inverseofanimalssuchasmammals的domain应为animal而非mammal，因为该属性描述的是动物类型对哺乳动物的泛化关系，其主体应属于更广泛的animal类，而mammal是animal的子类，违反了RDFS中domain约束的语义规则。",0,0,
+sample_0130,domain,domain(inverseofarthropodlooklikeinsect) = insect,"背景知识：
+条目1：
+- 名称：inverseofarthropodlooklikeinsect
+- 类型：Unknown
+- 简介：Describes the arthropod that look like specific insects
+- 补充信息：generalizations: relatedto | domain: insect | range: arthropod
+
+条目2：
+- 名称：insect
+- 类型：Unknown
+- 简介：class within the arthropods that have a chitinous exoskeleton, a three-part body (head, thorax, and abdomen), three pairs of jointed legs, compound eyes, and two antennae
+- 补充信息：generalizations: arthropod",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，inverseofarthropodlooklikeinsect的domain应为arthropod而非insect，因为该属性描述的是arthropod具有某种特征，而insect仅是arthropod的子类，domain应指向属性主体的最广泛类别。",0,0,
+sample_0140,domain,domain(officeheldbypolitician) = politicaloffice,"背景知识：
+条目1：
+- 名称：officeheldbypolitician
+- 类型：Unknown
+- 简介：Specifies that a particular politician holds a particular office
+- 补充信息：generalizations: relatedto | domain: politicaloffice | range: politician
+
+条目2：
+- 名称：politicaloffice
+- 类型：Unknown
+- 简介：This type is for the office, title, or position within a government. It includes both single-person offices (prime minister, emperor, mayor), titles of members of a governing body (representative, sentator, MP), and titles of additional pos...
+- 补充信息：generalizations: abstractthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，officeheldbypolitician属性的domain应为politician（属性主体应是政治家），range应为politicaloffice（属性客体应是政治职位），而公理将domain定义为politicaloffice与背景知识中的domain约束相矛盾。",0,0,
+sample_0142,domain,domain(numberofcasualtiesinroadaccident) = nonneginteger,"背景知识：
+条目1：
+- 名称：numberofcasualtiesinroadaccident
+- 类型：Class
+- 简介：{%%s is the number of people that %s the event %%s, died in}
+- 补充信息：generalizations: relatedto | domain: nonneginteger | range: roadaccidentevent
+
+条目2：
+- 名称：nonneginteger
+- 类型：Class
+- 简介：{%%s is a %s, non-negative integer}
+- 补充信息：generalizations: abstractthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，numberofcasualtiesinroadaccident的domain应为roadaccidentevent（表示该属性的主体是道路交通事故事件），而非nonneginteger（非负整数应为其range值，表示属性值的类型）。",0,0,
+sample_0146,domain,domain(inverseofcoachstudiedatuniversity) = university,"背景知识：
+条目1：
+- 名称：inverseofcoachstudiedatuniversity
+- 类型：Unknown
+- 简介：Describes the university where the coach studied at
+- 补充信息：generalizations: relatedto | domain: university | range: coach
+
+条目2：
+- 名称：university
+- 类型：Unknown
+- 简介：A university is a post-high school educational institution. This category includes colleges and technical schools.
+- 补充信息：generalizations: school, geolocatablething",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，inverseofcoachstudiedatuniversity的domain应为coach而非university，因为该属性描述的是教练所就读的大学，其主体应该是coach类，而不是university类。",0,0,
+sample_0156,domain,domain(timeofprotest) = time,"背景知识：
+条目1：
+- 名称：timeofprotest
+- 类型：Unknown
+- 简介：{%%s is the %s the event %%s, time of}
+- 补充信息：generalizations: relatedto | domain: time | range: protestevent
+
+条目2：
+- 名称：time
+- 类型：Unknown
+- 简介：a specific time
+- 补充信息：generalizations: abstractthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，timeofprotest属性的domain应为protestevent（表示发起该属性的主体应是抗议事件），而非time，该公理与背景知识中的domain约束信息相冲突。",0,0,
+sample_0157,domain,domain(producedby) = product,"背景知识：
+条目1：
+- 名称：producedby
+- 类型：Class
+- 简介：producedby is a class in the NELL knowledge base.
+- 补充信息：generalizations: iteminvolvedwithagent, createdbyagent | domain: product | range: company
+
+条目2：
+- 名称：product
+- 类型：Class
+- 简介：{%%s is a %s, product}
+- 补充信息：generalizations: item",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，producedby属性的domain应为product的生产者（company或agent），而非product本身，该公理将domain错误地定义为product违反了属性语义约束。",0,0,
+sample_0162,domain,domain(organizationhastopmember) = company,"背景知识：
+条目1：
+- 名称：organizationhastopmember
+- 类型：Unknown
+- 简介：Identifies people in high-level, leading positions at organizations. Applicable positions have authority over the entire organization (e.g. presidents, VPs, directors, and C-level executives), not merely over departments or subsidiaries.
+- 补充信息：generalizations: organizationleadbyperson, worker | domain: company | range: person
+
+条目2：
+- 名称：company
+- 类型：Unknown
+- 简介：A company is an organization whose goal is to make money
+- 补充信息：generalizations: organization",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，organizationhastopmember的domain应为organization而非company，因为company仅是organization的子类，而该属性适用于所有具有高层领导的组织，不应限制在company这一特定子类上。",0,0,
+sample_0166,domain,domain(arteriessuchasarteries) = artery,"背景知识：
+条目1：
+- 名称：arteriessuchasarteries
+- 类型：Class
+- 简介：{%%s %s %%s, is a generalization of}
+- 补充信息：generalizations: generalizationof | domain: artery | range: artery
+
+条目2：
+- 名称：artery
+- 类型：Class
+- 简介：{%%s is an %s, artery}
+- 补充信息：generalizations: bodypart",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：domain属性应用于属性而非类，但arteriessuchasarteries被定义为Class类型，因此该公理的语法应用不当。",0,0,
+sample_0169,domain,domain(dateatwhichexistslocation) = date,"背景知识：
+条目1：
+- 名称：dateatwhichexistslocation
+- 类型：Class
+- 简介：dateatwhichexistslocation is a class in the NELL knowledge base.
+- 补充信息：generalizations: dateof | domain: date | range: location
+
+条目2：
+- 名称：date
+- 类型：Class
+- 简介：{%%s is a %s, date}
+- 补充信息：generalizations: abstractthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，dateatwhichexistslocation的domain应为date，range应为location，但公理表述混淆了domain和range的含义——domain定义的是属性主体的类型约束，而非属性本身的类型，因此该公理的表述方式在RDFS语义中不合理。",0,0,
+sample_0170,domain,domain(latitudelongitudeof) = llcoordinate,"背景知识：
+条目1：
+- 名称：latitudelongitudeof
+- 类型：Unknown
+- 简介：the latitude and longitude of this location, or the latitude and longitude typically associated with this thing
+- 补充信息：generalizations: relatedto | domain: llcoordinate | range: everypromotedthing
+
+条目2：
+- 名称：llcoordinate
+- 类型：Unknown
+- 简介：Longitude is the angular distance of a point's meridian from the Prime (Greenwich) Meridian
+- 补充信息：generalizations: abstractthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，latitudelongitudeof属性的domain应为everypromotedthing（其主体可以是任何被提升的事物），而非llcoordinate（经度坐标），这与RDFS domain语义规则中""属性的主体应属于某一类""的约束相冲突。",0,0,
+sample_0172,domain,domain(inverseofsoftwareprogrammedinprogramminglanguage) = programminglanguage,"背景知识：
+条目1：
+- 名称：inverseofsoftwareprogrammedinprogramminglanguage
+- 类型：Class
+- 简介：inverseofsoftwareprogrammedinprogramminglanguage is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: programminglanguage | range: software
+
+条目2：
+- 名称：programminglanguage
+- 类型：Class
+- 简介：{%%s is a %s, programming language}
+- 补充信息：generalizations: abstractthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，inverseofsoftwareprogrammedinprogramminglanguage的domain应为software而非programminglanguage，因为该属性的domain定义为software，range定义为programminglanguage，与公理声称的domain值相反。",0,0,
+sample_0178,domain,domain(professionactsatthesameareaofpoliticissue) = politicsissue,"背景知识：
+条目1：
+- 名称：professionactsatthesameareaofpoliticissue
+- 类型：Unknown
+- 简介：Describes professions that work at the area of a political issue
+- 补充信息：generalizations: relatedto | domain: politicsissue | range: profession
+
+条目2：
+- 名称：politicsissue
+- 类型：Unknown
+- 简介：An issue of political concern
+- 补充信息：generalizations: abstractthing",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，属性professionactsatthesameareaofpoliticissue的domain应为profession（表示该属性的主体是profession），而非politicsissue，当前公理将domain错误地指定为politicsissue，与背景知识中的domain约束相矛盾。",0,0,
+sample_0179,domain,domain(productlauchpredecessor) = productlaunchevent,"背景知识：
+条目1：
+- 名称：productlauchpredecessor
+- 类型：Class
+- 简介：{%%s was %s of the product launched in %%s, the predecessor}
+- 补充信息：generalizations: relatedto | domain: productlaunchevent | range: product
+
+条目2：
+- 名称：productlaunchevent
+- 类型：Class
+- 简介：{%%s is a %s, product launch event}
+- 补充信息：generalizations: event",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：productlauchpredecessor的domain应为product而非productlaunchevent，因为该属性用于描述产品与其前驱产品的关系，其主体应是product类，而非productlaunchevent类。",0,0,
+sample_0190,range,range(inverseofarthropodlooklikeinsect) = arthropod,"背景知识：
+条目1：
+- 名称：inverseofarthropodlooklikeinsect
+- 类型：Unknown
+- 简介：Describes the arthropod that look like specific insects
+- 补充信息：generalizations: relatedto | domain: insect | range: arthropod
+
+条目2：
+- 名称：arthropod
+- 类型：Unknown
+- 简介：Arthropods are members of the phylum Arthropoda.
+- 补充信息：generalizations: invertebrate",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，inverseofarthropodlooklikeinsect的range应为insect（其domain为arthropod），而公理声称range为arthropod，这与背景知识中的domain和range定义相矛盾。",0,0,
+sample_0200,range,range(officeheldbypolitician) = politician,"背景知识：
+条目1：
+- 名称：officeheldbypolitician
+- 类型：Unknown
+- 简介：Specifies that a particular politician holds a particular office
+- 补充信息：generalizations: relatedto | domain: politicaloffice | range: politician
+
+条目2：
+- 名称：politician
+- 类型：Unknown
+- 简介：Any person who has held or sought a position in a government. The term ""politician"" may not be strictly accurate for some positions such as kings, but we have to call it something!
+- 补充信息：generalizations: person",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，officeheldbypolitician属性的range应为politicaloffice（表示属性的客体应属于政治职位），而非politician（政治家），该公理与背景知识中的range约束信息相冲突。",0,0,
+sample_0202,range,range(numberofcasualtiesinroadaccident) = roadaccidentevent,"背景知识：
+条目1：
+- 名称：numberofcasualtiesinroadaccident
+- 类型：Class
+- 简介：{%%s is the number of people that %s the event %%s, died in}
+- 补充信息：generalizations: relatedto | domain: nonneginteger | range: roadaccidentevent
+
+条目2：
+- 名称：roadaccidentevent
+- 类型：Class
+- 简介：{%%s is a %s, road accident event}
+- 补充信息：generalizations: event",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，numberofcasualtiesinroadaccident的range应为nonneginteger（非负整数），而非roadaccidentevent，该公理将range错误地指定为事件类而非数值类型，违反了属性值域的语义约束。",0,0,
+sample_0206,range,range(inverseofcoachstudiedatuniversity) = coach,"背景知识：
+条目1：
+- 名称：inverseofcoachstudiedatuniversity
+- 类型：Unknown
+- 简介：Describes the university where the coach studied at
+- 补充信息：generalizations: relatedto | domain: university | range: coach
+
+条目2：
+- 名称：coach
+- 类型：Unknown
+- 简介：A coach is a trainer for a sports team. He leads the team in exercises and manages the team during gameplay. This category includes assistant coaches and other trainers.
+- 补充信息：generalizations: person",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，inverseofcoachstudiedatuniversity的range应为university（属性值为大学），而非coach，因为该属性描述的是教练学习的大学，其值域应该是大学机构而不是教练个体。",0,0,
+sample_0216,range,range(timeofprotest) = protestevent,"背景知识：
+条目1：
+- 名称：timeofprotest
+- 类型：Unknown
+- 简介：{%%s is the %s the event %%s, time of}
+- 补充信息：generalizations: relatedto | domain: time | range: protestevent
+
+条目2：
+- 名称：protestevent
+- 类型：Unknown
+- 简介：{%%s is a %s, protest event}
+- 补充信息：generalizations: event",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，timeofprotest属性的range应为time（表示抗议事件发生的时间），而非protestevent，该公理将range错误地指定为protestevent与语义约束不符。",0,0,
+sample_0219,range,range(locationofbombing) = bombingevent,"背景知识：
+条目1：
+- 名称：locationofbombing
+- 类型：Unknown
+- 简介：{%%s is the %s the event %%s, location of}
+- 补充信息：generalizations: relatedto | domain: location | range: bombingevent
+
+条目2：
+- 名称：bombingevent
+- 类型：Unknown
+- 简介：{%%s is a %s, bombing event}
+- 补充信息：generalizations: event",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，locationofbombing属性的range应为location（表示轰炸事件发生的地点），而非bombingevent，该公理将range错误地指定为了domain的值。",0,0,
+sample_0226,range,range(arteriessuchasarteries) = artery,"背景知识：
+条目1：
+- 名称：arteriessuchasarteries
+- 类型：Class
+- 简介：{%%s %s %%s, is a generalization of}
+- 补充信息：generalizations: generalizationof | domain: artery | range: artery
+
+条目2：
+- 名称：artery
+- 类型：Class
+- 简介：{%%s is an %s, artery}
+- 补充信息：generalizations: bodypart",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：range属性应用于属性而非类，但arteriessuchasarteries被定义为Class类型，因此该公理的语法形式不符合RDFS语义规则。",0,0,
+sample_0230,range,range(latitudelongitudeof) = everypromotedthing,"背景知识：
+条目1：
+- 名称：latitudelongitudeof
+- 类型：Unknown
+- 简介：the latitude and longitude of this location, or the latitude and longitude typically associated with this thing
+- 补充信息：generalizations: relatedto | domain: llcoordinate | range: everypromotedthing
+
+条目2：
+- 名称：everypromotedthing
+- 类型：Unknown
+- 简介：every promoted category instance in KB",1,claude-haiku-4-5-20251001,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：根据背景知识，latitudelongitudeof属性的range应为llcoordinate，而非everypromotedthing，该公理与背景知识中的range约束信息直接矛盾。",0,0,

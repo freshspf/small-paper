@@ -1,0 +1,142 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: inverseproblempredictinghs1
+- section_title: Inverse Problem: Predicting hs
+- page_start: 4
+- page_end: 6
+
+INPUT TEXT CHUNK:
+Published as a conference paper at ICLR 2026
+3.2 PROBLEMFORMULATION ANDPRELIMINARIES
+The observational data is first defined. The primary input time series is given asX=
+[x0, x1, . . . , x n−1, xn], wherex nrepresents the measurement at time stepn. andN=n+ 1
+denotes the total number of time steps. A corresponding augmented input sequence (Ref, Fig 1),
+X′= [x′
+0, x′
+1, . . . , x′
+n−1, x′
+n], is generated to facilitate contrastive learning. The target variable is
+Y= [y 0, y1, . . . , y n−1, yn], wherey nis the observed output at time stepn. Here the total number
+of time steps isN=n+ 1.
+We aim to model the relationship between the inputX=ρ sand the targetY=h iderived via the
+proxy model, particularly in the context of physics-constrained snow depth prediction, by integrating
+snow and sea ice properties. To achieve this, we adapt the hydrostatic balance equation, which, as
+stated by Kwok & Cunningham (2008), describes the equilibrium where the weight of ice and snow
+is balanced by the buoyant force of seawater (equation 2). Using this relation, we generate proxyY
+labels to inject physical attributes into the training process.
+4 INVERSEPROBLEM: PREDICTINGh S
+In this study, we frame the inverse problem as predicting the hidden physical parameterh susing
+known geophysical observations such as sea ice concentration, snow albedo, and density fields.
+The difficulty arises because computingh sanalytically requires inputs such as ice thickness (h i),
+freeboard (f b), and snow density (ρ s), which are actually unobserved in ERA5.
+g(x) =h s≈F−1(hi, ρs)(1)
+wheregdenotes the learned estimator that recovers snow depth from the available observations.
+This problem is fundamentally ill-posed because a unique one-to-one inversion between the ob-
+served input vectorXand the targetYis impossible. For instance, several distinct combinations of
+ice thickness and snow density can result in the same observed snow depth. To address this inherent
+non-uniqueness and to stabilize the solution, we model the inverse relationship as a surjective map-
+ping. This assumption is necessary because the large, high-dimensional input space (X) must be
+mapped onto a much smaller, physics-constrained output space (h s), meaning the input space can be
+mapped onto multiple potential outputs. Our framework uses this surjective mapping assumption to
+estimate the hidden physical parameters (α, β, γ) at every time stept, which are used to reconstruct
+a physics-constrained predictionh s.
+4.1 PROPOSEDPROXYMODEL
+The selection of a stable ground truth for training is essential. Since direct observation of key
+parameters is uncertain in ERA5, we define our target using an analytically derived ice thickness
+proxy model based on the principle of hydrostatic equilibrium.
+This derivation establishes the core thickness equation, which serves as the starting point for any
+proxy model.
+The total weight of the snow and ice column equals the buoyant force (the weight of the displaced
+water):
+ρihi+ρ shs=ρ whsub (2)
+The total depth of the column is the sum of the submerged depth (h sub) and the surface elevation
+(freeboard,f b):
+hi+h s=h sub+f b
+Rearranging to isolate the submerged depth:
+hsub=h i+h s−f b (3)
+Substitute Equation (3) back into the Hydrostatic Balance (2):
+ρihi+ρ shs=ρ w(hi+h s−f b)
+4
+
+Published as a conference paper at ICLR 2026
+Solving forh i:Expand, group all terms containingh ion one side, and factor:
+ρihi+ρ shs=ρ whi+ρ whs−ρ wfb
+hi(ρi−ρ w) =h s(ρw−ρ s)−ρ wfb
+Finally, isolatingh iyields the standard forward equation:
+hi=hs(ρw−ρ s)−ρ wfb
+ρi−ρ w(4)
+This is the analytical basis for formulating target proxy data with known variables. The resulting
+simplified proxy model used is:
+hi∼ρwC+αρ s
+ρw−ρi(5)
+This equation transforms a complex, coupled physical system into a simplified, mathematically
+tractable target proxy for our neural network.
+4.1.1 CONCEPTUALJUSTIFICATION FOR THEPROPOSEDPROXYMODEL
+The specific proxy model (Equation 5) used in our implementation includes sea ice concentration
+(C) and snow albedo (α).
+• Ice thickness is physically zero when Sea Ice Concentration (C) is zero. Therefore,Cacts
+as a critical constraint and scaling factor. While not physically equivalent, SIC often serves
+as an empirical proxy or normalization term for the bulk sea ice properties in a given area.
+Thicker, more stable, and more continuous ice (higherh iandf b) tends to be associated with
+higher SIC. In a simplified model, if freeboard cannot be measured, one may substitute a
+function of the more easily observable area coverage (SIC), especially when modeling the
+mean or volume over a large grid box.
+• The use of snow albedo (α) as a proxy for snow depth (h s) is justified becauseαis a highly
+sensitive and easily observable indicator of snow cover. Only a few centimeters of snow
+are required to exceed the optical depth, achieving the maximum possible albedo, meaning
+αeffectively signals the presence and sufficiency of the snow layer.

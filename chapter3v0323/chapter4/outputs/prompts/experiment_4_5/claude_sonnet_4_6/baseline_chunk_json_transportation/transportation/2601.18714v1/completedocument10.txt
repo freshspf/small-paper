@@ -1,0 +1,139 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument10
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+INPUT TEXT CHUNK:
+Figure 7
+presents a heatmap comparison of the results obtained in each of the indi-
+vidual month experiment with each generalization scenario.
+Figure 7: Cross-season generalization performance matrix showing Recall@1 values.
+23
+
+7. Results
+7.1. Evaluation on different architectures
+For evaluating different place recognition approaches on long-term vine-
+yard environments, we used the Greek campaigns of the Bacchus Long-Term
+(BLT) dataset [37] and the campaigns from February to September from the
+TEMPO-VINE dataset [38] with both of the sensors provided. The point
+clouds from the BLT dataset are obtained with an Ouster OS1-16 LiDAR
+scan. The experiments presented in this section were executed using an
+Nvidia GeForce RTX 3090 GPU except for the MinkUNeXt-VINE training
+on the TEMPO-VINE dataset, which were executed on an Nvidia A30 as
+made in Section 6. We follow the exact same setup proposed in each of
+their corresponding papers for the hyperparameter selection for each of these
+pipelines.
+Table 9 displays the results on the different backbones in terms of Re-
+call@1% and Recall@1. It is important to note that the hyperparameters for
+each of these backbones have been set according to the values specified in
+their corresponding papers. For these experiments, we selected a variety of
+methods that combine deep learning and handcrafted approaches. Primary
+works such as PointNetVLAD [4] and LPD-Net [23] are considered, as well
+as MinkLoc3Dv2 [39] for a Minkowski convolutions-based counterpart to our
+proposed MinkUNeXt-VINE.
+The handcrafted descriptors used in these experiments are Scan Context
+[25] and Fast Point Feature Histogram (FPFH) [40]. Minimum changes were
+made to adapt these methods to the vineyard datasets. For the Scan Con-
+text method, the voxel size was set to 0.1 meters to account for the smaller
+dimensions of the vineyard datasets compared to city datasets. Following the
+proposed methodology, the maximum range of the points was also set to 60
+meters. For FPFH, since it produces local descriptors, they were fused via
+global mean pooling to generate the global descriptor needed for the place
+recognition task. The parameters used to compute the global descriptor
+were a voxel size of 0.15 meters and a radius of 0.5 meters for the computed
+normals. Both of these handcrafted descriptors are evaluated using cosine
+similarity, considering a correct match to be a distance of 5 meters or less.
+This distance threshold is also used to evaluate every learned method in this
+paper, given the smaller field dimensions recorded in agricultural datasets.
+24
+
+Method TypeBLT TEMPO-VINE (VELO) TEMPO-VINE (Livox)
+Recall@1% Recall@1 Recall@1% Recall@1 Recall@1% Recall@1
+PointNetVLAD [4] Learned 47.97 - 22.23 - 17.04 -
+LPD-Net [23] Learned 31.49 - 17.26 - 18.38 -
+Scan Context [25] Handcrafted 79.84 40.01 29.64 7.96 23.05 4.07
+FPFH [40] Handcrafted 72.10 22.87 27.78 3.95 25.09 1.41
+MinkLoc3Dv2 [39] Learned 36.05 17.73 14.53 2.14 12.51 1.61
+MinkUNeXt [13] Learned 58.12 30.49 30.49 11.62 23.08 6.31
+MinkUNeXt-VINE (ours) Learned 56.32 25.23 69.71 41.54 55.57 25.03
+Table 9: Evaluation of different LPR pipelines using the full extension of the different LiDAR place recognition datasets
+available in the literature.
+25
+
+Quantitative results presented in Table 9 demonstrate the capabilities of
+the proposed MinkUNeXt-VINE architecture across different sensor modali-
+ties and environments.
+Our method’s primary contribution is evident in the TEMPO-VINE dataset.
+Unlike the BLT dataset, this dataset provides more challenging 3D data for
+place recognition because it was recorded with a higher linear velocity in the
+robotic platform and registers different heights of grass in the field. In this
+setting, MinkUNeXt-VINE significantly outperforms all competing methods.
+Specifically, using the Velodyne sensor, our method achieves a Recall@1% of
+69.71%, representing a dramatic improvement over the best-performing base-
+line (Scan Context at 29.64%). Furthermore, in the highly challenging setup
+using the Livox sensor, characterized by its non-repetitive scanning pattern
+and sparsity, our method achieves a Recall@1% of 55.57%, whereas tradi-
+tional descriptors like PointNetVLAD and FPFH fail to surpass 26%.
+The enhancement is particularly notable in comparison with its prede-
+cessor, MinkUNeXt. With our proposed architectural and preprocessing
+changes, our method achieves a +39% improvement in Recall@1% and a
++32% improvement in Recall@1 for the Velodyne sensor, and a +30% im-
+provement in Recall@1% and a +19% improvement in Recall@1 for the Livox
+sensor, respectively, for the same input.

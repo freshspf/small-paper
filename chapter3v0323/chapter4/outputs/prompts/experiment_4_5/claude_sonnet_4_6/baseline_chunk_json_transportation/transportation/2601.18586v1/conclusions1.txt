@@ -1,0 +1,160 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: conclusions1
+- section_title: Conclusions
+- page_start: 6
+- page_end: 9
+
+INPUT TEXT CHUNK:
+We introduced an integrated IAM+RL framework for long-
+term adaptation planning that couples climate-driven flood
+hazard modeling, transport simulation, and monetized im-
+pact accounting. In a case study of Copenhagen’s inner
+city (2024–2100), the learned policies achieve lower cu-
+mulative costs than no-adaptation and random baselines by
+producing coordinated spatial-temporal pathways and bal-
+ancing investment/maintenance costs against avoided disrup-
+tions. Cross-scenario experiments further illustrate how per-
+formance changes under climate uncertainty and enable ex-
+plicit robustness analysis.
+Future work will extend the framework to probabilistic cli-
+mate ensembles and belief updating, multi-objective formu-
+lations capturing other social impacts (wellbeing and equity),
+and computational acceleration (e.g., surrogate components)
+to scale to larger cities and richer intervention sets.
+
+Figure 4: Adaptation measures taken over time per zone in Copenhagen’s city center for one episode (run) for a RCP4.5 scenario.
+
+modeling. Working Paper 32963, National Bureau of
+Economic Research, September 2024.
+[Finnis and Walton, 2008 ]Kirsten K Finnis and Darren Wal-
+ton. Field observations to determine the influence of pop-
+ulation size, location and individual factors on pedestrian
+walking speeds.Ergonomics, 51(6):827–842, 2008.
+[Gerdes, 2012 ]Justin Gerdes. What Copenhagen Can Teach
+Cities About Adapting To Climate Change.Forbes, 2012.
+Accessed online: 2024-06-06.
+[Gilbertet al., 2022 ]Thomas Krendl Gilbert, Sarah Dean,
+Tom Zick, and Nathan Lambert. Choices, risks, and re-
+ward reports: Charting public policy for reinforcement
+learning systems, 2022.
+[Hallenbecket al., 2014 ]Mark E. Hallenbeck, Anne Good-
+child, and Jerome Drescher. Travel Costs Associ-
+ated with Flood Closures of State Highways near Cen-
+tralia/Chehalis. Technical Report WA-RD 832.1, Wash-
+ington State Transportation Center, September 2014.
+[Huang and Onta ˜n´on, 2020 ]Shengyi Huang and Santiago
+Onta ˜n´on. A closer look at invalid action masking in pol-
+icy gradient algorithms.arXiv preprint arXiv:2006.14171,
+2020.
+[Hvass and Ørsborg Johansen, 2011 ]Anders Hvass and
+Mathias Ørsborg Johansen. S ˚adan er trafikken ramt
+af skybruddet.Berlingske, 2011. Accessed online:
+2024-06-06.
+[IPCC, 2023 ]IPCC. Section 3: Long-term climate and de-
+velopment futures. InClimate Change 2023: Synthesis
+Report. Contribution of Working Groups I, II and III to the
+Sixth Assessment Report of the Intergovernmental Panel
+on Climate Change [Core Writing Team, H. Lee and J.
+Romero (eds.)], pages 35–115. IPCC, Geneva, Switzer-
+land, doi: 10.59327/IPCC/AR6-9789291691647, 2023.
+[Liet al., 2024 ]Diya Li, Zhe Zhang, Bahareh Alizadeh, Ziyi
+Zhang, Nick Duffield, Michelle A Meyer, Courtney M
+Thompson, Huilin Gao, and Amir H Behzadan. A rein-
+forcement learning-based routing algorithm for large street
+networks.International Journal of Geographical Informa-
+tion Science, 38(2):183–215, 2024.
+[Luet al., 2022 ]Xiaohui Lu, Faith Ka Shun Chan, Wei-
+Qiang Chen, Hing Kai Chan, and Xinbing Gu. An
+overview of flood-induced transport disruptions on urban
+streets and roads in Chinese megacities: Lessons and fu-
+ture agendas.Journal of Environmental Management,
+321:115991, 2022.
+[Marchauet al., 2019 ]Vincent A. W. J. Marchau, Warren E.
+Walker, Pieter J. T. M. Bloemen, and Steven W. Popper,
+editors.Decision Making under Deep Uncertainty: From
+Theory to Practice. Springer International Publishing,
+Cham, 2019.
+[Markolfet al., 2019 ]Samuel A. Markolf, Christopher
+Hoehne, Andrew Fraser, Mikhail V . Chester, and B. Shane
+Underwood. Transportation resilience to climate change
+and extreme weather events – beyond risk and robustness.
+Transport Policy, 74:174–186, 2019.[Matsuoet al., 2022 ]Yutaka Matsuo, Yann LeCun, Maneesh
+Sahani, Doina Precup, David Silver, Masashi Sugiyama,
+Eiji Uchibe, and Jun Morimoto. Deep learning, rein-
+forcement learning, and world models.Neural Networks,
+152:267–275, 2022.
+[Pregnolatoet al., 2017a ]Maria Pregnolato, Alistair Ford,
+Vassilis Glenis, Sean Wilkinson, and Richard Dawson. Im-
+pact of climate change on disruption to urban transport
+networks from pluvial flooding.Journal of Infrastructure
+Systems, 23(4):04017015, 2017.
+[Pregnolatoet al., 2017b ]Maria Pregnolato, Alistair Ford,
+Sean M. Wilkinson, and Richard J. Dawson. The impact
+of flooding on road transport: A depth-disruption function.
+Transportation Research Part D: Transport and Environ-
+ment, 55:67–81, 2017.
+[Raffinet al., 2021 ]Antonin Raffin, Ashley Hill, Adam
+Gleave, Anssi Kanervisto, Maximilian Ernestus, and Noah
+Dormann. Stable-Baselines3: Reliable Reinforcement
+Learning Implementations.Journal of Machine Learning
+Research, 22(268):1–8, 2021.
+[Rolnicket al., 2022 ]David Rolnick, Priya L Donti, Lynn H
+Kaack, Kelly Kochanski, Alexandre Lacoste, Kris
+Sankaran, Andrew Slavin Ross, Nikola Milojevic-Dupont,
+Natasha Jaques, Anna Waldman-Brown, et al.

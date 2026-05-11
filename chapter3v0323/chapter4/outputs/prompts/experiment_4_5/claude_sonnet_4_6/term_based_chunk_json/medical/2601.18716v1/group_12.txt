@@ -1,0 +1,326 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TernaryComplex",
+  "consistsOf",
+  "AmyloidBeta42",
+  "MolecularGlueCompound",
+  "E3Ligase",
+  "SmallMoleculeCompound",
+  "bindsAt",
+  "Interface",
+  "IntermolecularInteraction",
+  "includes",
+  "HydrogenBond",
+  "SaltBridge",
+  "HydrophobicContact",
+  "indicates",
+  "BindingAffinity",
+  "stabilizes",
+  "Compound",
+  "screenedAgainst",
+  "HighAffinityCompound",
+  "clustersWithin",
+  "DrugLikeRegion",
+  "JtnnvaeModel",
+  "trainedOn",
+  "DockedCompound",
+  "targets",
+  "learns",
+  "ChemicallyValidStructure",
+  "relevantTo",
+  "E3LigaseBinding",
+  "AiGeneratedMolecule",
+  "evaluatedFor",
+  "Qed",
+  "reflects",
+  "DrugLikePotential",
+  "LipinskiAdherence",
+  "AiGeneratedCompound",
+  "designedFor",
+  "illustrates",
+  "ScaffoldingPreference",
+  "FunctionalGroupDiversity",
+  "demonstrates",
+  "TargetSpecificBinding",
+  "showsPreferentialAffinityFor",
+  "IntendedLigase",
+  "AlzheimerDisease",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "UbiquitinProteasomeSystem",
+  "Crbn",
+  "Vhl",
+  "Mdm2",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability",
+  "HypoxiaSignaling",
+  "P53",
+  "MolecularGlueDiscovery",
+  "ChemicalLibraryScreening",
+  "ArtificialIntelligenceModel",
+  "DeNovoDesign",
+  "SequenceBasedModel",
+  "SmilesRepresentation"
+]
+
+Triples:
+[
+  {
+    "subject": "TernaryComplex",
+    "relation": "consistsOf",
+    "object": "AmyloidBeta42",
+    "chunk": "completedocument14",
+    "context": "Figure 4.  Ternary complex formation between amyloid beta -42 (Aβ42), a representative molecular glue compound, and E3 ligases (VHL, CRBN, and MDM2) ."
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "consistsOf",
+    "object": "MolecularGlueCompound",
+    "chunk": "completedocument14",
+    "context": "Figure 4.  Ternary complex formation between amyloid beta -42 (Aβ42), a representative molecular glue compound, and E3 ligases (VHL, CRBN, and MDM2) ."
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "consistsOf",
+    "object": "E3Ligase",
+    "chunk": "completedocument14",
+    "context": "Figure 4.  Ternary complex formation between amyloid beta -42 (Aβ42), a representative molecular glue compound, and E3 ligases (VHL, CRBN, and MDM2) ."
+  },
+  {
+    "subject": "SmallMoleculeCompound",
+    "relation": "bindsAt",
+    "object": "Interface",
+    "chunk": "completedocument14",
+    "context": "The small molecule compound (cmpd) is shown in ball -and-stick representation, bound at the interface of Aβ42 and each E3 ligase."
+  },
+  {
+    "subject": "IntermolecularInteraction",
+    "relation": "includes",
+    "object": "HydrogenBond",
+    "chunk": "completedocument14",
+    "context": "Intermolecular interactions include hydrogen bonds (purple lines), salt bridges, hydrophobic contacts (green arcs), and π -π stacking, indicating strong binding affinity and ternary complex stabilization."
+  },
+  {
+    "subject": "IntermolecularInteraction",
+    "relation": "includes",
+    "object": "SaltBridge",
+    "chunk": "completedocument14",
+    "context": "Intermolecular interactions include hydrogen bonds (purple lines), salt bridges, hydrophobic contacts (green arcs), and π -π stacking, indicating strong binding affinity and ternary complex stabilization."
+  },
+  {
+    "subject": "IntermolecularInteraction",
+    "relation": "includes",
+    "object": "HydrophobicContact",
+    "chunk": "completedocument14",
+    "context": "Intermolecular interactions include hydrogen bonds (purple lines), salt bridges, hydrophobic contacts (green arcs), and π -π stacking, indicating strong binding affinity and ternary complex stabilization."
+  },
+  {
+    "subject": "IntermolecularInteraction",
+    "relation": "indicates",
+    "object": "BindingAffinity",
+    "chunk": "completedocument14",
+    "context": "Intermolecular interactions include hydrogen bonds (purple lines), salt bridges, hydrophobic contacts (green arcs), and π -π stacking, indicating strong binding affinity and ternary complex stabilization."
+  },
+  {
+    "subject": "IntermolecularInteraction",
+    "relation": "stabilizes",
+    "object": "TernaryComplex",
+    "chunk": "completedocument14",
+    "context": "Intermolecular interactions include hydrogen bonds (purple lines), salt bridges, hydrophobic contacts (green arcs), and π -π stacking, indicating strong binding affinity and ternary complex stabilization."
+  },
+  {
+    "subject": "Compound",
+    "relation": "screenedAgainst",
+    "object": "E3Ligase",
+    "chunk": "completedocument14",
+    "context": "Figure 5.  Distribution of docking scores for compounds screened against E3 ligases VHL, CRBN, and MDM2, categorized by affinity class ."
+  },
+  {
+    "subject": "HighAffinityCompound",
+    "relation": "clustersWithin",
+    "object": "DrugLikeRegion",
+    "chunk": "completedocument14",
+    "context": "The plots illustrate the spread of affinity  categories across diverse physicochemical properties, revealing that high -affinity compounds  tend to cluster  within drug -like regions, supporting their potential suitability for further development."
+  },
+  {
+    "subject": "JtnnvaeModel",
+    "relation": "trainedOn",
+    "object": "DockedCompound",
+    "chunk": "completedocument14",
+    "context": "Figure 8 . Training loss curve of the JTNNVAE model trained on docked compounds  targeting Amyloid beta42 ."
+  },
+  {
+    "subject": "DockedCompound",
+    "relation": "targets",
+    "object": "AmyloidBeta42",
+    "chunk": "completedocument14",
+    "context": "Figure 8 . Training loss curve of the JTNNVAE model trained on docked compounds  targeting Amyloid beta42 ."
+  },
+  {
+    "subject": "JtnnvaeModel",
+    "relation": "learns",
+    "object": "ChemicallyValidStructure",
+    "chunk": "completedocument14",
+    "context": "The sharp initial drop followed by gradual convergence indicates  successful learning of chemically valid structures relevant to E3 ligase binding."
+  },
+  {
+    "subject": "ChemicallyValidStructure",
+    "relation": "relevantTo",
+    "object": "E3LigaseBinding",
+    "chunk": "completedocument14",
+    "context": "The sharp initial drop followed by gradual convergence indicates  successful learning of chemically valid structures relevant to E3 ligase binding."
+  },
+  {
+    "subject": "AiGeneratedMolecule",
+    "relation": "evaluatedFor",
+    "object": "E3Ligase",
+    "chunk": "completedocument14",
+    "context": "Figure 10.  Performance evaluation of AI -generated molecules for E3 ligases VHL, MDM2, and CRBN across key generative metrics ."
+  },
+  {
+    "subject": "Qed",
+    "relation": "reflects",
+    "object": "DrugLikePotential",
+    "chunk": "completedocument14",
+    "context": "High validity and novelty scores indicate the model’s ability to generate chemically  sound and diverse structures, while QED and Lipinski adherence reflect drug -like potential of the  designed molecules."
+  },
+  {
+    "subject": "LipinskiAdherence",
+    "relation": "reflects",
+    "object": "DrugLikePotential",
+    "chunk": "completedocument14",
+    "context": "High validity and novelty scores indicate the model’s ability to generate chemically  sound and diverse structures, while QED and Lipinski adherence reflect drug -like potential of the  designed molecules."
+  },
+  {
+    "subject": "AiGeneratedCompound",
+    "relation": "designedFor",
+    "object": "E3Ligase",
+    "chunk": "completedocument14",
+    "context": "Figure 11 . Representative AI -generated compounds designed for three E3 ligases: (a) VHL, (b) MDM2, and (c) CRBN ."
+  },
+  {
+    "subject": "AiGeneratedCompound",
+    "relation": "illustrates",
+    "object": "ScaffoldingPreference",
+    "chunk": "completedocument14",
+    "context": "The series of exemplar compounds illustrate s the distinct scaffold ing preferences and functional group diversity  observed from our results ."
+  },
+  {
+    "subject": "AiGeneratedCompound",
+    "relation": "illustrates",
+    "object": "FunctionalGroupDiversity",
+    "chunk": "completedocument14",
+    "context": "The series of exemplar compounds illustrate s the distinct scaffold ing preferences and functional group diversity  observed from our results ."
+  },
+  {
+    "subject": "AiGeneratedCompound",
+    "relation": "demonstrates",
+    "object": "TargetSpecificBinding",
+    "chunk": "completedocument14",
+    "context": "The results demonstrate target -specific binding, with designed compounds showing preferential affinity for their i ntended ligases  and lesser binding affinity for their unintended targets.."
+  },
+  {
+    "subject": "AiGeneratedCompound",
+    "relation": "showsPreferentialAffinityFor",
+    "object": "IntendedLigase",
+    "chunk": "completedocument14",
+    "context": "The results demonstrate target -specific binding, with designed compounds showing preferential affinity for their i ntended ligases  and lesser binding affinity for their unintended targets.."
+  }
+]

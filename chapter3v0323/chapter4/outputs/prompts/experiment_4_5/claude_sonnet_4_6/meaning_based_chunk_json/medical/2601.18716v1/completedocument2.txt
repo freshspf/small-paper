@@ -1,0 +1,117 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+**INPUT TEXT CHUNK:**
+Traditional molecular glue discovery relies on extensive chemical library 
+screening, making it slow and resource -intensive. Artificial intelligence (AI) 
+models now provide a powerful alternative, enabling efficient de novo design, 
+lead optimization, and vi rtual screening [25 -30]. Several generative AI models 
+have been employed for small molecule design; however, each presents notable 
+limitations. Sequence -based models, such as those relying on SMILES 
+representations, often suffer from non -uniqueness and syn tactic errors that lead 
+to chemically invalid molecules, complicating the learning process and limiting 
+their reliability in drug discovery [35]. Similarly, standard Variational 
+Autoencoders (VAEs) and Generative Adversarial Networks (GANs), although 
+effec tive at sampling chemical space, often fail to guarantee chemical validity and 
+structural coherence in the generated compounds [36,37].  
+To overcome these challenges, we selected the Junction Tree Variational 
+Autoencoder (JTVAE) [31 -34], a graph -based model that encodes molecular 
+structures as hierarchical trees of chemically meaningful substructures, enabling 
+the generation of valid, drug -like molecules with superior structural fidelity. 
+Unlike sequence -based or flat graph models, JT VAE preserves chemical rules 
+during molecule generation, making it particularly well -suited for drug design 
+applications. While the original JTVAE framework mod els molecular structures 
+as 2D graphs, it does not account for torsional flexibility, a critical factor for 
+molecular stability, bioactivity, and ligand -receptor interactions. To address this 
+limitation, we extended JTVAE by explicitly integrating torsiona l angles into 
+bond representations, enabling the model to capture conformational dynamics 
+and generate structurally diverse, chemically realistic molecules with improved 
+3D predictive fidelity.Moreover, to design molecular glues specific to different E3 
+ligases, we further enhanced the model by incorporating protein -level 
+information. Specifically, we embedded the amino acid sequences of binding site 
+residues from CRBN, VHL, and MDM2 into the training pipeline. This allowed 
+the model to learn ligase -specifi c binding patterns, enabling conditional
+
+Biomolecules 2025 , 15, 849 3 of 31  
+generation of molecular glues optimized for forming stable ternary complexes 
+between Aβ42 and individual E3 ligases. Together, these advancements 
+substantially improve the chemical validity, conformational realism, and 
+biological specificity of the molecul es generated compared to the original JTVAE 
+framework.  
+In this study, we investigate the potential of three widely studied E3 ubiquitin 
+ligases -VHL, CRBN, and MDM2 -for mediating the targeted degradation of 
+amyloid beta (Aβ42) through molecular glue strategies. Furthermore, we design 
+ligase -specific novel molecular glues by incorporating protein sequence 
+embeddings derived from the binding site residues of each E3 lig ase into a 
+Junction Tree Variational Autoencoder (JT -VAE), a graph -based generative 
+model. To enhance the precision of molecular glue generation, w e also integrate 
+three -dimensional conformational features -including molecular rotational 
+angles -alongside conventional structural and chemical descriptors. This multi -
+modal approach allows for the generation of chemically valid, drug -like small 
+molecules that are optimized for selective engagement with E3 ligases and 
+effective degradation of Aβ42.  
+ 
+2. METHODS  
+2.1 Amyloid beta 42 structure  
+For structural studies of Aβ42, which corresponds to residues 627 -713 of the 
+full-length APP, we selected the cryo -EM structure of Type I Aβ42 filaments from 
+human brain tissue (PDB ID: 7Q4B) [42]. These fibrils, resolved at 2.5 Å, represent 
+a homo -decameric assembly of Aβ42 peptides adopting an S -shaped 
+conformation, a structural feature crucial to their aggregation and stability in 
+Alzheimer's disease pathology [43]. Although 7Q4B depicts extracellular fibrils, 
+they originate from intracellular oligomeriz ation processes, making this structure 
+highly relevant to the pathological cascade [44].  
+The raw PDB structure was preprocessed using Schrödinger’s Protein 
+Preparation Wizard in Maestro [45]. Preprocessing steps included bond order 
+assignment, addition of missing hydrogen atoms, removal of water molecules 
+beyond 5 Å, protonation state adjustme nt with Epik at pH 7.0 ± 2.0, and 
+optimization of the hydrogen bonding network. A restrained energy 
+minimization was performed with the OPLS4 force field, allowing hydrogen 
+atoms to relax while constraining heavy atoms. The resulting prepared structure 
+was subsequently used for all in silico analyses.

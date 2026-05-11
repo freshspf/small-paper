@@ -1,0 +1,117 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "detailedresults1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: detailedresults1
+- section_title: Detailed Results
+- page_start: 12
+- page_end: 14
+
+**INPUT TEXT CHUNK:**
+5.0 7.5 10.0 12.5 15.0 17.5 20.0 22.5 25.0
+Speed (m/s)2468Cost (euros)Driver Cost
+Energy Cost
+Total Cost
+Optimal: 24.04 m/s (3.68 )
+Figure 6: Analytical predictions for optimal speed and cost in zero
+traffic situation.
+Here, we present detailed results for the trained models
+across different traffic settings. For each setting, the frame-
+work was trained for 100 iterations (i.e.,N= 100in Al-
+gorithm 1), with each iteration consisting of 10,000 training
+steps (i.e.,N S= 10,000in Algorithm 2), using a learning
+rate of3×10−4. The analytical predictions under the zero-
+traffic assumption are provided in Figure 6. Figures 7, 8,
+and 9 illustrate the Pareto fronts shown in Figure 2, where
+each policy is labeled by its corresponding number. A de-
+tailed quantitative evaluation of each policy, averaged over 5
+episodes, is given in Tables 3, 4, and 5.
+The success rate indicates the number of episodes that
+reached the target within the maximum allowed steps, while
+the failure rate indicates episodes terminated due to colli-
+sions. Notably, the failure rate is zero for all policies under alltraffic conditions considered. The max step rate corresponds
+to episodes that terminated after reaching the maximum num-
+ber of steps without completing the target. The target distance
+is approximately 3000 m, with minor variations depending on
+the truck’s start and end positions.
+The results are easily interpretable. For policies that tries
+to minimize energy cost have low average speed and therefore
+higher time to reach target and consequently higher driver
+cost. For policies that tries to minimize driver cost have
+higher average speed and consequently higher energy cost. In
+the zero-traffic case, for successful policies, the best TCOP
+achieved is around 3.75 euros for 3 km, which is compara-
+ble to the analytical cost of 3.68 euros. The best TCOP per
+meter is 0.0012 euros/m in zero traffic case which is same
+as the corresponding analytical value. In medium and high
+traffic, policies span a wider range of average speeds, which
+directly affects energy cost and driver cost. The best total cost
+achieved is 0.0013 euros/m in both medium and high traffic,
+indicating that even under denser traffic conditions, the poli-
+cies maintain operational efficiency comparable to that of the
+analytical values (0.0012 euros/m).
+We also observed that our GPI-LS framework, which uses
+a policy-based approach (MOPPO), is computationally more
+efficient than the value-based GPI-LS [Alegreet al., 2023 ]
+as implemented in [Feltenet al., 2023 ]. In our RL environ-
+ment for truck driving, training the latter for7.5×105steps
+required approximately 35 hours, whereas the same training
+using our framework completed in roughly 30 hours. Exper-
+iments were conducted on a Linux cluster with two AMD
+EPYC 7763 64-core processors.
+/uni00000013/uni00000011/uni00000013 /uni00000013/uni00000011/uni00000017 /uni00000013/uni00000011/uni0000001b /uni00000014/uni00000011/uni00000015 /uni00000014/uni00000011/uni00000019 /uni00000015/uni00000011/uni00000013 /uni00000015/uni00000011/uni00000017
+/uni00000028/uni00000051/uni00000048/uni00000055/uni0000004a/uni0000005c/uni00000003/uni00000026/uni00000052/uni00000056/uni00000057/uni00000003/uni0000000b/uni00000048/uni00000058/uni00000055/uni00000052/uni00000056/uni0000000c/uni00000014/uni00000011/uni0000001b/uni00000015/uni00000011/uni00000013/uni00000015/uni00000011/uni00000015/uni00000015/uni00000011/uni00000017/uni00000015/uni00000011/uni00000019/uni00000015/uni00000011/uni0000001b/uni00000016/uni00000011/uni00000013/uni00000027/uni00000055/uni0000004c/uni00000059/uni00000048/uni00000055/uni00000003/uni00000026/uni00000052/uni00000056/uni00000057/uni00000003/uni0000000b/uni00000048/uni00000058/uni00000055/uni00000052/uni00000056/uni0000000c/uni00000014/uni00000010/uni00000015
+/uni00000016/uni00000010/uni00000017
+/uni00000018/uni00000010/uni00000014/uni00000014
+/uni00000014/uni00000015
+/uni00000014/uni00000016/uni00000010/uni00000014/uni00000019
+/uni00000014/uni0000001a
+/uni00000014/uni0000001b
+/uni00000014/uni0000001c/uni0000003d/uni00000048/uni00000055/uni00000052/uni00000003/uni00000037/uni00000055/uni00000044/uni00000049/uni00000049/uni0000004c/uni00000046
+/uni00000013/uni00000011/uni00000013/uni00000013/uni00000011/uni00000015/uni00000013/uni00000011/uni00000017/uni00000013/uni00000011/uni00000019/uni00000013/uni00000011/uni0000001b/uni00000014/uni00000011/uni00000013/uni00000036/uni00000058/uni00000046/uni00000046/uni00000048/uni00000056/uni00000056/uni00000049/uni00000058/uni0000004f/uni00000003/uni00000026/uni00000052/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000057/uni0000004c/uni00000052/uni00000051
+Figure 7: Pareto Front showing the trade off between driver cost and
+energy cost in zero traffic, along with the success rate. The annotated
+numbers denote the policy numbers referred in the Table 3
+
+Table 3: Evaluation of Pareto-optimal policies in Zero Traffic
+Policy Success Failure Max Step Avg.

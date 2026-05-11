@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Algorand",
+  "hasMaximumBandwidthConsumption",
+  "11240KiB",
+  "Solana",
+  "exceedsBandwidthOf",
+  "BandwidthIncrease",
+  "hasCause",
+  "MoreMetadataPerTransaction",
+  "DataDuplication",
+  "exploits",
+  "ErasureCoding",
+  "hasGoal",
+  "MaximizeInformationDissemination",
+  "hasCharacteristic",
+  "LackOfFaultTolerance",
+  "motivates",
+  "ErasureCodingDesignDecision",
+  "requiresSending",
+  "AdditionalData",
+  "enablesReconstruction",
+  "RelevantInformation",
+  "handlesCondition",
+  "PartialDataLoss",
+  "OtherBlockchain",
+  "doesNotUse",
+  "consumesLessTrafficBecause",
+  "AbsenceOfErasureCoding",
+  "TransactionSize",
+  "isFactorIn",
+  "BandwidthConsumption",
+  "hasHighBandwidthDueTo",
+  "Corda",
+  "isA",
+  "DistributedLedgerTechnology",
+  "sendsTransactionOfSize",
+  "8KiB",
+  "CordaTransactionSize",
+  "isCharacterizedAs",
+  "Overkill",
+  "BlockchainProtocol",
+  "hasHeatmap",
+  "BandwidthHeatmap",
+  "ValidatorNode",
+  "participatesIn",
+  "Blockchain",
+  "hasTransactionSize",
+  "hasAxis",
+  "SenderNode",
+  "ReceiverNode",
+  "balancedOver",
+  "Route",
+  "Traffic",
+  "unbalancedAcross",
+  "NetworkNode",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "Validator",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "NetworkCongestion",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap"
+]
+
+Triples:
+[
+  {
+    "subject": "Algorand",
+    "relation": "hasMaximumBandwidthConsumption",
+    "object": "11240KiB",
+    "chunk": "varyingconsumption",
+    "context": "Algorand, the second most bandwidth consuming blockchain uses a maximum of 11,240 KiB."
+  },
+  {
+    "subject": "Solana",
+    "relation": "exceedsBandwidthOf",
+    "object": "Algorand",
+    "chunk": "varyingconsumption",
+    "context": "This 58% increase compared to Algorand can be due to several factors: more metadata sent per transaction or higher duplication of the same information."
+  },
+  {
+    "subject": "BandwidthIncrease",
+    "relation": "hasCause",
+    "object": "MoreMetadataPerTransaction",
+    "chunk": "varyingconsumption",
+    "context": "This 58% increase compared to Algorand can be due to several factors: more metadata sent per transaction or higher duplication of the same information."
+  },
+  {
+    "subject": "BandwidthIncrease",
+    "relation": "hasCause",
+    "object": "DataDuplication",
+    "chunk": "varyingconsumption",
+    "context": "This 58% increase compared to Algorand can be due to several factors: more metadata sent per transaction or higher duplication of the same information."
+  },
+  {
+    "subject": "Solana",
+    "relation": "exploits",
+    "object": "ErasureCoding",
+    "chunk": "varyingconsumption",
+    "context": "The reason is probably that Solana exploits erasure coding in order to maximize dissemination of information despite failures."
+  },
+  {
+    "subject": "ErasureCoding",
+    "relation": "hasGoal",
+    "object": "MaximizeInformationDissemination",
+    "chunk": "varyingconsumption",
+    "context": "Solana exploits erasure coding in order to maximize dissemination of information despite failures."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasCharacteristic",
+    "object": "LackOfFaultTolerance",
+    "chunk": "varyingconsumption",
+    "context": "Its lack of fault tolerance, already previously observed, probably motivated this design decision."
+  },
+  {
+    "subject": "LackOfFaultTolerance",
+    "relation": "motivates",
+    "object": "ErasureCodingDesignDecision",
+    "chunk": "varyingconsumption",
+    "context": "Its lack of fault tolerance, already previously observed, probably motivated this design decision."
+  },
+  {
+    "subject": "ErasureCoding",
+    "relation": "requiresSending",
+    "object": "AdditionalData",
+    "chunk": "varyingconsumption",
+    "context": "Erasure coding relies on sending additional data in order to reconstruct the relevant information in case of partial loss."
+  },
+  {
+    "subject": "ErasureCoding",
+    "relation": "enablesReconstruction",
+    "object": "RelevantInformation",
+    "chunk": "varyingconsumption",
+    "context": "Erasure coding relies on sending additional data in order to reconstruct the relevant information in case of partial loss."
+  },
+  {
+    "subject": "ErasureCoding",
+    "relation": "handlesCondition",
+    "object": "PartialDataLoss",
+    "chunk": "varyingconsumption",
+    "context": "Erasure coding relies on sending additional data in order to reconstruct the relevant information in case of partial loss."
+  },
+  {
+    "subject": "OtherBlockchain",
+    "relation": "doesNotUse",
+    "object": "ErasureCoding",
+    "chunk": "varyingconsumption",
+    "context": "The other blockchains do not consume as much traffic likely because they do not use erasure coding."
+  },
+  {
+    "subject": "OtherBlockchain",
+    "relation": "consumesLessTrafficBecause",
+    "object": "AbsenceOfErasureCoding",
+    "chunk": "varyingconsumption",
+    "context": "The other blockchains do not consume as much traffic likely because they do not use erasure coding."
+  },
+  {
+    "subject": "TransactionSize",
+    "relation": "isFactorIn",
+    "object": "BandwidthConsumption",
+    "chunk": "varyingconsumption",
+    "context": "In order to exclude other factors that could have invalidated our hypothesis that Solana uses more bandwidth due to erasure coding, we measured empirically the size of transactions sent by each blockchain."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasHighBandwidthDueTo",
+    "object": "ErasureCoding",
+    "chunk": "varyingconsumption",
+    "context": "In order to exclude other factors that could have invalidated our hypothesis that Solana uses more bandwidth due to erasure coding"
+  },
+  {
+    "subject": "Corda",
+    "relation": "isA",
+    "object": "DistributedLedgerTechnology",
+    "chunk": "varyingconsumption",
+    "context": "it was previously noted that distributed ledger technologies like Corda send transactions as large as 8 KiB"
+  },
+  {
+    "subject": "Corda",
+    "relation": "sendsTransactionOfSize",
+    "object": "8KiB",
+    "chunk": "varyingconsumption",
+    "context": "distributed ledger technologies like Corda send transactions as large as 8 KiB, which is an overkill."
+  },
+  {
+    "subject": "CordaTransactionSize",
+    "relation": "isCharacterizedAs",
+    "object": "Overkill",
+    "chunk": "varyingconsumption",
+    "context": "distributed ledger technologies like Corda send transactions as large as 8 KiB, which is an overkill."
+  },
+  {
+    "subject": "BlockchainProtocol",
+    "relation": "hasHeatmap",
+    "object": "BandwidthHeatmap",
+    "chunk": "varyingconsumption",
+    "context": "Figure 1 depicts one heatmap per blockchain protocol for nodes that all act as validators"
+  },
+  {
+    "subject": "ValidatorNode",
+    "relation": "participatesIn",
+    "object": "BlockchainProtocol",
+    "chunk": "varyingconsumption",
+    "context": "Figure 1 depicts one heatmap per blockchain protocol for nodes that all act as validators"
+  },
+  {
+    "subject": "Blockchain",
+    "relation": "hasTransactionSize",
+    "object": "TransactionSize",
+    "chunk": "varyingconsumption",
+    "context": "we measured empirically the size of transactions sent by each blockchain."
+  },
+  {
+    "subject": "BandwidthHeatmap",
+    "relation": "hasAxis",
+    "object": "SenderNode",
+    "chunk": "varyingconsumption",
+    "context": "the color of cellM i,j represents the bandwidth consumed by node n i when sending to node n j."
+  },
+  {
+    "subject": "BandwidthHeatmap",
+    "relation": "hasAxis",
+    "object": "ReceiverNode",
+    "chunk": "varyingconsumption",
+    "context": "the color of cellM i,j represents the bandwidth consumed by node n i when sending to node n j."
+  },
+  {
+    "subject": "BandwidthConsumption",
+    "relation": "balancedOver",
+    "object": "Route",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "A high bandwidth usage does not necessarily in-duce a detrimental performance, especially when the bandwidth consumption is well-balanced over multiple routes."
+  },
+  {
+    "subject": "Traffic",
+    "relation": "unbalancedAcross",
+    "object": "NetworkNode",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "In the Aptos heatmap of Fig. 1, we can see that some nodes of the Aptos network seem to consume more band-width than other nodes of the same network, and traffic is heavily unbalanced across nodes."
+  }
+]

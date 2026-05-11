@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ctelm",
+  "decodes",
+  "ClinicalTrialEmbedding",
+  "LargeLanguageModel",
+  "alignsTo",
+  "describes",
+  "ClinicalTrial",
+  "compares",
+  "produces",
+  "ConceptVector",
+  "represents",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "hasAttribute",
+  "EmbeddingLanguageModel",
+  "allowsInteractionWith",
+  "TextEmbedding",
+  "reconstructs",
+  "ClinicalTrialAbstract",
+  "outperforms",
+  "vec2text",
+  "ConceptActivationVector",
+  "identifies",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "trains",
+  "Elm",
+  "interprets",
+  "Embedding",
+  "ShallowEmbedding",
+  "operatesOn",
+  "Token",
+  "learnedUsing",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "projects",
+  "VectorEmbedding",
+  "Vec2Text",
+  "fineTunes",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "generates",
+  "HypothesisText",
+  "Corrector",
+  "updates",
+  "TokenEmbeddingLayer",
+  "Text",
+  "ContextualEmbedding",
+  "EmbeddingSpace",
+  "BaseChatModel",
+  "TransformerLayer",
+  "TargetModel",
+  "AdapterModule",
+  "MultilayerPerceptron",
+  "Dataset",
+  "StructuredAbstractSection",
+  "RandomizedControlledTrial",
+  "UnstructuredClinicalTrialAbstract",
+  "model_baseChatModel",
+  "layer_tokenEmbedding",
+  "layer_transformer",
+  "model_targetModel",
+  "module_adapter",
+  "model_ctELM",
+  "dataset_pubmed200kRct",
+  "task_emb2sec",
+  "task_emb2pls",
+  "output_plainLanguageSummary",
+  "data_abstractEmbedding",
+  "task_emb2com",
+  "data_textInstruction",
+  "loss_negativeLogLikelihood",
+  "method_lowRankAdaptation",
+  "layer_Mbase",
+  "model_gpt4oMini",
+  "role_oracleModel",
+  "data_syntheticData",
+  "module_adapterA",
+  "architecture_multilayerPerceptron"
+]
+
+Triples:
+[
+  {
+    "subject": "ctelm",
+    "relation": "decodes",
+    "object": "ClinicalTrialEmbedding",
+    "chunk": "completedocument1",
+    "context": "ctELM: Decoding and Manipulating Embeddings of Clinical Trials with Embedding Language Models"
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "alignsTo",
+    "object": "ClinicalTrialEmbedding",
+    "chunk": "completedocument1",
+    "context": "In this work, we align Large Language Models to embeddings of clinical trials using the recently reported Embedding Language Model (ELM) method."
+  },
+  {
+    "subject": "ctelm",
+    "relation": "describes",
+    "object": "ClinicalTrial",
+    "chunk": "completedocument1",
+    "context": "Our final model, ctELM, can accurately describe and compare unseen clinical trials from embeddings alone and produce plausible clinical trials from novel vectors."
+  },
+  {
+    "subject": "ctelm",
+    "relation": "compares",
+    "object": "ClinicalTrial",
+    "chunk": "completedocument1",
+    "context": "Our final model, ctELM, can accurately describe and compare unseen clinical trials from embeddings alone and produce plausible clinical trials from novel vectors."
+  },
+  {
+    "subject": "ctelm",
+    "relation": "produces",
+    "object": "ClinicalTrial",
+    "chunk": "completedocument1",
+    "context": "Our final model, ctELM, can accurately describe and compare unseen clinical trials from embeddings alone and produce plausible clinical trials from novel vectors."
+  },
+  {
+    "subject": "ConceptVector",
+    "relation": "represents",
+    "object": "Age",
+    "chunk": "completedocument1",
+    "context": "We further show that generated trial abstracts are responsive to moving embeddings along concept vectors for age and sex of study subjects."
+  },
+  {
+    "subject": "ConceptVector",
+    "relation": "represents",
+    "object": "Sex",
+    "chunk": "completedocument1",
+    "context": "We further show that generated trial abstracts are responsive to moving embeddings along concept vectors for age and sex of study subjects."
+  },
+  {
+    "subject": "StudySubject",
+    "relation": "hasAttribute",
+    "object": "Age",
+    "chunk": "completedocument1",
+    "context": "We further show that generated trial abstracts are responsive to moving embeddings along concept vectors for age and sex of study subjects."
+  },
+  {
+    "subject": "StudySubject",
+    "relation": "hasAttribute",
+    "object": "Sex",
+    "chunk": "completedocument1",
+    "context": "We further show that generated trial abstracts are responsive to moving embeddings along concept vectors for age and sex of study subjects."
+  },
+  {
+    "subject": "EmbeddingLanguageModel",
+    "relation": "allowsInteractionWith",
+    "object": "TextEmbedding",
+    "chunk": "completedocument1",
+    "context": "A promising potential solution is training Embedding Language Models (ELMs) to allow interaction with embeddings via natural language (Tennenholtz et al., 2024)."
+  },
+  {
+    "subject": "EmbeddingLanguageModel",
+    "relation": "alignsTo",
+    "object": "ClinicalTrialEmbedding",
+    "chunk": "completedocument1",
+    "context": "We use our new implementation to align an ELM to embeddings of clinical trials, designing domain-specific training tasks and constructing an expert-validated dataset."
+  },
+  {
+    "subject": "ctelm",
+    "relation": "reconstructs",
+    "object": "ClinicalTrialAbstract",
+    "chunk": "completedocument1",
+    "context": "In extensive experiments, we demonstrate that our model, ctELM , can reconstruct abstracts more reliably than Vec2Text and can perform additional tasks requiring reasoning over multiple embeddings."
+  },
+  {
+    "subject": "ctelm",
+    "relation": "outperforms",
+    "object": "vec2text",
+    "chunk": "completedocument1",
+    "context": "In extensive experiments, we demonstrate that our model, ctELM , can reconstruct abstracts more reliably than Vec2Text and can perform additional tasks requiring reasoning over multiple embeddings."
+  },
+  {
+    "subject": "ConceptActivationVector",
+    "relation": "identifies",
+    "object": "ClinicallyMeaningfulDirection",
+    "chunk": "completedocument1",
+    "context": "Further, we show that the generated abstracts are responsive to clinically meaningful directions identified in the embedding space using Concept Activation Vectors (Kim et al., 2018), namely those representing the sex and age of trial subjects."
+  },
+  {
+    "subject": "ConceptActivationVector",
+    "relation": "represents",
+    "object": "Sex",
+    "chunk": "completedocument1",
+    "context": "Further, we show that the generated abstracts are responsive to clinically meaningful directions identified in the embedding space using Concept Activation Vectors (Kim et al., 2018), namely those representing the sex and age of trial subjects."
+  },
+  {
+    "subject": "ConceptActivationVector",
+    "relation": "represents",
+    "object": "Age",
+    "chunk": "completedocument1",
+    "context": "Further, we show that the generated abstracts are responsive to clinically meaningful directions identified in the embedding space using Concept Activation Vectors (Kim et al., 2018), namely those representing the sex and age of trial subjects."
+  },
+  {
+    "subject": "ExpertValidatedDataset",
+    "relation": "trains",
+    "object": "Elm",
+    "chunk": "completedocument2",
+    "context": "an\nexpert-validated dataset for training ELMs to in-\nterpret embeddings of clinical trials;"
+  },
+  {
+    "subject": "Elm",
+    "relation": "interprets",
+    "object": "Embedding",
+    "chunk": "completedocument2",
+    "context": "a trained\nELM that can interpret embeddings of clinical tri-\nals;"
+  },
+  {
+    "subject": "Embedding",
+    "relation": "represents",
+    "object": "ClinicalTrial",
+    "chunk": "completedocument2",
+    "context": "a trained\nELM that can interpret embeddings of clinical tri-\nals;"
+  },
+  {
+    "subject": "ShallowEmbedding",
+    "relation": "operatesOn",
+    "object": "Token",
+    "chunk": "completedocument2",
+    "context": "Early, “shallow” embeddings operated on individ-\nual tokens and were learned using neural networks"
+  },
+  {
+    "subject": "ShallowEmbedding",
+    "relation": "learnedUsing",
+    "object": "NeuralNetwork",
+    "chunk": "completedocument2",
+    "context": "Early, “shallow” embeddings operated on individ-\nual tokens and were learned using neural networks"
+  },
+  {
+    "subject": "GenerativeEmbeddingInversionAttack",
+    "relation": "projects",
+    "object": "VectorEmbedding",
+    "chunk": "completedocument2",
+    "context": "GEIA projects a vec-\ntor embedding to the token embedding layer in\nplace of the first token of input to a decoder-only\ntransformer-based language model"
+  },
+  {
+    "subject": "Vec2Text",
+    "relation": "fineTunes",
+    "object": "EncoderDecoderTransformer",
+    "chunk": "completedocument2",
+    "context": "Vec2Text (Morris et al.,\n2023) fine-tunes encoder-decoder transformer lan-\nguage models to become an ‘inverter’ and a ‘correc-\ntor,’"
+  },
+  {
+    "subject": "Inverter",
+    "relation": "generates",
+    "object": "HypothesisText",
+    "chunk": "completedocument2",
+    "context": "Given an embedding, the inverter istrained to make an initial hypothesis of the original\ntext,"
+  },
+  {
+    "subject": "Corrector",
+    "relation": "updates",
+    "object": "HypothesisText",
+    "chunk": "completedocument2",
+    "context": "the corrector is trained to move the hypoth-\nesis text closer to the target embedding by making\ndiscrete updates,"
+  }
+]

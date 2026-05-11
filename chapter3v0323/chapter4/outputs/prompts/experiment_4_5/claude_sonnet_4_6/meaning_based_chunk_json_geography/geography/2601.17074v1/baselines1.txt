@@ -1,0 +1,128 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "baselines1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: baselines1
+- section_title: Baselines
+- page_start: 7
+- page_end: 9
+
+**INPUT TEXT CHUNK:**
+Our study’s primary objective is conceptual: to rigorously evaluate how enforcing a surjec-
+tive, invertibility-aware mapping enables the stable recovery of latent physical parameters un-
+der data scarcity. While acknowledging the presence of general state-of-the-art architectures
+in time-series forecasting, our baseline selection is deliberately focused on controlled, ablative
+comparisons to isolate the specific impact of the PhysE-Inv framework’s conceptual innovations.
+Table 1: Comparison of model predictions with and
+without parameter estimation (PE).
+Model Without PE With PE
+MSE RMSE MSE RMSE
+LSTM 0.4679 0.6840 0.4545 0.6742
+NeuralODE 0.5066 0.7117 0.4926 0.7018
+ResNet50 0.4308 0.6563 0.4315 0.6569
+BiLSTM 0.5263 0.7255 0.5177 0.7195
+PhysE-Inv 0.3942 0.6278 0.3568 0.5973In domains like physics-guided inverse
+modeling, many architectures in the
+literature are custom-built to solve tightly
+scoped problems with specific assump-
+tions and non-linear partial differential
+equations, often lacking the generalizabil-
+ity needed for broader comparisons. They
+frequently only present sample-based ab-
+lations but not performance comparisons
+between state-of-the-art architectures
+Raissi et al. (2019); Ghosh et al. (2022).
+For example, we fundamentally differ from PINNs Raissi et al. (2019), which use automatic
+differentiation to solve PDEs for numerical simulation. Therefore, in our study, to facilitate a fair
+comparison across different architectural paradigms, we chose to augment each of our selected
+baselines with an inverse modeling module, enabling them to perform the same joint parameter
+estimation and prediction task as our proposed PhysE-Inv framework. Furthermore, we acknowl-
+edge the existing gap in the literature regarding direct comparisons between general-purpose
+7
+
+Published as a conference paper at ICLR 2026
+architectures adapted for inverse modeling and those models specifically designed for particular
+inverse problems. It is noteworthy that our proposed model combines inverse modeling (specifically
+through its parameter estimation process) with physics-guided contrastive learning (Fig. 1).
+To ensure a fair analysis, all baselines are capacity-matched to our PhysE-Inv model. Furthermore,
+where applicable, they incorporate the same invertibility adjustment to ensure performance differ-
+ences are attributable to our novel components (Physics Encoding and Physics-Guided Contrastive
+Learning), not differences in overall model scale. Our choices represent conceptually distinct classes
+of time-series modeling with noisy, sparse real-world data:
+• LSTM serves as the minimal recurrent baseline, directly aligning with the core temporal
+backbone of our encoder-decoder structure. This comparison quantifies the added value of
+our physics constraints over a standard sequence modeling approach.
+• BiLSTM is included to evaluate whether performance gains are due to the structural en-
+forcement of physical rules, or simply from leveraging broader (non-causal) temporal con-
+text.
+• Neural ODE offers a direct comparison to an intrinsically continuous-time modeling ap-
+proach, often considered ideal for latent physical dynamics, testing the efficacy of our
+explicit physics-guided architecture.
+• ResNet-50 (1D variant) provides a non-recurrent, deep convolutional benchmark. This
+tests whether the temporal memory inherent in the LSTM is necessary when compared to
+a capacity-matched architecture that models implicit, discretized dynamics through hierar-
+chical feature extraction.
+These models collectively form a set of conceptually aligned baselines that effectively isolate and
+benchmark the impact of our proposed invertibility principles in estimating time-varying physical
+parameters.
+5.1 RESULTS ANDDISCUSSION
+Table 1 presents a comparison of the predictive performance of four baseline models used
+in this study with the proposed inverse model PhysE-Inv. The baseline models are LSTM,
+NeuralODE, ResNet50, and BiLSTM. The evaluation considers their performance under two
+different model settings: the first setting, referred to as the base, reflects prediction with-
+out the incorporation of hidden characteristics that arise from parameter estimation and in-
+verse mapping, while the other employs parameter estimation and thus includes these hid-
+den characteristics. Model efficacy is quantified using two standard error metrics (MSE
+and RMSE). Lower values for both metrics indicate a higher degree of predictive accuracy.
+Table 2: Ablation study of PhysE-Inv perfor-
+mance across varying Train/Test ratios with and
+without SCL.
+Data Split Without SCL With SCL
+(Train / Test)MSE RMSE MSE RMSE
+80% / 20%0.6601 0.81250.5926 0.7698
+60% / 40%0.6588 0.81170.6037 0.7770
+50% / 50%0.8675 0.93140.7940 0.8911The results indicate that the application of param-
+eter estimation generally correlates with a reduc-
+tion in both MSE and RMSE across the evalu-
+ated models, suggesting an enhancement in pre-
+dictive accuracy.

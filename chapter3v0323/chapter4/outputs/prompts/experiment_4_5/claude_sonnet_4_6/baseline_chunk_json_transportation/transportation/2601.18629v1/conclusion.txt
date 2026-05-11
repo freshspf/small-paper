@@ -1,0 +1,87 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: conclusion
+- section_title: Conclusion
+- page_start: 8
+- page_end: 9
+
+INPUT TEXT CHUNK:
+In this work, we presented ExoGS, a scalable, robot-free
+Real-to-Sim-to-Real framework for manipulation data collec-
+tion. By integrating a low-cost (approx. $400) passive ex-
+oskeleton with a 3D Gaussian Splatting pipeline, we enable the
+efficient acquisition of kinematically consistent demonstrations
+and their digitization into editable simulation assets. This ap-
+proach allows for massive, geometry-aware data augmentation
+that significantly enhances policy generalization. Furthermore,
+our proposed Mask Adapter effectively bridges the sim-to-
+real gap by injecting instance-level semantic constraints into
+the policy. Extensive real-world experiments demonstrate that
+ExoGS reduces data collection costs while yielding policies
+that outperform those trained via traditional teleoperation.
+However, the current framework relies on the rigid-body
+assumption of 3DGS, which restricts the modeling of de-
+formable objects with variable geometry. Future work will plan
+to further improve the automation level of the data generation
+pipeline.
+
+9
+[32] L.-C. Chen, Y . Zhu, G. Papandreou, F. Schroff, and H. Adam, “Encoder-
+decoder with atrous separable convolution for semantic image segmen-
+tation,” inProceedings of the European conference on computer vision
+(ECCV), 2018, pp. 801–818.

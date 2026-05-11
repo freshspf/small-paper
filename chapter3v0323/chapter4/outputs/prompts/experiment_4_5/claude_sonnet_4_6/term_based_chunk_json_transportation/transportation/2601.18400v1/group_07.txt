@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CooldownPhase",
+  "allowsRemainingTransactionsTo",
+  "Commit",
+  "ClientVM",
+  "sendsTransactionsTo",
+  "Validator",
+  "WorkloadPhase",
+  "hasClientCount",
+  "5",
+  "targetsValidatorCount",
+  "TargetLoad",
+  "distributedEquallyAmong",
+  "hasTransactionRate",
+  "40 TPS",
+  "ExperimentalSetup",
+  "hasTotalTransactionRate",
+  "200 TPS",
+  "Transaction",
+  "sentTo",
+  "SingleNode",
+  "BlockchainNode",
+  "queriedForFinalityUsing",
+  "BlockStreaming",
+  "Polling",
+  "VirtualMachine",
+  "mimicsResourcesOf",
+  "CommodityComputer",
+  "VMSpecification",
+  "isLowerThan",
+  "AptosRecommendedHardware",
+  "AvalancheRecommendedHardware",
+  "RedbellyRecommendedHardware",
+  "BandwidthMonitoringSystem",
+  "capturesTrafficBetween",
+  "providesMeasurementType",
+  "PairwiseMeasurement",
+  "utilizesProcess",
+  "STABLObserverProcess",
+  "runsOn",
+  "BlockchainVM",
+  "reliesOn",
+  "IptablesFirewall",
+  "performs",
+  "PacketAccounting",
+  "hasProperty",
+  "NonIntrusive",
+  "IptablesRule",
+  "installedOn",
+  "creates",
+  "AccountingChain",
+  "containsRuleFor",
+  "Peer",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "BandwidthConsumption",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "ValidatorEconomics"
+]
+
+Triples:
+[
+  {
+    "subject": "CooldownPhase",
+    "relation": "allowsRemainingTransactionsTo",
+    "object": "Commit",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "ClientVM",
+    "relation": "sendsTransactionsTo",
+    "object": "Validator",
+    "chunk": "experimentalsettings",
+    "context": "During the Workload phase, the 5 clients send transactions to the first 5 validators."
+  },
+  {
+    "subject": "WorkloadPhase",
+    "relation": "hasClientCount",
+    "object": "5",
+    "chunk": "experimentalsettings",
+    "context": "During the Workload phase, the 5 clients send transactions to the first 5 validators."
+  },
+  {
+    "subject": "WorkloadPhase",
+    "relation": "targetsValidatorCount",
+    "object": "5",
+    "chunk": "experimentalsettings",
+    "context": "During the Workload phase, the 5 clients send transactions to the first 5 validators."
+  },
+  {
+    "subject": "TargetLoad",
+    "relation": "distributedEquallyAmong",
+    "object": "ClientVM",
+    "chunk": "experimentalsettings",
+    "context": "The target load is distributed equally among clients (e.g., 40 TPS each for a total of 200 TPS)."
+  },
+  {
+    "subject": "ClientVM",
+    "relation": "hasTransactionRate",
+    "object": "40 TPS",
+    "chunk": "experimentalsettings",
+    "context": "The target load is distributed equally among clients (e.g., 40 TPS each for a total of 200 TPS)."
+  },
+  {
+    "subject": "ExperimentalSetup",
+    "relation": "hasTotalTransactionRate",
+    "object": "200 TPS",
+    "chunk": "experimentalsettings",
+    "context": "The target load is distributed equally among clients (e.g., 40 TPS each for a total of 200 TPS)."
+  },
+  {
+    "subject": "Transaction",
+    "relation": "sentTo",
+    "object": "SingleNode",
+    "chunk": "experimentalsettings",
+    "context": "Each transaction is sent to a single node, which is then queried for finality using block streaming or polling."
+  },
+  {
+    "subject": "BlockchainNode",
+    "relation": "queriedForFinalityUsing",
+    "object": "BlockStreaming",
+    "chunk": "experimentalsettings",
+    "context": "Each transaction is sent to a single node, which is then queried for finality using block streaming or polling."
+  },
+  {
+    "subject": "BlockchainNode",
+    "relation": "queriedForFinalityUsing",
+    "object": "Polling",
+    "chunk": "experimentalsettings",
+    "context": "Each transaction is sent to a single node, which is then queried for finality using block streaming or polling."
+  },
+  {
+    "subject": "VirtualMachine",
+    "relation": "mimicsResourcesOf",
+    "object": "CommodityComputer",
+    "chunk": "experimentalsettings",
+    "context": "The resources of each VM mimics intentionally the resources of a commodity computer run by an individual in a blockchain network."
+  },
+  {
+    "subject": "VMSpecification",
+    "relation": "isLowerThan",
+    "object": "AptosRecommendedHardware",
+    "chunk": "experimentalsettings",
+    "context": "Note that this specification is lower than what some blockchains typically recommend, including Aptos [2], Avalanche [27] or Redbelly [30]."
+  },
+  {
+    "subject": "VMSpecification",
+    "relation": "isLowerThan",
+    "object": "AvalancheRecommendedHardware",
+    "chunk": "experimentalsettings",
+    "context": "Note that this specification is lower than what some blockchains typically recommend, including Aptos [2], Avalanche [27] or Redbelly [30]."
+  },
+  {
+    "subject": "VMSpecification",
+    "relation": "isLowerThan",
+    "object": "RedbellyRecommendedHardware",
+    "chunk": "experimentalsettings",
+    "context": "Note that this specification is lower than what some blockchains typically recommend, including Aptos [2], Avalanche [27] or Redbelly [30]."
+  },
+  {
+    "subject": "BandwidthMonitoringSystem",
+    "relation": "capturesTrafficBetween",
+    "object": "BlockchainNode",
+    "chunk": "experimentalsettings",
+    "context": "We implemented a fine-grained bandwidth monitoring system to capture traffic usage between blockchain nodes and clients."
+  },
+  {
+    "subject": "BandwidthMonitoringSystem",
+    "relation": "capturesTrafficBetween",
+    "object": "ClientVM",
+    "chunk": "experimentalsettings",
+    "context": "We implemented a fine-grained bandwidth monitoring system to capture traffic usage between blockchain nodes and clients."
+  },
+  {
+    "subject": "BandwidthMonitoringSystem",
+    "relation": "providesMeasurementType",
+    "object": "PairwiseMeasurement",
+    "chunk": "experimentalsettings",
+    "context": "Our approach provides pairwise measurements of the traffic exchanged between each node in the network."
+  },
+  {
+    "subject": "BandwidthMonitoringSystem",
+    "relation": "utilizesProcess",
+    "object": "STABLObserverProcess",
+    "chunk": "experimentalsettings",
+    "context": "The system utilizes STABLobserver processes running on blockchain VMs and relies on the Linux iptables firewall infrastructure to perform non-intrusive packet accounting."
+  },
+  {
+    "subject": "STABLObserverProcess",
+    "relation": "runsOn",
+    "object": "BlockchainVM",
+    "chunk": "experimentalsettings",
+    "context": "The system utilizes STABLobserver processes running on blockchain VMs and relies on the Linux iptables firewall infrastructure to perform non-intrusive packet accounting."
+  },
+  {
+    "subject": "BandwidthMonitoringSystem",
+    "relation": "reliesOn",
+    "object": "IptablesFirewall",
+    "chunk": "experimentalsettings",
+    "context": "The system utilizes STABLobserver processes running on blockchain VMs and relies on the Linux iptables firewall infrastructure to perform non-intrusive packet accounting."
+  },
+  {
+    "subject": "IptablesFirewall",
+    "relation": "performs",
+    "object": "PacketAccounting",
+    "chunk": "experimentalsettings",
+    "context": "The system utilizes STABLobserver processes running on blockchain VMs and relies on the Linux iptables firewall infrastructure to perform non-intrusive packet accounting."
+  },
+  {
+    "subject": "PacketAccounting",
+    "relation": "hasProperty",
+    "object": "NonIntrusive",
+    "chunk": "experimentalsettings",
+    "context": "The system utilizes STABLobserver processes running on blockchain VMs and relies on the Linux iptables firewall infrastructure to perform non-intrusive packet accounting."
+  },
+  {
+    "subject": "IptablesRule",
+    "relation": "installedOn",
+    "object": "BlockchainNode",
+    "chunk": "experimentalsettings",
+    "context": "For each node under observation, we programmatically install a set of iptables rules."
+  },
+  {
+    "subject": "IptablesRule",
+    "relation": "creates",
+    "object": "AccountingChain",
+    "chunk": "experimentalsettings",
+    "context": "These rules create custom accounting chains that contain a specific rule for every other peer in the experiment."
+  },
+  {
+    "subject": "AccountingChain",
+    "relation": "containsRuleFor",
+    "object": "Peer",
+    "chunk": "experimentalsettings",
+    "context": "These rules create custom accounting chains that contain a specific rule for every other peer in the experiment."
+  }
+]

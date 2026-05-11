@@ -1,0 +1,147 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "backgroundandblockchainnetworks",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: backgroundandblockchainnetworks
+- section_title: Background and Blockchain Networks
+- page_start: 2
+- page_end: 2
+
+**INPUT TEXT CHUNK:**
+perimental settings and our methodology. In Section 4,
+we present the variety of bandwidth consumption of the
+five blockchain protocols. In Section 5, we study the dis-
+tribution of network traffic over different pairs of nodes.
+In Section 6, we compare the bandwidth consumption be-
+fore, during and after reception of transactions. In Sec-
+tion 7, we study the impact of the number of nodes and
+validators on the bandwidth consumption. In Section 8,
+we study the impact of the sending rate on the bandwidth
+consumption. We present the related work in Section 9
+and we conclude in Section 10.
+2 Background and Blockchain Net-
+works
+In this section, we list the characteristics of each tested
+blockchain network protocol.
+2.1 The Algorand network
+Algorand [18] is a blockchain protocol that shuffles par-
+ticipants via cryptographic sortition to enhance secu-
+rity. More precisely, it uses Verifiable Random Functions
+(VRFs) to randomly select participants for specific roles
+in the consensus execution. In Algorand, nodes commu-
+nicate with a gossip-based protocol where each node vali-
+dates each message before relaying it and sends it at most
+once to each other node [9]. To this end, each node main-
+tains one TCP connection per node in its neighborhood,
+which offers WebSockets over HTTP .
+2.2 The Avalanche network
+Avalanche, based on the Snowflake consensus proto-
+col [31], is a probabilistic blockchain that requires, by de-
+fault, a proportion of the nodes that collectively own at
+least 80% of the total stake to be online. In Avalanche,
+nodes communicate over TCP and exploit throttling to
+limit their resource usage. More specifically, messages
+and connections are rate-limited [4] to cap the amount of
+CPU, disk, bandwidth, and message handling that other
+nodes consume. Avalanche uses a dynamic proposer se-
+lection algorithm to manage network load and block pro-
+duction. After each parent block, it pseudo-randomly se-
+lects an ordered list of potential proposers for the next
+block height, weighted by stake and using a seed derived
+from the parent block’s height and chain ID. Each pro-
+poser is assigned a minimum delay based on their posi-
+tion in the list before they can propose a block. If no pro-
+poser acts within the cumulative delay period, any active
+validator may propose. Blocks within the assigned win-
+dows must include valid signatures from the designated
+proposer.2.3 The Aptos network
+Aptos [3] is a leader-based blockchain that uses TCP
+and builds upon a variant of thePractical Byzantine
+Fault Tolerant (PBFT)consensus protocol [5] featuring a
+view-change mechanism with a quadratic communica-
+tion complexity and inherits its cubic communication
+complexity reached when the leader is faulty or the net-
+work is unstable.
+It is well-known that leaders act as bottlenecks in
+leader-based consensus protocols [34], like AptosBFT,
+and that classic blockchains suffer from redundant dis-
+semination of the same transactions first outside and then
+within blocks [32, 33]. To cope with these limitations,
+Aptos features the Quorum Store optimization of Nar-
+whal [13] to decouple metadata ordering from payload
+dissemination. In addition, Quorum Store is designed
+for parallel execution by all validators. As outlined in
+the documentation [7], validators repeat the following
+steps in parallel:(1)Pull transactions from the mempool;
+(2)Arrange transactions into batches based on gas price
+and select an expiration time for each batch;(3)Broad-
+cast batches to all other validators;(4)Persist received
+batches, sign their digests, and send back signatures; and
+(5)Collect signatures from more than 2n/3nodes to form
+aproof-of-store. It allows validators to asynchronously
+broadcast transactions, offloading the leader’s network
+interface during the consensus protocol execution [8].
+2.4 The Redbelly network
+Redbelly Blockchain [12] is a scalable blockchain built on
+the Democratic Byzantine Fault Tolerant (DBFT) consen-
+sus algorithm [11] that isleaderless(i.e., non leader-based)
+and deterministic, and works in a partially synchronous
+environment. To enhance scalability further, Redbelly
+uses a collaborative approach, appending a superblock
+with as many valid proposed blocks as possible. This
+way the number of transactions per appended block can
+grow linearly with the number of nodes [12].
+Redbelly’s nodes communicate using TCP and features
+a Scalable variant of the EVM, called SEVM. It was shown
+to perform well under realistic dApps particularly in
+a large geo-distributed environment when compared to
+other modern blockchains [33].
+2.5 The Solana network
+Solana [37] is a leader-based blockchain that may fork.
+In order to determine whether a transaction is commit-
+ted, Solana requires 30 additional blocks to be appended
+after the transaction’s block. Nodes communicate over
+the QUICnetwork protocol [23] to exchange transactions.
+Nodes split blocks into chunks that they disseminate in a
+hierarchical structure, called Turbine [1], through UDP .
+2

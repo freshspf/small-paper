@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "W2Workload",
+  "hasWrapperAPICallCount",
+  "40322",
+  "W0Workload",
+  "hasAPICallCount",
+  "36000",
+  "PerformanceEvaluation",
+  "usesMetric",
+  "Delay",
+  "TravelTime",
+  "WaitingTime",
+  "PerformanceMetric",
+  "examines",
+  "ControlStrategyEfficiency",
+  "PerformanceValidationExperiment",
+  "conductedUnder",
+  "SingleIntersectionScenario",
+  "Arterial3Scenario",
+  "VissimRLFramework",
+  "implementsActionDesign",
+  "ChooseNextPhase",
+  "SwitchNextOrNot",
+  "SetPhaseDuration",
+  "hasLowerValueIndicating",
+  "BetterControlPerformance",
+  "AllThreeMetrics",
+  "decreaseRapidlyDuring",
+  "EarlyTrainingStage",
+  "Agent",
+  "quicklyLearns",
+  "SignalControlStrategy",
+  "ImprovementRate",
+  "graduallySlowesWith",
+  "TrainingProgress",
+  "ConvergenceIndicates",
+  "indicates",
+  "StableControlPerformance",
+  "ActionDesign",
+  "exhibitsConsistentConvergenceIn",
+  "enhances",
+  "SignalControl",
+  "applicableIn",
+  "IsolatedIntersectionSetting",
+  "CoordinatedMultiIntersectionSetting",
+  "hasProperty",
+  "Scalability",
+  "DiverseTrafficScenario",
+  "GreenWavePhenomenon",
+  "observedIn",
+  "Arterial3MultiAgentExperiment",
+  "Arterial3",
+  "hasNumberOfIntersections",
+  "Three",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior"
+]
+
+Triples:
+[
+  {
+    "subject": "W2Workload",
+    "relation": "hasWrapperAPICallCount",
+    "object": "40322",
+    "chunk": "experiments3",
+    "context": "W2 Step+TS+Eval 511324032221.141 %"
+  },
+  {
+    "subject": "W0Workload",
+    "relation": "hasAPICallCount",
+    "object": "36000",
+    "chunk": "experiments3",
+    "context": "W0 Step-only36000 360000 %"
+  },
+  {
+    "subject": "PerformanceEvaluation",
+    "relation": "usesMetric",
+    "object": "Delay",
+    "chunk": "experiments4",
+    "context": "three commonly used RL-TSC metrics [32] are selected: delay, travel time, and waiting time."
+  },
+  {
+    "subject": "PerformanceEvaluation",
+    "relation": "usesMetric",
+    "object": "TravelTime",
+    "chunk": "experiments4",
+    "context": "three commonly used RL-TSC metrics [32] are selected: delay, travel time, and waiting time."
+  },
+  {
+    "subject": "PerformanceEvaluation",
+    "relation": "usesMetric",
+    "object": "WaitingTime",
+    "chunk": "experiments4",
+    "context": "three commonly used RL-TSC metrics [32] are selected: delay, travel time, and waiting time."
+  },
+  {
+    "subject": "PerformanceMetric",
+    "relation": "examines",
+    "object": "ControlStrategyEfficiency",
+    "chunk": "experiments4",
+    "context": "These indicators are used to examine the efficiency of different control strategies and to validate the applicability of the proposed system across various scenarios."
+  },
+  {
+    "subject": "PerformanceValidationExperiment",
+    "relation": "conductedUnder",
+    "object": "SingleIntersectionScenario",
+    "chunk": "experiments4",
+    "context": "training was conducted under two scenarios: Single-Intersection and Arterial-3, using three action designs implemented in our framework."
+  },
+  {
+    "subject": "PerformanceValidationExperiment",
+    "relation": "conductedUnder",
+    "object": "Arterial3Scenario",
+    "chunk": "experiments4",
+    "context": "training was conducted under two scenarios: Single-Intersection and Arterial-3, using three action designs implemented in our framework."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "implementsActionDesign",
+    "object": "ChooseNextPhase",
+    "chunk": "experiments4",
+    "context": "using three action designs implemented in our framework: ChooseNextPhase, SwitchNextOrNot, and SetPhaseDuration."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "implementsActionDesign",
+    "object": "SwitchNextOrNot",
+    "chunk": "experiments4",
+    "context": "using three action designs implemented in our framework: ChooseNextPhase, SwitchNextOrNot, and SetPhaseDuration."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "implementsActionDesign",
+    "object": "SetPhaseDuration",
+    "chunk": "experiments4",
+    "context": "using three action designs implemented in our framework: ChooseNextPhase, SwitchNextOrNot, and SetPhaseDuration."
+  },
+  {
+    "subject": "PerformanceMetric",
+    "relation": "hasLowerValueIndicating",
+    "object": "BetterControlPerformance",
+    "chunk": "experiments4",
+    "context": "For all evaluation metrics, lower values indicate better control performance."
+  },
+  {
+    "subject": "AllThreeMetrics",
+    "relation": "decreaseRapidlyDuring",
+    "object": "EarlyTrainingStage",
+    "chunk": "experiments4",
+    "context": "all three metrics decrease rapidly in the early stages of training, particularly within the first several hundred thousand steps."
+  },
+  {
+    "subject": "Agent",
+    "relation": "quicklyLearns",
+    "object": "SignalControlStrategy",
+    "chunk": "experiments4",
+    "context": "reflecting the agent's ability to quickly learn and adapt its signal control strategies."
+  },
+  {
+    "subject": "ImprovementRate",
+    "relation": "graduallySlowesWith",
+    "object": "TrainingProgress",
+    "chunk": "experiments4",
+    "context": "As training progresses, the rate of improvement gradually slows and eventually converges, indicating stable control performance."
+  },
+  {
+    "subject": "ConvergenceIndicates",
+    "relation": "indicates",
+    "object": "StableControlPerformance",
+    "chunk": "experiments4",
+    "context": "the rate of improvement gradually slows and eventually converges, indicating stable control performance."
+  },
+  {
+    "subject": "ActionDesign",
+    "relation": "exhibitsConsistentConvergenceIn",
+    "object": "SingleIntersectionScenario",
+    "chunk": "experiments4",
+    "context": "all three action designs exhibit consistent convergence in both the Single-Intersection case (Figures 9a, 10a, 11a) and the Arterial-3 case (Figures 9b, 10b, 11b)."
+  },
+  {
+    "subject": "ActionDesign",
+    "relation": "exhibitsConsistentConvergenceIn",
+    "object": "Arterial3Scenario",
+    "chunk": "experiments4",
+    "context": "all three action designs exhibit consistent convergence in both the Single-Intersection case (Figures 9a, 10a, 11a) and the Arterial-3 case (Figures 9b, 10b, 11b)."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "enhances",
+    "object": "SignalControl",
+    "chunk": "experiments4",
+    "context": "demonstrating that the proposed framework effectively enhances signal control in both isolated and coordinated multi-intersection settings."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "applicableIn",
+    "object": "IsolatedIntersectionSetting",
+    "chunk": "experiments4",
+    "context": "demonstrating that the proposed framework effectively enhances signal control in both isolated and coordinated multi-intersection settings."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "applicableIn",
+    "object": "CoordinatedMultiIntersectionSetting",
+    "chunk": "experiments4",
+    "context": "demonstrating that the proposed framework effectively enhances signal control in both isolated and coordinated multi-intersection settings."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "hasProperty",
+    "object": "Scalability",
+    "chunk": "experiments4",
+    "context": "these results confirm the applicability and scalability of the VissimRL framework in diverse traffic scenarios."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "applicableIn",
+    "object": "DiverseTrafficScenario",
+    "chunk": "experiments4",
+    "context": "these results confirm the applicability and scalability of the VissimRL framework in diverse traffic scenarios."
+  },
+  {
+    "subject": "GreenWavePhenomenon",
+    "relation": "observedIn",
+    "object": "Arterial3MultiAgentExperiment",
+    "chunk": "experiments4",
+    "context": "In the multi-agent experiments conducted on the three-intersection arterial network (Arterial-3), a clear Green Wave phenomenon was observed."
+  },
+  {
+    "subject": "Arterial3",
+    "relation": "hasNumberOfIntersections",
+    "object": "Three",
+    "chunk": "experiments4",
+    "context": "In the multi-agent experiments conducted on the three-intersection arterial network (Arterial-3), a clear Green Wave phenomenon was observed."
+  }
+]

@@ -1,0 +1,133 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument12",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument12
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+To illustrate sensitivity to the assumed
+infalling satellite population we vary the stellar mass-function pa-
+rameters while holding𝑝(𝜂)fixed at its fiducial form and then vary
+the circularity distribution while holding the stellar mass function
+fixed.
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM11
+0.00.20.40.60.81.0CDF (stripped stellar mass contribution)(M)
+r > 100 kpc (fiducial)
+All (fiducial)
+All (range)
+9.0 9.5 10.0 10.5 11.0 11.5 12.0
+log10(Msat,/M)
+0.00.20.40.60.81.0CDF (stripped stellar mass contribution)P()
+r > 100 kpc (fiducial)
+All (fiducial)
+All (range)
+Figure8.Therangesofcumulativedistributionfunctionsforthecontribution
+ofgalaxiestothetotalstrippedstellarmass,shownasafunctionofinfallstellar
+mass over the tested parameter space (Table 1). The shaded and hatched
+regionsindicatetherangeofCDFsobtainedwhenvaryingmodelparameters.
+Thetoppanelshowsvariationsoverthestellarmassfunctionwhileholdingthe
+orbitalcircularitydistributionfixedatitsfiducialvalueandthebottompanel
+shows variations over the orbital circularity distribution while holding the
+galaxyinfallstellarmassfunctionfixedatitsfiducialvalue.Colouredregions
+correspond to stripped stars with𝑟 >100kpc and hatched regions indicate
+the same for all stripped stars. Black and grey dashed lines show the fiducial
+CDF restricted to stripped stars with𝑟 >100kpc and all stars, respectively.
+The coloured region is rendered with a graded colour to indicate the family
+of parameter combinations. Interactive versions of this plot can be found at
+garrethmartin.github.io/interactive-profiles-ICL/index.html#stripping.
+5 POPULATION-AVERAGED STELLAR AND DM
+PHASE-SPACE OFFSETS
+5.1 ICL mass budget
+In Figure 8, we examine how satellite stellar mass and orbital cir-
+cularity distributions determine the ICL mass budget, which in-turn
+governshoweachsatellitecontributetopopulation-averagedstellar-
+DMphase-spaceoffsets.Weshowscumulativedistributionfunctionsof the contribution of satellites to the total stripped stellar mass as a
+function of infall stellar mass,𝑝(𝑀 ★|stripped,★)for variations in
+the infalling satellite stellar mass function and circularity distribu-
+tion.
+Across the plausible range of satellite stellar mass functions con-
+sidered, the infall stellar mass scale at which satellites contribute
+half of the total stripped stellar mass varies substantially, spanning
+approximately𝑀 ★∼1010–1011.5M⊙. This spread is driven primar-
+ilybyvariationsinthecharacteristicmass𝑀★ofthemassfunction.
+Increasing𝑀★shifts the typical satellites contributing to the stellar
+mass budget towards higher masses. In contrast, variations in the
+orbitalcircularitydistributionproduceonlyminorchangestothecu-
+mulative mass budget. Consequently, the median mass scale of the
+ICL contribution is insensitive to reasonable variations in𝑝(𝜂)over
+the parameter space explored.
+For the fiducial parameter choice, satellites with infall stellar
+masses above𝑀 ★≃1011M⊙contribute roughly50per cent of
+the total ICL mass (𝑟 >100kpc). When considering the combined
+central and ICL component, the corresponding mass scale increases
+to∼1011.5M⊙. This difference reflects the rapid orbital decay of
+the most massive satellites, whose stellar mass is preferentially de-
+posited into the central regions of the cluster, enhancing the cen-
+tral component relative to the diffuse ICL at large radii, as seen in
+Figure 5. These higher-mass infallers therefore primarily shape the
+cluster-scale phase-space distributions of both the ICL and central
+component.
+5.2 Average orbital energy and angular momentum
+Having established how satellite mass and orbital properties shape
+the ICL mass budget, we now examine the population-averaged
+stellar–to–DMphase-spaceoffsetsobtainedbyconvolvingthesingle-
+satellitepredictionsovertherangeofplausibleinfallingsatellitepop-
+ulations described in Section 4.2.
+Figure9showstherelationbetweenthestellar–to–DMmeanspe-
+cific energy ratio and the corresponding mean specific angular mo-
+mentumratioacrossthefullrangeoftestedinfallingsatellitepopula-
+tions.Theupperpanelincludesallstrippedparticles,whilethelower
+panelshowsresultsrestrictedtoparticleswithfinalradii𝑟 >100kpc.
+Threedistinctcomponentsareshown:accretedmaterialfromsatel-
+lites,thecentralclusterandhalostars,andthecombinedcentraland
+accreted stars and DM. For each choice of infall stellar mass func-
+tion, this central response corresponds to a merger with the most
+massive satellite that has at least a 50 per cent probability of occur-
+ringgiventhetotalexpectednumberofinfallingsatellites,capturing
+how the central component responds to the typical largest merger
+implied by each satellite population.

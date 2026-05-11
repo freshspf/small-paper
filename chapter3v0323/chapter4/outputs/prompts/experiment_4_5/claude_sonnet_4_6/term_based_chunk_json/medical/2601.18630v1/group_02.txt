@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MentalHealthScreening",
+  "targets",
+  "condition_suicideRisk",
+  "MentalHealthCondition",
+  "llm_gpt3",
+  "classifies",
+  "MentalHealthDisorder",
+  "LargeLanguageModel",
+  "provides",
+  "MentalHealthSupport",
+  "AdvancedSupervisedMethod",
+  "designedFor",
+  "MentalHealthTask",
+  "llm_chatgpt",
+  "underperformsComparedTo",
+  "generates",
+  "MentalHealthResponse",
+  "actsAs",
+  "ConversationalAgent",
+  "usedFor",
+  "MentalHealthDetection",
+  "psychiatric_evaluator",
+  "rates",
+  "TherapeuticAttribute",
+  "showsInconsistencyIn",
+  "AffectiveSkill",
+  "llm_qwen3",
+  "hasWeaknessIn",
+  "CognitiveAndAffectiveSupport",
+  "model_gpt4",
+  "demonstrates",
+  "SuperiorEmpathy",
+  "encourages",
+  "PositiveBehaviorChange",
+  "model_gpt4_turbo",
+  "underperformsIn",
+  "AnxietyRelatedConversation",
+  "dataset_reddit",
+  "servesAs",
+  "DataCollectionSource",
+  "ClinicalNote",
+  "represents",
+  "ClinicalData",
+  "model_gpt4o",
+  "evaluatedBy",
+  "F1Score",
+  "JaccardSimilarity",
+  "exhibits",
+  "Hallucination",
+  "LackOfClinicalJudgment",
+  "underestimates",
+  "SuicideRisk",
+  "detects",
+  "MentalDisorder",
+  "framework_epit_ome",
+  "assesses",
+  "EmpatheticResponse",
+  "framework_miti",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "ClosedSourceModel",
+  "OpenSourceModel",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "CognitiveReliability",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "MentalHealthScreening",
+    "relation": "targets",
+    "object": "condition_suicideRisk",
+    "chunk": "completedocument2",
+    "context": "Six studies in the current literature focus specifically on detection and screening applications, particularly targeting depression, suicide risk, and general mental health conditions (Guo et al. 2024b; Jin et al. 2025b; Yang et al. 2023; Xu et al. 2024; Omar et al. 2024)."
+  },
+  {
+    "subject": "MentalHealthScreening",
+    "relation": "targets",
+    "object": "MentalHealthCondition",
+    "chunk": "completedocument2",
+    "context": "Six studies in the current literature focus specifically on detection and screening applications, particularly targeting depression, suicide risk, and general mental health conditions (Guo et al. 2024b; Jin et al. 2025b; Yang et al. 2023; Xu et al. 2024; Omar et al. 2024)."
+  },
+  {
+    "subject": "llm_gpt3",
+    "relation": "classifies",
+    "object": "MentalHealthDisorder",
+    "chunk": "completedocument2",
+    "context": "Similarly, Omar et al. (2024) found that ChatGPT improved F-score by up to 13.11% and Correlation Coefficient by up to 15.95% in Reddit post analysis, while GPT-3 achieved approximately 87% accuracy in classifying mental health disorders."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "provides",
+    "object": "MentalHealthSupport",
+    "chunk": "completedocument2",
+    "context": "Our study reveals promising results, yet also shortcomings that warrant caution when using large language models for mental health support."
+  },
+  {
+    "subject": "AdvancedSupervisedMethod",
+    "relation": "designedFor",
+    "object": "MentalHealthTask",
+    "chunk": "completedocument2",
+    "context": "Yang et al. (2023) demonstrated that ChatGPT achieves superior performance among examined LLMs, though it still underperforms compared to advanced supervised methods specifically designed for mental health tasks."
+  },
+  {
+    "subject": "llm_chatgpt",
+    "relation": "underperformsComparedTo",
+    "object": "AdvancedSupervisedMethod",
+    "chunk": "completedocument2",
+    "context": "Yang et al. (2023) demonstrated that ChatGPT achieves superior performance among examined LLMs, though it still underperforms compared to advanced supervised methods specifically designed for mental health tasks."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "generates",
+    "object": "MentalHealthResponse",
+    "chunk": "completedocument2",
+    "context": "(1) A Human-Grounded Evaluation Framework: We conduct a robust evaluation framework for LLM-generated mental health responses, based on 500 counseling conversations from three datasets and assessed by two psychiatric-trained domain experts across a comprehensive 6-attribute rubric..."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "actsAs",
+    "object": "ConversationalAgent",
+    "chunk": "completedocument2",
+    "context": "The application of LLMs as conversational agents represents another significant research direction, with five studies examining conversation or intervention applications (Gabriel et al. 2024; Marrapese et al. 2024; Guo et al. 2024b; Omar et al. 2024)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "usedFor",
+    "object": "MentalHealthDetection",
+    "chunk": "completedocument2",
+    "context": "Recent research has explored LLMs for mental health detection and screening tasks."
+  },
+  {
+    "subject": "psychiatric_evaluator",
+    "relation": "rates",
+    "object": "TherapeuticAttribute",
+    "chunk": "completedocument2",
+    "context": "Third, two psychiatric-trained evaluators rate every response on six therapeutic attributes (Guidance, Informativeness, Safety, Interpretation, Empathy, Helpfulness) using a 5-point Likert scale..."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "showsInconsistencyIn",
+    "object": "AffectiveSkill",
+    "chunk": "completedocument2",
+    "context": "While the evaluated LLMs demonstrate strong cognitive reliability by performing exceptionally well on Safety and Interpretation, they show significant inconsistency in affective skills like Empathy and Helpfulness."
+  },
+  {
+    "subject": "llm_qwen3",
+    "relation": "hasWeaknessIn",
+    "object": "CognitiveAndAffectiveSupport",
+    "chunk": "completedocument2",
+    "context": "Llama-3.1 is the best open-weight model; Qwen-3 ranks last, with weak cognitive and affective support."
+  },
+  {
+    "subject": "model_gpt4",
+    "relation": "demonstrates",
+    "object": "SuperiorEmpathy",
+    "chunk": "completedocument3",
+    "context": "Gabriel et al. conducted a particu- larly comprehensive evaluation, finding that GPT-4 demon- strates superior empathy compared to human peer support, being 48% better at encouraging positive behavior change (Gabriel et al. 2024)."
+  },
+  {
+    "subject": "model_gpt4",
+    "relation": "encourages",
+    "object": "PositiveBehaviorChange",
+    "chunk": "completedocument3",
+    "context": "Gabriel et al. conducted a particu- larly comprehensive evaluation, finding that GPT-4 demon- strates superior empathy compared to human peer support, being 48% better at encouraging positive behavior change (Gabriel et al. 2024)."
+  },
+  {
+    "subject": "model_gpt4_turbo",
+    "relation": "underperformsIn",
+    "object": "AnxietyRelatedConversation",
+    "chunk": "completedocument3",
+    "context": "Marrapese et al. found that while GPT-4 Turbo performs most similarly to verified therapists among tested models, performance varies significantly by topic, with no models achieving sta- tistically significant correlations in anxiety-related conversa- tions (Marrapese et al. 2024)."
+  },
+  {
+    "subject": "dataset_reddit",
+    "relation": "servesAs",
+    "object": "DataCollectionSource",
+    "chunk": "completedocument3",
+    "context": "Social media platforms serve as primary data sources in multiple studies, with Reddit, Twitter, and Weibo being commonly utilized (Gabriel et al. 2024; Yang et al. 2023)."
+  },
+  {
+    "subject": "ClinicalNote",
+    "relation": "represents",
+    "object": "ClinicalData",
+    "chunk": "completedocument3",
+    "context": "Clinical data remains underutilized, with few examples such as Xu et al. employing clinical notes from the University of Illinois, though limited to 50 notes (Xu et al. 2024)."
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "evaluatedBy",
+    "object": "F1Score",
+    "chunk": "completedocument3",
+    "context": "Xu et al. demonstrated that GPT- 4o achieved optimal performance with Jaccard Similarity (0.674), Precision (0.793), Recall (0.717), and F1 Score (0.730) (Xu et al. 2024)."
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "evaluatedBy",
+    "object": "JaccardSimilarity",
+    "chunk": "completedocument3",
+    "context": "Xu et al. demonstrated that GPT- 4o achieved optimal performance with Jaccard Similarity (0.674), Precision (0.793), Recall (0.717), and F1 Score (0.730) (Xu et al. 2024)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "exhibits",
+    "object": "Hallucination",
+    "chunk": "completedocument3",
+    "context": "Multiple studies re- port concerns about hallucinations, inconsistencies, and lack of clinical judgment (Guo et al. 2024b)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "exhibits",
+    "object": "LackOfClinicalJudgment",
+    "chunk": "completedocument3",
+    "context": "Multiple studies re- port concerns about hallucinations, inconsistencies, and lack of clinical judgment (Guo et al. 2024b)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "underestimates",
+    "object": "SuicideRisk",
+    "chunk": "completedocument3",
+    "context": "Omar et al. specifi- cally noted underestimation of suicide risks in high-risk sce- narios, a critical safety concern (Omar et al. 2024)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "detects",
+    "object": "MentalDisorder",
+    "chunk": "completedocument3",
+    "context": "The scoping review by Jin et al. identified that 71% of applications focus on screening or detection of men- tal disorders, while only 33% address clinical treatment sup- port, indicating an imbalance in research priorities that war- rants attention (Jin et al. 2025b)."
+  },
+  {
+    "subject": "framework_epit_ome",
+    "relation": "assesses",
+    "object": "EmpatheticResponse",
+    "chunk": "completedocument3",
+    "context": "Gabriel et al. employed the Empa- thy Process Integrity Task - Online Mental Health Evalua- tion (EPIT-OME) and Motivational Interviewing Treatment Integrity (MITI) frameworks to assess empathetic responses (Gabriel et al. 2024)."
+  },
+  {
+    "subject": "framework_miti",
+    "relation": "assesses",
+    "object": "EmpatheticResponse",
+    "chunk": "completedocument3",
+    "context": "Gabriel et al. employed the Empa- thy Process Integrity Task - Online Mental Health Evalua- tion (EPIT-OME) and Motivational Interviewing Treatment Integrity (MITI) frameworks to assess empathetic responses (Gabriel et al. 2024)."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Ab42",
+  "isA",
+  "PathogenicPeptide",
+  "AlzheimerSDisease",
+  "hasPathogenicPeptide",
+  "Lcjtvae",
+  "generates",
+  "DrugLikeCompound",
+  "tailoredFor",
+  "CrbnLigase",
+  "VhlLigase",
+  "Mdm2Ligase",
+  "promotesDegradationOf",
+  "TherapeuticDegrader",
+  "treats",
+  "NeurodegenerativeDisorder",
+  "protein_app",
+  "locatedIn",
+  "cellular_component_synapse",
+  "molecule_soluble_protein_oligomers",
+  "associatedWith",
+  "disease_neurodegeneration",
+  "rna_terra",
+  "protects",
+  "cellular_component_telomeres",
+  "biomarker_plasma_amyloid_beta_42_40",
+  "detects",
+  "pathology_alzheimer_disease_amyloid_plaques",
+  "pathway_amyloid_beta",
+  "disease_alzheimers_disease",
+  "protein_amyloid_beta_arctic_mutant",
+  "aggregatesIn",
+  "cellular_component_cells",
+  "pathology_intraneuronal_accumulation_abeta42",
+  "induces",
+  "phenotype_age_dependent_slowing_neuronal_transmission",
+  "occursIn",
+  "organism_drosophila",
+  "cellular_component_endosomes",
+  "cell_type_toad_bladder_epithelial_cells",
+  "drug_class_gamma_secretase_inhibitors",
+  "procedure_amyloid_pet_screening",
+  "screensFor",
+  "disease_early_stage_alzheimer_disease",
+  "drug_lecanemab",
+  "process_autophagy",
+  "drug_citalopram",
+  "affects",
+  "process_amyloid_beta_precursor_protein_processing",
+  "process_oxidative_stress",
+  "process_intracellular_abeta42_aggregation",
+  "leadsTo",
+  "process_cellular_thermogenesis",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "UbiquitinProteasomeSystem",
+  "E3Ligase",
+  "Crbn",
+  "Vhl",
+  "Mdm2",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement"
+]
+
+Triples:
+[
+  {
+    "subject": "Ab42",
+    "relation": "isA",
+    "object": "PathogenicPeptide",
+    "chunk": "completedocument10",
+    "context": "This study presents an AI -driven framework for the rational design of E3 ligase -specific molecular glues targeting Aβ42, a key pathogenic peptide in Alzheimer’s disease."
+  },
+  {
+    "subject": "AlzheimerSDisease",
+    "relation": "hasPathogenicPeptide",
+    "object": "Ab42",
+    "chunk": "completedocument10",
+    "context": "This study presents an AI -driven framework for the rational design of E3 ligase -specific molecular glues targeting Aβ42, a key pathogenic peptide in Alzheimer’s disease."
+  },
+  {
+    "subject": "Lcjtvae",
+    "relation": "generates",
+    "object": "DrugLikeCompound",
+    "chunk": "completedocument10",
+    "context": "By integrating ligand - and structure -based screening with advanced generative modeling, we demonstrate that the Ligase -Conditioned JT - VAE (LC -JT-VAE) can generate nov el, drug -like compounds tailored for CRBN, VHL, and MDM2 ligases."
+  },
+  {
+    "subject": "DrugLikeCompound",
+    "relation": "tailoredFor",
+    "object": "CrbnLigase",
+    "chunk": "completedocument10",
+    "context": "By integrating ligand - and structure -based screening with advanced generative modeling, we demonstrate that the Ligase -Conditioned JT - VAE (LC -JT-VAE) can generate nov el, drug -like compounds tailored for CRBN, VHL, and MDM2 ligases."
+  },
+  {
+    "subject": "DrugLikeCompound",
+    "relation": "tailoredFor",
+    "object": "VhlLigase",
+    "chunk": "completedocument10",
+    "context": "By integrating ligand - and structure -based screening with advanced generative modeling, we demonstrate that the Ligase -Conditioned JT - VAE (LC -JT-VAE) can generate nov el, drug -like compounds tailored for CRBN, VHL, and MDM2 ligases."
+  },
+  {
+    "subject": "DrugLikeCompound",
+    "relation": "tailoredFor",
+    "object": "Mdm2Ligase",
+    "chunk": "completedocument10",
+    "context": "By integrating ligand - and structure -based screening with advanced generative modeling, we demonstrate that the Ligase -Conditioned JT - VAE (LC -JT-VAE) can generate nov el, drug -like compounds tailored for CRBN, VHL, and MDM2 ligases."
+  },
+  {
+    "subject": "DrugLikeCompound",
+    "relation": "promotesDegradationOf",
+    "object": "Ab42",
+    "chunk": "completedocument10",
+    "context": "These compounds exhibit strong potential to facilitate ternary complex formation and promote targeted degradat ion of intracellular Aβ42."
+  },
+  {
+    "subject": "TherapeuticDegrader",
+    "relation": "treats",
+    "object": "AlzheimerSDisease",
+    "chunk": "completedocument10",
+    "context": "Our approach sets the stage for AI -enabled discovery of therapeuti c degraders against aggregation -prone proteins, offering new avenues in the treatment of Alzheimer’s and other neurodegenerative disorders."
+  },
+  {
+    "subject": "AlzheimerSDisease",
+    "relation": "isA",
+    "object": "NeurodegenerativeDisorder",
+    "chunk": "completedocument10",
+    "context": "Our approach sets the stage for AI -enabled discovery of therapeuti c degraders against aggregation -prone proteins, offering new avenues in the treatment of Alzheimer’s and other neurodegenerative disorders."
+  },
+  {
+    "subject": "protein_app",
+    "relation": "locatedIn",
+    "object": "cellular_component_synapse",
+    "chunk": "completedocument11",
+    "context": "2. Hoe, H.S.; Lee, H.K.; Pak, D.T. The upside of APP at synapses."
+  },
+  {
+    "subject": "molecule_soluble_protein_oligomers",
+    "relation": "associatedWith",
+    "object": "disease_neurodegeneration",
+    "chunk": "completedocument11",
+    "context": "3. Haass, C.; Selkoe, D.J. Soluble protein oligomers in neurodegeneration: lessons from the Alzheimer's amyloid beta-peptide."
+  },
+  {
+    "subject": "rna_terra",
+    "relation": "protects",
+    "object": "cellular_component_telomeres",
+    "chunk": "completedocument11",
+    "context": "4. Koch, L. Non -coding RNA: A protective role for TERRA at telomeres."
+  },
+  {
+    "subject": "biomarker_plasma_amyloid_beta_42_40",
+    "relation": "detects",
+    "object": "pathology_alzheimer_disease_amyloid_plaques",
+    "chunk": "completedocument11",
+    "context": "5. Li, Y.; Schindler, S.E.; Bollinger, J.G.; Ovod, V.; Mawuenyega, K.G.; Weiner, M.W.; Shaw, L.M.; Masters, C.L.; Fowler, C.J.; Trojanowski, J.Q., et al. Validation of Plasma Amyloid -beta 42/40 for Detecting Alzheimer Disease Amyloid Plaques."
+  },
+  {
+    "subject": "pathway_amyloid_beta",
+    "relation": "associatedWith",
+    "object": "disease_alzheimers_disease",
+    "chunk": "completedocument11",
+    "context": "6. Hampel, H.; Hardy, J.; Blennow, K.; Chen, C.; Perry, G.; Kim, S.H.; Villemagne, V.L.; Aisen, P.; Vendruscolo, M.; Iwatsubo, T., et al. The Amyloid -β Pathway in Alzheimer’s Disease."
+  },
+  {
+    "subject": "protein_amyloid_beta_arctic_mutant",
+    "relation": "aggregatesIn",
+    "object": "cellular_component_cells",
+    "chunk": "completedocument11",
+    "context": "7. Lu, M.; Williamson, N.; Mishra, A.; Michel, C.H.; Kaminski, C.F.; Tunnacliffe, A.; Kaminski Schierle, G.S. Structural progression of amyloid -beta Arctic mutant aggregation in cells revealed by multiparametric imaging."
+  },
+  {
+    "subject": "pathology_intraneuronal_accumulation_abeta42",
+    "relation": "induces",
+    "object": "phenotype_age_dependent_slowing_neuronal_transmission",
+    "chunk": "completedocument11",
+    "context": "8. Lin, J.Y.; Wang, W.A.; Zhang, X.; Liu, H.Y.; Zhao, X.L.; Huang, F.D. Intraneuronal accumulation of Abeta42 induces age -dependent slowing of neuronal transmission in Drosophila."
+  },
+  {
+    "subject": "pathology_intraneuronal_accumulation_abeta42",
+    "relation": "occursIn",
+    "object": "organism_drosophila",
+    "chunk": "completedocument11",
+    "context": "8. Lin, J.Y.; Wang, W.A.; Zhang, X.; Liu, H.Y.; Zhao, X.L.; Huang, F.D. Intraneuronal accumulation of Abeta42 induces age -dependent slowing of neuronal transmission in Drosophila."
+  },
+  {
+    "subject": "cellular_component_endosomes",
+    "relation": "locatedIn",
+    "object": "cell_type_toad_bladder_epithelial_cells",
+    "chunk": "completedocument11",
+    "context": "9. Zeidel, M.L.; Hammond, T.; Botelho, B.; Harris, H.W., Jr. Functional and structural characterization of endosomes from toad bladder epithelial cells."
+  },
+  {
+    "subject": "drug_class_gamma_secretase_inhibitors",
+    "relation": "treats",
+    "object": "disease_alzheimers_disease",
+    "chunk": "completedocument11",
+    "context": "11. Imbimbo, B.P.; Panza, F.; Frisardi, V.; Solfrizzi, V.; D'Onofrio, G.; Logroscino, G.; Seripa, D.; Pilotto, A. Therapeutic intervention for Alzheimer's disease with gamma -secretase inhibitors: still a viable option?"
+  },
+  {
+    "subject": "procedure_amyloid_pet_screening",
+    "relation": "screensFor",
+    "object": "disease_early_stage_alzheimer_disease",
+    "chunk": "completedocument11",
+    "context": "12. Sevigny, J.; Suhy, J.; Chiao, P.; Chen, T.; Klein, G.; Purcell, D.; Oh, J.; Verma, A.; Sampat, M.; Barakos, J. Amyloid PET Screening for Enrichment of Early -Stage Alzheimer Disease Clinical Trials: Experience in a Phase 1b Clinical Trial."
+  },
+  {
+    "subject": "drug_lecanemab",
+    "relation": "treats",
+    "object": "disease_early_stage_alzheimer_disease",
+    "chunk": "completedocument11",
+    "context": "13. van Dyck, C.H.; Swanson, C.J.; Aisen, P.; Bateman, R.J.; Chen, C.; Gee, M.; Kanekiyo, M.; Li, D.; Reyderman, L.; Cohen, S., et al. Lecanemab in Early Alzheimer's Disease."
+  },
+  {
+    "subject": "process_autophagy",
+    "relation": "associatedWith",
+    "object": "disease_neurodegeneration",
+    "chunk": "completedocument11",
+    "context": "14. Menzies, F.M.; Fleming, A.; Caricasole, A.; Bento, C.F.; Andrews, S.P.; Ashkenazi, A.; Fullgrabe, J.; Jackson, A.; Jimenez Sanchez, M.; Karabiyik, C., et al. Autophagy and Neurodegeneration: Pathogenic Mechanisms and Therapeutic Opportunities."
+  },
+  {
+    "subject": "drug_citalopram",
+    "relation": "affects",
+    "object": "process_amyloid_beta_precursor_protein_processing",
+    "chunk": "completedocument11",
+    "context": "15. Elsworthy, R.J.; Crowe, J.A.; King, M.C.; Dunleavy, C.; Fisher, E.; Ludlam, A.; Parri, H.R.; Hill, E.J.; Aldred, S. The effect of citalopram treatment on amyloid -beta precursor protein processing and oxidative stress in human hNSC -derived neurons."
+  },
+  {
+    "subject": "drug_citalopram",
+    "relation": "affects",
+    "object": "process_oxidative_stress",
+    "chunk": "completedocument11",
+    "context": "15. Elsworthy, R.J.; Crowe, J.A.; King, M.C.; Dunleavy, C.; Fisher, E.; Ludlam, A.; Parri, H.R.; Hill, E.J.; Aldred, S. The effect of citalopram treatment on amyloid -beta precursor protein processing and oxidative stress in human hNSC -derived neurons."
+  },
+  {
+    "subject": "process_intracellular_abeta42_aggregation",
+    "relation": "leadsTo",
+    "object": "process_cellular_thermogenesis",
+    "chunk": "completedocument11",
+    "context": "16. Chung, C.W.; Stephens, A.D.; Konno, T.; Ward, E.; Avezov, E.; Kaminski, C.F.; Hassanali, A.A.; Kaminski Schierle, G.S. Intracellular Abeta42 Aggregation Leads to Cellular Thermogenesis."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MobileManipulator",
+  "coordinates",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "requires",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "models",
+  "Collision",
+  "preserves",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "extends",
+  "Robot",
+  "hasComponent",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "encodes",
+  "SequentialConvexOptimizationFramework",
+  "uses",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "scalesTo",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "enables",
+  "WholeBodyPlanning",
+  "combines",
+  "Mobility",
+  "Dexterity",
+  "reconfigures",
+  "WholeBodyPosture",
+  "ensures",
+  "Safety",
+  "Planner",
+  "respects",
+  "CollisionConstraint",
+  "derivedFrom",
+  "GeometricModel",
+  "MoveAndActScheme",
+  "decomposes",
+  "MobileManipulation",
+  "constrains",
+  "CoordinatedWholeBodyBehavior",
+  "generates",
+  "CollisionFreeTrajectory",
+  "Decoupling",
+  "neglects",
+  "Interdependence",
+  "precludes",
+  "WholeBodyReconfiguration",
+  "groupedInto",
+  "SamplingBasedMethod",
+  "ReinforcementLearning",
+  "OptimizationBasedPlanning",
+  "prm",
+  "rrt",
+  "RandomSampling",
+  "CollisionChecking",
+  "ClutteredEnvironment",
+  "TightBaseArmCoordination",
+  "UniformSampling",
+  "ConnectivityFailure",
+  "RlBasedApproach",
+  "ControlPolicy",
+  "Simulator",
+  "Discrepancy",
+  "SimToRealGap",
+  "RealWorldPerformance",
+  "OptimizationBasedMethod",
+  "ConstrainedOptimizationProblem",
+  "EnergyEfficiency",
+  "KinematicRedundancy",
+  "ActuationRedundancy",
+  "UnboundedWorkspace",
+  "ClutteredObstacleLayout",
+  "StateOfTheArtMethod",
+  "TwoStagePipeline"
+]
+
+Triples:
+[
+  {
+    "subject": "MobileManipulator",
+    "relation": "coordinates",
+    "object": "BaseMotion",
+    "chunk": "completedocument1",
+    "context": "Mobile manipulators promise agile, long-horizon behavior by coordinating base and arm motion, yet whole-body trajectory optimization in cluttered, confined spaces remains difficult due to high-dimensional nonconvexity and the need for fast, accurate collision reasoning."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "coordinates",
+    "object": "ArmMotion",
+    "chunk": "completedocument1",
+    "context": "Mobile manipulators promise agile, long-horizon behavior by coordinating base and arm motion, yet whole-body trajectory optimization in cluttered, confined spaces remains difficult due to high-dimensional nonconvexity and the need for fast, accurate collision reasoning."
+  },
+  {
+    "subject": "WholeBodyTrajectoryOptimization",
+    "relation": "requires",
+    "object": "CollisionReasoning",
+    "chunk": "completedocument1",
+    "context": "Mobile manipulators promise agile, long-horizon behavior by coordinating base and arm motion, yet whole-body trajectory optimization in cluttered, confined spaces remains difficult due to high-dimensional nonconvexity and the need for fast, accurate collision reasoning."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "models",
+    "object": "Collision",
+    "chunk": "completedocument1",
+    "context": "Configuration Space Distance Fields (CDF) enable fixed-base manipulators to model collisions directly in configuration space via smooth, implicit distances."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "preserves",
+    "object": "WholeBodyGeometry",
+    "chunk": "completedocument1",
+    "context": "This representation holds strong potential to bypass the nonlinear configuration-to-workspace mapping while preserving accurate whole-body geometry and providing optimization-friendly collision costs."
+  },
+  {
+    "subject": "GeneralizedConfigurationSpaceDistanceField",
+    "relation": "extends",
+    "object": "ConfigurationSpaceDistanceField",
+    "chunk": "completedocument1",
+    "context": "We lift this promise to mobile manipulation with Generalized Configuration Space Distance Fields (GCDF), extending CDF to robots with both translational and rotational joints in unbounded workspaces with tighter base–arm coupling."
+  },
+  {
+    "subject": "Robot",
+    "relation": "hasComponent",
+    "object": "TranslationalJoint",
+    "chunk": "completedocument1",
+    "context": "We lift this promise to mobile manipulation with Generalized Configuration Space Distance Fields (GCDF), extending CDF to robots with both translational and rotational joints in unbounded workspaces with tighter base–arm coupling."
+  },
+  {
+    "subject": "Robot",
+    "relation": "hasComponent",
+    "object": "RotationalJoint",
+    "chunk": "completedocument1",
+    "context": "We lift this promise to mobile manipulation with Generalized Configuration Space Distance Fields (GCDF), extending CDF to robots with both translational and rotational joints in unbounded workspaces with tighter base–arm coupling."
+  },
+  {
+    "subject": "GeneralizedConfigurationSpaceDistanceField",
+    "relation": "preserves",
+    "object": "LocalDistanceStructure",
+    "chunk": "completedocument1",
+    "context": "We prove that GCDF preserves Euclidean-like local distance structure and accurately encodes whole-body geometry in configuration space, and develop a data generation and training pipeline that yields continuous neural GCDFs with accurate values and gradients, supporting efficient GPU-batched queries."
+  },
+  {
+    "subject": "GeneralizedConfigurationSpaceDistanceField",
+    "relation": "encodes",
+    "object": "WholeBodyGeometry",
+    "chunk": "completedocument1",
+    "context": "We prove that GCDF preserves Euclidean-like local distance structure and accurately encodes whole-body geometry in configuration space, and develop a data generation and training pipeline that yields continuous neural GCDFs with accurate values and gradients, supporting efficient GPU-batched queries."
+  },
+  {
+    "subject": "SequentialConvexOptimizationFramework",
+    "relation": "uses",
+    "object": "GcdfBasedCollisionReasoning",
+    "chunk": "completedocument1",
+    "context": "Building on this representation, we develop a high-performance sequential convex optimization framework centered on GCDF-based collision reasoning."
+  },
+  {
+    "subject": "Solver",
+    "relation": "scalesTo",
+    "object": "ImplicitConstraint",
+    "chunk": "completedocument1",
+    "context": "The solver scales to large numbers of implicit constraints through (i) online specification of neural constraints, (ii) sparsity-aware active-set detection with parallel batched evaluation across thousands of constraints, and (iii) incremental constraint management for rapid replanning under scene changes."
+  },
+  {
+    "subject": "RealRobotExperiment",
+    "relation": "enables",
+    "object": "WholeBodyPlanning",
+    "chunk": "completedocument1",
+    "context": "Extensive randomized high-density benchmarks and real-robot experiments demonstrate consistently superior success rates, trajectory quality, and solve times compared to strong baselines, enabling fast, safe, and reliable whole-body planning with minimal initialization effort."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "combines",
+    "object": "Mobility",
+    "chunk": "completedocument1",
+    "context": "Mobile manipulators have emerged as essential tools for real-world robotic applications, combining mobility, dexterity, and workspace coverage to enable complex, contact-rich, and long-horizon tasks across both structured and unstructured environments [1], [2], [3], [4]."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "combines",
+    "object": "Dexterity",
+    "chunk": "completedocument1",
+    "context": "Mobile manipulators have emerged as essential tools for real-world robotic applications, combining mobility, dexterity, and workspace coverage to enable complex, contact-rich, and long-horizon tasks across both structured and unstructured environments [1], [2], [3], [4]."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "reconfigures",
+    "object": "WholeBodyPosture",
+    "chunk": "completedocument1",
+    "context": "To accomplish these tasks, mobile manipulators must leverage their multiple degrees of freedom to coordinate arm and base motion, continuously reconfiguring whole-body posture to adapt to complex, cluttered environments while maintaining agility and ensuring safety."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "ensures",
+    "object": "Safety",
+    "chunk": "completedocument1",
+    "context": "To accomplish these tasks, mobile manipulators must leverage their multiple degrees of freedom to coordinate arm and base motion, continuously reconfiguring whole-body posture to adapt to complex, cluttered environments while maintaining agility and ensuring safety."
+  },
+  {
+    "subject": "Planner",
+    "relation": "respects",
+    "object": "CollisionConstraint",
+    "chunk": "completedocument1",
+    "context": "However, this synergy of mobility and manipulation introduces a fundamental planning challenge: planners must make rapid, reliable decisions in high-dimensional configuration spaces while respecting collision constraints derived from accurate geometric models of both the robot and the scene, which are essential for achieving agile, non-conservative performance [5], [6], [7], [8]."
+  },
+  {
+    "subject": "CollisionConstraint",
+    "relation": "derivedFrom",
+    "object": "GeometricModel",
+    "chunk": "completedocument1",
+    "context": "However, this synergy of mobility and manipulation introduces a fundamental planning challenge: planners must make rapid, reliable decisions in high-dimensional configuration spaces while respecting collision constraints derived from accurate geometric models of both the robot and the scene, which are essential for achieving agile, non-conservative performance [5], [6], [7], [8]."
+  },
+  {
+    "subject": "MoveAndActScheme",
+    "relation": "decomposes",
+    "object": "MobileManipulation",
+    "chunk": "completedocument1",
+    "context": "Traditional hierarchical “move-and-act” schemes [14], [15] decompose mobile manipulation into separate planning subproblems for the base and the arm, offering simplicity but constraining coordinated whole-body behaviors."
+  },
+  {
+    "subject": "MoveAndActScheme",
+    "relation": "constrains",
+    "object": "CoordinatedWholeBodyBehavior",
+    "chunk": "completedocument1",
+    "context": "Traditional hierarchical “move-and-act” schemes [14], [15] decompose mobile manipulation into separate planning subproblems for the base and the arm, offering simplicity but constraining coordinated whole-body behaviors."
+  },
+  {
+    "subject": "Solver",
+    "relation": "generates",
+    "object": "CollisionFreeTrajectory",
+    "chunk": "completedocument1",
+    "context": "Starting from a trivial initial guess (the mobile base linearly interpolated between start and goal while the manipulator joints are all zeros, i.e., kept upright), the solver generates collision-free trajectories from scratch, exhibiting smooth and agile maneuvers that leverage whole-body coordination for safe obstacle avoidance."
+  },
+  {
+    "subject": "Decoupling",
+    "relation": "neglects",
+    "object": "Interdependence",
+    "chunk": "completedocument2",
+    "context": "This decoupling neglects the interdependence between base and manipulator, precluding whole-body reconfiguration to expand reachability in confined environments and leading to conservative or infeasible behavior [16], [17], [18]."
+  },
+  {
+    "subject": "Decoupling",
+    "relation": "precludes",
+    "object": "WholeBodyReconfiguration",
+    "chunk": "completedocument2",
+    "context": "This decoupling neglects the interdependence between base and manipulator, precluding whole-body reconfiguration to expand reachability in confined environments and leading to conservative or infeasible behavior [16], [17], [18]."
+  },
+  {
+    "subject": "WholeBodyPlanning",
+    "relation": "groupedInto",
+    "object": "SamplingBasedMethod",
+    "chunk": "completedocument2",
+    "context": "To overcome these limitations, recent work has shifted toward whole-body planning, typically grouped into three families: sampling-based methods, reinforcement learning (RL), and optimization-based planning."
+  }
+]

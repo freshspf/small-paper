@@ -1,0 +1,160 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "thedisasterinsightbenchmark1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: thedisasterinsightbenchmark1
+- section_title: The DisasterInsight Benchmark
+- page_start: 3
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+Humanitarian disaster response workflows operate at the level of individual structures, where
+building function, damage severity, and spatial context jointly inform prioritization and re-
+source allocation. However, evaluating vision–language models under such building-centered
+3
+
+and function-aware settings remains challenging due to the lack of benchmarks that reflect op-
+erational assessment procedures.
+In practice, agencies such as FEMA and INSARAG conduct post-disaster assessment by
+integrating information about building function, damage level, hazard context, and situational
+risk to support response planning and reporting. Existing benchmarks do not fully support this
+level of building-centered granularity, nor do they unify classification, counting, and structured
+report generation within a single multimodal evaluation framework.
+As illustrated in Fig. 1, DisasterInsight is designed to reflect the analytical steps performed
+during post-disaster assessment. The benchmark integrates object-level recognition, scene-level
+aggregation, and grounded language generation by combining classification, counting, and struc-
+tured reporting tasks within a unified multimodal framework. This design enables controlled
+evaluation of how vision–language models integrate spatial, temporal, and semantic cues when
+reasoning about disaster-affected environments.
+Building Function Classification 
+Q: Identify the functional category of the building within  
+bounding box [26, 226, 86, 255]. A: Residential 
+Q: Within [26, 191, 85, 221], what kind of building can  
+you see? A: Commercial 
+Disaster Recognition 
+Q: Which disaster type best explains the difference? A: 
+Hurricane 
+Report Generation 
+Short Version:A hurricane disaster has affected the north-west area, with  
+a total of 4 buildings impacted, including residential, commercial, and  
+medical facilities.The number of people affected is currently unknown,  
+but the damage to buildings may lead to displacement and disruption of  
+essential services.The disaster has resulted in no damage to 2 buildings,  
+minor damage to 1 medical facility, and major damage to 1 commercial  
+building, potentially affecting livelihoods and access to healthcare. Damage level classification 
+Q: Classify the damage level for the building footprint  
+at [13, 21, 96, 169]. A: major-damage 
+Q: What is the damage condition of the medical  
+facility? A: minor damage Building Counting 
+Q: How many residential buildings were no-damage  
+after the disaster?  A: 1
+Q: Count the  commercial buildings with major-damage  
+after the disaster. A: 1
+Q: How many buildings with no-damage? A: 2(a) Pre-disaster (b) Post-disaster 
+Figure 1: Overview of the DisasterInsight benchmark, which defines five tasks spanning object-
+level recognition and scene-level reasoning on building-centered instances from bi-temporal satel-
+lite imagery.
+3.1 Dataset Foundation and Instance Construction
+DisasterInsight builds upon the xBD dataset, which provides 1024×1024 pre- and post-disaster
+RGB satellite images from very high spatial resolution (sub-0.8m GSD) sensors, covering 19
+disastereventsacrossfivehazardtypes. Eachimageincludespolygon-basedbuildingannotations
+and metadata specifying location, disaster type, and damage level.
+To construct object-centric inputs for multimodal models, each image is divided into sixteen
+non-overlapping 256×256 patches. Patches without buildings are discarded. When multiple
+buildings appear in a single patch, each building is treated as a separate instance by pairing the
+shared patch with its corresponding bounding box and metadata.
+Each building-centered instance comprises paired pre- and post-disaster image patches,
+bounding-box coordinates, disaster type and event identifier, damage level, and a building-
+function label (Section 3.2). This process yields 112,507 building-centered instances, converting
+4
+
+xBD from a scene-level dataset into one suitable for fine-grained multimodal reasoning. Dataset-
+level class distributions are shown in Fig. 2(c).
+(a)
+(b)
+010000 20000 30000 40000 50000 60000 70000 80000
+Number of Samples (Support)government_emergency
+industrial_utilities
+medical_facilities
+commercial
+religious_cultural
+recreational_leisure
+educational_facilities
+residential
+destroyed
+minor-damage
+major-damage
+no-damage
+tsunami
+earthquake
+flooding
+fire
+hurricane134
+342
+777
+1226
+1222
+2865
+3398
+74549
+5488
+6670
+10554
+60557
+178
+876
+1021
+3476
+6459Split
+Train
+Validation
+T ask
+BFC
+DLC
+DTC(c)
+Figure 2: Qualitative and dataset-level analysis of DisasterInsight. (a) Word cloud of short-form
+reports. (b) Word cloud of long-form reports. (c) Training and validation class distributions for
+BFC, DLC, and DTC; numbers indicate training sample counts.
+3.2 Building Function Annotation from OpenStreetMap
+To enable function-aware disaster assessment, DisasterInsight augments xBD building instances
+with functional semantics derived from OpenStreetMap (OSM).

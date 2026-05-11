@@ -1,0 +1,158 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument11
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+This accurate local
+model enables larger effective step sizes within the trust region
+or longer line search steps at each iteration, leading to faster
+convergence. Second, considering the large number of GCDF
+constraints between the robot and each obstacle point in (11),
+sequential convex optimization offers computational efficiency
+through well-established large-scale sparsity-aware QP sub-
+problem solvers. This makes our approach particularly suitable
+for fast trajectory planning in obstacle-dense environments
+where the number of constraints can scale significantly.
+Specifically, at thek-th iteration, we approximate a local
+model around the current iterateX kand solve the following
+ℓ1penalty withℓ ∞trust region convex subproblem, following
+the formulation inCRISP[88]:
+min
+pk,v,w,tJk+∇JT
+kpk+1
+2pT
+k∇2
+xxJkpk
++µX
+i∈E(vi+wi) +µX
+i∈Iti (12a)
+subject to∇c i(xk)Tpk+ci(xk) =v i−wi, i∈ E(12b)
+∇ci(xk)Tpk+ci(xk)≥ −t i, i∈ I(12c)
+v, w, t≥0(12d)
+∥pk∥∞≤∆ k.(12e)
+Here, we denote the sum ofJ candJ tin (11) asJ, and
+stack all the equality and inequality constraints incwith
+the corresponding index setsEandI.J k,∇J k, and∇2
+xxJk
+represent the objective function’s value, gradient, and Hessian
+at the current iterateX k, respectively. The nonnegative slack
+variablesv, w, tare introduced to penalize constraint viola-
+tions. The constraintsc iare linearized aroundX k, andp k
+is the current trial step subject to the trust region constraint
+in (12e) to find an optimal step within a local range. To obtain
+accurate GCDF queries aligned with our training distribution,
+we transform obstacle points into the robot’s local base frame
+at each time step. Specifically, we treat the robot base pose as
+the origin and bias all obstacle pointspinto this coordinate
+frame before querying the neural GCDF. This ensures queries
+remain within the coverage of our training data, providing
+reliable distance estimates and gradients for optimization.
+Remark 4.Advanced solvers for such large-scale optimiza-
+tion problems have increasingly exploited problem-specific
+sparsity structures to improve computational efficiency. For
+instance, the chain-like sparsity in the system dynamics [89].
+These solvers typically rely on one of two approaches: either
+using automatic differentiation tools (e.g., CppAD) to compute
+sparse Jacobians of explicitly defined functions [88], [90],
+[91], or requiring manual specification of sparsity patterns for
+constraint mapping [92]. However, our GCDF-based collision
+avoidance constraints are defined implicitly through neural
+networks, making direct application of these approaches chal-
+lenging. Moreover, the sparsity pattern of GCDF constraints
+
+10
+varies with different obstacle configurations and robot query
+point distributions, requiring a flexible representation that can
+be efficiently reconstructed online.
+In this work, we chooseCRISP[88] as our backbone solver
+for its computational efficiency with CppAD-based automatic
+differentiation, capability to generate informed trajectories
+from naive initial guesses, and trust-region framework that
+naturally leverages GCDF’s accurate gradient information. To
+integrate our implicit neural collision constraints withCRISP,
+we extend the solver with the following key modifications.
+First, we enable GPU-parallel querying of implicit function
+values and gradients during the solving process. The gradients
+from parallel GCDF queries form a dense matrix inRNM×n.
+Second, we design a compact representation for the structure
+of GCDF constraints that enables online reconstruction of
+constraint mappings and automatic derivation of their spar-
+sity patterns. This representation captures the relationship
+between robot query points, obstacle points, and configuration
+variables, allowing efficient adaptation to varying obstacle
+configurations. Third, we implement efficient memory-level
+sparse mapping from the dense GCDF gradient matrix into
+the overall problem’s sparse Jacobian matrix. This process,
+combined with GPU-parallel querying, significantly improves
+computational efficiency.
+Implementation.To enable cross-platform GPU querying
+of the trained neural network, we first convert the PyTorch
+GCDF model into a batch-queryable CasADi [93] function us-
+ing the L4CasADi library [94], which automatically computes
+gradients through CasADi’s symbolic differentiation. We then
+generate C++ code from this CasADi function and compile
+it into a dynamic library. Leveraging CasADi’s cross-platform
+compatibility, our solver dynamically loads this library during
+the online phase, providing efficient inference functions for
+both GCDF values and gradients that can be seamlessly
+integrated into the optimization loop. The implementation of
+this pipeline involves numerous GPU-related and environment-
+specific engineering challenges.

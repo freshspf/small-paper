@@ -1,0 +1,213 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+MNRAS000, 1–26 (2026) Preprint 27 January 2026 Compiled using MNRAS L ATEX style file v3.3
+Intracluster light as a dark matter tracer: how their spatial and kinematic
+relationship is shaped by satellite demographics
+G. Martin ,1★ F. R. Pearce ,1 N. A. Hatch ,1 H. J. Brown ,1 J. Butler ,1 Y. M. Bahé ,1,2
+W. Cui ,3,4,5 Y. Dubois 6, and A. Knebe 3,4,7
+1School of Physics & Astronomy, University of Nottingham, University Park, Nottingham NG7 2RD, UK
+2Laboratoire d’Astrophysique, École Polytechnique Fédérale de Lausanne (EPFL), Observatoire de Sauverny, 1290 Versoix, Switzerland
+3Departamento de Física Teórica, Módulo 15, Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain
+4Centro de Investigación Avanzada en Física Fundamental (CIAFF), Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain
+5Institute for Astronomy, Royal Observatory, Edinburgh EH9 3HJ, UK
+6Institut d’Astrophysique de Paris, UMR 7095, CNRS, Sorbonne Université, 98 bis boulevard Arago, 75014 Paris, France
+7International Centre for Radio Astronomy Research, University of Western Australia, 35 Stirling Highway, Crawley, Western Australia 6009, Australia
+Accepted XXX. Received YYY; in original form ZZZ
+ABSTRACT
+We investigate how the orbital evolution and mass distribution of infalling satellite galaxies shape the phase-space and radial
+distributionsofintraclusterlight(ICL)relativetotheunderlyingclusterdarkmatter(DM)halo.Usingcontrolled,self-consistent
+𝑁-bodysimulations,wefollowthetidalstrippingandorbitalevolutionofsatellitegalaxiesastheyareaccretedintoalivecluster
+halo,systematicallyvaryingsatellite–to–hostmassratioandorbitalcircularity.Fromtheseexperiments,wemeasurethespecific
+orbital energy and angular momentum of stripped stellar and DM material, finding that the stripped stars consistently occupy
+lower-energy and lower-angular momentum regions of phase-space than the stripped DM. The magnitude of this difference
+increases strongly towards more equal satellite–to–host mass ratios, while the dependence on orbital circularity is weak. We
+construct a predictive model for the phase-space properties of stripped stars and DM from a whole infalling satellite population
+and find that the resulting phase-space difference between the components are driven primarily by the characteristic mass of the
+infalling satellite stellar mass function. We find that the ICL is always more centrally concentrated than the DM. The magnitude
+of this offset depends on the characteristic mass and increases towards higher characteristic masses. Comparisons with four
+independent cosmological hydrodynamical simulations show that, once the infalling satellite stellar mass function is matched,
+themodelreproducestheradialstellar–to–DMdensityprofileoffsetstobetterthantheinter-simulationscatter.Thisdemonstrates
+thattheradialrelationshipbetweentheICLandtheDMdistributionislargelygovernedbysatellitedemographics.Withadequate
+constraintsontheinfallingsatellitepopulation,ICLdensityprofilescanthereforebeusedasinformativetracersoftheunderlying
+radial DM distribution in clusters.
+Key words:galaxies: clusters: general – galaxies: interactions – methods: numerical
+1 INTRODUCTION
+Galaxy clusters are key laboratories for cosmology because they are
+themostmassivevirialisedstructuresexpectedtoformthroughhier-
+archical growth in aΛCDM Universe. Their mass, spatial structure,
+andassemblyhistoryencodeboththeunderlyingcosmologyandthe
+nonlinear physics of structure formation. For example, cluster-scale
+halo shapes and density profiles provide constraints on the nature of
+dark matter (DM), while their abundances and scaling relations test
+cosmologicalparameters(e.g.Allenetal.2011;Kravtsov&Borgani
+2012).MappingthesestructuresrequirestracersofthedominantDM
+halo,whichisnotdirectlyobservable(e.g.Westetal.1995;Borgani
+& Guzzo 2001; Arnaboldi et al. 2004; Gifford et al. 2013; Kluge
+et al. 2025).
+Clusters are also permeated by intracluster light (ICL), the com-
+★ E-mail: garreth.martin@nottingham.ac.uk
+bined light emitted by the diffuse component of stars not bound
+to any individual galaxy. These stars originate predominantly from
+tidalstrippingandmergingofsatellitesduringclusterassembly,with
+some additional contribution from pre-processed stars already lib-
+erated from their parent galaxies upon cluster infall (e.g. Byrd &
+Valtonen1990;Muranteetal.2007;Continietal.2014;Mihosetal.
+2017; Contini et al. 2019; Chun et al. 2023; Ragusa et al. 2023;
+Brownetal.2024).TheICLformedthroughthisprocessisexpected
+to be dominated by a small number of progenitors and to retain
+memory of the timing and orbital properties of individual accretion
+events (Bullock & Johnston 2005; Johnston et al. 2008). The ICL
+constitutes a significant fraction1 of the stellar mass budget of clus-
+1 The ICL fraction is definition- and method-dependent; observational and
+simulation studies suggest it typically contributes 5–40 per cent of the to-
+tal stellar light in clusters, with the exact value varying with measurement
+methodology (Brough et al. 2024).
+©2026 The Authors
+arXiv:2601.18693v1 [astro-ph.GA] 26 Jan 2026
+2G. Martin et al.
+tersandprovidesacomplementarybaryonictracerofclustergrowth
+and dynamics (Cui et al. 2014). Because its spatial and kinematic
+distributions are set primarily by the cluster potential and the cu-
+mulativeaccretionhistoryofsatellites,theICLencodesinformation
+about both assembly processes and the properties of the underlying
+DM halo that dominates the matter content of the cluster (Gonzalez
+etal.2007,2013;Montes&Trujillo2019;Golden-Marxetal.2023,
+2025).
+Observationally, next-generation surveys such asEuclid(Laureijs
+et al. 2011; Scaramella et al. 2022; Euclid Collaboration, Mellier
+et al. 2025) and LSST (Ivezić et al. 2019) will enable systematic
+ICL studies across large cluster samples to higher redshifts (e.g.
+Euclid Collaboration, Bellhouse et al. 2025).Euclidis forecast to
+detect ICL in tens of thousands of clusters up to𝑧=1.5, while
+LSST will reach𝜇=30–31 mag arcsec−2 (3𝜎,10 ′′ ×10 ′′) (Martin
+et al. 2022; Brough et al. 2024; Englert et al. 2025). These datasets
+will enable direct comparison of ICL with weak lensing and X-ray
+observations, allowing ICL to trace halo properties and assembly
+histories. However, this requires careful understanding of how stars
+and DM are distributed during cluster assembly.
+A growing body of observational and theoretical work demon-
+stratesastrongcorrespondencebetweenthelarge-scalemorphology
+of the ICL and that of the cluster DM halo. For example, Montes &
+Trujillo (2019) showed that the projected shape of the ICL closely
+follows that of the lensing-derived total mass distribution inHubble
+Space TelescopeFrontier Fields clusters, while Ellien et al. (2025)
+showssimilarresultsusingEuclidEarlyReleaseObservations.Cos-
+mological simulations also report alignments between ICL and DM
+on large scales (e.g. Yoo et al. 2024). This correspondence indicates
+thattheICLtracesatleastsomeofthecluster’sdynamicalandspatial
+properties. However, detailed studies reveal that the relation is not
+one-to-one. Numerical simulations show that the ICL’s
+kinematicpropertiesdiffersystematicallyfromthoseofbothclus-
+ter galaxies and the underlying DM halo (Rudick et al. 2006, 2011;
+Dolagetal.2010)andoccupiessystematicallylowerorbitalenergies
+and higher anisotropies than the background DM halo, producing
+phase-space offsets that are sensitive to a cluster’s accretion history
+(Butler et al. 2025). These kinematic differences directly result in
+the ICL having significantly more compact radial density profiles
+thantheDM,asseeninbothobservationsandsimulations(Pillepich
+et al. 2018; Alonso Asensio et al. 2020; Chen et al. 2022; Diego
+et al. 2023, 2024; Contreras-Santos et al. 2024, 2025), implying that
+the underlying DM distribution cannot be straightforwardly inferred
+from naïve mappings between stellar and DM distributions.
+UnderstandingwhytheICLexhibitsthesedistinctivephase-space
+properties requires examining the physical mechanisms that govern
+stellar stripping. Butler et al. (2025) proposed physical explanations
+for these systematic differences, two of which we test in this work.
+First, the more extended DM component of infalling satellites is
+strippedmoreefficientlythanthecentrallyconcentratedstellarcom-
+ponent (e.g. Smith et al. 2016; Haggar et al. 2021). This naturally
+suggests that intracluster stars should occupy lower orbital energies
+and angular momenta than the DM stripped from the same systems.
+Second,dynamicalfrictionandtidaltorquescausemassivesatellites
+to lose orbital energy (Chandrasekhar 1943). While DM is pref-
+erentially removed at earlier times, the centrally concentrated stars
+can survive until later and are therefore deposited onto more tightly
+bound orbits.
+The resulting phase-space offsets between stripped stars and DM
+are therefore expected to vary with the relative efficiency of tidal
+stripping, dynamical friction and tidal torques in addition to the
+mass,internalstructureandorbitalconfigurationofthesatellitesthat
+contribute to the ICL.
+These dependencies imply that using the ICL as a tracer of halo
+mass, shape, or dynamics requires more than a simple mapping be-
+tween stars and DM. Quantifying the strength and physical origin
+of the resulting spatial and phase-space offsets is a prerequisite for
+employingdiffusestarlightasaprecisionprobeofclusterDMhaloes
+with forthcomingEuclidand LSST data.
+The paper proceeds as follows. In Section 2 we describe the
+controlled𝑁-body simulations of satellites accreted into a clus-
+ter halo. Section 3 presents the results of these experiments and
+examines how the phase-space distributions and the resulting off-
+sets in specific energy and angular momentum depend on satellite
+mass ratio and orbital configuration. Then in Section 4, we intro-
+duce our methodology to integrate the single-satellite results over
+plausible satellite populations and in Section 5, we quantify how
+the population-averaged offsets depend on satellite demographics.
+Throughout this analysis, we provide interactive figures that allow
+the effects of varying the assumed satellite population parameters to
+be explored directly; an index of these interactive plots is available
+at garrethmartin.github.io/interactive-profiles-ICL. In Section 6, we
+compare these predictions to cosmological simulations to identify
+any additional effects not captured by our methodology. Finally, in
+Section 7 we discuss the physical interpretation of our results, their
+limitations, and the implications for using the ICL as a tracer of
+cluster DM haloes. Section 8 summarises our main conclusions.
+2 CONTROLLED SIMULATIONS AND ANALYSIS
+We begin by generating model satellite galaxies, each comprising
+bothDMandstellarcomponentswithspatialdistributionsdescribed
+by Hernquist (1990) profiles. These satellites are subsequently in-
+jected with varying orbital configurations into a live cluster halo
+with an associated central galaxy.
+2.1Gadget-4
+We make use ofGadget-4, an open-source cosmological𝑁-body
+and smoothed particle hydrodynamics code (Springel et al. 2021).
+Gadget-4computes gravitational forces using a hierarchical tree
+algorithm(Barnes&Hut1986).Thetreecomponentemploysamul-
+tipole expansion with an adaptive opening criterion. Gravitational
+softeningisappliedusingacubicsplinekernel.AlthoughGadget-4
+alsoincludesaparticle-meshschemeforlong-rangeforces,wemake
+use only of the tree-based gravity solver, as the relatively small size
+of our simulation domain does not benefit from a hybrid TreePM
+approach. We adopt force softening lengths of 200 pc and 50 pc for
+DM and stellar particles, respectively. As shown below, this choice
+maintains the stability of both satellite and cluster models at all res-
+olution levels. Moreover, as demonstrated in Martin et al. (2024),
+provided the smoothing lengths are sufficiently small, the precise
+softening scale has negligible influence on stripping efficiency.

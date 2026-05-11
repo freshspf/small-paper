@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "WholeBodyPlanning",
+  "groupedInto",
+  "ReinforcementLearning",
+  "OptimizationBasedPlanning",
+  "SamplingBasedMethod",
+  "includesInstance",
+  "prm",
+  "rrt",
+  "exploresConnectivityThrough",
+  "RandomSampling",
+  "CollisionChecking",
+  "ClutteredEnvironment",
+  "requires",
+  "TightBaseArmCoordination",
+  "UniformSampling",
+  "proneTo",
+  "ConnectivityFailure",
+  "RlBasedApproach",
+  "learns",
+  "ControlPolicy",
+  "interactsWith",
+  "Simulator",
+  "Discrepancy",
+  "creates",
+  "SimToRealGap",
+  "degrades",
+  "RealWorldPerformance",
+  "OptimizationBasedMethod",
+  "formulatesProblemAs",
+  "ConstrainedOptimizationProblem",
+  "seeks",
+  "CollisionFreeTrajectory",
+  "optimizes",
+  "EnergyEfficiency",
+  "KinematicRedundancy",
+  "inherentIn",
+  "MobileManipulator",
+  "ActuationRedundancy",
+  "operatesIn",
+  "UnboundedWorkspace",
+  "navigates",
+  "ClutteredObstacleLayout",
+  "StateOfTheArtMethod",
+  "adopts",
+  "TwoStagePipeline",
+  "includesStage",
+  "FrontEndPathSearch",
+  "BackEndTrajectoryOptimization",
+  "CommonApproach",
+  "plans",
+  "BaseTrajectory",
+  "searchesFor",
+  "ArmConfiguration",
+  "BackEndOptimizer",
+  "smooths",
+  "FrontEndSolution",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "Robot",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety",
+  "Planner",
+  "CollisionConstraint",
+  "GeometricModel"
+]
+
+Triples:
+[
+  {
+    "subject": "WholeBodyPlanning",
+    "relation": "groupedInto",
+    "object": "ReinforcementLearning",
+    "chunk": "completedocument2",
+    "context": "To overcome these limitations, recent work has shifted toward whole-body planning, typically grouped into three families: sampling-based methods, reinforcement learning (RL), and optimization-based planning."
+  },
+  {
+    "subject": "WholeBodyPlanning",
+    "relation": "groupedInto",
+    "object": "OptimizationBasedPlanning",
+    "chunk": "completedocument2",
+    "context": "To overcome these limitations, recent work has shifted toward whole-body planning, typically grouped into three families: sampling-based methods, reinforcement learning (RL), and optimization-based planning."
+  },
+  {
+    "subject": "SamplingBasedMethod",
+    "relation": "includesInstance",
+    "object": "prm",
+    "chunk": "completedocument2",
+    "context": "Sampling-based methods such as PRM/RRT and their variants [19], [20], [21], [22] explore feasible connectivity through random sampling and collision checking, offering theoretical guarantees and broad applicability."
+  },
+  {
+    "subject": "SamplingBasedMethod",
+    "relation": "includesInstance",
+    "object": "rrt",
+    "chunk": "completedocument2",
+    "context": "Sampling-based methods such as PRM/RRT and their variants [19], [20], [21], [22] explore feasible connectivity through random sampling and collision checking, offering theoretical guarantees and broad applicability."
+  },
+  {
+    "subject": "SamplingBasedMethod",
+    "relation": "exploresConnectivityThrough",
+    "object": "RandomSampling",
+    "chunk": "completedocument2",
+    "context": "Sampling-based methods such as PRM/RRT and their variants [19], [20], [21], [22] explore feasible connectivity through random sampling and collision checking, offering theoretical guarantees and broad applicability."
+  },
+  {
+    "subject": "SamplingBasedMethod",
+    "relation": "exploresConnectivityThrough",
+    "object": "CollisionChecking",
+    "chunk": "completedocument2",
+    "context": "Sampling-based methods such as PRM/RRT and their variants [19], [20], [21], [22] explore feasible connectivity through random sampling and collision checking, offering theoretical guarantees and broad applicability."
+  },
+  {
+    "subject": "ClutteredEnvironment",
+    "relation": "requires",
+    "object": "TightBaseArmCoordination",
+    "chunk": "completedocument2",
+    "context": "However, in cluttered environments with narrow passages requiring tight base-arm coordination, uniform or heuristic sampling becomes computationally burdensome and prone to connectivity failures."
+  },
+  {
+    "subject": "UniformSampling",
+    "relation": "proneTo",
+    "object": "ConnectivityFailure",
+    "chunk": "completedocument2",
+    "context": "However, in cluttered environments with narrow passages requiring tight base-arm coordination, uniform or heuristic sampling becomes computationally burdensome and prone to connectivity failures."
+  },
+  {
+    "subject": "RlBasedApproach",
+    "relation": "learns",
+    "object": "ControlPolicy",
+    "chunk": "completedocument2",
+    "context": "RL-based approaches learn control policies end-to-end, directly from state or sensor inputs to actions, typically by interacting with a simulator [25], [26], [27], [28]."
+  },
+  {
+    "subject": "RlBasedApproach",
+    "relation": "interactsWith",
+    "object": "Simulator",
+    "chunk": "completedocument2",
+    "context": "RL-based approaches learn control policies end-to-end, directly from state or sensor inputs to actions, typically by interacting with a simulator [25], [26], [27], [28]."
+  },
+  {
+    "subject": "Discrepancy",
+    "relation": "creates",
+    "object": "SimToRealGap",
+    "chunk": "completedocument2",
+    "context": "Moreover, discrepancies in perception, dynamics, and actuation create a sim-to-real gap that can significantly degrade real-world performance [30], necessitating careful engineering for reliable transfer."
+  },
+  {
+    "subject": "SimToRealGap",
+    "relation": "degrades",
+    "object": "RealWorldPerformance",
+    "chunk": "completedocument2",
+    "context": "Moreover, discrepancies in perception, dynamics, and actuation create a sim-to-real gap that can significantly degrade real-world performance [30], necessitating careful engineering for reliable transfer."
+  },
+  {
+    "subject": "OptimizationBasedMethod",
+    "relation": "formulatesProblemAs",
+    "object": "ConstrainedOptimizationProblem",
+    "chunk": "completedocument2",
+    "context": "By formulating whole-body mobile manipulation as a constrained optimization problem, they seek feasible, collision-free trajectories while optimizing task-relevant objectives such as smoothness, energy efficiency, or execution time [31], [32]."
+  },
+  {
+    "subject": "OptimizationBasedMethod",
+    "relation": "seeks",
+    "object": "CollisionFreeTrajectory",
+    "chunk": "completedocument2",
+    "context": "By formulating whole-body mobile manipulation as a constrained optimization problem, they seek feasible, collision-free trajectories while optimizing task-relevant objectives such as smoothness, energy efficiency, or execution time [31], [32]."
+  },
+  {
+    "subject": "OptimizationBasedMethod",
+    "relation": "optimizes",
+    "object": "EnergyEfficiency",
+    "chunk": "completedocument2",
+    "context": "By formulating whole-body mobile manipulation as a constrained optimization problem, they seek feasible, collision-free trajectories while optimizing task-relevant objectives such as smoothness, energy efficiency, or execution time [31], [32]."
+  },
+  {
+    "subject": "KinematicRedundancy",
+    "relation": "inherentIn",
+    "object": "MobileManipulator",
+    "chunk": "completedocument2",
+    "context": "Moreover, the kinematic and actuation redundancy inherent in mobile manipulators naturally lends itself to optimization techniques, allowing the system to exploit its full configuration space to generate agile, safe maneuvers that reach targets while simultaneously satisfying task-space collision avoidance and other operational constraints."
+  },
+  {
+    "subject": "ActuationRedundancy",
+    "relation": "inherentIn",
+    "object": "MobileManipulator",
+    "chunk": "completedocument2",
+    "context": "Moreover, the kinematic and actuation redundancy inherent in mobile manipulators naturally lends itself to optimization techniques, allowing the system to exploit its full configuration space to generate agile, safe maneuvers that reach targets while simultaneously satisfying task-space collision avoidance and other operational constraints."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "operatesIn",
+    "object": "UnboundedWorkspace",
+    "chunk": "completedocument2",
+    "context": "Challenges.Unlike fixed-base manipulators, mobile manipulators operate in unbounded workspaces and must navigate complex, cluttered obstacle layouts."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "navigates",
+    "object": "ClutteredObstacleLayout",
+    "chunk": "completedocument2",
+    "context": "Challenges.Unlike fixed-base manipulators, mobile manipulators operate in unbounded workspaces and must navigate complex, cluttered obstacle layouts."
+  },
+  {
+    "subject": "StateOfTheArtMethod",
+    "relation": "adopts",
+    "object": "TwoStagePipeline",
+    "chunk": "completedocument2",
+    "context": "Current state-of-the-art methods adopt a two-stage pipeline with front-end path search followed by back-end trajectory optimization [10], [35]."
+  },
+  {
+    "subject": "TwoStagePipeline",
+    "relation": "includesStage",
+    "object": "FrontEndPathSearch",
+    "chunk": "completedocument2",
+    "context": "Current state-of-the-art methods adopt a two-stage pipeline with front-end path search followed by back-end trajectory optimization [10], [35]."
+  },
+  {
+    "subject": "TwoStagePipeline",
+    "relation": "includesStage",
+    "object": "BackEndTrajectoryOptimization",
+    "chunk": "completedocument2",
+    "context": "Current state-of-the-art methods adopt a two-stage pipeline with front-end path search followed by back-end trajectory optimization [10], [35]."
+  },
+  {
+    "subject": "CommonApproach",
+    "relation": "plans",
+    "object": "BaseTrajectory",
+    "chunk": "completedocument2",
+    "context": "A common approach decouples the problem by first planning a base trajectory and then searching for arm configurations along this fixed base path."
+  },
+  {
+    "subject": "CommonApproach",
+    "relation": "searchesFor",
+    "object": "ArmConfiguration",
+    "chunk": "completedocument2",
+    "context": "A common approach decouples the problem by first planning a base trajectory and then searching for arm configurations along this fixed base path."
+  },
+  {
+    "subject": "BackEndOptimizer",
+    "relation": "smooths",
+    "object": "FrontEndSolution",
+    "chunk": "completedocument2",
+    "context": "The back-end optimizer is consequently reduced to a post-processing module that smooths and slightly refines the front-end solution locally, often converging within only a few iterations."
+  }
+]

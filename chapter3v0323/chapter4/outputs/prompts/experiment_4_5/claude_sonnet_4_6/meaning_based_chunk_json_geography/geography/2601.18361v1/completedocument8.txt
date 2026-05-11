@@ -1,0 +1,141 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument8",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument8
+- section_title: Complete Document
+- page_start: 1
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+Wider graphs represent a higher density of that probability
+and the white line shows the median.
+(a)M= 10
+ (b)M= 20
+Figure 5: Success probability as a function of the number of devices for all proposed scenarios.
+Table II: Main cost parameters for terrestrial and non-terrestrial
+infrastructures.
+Parameter HAPS Satellite Terrestrial
+Ref. [33] [23], [39], [40] [41]
+Model Type Dedicated platform Pay-per-device Tower leasing
+CAPEX (USD) $4M - -
+OPEX (USD/year) $30,000 $24×N$12,600×M
+Discount Factor (σ) 0.05 0.05 0.05
+Total Time (years) 20 20 20
+The values used in the analysis are shown in II. We assumea 20 year span time analysis for fairness, since our data
+assume the HAPS system would last for at least 20 years.
+Fig. 6 presents the cost considering HAPS, LEO and terrestrial
+solutions as a function of the number of devices, assuming one
+message per hour over one month. We can see that even though
+the HAPS costs are higher, they are already competitive with
+the costs of 20 terrestrial BSs. The LEO solution is shown
+to be interesting when the number of devices is not too large
+(<10k), although lower prices can even be negotiable with
+these providers in case of this massive number of devices.
+This shows that LEO solutions are interesting in the case that
+
+9
+Figure 6: Total cost per year as a function of the number of
+devices for LEO, HAPS and terrestrial networks.
+the number of devices is not too large, at a price of slightly
+smaller performance than HAPS, while being more flexible
+than a terrestrial network. In addition, terrestrial networks tend
+to perform better when well deployed, subject to deployment
+availability, as its costs may increase significantly if there is
+a need to install non-existing infrastructures. The authors also
+acknowledge that the simplicity of the cost analysis, especially
+in terms of scalability, as most likely the LEO service would
+give a quality of service guaranty, either by improving the
+infrastructure or increasing the operational bandwidth. On the
+other hand, the constant values in the owned infrastructure
+options actually decrease the performance per-device as the
+number of devices increases, as seen in Figure 5.
+V. CONCLUSIONS
+In this work, we compared the impact of HAPS and LEO
+satellites as an alternative to IoT connectivity in remote regions
+with a lack of terrestrial connectivity. We also consider cases
+where HAPS and LEO could work together with existing
+terrestrial networks and also a combination of both HAPS
+and LEO. We analyze the transmission erasure probability
+behavior and conclude that HAPS can be a good addition
+to existing sparse terrestrial networks, and also to the LEO
+satellite system. Moreover, we also conducted an economic
+analysis of the deployment of an HAPS versus using LEO
+satellite IoT services, as well as the deployment of terrestrial
+networks. The results highlight that HAPS outperforms LEO in
+terms of success probability and average erasure probability,
+and that the combination of sparse terrestrial networks with
+non-terrestrial solutions as a potential enabler for massive
+connectivity. Finally, we show that although the costs of HAPS
+are higher, they were shown to be in a similar magnitude
+order, and with the advancements of this technology, they can
+be an promising alternative to IoT connectivity. Future work
+includes the investigation of smarter diversity techniques toexploit simultaneous reception from multiple receivers, the in-
+corporation of multi-satellite visibility and HAPS mobility into
+the system model, and the design of transmission strategies that
+leverage knowledge of HAPS and LEO movement patterns.
+REFERENCES
+[1] A. Chaoub, M. Giordani, B. Lall, V . Bhatia, A. Kliks, L. Mendes,
+K. Rabie, H. Saarnisaari, A. Singhal, N. Zhang, S. Dixit, and M. Zorzi,
+“6G for bridging the digital divide: Wireless connectivity to remote
+areas,”IEEE Wireless Communications, vol. 29, no. 1, pp. 160–168,
+2022.
+[2] J. J. Lpez-Escobar, P. Fondo-Ferreiro, F. J. Gonzlez-Castao, F. Gil-
+Castieira, V . Piorno-Gonzlez, I. Munilla-Rumbao, and A. Gil-Carrrera,
+“Intelligent energy-efficient GNSS-assisted and LoRa-based positioning
+for wildlife tracking,”IEEE Sensors Journal, vol. 25, no. 4, pp. 7291–
+7300, 2025.
+[3] C. C. Chan, S. A. Alvi, X. Zhou, S. Durrani, N. Wilson, and M. Yebra,
+“A survey on IoT ground sensing systems for early wildfire detection:
+Technologies, challenges, and opportunities,”IEEE Access, vol. 12, pp.
+172 785–172 819, 2024.
+[4] M. A. Ullah, A. Yastrebova, K. Mikhaylov, M. Hyhty, and H. Alves,
+“Situational awareness for autonomous ships in the arctic: mmtc direct-
+to-satellite connectivity,”IEEE Communications Magazine, vol. 60,
+no. 6, pp. 32–38, 2022.
+[5] S. Aslam, H. Herodotou, E. Garro, . Martnez-Romero, M. A. Burgos,
+A. Cassera, G. Papas, P. Dias, and M. P. Michaelides, “Emerging IoT
+applications and architectures for smart maritime container terminals,”
+in2023 IEEE 9th World Forum on Internet of Things (WF-IoT), 2023,
+pp. 1–6.
+[6] J. A.

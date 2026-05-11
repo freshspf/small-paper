@@ -1,0 +1,148 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument4
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+INPUT TEXT CHUNK:
+While the standard  JT-VAE 
+effectively encodes molecular graphs and junction trees, it lacks two critical 
+capabilities for structure -guided drug design: (i) conditioning molecule 
+generation on protein -specific information, and (ii) model ing three -dimensional 
+(3D) conformational flexibility via torsional (dihedral) angles.  
+To address these limitations, we developed a Ligase -Conditioned JT -VAE (LC -
+JT-VAE). First, we enhanced the molecular graph representation by incorporating 
+torsional angle features into the bond -level message passing steps. Dihedral 
+angles were computed usi ng RDKit’s GetDihedralDeg  function by identifying 
+rotatable bonds ( Supplementary Figure S1 ), providing critical 3D information on 
+conformational dynamics essential for accurate ligand design. Second, we 
+integrated sequence embeddings derived from the bindi ng site residues of CRBN, 
+VHL, and MDM2 directly into the molecular latent space, enabling the model to 
+generate ligase -specific molecular glues.  
+ 
+2.7 Encoding E3 Ligase Binding Site Sequences  
+Binding site residue sequences for CRBN, VHL, and MDM2 were encoded 
+through multiple strategies to capture structural and functional contexts. Initially, 
+one-hot encoding and k -mer encoding were applied to extract local sequence 
+patterns. For more advanced , context -aware representations, ProtBERT -a 
+transformer model pretrained on UniRef100 -was utilized to generate high -
+dimensional embeddings [51]. These embeddings were further refined using 
+bidirectional long short -term memory (BiLSTM) networks [52] to mode l 
+sequential dependencies, and then projected to fixed -length vectors (e.g., 128D or 
+512D) for compatibility with the molecular latent space, thus enabling protein -
+conditioned molecule generation.  
+ 
+2.8 LC -JT-VAE Architecture and Latent Space Fusion  
+The LC -JT-VAE architecture consists of two parallel encoders: a molecular 
+graph encoder, comprising a message -passing neural network (MPN) and a 
+junction tree message -passing network (JTMPN), and a protein sequence encoder 
+for E3 ligase binding site embedd ings. These two streams were fused in the latent 
+space using either concatenation with linear projection and ReLU activation, or 
+cross -attention mechanisms where the molecular graph attended to the protein 
+embedding. The fused latent vector was passed to a  conditional Junction Tree 
+Neural Network (JTNN) decoder, which reconstructed the junction tree scaffold 
+and molecular graph conditioned on the ligase binding context ( Figure 2 ). 
+Implementation summary:
+
+Biomolecules 2025 , 15, 849 6 of 31  
+# During encoding  
+mol_latent = JTNNEncoder(mol_graph, junction_tree)  
+ligase_embed = LigaseEncoder(sequence)  
+ 
+# Latent fusion  
+z = torch.cat([mol_latent, ligase_embed], dim= 1) 
+ 
+# During decoding  
+output = JTNNDecoder(z)  
+ 
+2.9 Detailed Architectural Breakdown and Conditioning Mechanism  
+• Molecular Graph and Junction Tree Encoding : Molecules were 
+processed as graphs and junction trees using MPN and JTMPN. Bond 
+features were enhanced by incorporating torsional angles computed 
+via RDKit, improving the model's ability to capture conformational 
+flexibility crucial for protein -ligand interactions.  
+• Ligase Sequence Encoding : Binding site sequences were embedded 
+using ProtBERT or BiLSTM -based encoders and projected to match the 
+molecular latent space dimensions.  
+• Latent Space Fusion Strategies : 
+o Concatenation and Linear Projection : 
+z_fused = ReLU(W[z_mol; z_seq] + b)  
+o Cross -Attention Mechanism : 
+z_mol' = MultiHeadAttention(z_mol, z_seq, z_seq)  
+• Conditional Decoding : 
+o Tree Decoder : Reconstructs the junction tree scaffold.  
+o Graph Decoder : Rebuilds the full molecular graph conditioned 
+on the fused latent vector.  
+The detailed internal architecture of LC -JT-VAE, including the 
+JTNNEncoder, GraphGRU layers, sequence encoder modules (W_H1, W_H2, 
+W_O), and latent projections (T_mean, T_var, G_mean, G_var), is illustrated in 
+Supplementary Figure S2 . Together, these innovations distinguish our LC -JT-
+VAE from the original JT -VAE by enabling target -specific, conformation -aware 
+molecular glue design.  
+ 
+2.10 Model Training, Optimization, and Implementation Details  
+The Ligase -Conditioned Junction Tree Variational Autoencoder (LC -JT-VAE) 
+was trained using a β-VAE loss function, consisting of a reconstruction loss and a 
+Kullback -Leibler (KL) divergence term to regularize the latent space [53,54]. The 
+total loss was defined as:  
+ℒtotal = ℒrecon + β · ℒKL, where ℒtotal included both molecular graph and junction tree 
+reconstruction losses, and ℒKL promoted latent space continuity. The annealing 
+coefficient β was initialized at 0 and incrementally increased by 0.002 per step 
+until reaching 1.0.  Model parameters were initialized with Xavier normal 
+initialization for weights and constant initialization for biases.

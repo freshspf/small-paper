@@ -1,0 +1,135 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument9",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument9
+- section_title: Complete Document
+- page_start: 1
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+Fraire, O. Iova, and F. Valois, “Space-terrestrial integrated in-
+ternet of things: Challenges and opportunities,”IEEE Communications
+Magazine, vol. 60, no. 12, pp. 64–70, 2022.
+[7] C. Qi, J. Wang, L. Lyu, L. Tan, J. Zhang, and G. Y . Li, “Key issues
+in wireless transmission for NTN-assisted internet of things,”IEEE
+Internet of Things Magazine, vol. 7, no. 1, pp. 40–46, 2024.
+[8] T. T. T. Le, N. U. Hassan, X. Chen, M.-S. Alouini, Z. Han, and C. Yuen,
+“A survey on random access protocols in direct-access LEO satellite-
+based IoT communication,”IEEE Communications Surveys & Tutorials,
+vol. 27, no. 1, pp. 426–462, 2025.
+[9] G. Karabulut Kurt, M. G. Khoshkholgh, S. Alfattani, A. Ibrahim, T. S. J.
+Darwish, M. S. Alam, H. Yanikomeroglu, and A. Yongacoglu, “A vision
+and framework for the high altitude platform station (HAPS) networks
+of the future,”IEEE Communications Surveys & Tutorials, vol. 23,
+no. 2, pp. 729–779, 2021.
+[10] SoftBank Corp., “Develops high-capacity 6-cell capable HAPS payload,
+delivers 5G connectivity from the sky in field trial,” https://www.soft
+bank.jp/en/corp/news/press/sbkk/2025/20250918 02/, September 2025,
+press release.
+[11] AALTO HAPS Ltd., “Zephyr sets world-record for
+longest continuous flight - flying 67 days in stratosphere,”
+https://www.aaltohaps.com/zephyr-sets-world-record-for-longest-
+continuous-flight-flying-67-days-in-stratosphere/, May 2025, press
+release.
+[12] World Mobile Team, “Why the stratosphere, why now? a deep-dive
+with Gregory Gottlieb,” Aug 2025, blog post. [Online]. Available:
+https://worldmobile.io/blog/post/why-the-stratosphere-why-now-a-dee
+p-dive-with-gregory-gottlieb
+[13] HAPS Alliance, “HAPS advantages in an era of satellite connectivity,”
+HAPS Alliance, White Paper, April 2025, available from HAPS
+Alliance Technical Working Group. [Online]. Available: https:
+//hapsalliance.org/wp-content/uploads/formidable/12/2025 HAPSAllia
+nce Reference Architecture Advantages Satellite Connectivity TWG
+Whitepaper.pdf
+
+10
+[14] O. Abbasi, A. Yadav, H. Yanikomeroglu, N.-D. o, G. Senarath, and
+P. Zhu, “HAPS for 6G networks: Potential use cases, open challenges,
+and possible solutions,”IEEE Wireless Communications, vol. 31, no. 3,
+pp. 324–331, 2024.
+[15] Z. Lou, B. E. Youcef Belmekki, and M.-S. Alouini, “HAPS in the non-
+terrestrial network nexus: Prospective architectures and performance
+insights,”IEEE Wireless Communications, vol. 30, no. 6, pp. 52–58,
+2023.
+[16] G. Svistunov, A. Akhtarshenas, D. Lpez-Prez, M. Giordani, G. Geraci,
+and H. Yanikomeroglu, “Bridging earth and space: A survey
+on HAPS for non-terrestrial networks,” 2025. [Online]. Available:
+https://arxiv.org/abs/2510.19731
+[17] Z. Jia, Q. Wu, C. Dong, C. Yuen, and Z. Han, “Hierarchical aerial
+computing for internet of things via cooperation of HAPs and UA Vs,”
+IEEE Internet of Things Journal, vol. 10, no. 7, pp. 5676–5688, 2023.
+[18] A. Andreadis, G. Giambene, and R. Zambon, “Role of UA Vs and HAPS
+for IoT-based monitoring in emergency scenarios,” in2023 Interna-
+tional Conference on Information and Communication Technologies for
+Disaster Management (ICT-DM), 2023, pp. 1–8.
+[19] H. Uyank and T. Ovatman, “An investigation of the transmission
+success in LoRaWAN enabled IoT-HAPS communication,”Internet
+of Things, vol. 20, p. 100611, 2022. [Online]. Available: https:
+//www.sciencedirect.com/science/article/pii/S2542660522000932
+[20] G. Giambene and K. Korre, “LoRa-based system for IoT applications
+via HAPS in remote areas,” in2022 International Conference on
+Software, Telecommunications and Computer Networks (SoftCOM),
+2022, pp. 1–6.
+[21] A. Almarhabi, A. J. Aljohani, and M. Moinuddin, “LoRa and high-
+altitude platforms: Path loss, link budget and optimum altitude,” in
+2020 8th International Conference on Intelligent and Advanced Systems
+(ICIAS), 2021, pp. 1–6.
+[22] Ericsson. (2023) 3gpp satellite communication. Ericsson Technology
+Review. Accessed: 2025-04-08. [Online]. Available: https://www.ericss
+on.com/en/reports-and-papers/ericsson-technology-review/articles/3gp
+p-satellite-communication
+[23] Lacuna Space. (2023, December) Spire global awarded space
+services contract by lacuna space to scale a dedicated satellite
+constellation for IoT. Accessed: 2025-05-26. [Online]. Available:
+https://lacuna-space.com/spire-global-awarded-space-services-contrac
+t-by-lacuna-space-to-scale-a-dedicated-satellite-constellation-for-iot/
+[24] M. A. Ullah, R. D. Souza, G. Pasolini, J. M. d. S. SantAna, M. Hyhty,
+K. Mikhaylov, H. Alves, E. Paolini, and A. Al-Hourani, “Extending the
+LoRa direct-to-satellite limits: Doppler shift pre-compensation,”IEEE
+Open Journal of the Communications Society, vol. 6, pp. 2256–2273,
+2025.
+[25] T. Liang, T. Zhang, and Q. Zhang, “Toward seamless localization
+and communication: A satellite-uav ntn architecture,”IEEE Network,
+vol. 38, no. 4, pp. 103–110, 2024.
+[26] R. Ortigueira, S. Montejo-Snchez, S. Henn, J. A. Fraire, and S.

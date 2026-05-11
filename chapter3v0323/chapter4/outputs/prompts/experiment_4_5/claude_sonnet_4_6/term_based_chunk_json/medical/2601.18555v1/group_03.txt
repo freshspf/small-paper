@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "XRay",
+  "localises",
+  "FemoralHeadCentre",
+  "benefitsFrom",
+  "BoneAirContrast",
+  "MagneticResonanceImaging",
+  "detects",
+  "NeckAxisPoint",
+  "SoftTissueDelineation",
+  "LateralCamPoint",
+  "exhibits",
+  "ClinicalVariability",
+  "BorderlineFaiCase",
+  "contains",
+  "Outlier",
+  "evaluates",
+  "LceAngle",
+  "LateralAcetabularEdge",
+  "demonstrates",
+  "GeometricStability",
+  "AlphaAngle",
+  "CamDeformityPoint",
+  "InherentAmbiguity",
+  "diagnoses",
+  "CamTypeImpingement",
+  "HighAcetabularCoverage",
+  "increases",
+  "MeasurementError",
+  "SliceSelectionSensitivity",
+  "LandmarkAmbiguity",
+  "causes",
+  "ResidualVariability",
+  "classifies",
+  "UNetPlusPlus",
+  "outperforms",
+  "StandardUNet",
+  "Diagnosis",
+  "dependsOn",
+  "TwoDimensionalAssessment",
+  "SurgicalPlanning",
+  "VolumetricAssessment",
+  "AutomatedLandmarkDetection",
+  "performedOn",
+  "GeometricMeasure",
+  "extractedFrom",
+  "supports",
+  "AutomatedFaiAssessment",
+  "ApXRay",
+  "usedFor",
+  "ClinicalScreening",
+  "lacksSuitabilityFor",
+  "FemoroacetabularImpingement",
+  "PathomechanicalHipDisorder",
+  "Population",
+  "AbnormalContact",
+  "UntreatedFai",
+  "DegenerativeCartilageLoss",
+  "PrematureOsteoarthritis",
+  "HipReplacement",
+  "Imaging",
+  "EarlyDetection",
+  "Treatment",
+  "ClinicalAssessment",
+  "GeometricParameter",
+  "FemoralHeadAsphericity",
+  "CamMorphology",
+  "LateralCentreEdgeAngle",
+  "AcetabularCoverage",
+  "PincerMorphology",
+  "CurrentClinicalPractice",
+  "AnteroposteriorPelvicXRay",
+  "FootToHipAlignment",
+  "PelvicTilt",
+  "MeasurementPlane",
+  "GeometricFaiMetric",
+  "Mri",
+  "FaiAngleComputation",
+  "LandmarkDetectionProblem",
+  "Hip",
+  "AnatomicalKeypoint"
+]
+
+Triples:
+[
+  {
+    "subject": "XRay",
+    "relation": "localises",
+    "object": "FemoralHeadCentre",
+    "chunk": "results1",
+    "context": "Individual landmark analysis reveals complementary strengths: X-rays excel at femoral head centre localisation (1.07 mm vs. 1.78 mm), likely due to higher bone-air contrast, while MRI shows superior neck-axis point detection (1.25 mm vs. 2.35 mm), potentially benefiting from improved soft-tissue delineation."
+  },
+  {
+    "subject": "XRay",
+    "relation": "benefitsFrom",
+    "object": "BoneAirContrast",
+    "chunk": "results1",
+    "context": "Individual landmark analysis reveals complementary strengths: X-rays excel at femoral head centre localisation (1.07 mm vs. 1.78 mm), likely due to higher bone-air contrast, while MRI shows superior neck-axis point detection (1.25 mm vs. 2.35 mm), potentially benefiting from improved soft-tissue delineation."
+  },
+  {
+    "subject": "MagneticResonanceImaging",
+    "relation": "detects",
+    "object": "NeckAxisPoint",
+    "chunk": "results1",
+    "context": "Individual landmark analysis reveals complementary strengths: X-rays excel at femoral head centre localisation (1.07 mm vs. 1.78 mm), likely due to higher bone-air contrast, while MRI shows superior neck-axis point detection (1.25 mm vs. 2.35 mm), potentially benefiting from improved soft-tissue delineation."
+  },
+  {
+    "subject": "MagneticResonanceImaging",
+    "relation": "benefitsFrom",
+    "object": "SoftTissueDelineation",
+    "chunk": "results1",
+    "context": "Individual landmark analysis reveals complementary strengths: X-rays excel at femoral head centre localisation (1.07 mm vs. 1.78 mm), likely due to higher bone-air contrast, while MRI shows superior neck-axis point detection (1.25 mm vs. 2.35 mm), potentially benefiting from improved soft-tissue delineation."
+  },
+  {
+    "subject": "LateralCamPoint",
+    "relation": "exhibits",
+    "object": "ClinicalVariability",
+    "chunk": "results1",
+    "context": "Both modalities exhibit higher errors for the elusive lateral cam point (LCP: 5.50–5.72 mm mean), reflecting its clinical variability and frequent inter-observer disagreement; median errors (1.76–2.55 mm) are considerably lower, indicating that outliers in borderline FAI cases drive the means."
+  },
+  {
+    "subject": "BorderlineFaiCase",
+    "relation": "contains",
+    "object": "Outlier",
+    "chunk": "results1",
+    "context": "Both modalities exhibit higher errors for the elusive lateral cam point (LCP: 5.50–5.72 mm mean), reflecting its clinical variability and frequent inter-observer disagreement; median errors (1.76–2.55 mm) are considerably lower, indicating that outliers in borderline FAI cases drive the means."
+  },
+  {
+    "subject": "XRay",
+    "relation": "evaluates",
+    "object": "LceAngle",
+    "chunk": "results1",
+    "context": "Both modalities agree strongly on the LCE-angle (X-ray ICC: 0.82, MRI ICC: 0.73, excellent clinical significance) with small median errors (2.22◦ and 1.28◦), indicating the geometric stability when localising the lateral acetabular edge."
+  },
+  {
+    "subject": "MagneticResonanceImaging",
+    "relation": "evaluates",
+    "object": "LceAngle",
+    "chunk": "results1",
+    "context": "Both modalities agree strongly on the LCE-angle (X-ray ICC: 0.82, MRI ICC: 0.73, excellent clinical significance) with small median errors (2.22◦ and 1.28◦), indicating the geometric stability when localising the lateral acetabular edge."
+  },
+  {
+    "subject": "LateralAcetabularEdge",
+    "relation": "demonstrates",
+    "object": "GeometricStability",
+    "chunk": "results1",
+    "context": "Both modalities agree strongly on the LCE-angle (X-ray ICC: 0.82, MRI ICC: 0.73, excellent clinical significance) with small median errors (2.22◦ and 1.28◦), indicating the geometric stability when localising the lateral acetabular edge."
+  },
+  {
+    "subject": "AlphaAngle",
+    "relation": "evaluates",
+    "object": "CamDeformityPoint",
+    "chunk": "results1",
+    "context": "In contrast, the α-angle shows only moderate intra-modality agreement (ICC: 0.52 for X-ray, 0.41 for MRI; fair clinical significance) and larger MAEs (12.18◦, 13.64◦), comparable to the inter-observer variability among clinicians ( ≈0.45–0.56) [ 17], reflecting the inherent ambiguity of the cam deformity point."
+  },
+  {
+    "subject": "CamDeformityPoint",
+    "relation": "exhibits",
+    "object": "InherentAmbiguity",
+    "chunk": "results1",
+    "context": "In contrast, the α-angle shows only moderate intra-modality agreement (ICC: 0.52 for X-ray, 0.41 for MRI; fair clinical significance) and larger MAEs (12.18◦, 13.64◦), comparable to the inter-observer variability among clinicians ( ≈0.45–0.56) [ 17], reflecting the inherent ambiguity of the cam deformity point."
+  },
+  {
+    "subject": "MagneticResonanceImaging",
+    "relation": "diagnoses",
+    "object": "CamTypeImpingement",
+    "chunk": "results1",
+    "context": "Although continuous α-angle agreement differs modestly, both modalities achieve the same diagnostic accuracy for cam-type impingement (87.5%) considering the best runs."
+  },
+  {
+    "subject": "XRay",
+    "relation": "diagnoses",
+    "object": "CamTypeImpingement",
+    "chunk": "results1",
+    "context": "Although continuous α-angle agreement differs modestly, both modalities achieve the same diagnostic accuracy for cam-type impingement (87.5%) considering the best runs."
+  },
+  {
+    "subject": "HighAcetabularCoverage",
+    "relation": "increases",
+    "object": "MeasurementError",
+    "chunk": "results1",
+    "context": "In contrast, X-ray shows wider LoA ( ±21.6◦) and proportional bias ( p <0.001 ), with errors increasing at higher acetabular coverage, suggesting more stable estimation from MRI."
+  },
+  {
+    "subject": "MagneticResonanceImaging",
+    "relation": "exhibits",
+    "object": "SliceSelectionSensitivity",
+    "chunk": "results1",
+    "context": "X-ray errors remain magnitude-independent ( p=0.518 ), whereas MRI shows proportional bias ( p=0.010 ), reflecting slice-selection sensitivity."
+  },
+  {
+    "subject": "LandmarkAmbiguity",
+    "relation": "causes",
+    "object": "ResidualVariability",
+    "chunk": "results1",
+    "context": "Despite these biases, both modalities achieve reliable cam-type classification (specificity 100%, sensitivity 54.6%), indicating that residual variability mainly arises from landmark ambiguity rather than modality differences."
+  },
+  {
+    "subject": "MagneticResonanceImaging",
+    "relation": "classifies",
+    "object": "CamTypeImpingement",
+    "chunk": "results1",
+    "context": "Despite these biases, both modalities achieve reliable cam-type classification (specificity 100%, sensitivity 54.6%), indicating that residual variability mainly arises from landmark ambiguity rather than modality differences."
+  },
+  {
+    "subject": "UNetPlusPlus",
+    "relation": "outperforms",
+    "object": "StandardUNet",
+    "chunk": "results1",
+    "context": "UNet++ with ResNet18 achieves optimal performance (MRE: 2.98 ±0.23 mm, mean cam accuracy: 84.75 ±2.77%), outperforming standard UNet (3.98 mm, 69.83%) and DPT variants (3.63–4.44 mm, 70–77.5%)."
+  },
+  {
+    "subject": "Diagnosis",
+    "relation": "dependsOn",
+    "object": "TwoDimensionalAssessment",
+    "chunk": "conclusionfuturework",
+    "context": "Our study focuses on patients with FAI, whose diagnosis and management, including surgical planning, depend on an accurate two-dimensional and volumetric assessment of the impingement."
+  },
+  {
+    "subject": "SurgicalPlanning",
+    "relation": "dependsOn",
+    "object": "VolumetricAssessment",
+    "chunk": "conclusionfuturework",
+    "context": "Our study focuses on patients with FAI, whose diagnosis and management, including surgical planning, depend on an accurate two-dimensional and volumetric assessment of the impingement."
+  },
+  {
+    "subject": "AutomatedLandmarkDetection",
+    "relation": "performedOn",
+    "object": "MagneticResonanceImaging",
+    "chunk": "conclusionfuturework",
+    "context": "By demonstrating that automated landmark detection on MRI achieves accuracy equivalent to that on X-rays, we establish that geometric measures of FAI can be extracted reliably from routine MRI scans."
+  },
+  {
+    "subject": "GeometricMeasure",
+    "relation": "extractedFrom",
+    "object": "MagneticResonanceImaging",
+    "chunk": "conclusionfuturework",
+    "context": "By demonstrating that automated landmark detection on MRI achieves accuracy equivalent to that on X-rays, we establish that geometric measures of FAI can be extracted reliably from routine MRI scans."
+  },
+  {
+    "subject": "MagneticResonanceImaging",
+    "relation": "supports",
+    "object": "AutomatedFaiAssessment",
+    "chunk": "conclusionfuturework",
+    "context": "This represents an important first step towards supporting MRI as a suitable modality for automated FAI assessment."
+  },
+  {
+    "subject": "ApXRay",
+    "relation": "usedFor",
+    "object": "ClinicalScreening",
+    "chunk": "conclusionfuturework",
+    "context": "Although AP X-rays remain the first-line tool for clinical screening due to their speed, low cost, and accessibility, they are not ideal for surgical planning."
+  },
+  {
+    "subject": "ApXRay",
+    "relation": "lacksSuitabilityFor",
+    "object": "SurgicalPlanning",
+    "chunk": "conclusionfuturework",
+    "context": "Although AP X-rays remain the first-line tool for clinical screening due to their speed, low cost, and accessibility, they are not ideal for surgical planning."
+  }
+]

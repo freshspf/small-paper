@@ -1,0 +1,249 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Ampli-Flection for 6G: Active-RIS-Aided
+Aerial Backhaul with Full 3D Coverage
+Hong-Bae Jeon, Member , IEEE, and Chan-Byoung Chae, Fellow, IEEE
+Abstract—In this paper, we propose a novel aerial backhaul
+architecture that employs an aerial active reconﬁgurable intelli-
+gent surface (RIS) to achieve energy-efﬁcient, full 3D coverage
+including UA V-BSs and ground users in 6G wireless networks.
+Unlike prior aerial-RIS approaches limited to 2D coverage with
+only servicing ground users or passive operation, the proposed
+design integrates an active-RIS onto a high-altitude aerial
+platform, enabling reliable line-of-sight links and overcoming
+multiplicative fading through ampliﬁcation. In a scenario with
+UA V-BSs deployed to handle sudden trafﬁc surges in urban areas,
+the aerial-active-RIS both reﬂects and ampliﬁes backhaul signals
+to overcome blockage. We jointly optimize the aerial platform
+placement, array partitioning, and RIS phase conﬁguration to
+maximize UA V-BS energy-efﬁciency. Simulation results conﬁrm
+that the proposed method signiﬁcantly outperforms benchmarks,
+demonstrating its strong potential to deliver resilient backhaul
+connectivity with comprehensive 3D coverage in 6G networks.
+Index Terms —Active reconﬁgurable intelligent surface, un-
+manned aerial vehicle, wireless backhaul, non-convex optimiza-
+tion, energy-efﬁciency.
+I. I NTRODUCTION
+FL A T E, the rapid expansion of data-driven applications
+with the push for extended wireless coverage in beyond
+ﬁfth-generation (B5G) and sixth-generation (6G) networks
+have driven an unprecedented demand for providing ultra-
+reliable and high-capacity communications anywhere [2]–[4].
+In response, researchers have been exploring the deployment
+of aerial base stations, realized through unmanned-aerial-
+vehicle-base-stations (UA V -BSs), for rapid and ﬂexible cover-
+age extensions [5], [6]. These UA V -BSs present a compelling
+solution for extending network coverage to areas where con-
+ventional base station infrastructure is inadequate, offering
+rapid deployment capabilities in emergency or high-trafﬁc
+scenarios. Their high-altitude operation further enhances the
+likelihood of rich line-of-sight (LoS) links [7], [8], thereby
+improving communication reliability and efﬁciency. To enable
+efﬁcient UA V -BS deployment, prior studies have investigated
+deployment strategy design [9], [10], trajectory optimiza-
+tion [11], [12], and power control schemes [13], [14]. One
+of the critical challenges that remains for deploying UA V -BSs
+is the backhaul connectivity, particularly in dense urban areas
+This work was supported by Hankuk University of Foreign Studies Research
+Fund of 2026. This article was presented in part at the IEEE ICTC 2022, Jeju
+Island, South Korea, October 19-21, 2022 [1]. (Corresponding Author: Chan-
+Byoung Chae.)
+H.-B. Jeon is with the Department of Information Communications Engi-
+neering, Hankuk University of Foreign Studies, Y ong-in, 17035, Korea (e-
+mail: hongbae08@hufs.ac.kr).
+C.-B. Chae is with the School of Integrated Technology, Y onsei University,
+Seoul 03722, Korea (e-mail: cbchae@yonsei.ac.kr).
+where obstacles obstruct direct backhaul links from terrestrial
+sources and generates non-LoS (NLoS) components, which
+severely deteriorates the system’s energy-efﬁciency, posing a
+critical challenge for 6G wireless networks operating with
+higher spectrum [15]–[17].
+Therefore, the reconﬁgurable intelligent surfaces (RIS) have
+been explored as a means to enhance wireless coverage and
+mitigate blockages [18]–[21]. RIS is an artiﬁcial metasurface
+composed of passive reﬂecting elements capable of adjusting
+both the amplitude and phase of an incident signal [22], [23].
+Furthermore, due to its passive array architecture, the RIS
+exhibits high channel capacity with low power consumption,
+which leads to the energy-efﬁciency compared to conventional
+decode-and-forward or amplify-and-forward (DF/AF) relays
+in several scenarios [24]–[26]. However, conventional RIS
+has passive reﬂection elements, which highly suffer from
+severe “multiplicative fading,” where the path loss is given by
+the multiplication of Tx-to-RIS and RIS-to-Rx links, limiting
+their effectiveness in practical scenarios [27], [28]. These
+disadvantages become more severe when the RIS is deployed
+in terrestrial infrastructure on dense urban areas.
+To overcome the fundamental physical limitation imposed
+by the multiplicative fading effect of cascaded channels in
+RIS-assisted systems, the concept of active-RIS has recently
+been proposed [27], [29]. Unlike conventional passive-RISs,
+which only reﬂect incident signals without ampliﬁcation,
+active-RISs incorporate reﬂection-type ampliﬁers within each
+element, thereby enabling signal ampliﬁcation at the cost
+of additional power consumption [30]. This capability fun-
+damentally changes the power-rate trade-off and opens up
+new possibilities for performance enhancement in future 6G
+wireless networks.
+Early studies, such as [27], focused on characterizing the
+performance gains of active-RIS over passive-RIS through
+sum-rate maximization and comparative analyses, demonstrat-
+ing that active-RIS can effectively mitigate the double-fading
+loss inherent in passive architectures. These works established
+the potential of active-RIS as a promising technology for
+next-generation systems. Building upon this foundation, subse-
+quent research addressed practical implementation challenges.
+In particular, [31] investigated a sub-connected active-RIS
+architecture and proposed a joint beamforming design that
+balances hardware complexity and performance, revealing
+important trade-offs between achievable gains and circuit-level
+constraints. From a performance perspective, [28], [32] further
+examined the SNR advantages of active-RIS under a uniﬁed
+power budget, showing that, when properly optimized, active-
+RIS can signiﬁcantly outperform passive-RIS counterparts.
+arXiv:2601.17751v1 [eess.SP] 25 Jan 2026
+More recently after performance characterization and architec-
+tural investigations, attention has shifted toward robustness and
+practical deployability. To bridge the gap between theoretical
+analysis and real-world operation, [33], [34] studied active-RIS
+transmission designs under partial channel state information
+(CSI). Speciﬁcally, [33] aimed at maximizing the average sum-
+rate, while [34] focused on minimizing the average total trans-
+mit power subject to rate and outage probability constraints.
+These works highlight the importance of accounting for CSI
+uncertainty when designing active-RIS-assisted systems.
+Most prior work, however, has primarily focused on deploy-
+ing the active-RIS in terrestrial environments, such as those
+involving buildings and walls. These environments impose
+several limitations on communication performance. In dense
+urban areas with many buildings, reliable transmission often
+depends on multiple reﬂections, which requires deploying a
+large number of RIS units to alleviate severe signal attenuation.
+Moreover, a terrestrial RIS can only reﬂect signals from
+the source to destinations located on the same side, thereby
+restricting the angular range of reﬂection and preventing
+isotropic coverage over 0→ → 360→ arrival angles. Several
+studies have investigated the deployment of RIS on aerial
+platforms (e.g., [35]–[37]); however, most of these works focus
+on conventional passive RIS architectures and consider only
+2D coverage, or assume ﬁxed transmit power at the source,
+thereby largely overlooking energy-efﬁciency considerations.
+Although a few recent studies have explored active-RIS-
+assisted aerial systems [38]–[40], they still restrict their scope
+to 2D coverage scenarios 1, which limits their applicability in
+dense urban 6G environments with heterogeneous mobility and
+altitude-dependent service demands.
+In contrast, this paper proposes a novel aerial active-RIS
+architecture that explicitly distinguishes the geometric beneﬁts
+of aerial deployment from the ampliﬁcation-enabled gains in-
+troduced by the active-RIS itself. While the elevated platform
+inherently improves LoS availability and alleviates blockage
+through favorable 3D geometry, the active-RIS provides an ad-
+ditional and fundamentally different advantage by amplifying
+the reﬂected signals at the element level. This ampliﬁcation
+capability mitigates the multiplicative path-loss of cascaded
+source-RIS-destination links, which is an important issue due
+to the long link distance of aerial platform and cannot be
+achieved by aerial placement or passive RIS alone under the
+same power budget [41]. As a result, the proposed architecture
+enables energy-efﬁcient 3D coverage and, for the ﬁrst time,
+facilitates an aerial-active-RIS-assisted backhaul network ca-
+pable of reliably supporting UA V -BSs and heterogeneous users
+in future 6G wireless networks.
+The key contributions are summarized as follows:
+1) We propose a novel aerial-active-RIS architecture aimed
+at enhancing 3D backhaul connectivity to UA V -BSs in
+urban environments characterized by severe blockages.
+1In this paper, we deﬁne “2D coverage” as the servicing of only ground
+users, whereas “3D coverage” refers to the service of both aerial and
+ground users, which constitutes a geometrical extension of 2D coverage. It is
+emphasized that the term “3D coverage” in this work refers to geometry-aware
+coverage over a three-dimensional spatial region, rather than full-dimensional
+beamforming enabled by planar arrays.
+The proposed scheme deploys an RIS on a high-altitude
+platform, where each RIS element is equipped with an
+active ampliﬁer, ensuring both a rich LoS component and
+robustness against multiplicative fading, respectively. To
+maximize the received SNR and minimize the transmit
+power, we show that the maximum-ratio transmission
+(MRT) strategy achieves the purpose.
+2) We verify that equal ampliﬁcation gain across active-RIS
+elements is a feasible approach for optimizing the energy-
+efﬁciency by minimizing the total consumed power of the
+system. Under this assumption, an optimization frame-
+work is developed to determine the placement, array-
+partitioning strategy, phase control and optimal ampli-
+ﬁcation gain of the aerial-active-RIS with the objective
+of maximizing energy-efﬁciency. Speciﬁcally, a nonzero
+closed-form value of the source transmit power for each
+UA V -BS is derived, and a minimization problem is for-
+mulated by adjusting the numerator and denominator
+of the value. The problem is efﬁciently solved using
+the global criterion method, which selects a minimal-
+total-distance operating point corresponding to a Pareto-
+efﬁcient solution, and considering the partition of full RIS
+array, respectively.
+3) The proposed approach is evaluated numerically in a
+realistic urban outdoor environment with 103 randomly
+distributed ground users and corresponding UA V -BSs.
+Extensive numerical results demonstrate that the pro-
+posed aerial-active-RIS scheme signiﬁcantly outperforms
+conventional benchmarks including the aerial-AF-relay
+and the aerial-passive-RIS schemes and aerial-active-RIS
+with randomly determined ampliﬁcation gain in terms of
+energy-efﬁciency.
+II. S YSTEM MODEL
+A. Aerial Backhaul with Conventional Passive-RIS
+We consider an urban area G with origin ωωωG on xy-plane, as
+depicted in Fig. 1(a). We assume that G contains N0 ground
+users equipped with omnidirectional antenna, and served by
+multiple stationary UA V -BSs with a directional antenna, rep-
+resented as M = {1, ··· ,M 0}. The directional antenna of
+each UA V -BS has different azimuth and elevation half-power
+beamwidths (HPBW) [42]. The 3D coordinates of a UA V -BS
+m are expressed as ωωωm ↭
+m hm
+, with its 2D coordinate
+wm and altitude hm.
+To alleviate interference among adjacent cells, we assume
+that each UA V -BS serves a distinct, non-overlapping subset of
+users. In this context, the Ellipse Clustering algorithm [8] is
+employed to allocate ground users and determine M0, while
+signiﬁcantly reducing the transmit power through optimized

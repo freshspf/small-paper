@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_foundationPose",
+  "performs",
+  "ObjectPoseTracking",
+  "module_poseProcess",
+  "Normalization",
+  "Recomposition",
+  "FixOperation",
+  "constrains",
+  "ObjectPose",
+  "UrdfModel",
+  "computes",
+  "RobotKinematics",
+  "RobotLinkPose",
+  "combinedWith",
+  "3DGaussianSplattingPipeline",
+  "generates",
+  "PixelLevelSupervision",
+  "CameraViewpointAugmentation",
+  "renders",
+  "Demonstration",
+  "BackgroundAugmentation",
+  "composites",
+  "RealWorldImage",
+  "ObjectPoseAugmentation",
+  "perturbs",
+  "ObjectScale",
+  "module_maskAdapter",
+  "injects",
+  "PatchLevelSemanticCue",
+  "VitEncoder",
+  "produces",
+  "PatchToken",
+  "BasePositionalEncoding",
+  "MaskAdapter",
+  "augments",
+  "Pipeline",
+  "hasComponent",
+  "MaskHead",
+  "hasConstraint",
+  "LabelDrivenAttentionConstraint",
+  "Policy2D",
+  "receives",
+  "SparseGradient",
+  "TaskSpecificGradient",
+  "VisualEncoder",
+  "fineTunedWith",
+  "SegmentationHead",
+  "provides",
+  "PatchLevelLabel",
+  "Token",
+  "reshapedInto",
+  "FeatureMap",
+  "predicts",
+  "PixelLogit",
+  "PixelPrediction",
+  "aggregatedInto",
+  "ImitationLearning",
+  "Robot",
+  "ComplexManipulationSkill",
+  "TrainingData",
+  "SimulationBasedDataSynthesis",
+  "Scalability",
+  "SimToRealGap",
+  "GeometricRepresentation",
+  "VisualAppearance",
+  "PhysicalInteraction",
+  "RgbBasedPolicy",
+  "RealToSimToRealPipeline",
+  "NeuralSceneRepresentation",
+  "VisualGap",
+  "PhotorealisticRendering",
+  "StaticSceneReconstruction",
+  "ReinforcementLearning",
+  "ManipulationData",
+  "RoboticHardware",
+  "exo_gs",
+  "R2s2rFramework",
+  "4dSequence",
+  "3dEnvironment",
+  "RobotInteraction"
+]
+
+Triples:
+[
+  {
+    "subject": "model_foundationPose",
+    "relation": "performs",
+    "object": "ObjectPoseTracking",
+    "chunk": "method2",
+    "context": "Multi-view RGB-D sequences are processed with FoundationPose [29] for object pose tracking."
+  },
+  {
+    "subject": "module_poseProcess",
+    "relation": "performs",
+    "object": "Normalization",
+    "chunk": "method2",
+    "context": "To enhance data diversity across task scenarios, we introduce a lightweight pose-processing module, PoseProcess, which performs normalization and recomposition of object pose sequences."
+  },
+  {
+    "subject": "module_poseProcess",
+    "relation": "performs",
+    "object": "Recomposition",
+    "chunk": "method2",
+    "context": "To enhance data diversity across task scenarios, we introduce a lightweight pose-processing module, PoseProcess, which performs normalization and recomposition of object pose sequences."
+  },
+  {
+    "subject": "FixOperation",
+    "relation": "constrains",
+    "object": "ObjectPose",
+    "chunk": "method2",
+    "context": "A fix operation constrains the object pose to the robot end-effector frame, enabling rigid attachment during manipulation."
+  },
+  {
+    "subject": "UrdfModel",
+    "relation": "computes",
+    "object": "RobotKinematics",
+    "chunk": "method2",
+    "context": "Robot kinematics are computed using the URDF model of the target robot with the recorded joint-angle sequence{qt}."
+  },
+  {
+    "subject": "RobotLinkPose",
+    "relation": "combinedWith",
+    "object": "ObjectPose",
+    "chunk": "method2",
+    "context": "The resulting robot link posesT ℓ,tare combined with object posesT o,tin the Gaussian rendering pipeline, enabling multi-view rendering of robot-object scenes for policy training."
+  },
+  {
+    "subject": "3DGaussianSplattingPipeline",
+    "relation": "generates",
+    "object": "PixelLevelSupervision",
+    "chunk": "method2",
+    "context": "Stage 1 performs semantic segmentation pretraining using pixel-level supervision generated by the 3D Gaussian Splatting pipeline, yielding stable patch-level semantic labels for the background, robotic arm, and manipulated objects."
+  },
+  {
+    "subject": "CameraViewpointAugmentation",
+    "relation": "renders",
+    "object": "Demonstration",
+    "chunk": "method2",
+    "context": "First, camera viewpoint augmentation renders demonstrations from perturbed extrinsics to simulate camera placement changes."
+  },
+  {
+    "subject": "BackgroundAugmentation",
+    "relation": "composites",
+    "object": "RealWorldImage",
+    "chunk": "method2",
+    "context": "Third, background augmentation composites diverse real-world images as background textures behind the geometry-consistent Gaussian foregrounds, encouraging background-invariant policy learning."
+  },
+  {
+    "subject": "ObjectPoseAugmentation",
+    "relation": "perturbs",
+    "object": "ObjectPose",
+    "chunk": "method2",
+    "context": "Finally, object pose augmentation perturbs object poses and scales, or substitutes objects with affordance-compatible alternatives, enabling trajectory reuse and improving robustness to physical variations."
+  },
+  {
+    "subject": "ObjectPoseAugmentation",
+    "relation": "perturbs",
+    "object": "ObjectScale",
+    "chunk": "method2",
+    "context": "Finally, object pose augmentation perturbs object poses and scales, or substitutes objects with affordance-compatible alternatives, enabling trajectory reuse and improving robustness to physical variations."
+  },
+  {
+    "subject": "module_maskAdapter",
+    "relation": "injects",
+    "object": "PatchLevelSemanticCue",
+    "chunk": "method2",
+    "context": "Building on an enhanced ACT [26] backbone with a DINOv3 ViT encoder [30] and LoRA fine-tuning [31], we introduce Mask Adapter, a lightweight module that injects patch-level semantic cues into ViT-based policies to guide attention toward interaction-relevant regions and improve robustness and cross-scene generalization."
+  },
+  {
+    "subject": "VitEncoder",
+    "relation": "produces",
+    "object": "PatchToken",
+    "chunk": "method2",
+    "context": "Given an observation image sequenceI 1:T, a ViT encoder produces patch tokens and base positional encodings:"
+  },
+  {
+    "subject": "VitEncoder",
+    "relation": "produces",
+    "object": "BasePositionalEncoding",
+    "chunk": "method2",
+    "context": "Given an observation image sequenceI 1:T, a ViT encoder produces patch tokens and base positional encodings:"
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "augments",
+    "object": "Pipeline",
+    "chunk": "method3",
+    "context": "Mask Adapter augments this pipeline with a mask head and label-driven attention constraints, trained in two stages."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "hasComponent",
+    "object": "MaskHead",
+    "chunk": "method3",
+    "context": "Mask Adapter augments this pipeline with a mask head and label-driven attention constraints, trained in two stages."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "hasConstraint",
+    "object": "LabelDrivenAttentionConstraint",
+    "chunk": "method3",
+    "context": "Mask Adapter augments this pipeline with a mask head and label-driven attention constraints, trained in two stages."
+  },
+  {
+    "subject": "Policy2D",
+    "relation": "receives",
+    "object": "SparseGradient",
+    "chunk": "method3",
+    "context": "When trained only with action supervision, 2D policies receive sparse and highly task-specific gradients, making it difficult to learn stable semantic structures (e.g., background vs. arm vs. objects)."
+  },
+  {
+    "subject": "Policy2D",
+    "relation": "receives",
+    "object": "TaskSpecificGradient",
+    "chunk": "method3",
+    "context": "When trained only with action supervision, 2D policies receive sparse and highly task-specific gradients, making it difficult to learn stable semantic structures (e.g., background vs. arm vs. objects)."
+  },
+  {
+    "subject": "VisualEncoder",
+    "relation": "fineTunedWith",
+    "object": "PixelLevelSupervision",
+    "chunk": "method3",
+    "context": "Therefore, in Stage 1 we fine-tune the visual encoder and a segmentation head with pixel-level supervision to obtain transferable semantics and to provide patch-level labels for Stage 2."
+  },
+  {
+    "subject": "SegmentationHead",
+    "relation": "fineTunedWith",
+    "object": "PixelLevelSupervision",
+    "chunk": "method3",
+    "context": "Therefore, in Stage 1 we fine-tune the visual encoder and a segmentation head with pixel-level supervision to obtain transferable semantics and to provide patch-level labels for Stage 2."
+  },
+  {
+    "subject": "SegmentationHead",
+    "relation": "provides",
+    "object": "PatchLevelLabel",
+    "chunk": "method3",
+    "context": "Therefore, in Stage 1 we fine-tune the visual encoder and a segmentation head with pixel-level supervision to obtain transferable semantics and to provide patch-level labels for Stage 2."
+  },
+  {
+    "subject": "Token",
+    "relation": "reshapedInto",
+    "object": "FeatureMap",
+    "chunk": "method3",
+    "context": "After reshaping tokens into a feature mapF∈RB×D×h×w, the head predicts pixel logits: S=H mask(F)∈RB×C×H×W."
+  },
+  {
+    "subject": "SegmentationHead",
+    "relation": "predicts",
+    "object": "PixelLogit",
+    "chunk": "method3",
+    "context": "After reshaping tokens into a feature mapF∈RB×D×h×w, the head predicts pixel logits: S=H mask(F)∈RB×C×H×W."
+  },
+  {
+    "subject": "PixelPrediction",
+    "relation": "aggregatedInto",
+    "object": "PatchLevelLabel",
+    "chunk": "method3",
+    "context": "To align with the token sequence, we aggregate pixel predictions into patch-level labelsℓ∈ {0, . . . , C−1}TN."
+  }
+]

@@ -1,0 +1,829 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AerialBackhaulArchitecture",
+  "ActiveRIS",
+  "AerialActiveRIS",
+  "HighAltitudeAerialPlatform",
+  "Full3DCoverage",
+  "UAVBS",
+  "GroundUser",
+  "WirelessBackhaul",
+  "BackhaulSignal",
+  "UrbanArea",
+  "DenseUrbanArea",
+  "Obstacle",
+  "Blockage",
+  "LineOfSightLink",
+  "NonLineOfSightComponent",
+  "MultiplicativeFading",
+  "EnergyEfficiency",
+  "AerialPlatformPlacement",
+  "ArrayPartitioning",
+  "RISPhaseConfiguration",
+  "ReconfigurableIntelligentSurface",
+  "PassiveRIS",
+  "ReflectingElement",
+  "IncidentSignal",
+  "Amplitude",
+  "Phase",
+  "ChannelCapacity",
+  "PowerConsumption",
+  "DFRelay",
+  "AFRelay",
+  "PathLoss",
+  "TxToRISLink",
+  "RISToRxLink",
+  "ActiveRISElement",
+  "ReflectionTypeAmplifier",
+  "SignalAmplification",
+  "PowerRateTradeOff",
+  "SumRate",
+  "SubConnectedActiveRISArchitecture",
+  "BeamformingDesign",
+  "HardwareComplexity",
+  "CircuitLevelConstraint",
+  "SNR",
+  "UnifiedPowerBudget",
+  "PartialCSI",
+  "AverageSumRate",
+  "AverageTotalTransmitPower",
+  "RateConstraint",
+  "OutageProbabilityConstraint",
+  "Building",
+  "Wall",
+  "MultipleReflection",
+  "RISUnit",
+  "SignalAttenuation",
+  "AngularRangeOfReflection",
+  "IsotropicCoverage",
+  "ArrivalAngle",
+  "AerialRIS",
+  "TwoDCoverage",
+  "ThreeDCoverage",
+  "SourceTransmitPower",
+  "HeterogeneousUser",
+  "SourceRISDestinationLink",
+  "BackhaulConnectivity",
+  "ReceivedSNR",
+  "TransmitPower",
+  "MaximumRatioTransmission",
+  "EqualAmplificationGain",
+  "OptimizationFramework",
+  "PhaseControl",
+  "OptimalAmplificationGain",
+  "ClosedFormSourceTransmitPower",
+  "MinimizationProblem",
+  "GlobalCriterionMethod",
+  "ParetoEfficientSolution",
+  "UrbanOutdoorEnvironment",
+  "AerialAFRelayScheme",
+  "AerialPassiveRISScheme",
+  "RandomAmplificationGain",
+  "SystemModel",
+  "UrbanAreaG",
+  "GroundUserSet",
+  "OmnidirectionalAntenna",
+  "DirectionalAntenna",
+  "AzimuthHalfPowerBeamwidth",
+  "ElevationHalfPowerBeamwidth",
+  "Coordinate",
+  "Altitude",
+  "AdjacentCell",
+  "Interference",
+  "DistinctNonOverlappingSubset",
+  "EllipseClusteringAlgorithm"
+]
+
+Triples:
+[
+  {
+    "subject": "AerialBackhaulArchitecture",
+    "relation": "employs",
+    "object": "AerialActiveRIS"
+  },
+  {
+    "subject": "AerialBackhaulArchitecture",
+    "relation": "achieves",
+    "object": "Full3DCoverage"
+  },
+  {
+    "subject": "Full3DCoverage",
+    "relation": "includes",
+    "object": "UAVBS"
+  },
+  {
+    "subject": "Full3DCoverage",
+    "relation": "includes",
+    "object": "GroundUser"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "integratedOn",
+    "object": "HighAltitudeAerialPlatform"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "enables",
+    "object": "LineOfSightLink"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "overcomes",
+    "object": "MultiplicativeFading"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "amplifies",
+    "object": "BackhaulSignal"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "reflects",
+    "object": "BackhaulSignal"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "overcomes",
+    "object": "Blockage"
+  },
+  {
+    "subject": "UAVBS",
+    "relation": "deployedIn",
+    "object": "UrbanArea"
+  },
+  {
+    "subject": "UAVBS",
+    "relation": "handles",
+    "object": "TrafficSurge"
+  },
+  {
+    "subject": "AerialPlatformPlacement",
+    "relation": "optimizedFor",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "ArrayPartitioning",
+    "relation": "optimizedFor",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "RISPhaseConfiguration",
+    "relation": "optimizedFor",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "enhances",
+    "object": "WirelessCoverage"
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "mitigates",
+    "object": "Blockage"
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "composedOf",
+    "object": "ReflectingElement"
+  },
+  {
+    "subject": "ReflectingElement",
+    "relation": "adjusts",
+    "object": "Amplitude"
+  },
+  {
+    "subject": "ReflectingElement",
+    "relation": "adjusts",
+    "object": "Phase"
+  },
+  {
+    "subject": "ReflectingElement",
+    "relation": "actsOn",
+    "object": "IncidentSignal"
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "has",
+    "object": "ChannelCapacity"
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "hasLow",
+    "object": "PowerConsumption"
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "improves",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "EnergyEfficiency",
+    "relation": "comparedTo",
+    "object": "DFRelay"
+  },
+  {
+    "subject": "EnergyEfficiency",
+    "relation": "comparedTo",
+    "object": "AFRelay"
+  },
+  {
+    "subject": "PassiveRIS",
+    "relation": "has",
+    "object": "ReflectingElement"
+  },
+  {
+    "subject": "PassiveRIS",
+    "relation": "suffersFrom",
+    "object": "MultiplicativeFading"
+  },
+  {
+    "subject": "PathLoss",
+    "relation": "givenByMultiplicationOf",
+    "object": "TxToRISLink"
+  },
+  {
+    "subject": "PathLoss",
+    "relation": "givenByMultiplicationOf",
+    "object": "RISToRxLink"
+  },
+  {
+    "subject": "MultiplicativeFading",
+    "relation": "limits",
+    "object": "PassiveRISEffectiveness"
+  },
+  {
+    "subject": "DenseUrbanArea",
+    "relation": "worsens",
+    "object": "MultiplicativeFading"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "overcomes",
+    "object": "MultiplicativeFading"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "differsFrom",
+    "object": "PassiveRIS"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "incorporates",
+    "object": "ReflectionTypeAmplifier"
+  },
+  {
+    "subject": "ReflectionTypeAmplifier",
+    "relation": "locatedIn",
+    "object": "ActiveRISElement"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "enables",
+    "object": "SignalAmplification"
+  },
+  {
+    "subject": "SignalAmplification",
+    "relation": "consumes",
+    "object": "AdditionalPower"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "changes",
+    "object": "PowerRateTradeOff"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "enhances",
+    "object": "Performance"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "mitigates",
+    "object": "DoubleFadingLoss"
+  },
+  {
+    "subject": "SubConnectedActiveRISArchitecture",
+    "relation": "uses",
+    "object": "BeamformingDesign"
+  },
+  {
+    "subject": "BeamformingDesign",
+    "relation": "balances",
+    "object": "HardwareComplexity"
+  },
+  {
+    "subject": "BeamformingDesign",
+    "relation": "balances",
+    "object": "Performance"
+  },
+  {
+    "subject": "CircuitLevelConstraint",
+    "relation": "limits",
+    "object": "AchievableGain"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "improves",
+    "object": "SNR"
+  },
+  {
+    "subject": "SNR",
+    "relation": "evaluatedUnder",
+    "object": "UnifiedPowerBudget"
+  },
+  {
+    "subject": "PartialCSI",
+    "relation": "affects",
+    "object": "ActiveRISTransmissionDesign"
+  },
+  {
+    "subject": "ActiveRISTransmissionDesign",
+    "relation": "maximizes",
+    "object": "AverageSumRate"
+  },
+  {
+    "subject": "ActiveRISTransmissionDesign",
+    "relation": "minimizes",
+    "object": "AverageTotalTransmitPower"
+  },
+  {
+    "subject": "AverageTotalTransmitPower",
+    "relation": "subjectTo",
+    "object": "RateConstraint"
+  },
+  {
+    "subject": "AverageTotalTransmitPower",
+    "relation": "subjectTo",
+    "object": "OutageProbabilityConstraint"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "deployedIn",
+    "object": "Building"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "deployedIn",
+    "object": "Wall"
+  },
+  {
+    "subject": "DenseUrbanArea",
+    "relation": "contains",
+    "object": "Building"
+  },
+  {
+    "subject": "ReliableTransmission",
+    "relation": "dependsOn",
+    "object": "MultipleReflection"
+  },
+  {
+    "subject": "MultipleReflection",
+    "relation": "requires",
+    "object": "RISUnit"
+  },
+  {
+    "subject": "RISUnit",
+    "relation": "alleviates",
+    "object": "SignalAttenuation"
+  },
+  {
+    "subject": "TerrestrialRIS",
+    "relation": "reflectsTo",
+    "object": "DestinationOnSameSide"
+  },
+  {
+    "subject": "TerrestrialRIS",
+    "relation": "restricts",
+    "object": "AngularRangeOfReflection"
+  },
+  {
+    "subject": "TerrestrialRIS",
+    "relation": "prevents",
+    "object": "IsotropicCoverage"
+  },
+  {
+    "subject": "IsotropicCoverage",
+    "relation": "spans",
+    "object": "ArrivalAngle"
+  },
+  {
+    "subject": "AerialRIS",
+    "relation": "deployedOn",
+    "object": "AerialPlatform"
+  },
+  {
+    "subject": "MostPriorAerialRISWork",
+    "relation": "focusesOn",
+    "object": "PassiveRIS"
+  },
+  {
+    "subject": "MostPriorAerialRISWork",
+    "relation": "considersOnly",
+    "object": "TwoDCoverage"
+  },
+  {
+    "subject": "MostPriorAerialRISWork",
+    "relation": "assumes",
+    "object": "FixedSourceTransmitPower"
+  },
+  {
+    "subject": "MostPriorAerialRISWork",
+    "relation": "overlooks",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "RecentActiveRISAssistedAerialSystem",
+    "relation": "restrictsTo",
+    "object": "TwoDCoverage"
+  },
+  {
+    "subject": "TwoDCoverage",
+    "relation": "servicesOnly",
+    "object": "GroundUser"
+  },
+  {
+    "subject": "ThreeDCoverage",
+    "relation": "services",
+    "object": "GroundUser"
+  },
+  {
+    "subject": "ThreeDCoverage",
+    "relation": "services",
+    "object": "UAVBS"
+  },
+  {
+    "subject": "AerialDeployment",
+    "relation": "improves",
+    "object": "LineOfSightAvailability"
+  },
+  {
+    "subject": "AerialDeployment",
+    "relation": "alleviates",
+    "object": "Blockage"
+  },
+  {
+    "subject": "AerialDeployment",
+    "relation": "uses",
+    "object": "ThreeDGeometry"
+  },
+  {
+    "subject": "ActiveRIS",
+    "relation": "amplifies",
+    "object": "ReflectedSignal"
+  },
+  {
+    "subject": "SignalAmplification",
+    "relation": "mitigates",
+    "object": "MultiplicativePathLoss"
+  },
+  {
+    "subject": "MultiplicativePathLoss",
+    "relation": "affects",
+    "object": "SourceRISDestinationLink"
+  },
+  {
+    "subject": "LongLinkDistance",
+    "relation": "associatedWith",
+    "object": "AerialPlatform"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "enables",
+    "object": "EnergyEfficientThreeDCoverage"
+  },
+  {
+    "subject": "AerialActiveRIS",
+    "relation": "facilitates",
+    "object": "BackhaulNetwork"
+  },
+  {
+    "subject": "BackhaulNetwork",
+    "relation": "supports",
+    "object": "UAVBS"
+  },
+  {
+    "subject": "BackhaulNetwork",
+    "relation": "supports",
+    "object": "HeterogeneousUser"
+  },
+  {
+    "subject": "AerialActiveRISArchitecture",
+    "relation": "enhances",
+    "object": "BackhaulConnectivity"
+  },
+  {
+    "subject": "BackhaulConnectivity",
+    "relation": "targets",
+    "object": "UAVBS"
+  },
+  {
+    "subject": "BackhaulConnectivity",
+    "relation": "occursIn",
+    "object": "UrbanArea"
+  },
+  {
+    "subject": "UrbanArea",
+    "relation": "characterizedBy",
+    "object": "Blockage"
+  },
+  {
+    "subject": "AerialActiveRISArchitecture",
+    "relation": "deploysOn",
+    "object": "HighAltitudeAerialPlatform"
+  },
+  {
+    "subject": "RISElement",
+    "relation": "equippedWith",
+    "object": "ActiveAmplifier"
+  },
+  {
+    "subject": "HighAltitudeAerialPlatform",
+    "relation": "ensures",
+    "object": "LineOfSightLink"
+  },
+  {
+    "subject": "ActiveAmplifier",
+    "relation": "ensures",
+    "object": "RobustnessAgainstMultiplicativeFading"
+  },
+  {
+    "subject": "MaximumRatioTransmission",
+    "relation": "maximizes",
+    "object": "ReceivedSNR"
+  },
+  {
+    "subject": "MaximumRatioTransmission",
+    "relation": "minimizes",
+    "object": "TransmitPower"
+  },
+  {
+    "subject": "EqualAmplificationGain",
+    "relation": "feasibleForOptimizing",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "EqualAmplificationGain",
+    "relation": "minimizes",
+    "object": "TotalConsumedPower"
+  },
+  {
+    "subject": "OptimizationFramework",
+    "relation": "determines",
+    "object": "AerialPlatformPlacement"
+  },
+  {
+    "subject": "OptimizationFramework",
+    "relation": "determines",
+    "object": "ArrayPartitioning"
+  },
+  {
+    "subject": "OptimizationFramework",
+    "relation": "determines",
+    "object": "PhaseControl"
+  },
+  {
+    "subject": "OptimizationFramework",
+    "relation": "determines",
+    "object": "OptimalAmplificationGain"
+  },
+  {
+    "subject": "OptimizationFramework",
+    "relation": "maximizes",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "ClosedFormSourceTransmitPower",
+    "relation": "derivedFor",
+    "object": "UAVBS"
+  },
+  {
+    "subject": "MinimizationProblem",
+    "relation": "adjusts",
+    "object": "Numerator"
+  },
+  {
+    "subject": "MinimizationProblem",
+    "relation": "adjusts",
+    "object": "Denominator"
+  },
+  {
+    "subject": "MinimizationProblem",
+    "relation": "solvedBy",
+    "object": "GlobalCriterionMethod"
+  },
+  {
+    "subject": "GlobalCriterionMethod",
+    "relation": "selects",
+    "object": "MinimalTotalDistanceOperatingPoint"
+  },
+  {
+    "subject": "MinimalTotalDistanceOperatingPoint",
+    "relation": "correspondsTo",
+    "object": "ParetoEfficientSolution"
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "evaluatedIn",
+    "object": "UrbanOutdoorEnvironment"
+  },
+  {
+    "subject": "UrbanOutdoorEnvironment",
+    "relation": "contains",
+    "object": "GroundUser"
+  },
+  {
+    "subject": "UrbanOutdoorEnvironment",
+    "relation": "contains",
+    "object": "UAVBS"
+  },
+  {
+    "subject": "AerialActiveRISScheme",
+    "relation": "outperforms",
+    "object": "AerialAFRelayScheme"
+  },
+  {
+    "subject": "AerialActiveRISScheme",
+    "relation": "outperforms",
+    "object": "AerialPassiveRISScheme"
+  },
+  {
+    "subject": "AerialActiveRISScheme",
+    "relation": "outperforms",
+    "object": "RandomAmplificationGain"
+  },
+  {
+    "subject": "AerialActiveRISScheme",
+    "relation": "improves",
+    "object": "EnergyEfficiency"
+  },
+  {
+    "subject": "SystemModel",
+    "relation": "considers",
+    "object": "UrbanAreaG"
+  },
+  {
+    "subject": "UrbanAreaG",
+    "relation": "hasOriginOn",
+    "object": "xyPlane"
+  },
+  {
+    "subject": "UrbanAreaG",
+    "relation": "contains",
+    "object": "GroundUserSet"
+  },
+  {
+    "subject": "GroundUser",
+    "relation": "equippedWith",
+    "object": "OmnidirectionalAntenna"
+  },
+  {
+    "subject": "GroundUser",
+    "relation": "servedBy",
+    "object": "UAVBS"
+  },
+  {
+    "subject": "UAVBS",
+    "relation": "stationedAs",
+    "object": "MultipleStationaryUAVBS"
+  },
+  {
+    "subject": "UAVBS",
+    "relation": "equippedWith",
+    "object": "DirectionalAntenna"
+  },
+  {
+    "subject": "DirectionalAntenna",
+    "relation": "has",
+    "object": "AzimuthHalfPowerBeamwidth"
+  },
+  {
+    "subject": "DirectionalAntenna",
+    "relation": "has",
+    "object": "ElevationHalfPowerBeamwidth"
+  },
+  {
+    "subject": "UAVBS",
+    "relation": "has",
+    "object": "Coordinate"
+  },
+  {
+    "subject": "UAVBS",
+    "relation": "has",
+    "object": "Altitude"
+  },
+  {
+    "subject": "AdjacentCell",
+    "relation": "causes",
+    "object": "Interference"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "alleviates",
+    "object": "Interference"
+  },
+  {
+    "subject": "UAVBS",
+    "relation": "serves",
+    "object": "DistinctNonOverlappingSubset"
+  },
+  {
+    "subject": "EllipseClusteringAlgorithm",
+    "relation": "allocates",
+    "object": "GroundUser"
+  },
+  {
+    "subject": "EllipseClusteringAlgorithm",
+    "relation": "determines",
+    "object": "UAVBSCount"
+  },
+  {
+    "subject": "EllipseClusteringAlgorithm",
+    "relation": "reduces",
+    "object": "TransmitPower"
+  }
+]

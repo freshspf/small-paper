@@ -1,0 +1,91 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic triples.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use only normalized terms from the input.
+   - Do not invent new terms unless absolutely necessary.
+   - Do not introduce external background knowledge.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by context.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf only when a subclass relation is explicit or strongly implied.
+   - Avoid overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Only assign domain/range when the subject/object types are clear from normalized terms and updated triples.
+   - Avoid speculative domain/range assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication
+   - Prefer fewer but higher-confidence axioms
+   - Keep results logically coherent
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[{"term":"offers","type":"Property"},{"term":"instanceOf","type":"Property"},{"term":"shows","type":"Property"},{"term":"shouldHaveProperty","type":"Property"},{"term":"prioritizes","type":"Property"},{"term":"MentalHealthIntervention","type":"Class"},{"term":"SafetyConcern","type":"Class"},{"term":"DemographicBias","type":"Class"},{"term":"RacialBias","type":"Class"},{"term":"ClinicalJudgment","type":"Class"},{"term":"SuicideRisk","type":"Class"},{"term":"HighRiskScenario","type":"Class"},{"term":"AuthenticTherapeuticInteraction","type":"Class"},{"term":"AutomaticMetric","type":"Class"},{"term":"BLEU","type":"Instance"},{"term":"ROUGE","type":"Instance"},{"term":"ExpertHumanAssessment","type":"Class"},{"term":"ClinicalReliability","type":"Class"},{"term":"mentalchat16k","type":"Instance"},{"term":"emocare","type":"Instance"},{"term":"counselchat","type":"Instance"},{"term":"UserMessage","type":"Class"},{"term":"HelpSeekingConversation","type":"Class"},{"term":"DeidentifiedExcerpt","type":"Class"},{"term":"PsychiatristStylePrompting","type":"Class"},{"term":"Response","type":"Class"},{"term":"Risk","type":"Class"},{"term":"AverageQuality","type":"Class"},{"term":"FailureMode","type":"Class"},{"term":"ClinicianPreference","type":"Class"},{"term":"OverallHumanRatedQuality","type":"Class"},{"term":"PerformanceHierarchy","type":"Class"},{"term":"gpt4oMini","type":"Instance"},{"term":"gemini20Flash","type":"Instance"},{"term":"claude35Haiku","type":"Instance"}]
+
+Triples:
+[{"subject":"BLEU","relation":"isIllSuitedFor","object":"MeasuringNuancedTherapeuticQuality"},{"subject":"ROUGE","relation":"isIllSuitedFor","object":"MeasuringNuancedTherapeuticQuality"},{"subject":"EvaluationFramework","relation":"shouldUtilize","object":"ExpertHumanAssessment"},{"subject":"ExpertHumanAssessment","relation":"helpsEnsure","object":"ClinicalReliability"},{"subject":"ExpertHumanAssessment","relation":"helpsEnsure","object":"Safety"},{"subject":"CurrentWork","relation":"buildsOn","object":"PreviouslyEstablishedFramework"},{"subject":"PreviouslyEstablishedFramework","relation":"isFor","object":"MentalHealthLLMAssessment"},{"subject":"CurrentWork","relation":"selectsConversationsFrom","object":"mentalchat16k"},{"subject":"CurrentWork","relation":"selectsConversationsFrom","object":"emocare"},{"subject":"CurrentWork","relation":"selectsConversationsFrom","object":"counselchat"},{"subject":"MentalHealthConversation","relation":"consistsOf","object":"UserMessage"},{"subject":"MentalHealthConversation","relation":"isA","object":"HelpSeekingConversation"},{"subject":"HelpSeekingConversation","relation":"hasSource","object":"RealUserMessage"},{"subject":"Excerpt","relation":"isRephrasedBy","object":"ArtificialIntelligence"},{"subject":"Excerpt","relation":"preserves","object":"Privacy"},{"subject":"DeIdentifiedExcerpt","relation":"maintains","object":"OriginalIntent"},{"subject":"CurrentStudy","relation":"compares","object":"LLMSet"},{"subject":"LLMSet","relation":"includes","object":"gpt4o"},{"subject":"LLMSet","relation":"includes","object":"gemini20Flash"},{"subject":"LLMSet","relation":"includes","object":"claude35Haiku"},{"subject":"LLMSet","relation":"includes","object":"llama31"},{"subject":"LLMSet","relation":"includes","object":"qwen3"},{"subject":"LLMSet","relation":"comparedUnder","object":"PsychiatristStylePrompting"},{"subject":"PsychiatristStylePrompting","relation":"generates","object":"Response"},{"subject":"Response","relation":"hasCount","object":"4500"},{"subject":"PsychiatricEvaluator","relation":"rates","object":"Response"},{"subject":"Response","relation":"ratedOn","object":"Guidance"},{"subject":"Response","relation":"ratedOn","object":"Informativeness"},{"subject":"Response","relation":"ratedOn","object":"Safety"},{"subject":"Response","relation":"ratedOn","object":"Interpretation"},{"subject":"Response","relation":"ratedOn","object":"Empathy"},{"subject":"Response","relation":"ratedOn","object":"Helpfulness"},{"subject":"Guidance","relation":"summarizedInto","object":"CognitiveSupport"},{"subject":"Informativeness","relation":"summarizedInto","object":"CognitiveSupport"},{"subject":"Safety","relation":"summarizedInto","object":"CognitiveSupport"}]

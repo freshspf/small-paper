@@ -1,0 +1,84 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument18",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument18
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+[Results]
+The findings suggest that the beneficial effects of melatonin on abdominal pain in IBS patients with
+sleep disturbances are independent of its action on sleep disturbances or psychological profiles.”
+Partial Abstract for PMID=9777179 (Chronic mental illness): “[Objective] We sought to
+identify baseline predictors of response to clozapine. Data were from a 15-site randomized clinical
+trial comparing clozapine and haloperidol in hospitalized patients with refractory schizophrenia
+(n = 423). Three-month outcomes were analyzed with the full sample (n=368 due to attrition).
+... [Results] Although high levels of symptoms were associated with greater improvement on
+clozapine, these findings are not robust enough to suggest that any specific, clinically defined
+subgroup of refractory patients should be preferentially targeted for clozapine treatment.”
+Figure 23: Generated objective from the interpolation of abstract embeddings concerning irritable bowel syndrome
+and chronic mental illness. The output proposes a novel trial scenario integrating elements of both parent studies.
+Example 3: Generated Results Section of Interpolated Embedding
+Generated Result of Interpolated Embedding between PMID=15166570 and
+PMID=12860586: “The results of this study demonstrate that patients with functional
+constipation have a better outcome after treatment with a single dose of subcutaneous diamorphine
+than after treatment with a single dose of subcutaneous hyoscine butylbromide.”
+Partial Abstract for PMID=15166570 (Opioids, Morphine, Urinary tract dysfunction):
+“[Background] Intrathecal administration of opioids may cause lower urinary tract dysfunction.
+In this study, the authors compared the effects of morphine and sufentanil administered intrathe-
+cally in a randomized double-blind fashion (two doses each) on lower urinary tract function in
+healthy male volunteers. ... [Conclusion] Intrathecal opioids decrease bladder function by causing
+dose-dependent suppression of detrusor contractility and decreased sensation of urge. Recovery
+of normal lower urinary tract function is significantly faster after intrathecal sufentanil than after
+morphine, and the recovery time is clearly dose dependent.”
+Partial Abstract for PMID=12860586 (Dyspepsia): “[Background] The value of the test-and-
+treat strategy in the approach to dyspepsia has been evaluated only in a few secondary care studies.
+Most patients with dyspepsia, however, are treated by their primary care physician ... [Conclusion]
+The test-and-treat strategy proved to be as effective and safe as prompt endoscopy. Only a minority
+of patients were referred for endoscopy after the test-and-treat approach.”
+Figure 24: Example of a generated result sentence from interpolated embeddings of abstracts on opioids and
+dyspepsia. The output blends insights into drug response and gastrointestinal outcomes, demonstrating semantic
+consistency across domains.
+26.

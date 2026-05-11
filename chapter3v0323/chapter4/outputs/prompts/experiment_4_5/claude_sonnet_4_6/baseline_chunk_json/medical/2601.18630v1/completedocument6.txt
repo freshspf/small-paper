@@ -1,0 +1,141 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument6
+- section_title: Complete Document
+- page_start: 1
+- page_end: 13
+
+INPUT TEXT CHUNK:
+To further investigate these dis-
+parities, the next section examines how specific attribute-
+level patterns and inter-model variability shape these aggre-
+
+Table 1: Model Performance Metrics (Mean±Standard Deviation) with Access Type (Open vs. Closed Models).
+Model Access Type Guidance Informativeness Safety Interpretation Empathy Helpfulness Overall
+GPT-4o Closed 4.43±0.65 4.72±0.49 4.99±0.15 4.98±0.14 4.38±0.74 4.70±0.52 4.70±0.26
+GPT-4o-Mini Closed 4.24±0.62 4.58±0.54 4.98±0.18 4.98±0.17 4.05±0.73 4.57±0.54 4.57±0.24
+Gemini 2.0-Flash Closed 4.37±0.73 4.67±0.53 4.99±0.12 4.98±0.13 3.99±0.75 4.34±0.69 4.56±0.30
+Llama-3.1 Open 3.98±0.90 4.44±0.67 4.96±0.24 4.95±0.25 4.12±0.67 4.43±0.64 4.48±0.32
+DeepSeek-LLaMA Open 3.67±0.81 3.78±0.74 4.96±0.22 4.90±0.39 4.24±0.82 3.83±0.71 4.23±0.39
+DeepSeek-Qwen Open 3.53±0.80 3.76±0.79 4.94±0.28 4.87±0.40 4.31±0.82 3.79±0.74 4.20±0.39
+Qwen-2.5 Open 3.83±1.19 3.96±1.14 4.59±1.18 4.57±1.19 3.86±1.17 4.15±1.18 4.16±1.07
+Claude-3.5-Haiku Closed 3.66±0.93 3.92±0.78 4.96±0.31 4.90±0.40 3.66±0.87 3.65±0.73 4.12±0.45
+Qwen-3 Open 2.46±1.19 3.19±1.00 4.65±0.97 4.53±1.01 3.64±1.01 3.10±0.96 3.60±0.77
+Figure 1: Mean attribute scores across all LLMs for the average human-rated score (1–5 scale), illustrating comparative perfor-
+mance on six evaluation dimensions (Guidance, Informativeness, Safety, Interpretation, Empathy, Helpfulness)
+.
+gate outcomes, providing a more granular understanding of
+where each model excels or falls short.
+Nuanced Attribute-Level Analysis and Inter-Model
+Variability
+Building on the aggregate trends in Table 1, we further con-
+duct an in-depth analysis to understand how models dis-
+tribute capability across specific attributes. Beyond average
+scores, this subsection focuses onshape,balance, andvari-
+anceat the attribute level to expose strengths, weaknesses,
+and architectural trade-offs. Figure 2 provides a detailed
+comparison of selected LLMs—GPT-4o, Gemini 2.0-Flash,
+Llama-3.1, and DeepSeek-LLaMA—across the six human-
+rated attributes. The radar visualization highlights the degree
+to which each model balances factual precision with emo-
+tional and interpretive alignment. Consistent with our aggre-
+gate results, LLMs demonstrated higher proficiency in cog-
+nitive attributes, including Guidance, Informativeness, and
+Safety. GPT-4o, for instance, achieved the highest overall
+scores—4.72 (Informativeness), 4.43 (Guidance), and 4.99
+(Safety)—forming a nearly symmetrical upper-bound re-
+gion on the radar chart. Gemini 2.0-Flash followed closely
+with comparable cognitive strength (4.67 Informativeness,
+4.37 Guidance, 4.99 Safety), though its Empathy (3.99)and Helpfulness (4.34) dipped slightly, reflecting weaker af-
+fective engagement. As shown in Figure 2, closed-source
+models (GPT-4o, Gemini 2.0-Flash) form near-circular pro-
+files with strongSafety,Interpretation, andInformative-
+ness, whereas open-source models (Llama-3.1, DeepSeek-
+LLaMA) skew toward cognitive axes and taper on affective
+ones (Empathy,Helpfulness). This highlights a systematic
+gap between factual precision and relational attunement.
+Furthermore, Figure 3 summarizes the nine-model land-
+scape. Safety (4.59-4.99) and Interpretation (4.53-4.99)
+cluster near the upper bound, while Empathy and Helpful-
+ness are comparatively lower (≈3.6–4.4 for Empathy and≈
+3.1–4.7 for Helpfulness) and more variable, confirming that
+affective skills remain the limiting factor. Notably, Qwen-3
+represents a clear outlier with substantially lower Guidance
+(2.46) and Informativeness (3.19) scores, suggesting earlier-
+generation or under-optimized performance. On the other
+hand, Standard deviations in Table 1 indicate stable cogni-
+tive behavior (SD≈0.2–0.3) and unstable affective behavior
+(SD≈0.7–0.8). This consistency gap suggests that current
+training and alignment pipelines prioritize informational
+reliability over emotional calibration. Attribute-level anal-
+ysis reveals architectural fingerprints: closed-source sys-
+tems are more balanced yet still imperfect on affect, while
+
+Figure 2: Radar chart of the LLM performance profiles across
+six attributes for the top four models (2 closed-source and 2
+open-source)
+Figure 3: Heatmap of the Attribute-level mean scores for the
+nine LLM models and six attributes.
+Figure 4: Human preference across 260 conversations. The
+plot shows the number of times each LLM’s response was
+selected as the preferred answer by human evaluators.
+open-source systems remain strong on structure and safety
+but under-expressive affectively. Bridging this cognitive-
+affective gap is central to trustworthy mental-health LLMs.
+Beyond performance variation, it is equally critical to un-
+derstand where and why therapeutic breakdowns occur.

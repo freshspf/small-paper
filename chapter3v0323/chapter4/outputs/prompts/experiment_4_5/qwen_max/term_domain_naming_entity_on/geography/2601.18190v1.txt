@@ -1,0 +1,195 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RemoteSensingImage",
+  "TextRetrieval",
+  "VisionLanguagePreTraining",
+  "CLIP",
+  "KeywordGuidance",
+  "MultiPerspectiveRepresentation",
+  "GatedGlobalAttentionAdapter",
+  "SegmentAnythingModel",
+  "LargeLanguageModel",
+  "UrbanPlanning",
+  "SpatialRelationship",
+  "FineGrainedAlignment",
+  "GlobalFeatureEmbedding",
+  "CrossModalSemanticInteraction",
+  "ParameterEfficientAdaptation",
+  "SubPerspectiveGeneration",
+  "MultiPerspectiveContrastiveLoss",
+  "WeightedTripletLoss"
+]
+
+Triples:
+[
+  {
+    "subject": "RemoteSensingImage",
+    "relation": "usedFor",
+    "object": "UrbanPlanning"
+  },
+  {
+    "subject": "TextRetrieval",
+    "relation": "appliesTo",
+    "object": "RemoteSensingImage"
+  },
+  {
+    "subject": "VisionLanguagePreTraining",
+    "relation": "enables",
+    "object": "TextRetrieval"
+  },
+  {
+    "subject": "CLIP",
+    "relation": "isA",
+    "object": "VisionLanguagePreTraining"
+  },
+  {
+    "subject": "KeywordGuidance",
+    "relation": "enhances",
+    "object": "FineGrainedAlignment"
+  },
+  {
+    "subject": "MultiPerspectiveRepresentation",
+    "relation": "aggregates",
+    "object": "LocalCues"
+  },
+  {
+    "subject": "GatedGlobalAttentionAdapter",
+    "relation": "captures",
+    "object": "GlobalContext"
+  },
+  {
+    "subject": "SegmentAnythingModel",
+    "relation": "generates",
+    "object": "SubPerspectives"
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "extracts",
+    "object": "CoreSemanticKeywords"
+  },
+  {
+    "subject": "UrbanPlanning",
+    "relation": "requires",
+    "object": "SpatialRelationship"
+  },
+  {
+    "subject": "FineGrainedAlignment",
+    "relation": "addresses",
+    "object": "DenseObjectDistributions"
+  },
+  {
+    "subject": "GlobalFeatureEmbedding",
+    "relation": "overlooks",
+    "object": "FineGrainedLocalCues"
+  },
+  {
+    "subject": "CrossModalSemanticInteraction",
+    "relation": "captures",
+    "object": "ComplexRemoteSensingScenes"
+  },
+  {
+    "subject": "ParameterEfficientAdaptation",
+    "relation": "reduces",
+    "object": "ComputationalCosts"
+  },
+  {
+    "subject": "SubPerspectiveGeneration",
+    "relation": "guidedBy",
+    "object": "CoreSemanticKeywords"
+  },
+  {
+    "subject": "MultiPerspectiveContrastiveLoss",
+    "relation": "optimizes",
+    "object": "FeatureAlignment"
+  },
+  {
+    "subject": "WeightedTripletLoss",
+    "relation": "suppresses",
+    "object": "Noise"
+  }
+]

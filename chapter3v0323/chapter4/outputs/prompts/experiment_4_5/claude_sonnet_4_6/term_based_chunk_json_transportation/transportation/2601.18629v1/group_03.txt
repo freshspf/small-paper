@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AirExo3",
+  "hasPart",
+  "ArticulatedJoint",
+  "ParallelGripper",
+  "Component",
+  "printedWith",
+  "GlassFiberReinforcedNylon",
+  "SpringBasedSuspension",
+  "reduces",
+  "OperatorEffort",
+  "JointModule",
+  "consistsOf",
+  "JointShaft",
+  "JointBody",
+  "houses",
+  "RotaryEncoder",
+  "defines",
+  "RotationalLimit",
+  "CrossRollerBearing",
+  "connects",
+  "provides",
+  "HighStiffness",
+  "HighStrengthPin",
+  "engagesWith",
+  "LimitSlot",
+  "AngularLimit",
+  "Calibration",
+  "uses",
+  "ExtendedPin",
+  "Joint",
+  "incorporates",
+  "Groove",
+  "TunablePassiveDamping",
+  "JointState",
+  "usedFor",
+  "ForwardKinematicsComputation",
+  "IntelRealsenseCamera",
+  "captures",
+  "MultiViewObservation",
+  "3DGaussianSplatting",
+  "digitizes",
+  "RealWorldScene",
+  "Scene",
+  "includes",
+  "Robot",
+  "Environment",
+  "representedAs",
+  "3DGaussian",
+  "MultiViewImage",
+  "processedVia",
+  "model_colmap",
+  "recovers",
+  "CameraPose",
+  "initializes",
+  "Optimization",
+  "yields",
+  "3DAsset",
+  "MultiViewRgbdSequence",
+  "processedWith",
+  "model_foundationPose",
+  "ImitationLearning",
+  "ComplexManipulationSkill",
+  "Demonstration",
+  "TrainingData",
+  "SimulationBasedDataSynthesis",
+  "Scalability",
+  "SimToRealGap",
+  "GeometricRepresentation",
+  "VisualAppearance",
+  "PhysicalInteraction",
+  "RgbBasedPolicy",
+  "RealToSimToRealPipeline",
+  "NeuralSceneRepresentation",
+  "VisualGap",
+  "PhotorealisticRendering",
+  "StaticSceneReconstruction",
+  "ReinforcementLearning",
+  "ManipulationData",
+  "RoboticHardware",
+  "exo_gs"
+]
+
+Triples:
+[
+  {
+    "subject": "AirExo3",
+    "relation": "hasPart",
+    "object": "ArticulatedJoint",
+    "chunk": "method1",
+    "context": "Overall structure of AirExo-3, consisting of seven articulated joints and a parallel gripper."
+  },
+  {
+    "subject": "AirExo3",
+    "relation": "hasPart",
+    "object": "ParallelGripper",
+    "chunk": "method1",
+    "context": "Overall structure of AirExo-3, consisting of seven articulated joints and a parallel gripper."
+  },
+  {
+    "subject": "Component",
+    "relation": "printedWith",
+    "object": "GlassFiberReinforcedNylon",
+    "chunk": "method1",
+    "context": "All components are 3D-printed with glass-fiber-reinforced nylon for a lightweight and robust design, with an optional spring-based suspension at Joint 4 to reduce operator effort."
+  },
+  {
+    "subject": "SpringBasedSuspension",
+    "relation": "reduces",
+    "object": "OperatorEffort",
+    "chunk": "method1",
+    "context": "All components are 3D-printed with glass-fiber-reinforced nylon for a lightweight and robust design, with an optional spring-based suspension at Joint 4 to reduce operator effort."
+  },
+  {
+    "subject": "JointModule",
+    "relation": "consistsOf",
+    "object": "JointShaft",
+    "chunk": "method1",
+    "context": "The core component of AirExo-3 is the joint module, which consists of a joint shaft, bearings, and a joint body housing a 12-bit miniature rotary encoder, as shown in Fig. 2 (a)."
+  },
+  {
+    "subject": "JointBody",
+    "relation": "houses",
+    "object": "RotaryEncoder",
+    "chunk": "method1",
+    "context": "The core component of AirExo-3 is the joint module, which consists of a joint shaft, bearings, and a joint body housing a 12-bit miniature rotary encoder, as shown in Fig. 2 (a)."
+  },
+  {
+    "subject": "JointShaft",
+    "relation": "defines",
+    "object": "RotationalLimit",
+    "chunk": "method1",
+    "context": "The joint shaft defines the rotational limits, while cross-roller bearings connect the shaft and body, providing high stiffness and rotational accuracy."
+  },
+  {
+    "subject": "CrossRollerBearing",
+    "relation": "connects",
+    "object": "JointShaft",
+    "chunk": "method1",
+    "context": "The joint shaft defines the rotational limits, while cross-roller bearings connect the shaft and body, providing high stiffness and rotational accuracy."
+  },
+  {
+    "subject": "CrossRollerBearing",
+    "relation": "provides",
+    "object": "HighStiffness",
+    "chunk": "method1",
+    "context": "The joint shaft defines the rotational limits, while cross-roller bearings connect the shaft and body, providing high stiffness and rotational accuracy."
+  },
+  {
+    "subject": "HighStrengthPin",
+    "relation": "engagesWith",
+    "object": "LimitSlot",
+    "chunk": "method1",
+    "context": "Limit slots are machined into the joint shaft, and a high-strength pin fixed to the joint body engages with the slot to define the joint’s angular limits."
+  },
+  {
+    "subject": "HighStrengthPin",
+    "relation": "defines",
+    "object": "AngularLimit",
+    "chunk": "method1",
+    "context": "Limit slots are machined into the joint shaft, and a high-strength pin fixed to the joint body engages with the slot to define the joint’s angular limits."
+  },
+  {
+    "subject": "Calibration",
+    "relation": "uses",
+    "object": "ExtendedPin",
+    "chunk": "method1",
+    "context": "Calibration is performed by mechanically locking the joint at its zero position using an extended pin and recording the corresponding encoder reading."
+  },
+  {
+    "subject": "Joint",
+    "relation": "incorporates",
+    "object": "Groove",
+    "chunk": "method1",
+    "context": "Each joint incorporates a groove with a 3D-printed retaining ring to provide tunable passive damping, enabling stable and comfortable operation."
+  },
+  {
+    "subject": "Groove",
+    "relation": "provides",
+    "object": "TunablePassiveDamping",
+    "chunk": "method1",
+    "context": "Each joint incorporates a groove with a 3D-printed retaining ring to provide tunable passive damping, enabling stable and comfortable operation."
+  },
+  {
+    "subject": "JointState",
+    "relation": "usedFor",
+    "object": "ForwardKinematicsComputation",
+    "chunk": "method1",
+    "context": "Since AirExo-3 is geometrically and kinematically identical to the target robot, the collected joint states qt can be directly used for forward kinematics computation, enabling high-fidelity reproduction of manipulation trajectories in both real and simulated environments."
+  },
+  {
+    "subject": "IntelRealsenseCamera",
+    "relation": "captures",
+    "object": "MultiViewObservation",
+    "chunk": "method1",
+    "context": "Multiple calibrated Intel RealSense D415 cameras synchronously capture multi-view RGB-D observations I={I(k)t}H,Kt=1,k=1, which are unified in a common world coordinate frame to provide geometric constraints for subsequent 3D reconstruction and pose estimation."
+  },
+  {
+    "subject": "3DGaussianSplatting",
+    "relation": "digitizes",
+    "object": "RealWorldScene",
+    "chunk": "method1",
+    "context": "We adopt 3D Gaussian Splatting (3DGS) to digitize real-world scenes into editable simulation assets."
+  },
+  {
+    "subject": "Scene",
+    "relation": "includes",
+    "object": "Robot",
+    "chunk": "method2",
+    "context": "Following the standard formulation [2], we represent the scene (including the robot, objects, and environment) as a collection of 3D Gaussians, each parameterized by position, covariance, opacity, and spherical harmonics."
+  },
+  {
+    "subject": "Scene",
+    "relation": "includes",
+    "object": "Environment",
+    "chunk": "method2",
+    "context": "Following the standard formulation [2], we represent the scene (including the robot, objects, and environment) as a collection of 3D Gaussians, each parameterized by position, covariance, opacity, and spherical harmonics."
+  },
+  {
+    "subject": "Scene",
+    "relation": "representedAs",
+    "object": "3DGaussian",
+    "chunk": "method2",
+    "context": "Following the standard formulation [2], we represent the scene (including the robot, objects, and environment) as a collection of 3D Gaussians, each parameterized by position, covariance, opacity, and spherical harmonics."
+  },
+  {
+    "subject": "MultiViewImage",
+    "relation": "processedVia",
+    "object": "model_colmap",
+    "chunk": "method2",
+    "context": "We implement a “capture-reconstruct-assetize” pipeline: multi-view images are first captured and processed via COLMAP [28] to recover camera poses."
+  },
+  {
+    "subject": "model_colmap",
+    "relation": "recovers",
+    "object": "CameraPose",
+    "chunk": "method2",
+    "context": "We implement a “capture-reconstruct-assetize” pipeline: multi-view images are first captured and processed via COLMAP [28] to recover camera poses."
+  },
+  {
+    "subject": "CameraPose",
+    "relation": "initializes",
+    "object": "Optimization",
+    "chunk": "method2",
+    "context": "These poses initialize the optimization of Gaussian parameters, which is driven by minimizing a weighted L1 and SSIM photometric loss between rendered and captured views."
+  },
+  {
+    "subject": "Optimization",
+    "relation": "yields",
+    "object": "3DAsset",
+    "chunk": "method2",
+    "context": "This process yields high-fidelity, decoupled 3D assets for the robotic arm and manipulated objects, enabling independent manipulation and geometry-consistent replay in the simulation environment."
+  },
+  {
+    "subject": "MultiViewRgbdSequence",
+    "relation": "processedWith",
+    "object": "model_foundationPose",
+    "chunk": "method2",
+    "context": "Multi-view RGB-D sequences are processed with FoundationPose [29] for object pose tracking."
+  }
+]

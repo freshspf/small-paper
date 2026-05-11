@@ -1,0 +1,105 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "dataandmethodology",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: dataandmethodology
+- section_title: Data and Methodology
+- page_start: 3
+- page_end: 3
+
+**INPUT TEXT CHUNK:**
+Published as a conference paper at ICLR 2026
+approach has been widely applied in fields such as hydrology Ghosh et al. (2022), water flow stud-
+ies Mo et al. (2020), and lake temperature modeling Tayal et al. (2022). In seismic waveform
+inversion, for example, researchers have begun integrating theoretical knowledge of seismic wave
+propagation into deep learning frameworks Adler et al. (2021). Deep neural networks are also being
+employed to tackle electrical impedance tomography (EIT) problems, which involve inverting the
+highly nonlinear and high-dimensional Dirichlet-to-Neumann (DtN) map Fan & Ying (2020). In
+addition, innovative architectures such as SwitchNet have been developed to address forward and
+inverse scattering problems for wave equations, offering computational efficiency while capturing
+the global nature of scattering phenomena Khoo & Ying (2021).
+Most physics-informed machine learning (PIML) approaches, such as Physics-Informed Neural Net-
+works (PINNs) Raissi et al. (2019), are designed for learning or solving nonlinear partial differen-
+tial equations (PDEs), ordinary differential equations (ODEs), or complex dynamical and turbulent
+processes Nguyen et al. (2025); Lu et al. (2021). These frameworks are powerful for numerical
+simulation, system identification, and discovering new dynamical laws, but they are not well suited
+to the simple, linear inverse modeling setting considered in this work, where the goal is to infer hid-
+den physical parameters from incomplete real-world observations. Our task focuses on estimating
+unobserved but physically meaningful quantities rather than solving a forward dynamical system,
+making the assumptions and machinery of PDE-based PIML unnecessarily heavy and often incom-
+patible with the available data. Similarly, foundation models such as ClimaX Nguyen et al. (2023)
+are optimized for large-scale climate prediction and cross-variable representation learning under
+conditions where abundant training data exist. Their objectives and data regimes differ substantially
+from ours: we target parameter estimation in data-scarce environments, where the structure of the
+inverse map is weakly constrained and the physical signal must be recovered from limited and par-
+tially observed inputs. As a result, our surjective inverse estimation task lies outside the problem
+class these foundation models are designed to address.
+2.2 SELF-SUPERVISEDLEARNING
+While effective, ML-enhanced inverse methods often require extensive labeled data. To address this
+data scarcity challenge, the self-supervised paradigm has also proven effective in addressing inverse
+problems across a wide range of scientific disciplines, extending beyond traditional domains like
+natural language processing Fang et al. (2020) and computer vision Bardes et al. (2022) to include
+scientific modeling Scotti et al. (2023) and noninvasive medical digital twins Kuang et al. (2025).
+By exploiting complex pretext tasks and multi-stage training, these methods can extract meaningful
+representations directly from underlying physical structures Bardes et al. (2022), which in turn en-
+ables parameter estimation without the need for explicit labels Liu et al. (2021); Jing & Tian (2020).
+A limitation of these methods is their heavy reliance on generative and regularization losses, which
+necessitate extensive hyperparameter tuning. Moreover, the use of bijective mappings (e.g., Ghosh
+et al. (2022)) assumes perfect invertibility, which is not plausible with real-world data. Despite these
+advances, a research gap remains. Our work proposes a unified framework that merges the rigor of
+physics-encoded methods (using known laws with unknown variables) with direct optimization to
+solve time-varying inverse problems for unobserved data.
+3 DATA ANDMETHODOLOGY
+3.1 DATASET
+The dataset comprises ERA5 reanalysis data Hersbach et al. (2020) from the European Centre for
+Medium-Range Weather Forecasts (ECMWF). ERA5 ingests a wide variety of observational data,
+a significant portion of which comes from remote sensing instruments Hersbach et al. (2020). We
+acquired spatiotemporal data from January 1, 1995, to 2024 (10,958 time steps), specifically for the
+central Arctic Ocean region enclosed by the highlighted orange boundary in Figure 4, which roughly
+corresponds to the latitude range of approximately 70◦N to 85◦N. The data has a spatial resolution
+of 0.25◦×0.25◦(approximately 25 km). It includes key parameters related to snow depth and
+sea ice thickness: snow albedo, snow density, and sea ice concentration. We therefore process
+these variables using a proxy model derived from the hydrostatic balance equation to generate target
+proxy data that is eventually used in the inversion process to estimate hidden characteristics. The
+implementation is available here.
+3

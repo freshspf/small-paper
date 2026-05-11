@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RLEnvironment",
+  "hasConfigurationParameter",
+  "quick_mode",
+  "enable_loggers",
+  "hasDefaultValue",
+  "vissim_rl.environment.env",
+  "LoggerSetting",
+  "acceptsLogLevel",
+  "DEBUG",
+  "ERROR",
+  "Agent",
+  "makesIndependent",
+  "PhaseSelection",
+  "IndependentPhaseSelection",
+  "leadsToChallengeIn",
+  "IntersectionCoordination",
+  "ChooseNextPhaseAction",
+  "causesComparedTo",
+  "SwitchNextOrNotDesign",
+  "leadsToCongestionAt",
+  "NetworkBoundary",
+  "resultsInLessPronounced",
+  "AverageTravelTimeImprovement",
+  "SetPhaseDurationAction",
+  "enablesAgentToDetermine",
+  "PhaseDuration",
+  "reducesFrequencyOf",
+  "Decision",
+  "enablesAgentToPerform",
+  "DetailedControl",
+  "AsynchronousPhaseAdjustment",
+  "hindersCoordinationAt",
+  "NetworkLevel",
+  "leadsToDegraded",
+  "OverallPerformance",
+  "FutureWork",
+  "couldExploreIncorporating",
+  "RecurrentNeuralNetwork",
+  "CentralizedTrainingDecentralizedExecution",
+  "isClassifiedAs",
+  "TemporalModel",
+  "MultiAgentLearningScheme",
+  "aimsToImprove",
+  "AgentCoordination",
+  "TemporalStability",
+  "FixedTime",
+  "hasDelay",
+  "559.712",
+  "hasTravelTime",
+  "634.960",
+  "hasWaitingTime",
+  "802.311",
+  "PPO_SwitchNextOrNot",
+  "208.962",
+  "281.028",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow"
+]
+
+Triples:
+[
+  {
+    "subject": "RLEnvironment",
+    "relation": "hasConfigurationParameter",
+    "object": "quick_mode",
+    "chunk": "conclusions2",
+    "context": "quick_mode bool TrueEnable faster simulation mode"
+  },
+  {
+    "subject": "enable_loggers",
+    "relation": "hasDefaultValue",
+    "object": "vissim_rl.environment.env",
+    "chunk": "conclusions2",
+    "context": "enable_loggers None/list/str [\"vissim_rl.environment.env\"]Enabled loggers ('all', None, or list of module paths)"
+  },
+  {
+    "subject": "LoggerSetting",
+    "relation": "acceptsLogLevel",
+    "object": "DEBUG",
+    "chunk": "conclusions2",
+    "context": "log_level str \"INFO\"Logging level (e.g., DEBUG, INFO, ERROR)"
+  },
+  {
+    "subject": "LoggerSetting",
+    "relation": "acceptsLogLevel",
+    "object": "ERROR",
+    "chunk": "conclusions2",
+    "context": "log_level str \"INFO\"Logging level (e.g., DEBUG, INFO, ERROR)"
+  },
+  {
+    "subject": "Agent",
+    "relation": "makesIndependent",
+    "object": "PhaseSelection",
+    "chunk": "conclusions3",
+    "context": "because agents make independent phase-selection decisions, coordination across intersections becomes more challenging compared to the SwitchNextOrNot design"
+  },
+  {
+    "subject": "IndependentPhaseSelection",
+    "relation": "leadsToChallengeIn",
+    "object": "IntersectionCoordination",
+    "chunk": "conclusions3",
+    "context": "because agents make independent phase-selection decisions, coordination across intersections becomes more challenging compared to the SwitchNextOrNot design"
+  },
+  {
+    "subject": "ChooseNextPhaseAction",
+    "relation": "causesComparedTo",
+    "object": "SwitchNextOrNotDesign",
+    "chunk": "conclusions3",
+    "context": "coordination across intersections becomes more challenging compared to the SwitchNextOrNot design, leading to congestion at the network boundaries"
+  },
+  {
+    "subject": "IndependentPhaseSelection",
+    "relation": "leadsToCongestionAt",
+    "object": "NetworkBoundary",
+    "chunk": "conclusions3",
+    "context": "leading to congestion at the network boundaries and less pronounced improvement in average travel time"
+  },
+  {
+    "subject": "IndependentPhaseSelection",
+    "relation": "resultsInLessPronounced",
+    "object": "AverageTravelTimeImprovement",
+    "chunk": "conclusions3",
+    "context": "leading to congestion at the network boundaries and less pronounced improvement in average travel time"
+  },
+  {
+    "subject": "SetPhaseDurationAction",
+    "relation": "enablesAgentToDetermine",
+    "object": "PhaseDuration",
+    "chunk": "conclusions3",
+    "context": "The SetPhaseDuration action enables agents to determine the exact duration for each phase."
+  },
+  {
+    "subject": "SetPhaseDurationAction",
+    "relation": "reducesFrequencyOf",
+    "object": "Decision",
+    "chunk": "conclusions3",
+    "context": "This design reduces the frequency of decisions and enables agents to perform more detailed control."
+  },
+  {
+    "subject": "SetPhaseDurationAction",
+    "relation": "enablesAgentToPerform",
+    "object": "DetailedControl",
+    "chunk": "conclusions3",
+    "context": "This design reduces the frequency of decisions and enables agents to perform more detailed control."
+  },
+  {
+    "subject": "AsynchronousPhaseAdjustment",
+    "relation": "hindersCoordinationAt",
+    "object": "NetworkLevel",
+    "chunk": "conclusions3",
+    "context": "asynchronous phase adjustments across intersections still hinder network-level coordination, ultimately leading to degraded overall performance"
+  },
+  {
+    "subject": "AsynchronousPhaseAdjustment",
+    "relation": "leadsToDegraded",
+    "object": "OverallPerformance",
+    "chunk": "conclusions3",
+    "context": "asynchronous phase adjustments across intersections still hinder network-level coordination, ultimately leading to degraded overall performance"
+  },
+  {
+    "subject": "FutureWork",
+    "relation": "couldExploreIncorporating",
+    "object": "RecurrentNeuralNetwork",
+    "chunk": "conclusions3",
+    "context": "Future work could explore incorporating temporal models such as recurrent neural networks (RNNs) or multi-agent learning schemes like centralized training with decentralized execution (CTDE) to improve coordination and temporal stability across agents."
+  },
+  {
+    "subject": "FutureWork",
+    "relation": "couldExploreIncorporating",
+    "object": "CentralizedTrainingDecentralizedExecution",
+    "chunk": "conclusions3",
+    "context": "Future work could explore incorporating temporal models such as recurrent neural networks (RNNs) or multi-agent learning schemes like centralized training with decentralized execution (CTDE) to improve coordination and temporal stability across agents."
+  },
+  {
+    "subject": "RecurrentNeuralNetwork",
+    "relation": "isClassifiedAs",
+    "object": "TemporalModel",
+    "chunk": "conclusions3",
+    "context": "Future work could explore incorporating temporal models such as recurrent neural networks (RNNs)"
+  },
+  {
+    "subject": "CentralizedTrainingDecentralizedExecution",
+    "relation": "isClassifiedAs",
+    "object": "MultiAgentLearningScheme",
+    "chunk": "conclusions3",
+    "context": "multi-agent learning schemes like centralized training with decentralized execution (CTDE)"
+  },
+  {
+    "subject": "RecurrentNeuralNetwork",
+    "relation": "aimsToImprove",
+    "object": "AgentCoordination",
+    "chunk": "conclusions3",
+    "context": "to improve coordination and temporal stability across agents"
+  },
+  {
+    "subject": "CentralizedTrainingDecentralizedExecution",
+    "relation": "aimsToImprove",
+    "object": "TemporalStability",
+    "chunk": "conclusions3",
+    "context": "to improve coordination and temporal stability across agents"
+  },
+  {
+    "subject": "FixedTime",
+    "relation": "hasDelay",
+    "object": "559.712",
+    "chunk": "conclusions3",
+    "context": "FixedTime 559.712 634.960 802.311"
+  },
+  {
+    "subject": "FixedTime",
+    "relation": "hasTravelTime",
+    "object": "634.960",
+    "chunk": "conclusions3",
+    "context": "FixedTime 559.712 634.960 802.311"
+  },
+  {
+    "subject": "FixedTime",
+    "relation": "hasWaitingTime",
+    "object": "802.311",
+    "chunk": "conclusions3",
+    "context": "FixedTime 559.712 634.960 802.311"
+  },
+  {
+    "subject": "PPO_SwitchNextOrNot",
+    "relation": "hasDelay",
+    "object": "208.962",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SwitchNextOrNot action) 208.962 281.028 494.420"
+  },
+  {
+    "subject": "PPO_SwitchNextOrNot",
+    "relation": "hasTravelTime",
+    "object": "281.028",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SwitchNextOrNot action) 208.962 281.028 494.420"
+  }
+]

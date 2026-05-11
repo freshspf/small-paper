@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "BuildingAnnotation",
+  "includes",
+  "BoundingBox",
+  "FunctionalBuildingCategory",
+  "DamageLevel",
+  "SummarizedRepresentation",
+  "groupsBy",
+  "DamageState",
+  "CoarseSpatialLocation",
+  "hasValue",
+  "North",
+  "CentralArea",
+  "South",
+  "usedFor",
+  "SceneLevelTask",
+  "DisasterTypeClassification",
+  "BuildingCounting",
+  "StructuredReportGeneration",
+  "DisasterInsightBenchmark",
+  "enablesAssessmentOf",
+  "ObjectLevelReasoning",
+  "SceneLevelUnderstanding",
+  "relevantTo",
+  "PostDisasterAssessment",
+  "InfrastructureAnalysis",
+  "ObjectLevelTask",
+  "BuildingFunction",
+  "operatesOn",
+  "BuildingInstance",
+  "usesBoundingBox",
+  "DisasterInsight",
+  "defines",
+  "requiresProduction",
+  "ShortSummary",
+  "LongAnalysis",
+  "describes",
+  "ObservableImpact",
+  "SatelliteImagery",
+  "DisasterResponse",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "BuildingLevelAssessment",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "FEMA",
+  "PhysicalDamage",
+  "DamagedBuilding",
+  "Hospital",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "BuildingUse",
+  "LargeScaleHazard",
+  "LinköpingUniversity",
+  "Vantor",
+  "ComputerVisionLaboratory",
+  "RemoteSensing",
+  "DisasterAssessment",
+  "Dataset",
+  "DamageMapping",
+  "ChangeAnalysis",
+  "xBD",
+  "BRIGHT",
+  "FloodNet",
+  "PreEventImagery",
+  "PostEventImagery",
+  "DamageAnnotation",
+  "Hazard",
+  "Building",
+  "SceneLevelLabel",
+  "FunctionAwareEvaluation",
+  "InstanceLevelEvaluation"
+]
+
+Triples:
+[
+  {
+    "subject": "BuildingAnnotation",
+    "relation": "includes",
+    "object": "BoundingBox",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "individual building annotations, including bounding–box coordinates, functional category, and damage level, are aggregated into compact summary entries."
+  },
+  {
+    "subject": "BuildingAnnotation",
+    "relation": "includes",
+    "object": "FunctionalBuildingCategory",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "individual building annotations, including bounding–box coordinates, functional category, and damage level, are aggregated into compact summary entries."
+  },
+  {
+    "subject": "BuildingAnnotation",
+    "relation": "includes",
+    "object": "DamageLevel",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "individual building annotations, including bounding–box coordinates, functional category, and damage level, are aggregated into compact summary entries."
+  },
+  {
+    "subject": "SummarizedRepresentation",
+    "relation": "groupsBy",
+    "object": "FunctionalBuildingCategory",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "These summaries group buildings by functional category, damage state, and coarse spatial location within the patch (e.g., north, central area, south)"
+  },
+  {
+    "subject": "SummarizedRepresentation",
+    "relation": "groupsBy",
+    "object": "DamageState",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "These summaries group buildings by functional category, damage state, and coarse spatial location within the patch (e.g., north, central area, south)"
+  },
+  {
+    "subject": "SummarizedRepresentation",
+    "relation": "groupsBy",
+    "object": "CoarseSpatialLocation",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "These summaries group buildings by functional category, damage state, and coarse spatial location within the patch (e.g., north, central area, south)"
+  },
+  {
+    "subject": "CoarseSpatialLocation",
+    "relation": "hasValue",
+    "object": "North",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "coarse spatial location within the patch (e.g., north, central area, south)"
+  },
+  {
+    "subject": "CoarseSpatialLocation",
+    "relation": "hasValue",
+    "object": "CentralArea",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "coarse spatial location within the patch (e.g., north, central area, south)"
+  },
+  {
+    "subject": "CoarseSpatialLocation",
+    "relation": "hasValue",
+    "object": "South",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "coarse spatial location within the patch (e.g., north, central area, south)"
+  },
+  {
+    "subject": "SummarizedRepresentation",
+    "relation": "usedFor",
+    "object": "SceneLevelTask",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "This summarized representation is used exclusively for scene-level tasks, including disaster-type classification, building counting, and structured report generation."
+  },
+  {
+    "subject": "SceneLevelTask",
+    "relation": "includes",
+    "object": "DisasterTypeClassification",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "This summarized representation is used exclusively for scene-level tasks, including disaster-type classification, building counting, and structured report generation."
+  },
+  {
+    "subject": "SceneLevelTask",
+    "relation": "includes",
+    "object": "BuildingCounting",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "This summarized representation is used exclusively for scene-level tasks, including disaster-type classification, building counting, and structured report generation."
+  },
+  {
+    "subject": "SceneLevelTask",
+    "relation": "includes",
+    "object": "StructuredReportGeneration",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "This summarized representation is used exclusively for scene-level tasks, including disaster-type classification, building counting, and structured report generation."
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "enablesAssessmentOf",
+    "object": "ObjectLevelReasoning",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "enabling comprehensive assessment of both object-level reasoning and scene-level understanding within a unified framework."
+  },
+  {
+    "subject": "DisasterInsightBenchmark",
+    "relation": "enablesAssessmentOf",
+    "object": "SceneLevelUnderstanding",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "enabling comprehensive assessment of both object-level reasoning and scene-level understanding within a unified framework."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "relevantTo",
+    "object": "PostDisasterAssessment",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "This consolidation reduces annotation noise while preserving functionally meaningful distinctions relevant to post-disaster assessment and infrastructure analysis."
+  },
+  {
+    "subject": "FunctionalBuildingCategory",
+    "relation": "relevantTo",
+    "object": "InfrastructureAnalysis",
+    "chunk": "thedisasterinsightbenchmark2",
+    "context": "This consolidation reduces annotation noise while preserving functionally meaningful distinctions relevant to post-disaster assessment and infrastructure analysis."
+  },
+  {
+    "subject": "ObjectLevelTask",
+    "relation": "includes",
+    "object": "BuildingFunction",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "object-level tasks such as building-function and damage-level classification operate directly on individual building instances using bounding-box inputs."
+  },
+  {
+    "subject": "ObjectLevelTask",
+    "relation": "includes",
+    "object": "DamageLevel",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "object-level tasks such as building-function and damage-level classification operate directly on individual building instances using bounding-box inputs."
+  },
+  {
+    "subject": "ObjectLevelTask",
+    "relation": "operatesOn",
+    "object": "BuildingInstance",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "object-level tasks such as building-function and damage-level classification operate directly on individual building instances using bounding-box inputs."
+  },
+  {
+    "subject": "ObjectLevelTask",
+    "relation": "usesBoundingBox",
+    "object": "BoundingBox",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "object-level tasks such as building-function and damage-level classification operate directly on individual building instances using bounding-box inputs."
+  },
+  {
+    "subject": "DisasterInsight",
+    "relation": "defines",
+    "object": "StructuredReportGeneration",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "DisasterInsight defines a structured report generation task in which models are required to produce two narratives per instance."
+  },
+  {
+    "subject": "StructuredReportGeneration",
+    "relation": "requiresProduction",
+    "object": "ShortSummary",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "models are required to produce two narratives per instance: (i) a short summary describing immediately observable impacts, and (ii) a longer analysis providing expanded, response-relevant context."
+  },
+  {
+    "subject": "StructuredReportGeneration",
+    "relation": "requiresProduction",
+    "object": "LongAnalysis",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "models are required to produce two narratives per instance: (i) a short summary describing immediately observable impacts, and (ii) a longer analysis providing expanded, response-relevant context."
+  },
+  {
+    "subject": "ShortSummary",
+    "relation": "describes",
+    "object": "ObservableImpact",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "a short summary describing immediately observable impacts"
+  }
+]

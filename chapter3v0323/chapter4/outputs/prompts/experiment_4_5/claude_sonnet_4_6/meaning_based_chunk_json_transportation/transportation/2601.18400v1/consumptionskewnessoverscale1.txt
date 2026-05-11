@@ -1,0 +1,134 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "consumptionskewnessoverscale1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: consumptionskewnessoverscale1
+- section_title: Consumption Skewness over Scale
+- page_start: 6
+- page_end: 8
+
+**INPUT TEXT CHUNK:**
+In this section, we analyze the scalability of the band-
+width consumption, denoted asS, as a function of the
+numberNof nodes and the numberVof validators
+across the different blockchains. Interestingly, we iden-
+tify that the bandwidth of Aptos, Avalanche and Solana
+increases withNand the bandwidth of Algorand, Aptos,
+Avalanche and Redbelly increases withV.
+7.1 Large consumption variations depending
+on network scale
+Fig. 4 depicts a comprehensive grid of heatmaps for every
+blockchain across different combinations of numberNof
+nodes and numberVof validators. In each heatmap, the
+bandwidth consumed by noden isending to noden jis
+represented by the color in cellM i,j.
+The raw data reveals significant disparities in the mag-
+nitude of data exchange across the different protocols. In
+a fully interconnected small network (5 nodes, all val-
+idators), the difference in per-link bandwidth is striking:
+while Redbelly and Avalanche maintain a lean footprint
+with approximately 1,700 KiB and 2,800 KiB transmitted
+per pair respectively, Algorand consumes considerably
+more, averaging around 6,500 KiB per link. Solana, how-
+ever, operates at a completely different order of magni-
+tude, with cells in the 5-node configuration consistently
+showing over 42,000 KiB of traffic—nearly 25 times the
+bandwidth usage of Redbelly for the same workload.
+Furthermore, the data highlights a clear hierarchy of
+network load based on node roles. In mixed configura-
+tions (e.g., 20 nodes with 5 validators), the bandwidth
+intensity within the validator group (the top-left 5×5
+sub-matrix) is drastically higher than the traffic involv-
+ing non-validator nodes. For instance, in the 10-5 setup,
+for Aptos and Algorand, the traffic between two valida-
+tors remains in the thousands of KiB (e.g.,≈3,600 KiB
+for Aptos), whereas traffic originating from non-validator
+nodes often drops to the low hundreds (e.g.,≈200 KiB),
+illustrating a highly centralized bandwidth burden on the
+consensus committee.7.2 Validators communicate more with them-
+selves
+A distinct segmentation of the network topology is visi-
+ble in most protocols. For Algorand, Aptos, Avalanche,
+and Redbelly, the top-leftV×Vsub-matrix is consis-
+tently dense and bright, confirming that validators com-
+municate heavily among themselves to achieve consen-
+sus. However, the behavior regarding non-validator
+nodes varies significantly.
+As observed, Solana is the unique outlier. It is the only
+blockchain where the non-validator nodes communicate
+directly with other non-validator nodes (the bottom-right
+quadrant of the heatmaps). For instance, in the 10-5 con-
+figuration, the heatmap is uniformly populated, indicat-
+ing a full mesh topology where every node, regardless of
+its role, exchanges data with every other node.
+In contrast, blockchains like Redbelly and Avalanche
+show a clear separation. While validators send data
+to non-validators (top-right quadrant) and receive data
+from them (bottom-left quadrant), non-validator nodes
+do not communicate with each other. This is evident in
+the 10-5 matrices for Avalanche and Redbelly, where the
+bottom-right 5×5 sub-matrix is largely empty.
+Finally, Algorand and Aptos exhibit the strictest sep-
+aration in certain configurations. Non-validator nodes
+act almost exclusively as passive receivers or pull-based
+clients. In Algorand’s 10-5 configuration, while valida-
+tors send data to non-validators (rows 0-4 to columns
+5-9), the traffic from non-validators back to validators
+is negligible, and traffic between non-validators is non-
+existent.
+7.3 Aptos pattern change with the number of
+validators
+Fig. 4 reveals a dynamic dissemination strategy in Aptos
+that depends on the ratio of validators to the total net-
+work size. In configurations where the number of val-
+idators is small relative to the network size, validators
+appear to broadcast to all non-validators. For example,
+in the 10-5 configuration and 20-5 configuration, the top-
+right quadrants are dense, showing that the 5 validators
+are sending data to all 5 (or 15) non-validator nodes.
+However, as the number of validators increases, Ap-
+tos shifts strategy to reduce bandwidth overhead. In the
+15-node, 10-validator configuration, the top-right quad-
+rant becomes sparse. Specific validators only communi-
+cate with specific non-validator nodes rather than broad-
+casting to the entire set.

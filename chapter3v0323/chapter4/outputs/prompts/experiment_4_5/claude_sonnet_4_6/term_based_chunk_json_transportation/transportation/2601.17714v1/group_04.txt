@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Distance",
+  "definedBy",
+  "SynchronizationGap",
+  "Figure5",
+  "illustratesEvolutionOf",
+  "TimeToCollision",
+  "SynchronizedFlowHeadway",
+  "appliedIn",
+  "PedestrianContext",
+  "indicates",
+  "Hysteresis",
+  "occursIn",
+  "NormalTrafficOscillation",
+  "identifies",
+  "ExtremeTrafficDynamic",
+  "NumericalExperiment",
+  "investigates",
+  "DynamicalProperty",
+  "belongsTo",
+  "Model",
+  "Oscillation",
+  "shiftsTo",
+  "SynchronizedFlow",
+  "yields",
+  "AbsoluteCoordinate",
+  "SynchronizedFlowLocation",
+  "locatedIn",
+  "PhaseSpace",
+  "correspondsTo",
+  "TimeHeadway",
+  "appliesTo",
+  "Result",
+  "transferredTo",
+  "RoadTraffic",
+  "reaction_model",
+  "hasParameter",
+  "WaveFunctionParameter",
+  "anticipation_model",
+  "exhibits",
+  "TrafficResponseProcess",
+  "presentedIn",
+  "TimeDomain",
+  "TD",
+  "observedIn",
+  "NumericalResult",
+  "agreesWith",
+  "AnalyticalResult",
+  "fvd_model",
+  "features",
+  "degeneratesInto",
+  "StraightLine",
+  "TrafficUnit",
+  "isIn",
+  "StateOfEquilibrium",
+  "TimeDomainVariation",
+  "pertainsTo",
+  "TTC",
+  "EllipseArea",
+  "represents",
+  "KineticEnergyDissipation",
+  "TrafficHysteresis",
+  "TimeDelayPhenomenon",
+  "Dynamics",
+  "ResponseMechanism",
+  "ReactionBehavior",
+  "AnticipationBehavior",
+  "DynamicalEvolution",
+  "TimeDelayVariation",
+  "HysteresisExpansion",
+  "HysteresisContraction",
+  "EvolutionOrientation",
+  "StringStability",
+  "MultipleRendezvousPoint",
+  "SpaceSpeedPhasePlane",
+  "ConciseFramework",
+  "DynamicalEquation",
+  "ConstantTimeHeadwayStrategy",
+  "Traffic",
+  "parameter_timeHeadway",
+  "DesiredSpeed"
+]
+
+Triples:
+[
+  {
+    "subject": "Distance",
+    "relation": "definedBy",
+    "object": "SynchronizationGap",
+    "chunk": "analyticalhysteresis3",
+    "context": "The distanced jiis defined by shifting the perturbation terms to the synchronization gapd:"
+  },
+  {
+    "subject": "Figure5",
+    "relation": "illustratesEvolutionOf",
+    "object": "TimeToCollision",
+    "chunk": "analyticalhysteresis3",
+    "context": "Fig. 5 clearly illustrates the evolution ofTTCas the hysteresis evolves in the(ξ ji,˙ξij)plane."
+  },
+  {
+    "subject": "SynchronizedFlowHeadway",
+    "relation": "appliedIn",
+    "object": "PedestrianContext",
+    "chunk": "analyticalhysteresis3",
+    "context": "We set the synchronized flow headway as 1.3m in pedestrian context."
+  },
+  {
+    "subject": "TimeToCollision",
+    "relation": "indicates",
+    "object": "Hysteresis",
+    "chunk": "analyticalhysteresis3",
+    "context": "Furthermore, TTCcan serve not only as an indicator of hysteresis in normal traffic oscillations, but more importantly, it functions to identify extreme dynamics in traffic, which will be discussed in the subsequent.."
+  },
+  {
+    "subject": "Hysteresis",
+    "relation": "occursIn",
+    "object": "NormalTrafficOscillation",
+    "chunk": "analyticalhysteresis3",
+    "context": "Furthermore, TTCcan serve not only as an indicator of hysteresis in normal traffic oscillations, but more importantly, it functions to identify extreme dynamics in traffic, which will be discussed in the subsequent.."
+  },
+  {
+    "subject": "TimeToCollision",
+    "relation": "identifies",
+    "object": "ExtremeTrafficDynamic",
+    "chunk": "analyticalhysteresis3",
+    "context": "Furthermore, TTCcan serve not only as an indicator of hysteresis in normal traffic oscillations, but more importantly, it functions to identify extreme dynamics in traffic, which will be discussed in the subsequent.."
+  },
+  {
+    "subject": "NumericalExperiment",
+    "relation": "investigates",
+    "object": "DynamicalProperty",
+    "chunk": "numericalexperiment",
+    "context": "In this section, based on the analytical results above, we will conduct a numerical experiment on the dynamical properties of the four models."
+  },
+  {
+    "subject": "DynamicalProperty",
+    "relation": "belongsTo",
+    "object": "Model",
+    "chunk": "numericalexperiment",
+    "context": "In this section, based on the analytical results above, we will conduct a numerical experiment on the dynamical properties of the four models."
+  },
+  {
+    "subject": "Oscillation",
+    "relation": "shiftsTo",
+    "object": "SynchronizedFlow",
+    "chunk": "numericalexperiment",
+    "context": "In the numerical results, we shift the oscillation back to the synchronized flow to obtain the absolute coordinates."
+  },
+  {
+    "subject": "SynchronizedFlow",
+    "relation": "yields",
+    "object": "AbsoluteCoordinate",
+    "chunk": "numericalexperiment",
+    "context": "In the numerical results, we shift the oscillation back to the synchronized flow to obtain the absolute coordinates."
+  },
+  {
+    "subject": "SynchronizedFlowLocation",
+    "relation": "locatedIn",
+    "object": "PhaseSpace",
+    "chunk": "numericalexperiment",
+    "context": "The synchronized flow location in the phase space is set atd ji= 1.3m andv j=vi= 1m/s, corresponding to a constant time headway oft h= 1.3s in pedestrian context."
+  },
+  {
+    "subject": "SynchronizedFlowLocation",
+    "relation": "correspondsTo",
+    "object": "TimeHeadway",
+    "chunk": "numericalexperiment",
+    "context": "The synchronized flow location in the phase space is set atd ji= 1.3m andv j=vi= 1m/s, corresponding to a constant time headway oft h= 1.3s in pedestrian context."
+  },
+  {
+    "subject": "TimeHeadway",
+    "relation": "appliesTo",
+    "object": "PedestrianContext",
+    "chunk": "numericalexperiment",
+    "context": "The synchronized flow location in the phase space is set atd ji= 1.3m andv j=vi= 1m/s, corresponding to a constant time headway oft h= 1.3s in pedestrian context."
+  },
+  {
+    "subject": "Result",
+    "relation": "transferredTo",
+    "object": "RoadTraffic",
+    "chunk": "numericalexperiment",
+    "context": "By adjusting these parameters, the results can be transferred to road traffic without altering any dynamical properties."
+  },
+  {
+    "subject": "reaction_model",
+    "relation": "hasParameter",
+    "object": "WaveFunctionParameter",
+    "chunk": "numericalexperiment",
+    "context": "Given the wave function parameters (A= 0.8, ω= 1),δis set to -0.5 s in the reaction model and 0.5 s in the anticipation model."
+  },
+  {
+    "subject": "anticipation_model",
+    "relation": "hasParameter",
+    "object": "WaveFunctionParameter",
+    "chunk": "numericalexperiment",
+    "context": "Given the wave function parameters (A= 0.8, ω= 1),δis set to -0.5 s in the reaction model and 0.5 s in the anticipation model."
+  },
+  {
+    "subject": "Model",
+    "relation": "exhibits",
+    "object": "TrafficResponseProcess",
+    "chunk": "numericalexperiment",
+    "context": "We plot the traffic response processes of the four models as shown in Fig. 7."
+  },
+  {
+    "subject": "AbsoluteCoordinate",
+    "relation": "presentedIn",
+    "object": "TimeDomain",
+    "chunk": "numericalexperiment",
+    "context": "The figure presents the results of the absolute coordinates in the time domain, where theTDcan be directly observed."
+  },
+  {
+    "subject": "TD",
+    "relation": "observedIn",
+    "object": "TimeDomain",
+    "chunk": "numericalexperiment",
+    "context": "The figure presents the results of the absolute coordinates in the time domain, where theTDcan be directly observed."
+  },
+  {
+    "subject": "NumericalResult",
+    "relation": "agreesWith",
+    "object": "AnalyticalResult",
+    "chunk": "numericalexperiment",
+    "context": "The numerical results are in agreement with the analytical results."
+  },
+  {
+    "subject": "fvd_model",
+    "relation": "features",
+    "object": "Hysteresis",
+    "chunk": "numericalexperiment",
+    "context": "In the FVD model, whenδis set to 0.5 s, the phases ofd jiandv i are perfectly consistent, corresponding hysteresis in the(ξ ji,˙ξi)plane degenerates into a straight line, which equation is identical to function ofv d."
+  },
+  {
+    "subject": "Hysteresis",
+    "relation": "degeneratesInto",
+    "object": "StraightLine",
+    "chunk": "numericalexperiment",
+    "context": "In the FVD model, whenδis set to 0.5 s, the phases ofd jiandv i are perfectly consistent, corresponding hysteresis in the(ξ ji,˙ξi)plane degenerates into a straight line, which equation is identical to function ofv d."
+  },
+  {
+    "subject": "TrafficUnit",
+    "relation": "isIn",
+    "object": "StateOfEquilibrium",
+    "chunk": "numericalexperiment",
+    "context": "At this point, traffic unitiis in a delicate state of equilibrium, i.e.,v i=vd."
+  },
+  {
+    "subject": "TimeDomainVariation",
+    "relation": "pertainsTo",
+    "object": "TTC",
+    "chunk": "numericalexperiment",
+    "context": "In Fig. 8, we plot the curve of the hysteresis in the(ξ ji,˙ξij)plane along with the corresponding time domain variations of the TTC."
+  },
+  {
+    "subject": "EllipseArea",
+    "relation": "represents",
+    "object": "KineticEnergyDissipation",
+    "chunk": "synchronizationintraffic",
+    "context": "From the perspective of energy, the ellipse area in the(ξ ji,˙ξi)plane represents the kinetic energy dissipationKξji,˙ξiof traffic unitias it deviates from individual equilibrium state:"
+  }
+]

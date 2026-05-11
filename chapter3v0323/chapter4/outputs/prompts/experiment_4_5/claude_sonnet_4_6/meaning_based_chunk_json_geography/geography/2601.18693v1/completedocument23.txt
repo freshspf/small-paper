@@ -1,0 +1,143 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument23",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument23
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+B
+gratefully acknowledge support from the Leverhulme Trust through
+a Research Leadership Award. Y. M. B acknowledges support from
+UK Research and Innovation through a Future Leaders Fellowship
+(grant agreement MR/X035166/1) and financial support from the
+Swiss National Science Foundation (SNSF) under project “Galaxy
+evolution in the cosmic web” (200021_213076). W. C gratefully
+thanks Comunidad de Madrid for the Atracción de Talento fellow-
+ship no. 2020-T1/TIC19882 and Agencia Estatal de Investigación
+(AEI) for the Consolidación Investigadora Grant CNS2024-154838.
+He further acknowledges the Project PID2024-156100NB-C21 fi-
+nanced by MICIU/AEI /10.13039/501100011033/FEDER, EU and
+ERC: HORIZON-TMA-MSCA-SE for supporting the LACEGAL-
+III (Latin American Chinese European Galaxy Formation Net-
+work) project with grant number 101086388 and the science re-
+search grants from the China Manned Space Project. AK is sup-
+ported by project PID2024-156100NB-C21 financed by MICIU
+/AEI/10.13039/501100011033/FEDER,UEandfurtherthanksThe
+Mary Onettes for Islands. G. M is thankful to Mathias Urbano, Cal-
+lumBellhouse,TutkuKolcuandJesseGolden-Marxforhelpfulcom-
+ments.
+TheHorizon-AGNsimulation was performed using HPC re-
+sources of CINES under allocations 2013047012, 2014047012, and
+2015047012 made by GENCI. TheIllustrisTNGsimulations, of
+whichTNG100ispart,wereundertakenwithcomputetimeawarded
+by the Gauss Centre for Supercomputing (GCS) under GCS Large-
+Scale Projects GCS-ILLU and GCS-DWAR on the GCS share of
+the supercomputer Hazel Hen at the High Performance Computing
+Center Stuttgart (HLRS), as well as on the machines of the Max
+Planck Computing and Data Facility (MPCDF) in Garching, Ger-
+many. TheHydrangeasimulations were in part performed on the
+Germanfederalmaximumperformancecomputer‘HazelHen’atthe
+maximum performance computing centre Stuttgart (HLRS), under
+project GCS-HYDA / ID 44067 financed through the large-scale
+project ‘Hydrangea’ of the Gauss Center for Supercomputing. Fur-
+ther simulations were performed at the Max Planck Computing and
+DataFacility(MPCDF)inGarching,Germany.Partofthisworkhas
+beenmadepossiblebyTheThreeHundredcollaboration,whichben-
+efits from financial support of the European Union’s Horizon 2020
+Research and Innovation programme under the Marie Skłodowska-
+Curie grant agreement number 734374, i.e. the LACEGAL project.
+TheThreeHundredsimulations used in this paper have been per-
+formedintheMareNostrumSupercomputerattheBarcelonaSuper-
+computingCenter,thankstoCPUtimegrantedbytheRedEspañola
+de Supercomputación. The high-resolution (7K) simulations from
+TheThreeHundredwere performed on multiple Supercomputers:
+MareNostrum, Finisterrae3, and Cibeles through The Red Española
+de Supercomputación grants, DIaL3 – DiRAC Data Intensive ser-
+MNRAS000, 1–26 (2026)
+
+20G. Martin et al.
+viceattheUniversityofLeicesterthroughtheRAC15grant,andthe
+Niagara supercomputer at the SciNet HPC Consortium.
+This work made use of the following software:GADGET-4
+(Springeletal.2021),GalIC(Yurin&Springel2014),PyMC(Abril-
+Pla et al. 2023),Matplotlib(Hunter 2007),NumPy(Harris et al.
+2020) andSciPy(Virtanen et al. 2020).
+ThisworkhasmadeuseoftheInfinitycluster,hostedbytheInstitut
+d’AstrophysiquedeParis.WewarmlythankS.Rouberolforrunning
+it smoothly.
+DATA AVAILABILITY
+Simulation data analysed in this paper can be obtained from the
+following sources: Data fromTheThreeHundredgalaxy clus-
+ters sample are available on request following the guidelines of
+TheThreeHundredcollaboration,athttps://www.the300-project.org.
+TNG100data is publicly available and can be accessed at
+https://tng-project.org/. TheHydrangeasimulations are
+publiclyavailableathttps://ftp.strw.leidenuniv.nl/bahe/
+Hydrangea.TherawdataproductsoftheHorizon-AGNsimulation
+are available upon reasonable request through the collaboration’s
+website:https://www.horizon-simulation.org/. Other data
+can be shared on request to the corresponding author.
+REFERENCES
+Abril-Pla O., et al., 2023, PeerJ Computer Science, 9
+Allen S. W., Evrard A. E., Mantz A. B., 2011, ARA&A, 49, 409
+Alonso Asensio I., Dalla Vecchia C., Bahé Y. M., Barnes D. J., Kay S. T.,
+2020, MNRAS, 494, 1859
+Álvarez M. A., Rosasco L., Lawrence N. D., 2012, Found. Trends Mach.
+Learn., 4, 195–266
+ArnaboldiM.,GerhardO.,AguerriJ.A.L.,FreemanK.C.,NapolitanoN.R.,
+Okamura S., Yasuda N., 2004, ApJ, 614, L33
+Arthur J., et al., 2019, Monthly Notices of the Royal Astronomical Society,
+484, 3968
+Bahé Y. M., et al., 2017, MNRAS, 470, 4186
+Baldry I. K., et al., 2012, MNRAS, 421, 621
+Barnes J., Hut P., 1986, Nature, 324, 446
+Binney J., Tremaine S., 2008, Galactic Dynamics: Second Edition
+Blumenthal G. R., Faber S. M., Flores R., Primack J. R., 1986, ApJ, 301, 27
+Borgani S., Guzzo L., 2001, Nature, 409, 39
+Brough S., et al., 2024, MNRAS, 528, 771
+Brown H. J., Martin G., Pearce F. R., Hatch N. A., Bahé Y. M., Dubois Y.,
+2024, Monthly Notices of the Royal Astronomical Society, p. stae2084
+Bullock J. S., Johnston K.

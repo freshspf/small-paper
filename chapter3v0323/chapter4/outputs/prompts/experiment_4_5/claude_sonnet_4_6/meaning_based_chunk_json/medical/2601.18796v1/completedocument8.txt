@@ -1,0 +1,162 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument8",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument8
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Taken in to-
+tal, we expect this work will make aligning LLMs
+to embedding spaces vastly more accessible, en-
+abling a wide array of downstream applications.
+We provide our code under the MIT license at
+8
+
+https://github.com/BIDS-Xu-Lab/OpenELM.
+Limitations
+First, we acknowledge that the domain and for-
+mat of our training data is relatively narrow. As
+ELMs inherently train to specific data manifolds,
+it is not clear how well ctELM would generalize to
+other data from the biomedical domain (such as
+full articles or clinical notes), let alone data from
+other domains. For now, we consider ELMs to be
+corpus- and task-specific (as originally introduced
+in Tennenholtz et al., 2024), and we release our
+architecture and training code with the hopes that
+researchers in other domains can easily train be-
+spoke ELMs for other corpora and domains. Future
+work should test the limits of ELMs for generaliz-
+ing across domains and tasks.
+Second, though we explored fine-tuning
+Vec2Text, it is still not a perfect baseline since
+it is based on T5, which has fewer parameters than
+ctELM ’s Llama 3 base model. More in-depth explo-
+ration of Vec2Text’s iterative correction method of
+generation, with larger models and domain-specific
+training data, may improve the viability of this
+method for exploring embedding spaces and should
+be explored in the future.
+Finally, though many generated abstracts were
+able to deceive human experts when compared to
+real abstracts, we are still far from translating these
+into real-world studies. In particular, the applica-
+bility of a specific combination of drug, disease,
+and population would require deep expertise in the
+relevant field of medicine to validate as a clinical
+trial. As an example of an ethical hazard, chang-
+ing of study participants may introduce popula-
+tions with further protections under Common Rule
+(such as children or pregnant women) that systems
+may not account for. Translating our methods and
+findings into downstream applications will thus re-
+quire large-scale collaboration with clinicians and
+bioethicists.
+References
+Parishad BehnamGhader, Vaibhav Adlakha, Marius
+Mosbach, Dzmitry Bahdanau, Nicolas Chapados, and
+Siva Reddy. 2024. Llm2vec: Large language models
+are secretly powerful text encoders.arXiv preprint
+arXiv:2404.05961.
+Tolga Bolukbasi, Kai-Wei Chang, James Y Zou,
+Venkatesh Saligrama, and Adam T Kalai. 2016. Manis to computer programmer as woman is to home-
+maker? debiasing word embeddings.Advances in
+neural information processing systems, 29.
+Franck Dernoncourt and Ji Young Lee. 2017. Pubmed
+200k rct: a dataset for sequential sentence clas-
+sification in medical abstracts.arXiv preprint
+arXiv:1710.06071.
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and
+Kristina Toutanova. 2019. Bert: Pre-training of deep
+bidirectional transformers for language understand-
+ing. InProceedings of the 2019 conference of the
+North American chapter of the association for com-
+putational linguistics: human language technologies,
+volume 1 (long and short papers), pages 4171–4186.
+Adji B. Dieng, Francisco J. R. Ruiz, and David M. Blei.
+2020. Topic modeling in embedding spaces.Trans-
+actions of the Association for Computational Linguis-
+tics, 8:439–453.
+Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey,
+Abhishek Kadian, Ahmad Al-Dahle, Aiesha Letman,
+Akhil Mathur, Alan Schelten, Amy Yang, Angela
+Fan, and 1 others. 2024. The llama 3 herd of models.
+arXiv e-prints, pages arXiv–2407.
+Tianyu Gao, Xingcheng Yao, and Danqi Chen. 2021.
+Simcse: Simple contrastive learning of sentence em-
+beddings.arXiv preprint arXiv:2104.08821.
+Maarten Grootendorst. 2022. Bertopic: Neural topic
+modeling with a class-based tf-idf procedure.arXiv
+preprint arXiv:2203.05794.
+Jiawei Gu, Xuhui Jiang, Zhichao Shi, Hexiang Tan,
+Xuehao Zhai, Chengjin Xu, Wei Li, Yinghan Shen,
+Shengjie Ma, Honghao Liu, and 1 others. 2024. A
+survey on llm-as-a-judge.CoRR.
+Yu Gu, Robert Tinn, Hao Cheng, Michael Lucas, Naoto
+Usuyama, Xiaodong Liu, Tristan Naumann, Jianfeng
+Gao, and Hoifung Poon. 2021. Domain-specific lan-
+guage model pretraining for biomedical natural lan-
+guage processing.ACM Transactions on Computing
+for Healthcare (HEALTH), 3(1):1–23.
+Edward J Hu, yelong shen, Phillip Wallis, Zeyuan Allen-
+Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu
+Chen. 2022. LoRA: Low-rank adaptation of large
+language models. InInternational Conference on
+Learning Representations.
+Nitish Shirish Keskar, Bryan McCann, Lav R Varshney,
+Caiming Xiong, and Richard Socher. 2019. Ctrl: A
+conditional transformer language model for control-
+lable generation.arXiv preprint arXiv:1909.05858.
+Been Kim, Martin Wattenberg, Justin Gilmer, Carrie
+Cai, James Wexler, Fernanda Viegas, and 1 others.
+2018. Interpretability beyond feature attribution:
+Quantitative testing with concept activation vectors
+(tcav). InInternational conference on machine learn-
+ing, pages 2668–2677. PMLR.
+9
+
+Kai Kugler, Simon Münker, Johannes Höhmann, and
+Achim Rettinger. 2024.

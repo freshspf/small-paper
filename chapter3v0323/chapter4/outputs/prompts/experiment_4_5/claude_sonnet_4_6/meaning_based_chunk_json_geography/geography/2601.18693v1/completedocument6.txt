@@ -1,0 +1,139 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument6",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument6
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+The rate of decay depends
+strongly on satellite mass ratio: more massive satellites lose orbital
+energy more rapidly owing to stronger dynamical friction and tidal
+torques.
+All satellites exhibit an initially steeper decline in orbital energy
+prior to first pericentric passage (indicated by filled circles along
+eachsatellite’strack),whentheyretainmostoftheirDMhaloes.Af-
+ter the bulk of the halo is removed following first pericentre (Smith
+et al. 2016; Martin et al. 2024), orbital decay proceeds more slowly.
+Equal-massmergerscoalescealmostimmediately,while1:3mergers
+typicallymergewiththecentralgalaxywithinoneortwopericentric
+passages. At higher mass ratios, orbital energy loss becomes pro-
+gressively weaker. Even for highly radial orbits reaching pericentres
+of∼4kpc(wellwithinthecentralgalaxy’sstellarhalf-massradius),
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM5
+=0.12
+Msat/Mhost=102.5
+=0.34
+ =0.53
+ =0.70
+ =0.90
+Msat/Mhost=101.5
+Msat/Mhost=100.9
+Msat/Mhost=100.5
+Figure2.Finalprojecteddistributionsofstrippedstars(green)andDM(purple)foragridofsatellitemassratios𝑀 host/𝑀 hostandorbitalcircularities𝜂.Each
+panelspans2×2Mpc.Columnsvaryorbitalcircularity;rowsvarymassratio.Aninteractiveversionoftheseplotsshowingthedistributionforallcombinations
+of mass ratio and orbital circularity can be found here: garrethmartin.github.io/interactive-profiles-ICL/index.html#energy-am.
+low-masssatellitescanretainmostoftheirinitialorbitalenergy.Our
+approachissimplifiedinthatitneglectsacollisionalgascomponent,
+which if present would increase the satellite mass and thus enhance
+dynamical friction. However, in cluster environments, ram-pressure
+strippingefficientlyremovesgasfromsuchsystemsbeforetheyreach
+thecentralregions(e.g.Roediger&Hensler2005;Tonnesen&Bryan
+2009;Jafféetal.2018;Arthuretal.2019;Kulieretal.2023),sothe
+absence of a collisional gas component is unlikely to be critical.
+The magnitude of this orbital decay sets an upper limit on the
+phase-spaceseparationthatcandevelopbetweenstrippedstellarand
+DMcomponents.EveninthelimitingcasewhereallDMisstripped
+at the satellite’s highest-energy orbit and all stars are stripped only
+after it has reached its lowest energy, the resulting offset cannot ex-
+ceed the total orbital energy decay. For satellites with mass ratios
+moredisparatethan∼1:20,thisdecayremainssmall(<10percent).
+Consequently,minormergersalonecannotreproducetheorbitalen-
+ergyoffsetbetweentheICLandDMreportedbyButleretal.(2025),
+in which stripped stars are shown to retain only∼75per cent of
+the orbital energy of the stripped DM component. Offsets of this
+magnitude therefore require mergers with substantially closer mass
+ratios, in which stronger dynamical friction and tidal torques allow
+more efficient loss of orbital energy by the satellite.3.3 Evolution of stripped stars and DM
+In this section, we analyse the dynamical properties of the stripped
+stellar and DM components themselves, which quantify how the
+debris populates the cluster potential.
+3.3.1 Phase-space distributions
+Figure 4 shows the specific orbital energy–angular momentum dis-
+tributions for stars and DM stripped from satellites with the mass
+ratio and orbital circularity indicated in the top-left of each panel.
+We only show four examples. An interactive version of this figure,
+available at the address shown in the figure caption, allows explo-
+rationofthespecificorbitalenergy–angularmomentumdistributions
+for every combination of satellite mass ratio and orbital circularity
+we simulate.
+Green and purple contours represent the distributions of stripped
+stellar and DM particles, respectively, with the marginalised distri-
+butions plotted along the top and right axes. Green and purple error
+barsindicatethemedianand16th–84thpercentiledispersionforeach
+component.Colouredtracksshowthetemporalevolutionofthemean
+energy and angular momentum of the combined DM and stars, with
+MNRAS000, 1–26 (2026)
+
+6G. Martin et al.
+0 2 4 6 8 10
+Time [Gyr]0.00.20.40.60.81.0/0
+Msat/Mhost
+103.0
+102.5
+102.0
+101.5
+101.2
+100.9
+100.5
+100.0
+Figure 3.The cluster-centric specific orbital energy evolution of different
+massratiosatellites.Thinlinesshowindividualorbits,terminatedbyacross
+wherethesatelliteiscompletelydestroyed,andthicklinesshowtheweighted
+averageorbitalenergyoverallorbitalconfigurations.Forthepurposeofaver-
+aging the profiles,all satellites are included,and for those thatare disrupted,
+the last available orbital energy is assumed to persist.

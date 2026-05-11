@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ImitationLearning",
+  "enables",
+  "Robot",
+  "acquires",
+  "ComplexManipulationSkill",
+  "SimulationBasedDataSynthesis",
+  "offers",
+  "Scalability",
+  "suffersFrom",
+  "SimToRealGap",
+  "RealToSimToRealPipeline",
+  "bridges",
+  "VisualGap",
+  "limitedTo",
+  "StaticSceneReconstruction",
+  "reliesOn",
+  "ReinforcementLearning",
+  "obtains",
+  "ManipulationData",
+  "exo_gs",
+  "allowsToCapture",
+  "4dSequence",
+  "comprises",
+  "3dEnvironment",
+  "RobotInteraction",
+  "consistsOf",
+  "CustomPassiveExoskeleton",
+  "3dgsBasedDataGenerationPipeline",
+  "air_exo_3",
+  "captures",
+  "HumanManipulation",
+  "Platform",
+  "ExoskeletonJointConfiguration",
+  "ObjectTrajectory",
+  "digitizedInto",
+  "MotionSequence",
+  "HardwareSoftwareSynergy",
+  "decouples",
+  "Object",
+  "Environment",
+  "DataAugmentation",
+  "MaskAdapter",
+  "mitigates",
+  "ResidualDomainShift",
+  "injects",
+  "InstanceLevelSemanticConstraint",
+  "injectsInto",
+  "Policy",
+  "R2S2RFramework",
+  "reconstructsInto",
+  "3DGSAsset",
+  "Demonstration",
+  "TrainingData",
+  "GeometricRepresentation",
+  "VisualAppearance",
+  "PhysicalInteraction",
+  "RgbBasedPolicy",
+  "NeuralSceneRepresentation",
+  "PhotorealisticRendering",
+  "RoboticHardware",
+  "R2s2rFramework",
+  "Editable3dgsAsset",
+  "Simulation",
+  "LightweightModule",
+  "SimulationPolicy",
+  "RealWorld",
+  "R2S2RPipeline",
+  "DigitalTwin",
+  "NeuralRadianceField",
+  "3DGaussianSplatting",
+  "PointBasedRepresentation",
+  "WorldModel",
+  "Navigation",
+  "Manipulation",
+  "ExoGS",
+  "DemonstrationData",
+  "DemonstrationCollection",
+  "HandheldGripper",
+  "VrArSystem",
+  "MotionCaptureGlove"
+]
+
+Triples:
+[
+  {
+    "subject": "ImitationLearning",
+    "relation": "enables",
+    "object": "Robot",
+    "chunk": "introduction",
+    "context": "IMITATION learning has enabled robots to acquire complex\nmanipulation skills from demonstrations."
+  },
+  {
+    "subject": "Robot",
+    "relation": "acquires",
+    "object": "ComplexManipulationSkill",
+    "chunk": "introduction",
+    "context": "IMITATION learning has enabled robots to acquire complex\nmanipulation skills from demonstrations."
+  },
+  {
+    "subject": "SimulationBasedDataSynthesis",
+    "relation": "offers",
+    "object": "Scalability",
+    "chunk": "introduction",
+    "context": "Simulation-based data synthesis offers scalability, butsuffers from the well-known sim-to-real gap due to discrep-ancies in geometric representation, visual appearance, and\nphysical interaction, particularly in visual fidelity for RGB-\nbased policies."
+  },
+  {
+    "subject": "SimulationBasedDataSynthesis",
+    "relation": "suffersFrom",
+    "object": "SimToRealGap",
+    "chunk": "introduction",
+    "context": "Simulation-based data synthesis offers scalability, butsuffers from the well-known sim-to-real gap due to discrep-ancies in geometric representation, visual appearance, and\nphysical interaction, particularly in visual fidelity for RGB-\nbased policies."
+  },
+  {
+    "subject": "RealToSimToRealPipeline",
+    "relation": "bridges",
+    "object": "VisualGap",
+    "chunk": "introduction",
+    "context": "Recent Real-to-Sim-to-Real (R2S2R) pipelines with neu-\nral scene representations, such as NeRF and 3D Gaussian\nSplatting (3DGS) [1], [2], have shown promise in bridging\nthe visual gap through photorealistic rendering."
+  },
+  {
+    "subject": "RealToSimToRealPipeline",
+    "relation": "limitedTo",
+    "object": "StaticSceneReconstruction",
+    "chunk": "introduction",
+    "context": "However,\nmost existing R2S2R pipelines are limited to static scene\nreconstruction and rely on reinforcement learning to obtain\nmanipulation data."
+  },
+  {
+    "subject": "RealToSimToRealPipeline",
+    "relation": "reliesOn",
+    "object": "ReinforcementLearning",
+    "chunk": "introduction",
+    "context": "However,\nmost existing R2S2R pipelines are limited to static scene\nreconstruction and rely on reinforcement learning to obtain\nmanipulation data."
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "obtains",
+    "object": "ManipulationData",
+    "chunk": "introduction",
+    "context": "However,\nmost existing R2S2R pipelines are limited to static scene\nreconstruction and rely on reinforcement learning to obtain\nmanipulation data."
+  },
+  {
+    "subject": "exo_gs",
+    "relation": "allowsToCapture",
+    "object": "4dSequence",
+    "chunk": "introduction",
+    "context": "To address this, this paper introducesExoGS, a low-cost,\nrobot-free R2S2R framework that allows users to capture\n4D sequences comprising 3D environments and spatiotem-\nporal robot interactions with objects."
+  },
+  {
+    "subject": "4dSequence",
+    "relation": "comprises",
+    "object": "3dEnvironment",
+    "chunk": "introduction",
+    "context": "To address this, this paper introducesExoGS, a low-cost,\nrobot-free R2S2R framework that allows users to capture\n4D sequences comprising 3D environments and spatiotem-\nporal robot interactions with objects."
+  },
+  {
+    "subject": "4dSequence",
+    "relation": "comprises",
+    "object": "RobotInteraction",
+    "chunk": "introduction",
+    "context": "To address this, this paper introducesExoGS, a low-cost,\nrobot-free R2S2R framework that allows users to capture\n4D sequences comprising 3D environments and spatiotem-\nporal robot interactions with objects."
+  },
+  {
+    "subject": "exo_gs",
+    "relation": "consistsOf",
+    "object": "CustomPassiveExoskeleton",
+    "chunk": "introduction",
+    "context": "Our framework con-\nsists of a custom passive exoskeleton with a 3DGS-based\ndata generation pipeline."
+  },
+  {
+    "subject": "exo_gs",
+    "relation": "consistsOf",
+    "object": "3dgsBasedDataGenerationPipeline",
+    "chunk": "introduction",
+    "context": "Our framework con-\nsists of a custom passive exoskeleton with a 3DGS-based\ndata generation pipeline."
+  },
+  {
+    "subject": "air_exo_3",
+    "relation": "captures",
+    "object": "HumanManipulation",
+    "chunk": "introduction",
+    "context": "The core insight is to leverage\na robot-isomorphic exoskeleton, AirExo-3, to sensorize and\ncapture human manipulation."
+  },
+  {
+    "subject": "Platform",
+    "relation": "captures",
+    "object": "ExoskeletonJointConfiguration",
+    "chunk": "introduction",
+    "context": "The manipulation data including\nexoskeleton joint configurations and object trajectories are\ncaptured by our platform (see Sec. III-B1) and then digitized\ninto a motion sequence of editable 3DGS assets of the robot\nand the objects."
+  },
+  {
+    "subject": "Platform",
+    "relation": "captures",
+    "object": "ObjectTrajectory",
+    "chunk": "introduction",
+    "context": "The manipulation data including\nexoskeleton joint configurations and object trajectories are\ncaptured by our platform (see Sec. III-B1) and then digitized\ninto a motion sequence of editable 3DGS assets of the robot\nand the objects."
+  },
+  {
+    "subject": "ManipulationData",
+    "relation": "digitizedInto",
+    "object": "MotionSequence",
+    "chunk": "introduction",
+    "context": "The manipulation data including\nexoskeleton joint configurations and object trajectories are\ncaptured by our platform (see Sec. III-B1) and then digitized\ninto a motion sequence of editable 3DGS assets of the robot\nand the objects."
+  },
+  {
+    "subject": "HardwareSoftwareSynergy",
+    "relation": "decouples",
+    "object": "Robot",
+    "chunk": "introduction",
+    "context": "This hardware-software synergy allows us\nto decouple the robot, objects, and environment, enabling\nmassive, geometry-consistent data augmentation in simulation."
+  },
+  {
+    "subject": "HardwareSoftwareSynergy",
+    "relation": "decouples",
+    "object": "Object",
+    "chunk": "introduction",
+    "context": "This hardware-software synergy allows us\nto decouple the robot, objects, and environment, enabling\nmassive, geometry-consistent data augmentation in simulation."
+  },
+  {
+    "subject": "HardwareSoftwareSynergy",
+    "relation": "decouples",
+    "object": "Environment",
+    "chunk": "introduction",
+    "context": "This hardware-software synergy allows us\nto decouple the robot, objects, and environment, enabling\nmassive, geometry-consistent data augmentation in simulation."
+  },
+  {
+    "subject": "HardwareSoftwareSynergy",
+    "relation": "enables",
+    "object": "DataAugmentation",
+    "chunk": "introduction",
+    "context": "This hardware-software synergy allows us\nto decouple the robot, objects, and environment, enabling\nmassive, geometry-consistent data augmentation in simulation."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "mitigates",
+    "object": "ResidualDomainShift",
+    "chunk": "introduction",
+    "context": "Furthermore, to mitigate the residual domain shift, we in-\ntroduce a Mask Adapter, a lightweight module that injects\ninstance-level semantic constraints into the policy, guiding"
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "injects",
+    "object": "InstanceLevelSemanticConstraint",
+    "chunk": "introduction",
+    "context": "Furthermore, to mitigate the residual domain shift, we in-\ntroduce a Mask Adapter, a lightweight module that injects\ninstance-level semantic constraints into the policy, guiding"
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "injectsInto",
+    "object": "Policy",
+    "chunk": "introduction",
+    "context": "Furthermore, to mitigate the residual domain shift, we in-\ntroduce a Mask Adapter, a lightweight module that injects\ninstance-level semantic constraints into the policy, guiding"
+  },
+  {
+    "subject": "R2S2RFramework",
+    "relation": "reconstructsInto",
+    "object": "3DGSAsset",
+    "chunk": "relatedworks",
+    "context": "A 4D, robot-free R2S2R framework that reconstructs real-world assets and manipulation sequences into editable 3DGS assets and their dynamics, enabling scalable, embodiment-consistent data generation."
+  }
+]

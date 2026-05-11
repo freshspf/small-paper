@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RedbellyNetwork",
+  "usesProtocol",
+  "TCPConnection",
+  "features",
+  "ScalableEVM",
+  "performsWellIn",
+  "GeoDistributedEnvironment",
+  "SolanaNetwork",
+  "isA",
+  "BlockchainProtocol",
+  "isLeaderBased",
+  "Leader",
+  "requiresAdditionalBlocks",
+  "Block",
+  "QUICProtocol",
+  "disseminatesUsing",
+  "Turbine",
+  "UDPProtocol",
+  "hasStructure",
+  "CryptographicSortition",
+  "enhances",
+  "AlgorandNetwork",
+  "AlgorandNode",
+  "sendsMessageAtMostOnce",
+  "Node",
+  "BatchTransaction",
+  "basedOn",
+  "Transaction",
+  "ProofOfStore",
+  "formedFrom",
+  "Signature",
+  "AvalancheNetwork",
+  "derivesProposerSeedFrom",
+  "ChainID",
+  "ParentBlock",
+  "ExperimentalSetup",
+  "consistsOf",
+  "VirtualMachine",
+  "hasNodeCount",
+  "25",
+  "runsOperatingSystem",
+  "Ubuntu 24.04.1 LTS",
+  "hostedOn",
+  "ProxmoxCluster",
+  "PhysicalServer",
+  "equippedWith",
+  "CPU",
+  "hasModel",
+  "AMD Opteron 6378",
+  "hasCoreCount",
+  "16",
+  "hasClockSpeed",
+  "2.40 GHz",
+  "hasRAM",
+  "256 GB",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "BandwidthConsumption",
+  "Validator",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "DiabloBenchmark"
+]
+
+Triples:
+[
+  {
+    "subject": "RedbellyNetwork",
+    "relation": "usesProtocol",
+    "object": "TCPConnection",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Redbelly's nodes communicate using TCP and features a Scalable variant of the EVM, called SEVM."
+  },
+  {
+    "subject": "RedbellyNetwork",
+    "relation": "features",
+    "object": "ScalableEVM",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Redbelly's nodes communicate using TCP and features a Scalable variant of the EVM, called SEVM."
+  },
+  {
+    "subject": "RedbellyNetwork",
+    "relation": "performsWellIn",
+    "object": "GeoDistributedEnvironment",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "It was shown to perform well under realistic dApps particularly in a large geo-distributed environment when compared to other modern blockchains [33]."
+  },
+  {
+    "subject": "SolanaNetwork",
+    "relation": "isA",
+    "object": "BlockchainProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Solana [37] is a leader-based blockchain that may fork."
+  },
+  {
+    "subject": "SolanaNetwork",
+    "relation": "isLeaderBased",
+    "object": "Leader",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Solana [37] is a leader-based blockchain that may fork."
+  },
+  {
+    "subject": "SolanaNetwork",
+    "relation": "requiresAdditionalBlocks",
+    "object": "Block",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "In order to determine whether a transaction is committed, Solana requires 30 additional blocks to be appended after the transaction's block."
+  },
+  {
+    "subject": "SolanaNetwork",
+    "relation": "usesProtocol",
+    "object": "QUICProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Nodes communicate over the QUIC network protocol [23] to exchange transactions."
+  },
+  {
+    "subject": "SolanaNetwork",
+    "relation": "disseminatesUsing",
+    "object": "Turbine",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Nodes split blocks into chunks that they disseminate in a hierarchical structure, called Turbine [1], through UDP."
+  },
+  {
+    "subject": "Turbine",
+    "relation": "usesProtocol",
+    "object": "UDPProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Nodes split blocks into chunks that they disseminate in a hierarchical structure, called Turbine [1], through UDP."
+  },
+  {
+    "subject": "Turbine",
+    "relation": "hasStructure",
+    "object": "Block",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Nodes split blocks into chunks that they disseminate in a hierarchical structure, called Turbine [1], through UDP."
+  },
+  {
+    "subject": "CryptographicSortition",
+    "relation": "enhances",
+    "object": "AlgorandNetwork",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Algorand [18] is a blockchain protocol that shuffles participants via cryptographic sortition to enhance security."
+  },
+  {
+    "subject": "AlgorandNode",
+    "relation": "sendsMessageAtMostOnce",
+    "object": "Node",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "In Algorand, nodes communicate with a gossip-based protocol where each node validates each message before relaying it and sends it at most once to each other node [9]."
+  },
+  {
+    "subject": "BatchTransaction",
+    "relation": "basedOn",
+    "object": "Transaction",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "(2)Arrange transactions into batches based on gas price and select an expiration time for each batch."
+  },
+  {
+    "subject": "ProofOfStore",
+    "relation": "formedFrom",
+    "object": "Signature",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "(5)Collect signatures from more than 2n/3 nodes to form a proof-of-store."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "derivesProposerSeedFrom",
+    "object": "ChainID",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "After each parent block, it pseudo-randomly selects an ordered list of potential proposers for the next block height, weighted by stake and using a seed derived from the parent block's height and chain ID."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "derivesProposerSeedFrom",
+    "object": "ParentBlock",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "After each parent block, it pseudo-randomly selects an ordered list of potential proposers for the next block height, weighted by stake and using a seed derived from the parent block's height and chain ID."
+  },
+  {
+    "subject": "ExperimentalSetup",
+    "relation": "consistsOf",
+    "object": "VirtualMachine",
+    "chunk": "experimentalsettings",
+    "context": "Our experimental setup consists of a distributed system of 25 VMs running Ubuntu 24.04.1 LTS on top of a Proxmox cluster of physical servers, each equipped with 4x AMD Opteron 6378 16-core CPUs running at 2.40 GHz, 256 GB of RAM, and 10 GbE NICs."
+  },
+  {
+    "subject": "ExperimentalSetup",
+    "relation": "hasNodeCount",
+    "object": "25",
+    "chunk": "experimentalsettings",
+    "context": "Our experimental setup consists of a distributed system of 25 VMs running Ubuntu 24.04.1 LTS on top of a Proxmox cluster of physical servers."
+  },
+  {
+    "subject": "VirtualMachine",
+    "relation": "runsOperatingSystem",
+    "object": "Ubuntu 24.04.1 LTS",
+    "chunk": "experimentalsettings",
+    "context": "Our experimental setup consists of a distributed system of 25 VMs running Ubuntu 24.04.1 LTS on top of a Proxmox cluster of physical servers."
+  },
+  {
+    "subject": "VirtualMachine",
+    "relation": "hostedOn",
+    "object": "ProxmoxCluster",
+    "chunk": "experimentalsettings",
+    "context": "Our experimental setup consists of a distributed system of 25 VMs running Ubuntu 24.04.1 LTS on top of a Proxmox cluster of physical servers."
+  },
+  {
+    "subject": "PhysicalServer",
+    "relation": "equippedWith",
+    "object": "CPU",
+    "chunk": "experimentalsettings",
+    "context": "each equipped with 4x AMD Opteron 6378 16-core CPUs running at 2.40 GHz, 256 GB of RAM, and 10 GbE NICs."
+  },
+  {
+    "subject": "CPU",
+    "relation": "hasModel",
+    "object": "AMD Opteron 6378",
+    "chunk": "experimentalsettings",
+    "context": "each equipped with 4x AMD Opteron 6378 16-core CPUs running at 2.40 GHz, 256 GB of RAM, and 10 GbE NICs."
+  },
+  {
+    "subject": "CPU",
+    "relation": "hasCoreCount",
+    "object": "16",
+    "chunk": "experimentalsettings",
+    "context": "each equipped with 4x AMD Opteron 6378 16-core CPUs running at 2.40 GHz, 256 GB of RAM, and 10 GbE NICs."
+  },
+  {
+    "subject": "CPU",
+    "relation": "hasClockSpeed",
+    "object": "2.40 GHz",
+    "chunk": "experimentalsettings",
+    "context": "each equipped with 4x AMD Opteron 6378 16-core CPUs running at 2.40 GHz, 256 GB of RAM, and 10 GbE NICs."
+  },
+  {
+    "subject": "PhysicalServer",
+    "relation": "hasRAM",
+    "object": "256 GB",
+    "chunk": "experimentalsettings",
+    "context": "each equipped with 4x AMD Opteron 6378 16-core CPUs running at 2.40 GHz, 256 GB of RAM, and 10 GbE NICs."
+  }
+]

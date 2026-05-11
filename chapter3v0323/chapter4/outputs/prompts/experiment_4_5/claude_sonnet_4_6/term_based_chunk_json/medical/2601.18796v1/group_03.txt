@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_GTRBase",
+  "trainedOn",
+  "dataset_wikipediaPassages",
+  "model_vec2Text",
+  "inverts",
+  "AbstractEmbedding",
+  "model_vec2TextFt",
+  "dataset_pubMedRct",
+  "model_vec2TextSectFt",
+  "metric_semanticConsistency",
+  "usedAs",
+  "PrimaryMetric",
+  "measures",
+  "SemanticCloseness",
+  "model_ctElm",
+  "outperforms",
+  "evaluatedOn",
+  "task_emb2abs",
+  "task_emb2sec",
+  "task_emb2dif",
+  "CtelmModel",
+  "generates",
+  "ClinicalTrial",
+  "learns",
+  "DataManifold",
+  "performsTask",
+  "Emb2absTask",
+  "HumanExpert",
+  "discriminates",
+  "RealAbstract",
+  "HypotheticalAbstract",
+  "Vec2TextSectFt",
+  "Abstract",
+  "ConceptActivationVector",
+  "identifies",
+  "DemographicsAxis",
+  "represents",
+  "ClinicalTrialSubjectDemographics",
+  "LinearKernelSvm",
+  "ScikitLearn",
+  "implements",
+  "ExtractionAgent",
+  "extractsDemographic",
+  "DemographicSex",
+  "DemographicAge",
+  "model_vec2text_sect_ft",
+  "evaluatesAgainst",
+  "model_ctELM",
+  "ctelm",
+  "ClinicalTrialEmbedding",
+  "LargeLanguageModel",
+  "EmbeddingLanguageModel",
+  "ConceptVector",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "TextEmbedding",
+  "ClinicalTrialAbstract",
+  "vec2text",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "Corrector",
+  "HypothesisText",
+  "Text",
+  "ContextualEmbedding",
+  "EmbeddingSpace",
+  "BaseChatModel",
+  "TransformerLayer",
+  "TargetModel"
+]
+
+Triples:
+[
+  {
+    "subject": "model_GTRBase",
+    "relation": "trainedOn",
+    "object": "dataset_wikipediaPassages",
+    "chunk": "completedocument4",
+    "context": "We first compare against the published GTR-base model, trained on Wikipedia passages."
+  },
+  {
+    "subject": "model_vec2Text",
+    "relation": "inverts",
+    "object": "AbstractEmbedding",
+    "chunk": "completedocument5",
+    "context": "Vec2Text: The published model directly inverts an abstract embedding into its corresponding text."
+  },
+  {
+    "subject": "model_vec2TextFt",
+    "relation": "trainedOn",
+    "object": "dataset_pubMedRct",
+    "chunk": "completedocument5",
+    "context": "To approximately match the number of training steps of our 1.2M ctELM models, we train the fine-tuned models (Vec2Text-ft and Vec2Text-sect-ft) for 7 epochs on the 190K abstracts from the PubMedRCT training set."
+  },
+  {
+    "subject": "model_vec2TextSectFt",
+    "relation": "trainedOn",
+    "object": "dataset_pubMedRct",
+    "chunk": "completedocument5",
+    "context": "To approximately match the number of training steps of our 1.2M ctELM models, we train the fine-tuned models (Vec2Text-ft and Vec2Text-sect-ft) for 7 epochs on the 190K abstracts from the PubMedRCT training set."
+  },
+  {
+    "subject": "metric_semanticConsistency",
+    "relation": "usedAs",
+    "object": "PrimaryMetric",
+    "chunk": "completedocument5",
+    "context": "We adopt Semantic Consistency (SC) (Tennenholtz et al., 2024) as our primary metric."
+  },
+  {
+    "subject": "metric_semanticConsistency",
+    "relation": "measures",
+    "object": "SemanticCloseness",
+    "chunk": "completedocument5",
+    "context": "SC measures the semantic closeness between two embeddings."
+  },
+  {
+    "subject": "model_ctElm",
+    "relation": "outperforms",
+    "object": "model_vec2Text",
+    "chunk": "completedocument5",
+    "context": "Across all tasks, ctELM consistently outperforms all Vec2Text baselines."
+  },
+  {
+    "subject": "model_vec2TextSectFt",
+    "relation": "evaluatedOn",
+    "object": "task_emb2abs",
+    "chunk": "completedocument5",
+    "context": "For example, on abstract reconstruction ( emb2abs with penalty=1.2), Vec2Text-sect-ft achieves 0.82, while ctELM models achieve up to 0.87, indicating the effectiveness of the proposed architecture in capturing semantic content from embeddings."
+  },
+  {
+    "subject": "model_ctElm",
+    "relation": "evaluatedOn",
+    "object": "task_emb2abs",
+    "chunk": "completedocument5",
+    "context": "For example, on abstract reconstruction ( emb2abs with penalty=1.2), Vec2Text-sect-ft achieves 0.82, while ctELM models achieve up to 0.87, indicating the effectiveness of the proposed architecture in capturing semantic content from embeddings."
+  },
+  {
+    "subject": "model_ctElm",
+    "relation": "evaluatedOn",
+    "object": "task_emb2sec",
+    "chunk": "completedocument5",
+    "context": "For example, emb2sec improves from 0.73–0.75 (190K) to 0.76–0.77 (1.2M), and emb2dif improves from 0.86 to 0.89."
+  },
+  {
+    "subject": "model_ctElm",
+    "relation": "evaluatedOn",
+    "object": "task_emb2dif",
+    "chunk": "completedocument5",
+    "context": "For example, emb2sec improves from 0.73–0.75 (190K) to 0.76–0.77 (1.2M), and emb2dif improves from 0.86 to 0.89."
+  },
+  {
+    "subject": "CtelmModel",
+    "relation": "generates",
+    "object": "ClinicalTrial",
+    "chunk": "completedocument6",
+    "context": "The high Semantic Consistency for clinical trials generated by ctELM from novel embeddings demonstrates that the model has successfully learned a data manifold for a set of abstracts."
+  },
+  {
+    "subject": "CtelmModel",
+    "relation": "learns",
+    "object": "DataManifold",
+    "chunk": "completedocument6",
+    "context": "The high Semantic Consistency for clinical trials generated by ctELM from novel embeddings demonstrates that the model has successfully learned a data manifold for a set of abstracts."
+  },
+  {
+    "subject": "CtelmModel",
+    "relation": "performsTask",
+    "object": "Emb2absTask",
+    "chunk": "completedocument6",
+    "context": "For both questions, we will have ctELM perform the emb2abs task for novel embeddings (those not directly generated from text sources by the mappingX 7→ Z emb)."
+  },
+  {
+    "subject": "HumanExpert",
+    "relation": "discriminates",
+    "object": "RealAbstract",
+    "chunk": "completedocument6",
+    "context": "To answer RQ1 (plausibility of clinical trials generated from novel embeddings), we task human experts with discriminating real (test set) abstracts from hypothetical ones generated using the emb2abs prompt and novel embedding vectors."
+  },
+  {
+    "subject": "HumanExpert",
+    "relation": "discriminates",
+    "object": "HypotheticalAbstract",
+    "chunk": "completedocument6",
+    "context": "To answer RQ1 (plausibility of clinical trials generated from novel embeddings), we task human experts with discriminating real (test set) abstracts from hypothetical ones generated using the emb2abs prompt and novel embedding vectors."
+  },
+  {
+    "subject": "Vec2TextSectFt",
+    "relation": "generates",
+    "object": "Abstract",
+    "chunk": "completedocument6",
+    "context": "As a baseline, we compare to Vec2Text-sect-ft performing the easier task of generating abstracts from original (not interpolated) embeddings, as its section-wise nature precludes direct interpolations."
+  },
+  {
+    "subject": "ConceptActivationVector",
+    "relation": "identifies",
+    "object": "DemographicsAxis",
+    "chunk": "completedocument6",
+    "context": "We train CA Vs to identify two axes representing demographics of clinical trial subjects: (1) sex (male vs. female), and (2) age (children vs. older adults)."
+  },
+  {
+    "subject": "DemographicsAxis",
+    "relation": "represents",
+    "object": "ClinicalTrialSubjectDemographics",
+    "chunk": "completedocument6",
+    "context": "We train CA Vs to identify two axes representing demographics of clinical trial subjects: (1) sex (male vs. female), and (2) age (children vs. older adults)."
+  },
+  {
+    "subject": "LinearKernelSvm",
+    "relation": "identifies",
+    "object": "ConceptActivationVector",
+    "chunk": "completedocument6",
+    "context": "The model used to identify the CA Vs is a linear kernel SVM, implemented with Scikit-learn (Pedregosa et al., 2011)."
+  },
+  {
+    "subject": "ScikitLearn",
+    "relation": "implements",
+    "object": "LinearKernelSvm",
+    "chunk": "completedocument6",
+    "context": "The model used to identify the CA Vs is a linear kernel SVM, implemented with Scikit-learn (Pedregosa et al., 2011)."
+  },
+  {
+    "subject": "ExtractionAgent",
+    "relation": "extractsDemographic",
+    "object": "DemographicSex",
+    "chunk": "completedocument7",
+    "context": "To determine responsiveness, we employ an extraction agent to label sex or age of the subjects in the resulting abstracts (see Appendix K)."
+  },
+  {
+    "subject": "ExtractionAgent",
+    "relation": "extractsDemographic",
+    "object": "DemographicAge",
+    "chunk": "completedocument7",
+    "context": "To determine responsiveness, we employ an extraction agent to label sex or age of the subjects in the resulting abstracts (see Appendix K)."
+  },
+  {
+    "subject": "model_vec2text_sect_ft",
+    "relation": "evaluatesAgainst",
+    "object": "HumanExpert",
+    "chunk": "completedocument7",
+    "context": "Vec2Text-sect-ft (the highest performing baseline) fooled experts only once in the 50 pairs, even using unmodified embeddings."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "evaluatesAgainst",
+    "object": "HumanExpert",
+    "chunk": "completedocument7",
+    "context": "On the other hand, ctELM fools the experts 44% of the time, close to the theoretical limit of 50%, even though it is performing the more difficult task of generating hypothetical abstracts from novel (interpolated) embeddings."
+  }
+]

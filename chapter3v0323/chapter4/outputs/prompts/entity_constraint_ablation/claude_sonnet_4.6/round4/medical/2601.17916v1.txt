@@ -1,0 +1,90 @@
+You are an ontology axiom extraction system. Your task is to identify and extract formal RDFS ontology axioms from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+**CORE INSTRUCTIONS:**
+1. Extract ontology axioms including but not limited to:
+   - Subclass relationships (`rdfs:subClassOf`)
+   - Sub-objectproperty relationships (`owl:subObjectPropertyOf`)
+   - Sub-dataproperty relationships (`owl:subDataPropertyOf`)
+   - Domain restrictions (`rdfs:domain`)
+   - Range restrictions (`rdfs:range`)
+   - Disjointness axioms (`owl:disjointWith`)
+
+2. Each axiom must represent a single atomic ontological assertion and describe the knowledge in the given field.
+
+3. Every axiom MUST be directly supported by an exact quote from the provided text OR logically inferred from explicit statements about class/property relationships.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following exact structure:
+{
+  "axioms": [
+    {
+      "subject": "string (the ontological entity)",
+      "relation": "string (the ontological predicate)",
+      "object": "string (the target entity or value)",
+      "chunk": "string (from which section)",
+      "evidence": "string (exact text segment supporting this axiom)"
+    }
+  ]
+}
+
+**EXAMPLES OF EXPECTED EXTRACTION:**
+Input text: "Aquifer microbes are a subclass of microbial functional guilds. They are found in aquifers."
+
+Extracted axioms:
+1. {
+  "subject": "AquiferMicrobes",
+  "relation": "rdfs:subClassOf",
+  "object": "MicrobialFunctionalGuild",
+  "chunk": "ABSTRACT",
+  "evidence": "Aquifer microbes are a subclass of microbial functional guilds."
+}
+2. {
+  "subject": "foundIn",
+  "relation": "rdfs:domain",
+  "object": "AquiferMicrobes",
+  "chunk": "Introduction",
+  "evidence": "They are found in aquifers."
+}
+3. {
+  "subject": "foundIn",
+  "relation": "rdfs:range",
+  "object": "Aquifer",
+  "chunk": "Experiments",
+  "evidence": "They are found in aquifers."
+}
+
+**INPUT TEXT:**
+UNIPACT: A MULTIMODAL FRAMEWORK FOR PROGNOSTIC QUESTION ANSWERING ON RAW ECG AND STRUCTURED EHR
+
+ABSTRACT
+Accurate clinical prognosis requires synthesizing structured Electronic Health Records (EHRs) with real-time physiological signals like the Electrocardiogram (ECG). Large Language Models (LLMs) offer a powerful reasoning engine for this task but struggle to natively process these heterogeneous, non-textual data types. To address this, we propose UniPACT (Unified Prognostic Question Answering for Clinical Time-series), a unified framework for prognostic question answering that bridges this modality gap. UniPACT’s core contribution is a structured prompting mechanism that converts numerical EHR data into semantically rich text. This textualized patient context is then fused with representations learned directly from raw ECG waveforms, enabling an LLM to reason over both modalities holistically. We evaluate UniPACT on the comprehensive MDS-ED benchmark, it achieves a state-of-the-art mean AUROC of 89.37% across a diverse set of prognostic tasks including diagnosis, deterioration, ICU admission, and mortality, outperforming specialized baselines. Further analysis demonstrates that our multimodal, multi-task approach is critical for performance and provides robustness in missing data scenarios.

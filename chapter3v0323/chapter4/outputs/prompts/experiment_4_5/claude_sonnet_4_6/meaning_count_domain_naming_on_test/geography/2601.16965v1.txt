@@ -1,0 +1,574 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Spatial-Agent: Agentic Geo-spatial Reasoning with Scientiﬁc Core
+Concepts
+Riyang Bao1*, Cheng Yang2*, Dazhou Yu1, Zhexiang Tang2, Gengchen Mai3, Liang Zhao1
+1Emory University, 2Rutgers University, 3University of Texas at Austin
+*Equal contribution. Correspondence: Liang Zhao
+Abstract
+Geospatial reasoning is essential for real-world
+applications such as urban analytics, transporta-
+tion planning, and disaster response. However,
+existing LLM-based agents often fail at genuine
+geospatial computation, relying instead on web
+search or pattern matching while hallucinat-
+ing spatial relationships. We present Spatial-
+Agent, an AI agent grounded in foundational
+theories of spatial information science. Our ap-
+proach formalizes geo-analytical question an-
+swering as a concept transformation problem,
+where natural-language questions are parsed
+into executable workﬂows represented as Ge-
+oFlow Graphs—directed acyclic graphs with
+nodes corresponding to spatial concepts and
+edges representing transformations. Drawing
+on spatial information theory, Spatial-Agent
+extracts spatial concepts, assigns functional
+roles with principled ordering constraints, and
+composes transformation sequences through
+template-based generation. Extensive exper-
+iments on MapEval-API and MapQA bench-
+marks demonstrate that Spatial-Agent signiﬁ-
+cantly outperforms existing baselines including
+ReAct and Reﬂexion, while producing inter-
+pretable and executable geospatial workﬂows.
+1 Introduction
+Geospatial reasoning is essential for numerous
+real-world applications, including urban analytics,
+transportation planning, environmental monitor-
+ing, disaster response, and public health ( Li et al.,
+2021, 2023; Mai et al. , 2021, 2025). As geospa-
+tial datasets and modern GIS platforms continue
+to proliferate, users increasingly expect natural-
+language interfaces capable of handling complex
+geo-analytical questions (Y u et al., 2025; Scheider
+et al., 2020, 2021). However, despite the impres-
+sive capabilities of contemporary large language
+models (LLMs), we observe that current agent-
+style systems, including function-calling LLMs
+Figure 1: LLM-intuitive but incorrect workﬂow (left)
+vs. correct concept transformation (right). The incorrect
+applies spatial constraints after aggregation; the correct
+computes crime rates within spatial context ﬁrst.
+and commercial AI agents, do not perform gen-
+uine geospatial reasoning.
+Prior work shows that LLM-based agents lack
+inherent spatial awareness, relying on web search
+or textual pattern matching rather than computa-
+tional spatial analysis (Y an et al., 2023; Zhang et al.,
+2025a). As illustrated in Figure 1, they hallucinate
+spatial relationships, fail on geometric or topolog-
+ical predicates, and cannot construct valid work-
+ﬂows (Wang et al., 2025; Ji et al. , 2025).
+This reﬂects a deeper limitation: geo-analytical
+questions require procedural, multi-step reasoning
+over spatial data, which fundamentally differs from
+declarative QA. Classical GIScience research has
+long emphasized that geographical phenomena are
+inherently computational rather than purely lin-
+guistic ( Goodchild, 1992; Miller and Goodchild ,
+2015; Goodchild et al. , 2007). Answering a geo-
+analytical question often involves: (i) identifying
+core spatial entities (objects, events, ﬁelds, net-
+works), (ii) selecting appropriate spatial operators
+(buffering, overlay, routing, aggregation), (iii) or-
+dering operators into an executable workﬂow, and
+(iv) grounding abstract instructions into concrete
+GIS tools (e.g., PostGIS, ArcGIS, QGIS). These
+operations are geometric, topological, and some-
+times spatiotemporal in nature, and thus beyond the
+representational power of language-only models.
+arXiv:2601.16965v1 [cs.AI] 23 Jan 2026
+A promising direction in GIScience suggests that
+geo-analytical questions encode implicit procedu-
+ral knowledge. Kuhn’s theory of core concepts
+(Kuhn, 2012) and subsequent work by Scheider et
+al. ( Scheider et al. , 2020) identiﬁes foundational
+building blocks of spatial information, such as Ob-
+ject, Field, Event and Network. Complementing
+these, GeoAnQu research ( Xu et al. , 2023) high-
+lights functional roles (Measure, Condition, Sub-
+condition, Support, Extent, etc.) that encode the
+procedural structure of geo-analytical questions.
+By combining core concepts and functional roles,
+GeoAnQu demonstrates that natural-language ques-
+tions can be mapped into concept transformations,
+forming the basis of GIS workﬂows represented as
+directed acyclic graphs (DAGs). Y et this frame-
+work remains rule-based, ofﬂine, and detached
+from modern AI agent architectures.
+In this paper, we ask: What would it take for
+an AI agent to truly understand and execute geo-
+analytical questions? Despite advances in tool-
+augmented LLMs, current agents remain limited
+in the geospatial domain. They often misinterpret
+spatial entities and relations, lack a procedural un-
+derstanding of how geo-analytical tasks unfold, and
+cannot reliably map natural-language questions to
+coherent sequences of spatial operations. These
+systems also struggle to manage intermediate spa-
+tial states or ground their reasoning in computa-
+tional GIS tools, which leads to answers that are
+largely descriptive rather than operational. As a
+result, existing agents fail to produce veriﬁable and
+executable geospatial analyses.
+To address these challenges, we present Spatial-
+Agent, a geospatial AI agent grounded in founda-
+tional theories of spatial information. We formal-
+ize geo-analytical question answering as a concept
+transformation problem, where natural-language
+questions are parsed into executable workﬂows rep-
+resented as GeoFlow Graphs . Drawing on core
+concepts and functional roles, Spatial-Agent es-
+tablishes a principled intermediate representation
+that bridges language and computation. Speciﬁ-
+cally, the agent (i) extracts spatial concepts from
+questions and instantiates them as graph nodes,
+(ii) identiﬁes functional roles that impose ordering
+constraints, (iii) composes transformation edges
+through a template-based approach that leverages
+recurring geo-analytical patterns, and (iv) executes
+the workﬂow via tool invocations, grounding its
+ﬁnal response in veriﬁable computational results
+rather than parametric knowledge alone.
+Our contributions are summarized as follows:
+• We present Spatial-Agent, which enables
+geospatial reasoning by uncovering the im-
+plicit structure of spatial questions and gener-
+ating coherent, executable workﬂows.
+• We propose a compositional GeoFlow
+Graph generation approach based on macro-
+templates, capturing recurring geo-analytical
+patterns and improving structural validity via
+template matching and IO-port composition.
+• Extensive evaluations show that SpatialAgent
+delivers signiﬁcantly better correctness, inter-
+pretability, and executable workﬂow genera-
+tion than existing agent baselines, bridging
+the gap between natural-language reasoning
+and computational GIS.
+2 Related Work
+Geospatial Question Answering. Geospatial
+question answering ( Mai et al. , 2021) is a sub-
+domain of question answering focusing on ques-
+tions that involve geographic entities, concepts,
+and/or require geospatial computation. Early
+geospatial QA systems focused on factoid-style
+questions over knowledge graphs (Mai et al., 2020).
+GeoQA ( Punjani et al. , 2018) and its successor
+GeoQA2 (Kefalidis et al., 2024) answer questions
+over DBpedia and Y AGO2geo using template-
+based SPARQL query generation. The GeoQues-
+tions1089 benchmark (Kefalidis et al., 2023) pro-
+vides 1,089 questions with GeoSPARQL queries
+for evaluation. TourismQA ( Contractor et al. ,
+2021b,a) was constructed as a tourism-oriented
+geospatial QA dataset focusing on retrieving points
+of interest (POIs) from spatial databases based
+on text-to-SQL approaches according to speciﬁed
+geospatial and semantics constraints. More re-
+cently, MapQA ( Li et al. , 2025) was introduced
+as a similar text-to-SQL style POI retrieval bench-
+mark with diverse geospatial constraits. However,
+these systems primarily handle declarative queries
+rather than procedural, multi-step geo-analytical
+reasoning. Scheider et al. (2021) and its follow-up
+work, GeoAnQu ( Xu et al. , 2023), move toward
+geo-analytical questions by identifying functional
+roles and spatial concept transformations, but re-
+main rule-based and ofﬂine.
+LLM-based Agents and Tool Use. Recent ad-
+vances in LLM agents have demonstrated impres-
+sive capabilities in tool-augmented reasoning. Re-
+Act ( Y ao et al. , 2022) introduced the thought-
+action-observation loop for interleaved reasoning
+and acting. Toolformer ( Schick et al. , 2023) en-
+ables self-supervised tool use learning, while Code-
+Act (Wang et al., 2024) shows that generating exe-
+cutable code outperforms JSON-based actions by
+up to 20%. In the geospatial domain, LLM-Geo ( Li
+and Ning, 2023) and GeoGPT ( Zhang et al. , 2024)
+demonstrate autonomous GIS capabilities using
+GPT-4 for geoprocessing workﬂow generation and
+code execution. GeoAgent ( Chen et al. , 2024) in-
+tegrates RAG with Monte Carlo Tree Search for
+geospatial data processing, and GTChain ( Zhang
+et al., 2025b) ﬁne-tunes LLaMA for geospatial tool-
+use chains.
+Spatial Core Concepts and Workﬂow Compo-
+sition. Kuhn’s theory of core concepts ( Kuhn,
+2012) provides foundational building blocks for
+spatial information, including Object, Field, Event,
+and Network. Scheider et al. (2020) formalized
+these into the Core Concept Data Type (CCD)
+ontology, enabling semantic constraints for GIS
+workﬂow automation. Kruiger et al. (2021) demon-
+strated that loose programming with CCD types
+can automatically construct valid workﬂows for
+tasks like accessibility assessment and spatial in-
+terpolation. In parallel, neural program synthesis
+(Devlin et al., 2017; Zhong et al. , 2023) has shown
+success in generating structured programs from
+speciﬁcations.
+3 Spatial-Agents
+3.1 Problem formulation of Agentic
+Geo-Spatial Reasoning
+Unlike existing LLM-based agents that rely on
+general-purpose planning and reasoning, Spatial-
+Agent is designed around a key insight: geo-
+analytical questions require grounding natural-
+language semantics into computational spatial rep-
+resentations. This poses three fundamental chal-
+lenges that distinguish geo-analytical reasoning
+from general-purpose tasks:
+• Semantic Domain vs. Spatial Domain. LLM
+agents represent spatial relationships as lin-
+guistic patterns rather than geometric struc-
+tures. For instance, “airport” and “termi-
+nal” are linguistically interchangeable, yet
+spatially the terminal is contained within
+the airport—a distinction critical for distance
+computation but invisible to language models.
+• Cognitive Reasoning vs. Spatial Reasoning.
+LLMs treat geospatial tools as black-box APIs
+without understanding the procedural struc-
+ture of geo-analytical questions. They lack a
+principled way to decompose spatial queries
+into ordered operations, often producing in-
+valid workﬂows.
+• Spatial Orchestration vs. Spatial Execution.
+Even when LLMs understand individual spa-
+tial operations, they struggle to orchestrate
+them into executable workﬂows where inter-
+mediate states must be tracked and data de-
+pendencies respected.
+To address these challenges, Spatial-Agent in-
+troduces: (1) explicit spatial grounding that trans-
+forms semantic descriptions into computational rep-
+resentations with precise geometric meanings; (2)
+a theory-driven framework leveraging GIScience
+core concepts and functional roles to decompose
+geo-analytical questions; and (3) the GeoFlow
+Graph as an intermediate representation bridging
+spatial knowledge with agent execution.
+System Overview. As illustrated in Figure 2,
+Spatial-Agent operates through a multi-stage
+pipeline: (1) Spatial Information Theory Analy-
+sis (§3.2) extracts core concepts from the ques-
+tion and groups them by functional roles; (2) Con-
+cept Transformation Drafting retrieves templates
+to deﬁne transformation patterns between concepts;
+(3) GeoFlow Graph Construction (§3.3) assembles
+transformations into an ordered graph following
+role-based precedence constraints; (4) GeoFlow
+Graph Factorization & Tool Mapping converts the
+graph into an executable form with concrete opera-
+tors; and (5) the agent executes the workﬂow and
+generates a grounded response.
+3.2 Geospatial Concept Grounding
+To ground semantic concepts in spatial analysis,
+we must map abstract, non-spatial concepts from
+their original domains to concrete geo-objects in
+the spatial domain, and subsequently derive the
+corresponding geographic relations among them.
+This grounding process requires two complemen-
+tary formalisms: core concepts that deﬁne what
+spatial entities exist, and functional roles that spec-
+ify how they participate in analysis. GIScience has
+Figure 2: Overview of Spatial-Agent: (A) Spatial information theory analysis extracts core concepts and assigns
+functional roles; (B) Concept transformation drafting composes templates from the library; (C) GeoFlow Graph
+construction produces an ordered and constrained graph; (D) Graph factorization maps to executable tools for
+execution and answer generation.
+long recognized that such grounding follows prin-
+cipled patterns governed by geospatial semantics
+(Goodchild, 1992; Kuhn, 2012; Mai et al. , 2021;
+Scheider et al., 2021).
+To formalize this grounding process, we rep-
+resent the result as a GeoFlow Graph . Given a
+natural-language geo-analytical question q, our
+goal is to derive a GeoFlow Graph G that represents
+an executable geospatial workﬂow:
+f : q →↑G (1)
+where G =( V, E, ω, ε) consists of concept nodes
+V , transformation edges E ↓ V ↔ V , a concept
+labeling function ω : V ↑C mapping nodes to
+spatial concepts (deﬁned below based on spatial
+core concept theory), and a role assignment func-
+tion ε : V ↑R assigning functional roles (deﬁned
+below based on geo-analytical reasoning princi-
+ples). Each directed edge (vi,v j ) ↗ E represents a
+transformation—a semantic change from one spa-
+tial concept to another (e.g., from a place name to
+coordinates via geocoding). Each transformation
+is realized by an operator ϑ ↗ !, a concrete com-
+putational function that takes input concepts and
+produces output concepts.
+Here, we deﬁne the spatial concept space C as a
+set of core concepts that ground semantic represen-
+tations into geographic primitives ( Kuhn, 2012):
+C =
+{ LOCA TION, OBJECT , FIELD , EVENT ,
+NETWORK , AMOUNT , PROPORTION
+(2)
+These seven primitives, widely recognized in geo-
+graphic information theory, capture the fundamen-
+tal building blocks of geographic phenomena and
+provide a vocabulary for representing spatial enti-
+ties extracted from natural-language questions (see
+Appendix A for detailed deﬁnitions and examples).
+Crucially, we operationalize these abstract con-
+cepts into a mathematical framework that LLMs
+can manipulate. Each concept c ↗C is not merely
+a label but carries associated type signatures, valid
+transformations, and composability rules. This for-
+malization transforms the descriptive spatial theory
+into a computational substrate: the agent can query
+concept compatibility, validate transformation se-
+quences, and reason about workﬂow correctness
+through symbolic operations on C.
+While core concepts deﬁne what spatial entities
+are, we also need to specify how they participate in
+geo-analytical reasoning. To this end, we introduce
+functional roles to explicitly encode the procedural
+structure of geo-analytical questions ( Xu et al. ,
+2023):
+R =
+EXTENT , TEXTENT , SUB COND ,
+COND , SUPPORT , MEASURE
+⊿ (3)
+We also distinguish between contextual roles
+(EXTENT , TEXTENT ) and procedural roles
+(SUB COND , COND , SUPPORT , MEASURE ). Con-
+textual roles constrain data collection but do not
+participate in the procedural ordering of transforma-
+tions (e.g., “New Y ork City” asEXTENT and “2025”
+as TEXTENT in Figure 2 (B)). For procedural roles,
+we deﬁne a precedence relation ↘ derived from the
+execution semantics of geo-analytical workﬂows:
+SUB COND ↘ COND ↘ SUPPORT ↘ MEASURE .
+This ordering reﬂects the inherent structure of
+geo-analytical workﬂows: sub-conditions restrict
+candidate entities, conditions constrain supports,
+supports establish the spatial basis, and measure-
+ments are the ﬁnal outputs. By making this proce-
+dural structure explicit, the agent follows transfor-
+mation orders derived from geographic ﬁrst prin-
+ciples rather than hallucinating arbitrary operation
+sequences (see Appendix B for detailed role deﬁni-
+tions).
+3.3 Spatial Orchestration
+With the concept space C and functional roles R
+established, we describe how to construct GeoFlow
+Graph G from a question. The challenge is de-
+termining which transformation edges to include:
+an edge (vi,v j ) ↗ E should be added when the
+resolution of vj depends on the output of vi.
+V includes both explicit concepts directly men-
+tioned in the question and implicit concepts in-
+ferred to complete the workﬂow. For example,
+given “What is the driving time from my hotel to
+the nearest coffee shop?”, the explicit concepts are
+HOTEL , COFFEE SHOP , and DRIVING TIME . How-
+ever, computing driving time requires a ROAD NET-
+WORK (prerequisite data source) and an intermedi-
+ate ROUTE connecting the two locations—neither
+of which is explicitly mentioned. The generation
+process (§ 3.4) is responsible for identifying and
+instantiating these implicit nodes.
+Geoﬂow graph factorization. GeoFlow Graphs
+capture concept-level transformations, where nodes
+represent spatial core concepts and edges denote
+semantic dependencies. However, these edges do
+not directly correspond to executable operators in
+an agentic system: many geo-analytical transfor-
+mations jointly consume multiple input concepts,
+while the original graph encodes them as separate
+edges. To make GeoFlow Graphs executable, we
+reinterpret them as a factorized operator–concept
+hypergraph G→ =( V →,E →) such that there is a bi-
+jective mapping between them G ≃ G→, where
+V → are the nodes consisting of spatial core con-
+cept nodes and factor nodes. The concept nodes
+(e.g., the round nodes such as “Subway stations”
+and “Crime events” in Figure 2 (D)) are directly
+extracted from the question, while factor nodes
+(e.g., the pink boxes such as “Buffer Dist: 1 km”
+and “Population”) represent supplementary param-
+eters required for operator execution. Each opera-
+tor takes concept nodes along with supplementary
+parameters as inputs and produces one or more
+downstream concept nodes as outputs. This factor-
+ization enables many-to-many relationships that tra-
+ditional sequential graphs cannot directly express.
+The operators span geocoding, spatial search, rout-
+ing, geometric computation, and trip optimization
+(see Appendix C for details).
+Geo-agentic workﬂow Constraints. Based on
+fundamental GIScience principles ( Tobler, 1970;
+Janowicz et al. , 2012; Janowicz, 2012; Janowicz
+et al., 2022), we formalize the structural regularities
+of geographic phenomena as explicit constraints.
+A valid GeoFlow Graph must satisfy:
+(1) Acyclicity (G1): G1 = {G | ⊋ cycle in E},
+ensuring a valid topological execution order.
+(2) Role Ordering (G2): G2 = {G |⇐(vi,v j ) ↗
+E : ε(vi) ⇒ ε(vj )}.
+(3) Type Compatibility (G3): G3 = {G |
+⇐(vi,v j ) ↗ E : ϖout(vi) ↓ ϖin(vj )}, where ϖout
+and ϖin denote output and input concept types.
+(4) Data A vailability (G4): G4 = {G | G ≃
+G→, ⇐e ↗ E→ : e is executable}.
+(5) Connectivity (G5): G5 = {G |⇐ v ↗
+V : ⇑v0 ↗ Vext,v m ↗ Vmeas : path(v0,v ) ⇓
+path(v, vm)}, where Vext = {v : ε(v) ↗
+{EXTENT , TEXTENT }} and Vmeas = {v : ε(v)=
+MEASURE }.
+A GeoFlow Graph is well-formed if it satisﬁes
+all ﬁve constraints above, i.e., G ↗ ⋂5
+i=1 Gi.W e
+formalize DAG assembly as a constraint satisfac-
+tion problem where multiple valid conﬁgurations
+may exist.
+3.4 Retrieval-augmented Orchestration
+While the agent can assemble GeoFlow Graphs
+from primitive operators subject to the constraints
+deﬁned above, we observe that geo-analytical ques-
+tions exhibit recurring structural patterns. To accel-
+erate generation and improve accuracy, we adopt a
+compositional approach that leverages a library of
+pre-validated graph templates, each of which inher-
+ently satisﬁes the well-formedness constraints.
+Template Library. We deﬁne a set of macro-
+templates T = {g1,⊿⊿⊿,g K }, where each tem-
+plate gk =( Vk,E k, ink, outk) speciﬁes a subgraph
+gk ↓ G with designated input and output ports. As
+illustrated in Figure 2 (B), the Concept Transfor-
+mation Drafting stage retrieves relevant templates
+from the library to deﬁne transformations such as
+OBJECT ↑ FIELD and EVENT ↑ PROPORTION ,
+which are then composed into an ordered GeoFlow
+Graph (see Appendix E for the complete template
+library).
+Given a question q, the LLM additionally gener-
+ates the GeoFlow Graph guided by retrieved exam-
+ples Eq from a question-graph store.
+3.5 Learning with Geographic Constraints
+While Spatial-Agent can operate with off-the-
+shelf LLMs via prompting, we optionally em-
+ploy a two-stage ﬁne-tuning strategy to further
+improve performance. In Stage 1, we apply Su-
+pervised Fine-Tuning (SFT) on question-concept
+pairs {(qi,V i)}N
+i=1, minimizing the negative log-
+likelihood LSFT = ⇔ ∑
+i log pω(Vi | qi), where pω
+denotes the LLM parameterized by ϱ, to train the
+LLM to extract spatial concepts with their types
+and functional roles. In Stage 2, we use Direct
+Preference Optimization (DPO) to train the LLM
+to generate well-formed GeoFlow Graphs. For each
+question q, we construct preference pairs (G+,G ↑ )
+where G+ ↗ ⋂5
+i=1 Gi while G↑ /↗ ⋂5
+i=1 Gi, and
+optimize:
+min
+LDPO, s.t. G+ ↗
+i=1
+Gi,G ↑ /↗
+i=1
+Gi (4)
+where LDPO = ⇔E(q,G+,G→) [log ς (φ · rω)], rω =
+log pω (G+|q)
+pref(G+|q) ⇔ log pω (G→|q)
+pref(G→|q) is the reward margin,
+ς is the sigmoid function, φ is the temperature,
+and pref is the reference model. This optional ﬁne-
+tuning enables the model to better internalize ge-
+ographic reasoning patterns (see Appendix D for
+details).
+3.6 Execution and Response Generation
+Given a well-formed GeoFlow Graph G, we ﬁrst
+transform it to the factorized graph G→ and then ex-
+ecute transformation steps in topological order. All
+intermediate states are recorded and provided to the
+agent for response generation, ensuring the output
+is grounded in computational results rather than
+hallucinated from learned priors (see Appendix F
+for the detailed algorithm).
+4 Experiments
+4.1 Experimental Setup
+Datasets. We evaluate SpatialAgent on two com-
+prehensive geospatial reasoning benchmarks that
+collectively cover diverse task types, geographic
+regions, and reasoning capabilities. MapEval-
+API (Dihan et al. , 2024) is the API-based evalua-
+tion from the MapEval benchmark, which requires
+agents to invoke map tools for geospatial reasoning.
+The dataset comprises four task categories: Place
+Info (retrieving place attributes), Nearby (ﬁnding
+nearby points of interest), Routing (computing di-
+rections and distances), and Trip (multi-stop travel
+planning). The benchmark spans 180 cities across
+54 countries, providing diverse geographic cover-
+age for evaluating tool-augmented spatial reason-
+ing. MapQA (Li et al. , 2025) is an open-domain
+geospatial QA dataset with 3,154 question-answer
+pairs spanning nine question types, constructed
+from OpenStreetMap data covering Southern Cali-
+fornia and Illinois.
+Baselines. We compare SpatialAgent against the
+following methods: (1) Direct LLM , which di-
+rectly prompts the language model without agent
+scaffolding; (2) ReAct (Y ao et al. , 2022), an
+agent that interleaves reasoning and acting through
+thought-action-observation loops; (3) Reﬂexion
+(Shinn et al. , 2023), an agent that learns from ex-
+ecution failures through self-reﬂection and mem-
+ory; and (4) Plan-and-Solve (Wang et al., 2023),
+a prompting strategy that ﬁrst generates an overall
+plan before execution.
+4.2 Main Results
+Results on MapEval-API. Table 1 presents the
+results on the MapEval-API benchmark across four
+task categories. SpatialAgent consistently out-
+performs all baselines across different backbone
+LLMs. For closed-source models, SpatialAgent
+with GPT-4o-mini achieves an overall accuracy of

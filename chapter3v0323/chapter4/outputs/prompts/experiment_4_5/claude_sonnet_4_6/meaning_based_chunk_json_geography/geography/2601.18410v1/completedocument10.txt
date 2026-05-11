@@ -1,0 +1,146 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument10",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument10
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+Taking the interior-point method as a
+benchmark, a rather conservative, or, pessimistic, evalua-
+tion for the complexity of each approximated problem
+of (21) is given by (52) in Appendix A. Thus, the
+complexity of power control for the SUs can be written as
+O(p
+(MN cNs/K+ 2MN c+ 2N s)/K·N p·[Q(MN c+
+Ns) +MN cNs/K+ 3MN c+ 2N s]).
+Simulations show that under the network settings in Section
+IV ,N sis always less than15, andN pis less than10.
+Note that there is much potential for the complexity of
+power control to be further reduced. For example, only the
+strongest SU-CU interference links are usually needed to be
+considered in practice [3]–[5]. It indicates that most of the
+constraints in (21), especially those in (21b), can be removed,
+which will undoubtedly lead to significant complexity reduc-
+tion. Besides, in cases when closed-form or more-concise
+expressions are available, the complexity brought byQcan
+also be largely reduced [5], [13]. As the time scale for
+both satellite-terrestrial synchronization and spectrum sharing
+optimization, the selection of∆τprovides another perspective
+for complexity adjusting. Basically, larger∆τindicates less-
+frequent signaling exchange and computation, and thus lower
+complexity. Nevertheless, with larger∆τ, the performance
+-6000 -4000 -2000 0 2000 4000 6000-6000-4000-20000200040006000
+BS
+CU
+-6000 -4000 -2000 0 2000 4000 6000-6000-4000-20000200040006000
+SU(m) (m)
+(m) (m)Fig. 2. A random topology of the hybrid network for simulations.
+gain achieved by spectrum sharing tends to be smaller. It is
+because with less-frequently-acquired CSI inH csi, there may
+be more uncertainty of the channel fading state of the links
+due to the movement of SUs and CUs as well as the diversity
+of propagation environment. This could cause undermatching
+between the SU-satellite and BS-CU links in spectrum sharing.
+To balance performance and complexity, systematic evaluation
+of the impact of the duration of∆τis needed for each specific
+network scenario in practice.
+IV. SIMULATIONRESULTS ANDDISCUSSION
+A. Network Settings for Simulations
+The hybrid satellite-terrestrial network for simulations is
+shown in Fig. 2. For clarity, it is shown in two separate
+parts. Assume thatJ= 3,K= 12,M= 28,N c= 24,
+Ns= 96, andF= 1or4. Correspondingly,I cl= 28or7,
+K′= 12or3,N′
+c= 2or8, andN′
+s= 8. Without loss of
+generality, it is assumed thatJ= 3satellites are all available
+for all the SUs, i.e.,J′
+u= 3. The satellites are deployed in
+orbits at the altitude ofH sat= 500km. The radius for the
+coverage area of each BS is set as1km. It is assumed that
+the CUs are randomly distributed within the coverage area of
+each BS, and the SUs are randomly distributed in a circular
+areaAslightly larger than total coverage area of all the BSs.
+Besides, the CUs(i, r, v)and SUsuare supposed to move
+along randomly-generated straight paths at random speeds
+ofν(cu,bs)
+i,r,v ∈[0,2]m/s andν(su)
+u∈[0,10]m/s, respectively.
+Note that for clarity, only centers of the paths for the CUs
+and SUs are presented in Fig. 2. Due to the relatively large
+distance between SUs and the satellites, a single location is
+considered for each satellite in simulations, sampled from its
+track acrossT. The center of the circular areaAis supposed
+to be located at(116◦E,40◦N), and the sub-satellite points of
+the sampled locations for the satellites are at(107◦E,40◦N),
+(116◦E,40◦N), and(125◦E,40◦N), respectively.
+The bandwidth of the subcarriers is set asB= 1MHz, and
+the center frequency isf c= 2GHz. The receive antenna gains
+of the satellites are all set as|R(sat)
+u,j|2= 25dBi,∀u, j, and
+the transmit antenna gains of the BSs are|T(bs)
+i,r,v|2= 15dBi,
+∀k, i, v. The pattern of the transmit antenna array equipped at
+each SU is supposed to follow the ITU-R recommendation
+S.465 with a diameter of0.5m and main lobe width of
+61.2◦[8], [30]. Correspondingly, the transmit antenna gain
+
+10
+of each SU for the SU-satellite link is|T(su)
+u|2= 18.5dBi,
+and that for each SU-CU interference link, i.e.,| ˆT(cu,su)
+i,r,v,u |2,
+determined by the off-axis angle of CU(i, r, v)from the
+boresight of the transmit antenna array at SUu. The trans-
+mit power of the BSs for each CU, i.e.,P bs, is supposed
+to be within[0,10]dBm, and the maximum transmit power
+of the SUs isP su= 3dBW. The noise power is set as
+σ(cu)2=σ(sat)2=σ2=−114dBm. The interference
+threshold is set asγ th=σ2[dBm]−12.2dB following
+the link protection criterion in the ITU-R Recommendation
+M.1799 [31], which leads to a group of inter-link interference
+constraints for spectrum sharing. The time scale∆τis set as
+10s, and thusT= ∆τ= 10s.

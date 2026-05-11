@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Undersampling",
+  "causes",
+  "FailureMode",
+  "MobileManipulatorPlanning",
+  "occursIn",
+  "UnknownEnvironment",
+  "ChompAlgorithm",
+  "usedFor",
+  "EfficientMotionPlanning",
+  "StochasticTrajectoryOptimization",
+  "MotionPlanning",
+  "EvolutionaryPathPlanning",
+  "appliedTo",
+  "MobileManipulator",
+  "operatesIn",
+  "DynamicEnvironment",
+  "WholeBodyMotionPlanning",
+  "uses",
+  "SpatialTemporalOptimization",
+  "MobileManipulation",
+  "UnstructuredEnvironment",
+  "RealTimeReplanningAlgorithm",
+  "RedundantRobot",
+  "KinematicPlanning",
+  "hasConstraint",
+  "NonHolonomicConstraint",
+  "OptimalControl",
+  "follows",
+  "EndEffectorPath",
+  "algorithm_rampage",
+  "performs",
+  "UnknownClutteredEnvironment",
+  "ProbabilisticRoadmap",
+  "PathPlanning",
+  "HighDimensionalConfigurationSpace",
+  "RapidlyExploringRandomTree",
+  "algorithm_rrtx",
+  "QuickReplanning",
+  "BiDirectionalSamplingBasedSearch",
+  "NonHolonomicMobileManipulator",
+  "WholeBodyControl",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "Robot",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety",
+  "Planner",
+  "CollisionConstraint",
+  "GeometricModel",
+  "MoveAndActScheme",
+  "CoordinatedWholeBodyBehavior",
+  "CollisionFreeTrajectory",
+  "Decoupling",
+  "Interdependence",
+  "WholeBodyReconfiguration",
+  "SamplingBasedMethod",
+  "ReinforcementLearning",
+  "OptimizationBasedPlanning",
+  "prm",
+  "rrt",
+  "RandomSampling",
+  "CollisionChecking",
+  "ClutteredEnvironment"
+]
+
+Triples:
+[
+  {
+    "subject": "Undersampling",
+    "relation": "causes",
+    "object": "FailureMode",
+    "chunk": "completedocument17",
+    "context": "Such primitive-aware constraints could significantly reduce the number of constraints, improve geometric coverage, and mitigate failure modes caused by undersampling, while retaining the benefits of configuration-space collision reasoning."
+  },
+  {
+    "subject": "MobileManipulatorPlanning",
+    "relation": "occursIn",
+    "object": "UnknownEnvironment",
+    "chunk": "completedocument17",
+    "context": "[2] V . Pilania and K. Gupta, “Mobile manipulator planning under uncer- tainty in unknown environments,”The International Journal of Robotics Research, vol. 37, no. 2-3, pp. 316–339, 2018."
+  },
+  {
+    "subject": "ChompAlgorithm",
+    "relation": "usedFor",
+    "object": "EfficientMotionPlanning",
+    "chunk": "completedocument17",
+    "context": "[6] N. Ratliff, M. Zucker, J. A. Bagnell, and S. Srinivasa, “CHOMP: Gradient optimization techniques for efficient motion planning,” in2009 IEEE International Conference on Robotics and Automation (ICRA), 2009, pp. 489–494."
+  },
+  {
+    "subject": "StochasticTrajectoryOptimization",
+    "relation": "usedFor",
+    "object": "MotionPlanning",
+    "chunk": "completedocument17",
+    "context": "[7] M. Kalakrishnan, S. Chitta, E. Theodorou, P. Pastor, and S. Schaal, “STOMP: Stochastic trajectory optimization for motion planning,” in 2011 IEEE International Conference on Robotics and Automation (ICRA), 2011, pp. 4569–4574."
+  },
+  {
+    "subject": "EvolutionaryPathPlanning",
+    "relation": "appliedTo",
+    "object": "MobileManipulator",
+    "chunk": "completedocument17",
+    "context": "[8] Y . Pi, X. Liu, Z. Yang, Y . Zhong, T. Huang, H. Pu, and J. Luo, “OMEPP: Online multi-population evolutionary path planning for mobile manip- ulators in dynamic environments,”IEEE Transactions on Automation Science and Engineering, vol. 22, pp. 6234–6245, 2025."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "operatesIn",
+    "object": "DynamicEnvironment",
+    "chunk": "completedocument17",
+    "context": "[8] Y . Pi, X. Liu, Z. Yang, Y . Zhong, T. Huang, H. Pu, and J. Luo, “OMEPP: Online multi-population evolutionary path planning for mobile manip- ulators in dynamic environments,”IEEE Transactions on Automation Science and Engineering, vol. 22, pp. 6234–6245, 2025."
+  },
+  {
+    "subject": "WholeBodyMotionPlanning",
+    "relation": "appliedTo",
+    "object": "MobileManipulator",
+    "chunk": "completedocument17",
+    "context": "[10] C. Wu, R. Wang, M. Song, F. Gao, J. Mei, and B. Zhou, “Real- time whole-body motion planning for mobile manipulators using environment-adaptive search and spatial-temporal optimization,” in2024 IEEE International Conference on Robotics and Automation (ICRA), 2024, pp. 1369–1375."
+  },
+  {
+    "subject": "WholeBodyMotionPlanning",
+    "relation": "uses",
+    "object": "SpatialTemporalOptimization",
+    "chunk": "completedocument17",
+    "context": "[10] C. Wu, R. Wang, M. Song, F. Gao, J. Mei, and B. Zhou, “Real- time whole-body motion planning for mobile manipulators using environment-adaptive search and spatial-temporal optimization,” in2024 IEEE International Conference on Robotics and Automation (ICRA), 2024, pp. 1369–1375."
+  },
+  {
+    "subject": "MobileManipulation",
+    "relation": "occursIn",
+    "object": "UnstructuredEnvironment",
+    "chunk": "completedocument17",
+    "context": "[11] S. Chitta, E. G. Jones, M. Ciocarlie, and K. Hsiao, “Mobile manipulation in unstructured environments: Perception, planning, and execution,” IEEE Robotics & Automation Magazine, vol. 19, no. 2, pp. 58–71, 2012."
+  },
+  {
+    "subject": "RealTimeReplanningAlgorithm",
+    "relation": "appliedTo",
+    "object": "RedundantRobot",
+    "chunk": "completedocument17",
+    "context": "[12] P. D. Lillo, D. D. Vito, and G. Antonelli, “Merging global and local planners: Real-time replanning algorithm of redundant robots within a task-priority framework,”IEEE Transactions on Automation Science and Engineering, vol. 20, no. 2, pp. 1180–1193, 2023."
+  },
+  {
+    "subject": "KinematicPlanning",
+    "relation": "appliedTo",
+    "object": "MobileManipulator",
+    "chunk": "completedocument17",
+    "context": "[13] M. Giftthaler, F. Farshidian, T. Sandy, L. Stadelmann, and J. Buchli, “Ef- ficient kinematic planning for mobile manipulators with non-holonomic constraints using optimal control,” in2017 IEEE International Confer- ence on Robotics and Automation (ICRA), 2017, pp. 3411–3417."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "hasConstraint",
+    "object": "NonHolonomicConstraint",
+    "chunk": "completedocument17",
+    "context": "[13] M. Giftthaler, F. Farshidian, T. Sandy, L. Stadelmann, and J. Buchli, “Ef- ficient kinematic planning for mobile manipulators with non-holonomic constraints using optimal control,” in2017 IEEE International Confer- ence on Robotics and Automation (ICRA), 2017, pp. 3411–3417."
+  },
+  {
+    "subject": "KinematicPlanning",
+    "relation": "uses",
+    "object": "OptimalControl",
+    "chunk": "completedocument17",
+    "context": "[13] M. Giftthaler, F. Farshidian, T. Sandy, L. Stadelmann, and J. Buchli, “Ef- ficient kinematic planning for mobile manipulators with non-holonomic constraints using optimal control,” in2017 IEEE International Confer- ence on Robotics and Automation (ICRA), 2017, pp. 3411–3417."
+  },
+  {
+    "subject": "MotionPlanning",
+    "relation": "appliedTo",
+    "object": "MobileManipulator",
+    "chunk": "completedocument18",
+    "context": "[15] G. Oriolo and C. Mongillo, “Motion planning for mobile manipulators along given end-effector paths,” inProceedings of the 2005 IEEE International Conference on Robotics and Automation (ICRA), 2005, pp. 2154–2160."
+  },
+  {
+    "subject": "MotionPlanning",
+    "relation": "follows",
+    "object": "EndEffectorPath",
+    "chunk": "completedocument18",
+    "context": "[15] G. Oriolo and C. Mongillo, “Motion planning for mobile manipulators along given end-effector paths,” inProceedings of the 2005 IEEE International Conference on Robotics and Automation (ICRA), 2005, pp. 2154–2160."
+  },
+  {
+    "subject": "algorithm_rampage",
+    "relation": "performs",
+    "object": "MotionPlanning",
+    "chunk": "completedocument18",
+    "context": "[17] Y . Yang, F. Meng, Z. Meng, and C. Yang, “RAMPAGE: Toward whole-body, real-time, and agile motion planning in unknown cluttered environments for mobile manipulators,”IEEE Transactions on Industrial Electronics, vol. 71, no. 11, pp. 14 492–14 502, 2024."
+  },
+  {
+    "subject": "MotionPlanning",
+    "relation": "occursIn",
+    "object": "UnknownClutteredEnvironment",
+    "chunk": "completedocument18",
+    "context": "[17] Y . Yang, F. Meng, Z. Meng, and C. Yang, “RAMPAGE: Toward whole-body, real-time, and agile motion planning in unknown cluttered environments for mobile manipulators,”IEEE Transactions on Industrial Electronics, vol. 71, no. 11, pp. 14 492–14 502, 2024."
+  },
+  {
+    "subject": "ProbabilisticRoadmap",
+    "relation": "usedFor",
+    "object": "PathPlanning",
+    "chunk": "completedocument18",
+    "context": "[19] L. E. Kavraki, P. Svestka, J.-C. Latombe, and M. H. Overmars, “Probabilistic roadmaps for path planning in high-dimensional configuration spaces,”1996 IEEE Transactions on Robotics and Automation (ICRA), vol. 12, no. 4, pp. 566–580, 1996."
+  },
+  {
+    "subject": "PathPlanning",
+    "relation": "operatesIn",
+    "object": "HighDimensionalConfigurationSpace",
+    "chunk": "completedocument18",
+    "context": "[19] L. E. Kavraki, P. Svestka, J.-C. Latombe, and M. H. Overmars, “Probabilistic roadmaps for path planning in high-dimensional configuration spaces,”1996 IEEE Transactions on Robotics and Automation (ICRA), vol. 12, no. 4, pp. 566–580, 1996."
+  },
+  {
+    "subject": "RapidlyExploringRandomTree",
+    "relation": "usedFor",
+    "object": "PathPlanning",
+    "chunk": "completedocument18",
+    "context": "[20] S. LaValle, “Rapidly-exploring random trees: A new tool for path planning,”Research Report 9811, 1998."
+  },
+  {
+    "subject": "algorithm_rrtx",
+    "relation": "performs",
+    "object": "MotionPlanning",
+    "chunk": "completedocument18",
+    "context": "[21] M. Otte and E. Frazzoli, “RRTX: Asymptotically optimal single-query sampling-based motion planning with quick replanning,”The International Journal of Robotics Research, vol. 35, no. 7, pp. 797–822, 2016."
+  },
+  {
+    "subject": "MotionPlanning",
+    "relation": "uses",
+    "object": "QuickReplanning",
+    "chunk": "completedocument18",
+    "context": "[21] M. Otte and E. Frazzoli, “RRTX: Asymptotically optimal single-query sampling-based motion planning with quick replanning,”The International Journal of Robotics Research, vol. 35, no. 7, pp. 797–822, 2016."
+  },
+  {
+    "subject": "BiDirectionalSamplingBasedSearch",
+    "relation": "usedFor",
+    "object": "MotionPlanning",
+    "chunk": "completedocument18",
+    "context": "[24] S. Thakar, P. Rajendran, H. Kim, A. M. Kabir, and S. K. Gupta, “Accelerating bi-directional sampling-based search for motion planning of non-holonomic mobile manipulators,” in2020 IEEE International Conference on Intelligent Robots and Systems (IROS), 2020, pp. 6711–6717."
+  },
+  {
+    "subject": "MotionPlanning",
+    "relation": "appliedTo",
+    "object": "NonHolonomicMobileManipulator",
+    "chunk": "completedocument18",
+    "context": "[24] S. Thakar, P. Rajendran, H. Kim, A. M. Kabir, and S. K. Gupta, “Accelerating bi-directional sampling-based search for motion planning of non-holonomic mobile manipulators,” in2020 IEEE International Conference on Intelligent Robots and Systems (IROS), 2020, pp. 6711–6717."
+  },
+  {
+    "subject": "WholeBodyControl",
+    "relation": "appliedTo",
+    "object": "MobileManipulator",
+    "chunk": "completedocument18",
+    "context": "[28] J. Kindle, F. Furrer, T. Novkovic, J. J. Chung, R. Siegwart, and J. Nieto, “Whole-body control of a mobile manipulator using end-to-end reinforcement learning,”arXiv:2003.02637, 2020."
+  }
+]

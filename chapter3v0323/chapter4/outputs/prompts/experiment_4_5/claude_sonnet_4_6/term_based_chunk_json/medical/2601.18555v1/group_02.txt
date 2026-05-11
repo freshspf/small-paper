@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "FemoralHead",
+  "deviatesFrom",
+  "Sphericity",
+  "Patient",
+  "undergoes",
+  "ApPelvicXRay",
+  "HipMri",
+  "evaluates",
+  "Fai",
+  "PathologicalCohort",
+  "includes",
+  "Subject",
+  "hasEvidenceOf",
+  "lacks",
+  "Osteoarthritis",
+  "HipDysplasia",
+  "Mri",
+  "uses",
+  "T1WeightedCoronalAcquisition",
+  "MidAcetabularCoronalPlane",
+  "displays",
+  "Landmark",
+  "Fhc",
+  "Na",
+  "Lae",
+  "Lcp",
+  "UNetPlusPlus",
+  "hasEncoder",
+  "ResNet18Encoder",
+  "trainedOn",
+  "MriDataset",
+  "XRayDataset",
+  "Optimisation",
+  "AdamW",
+  "Training",
+  "NllLoss",
+  "ExponentialLrScheduler",
+  "LandmarkLocalisation",
+  "evaluatedBy",
+  "MeanRadialError",
+  "SuccessDetectionRate",
+  "ClinicalAngleAssessment",
+  "measuredBy",
+  "MeanAbsoluteError",
+  "IntraclassCorrelationCoefficient",
+  "FemoroacetabularImpingement",
+  "PathomechanicalHipDisorder",
+  "Population",
+  "AbnormalContact",
+  "UntreatedFai",
+  "DegenerativeCartilageLoss",
+  "PrematureOsteoarthritis",
+  "HipReplacement",
+  "Imaging",
+  "EarlyDetection",
+  "Treatment",
+  "ClinicalAssessment",
+  "GeometricParameter",
+  "AlphaAngle",
+  "FemoralHeadAsphericity",
+  "CamMorphology",
+  "LateralCentreEdgeAngle",
+  "AcetabularCoverage",
+  "PincerMorphology",
+  "CurrentClinicalPractice",
+  "AnteroposteriorPelvicXRay",
+  "FootToHipAlignment",
+  "PelvicTilt",
+  "MeasurementPlane",
+  "GeometricFaiMetric",
+  "FaiAngleComputation",
+  "LandmarkDetectionProblem",
+  "Hip",
+  "AnatomicalKeypoint",
+  "FemoralHeadCentre",
+  "NeckAxisPoint",
+  "FemoralNeckCentreline",
+  "LateralAcetabularEdge",
+  "LateralCamPoint",
+  "MagneticResonanceImaging"
+]
+
+Triples:
+[
+  {
+    "subject": "FemoralHead",
+    "relation": "deviatesFrom",
+    "object": "Sphericity",
+    "chunk": "method",
+    "context": "For each hip, we localise four annotated anatomical keypoints: femoral head centre (FHC), neck-axis point (NA) along the femoral neck centreline, lateral acetabular edge (LAE), and lateral cam point (LCP) where the femoral head deviates from sphericity (see Fig. 2)."
+  },
+  {
+    "subject": "Patient",
+    "relation": "undergoes",
+    "object": "ApPelvicXRay",
+    "chunk": "experiments",
+    "context": "We use a paired dataset of 89 patients who underwent AP pelvic X-ray and multiple hip MRI for FAI evaluation, collected at Oxford University as part of the FAIT trial [ 13]."
+  },
+  {
+    "subject": "Patient",
+    "relation": "undergoes",
+    "object": "HipMri",
+    "chunk": "experiments",
+    "context": "We use a paired dataset of 89 patients who underwent AP pelvic X-ray and multiple hip MRI for FAI evaluation, collected at Oxford University as part of the FAIT trial [ 13]."
+  },
+  {
+    "subject": "ApPelvicXRay",
+    "relation": "evaluates",
+    "object": "Fai",
+    "chunk": "experiments",
+    "context": "We use a paired dataset of 89 patients who underwent AP pelvic X-ray and multiple hip MRI for FAI evaluation, collected at Oxford University as part of the FAIT trial [ 13]."
+  },
+  {
+    "subject": "HipMri",
+    "relation": "evaluates",
+    "object": "Fai",
+    "chunk": "experiments",
+    "context": "We use a paired dataset of 89 patients who underwent AP pelvic X-ray and multiple hip MRI for FAI evaluation, collected at Oxford University as part of the FAIT trial [ 13]."
+  },
+  {
+    "subject": "PathologicalCohort",
+    "relation": "includes",
+    "object": "Subject",
+    "chunk": "experiments",
+    "context": "This pathological cohort includes subjects with clinical and imaging evidence of FAI but without significant osteoarthritis or hip dysplasia."
+  },
+  {
+    "subject": "Subject",
+    "relation": "hasEvidenceOf",
+    "object": "Fai",
+    "chunk": "experiments",
+    "context": "This pathological cohort includes subjects with clinical and imaging evidence of FAI but without significant osteoarthritis or hip dysplasia."
+  },
+  {
+    "subject": "Subject",
+    "relation": "lacks",
+    "object": "Osteoarthritis",
+    "chunk": "experiments",
+    "context": "This pathological cohort includes subjects with clinical and imaging evidence of FAI but without significant osteoarthritis or hip dysplasia."
+  },
+  {
+    "subject": "Subject",
+    "relation": "lacks",
+    "object": "HipDysplasia",
+    "chunk": "experiments",
+    "context": "This pathological cohort includes subjects with clinical and imaging evidence of FAI but without significant osteoarthritis or hip dysplasia."
+  },
+  {
+    "subject": "Mri",
+    "relation": "uses",
+    "object": "T1WeightedCoronalAcquisition",
+    "chunk": "experiments",
+    "context": "For MRI, we only used T1-weighted coronal acquisitions consisting of 20 slices with 3.3 mm spacing."
+  },
+  {
+    "subject": "MidAcetabularCoronalPlane",
+    "relation": "displays",
+    "object": "Landmark",
+    "chunk": "experiments",
+    "context": "All annotations are standardised to the middle slice (index 10), identified through pilot analysis of 20 subjects as the mid-acetabular coronal plane where all four landmarks (FHC, NA, LAE, LCP) are concurrently visible with maximal clarity."
+  },
+  {
+    "subject": "Landmark",
+    "relation": "includes",
+    "object": "Fhc",
+    "chunk": "experiments",
+    "context": "All annotations are standardised to the middle slice (index 10), identified through pilot analysis of 20 subjects as the mid-acetabular coronal plane where all four landmarks (FHC, NA, LAE, LCP) are concurrently visible with maximal clarity."
+  },
+  {
+    "subject": "Landmark",
+    "relation": "includes",
+    "object": "Na",
+    "chunk": "experiments",
+    "context": "All annotations are standardised to the middle slice (index 10), identified through pilot analysis of 20 subjects as the mid-acetabular coronal plane where all four landmarks (FHC, NA, LAE, LCP) are concurrently visible with maximal clarity."
+  },
+  {
+    "subject": "Landmark",
+    "relation": "includes",
+    "object": "Lae",
+    "chunk": "experiments",
+    "context": "All annotations are standardised to the middle slice (index 10), identified through pilot analysis of 20 subjects as the mid-acetabular coronal plane where all four landmarks (FHC, NA, LAE, LCP) are concurrently visible with maximal clarity."
+  },
+  {
+    "subject": "Landmark",
+    "relation": "includes",
+    "object": "Lcp",
+    "chunk": "experiments",
+    "context": "All annotations are standardised to the middle slice (index 10), identified through pilot analysis of 20 subjects as the mid-acetabular coronal plane where all four landmarks (FHC, NA, LAE, LCP) are concurrently visible with maximal clarity."
+  },
+  {
+    "subject": "UNetPlusPlus",
+    "relation": "hasEncoder",
+    "object": "ResNet18Encoder",
+    "chunk": "experiments",
+    "context": "We train a UNet++ with a ResNet18 encoder (ImageNet-initialised) independently on the MRI and X-ray datasets."
+  },
+  {
+    "subject": "UNetPlusPlus",
+    "relation": "trainedOn",
+    "object": "MriDataset",
+    "chunk": "experiments",
+    "context": "We train a UNet++ with a ResNet18 encoder (ImageNet-initialised) independently on the MRI and X-ray datasets."
+  },
+  {
+    "subject": "UNetPlusPlus",
+    "relation": "trainedOn",
+    "object": "XRayDataset",
+    "chunk": "experiments",
+    "context": "We train a UNet++ with a ResNet18 encoder (ImageNet-initialised) independently on the MRI and X-ray datasets."
+  },
+  {
+    "subject": "Optimisation",
+    "relation": "uses",
+    "object": "AdamW",
+    "chunk": "experiments",
+    "context": "Optimisation uses AdamW (learning rate 1×10−4, weight decay 1×10−5)."
+  },
+  {
+    "subject": "Training",
+    "relation": "uses",
+    "object": "NllLoss",
+    "chunk": "experiments",
+    "context": "Training uses the NLL loss with an ExponentialLR scheduler (γ= 0.95), a batch size of 4, and early stopping."
+  },
+  {
+    "subject": "Training",
+    "relation": "uses",
+    "object": "ExponentialLrScheduler",
+    "chunk": "experiments",
+    "context": "Training uses the NLL loss with an ExponentialLR scheduler (γ= 0.95), a batch size of 4, and early stopping."
+  },
+  {
+    "subject": "LandmarkLocalisation",
+    "relation": "evaluatedBy",
+    "object": "MeanRadialError",
+    "chunk": "experiments",
+    "context": "Landmark localisation.We report (1)Mean Radial Error(MRE): the average Euclidean distance between predicted and ground-truth landmarks (mm); (2)per-landmark MREfor each keypoint [ 14]; and (3)Success Detection Rateat radiusr(SDR@r): the percentage of landmarks localised withinrmm."
+  },
+  {
+    "subject": "LandmarkLocalisation",
+    "relation": "evaluatedBy",
+    "object": "SuccessDetectionRate",
+    "chunk": "experiments",
+    "context": "Landmark localisation.We report (1)Mean Radial Error(MRE): the average Euclidean distance between predicted and ground-truth landmarks (mm); (2)per-landmark MREfor each keypoint [ 14]; and (3)Success Detection Rateat radiusr(SDR@r): the percentage of landmarks localised withinrmm."
+  },
+  {
+    "subject": "ClinicalAngleAssessment",
+    "relation": "measuredBy",
+    "object": "MeanAbsoluteError",
+    "chunk": "experiments",
+    "context": "Clinical angle assessment.We measure (1) Mean Absolute Error (MAE) between predicted and ground-truth angles; (2) the Intraclass Correlation Coefficient (ICC(2,1)), a two-way random effects model quantifying absolute agreement by partitioning variance into between-subject variability, between-rater systematic bias, and residual error through ANOV A decomposition of the paired measurements (model vs. clinician)."
+  },
+  {
+    "subject": "ClinicalAngleAssessment",
+    "relation": "measuredBy",
+    "object": "IntraclassCorrelationCoefficient",
+    "chunk": "experiments",
+    "context": "Clinical angle assessment.We measure (1) Mean Absolute Error (MAE) between predicted and ground-truth angles; (2) the Intraclass Correlation Coefficient (ICC(2,1)), a two-way random effects model quantifying absolute agreement by partitioning variance into between-subject variability, between-rater systematic bias, and residual error through ANOV A decomposition of the paired measurements (model vs. clinician)."
+  }
+]

@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["ProjectedShape","TotalMassDistribution","WeakLensing","XRayObservation","ClusterGalaxy","KinematicProperty","OrbitalEnergy","Anisotropy","RadialDensityProfile","StellarStripping","DynamicalFriction","TidalTorque","InfallingSatellite","StellarComponent","DarkMatterComponent","InternalStructure","OrbitalConfiguration","Euclid","LSST","ClusterSample","Redshift","HubbleSpaceTelescopeFrontierFieldsCluster","EuclidEarlyReleaseObservation","CosmologicalSimulation","HydrodynamicalSimulation","ControlledNBodySimulation","LiveClusterHalo","CentralGalaxy","HernquistProfile","Gadget4","HierarchicalTreeAlgorithm","MultipoleExpansion","AdaptiveOpeningCriterion","GravitationalSoftening","CubicSplineKernel","ParticleMeshScheme","TreeBasedGravitySolver","SimulationDomain","TreePMApproach","ForceSofteningLength"]
+
+Triples:
+[{"subject":"DiffuseComponentOfStar","relation":"isNotBoundTo","object":"IndividualGalaxy"},{"subject":"Star","relation":"originatesFrom","object":"TidalStripping"},{"subject":"Star","relation":"originatesFrom","object":"Merging"},{"subject":"TidalStripping","relation":"actsOn","object":"SatelliteGalaxy"},{"subject":"Merging","relation":"involves","object":"SatelliteGalaxy"},{"subject":"PreProcessedStar","relation":"isLiberatedFrom","object":"ParentGalaxy"},{"subject":"PreProcessedStar","relation":"isPresentUpon","object":"ClusterInfall"},{"subject":"IntraclusterLight","relation":"isDominatedBy","object":"SmallNumberOfProgenitor"},{"subject":"IntraclusterLight","relation":"retainsMemoryOf","object":"AccretionEvent"},{"subject":"AccretionEvent","relation":"hasTiming","object":"Timing"},{"subject":"AccretionEvent","relation":"hasOrbitalProperty","object":"OrbitalProperty"},{"subject":"IntraclusterLight","relation":"constitutesFractionOf","object":"StellarMassBudget"},{"subject":"IntraclusterLight","relation":"typicallyContributes","object":"FiveToFortyPercentOfTotalStellarLightInClusters"},{"subject":"IntraclusterLight","relation":"provides","object":"BaryonicTracer"},{"subject":"BaryonicTracer","relation":"traces","object":"ClusterGrowth"},{"subject":"BaryonicTracer","relation":"traces","object":"Dynamics"},{"subject":"SpatialDistribution","relation":"isSetPrimarilyBy","object":"ClusterPotential"},{"subject":"KinematicDistribution","relation":"isSetPrimarilyBy","object":"ClusterPotential"},{"subject":"SpatialDistribution","relation":"isSetPrimarilyBy","object":"AccretionHistory"},{"subject":"KinematicDistribution","relation":"isSetPrimarilyBy","object":"AccretionHistory"},{"subject":"IntraclusterLight","relation":"encodesInformationAbout","object":"AssemblyProcess"},{"subject":"IntraclusterLight","relation":"encodesInformationAbout","object":"DarkMatterHalo"},{"subject":"Euclid","relation":"enables","object":"SystematicIntraclusterLightStudy"},{"subject":"LSST","relation":"enables","object":"SystematicIntraclusterLightStudy"},{"subject":"SystematicIntraclusterLightStudy","relation":"covers","object":"LargeClusterSample"},{"subject":"SystematicIntraclusterLightStudy","relation":"extendsTo","object":"HigherRedshift"},{"subject":"Euclid","relation":"detects","object":"IntraclusterLight"},{"subject":"Euclid","relation":"detectsIn","object":"TensOfThousandsOfClusters"},{"subject":"Euclid","relation":"reachesRedshift","object":"z_1_5"},{"subject":"Dataset","relation":"enablesComparisonWith","object":"WeakLensing"},{"subject":"Dataset","relation":"enablesComparisonWith","object":"XRayObservation"},{"subject":"IntraclusterLight","relation":"traces","object":"HaloProperty"},{"subject":"IntraclusterLight","relation":"traces","object":"AssemblyHistory"},{"subject":"UsingIntraclusterLightAsTracer","relation":"requiresUnderstandingOf","object":"StarDistribution"},{"subject":"UsingIntraclusterLightAsTracer","relation":"requiresUnderstandingOf","object":"DarkMatterDistribution"},{"subject":"MorphologyOfIntraclusterLight","relation":"correspondsTo","object":"MorphologyOfClusterDarkMatterHalo"},{"subject":"ProjectedShapeOfIntraclusterLight","relation":"follows","object":"ProjectedShapeOfTotalMassDistribution"},{"subject":"TotalMassDistribution","relation":"isDerivedFrom","object":"Lensing"},{"subject":"CosmologicalSimulation","relation":"reportsAlignmentBetween","object":"IntraclusterLightAndDarkMatter"},{"subject":"CorrespondenceBetweenIntraclusterLightAndDarkMatter","relation":"indicates","object":"IntraclusterLightTracesClusterProperty"}]

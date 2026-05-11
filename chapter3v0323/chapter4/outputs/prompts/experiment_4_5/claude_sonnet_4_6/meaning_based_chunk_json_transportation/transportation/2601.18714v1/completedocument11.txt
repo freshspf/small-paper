@@ -1,0 +1,132 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument11",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument11
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+**INPUT TEXT CHUNK:**
+This confirms that our architecture
+successfully learns robust global descriptors resilient to the severe geometric
+distortions and occlusions typical of vineyard environments across the full
+phenological cycle.
+When evaluated on the BLT dataset, characterized by denser point clouds
+from an Ouster sensor in a smaller field, our proposed MinkUNeXt-VINE
+yields a Recall@1% of 56.32%, slightly lower than the vanilla MinkUNeXt
+baseline (58.12%). This marginal degradation suggests a trade-off: enforcing
+lower-dimensional representations to achieve high robustness in noisy, vari-
+able agricultural scenes may lead to a minor loss of fine-grained detail in
+high-density, static scenarios.
+A notable observation in this BLT dataset is the superior performance
+of the Scan Context descriptor, which achieves a Recall@1% of 79.84% and
+a Recall@1 of 40.01%. The reason for this discrepancy is structural: unlike
+the continuous repetitive rows of TEMPO-VINE, the BLT dataset includes
+sequences recorded near the vineyard boundaries, featuring distinct land-
+marks such as a small building, as well as reverse traversals of these same
+areas. These unique, static geometric features favor handcrafted descriptors
+like Scan Context, which rely heavily on distinct structural keypoints, but
+26
+
+fail to generalize in the ambiguous geometry of the open field.
+7.2. Computational analysis
+In this section, we analyze the inference time and the size of the deep
+learning models evaluated in Section 7.1.
+Figure 8 shows a graph with the inference time for each of the deep
+learning-based pipelines considered in this section at different point cloud
+resolutions. All of the computations were made on a GPU Nvidia RTX
+3090. Note that PointNetVLAD [4] is not included, as the inference time
+was calculated during evaluation and the official repository does not provide
+a set of pretrained weights or a code approach for saving the weights.
+Figure 8: Inference time for a single point cloud with each of the pipelines analyzed in
+this study.
+From Figure 8, we can conclude that, while the MinkUNeXt [13] pipeline
+show better performance in Table 9, it also reports higher inference times.
+The number of points in the point clouds has a significant impact on this
+value. Finally, we conclude that structures such as LPD-Net [23] that rely
+solely on the geometric properties of the point cloud and a fixed point cloud
+size result in the shortest inference delay. The irregular memory pattern of
+sparse convolutions contributes to the final inference computation.
+27
+
+Regarding our proposed MinkUNeXt-VINE, the quantitative results demon-
+strate a distinct advantage in computational stability. As shown in Figure
+8, the inference time stabilizes between 4,096 and 8,192 points, maintaining
+a consistent latency of approximately 11.7 ms. Furthermore, the method
+scales more efficiently than its predecessor (MinkUNeXt) as point density
+increases. Given that the architecture is optimized for sparse inputs, this
+stable execution time ensures suitability for real-time applications requiring
+predictable latency.
+Furthermore, Table 10 presents the quantity of parameters utilized for
+each of the methods used in Section 7. This metric serves as a crucial indica-
+tor of the computational and memory requirements associated with deploying
+and training these models.
+Method Number of parameters (Millions)
+PointNetVLAD [4] 19.8
+LPD-Net [23] 19.8
+MinkLoc3Dv2 [39] 2.7
+MinkUNeXt [13] 43.5
+MinkUNeXt-VINE (ours) 27.8
+Table 10: Number of parameters in millions for each of the deep learning methods tested
+on vineyard environments.
+It can be observed that, while having around half the parameters of the
+base pipeline, MinkUNeXt, and not being considerable larger than baseline
+methods such as PointNetVLAD or LPD-Net, MinkUNeXt-VINE produces
+the best outcome in vineyard environments with sparse inputs.
+8. Conclusion
+In this work, we address the problem of LiDAR place recognition in vine-
+yard environments. The unstructured nature of these environments, char-
+acterized by the lack of distinctive features and repetitive patterns, makes
+finding a solution to the localization problem highly complex. To address
+the uniqueness of these scenarios, we begin with a state-of-the-art LiDAR
+place recognition deep learning method for urban environments. Then we
+incorporate new features that enhance the performance in vineyard settings.
+To test our benchmark, we used the only two long-term vineyard datasets
+with LiDAR information recorded in vineyards to this day: the BLT and the
+28
+
+TEMPO-VINE dataset. The long-term results demonstrate the resilience
+of the proposed architecture against sparsity and low resolution inherent to
+non-repetitive scanning patterns provided by low-cost sensors, such as the
+Livox in the TEMPO-VINE dataset.

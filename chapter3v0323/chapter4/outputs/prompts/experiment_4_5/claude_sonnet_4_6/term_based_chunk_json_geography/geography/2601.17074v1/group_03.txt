@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ProxyModel",
+  "includes",
+  "SnowAlbedo",
+  "actsAsProxyFor",
+  "SnowDepth",
+  "indicates",
+  "SnowCover",
+  "HydrostaticBalanceEquation",
+  "describes",
+  "Equilibrium",
+  "SurfaceElevation",
+  "equivalentTo",
+  "Freeboard",
+  "Albedo",
+  "criticalTo",
+  "IceAlbedoFeedbackLoop",
+  "measuredBy",
+  "RemoteSensing",
+  "servesAsStandInFor",
+  "PhysicalDepth",
+  "framework_physEInv",
+  "isA",
+  "RecurrentSequenceModelingArchitecture",
+  "addresses",
+  "PhysicalInverseProblem",
+  "Methodology",
+  "integrates",
+  "SurjectiveInverseMapping",
+  "PhysicsEncoding",
+  "PhysicsGuidedContrastiveLearning",
+  "LatentVector",
+  "represents",
+  "InputHistory",
+  "LstmEncoderDecoderStructure",
+  "models",
+  "LongRangeTemporalDependency",
+  "crucialFor",
+  "ClimateMemoryEffect",
+  "MultiHeadSelfAttentionMechanism",
+  "refines",
+  "EncoderOutput",
+  "identifies",
+  "NonLocalTemporalDependency",
+  "RetrievalOfSeaIceParameter",
+  "IllPosedInverseProblem",
+  "ensures",
+  "DynamicEnforcementOfPhysicalConstraint",
+  "MlpBasedOperator",
+  "estimates",
+  "HiddenSeaIceParameter",
+  "EstimatedParameter",
+  "enforces",
+  "HydrostaticBalance",
+  "PhysicsEncodingLayer",
+  "facilitatesEnforcementOf",
+  "model_PhysEInv",
+  "hasComponent",
+  "component_PhysicsEncoding",
+  "component_PhysicsGuidedContrastiveLearning",
+  "ArcticSeaIceThickness",
+  "ReanalysisProduct",
+  "era5",
+  "SeaIceThermodynamics",
+  "SnowDensity",
+  "PhysicsEncodedNeuralNetwork",
+  "InverseModeling",
+  "SeaIcePhysics",
+  "IntrinsicPhysicalParameter",
+  "LakeTemperatureModeling",
+  "Tomography",
+  "SeismicWaveformAnalysis",
+  "MaterialsScience",
+  "Hydrology",
+  "PhysicalPrior",
+  "PosteriorDistribution",
+  "region_arctic",
+  "DataSparseDomain",
+  "ForwardModel",
+  "NoisyInput",
+  "system_arcticSeaIce"
+]
+
+Triples:
+[
+  {
+    "subject": "ProxyModel",
+    "relation": "includes",
+    "object": "SnowAlbedo",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The specific proxy model (Equation 5) used in our implementation includes sea ice concentration (C) and snow albedo (α)."
+  },
+  {
+    "subject": "SnowAlbedo",
+    "relation": "actsAsProxyFor",
+    "object": "SnowDepth",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The use of snow albedo (α) as a proxy for snow depth (h s) is justified because α is a highly sensitive and easily observable indicator of snow cover."
+  },
+  {
+    "subject": "SnowAlbedo",
+    "relation": "indicates",
+    "object": "SnowCover",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The use of snow albedo (α) as a proxy for snow depth (h s) is justified because α is a highly sensitive and easily observable indicator of snow cover."
+  },
+  {
+    "subject": "HydrostaticBalanceEquation",
+    "relation": "describes",
+    "object": "Equilibrium",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "To achieve this, we adapt the hydrostatic balance equation, which, as stated by Kwok & Cunningham (2008), describes the equilibrium where the weight of ice and snow is balanced by the buoyant force of seawater (equation 2)."
+  },
+  {
+    "subject": "SurfaceElevation",
+    "relation": "equivalentTo",
+    "object": "Freeboard",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The total depth of the column is the sum of the submerged depth (h sub) and the surface elevation (freeboard, f b):"
+  },
+  {
+    "subject": "Albedo",
+    "relation": "criticalTo",
+    "object": "IceAlbedoFeedbackLoop",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "Since albedo is critical to the ice-albedo feedback loop and is measured reliably by remote sensing, it serves as a robust and practical stand-in for the difficult-to-measure physical depthh sin large-scale sea ice models."
+  },
+  {
+    "subject": "Albedo",
+    "relation": "measuredBy",
+    "object": "RemoteSensing",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "Since albedo is critical to the ice-albedo feedback loop and is measured reliably by remote sensing, it serves as a robust and practical stand-in for the difficult-to-measure physical depthh sin large-scale sea ice models."
+  },
+  {
+    "subject": "Albedo",
+    "relation": "servesAsStandInFor",
+    "object": "PhysicalDepth",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "Since albedo is critical to the ice-albedo feedback loop and is measured reliably by remote sensing, it serves as a robust and practical stand-in for the difficult-to-measure physical depthh sin large-scale sea ice models."
+  },
+  {
+    "subject": "framework_physEInv",
+    "relation": "isA",
+    "object": "RecurrentSequenceModelingArchitecture",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "The PhysE-Inv framework is a recurrent sequence modeling architecture designed to address the ill-posed nature of physical inverse problems under data scarcity."
+  },
+  {
+    "subject": "framework_physEInv",
+    "relation": "addresses",
+    "object": "PhysicalInverseProblem",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "The PhysE-Inv framework is a recurrent sequence modeling architecture designed to address the ill-posed nature of physical inverse problems under data scarcity."
+  },
+  {
+    "subject": "Methodology",
+    "relation": "integrates",
+    "object": "SurjectiveInverseMapping",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "As depicted in Figure1, our methodology achieves this by integrating three novel conceptual components: Surjective Inverse Mapping, Physics Encoding, and Physics-Guided Contrastive Learning, which together guide the model toward physically consistent solutions."
+  },
+  {
+    "subject": "Methodology",
+    "relation": "integrates",
+    "object": "PhysicsEncoding",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "As depicted in Figure1, our methodology achieves this by integrating three novel conceptual components: Surjective Inverse Mapping, Physics Encoding, and Physics-Guided Contrastive Learning, which together guide the model toward physically consistent solutions."
+  },
+  {
+    "subject": "Methodology",
+    "relation": "integrates",
+    "object": "PhysicsGuidedContrastiveLearning",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "As depicted in Figure1, our methodology achieves this by integrating three novel conceptual components: Surjective Inverse Mapping, Physics Encoding, and Physics-Guided Contrastive Learning, which together guide the model toward physically consistent solutions."
+  },
+  {
+    "subject": "LatentVector",
+    "relation": "represents",
+    "object": "InputHistory",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "This latent vector serves as a compressed representation of the entire input history for all subsequent inverse operations."
+  },
+  {
+    "subject": "LstmEncoderDecoderStructure",
+    "relation": "models",
+    "object": "LongRangeTemporalDependency",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "We employ a standard LSTM encoder-decoder structure, lever- aging the LSTM’s efficiency in modeling the long-range temporal dependencies crucial for climate memory effects."
+  },
+  {
+    "subject": "LongRangeTemporalDependency",
+    "relation": "crucialFor",
+    "object": "ClimateMemoryEffect",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "We employ a standard LSTM encoder-decoder structure, lever- aging the LSTM’s efficiency in modeling the long-range temporal dependencies crucial for climate memory effects."
+  },
+  {
+    "subject": "MultiHeadSelfAttentionMechanism",
+    "relation": "refines",
+    "object": "EncoderOutput",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "A multi-head self-attention mechanism refines the encoder outputs, specializing in identifying and weighing non-local temporal dependencies."
+  },
+  {
+    "subject": "MultiHeadSelfAttentionMechanism",
+    "relation": "identifies",
+    "object": "NonLocalTemporalDependency",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "A multi-head self-attention mechanism refines the encoder outputs, specializing in identifying and weighing non-local temporal dependencies."
+  },
+  {
+    "subject": "RetrievalOfSeaIceParameter",
+    "relation": "isA",
+    "object": "IllPosedInverseProblem",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "The retrieval of sea ice parameters from uncertain satellite data is an ill-posed inverse problem."
+  },
+  {
+    "subject": "SurjectiveInverseMapping",
+    "relation": "ensures",
+    "object": "DynamicEnforcementOfPhysicalConstraint",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "To address inherent non-uniqueness, we define a surjective inverse mapping that links the model’s latent state to the final physical parameters, ensuring dynamic enforcement of physical constraints."
+  },
+  {
+    "subject": "MlpBasedOperator",
+    "relation": "estimates",
+    "object": "HiddenSeaIceParameter",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "We implement this mapping using an MLP-based operator that estimates the hidden sea ice parametersΘ n= [α n,βn,γn]from the compressed history."
+  },
+  {
+    "subject": "EstimatedParameter",
+    "relation": "enforces",
+    "object": "HydrostaticBalance",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "The estimated parametersΘ tare used to enforce hydrostatic balance via a physics encoding layer."
+  },
+  {
+    "subject": "PhysicsEncodingLayer",
+    "relation": "facilitatesEnforcementOf",
+    "object": "HydrostaticBalance",
+    "chunk": "inverseproblempredictinghs2",
+    "context": "The estimated parametersΘ tare used to enforce hydrostatic balance via a physics encoding layer."
+  },
+  {
+    "subject": "model_PhysEInv",
+    "relation": "hasComponent",
+    "object": "component_PhysicsEncoding",
+    "chunk": "baselines1",
+    "context": "Furthermore, where applicable, they incorporate the same invertibility adjustment to ensure performance differences are attributable to our novel components (Physics Encoding and Physics-Guided Contrastive Learning), not differences in overall model scale."
+  },
+  {
+    "subject": "model_PhysEInv",
+    "relation": "hasComponent",
+    "object": "component_PhysicsGuidedContrastiveLearning",
+    "chunk": "baselines1",
+    "context": "Furthermore, where applicable, they incorporate the same invertibility adjustment to ensure performance differences are attributable to our novel components (Physics Encoding and Physics-Guided Contrastive Learning), not differences in overall model scale."
+  }
+]

@@ -1,0 +1,244 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Time-Scale-Adaptable Spectrum Sharing for Hybrid
+Satellite-Terrestrial Networks
+Y anmin Wang, Wei Feng, Senior Member , IEEE, Y unfei Chen, Fellow, IEEE, Y ongxu Zhu, Senior Member , IEEE,
+Shidong Zhou, Member , IEEE, and Cheng-Xiang Wang, Fellow, IEEE
+Abstract—Cooperation between satellite and terrestrial wire-
+less networks promises great potential in meeting fast-growing de-
+mands for ubiquitous communications coverage. To tackle spec-
+trum scarcity, spectrum sharing is studied for a hybrid satellite-
+terrestrial network where satellite links share the same group of
+time-slotted subcarriers with terrestrial links opportunistically.
+In particular, with coarse network-wide time synchronization, a
+time-scale-adaptable spectrum sharing framework is proposed
+based on a satellite-terrestrial cooperation time scale that can
+be ﬂexibly adjusted according to practical requirements. For
+generality, it is assumed that both full and partial frequency reuse
+could be adopted among the base stations (BSs) and satellite selec-
+tion is supported when multiple satellites are available. Relying on
+only statistical channel state information (CSI), joint link schedul-
+ing and power control are explored to maximize the average
+sum rate of the network while ensuring quality of service (QoS)
+for users. To solve the complicated mixed integer programming
+(MIP) problem, a low-complexity spectrum sharing scheme is
+presented based on link-feature-sketching-aided hierarchical link
+clustering and Monte-Carlo-and-successive-approximation-aided
+transmit power optimization. Simulation results demonstrate that
+by link feature sketching, diversity of the links brought by
+the spatial distribution of the users could be well utilized. The
+proposed scheme promises a signiﬁcant performance gain even
+under strict inter-link interference constraints.
+Index Terms —Channel state information, hybrid satellite-
+terrestrial network, link feature, spectrum sharing, time scale
+I. I NTRODUCTION
+Hybrid satellite-terrestrial networks are widely acknowl-
+edged as a promising solution for ubiquitous communication
+coverage in the sixth-generation (6G) era [1]–[5]. To tackle
+the problem of spectrum scarcity, spectrum sharing between
+the satellite and terrestrial components has attracted a lot
+of attention [8]–[16]. In practical applications, spectrum is
+usually utilized in terms of time-frequency resource blocks
+(RBs) consisting of subcarriers and time slots [3]–[5], [8]. Ac-
+cordingly, spectrum sharing could be opportunistically carried
+Y anmin Wang is with the School of Information Engineering, Minzu Uni-
+versity of China, Beijing 100081, China (email: wangyanmin@muc.edu.cn).
+Wei Feng (corresponding author) and Shidong Zhou are with the De-
+partment of Electronic Engineering, Tsinghua University, Beijing 100084,
+China (email: zhousd@tsinghua.edu.cn, fengwei@tsinghua.edu.cn). Wei Feng
+is also with State Key Laboratory of Space Network and Communications,
+Tsinghua University, Beijing 100084, China.
+Y unfei Chen is with Department of Engineering, University of Durham,
+Durham DH1 3LE, U.K. (email: yunfei.chen@durham.ac.uk).
+Y ongxu Zhu and Cheng-Xiang Wang are with National Mobile Communi-
+cations Research Laboratory, School of Information Science and Engineering,
+Southeast University, Nanjing 210096, China, and also with the Purple Moun-
+tain Laboratories, Nanjing 211111, China (email: yongxu.zhu@seu.edu.cn,
+chxwang@seu.edu.cn).
+out both in the frequency domain over subcarriers and in the
+time domain over time slots, so as to fully exploit the diversity
+of links and achieve higher spectrum efﬁciency [3]–[5], [8],
+[16].
+For satellite-terrestrial spectrum sharing in the time domain,
+synchronization between links is a fundamental prerequi-
+site [3]–[5], [8], [16]. However, due to signiﬁcant difference
+between link delays in the satellite and terrestrial components,
+network-wide ﬁne time synchronization, e.g., over ms-level
+time slots, is rather challenging [4], [8]. As a result, spectrum
+sharing in the time domain over time slots is more difﬁcult
+than that in the frequency domain over subcarriers for a
+hybrid network [8]–[15]. With the idea of circumventing the
+challenge of network-wide ﬁne time synchronization, a ﬁne-
+over-coarse scheme was proposed for the hybrid satellite-UA V -
+terrestrial maritime network based on link scheduling in our
+previous work in [8]. By link clustering and grouped time slice
+allocation for link clusters, satellite-terrestrial synchronization
+just needed to be achieved coarsely at a time scale much larger
+than an ms-level time slot [8]. With acceptable performance
+loss, spectrum sharing relying on coarse network-wide time
+synchronization tends to be preferred in practical applica-
+tions, for low link orchestrating complexity and signaling
+overhead [3], [8].
+While our previous work in [8] started exploration on time-
+domain coordination between satellite and terrestrial links for
+spectrum sharing, most of existing works only focused on the
+frequency domain [9]–[16]. It results in an inability to fully
+exploit the time-domain diversity of links in satellite-terrestrial
+networks. In this paper, joint time-frequency spectrum sharing
+with coarse network-wide time synchronization is explored
+for a hybrid satellite-terrestrial network. Different from [8],
+joint link scheduling and power control are implemented in
+this work. Satellite selection is also considered to adapt to
+the case when multiple satellites are available in the satellite
+component. Link feature sketching in perspectives of both
+link scheduling and power control is utilized to improve
+the implementation efﬁciency of spectrum sharing. Besides,
+to achieve appropriate trade-offs between performance and
+complexity, it is assumed that the time scale for satellite-
+terrestrial cooperation can be adjusted ﬂexibly according to
+practical requirements. For generality, both full and partial
+frequency reuse among base stations (BSs) are supported in
+the terrestrial component.
+arXiv:2601.18410v1 [cs.IT] 26 Jan 2026
+A. Related Works
+In previous research, investigation on satellite-terrestrial
+spectrum sharing mainly focused on the frequency do-
+main [9]–[16]. With instantaneous channel state information
+(CSI) of the links, frequency-domain spectrum sharing was
+studied for hybrid satellite, UA V , and terrestrial networks
+in [9]–[12]. In [9], allocation of resources, including the beam,
+power, and channel, was optimized for cognitive satellite
+links under constraints on interference caused to incumbent
+terrestrial networks. In [10], outage probability was derived for
+a hybrid satellite-terrestrial system where multiple terrestrial
+transmitter-receiver pairs cooperate with a primary satellite
+network for dynamic spectrum access. In [11], a joint beam-
+forming and power allocation scheme was proposed to max-
+imize the sum rate of satellite-terrestrial integrated networks,
+where the satellite multicast downlinks and the terrestrial
+downlinks serving a group of non-orthogonal multiple access
+users share the same mmWave frequency band. With the
+presence of a primary satellite-receiver link, multiple UA Vs
+with aerial stations and a terrestrial BS were deployed to
+support smart vehicles, and user association, power optimiza-
+tion, and trajectory control were jointly optimized in [12].
+No time-domain optimization was considered for spectrum
+sharing in [9]–[11]. Although optimization over time slots was
+involved in [12], it was only for UA V and terrestrial links, and
+the primary satellite-receiver link was supposed to occupy the
+frequency band statically all the time.
+While [9]–[12] have demonstrated the promising perfor-
+mance of satellite-terrestrial spectrum sharing in hybrid net-
+works, it is difﬁcult to obtain instantaneous CSI of all links
+due to its fast variation as well as the large delay of satellite
+links [17], [18]. To circumvent the challenge, spectrum sharing
+based on statistical CSI was addressed for hybrid satellite-
+terrestrial networks in [13]–[16]. With only information of
+path loss and shadowing obtained from a pre-constructed radio
+map, power allocation and user scheduling schemes were pro-
+posed for a hybrid network with satellite-terrestrial spectrum
+sharing in [13]. With the assumption that only the mean
+and variance of channel gains are available for interference
+links, resource scheduling was discussed in [14] for mobile
+wireless and meteorological satellite services sharing the same
+frequency band. With statistical or instantaneous interference
+constraints imposed by primary terrestrial links, energy efﬁ-
+cient power allocation was investigated for cognitive satellite-
+terrestrial networks in [15]. With the target of maximizing both
+the number of served terrestrial MTs and the average sum
+transmission rate, a double-target spectrum sharing scheme
+is proposed for hybrid satellite-terrestrial networks in [16]
+based on large-scale CSI. Just like [9]–[12], transmission
+characteristics of the satellite link/links were assumed to stay
+invariant in [13]–[16], and no optimization across time was
+considered for the satellite component.
+When time-domain optimization is to be carried out for
+satellite-terrestrial cooperation, the basic time scale needs
+to be selected appropriately according to speciﬁc network
+scenarios [19], [20]. In [19], an autonomous resource man-
+agement architecture is proposed for 6G satellite-terrestrial
+integrated networks, and an artiﬁcial-intelligence-centric three-
+level resource management closed-loop is designed. It could be
+inferred that the time scale for the implementation of resource
+management is a fundamental issue. To tackle with differ-
+entiated time granularity resource scheduling requirements, a
+two-timescale hierarchical bandwidth allocation algorithm is
+proposed based on multi-agent deep reinforcement learning
+for multi-beam satellite networks in [20].
+B. Main Contributions
+In this paper, we focus on statistical-CSI-based spectrum
+sharing for a hybrid satellite-terrestrial network, where satellite
+links share the same group of time-slotted subcarriers with
+terrestrial links opportunistically. Unlike [13]–[16], our work
+considers joint time-frequency coordination among satellite
+and terrestrial links. The main contributions are as follows.
+• A time-scale-adaptable spectrum sharing framework is
+proposed based on coarse network-wide time synchro-
+nization. To maximize the average sum rate while en-
+suring quality of service (QoS) for users, joint link
+scheduling and power control are implemented based
+on statistical CSI of the links. Satellite selection is also
+supported to adapt to the case when multiple satellites are
+available in the satellite component. For generality, either
+full or partial frequency reuse can be adopted among BSs
+in the terrestrial component.
+• After a complicated mixed integer programming (MIP)
+problem is formulated, link features in perspectives of
+both link scheduling and power control are designed
+following the divide-and-conquer principle. With the aid
+of link feature sketching, link scheduling is decoupled
+with power control for implementation efﬁciency. A
+hierarchical link clustering scheme is then proposed for
+link scheduling under the time-scale-adaptable spectrum
+sharing framework.
+• A low-complexity spectrum sharing scheme is pro-
+posed based on link-feature-sketching-aided hierarchi-
+cal link clustering and Monte-Carlo-and-successive-
+approximation-aided transmit power optimization. Simu-
+lation results demonstrate that by link feature sketching,
+link diversity brought by the spatial distribution of the
+users could be well utilized for opportunistic spectrum
+sharing. The proposed scheme promises a signiﬁcant
+performance gain even under strict inter-link interference
+constraints.
+II. S YSTEM MODEL AND PROBLEM FORMULA TION
+A. System Model
+A hybrid satellite-terrestrial network is shown in Fig. 1. In
+the network, there are J satellites and M ground BSs. The

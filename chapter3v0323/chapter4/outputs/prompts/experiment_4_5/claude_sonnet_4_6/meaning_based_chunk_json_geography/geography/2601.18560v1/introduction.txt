@@ -1,0 +1,154 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "introduction",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: introduction
+- section_title: Introduction
+- page_start: 1
+- page_end: 2
+
+**INPUT TEXT CHUNK:**
+Earth observation missions are fundamental for
+long-term monitoring and research on global envi-
+ronmental change. To obtain reliable observation
+data, numerous satellites have been deployed inorbit, providing essential information to support
+policy formulation and decision-making. With the
+advent of high spatial and radiometric resolutions
+hyperspectral sensors, hyperspectral imaging mis-
+sions have become increasingly critical due to their
+1arXiv:2601.18560v1  [cs.CV]  26 Jan 2026
+
+capability to capture continuous spectral informa-
+tion from the visible to the short-wave infrared
+range[1–5]. The procurement of earth observation
+products from hyperspectral satellites involves
+a two-stage process: data transmission onboard
+the satellite and subsequent offline processing on
+terrestrial systems[6]. This conventional ground-
+based interaction exhibits a delay in response due
+to the limit of transmission speed[7, 8]. Especially
+in certain critical emergency scenarios such as dis-
+aster monitoring[9] and emergency mapping[10,
+11], this procedure is prolonged and does not
+satisfy the demand for a rapid response. Thus,
+onboard processing of the acquired hyperspectral
+images in satellites remains a matter of significant
+importance and research interest.
+The key to satellite onboard processing is
+to integrate artificial intelligence algorithms with
+satellite platform. Researchers have recently taken
+up onboard processing. Despite lacking a hyper-
+spectral spectrometer, OPS-SAT serves as a pio-
+neering validation platform to assess onboard pro-
+cessing capabilities[12]. To investigate the effects
+of modifying the quality of image data on deep
+learning models applied in Earth observation
+satellites, [13] conducted simulation experiments
+from the perspective of atmospheric conditions
+and noise interference. The Φ-sat-1 mission [14]
+from the European Space Agency (ESA) illus-
+trates the use of artificial intelligence in Earth
+observation. It is the first attempt to deploy a deep
+convolutional network on a satellite for the pur-
+pose of cloud segmentation. [7] focused on small
+satellites and assert that the critical factor in sur-
+mounting the limitations imposed by data band-
+width is the pre-processing of data onboard the
+satellite before transmission. Based on this idea,
+they proposed theHyper-Spectral Small Satellite
+for Ocean Observation(HYPSO) mission. In order
+to achieve real-time online classification of hyper-
+spectral images, [15] implemented thek-means
+algorithm as the onboard processing method.
+They also engineered specialized hardware to take
+advantage of various acceleration technologies
+aimed at minimizing overhead and optimizing per-
+formance. [16] presents a lightweight deep learning
+model and substantiates its efficacy through val-
+idation by the HYPSO-1 andEarth Observing-1
+(EO-1) missions, whose main task is to segment
+the sea, land and cloud. Currently, onboard pro-
+cessing for hyperspectral images is focusing mainly
+(a)
+ (b)
+ (c)
+Fig. 1A comparison of the classification performance of
+the proposed method and previous method under the inter-
+ference of strip noise. (a) The falsecolor image of Pavia
+University with deadline noise. (b) The classification map
+with SGL[28]. (c) The classification map using our method.
+on cloud segmentation and basic categorical clas-
+sification, making it hard to apply to complex
+scenes.
+The onboard processing of satellite hyper-
+spectral images, in contrast to traditional post-
+downlink operations, is confronted with numerous
+challenges. First, compared to high-power and
+high-performance processors used in terrestrial
+settings, the computational resources available
+onboard satellites are significantly limited, espe-
+cially for small satellites[17][18][19]. This is mainly
+attributable to the inherent limitations imposed
+by the size, mass, cost, and power of the satel-
+lite. Recent advances in deep learning algorithms,
+especially large models, predominantly necessi-
+tate the utilization of high-performance comput-
+ing platforms, thereby conflicting with the lim-
+ited computational resources available on satellite
+systems[20]. Consequently, the deployment of deep
+learning models onboard satellites is much more
+challenging and less desirable. The lack of large-
+scale remote sensing datasets also results in an
+inadequate foundation for deep learning models to
+formulate reasonable judgments in unanticipated
+situations[21, 22]. Moreover, image quality degra-
+dation due to bad pixels[23], mixed noise (e.g.,
+Gaussian noise, poisson noise)[24][25], and mis-
+aligned pixels[26] are common problems encoun-
+tered in widely used spaceborne imaging spec-
+trometers. Bad pixels are often denoted as impulse
+noise or salt-and-pepper noise ,which appear as
+random white or black pixels in images due to sen-
+sor operating failures or saturation of the scanning
+unit [13][24][27]. As the operational duration and
+2

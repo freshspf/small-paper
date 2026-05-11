@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LoRA",
+  "isTypeOf",
+  "ParameterEfficientFineTuning",
+  "ShortFormSummary",
+  "encodesNarrativeObjective",
+  "RapidSituationalAwareness",
+  "LongFormNarrative",
+  "SafetyAndRecoveryAnalysis",
+  "BuildingFunctionClassification",
+  "isMostChallengingAmong",
+  "EvaluatedTask",
+  "isChallengedBy",
+  "ClassImbalance",
+  "FunctionalSemanticsAmbiguity",
+  "derivedFrom",
+  "OverheadImagery",
+  "FunctionRecognition",
+  "isOpenProblemFor",
+  "DisasterResponseBenchmark",
+  "motivates",
+  "BuildingCenteredEvaluation",
+  "extendsBeyond",
+  "SceneLevelAnalysis",
+  "GenericVisionLanguageModel",
+  "achieves",
+  "ModerateAccuracy",
+  "performsOn",
+  "DamageLevelClassification",
+  "hasLowMacroF1Under",
+  "SeverityConfusion",
+  "hasWeakPerformanceOn",
+  "DisasterTypeClassification",
+  "hasLowMetric",
+  "Accuracy",
+  "MacroF1Score",
+  "capturesFor",
+  "captures",
+  "ExactLabelAgreement",
+  "ignores",
+  "OrdinalNatureOfDamageSeverity",
+  "OrdinalMAE",
+  "penalizes",
+  "LargeSeverityConfusion",
+  "penalizesMoreStronglyThan",
+  "AdjacentSeverityConfusion",
+  "provides",
+  "OperationallyMeaningfulAssessment",
+  "hasExample",
+  "NoDamageVsDestroyed",
+  "DIChat",
+  "achievesLowest",
+  "SatelliteImagery",
+  "DisasterResponse",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "BuildingLevelAssessment",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "FEMA",
+  "PhysicalDamage",
+  "DamagedBuilding",
+  "Hospital",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "BuildingFunction",
+  "BuildingUse",
+  "LargeScaleHazard",
+  "LinköpingUniversity",
+  "Vantor",
+  "ComputerVisionLaboratory",
+  "RemoteSensing"
+]
+
+Triples:
+[
+  {
+    "subject": "LoRA",
+    "relation": "isTypeOf",
+    "object": "ParameterEfficientFineTuning",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "Both variants are fine-tuned using parameter-efficient Low-Rank Adaptation (LoRA) on the training split of DisasterInsight."
+  },
+  {
+    "subject": "ShortFormSummary",
+    "relation": "encodesNarrativeObjective",
+    "object": "RapidSituationalAwareness",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "This contrast confirms that the two formats encode distinct narrative objectives rather than simple length variations."
+  },
+  {
+    "subject": "LongFormNarrative",
+    "relation": "encodesNarrativeObjective",
+    "object": "SafetyAndRecoveryAnalysis",
+    "chunk": "thedisasterinsightbenchmark3",
+    "context": "This contrast confirms that the two formats encode distinct narrative objectives rather than simple length variations."
+  },
+  {
+    "subject": "BuildingFunctionClassification",
+    "relation": "isMostChallengingAmong",
+    "object": "EvaluatedTask",
+    "chunk": "discussionandlimitations",
+    "context": "Among all evaluated tasks, building-function classification remains the most challenging due to severe class imbalance and the ambiguity of inferring functional semantics from overhead imagery."
+  },
+  {
+    "subject": "BuildingFunctionClassification",
+    "relation": "isChallengedBy",
+    "object": "ClassImbalance",
+    "chunk": "discussionandlimitations",
+    "context": "Among all evaluated tasks, building-function classification remains the most challenging due to severe class imbalance and the ambiguity of inferring functional semantics from overhead imagery."
+  },
+  {
+    "subject": "BuildingFunctionClassification",
+    "relation": "isChallengedBy",
+    "object": "FunctionalSemanticsAmbiguity",
+    "chunk": "discussionandlimitations",
+    "context": "Among all evaluated tasks, building-function classification remains the most challenging due to severe class imbalance and the ambiguity of inferring functional semantics from overhead imagery."
+  },
+  {
+    "subject": "FunctionalSemanticsAmbiguity",
+    "relation": "derivedFrom",
+    "object": "OverheadImagery",
+    "chunk": "discussionandlimitations",
+    "context": "Among all evaluated tasks, building-function classification remains the most challenging due to severe class imbalance and the ambiguity of inferring functional semantics from overhead imagery."
+  },
+  {
+    "subject": "FunctionRecognition",
+    "relation": "isOpenProblemFor",
+    "object": "DisasterResponseBenchmark",
+    "chunk": "discussionandlimitations",
+    "context": "This highlights function recognition as a core open problem for disaster-response benchmarks and motivates building-centered, function-aware evaluation beyond scene-level analysis."
+  },
+  {
+    "subject": "FunctionRecognition",
+    "relation": "motivates",
+    "object": "BuildingCenteredEvaluation",
+    "chunk": "discussionandlimitations",
+    "context": "This highlights function recognition as a core open problem for disaster-response benchmarks and motivates building-centered, function-aware evaluation beyond scene-level analysis."
+  },
+  {
+    "subject": "BuildingCenteredEvaluation",
+    "relation": "extendsBeyond",
+    "object": "SceneLevelAnalysis",
+    "chunk": "discussionandlimitations",
+    "context": "This highlights function recognition as a core open problem for disaster-response benchmarks and motivates building-centered, function-aware evaluation beyond scene-level analysis."
+  },
+  {
+    "subject": "GenericVisionLanguageModel",
+    "relation": "achieves",
+    "object": "ModerateAccuracy",
+    "chunk": "discussionandlimitations",
+    "context": "While generic vision–language models achieve moderate accuracy on damage-level classification, their macro-F1 scores remain low under class imbalance and severity confusion."
+  },
+  {
+    "subject": "GenericVisionLanguageModel",
+    "relation": "performsOn",
+    "object": "DamageLevelClassification",
+    "chunk": "discussionandlimitations",
+    "context": "While generic vision–language models achieve moderate accuracy on damage-level classification, their macro-F1 scores remain low under class imbalance and severity confusion."
+  },
+  {
+    "subject": "GenericVisionLanguageModel",
+    "relation": "hasLowMacroF1Under",
+    "object": "ClassImbalance",
+    "chunk": "discussionandlimitations",
+    "context": "While generic vision–language models achieve moderate accuracy on damage-level classification, their macro-F1 scores remain low under class imbalance and severity confusion."
+  },
+  {
+    "subject": "GenericVisionLanguageModel",
+    "relation": "hasLowMacroF1Under",
+    "object": "SeverityConfusion",
+    "chunk": "discussionandlimitations",
+    "context": "While generic vision–language models achieve moderate accuracy on damage-level classification, their macro-F1 scores remain low under class imbalance and severity confusion."
+  },
+  {
+    "subject": "GenericVisionLanguageModel",
+    "relation": "hasWeakPerformanceOn",
+    "object": "DisasterTypeClassification",
+    "chunk": "discussionandlimitations",
+    "context": "Performance on disaster-type classification is substantially weaker, with both low accuracy and low macro-F1."
+  },
+  {
+    "subject": "DisasterTypeClassification",
+    "relation": "hasLowMetric",
+    "object": "Accuracy",
+    "chunk": "discussionandlimitations",
+    "context": "Performance on disaster-type classification is substantially weaker, with both low accuracy and low macro-F1."
+  },
+  {
+    "subject": "DisasterTypeClassification",
+    "relation": "hasLowMetric",
+    "object": "MacroF1Score",
+    "chunk": "discussionandlimitations",
+    "context": "Performance on disaster-type classification is substantially weaker, with both low accuracy and low macro-F1."
+  },
+  {
+    "subject": "MacroF1Score",
+    "relation": "capturesFor",
+    "object": "DamageLevelClassification",
+    "chunk": "discussionandlimitations",
+    "context": "For damage-level classification, macro-F1 captures exact label agreement but ignores the ordinal nature of damage severity."
+  },
+  {
+    "subject": "MacroF1Score",
+    "relation": "captures",
+    "object": "ExactLabelAgreement",
+    "chunk": "discussionandlimitations",
+    "context": "For damage-level classification, macro-F1 captures exact label agreement but ignores the ordinal nature of damage severity."
+  },
+  {
+    "subject": "MacroF1Score",
+    "relation": "ignores",
+    "object": "OrdinalNatureOfDamageSeverity",
+    "chunk": "discussionandlimitations",
+    "context": "For damage-level classification, macro-F1 captures exact label agreement but ignores the ordinal nature of damage severity."
+  },
+  {
+    "subject": "OrdinalMAE",
+    "relation": "penalizes",
+    "object": "LargeSeverityConfusion",
+    "chunk": "discussionandlimitations",
+    "context": "We therefore additionally report ordinal MAE, which penalizes large severity confusions (e.g., no-damage vs. destroyed) more strongly than adjacent ones, providing a more operationally meaningful assessment."
+  },
+  {
+    "subject": "OrdinalMAE",
+    "relation": "penalizesMoreStronglyThan",
+    "object": "AdjacentSeverityConfusion",
+    "chunk": "discussionandlimitations",
+    "context": "We therefore additionally report ordinal MAE, which penalizes large severity confusions (e.g., no-damage vs. destroyed) more strongly than adjacent ones, providing a more operationally meaningful assessment."
+  },
+  {
+    "subject": "OrdinalMAE",
+    "relation": "provides",
+    "object": "OperationallyMeaningfulAssessment",
+    "chunk": "discussionandlimitations",
+    "context": "We therefore additionally report ordinal MAE, which penalizes large severity confusions (e.g., no-damage vs. destroyed) more strongly than adjacent ones, providing a more operationally meaningful assessment."
+  },
+  {
+    "subject": "LargeSeverityConfusion",
+    "relation": "hasExample",
+    "object": "NoDamageVsDestroyed",
+    "chunk": "discussionandlimitations",
+    "context": "We therefore additionally report ordinal MAE, which penalizes large severity confusions (e.g., no-damage vs. destroyed) more strongly than adjacent ones, providing a more operationally meaningful assessment."
+  },
+  {
+    "subject": "DIChat",
+    "relation": "achievesLowest",
+    "object": "OrdinalMAE",
+    "chunk": "discussionandlimitations",
+    "context": "Quantitatively, DI-Chat achieves the lowest ordinal MAE for damage-level classification, indicating fewer severe misclassifications compared to generic baselines, even when overall accuracy differences are modest."
+  }
+]

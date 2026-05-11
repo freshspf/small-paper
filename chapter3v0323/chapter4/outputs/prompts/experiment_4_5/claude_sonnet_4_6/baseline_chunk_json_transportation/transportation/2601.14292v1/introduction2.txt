@@ -1,0 +1,145 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: introduction2
+- section_title: Introduction
+- page_start: 1
+- page_end: 2
+
+INPUT TEXT CHUNK:
+Consequently, the authors advocate
+adopting a systems approach to road safety, which considers it
+as an emergent property of a complex socio-technical system,
+and systems thinking offers a suitable framework for this pur-
+pose, as it enables the interactions between system components,
+including road users, government, infrastructure, and vehicle
+manufacturers.
+Building upon this foundation, [ 19] explores the historical
+development of systems thinking and investigating transport and
+industry safety management to gain insight into how best to
+use the experiences in general road safety management. Simi-
+larly, a study that addresses the challenges associated with the
+Safe System approach and illustrates how inadequate road sys-
+tem design can hinder safe road user behaviour is presented in
+[20]. Numerous studies conducted by Salmon and his colleagues
+have demonstrated that Systems Theory, originally derived from
+workplace safety, can uncover the complex web of interacting
+factors across multiple levels of the road transport system that
+contribute to crashes [ 21][22]. An article that examines the ‘drift
+into failure’ approach for road safety efforts, which argues that
+road transport systems do currently display characteristics of
+complex systems in drift, and that a greater understanding of
+complexity theory-based models will support improved road
+safety efforts, is presented in [23].
+From a system theoretic safety perspective, STPA has been
+applied to Austria’s road safety to expose gaps in the road safety
+inspection (RSI) process, especially the limited treatment of
+human, vehicle, and road interactions. The authors identify
+three main areas for improvement: 1) extend RSI beyond the
+TEN-T(Trans-European network) network to Non-TEN-T roads,
+2) broaden the scope to include human factors, vehicle dynam-
+ics, and road user interactions, and 3) apply STPA within the
+overall road safety management process.Their key findings re-
+veal that the current RSI practice in Austria is reactive rather
+than proactive, inspection boundaries are too narrow, excludinghuman, vehicle, and road interactions, and feedback loops are
+missing. These findings highlight a critical limitation: the ab-
+sence of closed-loop monitoring to ensure implementation of
+recommendations, along with gaps in procedures and regulatory
+support needed to implement the proposed improvements[ 24].
+While systems approaches and safety analysis like STPA pro-
+vides valuable insights and highlight area of improvement, there
+remains a need for a new framework that can deliver ongoing,
+operational assurance, through the continuous monitoring of
+underlying system assumptions.
+As applied currently, STPA remains primarily a design haz-
+ard analysis and does not prescribe a run-time monitoring frame-
+work. While STPA’s prominent role at design time is widely
+recognised, establishing continuous, operational monitoring re-
+quires additional assurance steps. As Leveson notes [ 25], the
+concept of assumption-based leading indicators provides guid-
+ance to identify and monitor key assumptions across the entire
+lifecycle. Yet, it does not specify metrics for every assump-
+tion, nor does it establish a mechanism for continuous, opera-
+tional monitoring of assumptions. [ 26] addresses this gap by
+proposing Early Warning Sign Analysis based on the STPA
+(EWaSAP), an extension to STPA that is built around perceiv-
+able signs. EWaSAP helps analysts identify observable early
+warning signs and supports the configuration of sensors and
+awareness actions so that such signals are transmitted and moni-
+tored effectively. In their case study at a drinking water treatment
+works, EWaSAP started from an established STPA, first identi-
+fying signs indicating violations, next identifying systems with
+sensors capable of perceiving those signs, and finally stakehold-
+ers. This process, however, produced a large number of early
+warning signs, and the author acknowledges the complexity of
+managing such a multitude of early warning signs. EWaSAP
+as an important extension to STPA that emphasises perceivable
+signs, non-perceivable assumptions may require complementary
+assurance mechanisms(e.g., audit, pass/fail rate) to keep the
+monitoring burden tractable.
+1.2. Paper Contribution and Novelty
+To address these limitations, this paper proposes the inte-
+gration of systems thinking with systems engineering to enable
+continuous safety assurance across the entire lifecycle. Sys-
+tems engineering introduces lifecycle governance, configuration
+management, verification and validation and traceability from
+hazards identification to deployment and operation [ 17]. Unlike
+traditional safety analysis, system engineering principles provide
+robust mechanisms to monitor system behaviour and continu-
+ously validate the assumptions on which systems, policies, and
+safety decisions are based, ensuring they remain valid as tech-
+nologies, regulations, and user behaviour evolve.

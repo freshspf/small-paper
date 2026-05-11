@@ -1,0 +1,275 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Analyzing Images of Blood Cells with Quantum
+Machine Learning Methods: Equilibrium
+Propagation and V ariational Quantum Circuits to
+Detect Acute Myeloid Leukemia
+Azra Bano
+Electrical and Computer Engineering
+Rutgers University
+Piscataway, NJ, USA
+ab2895@scarletmail.rutgers.edu
+Larry S. Liebovitch*
+AC4 in the Climate School
+Columbia University
+New Y ork, NY , USA
+lsl2140@columbia.edu
+Abstract—This paper presents a feasibility study demonstrat-
+ing that quantum machine learning (QML) algorithms achieve
+competitive performance on real-world medical imaging despite
+operating under severe constraints. We evaluate Equilibrium
+Propagation (EP)—an energy-based learning method that does
+not use backpropagation (incompatible with quantum systems
+due to state-collapsing measurements)—and Variational Quan-
+tum Circuits (VQCs) for automated detection of Acute Myeloid
+Leukemia (AML) from blood cell microscopy images using binary
+classiﬁcation (2 classes: AML vs. Healthy).
+Key Result: Using limited subsets (50–250 samples per class)
+of the AML-Cytomorphology dataset (18,365 expert-annotated
+images), quantum methods achieve performance only 12–15%
+below classical CNNs despite reduced image resolution (64!64
+pixels), engineered features (20D), and classical simulation via
+Qiskit. EP reaches 86.4% accuracy (only 12% below CNN)
+without backpropagation, while the 4-qubit VQC attains 83.0%
+accuracy with consistent data efﬁciency: VQC maintains stable
+83% performance with only 50 samples per class, whereas CNN
+requires 250 samples (5 → more data) to reach 98%. These
+results establish reproducible baselines for QML in healthcare,
+validating NISQ-era feasibility.
+Index Terms—Quantum Machine Learning, Equilibrium Prop-
+agation, Variational Quantum Circuits, Quantum Neural Net-
+works, Quantum Benchmarks, Medical Image Analysis
+I. I NTRODUCTION
+Automated microscopy-based analysis can support clinical
+workﬂows by reducing the time and variability associated
+with manual blood smear review. Deep convolutional networks
+have demonstrated highly accurate differentiation of blood
+cell morphologies [1], [2], with performance often surpassing
+human-level accuracy [3]. Our study focuses on blood smear
+analysis, which offers a less invasive diagnostic approach
+compared to bone marrow aspiration. However, these clas-
+sical methods typically rely on backpropagation and require
+substantial computational resources, motivating exploration of
+alternative learning paradigms better aligned with emerging
+hardware architectures.
+*Corresponding author: L. S. Liebovitch email:LSL2140@columbia.edu.
+Quantum machine learning (QML) has gained signiﬁcant
+momentum with the development of Noisy Intermediate-Scale
+Quantum (NISQ) devices. Introductions to these methods are
+available on Y ouTube [4], [5] and detailed presentations are
+available from these references [6], [7]. QML encompasses
+different approaches including V ariational Quantum Circuits
+(VQCs) and quantum-inspired methods such as Equilibrium
+Propagation (EP).
+In V ariational Quantum Circuits (VQCs), circuits encode
+classical data into quantum states via feature maps and op-
+timize circuit parameters through classical optimization rou-
+tines. While many QML demonstrations utilize toy datasets
+(MNIST, synthetic data), evaluating these methods on real
+clinical data with inherent variability and complexity remains
+critical for understanding practical applicability.
+In parallel, Equilibrium Propagation (EP) [8] offers a
+quantum-inspired energy-based learning algorithm that trains
+networks by computing updates from differences between
+equilibrium states under free and nudged dynamics. Crucially,
+EP does not use backpropagation—an essential feature since
+backpropagation is fundamentally incompatible with quantum
+systems: gradient computation in quantum circuits requires in-
+termediate measurements that collapse quantum states, thereby
+destroying superposition and entanglement, which defeats the
+computational advantages of quantum parallelism. This in-
+compatibility makes EP particularly attractive for quantum-
+inspired neuromorphic hardware and physical relaxation-based
+systems.
+In this paper we evaluate EP and VQC models on image
+analysis to detect Acute Myeloid Leukemia (AML) from blood
+cell microscopy images using the AML-Cytomorphology
+dataset [1]. This feasibility study of QML image performance
+was performed using a laptop computer and the quantum
+simulator IBM Qiskit to show how even such exploratory sim-
+ulations can provide useful information about the performance
+of these new QML algorithms.
+Our contributions are:
+arXiv:2601.18710v1 [cs.ET] 26 Jan 2026
+• A reproducible EP pipeline for AML detection using
+engineered image features, trained without backpropaga-
+tion.
+• A 4-qubit VQC classiﬁer using ZZFeatureMap encoding
+and a shallow RealAmplitudes ansatz.
+• A benchmark across dataset scales (50–250 sam-
+ples/class) reporting accuracy and runtime for QML-
+oriented evaluation.
+Open Science Note: upon acceptance of our paper, we will
+will make our data/code available online.
+II. R ELA TED WORK
+Quantum machine learning for medical imaging remains
+an emerging ﬁeld. Prior work includes quantum support vec-
+tor machines for MRI tumor classiﬁcation [9], preliminary
+VQC studies on synthetic histopathology data, and quantum
+approaches to leukemia detection [10]. However, systematic
+benchmarks on large-scale clinical datasets with expert anno-
+tations are limited. Recent surveys [6] identify key challenges:
+(i) scaling beyond toy datasets (MNIST), (ii) handling real-
+world noise and class imbalance, and (iii) demonstrating
+practical advantages over classical methods.
+This work addresses these gaps by: (1) benchmarking on
+a clinical dataset of 18,365 expert-annotated blood cell im-
+ages rather than synthetic data, (2) systematically comparing
+quantum-inspired (Equilibrium Propagation) and pure quan-
+tum (VQC) approaches under identical experimental condi-
+tions, and (3) quantifying data efﬁciency—a practical quantum
+advantage critical for medical domains where expert anno-
+tations are costly. Our 4-qubit VQC design with shallow
+depth (12) is explicitly optimized for near-term NISQ devices,
+distinguishing this from theoretical studies assuming ideal
+quantum computers.
+III. M ETHODS
+A. Dataset and Experimental Protocol
+AML-Cytomorphology Dataset: We utilize the publicly
+available AML-Cytomorphology dataset [1], accessible at
+https://doi.org/10.7937/tcia.2019.36f5o9ld.
+This dataset comprises 18,365 single-cell blood smear
+microscopy images from 200 patients: 100 diagnosed
+with Acute Myeloid Leukemia (AML) and 100 healthy
+controls, forming a binary classiﬁcation problem (2 classes).
+Images were acquired at Munich University Hospital using
+standardized May-Gr ¨unwald-Giemsa staining protocols under
+100! oil immersion magniﬁcation. Each image captures
+a centered leukocyte with expert annotations from board-
+certiﬁed hematologists following WHO diagnostic criteria
+[11].
+The original dataset contains high-resolution images; how-
+ever, to assess quantum algorithm performance under practical
+computational constraints and to enable fair comparison across
+all methods, we resize images to 64!64 pixels. All methods
+(classical CNN, Dense NN, EP , and VQC) operate on this
+same 64!64 resolution to ensure direct comparability. Despite
+this signiﬁcant resolution reduction, our methods achieve
+strong classiﬁcation performance—demonstrating that quan-
+tum machine learning algorithms can extract discriminative
+features even from compressed representations. This ﬁnding
+is particularly relevant for resource-constrained deployment
+scenarios and edge computing applications.
+Number of Classes: This dataset comprises 18,365 single-
+cell blood smear microscopy images from 200 patients: 100
+diagnosed with Acute Myeloid Leukemia (AML) and 100
+healthy controls, forming a binary classiﬁcation problem of
+two classes: malignant AML and healthy.cells.
+Experimental Subsets: To study data efﬁciency critical for
+quantum algorithms with limited qubit resources, we construct
+four balanced datasets with 50, 100, 200, and 250 samples per
+class (100, 200, 400, and 500 total samples respectively). All
+experiments employ stratiﬁed 80/20 train-test splits with ﬁxed
+random seeds to ensure reproducibility.
+Feature Engineering: To reduce dimensionality suitable for
+4-qubit circuits, EP and VQC operate on 20 engineered scalar
+features extracted from each image rather than raw pixels.
+For classical baseline comparison, we implement standard
+CNN and dense neural network architectures within the same
+experimental framework.
+B. Feature Extraction
+Each image is converted to grayscale and summarized by
+20 engineered features spanning ﬁve categories, as detailed
+in Table I. This representation is consistent with practical
+constraints of small-qubit VQCs and enables controlled com-
+parisons across learning paradigms.
+C. V ariational Quantum Circuit Classiﬁer
+Overview: Backpropagation requires measuring the values
+in a neural network and then using those values to optimize
+a cost function that yields the outputs to the corresponding
+inputs in the training set. However, that cannot be done in
+a quantum system because: 1) measuring those values stops
+the computation (collapses the wave function) and 2) there is
+no known quantum algorithm that can efﬁciently optimize a
+cost function. VQC gets around these problems to do QML
+by using a hybrid system that consists of a quantum unit
+linked to a classical unit. The quantum unit computes the
+results that depend on its input and a classical parameter.
+The classical unit sends values of that classical parameter to
+the quantum unit and keeps track of the outputs it receives
+from the quantum unit. To train the system, the classical
+unit iteratively uses those results to ﬁnd the optimal classical
+parameter that produces the correct values of the quantum
+outputs from the given values of the inputs in the training
+set [6].
+The VQC is implemented with 4 qubits and
+evaluated using classical simulation via Qiskit 0.39.0
+(https://qiskit.org), IBM’s open-source quantum
+computing framework. This simulation establishes
+performance baselines prior to deployment on actual
+NISQ hardware. Input features are reduced from 20 to 4
+dimensions via Principal Component Analysis (PCA retaining
+TABLE I
+DETAILED 20- DIMENSIONAL FEA TURE ENGINEERING FOR EP AND VQC INPUT .E ACH FEATURE IS COMPUTED FROM 64!64 GRA YSCALE BLOOD CELL
+IMAGES .
+Category Feature Name Description
+Intensity Statistics
+Mean intensity Average pixel intensity across image
+Std intensity Standard deviation of pixel intensities
+Min intensity Minimum pixel intensity value
+Max intensity Maximum pixel intensity value
+Median intensity Median pixel intensity
+GLCM Textures
+Contrast Local intensity variations in GLCM
+Dissimilarity Difference between pixel pairs
+Homogeneity Closeness of GLCM distribution to diagonal
+Energy Sum of squared GLCM elements
+Correlation Linear dependency of gray levels
+Morphology
+Area Number of pixels in cell region
+Perimeter Boundary length of cell region
+Eccentricity Ratio of focal distance to major axis length
+Solidity Ratio of region area to convex hull area
+Edge Metrics
+Edge density Proportion of edge pixels (Sobel ﬁlter)
+Mean edge strength Average magnitude of edge responses
+Edge variation Standard deviation of edge magnitudes
+FFT Frequency
+Low freq. energy Energy in low-frequency components
+High freq. energy Energy in high-frequency components
+Freq. centroid Centroid of frequency spectrum
+95% variance) and rescaled to [0, 2 ω] to match rotation gate
+domains.
+We employ a ZZFeatureMap for quantum data encoding,
+which creates entanglement between all qubit pairs through
+second-order Pauli-Z expansions, and a shallow hardware-
+efﬁcient RealAmplitudes ansatz (2 layers, 8 trainable parame-
+ters). [12]. This shallow circuit design (depth 12) is optimized
+for NISQ devices with limited coherence times.

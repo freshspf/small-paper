@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "simulator_SUMO",
+  "provides",
+  "library_sumolib",
+  "simulator_CityFlow",
+  "designedFor",
+  "LargeScaleUrbanTrafficScenario",
+  "hasFeature",
+  "NativePythonApi",
+  "simulator_Vissim",
+  "isInstanceOf",
+  "CommercialSimulationPlatform",
+  "models",
+  "MultimodalTraffic",
+  "adoptedBy",
+  "TransportationAgency",
+  "interface_COM",
+  "framework_SumoRL",
+  "TrafficSignalControl",
+  "integrates",
+  "RlAlgorithm",
+  "leverages",
+  "supports",
+  "api_Gymnasium",
+  "api_PettingZoo",
+  "combinedWith",
+  "library_StableBaselines3",
+  "library_RLlib",
+  "manages",
+  "Intersection",
+  "DecisionMakingProcess",
+  "definedBy",
+  "State",
+  "Reward",
+  "Action",
+  "TrafficPerformanceMetric",
+  "utilizedIn",
+  "StateRepresentation",
+  "RewardRepresentation",
+  "ActionDesign",
+  "controls",
+  "TrafficSignalPhase",
+  "represents",
+  "TrafficFeature",
+  "Agent",
+  "perceives",
+  "PhaseState",
+  "indicates",
+  "SignalPhase",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface"
+]
+
+Triples:
+[
+  {
+    "subject": "simulator_SUMO",
+    "relation": "provides",
+    "object": "library_sumolib",
+    "chunk": "relatedwork1",
+    "context": "As an open-source and cross-platform tool, SUMO provides a Python library (sumolib [29]) for handling network and simulation data, along with a wide range of modular utilities for constructing networks and traffic scenarios."
+  },
+  {
+    "subject": "simulator_CityFlow",
+    "relation": "designedFor",
+    "object": "LargeScaleUrbanTrafficScenario",
+    "chunk": "relatedwork1",
+    "context": "CityFlow [12], introduced by Zhang et al. in 2019, was specifically designed for large-scale urban traffic scenarios and RL applications."
+  },
+  {
+    "subject": "simulator_CityFlow",
+    "relation": "hasFeature",
+    "object": "NativePythonApi",
+    "chunk": "relatedwork1",
+    "context": "It features high-performance simulation with multi-threading support and a native Python API that enables the rapid construction of training environments."
+  },
+  {
+    "subject": "simulator_Vissim",
+    "relation": "isInstanceOf",
+    "object": "CommercialSimulationPlatform",
+    "chunk": "relatedwork1",
+    "context": "Vissim [13] is a commercial high-resolution traffic simulation platform capable of modeling multimodal traffic with advanced driver behavior algorithms and 3D visualization."
+  },
+  {
+    "subject": "simulator_Vissim",
+    "relation": "models",
+    "object": "MultimodalTraffic",
+    "chunk": "relatedwork1",
+    "context": "Vissim [13] is a commercial high-resolution traffic simulation platform capable of modeling multimodal traffic with advanced driver behavior algorithms and 3D visualization."
+  },
+  {
+    "subject": "simulator_Vissim",
+    "relation": "adoptedBy",
+    "object": "TransportationAgency",
+    "chunk": "relatedwork1",
+    "context": "It has been widely adopted by transportation agencies [15]–[19] and provides a Component Object Model (COM) interface [22] for secondary development."
+  },
+  {
+    "subject": "simulator_Vissim",
+    "relation": "provides",
+    "object": "interface_COM",
+    "chunk": "relatedwork1",
+    "context": "It has been widely adopted by transportation agencies [15]–[19] and provides a Component Object Model (COM) interface [22] for secondary development."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "designedFor",
+    "object": "TrafficSignalControl",
+    "chunk": "relatedwork1",
+    "context": "SUMO-RL [23] is an RL environment framework specifically designed for TSC."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "integrates",
+    "object": "simulator_SUMO",
+    "chunk": "relatedwork1",
+    "context": "It integrates the SUMO traffic simulator with RL algorithms by leveraging SUMO’s sumolib module [29] to process network data and enable simulation interaction."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "integrates",
+    "object": "RlAlgorithm",
+    "chunk": "relatedwork1",
+    "context": "It integrates the SUMO traffic simulator with RL algorithms by leveraging SUMO’s sumolib module [29] to process network data and enable simulation interaction."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "leverages",
+    "object": "library_sumolib",
+    "chunk": "relatedwork1",
+    "context": "It integrates the SUMO traffic simulator with RL algorithms by leveraging SUMO’s sumolib module [29] to process network data and enable simulation interaction."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "supports",
+    "object": "api_Gymnasium",
+    "chunk": "relatedwork1",
+    "context": "The framework provides standardized RL interfaces, supporting both the single-agent Gymnasium API [24] and the multi-agent PettingZoo API [25], and can be seamlessly combined with mainstream RL libraries such as Stable-Baselines3 [30] and RLlib [31]."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "supports",
+    "object": "api_PettingZoo",
+    "chunk": "relatedwork1",
+    "context": "The framework provides standardized RL interfaces, supporting both the single-agent Gymnasium API [24] and the multi-agent PettingZoo API [25], and can be seamlessly combined with mainstream RL libraries such as Stable-Baselines3 [30] and RLlib [31]."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "combinedWith",
+    "object": "library_StableBaselines3",
+    "chunk": "relatedwork1",
+    "context": "The framework provides standardized RL interfaces, supporting both the single-agent Gymnasium API [24] and the multi-agent PettingZoo API [25], and can be seamlessly combined with mainstream RL libraries such as Stable-Baselines3 [30] and RLlib [31]."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "combinedWith",
+    "object": "library_RLlib",
+    "chunk": "relatedwork1",
+    "context": "The framework provides standardized RL interfaces, supporting both the single-agent Gymnasium API [24] and the multi-agent PettingZoo API [25], and can be seamlessly combined with mainstream RL libraries such as Stable-Baselines3 [30] and RLlib [31]."
+  },
+  {
+    "subject": "framework_SumoRL",
+    "relation": "manages",
+    "object": "Intersection",
+    "chunk": "relatedwork1",
+    "context": "SUMO-RL manages each intersection as an independent traffic signal module and allows users to incorporate custom state and reward functions through configuration files, thereby supporting diverse experimental requirements and enhancing the flexibility of multi-agent system design."
+  },
+  {
+    "subject": "DecisionMakingProcess",
+    "relation": "definedBy",
+    "object": "State",
+    "chunk": "relatedwork1",
+    "context": "In the context of RL, the decision-making process of an agent is primarily defined by three core elements: states, rewards, and actions."
+  },
+  {
+    "subject": "DecisionMakingProcess",
+    "relation": "definedBy",
+    "object": "Reward",
+    "chunk": "relatedwork1",
+    "context": "In the context of RL, the decision-making process of an agent is primarily defined by three core elements: states, rewards, and actions."
+  },
+  {
+    "subject": "DecisionMakingProcess",
+    "relation": "definedBy",
+    "object": "Action",
+    "chunk": "relatedwork1",
+    "context": "In the context of RL, the decision-making process of an agent is primarily defined by three core elements: states, rewards, and actions."
+  },
+  {
+    "subject": "TrafficPerformanceMetric",
+    "relation": "utilizedIn",
+    "object": "StateRepresentation",
+    "chunk": "relatedwork2",
+    "context": "According to a comprehensive survey of 160 RL-TSC studies conducted by Noaeen et al. (2022) [32], the most frequently adopted traffic performance metrics are predominantly utilized in the design of state and reward representations."
+  },
+  {
+    "subject": "TrafficPerformanceMetric",
+    "relation": "utilizedIn",
+    "object": "RewardRepresentation",
+    "chunk": "relatedwork2",
+    "context": "According to a comprehensive survey of 160 RL-TSC studies conducted by Noaeen et al. (2022) [32], the most frequently adopted traffic performance metrics are predominantly utilized in the design of state and reward representations."
+  },
+  {
+    "subject": "ActionDesign",
+    "relation": "controls",
+    "object": "TrafficSignalPhase",
+    "chunk": "relatedwork2",
+    "context": "Most existing studies on action design focus on controlling traffic signal phases, typically by adjusting phase durations or switching between phases [33]."
+  },
+  {
+    "subject": "State",
+    "relation": "represents",
+    "object": "TrafficFeature",
+    "chunk": "relatedwork2",
+    "context": "States represent the observable traffic features perceived by the agent and serve as the basis for decision-making."
+  },
+  {
+    "subject": "Agent",
+    "relation": "perceives",
+    "object": "TrafficFeature",
+    "chunk": "relatedwork2",
+    "context": "States represent the observable traffic features perceived by the agent and serve as the basis for decision-making."
+  },
+  {
+    "subject": "PhaseState",
+    "relation": "indicates",
+    "object": "SignalPhase",
+    "chunk": "relatedwork2",
+    "context": "Phase State: the current active signal phase at the intersection;"
+  }
+]

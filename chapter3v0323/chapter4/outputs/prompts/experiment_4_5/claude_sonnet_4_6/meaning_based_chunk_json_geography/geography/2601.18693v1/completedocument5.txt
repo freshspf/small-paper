@@ -1,0 +1,126 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument5",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument5
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+2012(e)
+z=0
+z=1
+Figure 1.Scaling relations used to assign structural properties to the cluster and satellite models. Panels show: (a) the infall orbital circularity distribution (𝜂)
+adoptedfromWetzel(2011),(b)thecumulativecontributionofsatellitestotheICLasafunctionofsatellitestellarmassfromBrownetal.(2024),(c)thestellar
+mass–size relation from Mowla et al. (2019), (d) the stellar–to–halo mass relation from Moster et al. (2013), and (e) the halo concentration–mass relation from
+Pradaetal.(2012).Relationsareshownatboth𝑧∼1and𝑧∼0toillustrateredshiftevolution.Satellitepropertiesareassignedusingthe𝑧=1relations,while
+the cluster is modelled at its formation redshift𝑧=0.6, leading to a small offset relative to the plotted scaling relations.
+similar resolution tests, again finding no significant deviations from
+the initial conditions until well within the stellar effective radius of
+each satellite.
+Forthesatelliteorbits,wechoosearangeoforbitalconfigurations
+sampled across the expected circularity distribution spanning from
+the 5th to the 95th percentile described by Wetzel (2011) and in-
+dicated in Figure 1. Satellites are injected at the apocentre of their
+respective orbits, which are fixed at𝑅 200of the cluster. For the least
+massive satellite, which is simulated at the highest mass resolution
+and is therefore the most computationally expensive, we restrict the
+orbital sampling to the median circularity and the 5th and 95th per-
+centiles of the distribution. As shown in Section 3.3, mergers of
+such disparate mass ratios have a negligible impact on the cluster
+phase-space structure.
+3 STELLAR AND DM PHASE-SPACE PROPERTIES FROM
+INDIVIDUAL SATELLITES
+3.1 Spatial distribution of stripped stars and DM
+We begin by examining the spatial distribution of stripped stars and
+DMproducedbyourcontrolledsimulations.Figure2showsthefinal
+configurationofmaterialstrippedfromsatellitesofdifferentmasses
+and orbital configurations, with stars indicated in green and DM in
+purple. Stellar debris becomes visibly more centrally concentrated
+towardsmoresimilarmassratiosandtowardsdecreasingcircularity.
+At high circularity both components form coherent streams (espe-
+cially at disparate mass ratios); at low circularity the debris form
+shell-like structures. In more equal mass ratio mergers the stellar
+distribution is markedly more elliptical than the DM distribution,
+which remains comparatively round, particularly in low-circularity
+mergers. For the most disparate mass ratios on the most circular
+orbits, there is very little visible stellar debris owing to more ineffi-
+cientstellarstripping,whichistheresultofthemorecompactstellar
+distributions and relatively large DM mass in these systems.
+These trends hint at systematic differences in how the stellar and
+DMcomponentsrespondtotidalstripping.TheDMformssmoother,
+rounderdebris,consistentwithmaterialdrawnfromawiderangeof
+initial radii and therefore a broad spread in orbital energies, lead-
+ingtomorerapidphase-mixing.Thestellardebris,originatingfrom
+the tightly bound central regions of the satellite, appear more cen-
+trally concentrated and often retain coherent morphology (streams
+or shells), suggestive of slower mixing. In similar mass ratio cases,the stellar debris also show higher ellipticity and concentration than
+the corresponding DM.
+TheseobservationssuggestthatthecontrastbetweenDMandstel-
+lardebrisiscloselytiedtothesatellite’sorbitalevolution.Variations
+in orbital energy and angular momentum during the merger, which
+are driven by the satellite’s infall mass ratio and circularity, deter-
+mineboththe degreeofstrippingandthe subsequentdistributionof
+debris.
+3.2 Evolution of satellite orbits
+Toquantitativelyexplainthesespatialdifferences,weexaminesatel-
+lite orbital evolution to establish the range of orbital energies and
+angular momenta accessible to stripped material, and how these de-
+pend on satellite mass ratio and infall circularity.
+We begin by studying how satellite orbits evolve as a function
+of their initial infall properties. This is important because stars and
+DM are stripped from satellites with energies and angular momenta
+approximately symmetrically offset about that of the satellite’s orbit
+(e.g.Hendel&Johnston2015).SinceDMistypicallystrippedearlier
+than stars, any subsequent orbital decay is expected to generate a
+systematic offset between the mean orbital energies of the stripped
+stellar and DM components.
+Figure3showstheevolutionofsatelliteorbitalenergynormalised
+by its initial value𝜀/𝜀 0as a function of time for a range of orbits
+and satellite–to–host mass ratios. Individual thin curves correspond
+to single infall orbits, colour-coded by mass ratio. For each mass
+ratio, the thick solid line indicates the weighted average over or-
+bitalcircularities,usingtherelativefrequenciesfromWetzel(2011),
+with shaded regions denoting the weighted1𝜎scatter. In all cases,
+𝜀/𝜀 0decreases monotonically with time.

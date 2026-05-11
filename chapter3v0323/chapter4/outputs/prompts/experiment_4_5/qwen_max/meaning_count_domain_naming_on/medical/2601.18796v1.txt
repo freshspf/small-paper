@@ -1,0 +1,302 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+ctELM: Decoding and Manipulating Embeddings of Clinical Trials with
+Embedding Language Models
+Brian Ondov*, Chia-Hsuan Chang*, Yujia Zhou, Mauro Giuffrè and Hua Xu
+Department of Biomedical Informatics & Data Science
+Y ale School of Medicine
+New Haven, CT, USA
+{brian.ondov,chia-hsuan.chang,yujia.zhou,mauro.giuffre,hua.xu}@yale.edu
+Abstract
+Text embeddings have become an essential part
+of a variety of language applications. However,
+methods for interpreting, exploring and revers-
+ing embedding spaces are limited, reducing
+transparency and precluding potentially valu-
+able generative use cases. In this work, we
+align Large Language Models to embeddings
+of clinical trials using the recently reported Em-
+bedding Language Model (ELM) method. We
+develop an open-source, domain-agnostic ELM
+architecture and training framework, design
+training tasks for clinical trials, and introduce
+an expert-validated synthetic dataset. We then
+train a series of ELMs exploring the impact of
+tasks and training regimes. Our ﬁnal model,
+ctELM, can accurately describe and compare
+unseen clinical trials from embeddings alone
+and produce plausible clinical trials from novel
+vectors. We further show that generated trial
+abstracts are responsive to moving embeddings
+along concept vectors for age and sex of study
+subjects. Our public ELM implementation and
+experimental results will aid the alignment of
+Large Language Models to embedding spaces
+in the biomedical domain and beyond.
+1 Introduction
+Text embeddings map variable-length text docu-
+ments to ﬁxed-length vector spaces, capturing rich
+semantic information. These embeddings have be-
+come ubiquitous in Natural Language Processing,
+owed to the utility of embedding spaces for sim-
+ilarity scoring, classiﬁcation, and other applica-
+tions ( Muennighoff et al. , 2023). However, em-
+bedding of text is typically a one-way process,
+and the resulting embeddings are treated as ‘black
+boxes,’ useful for applications but uninterpretable
+and irreversible. In addition to making embedding
+spaces more interpretable, reversing these spaces
+can aid in producing more creative content ( Y eh
+*These authors contributed equally to this work
+et al., 2025; Zhang et al., 2025). Y et, existing meth-
+ods for inverting embeddings are extremely limited
+in length do not invert arbitrary vectors well, and
+cannot perform more advanced reasoning over one
+or more vectors. ( Song and Raghunathan , 2020;
+Morris et al., 2023; Tennenholtz et al., 2024).
+A promising potential solution is training Em-
+bedding Language Models (ELMs) to allow interac-
+tion with embeddings via natural language (Tennen-
+holtz et al., 2024). ELMs extend language models
+by adding an adapter layer that aligns an embed-
+ding space of interest to the model’s own token
+embedding space, allowing prompts to contain mix-
+tures of tokens and complete text embeddings. In
+addition to enabling operations over arbitrary vec-
+tors, ELMs have been shown to more faithfully
+represent interpolated embedding vectors than text-
+only LLMs prompted to combine original text in-
+puts. Still, ELMs have only been reported for the
+narrow domain of ﬁlm reviews, and for proprietary
+base language models, with no open-source code-
+base for implementing or training them. Questions
+also remain around optimal training procedures.
+In this work, we seek to advance methods for
+making embeddings and embedding spaces more
+transparent. We build on the work of Tennenholtz
+et al. (2024) by creating an open-source ELM ar-
+chitecture and training framework and by explor-
+ing the viability of ELMs in the biomedical do-
+main. We use our new implementation to align
+an ELM to embeddings of clinical trials, design-
+ing domain-speciﬁc training tasks and constructing
+an expert-validated dataset. In extensive experi-
+ments, we demonstrate that our model, ctELM, can
+reconstruct abstracts more reliably than V ec2Text
+and can perform additional tasks requiring reason-
+ing over multiple embeddings. We show ctELM
+can produce plausible, hypothetical clinical trials
+from novel embedding vectors obtained by inter-
+polating or perturbing embeddings derived from
+text sources. Further, we show that the generated
+arXiv:2601.18796v1 [cs.CL] 26 Jan 2026
+abstracts are responsive to clinically meaningful
+directions identiﬁed in the embedding space us-
+ing Concept Activation V ectors (Kim et al. , 2018),
+namely those representing the sex and age of trial
+subjects. Finally, we advance general knowledge of
+ELMs by performing extensive ablations showing
+the effects of tasks, training regimes, embedding
+models, and generation parameters. The main con-
+tributions of this work are: (1) the ﬁrst open-source
+ELM architecture and training framework; (2) an
+expert-validated dataset for training ELMs to in-
+terpret embeddings of clinical trials; (3) a trained
+ELM that can interpret embeddings of clinical tri-
+als; and (4) ablation studies adding to knowledge
+of optimal ELM training.
+2 Background
+2.1 Text Embeddings
+Early, “shallow” embeddings operated on individ-
+ual tokens and were learned using neural networks
+with single hidden layers or matrix factorization
+methods (Mikolov et al. , 2013; Pennington et al. ,
+2014). Following the introduction of pretrained
+transformers (V aswani et al., 2017; Radford et al.,
+2019; Devlin et al., 2019), sentence-level, and sub-
+sequently document-level text embeddings became
+viable using contrastive learning on pooled contex-
+tual embeddings for individual tokens (Reimers and
+Gurevych, 2019; Gao et al. , 2021; BehnamGhader
+et al., 2024; Xiao et al. , 2024).
+2.2 Inversion as Vulnerability
+One line of research on embeddings assumes an
+attacker trying to access private information that
+would have been thought to be inherently secure
+due to the ‘black box’ nature of embeddings ( Song
+and Raghunathan , 2020). This line gave rise
+to GEIA (Generative Embedding Inversion At-
+tack) ( Li et al. , 2023a). GEIA projects a vec-
+tor embedding to the token embedding layer in
+place of the ﬁrst token of input to a decoder-only
+transformer-based language model, in this case us-
+ing the GPT-2 architecture ( Radford et al. , 2019).
+The model is then trained from random weights us-
+ing teacher forcing to recover the original sentence
+one token at a time.
+Building on this work, V ec2Text (Morris et al. ,
+2023) ﬁne-tunes encoder-decoder transformer lan-
+guage models to become an ‘inverter’ and a ‘correc-
+tor,’ in this case both based on pretrained T5 (Raffel
+et al., 2020). Given an embedding, the inverter is
+trained to make an initial hypothesis of the original
+text, and the corrector is trained to move the hypoth-
+esis text closer to the target embedding by making
+discrete updates, based on both the target embed-
+ding and the embedding of the current hypothesis.
+Given enough iterative updates, this method can
+accurately recover short text sequences from em-
+beddings alone. The introduction of V ec2Text has
+spurred subsequent research on defending against
+embedding inversion attacks (Zhuang et al., 2024).
+A reproduction study of V ec2Text by Seputis et al.
+(2025) also conﬁrmed the major ﬁndings of Morris
+et al. (2023). Aside from ﬁxed-length semantic em-
+beddings, Kugler et al. (2024) showed that text can
+also be recovered from the token-level contextual
+embeddings of BERT (Devlin et al., 2019).
+2.3 V ector-Controlled Generation
+Another line of work seeks to understand and re-
+verse embedding spaces in order to use directions
+in those spaces to control content. The beginnings
+of this paradigm can be seen in Bolukbasi et al. ,
+2016, in which a gender axis is identiﬁed in a shal-
+low word embedding space, and this axis neutral-
+ized in word embeddings that are undesirably gen-
+dered. More recently, Tennenholtz et al. (2024) in-
+troduce Embedding Language Models, partly with
+the aim of exploring embedding spaces to generate
+more novel text content. This work explored mov-
+ing embeddings of ﬁlm plots with reviews along
+axes (representing attributes such as comedy or
+drama) identiﬁed in the embedding space using
+Concept Activation V ectors (CA Vs) (Kim et al. ,
+2018). CA Vs are essentially vectors orthogonal
+to the decision plane of a linear classiﬁer for a
+concept of interest and were originally developed
+for explaining predictions of vision models based
+on internal activations. Steerability in LLMs has
+also been explored using Concept Bottlenecks ( Sun
+et al., 2025). However, these require labels during
+LLM training, making them less ﬂexible than align-
+ing to an embedding space, and the training process
+signiﬁcantly degrades language modeling ability.
+3 Methods
+3.1 Preliminaries
+Let the embedding model Eemb denote a map-
+ping from a sequence of language tokens to an
+embedding space, formally expressed as: Eemb :
+X →↑ Z emb, where the length of the token se-
+quence X is bounded by the context length lim-
+Abstract embeddings
+Expert review
+Oracle model
+Embedding model
+Structured abstract sections
+Unstructured clinical trial abstracts
+Similarities & differences
+Concatenate sections
+Plain Language Summaries
+Task promptsWrite the {background, methods, …} section for the abstract <emb>.Provide the text of the abstract <emb>.Write a plain language summary of the abstract <emb>.List five commonalities between the first abstract <emb> and the second abstract <emb>.List five differences between the first abstract <emb> and the second abstract <emb>.
+Interface
+Base chat model transformer layers
+!ctELM
+Adapter
+Base tokenembedder
+LLM
+FFN
+Vector data
+Text data
+Unstructured clinical trial abstracts
+Similarities & differences
+Plain Language Summaries
+Negative log-likelihood loss
+PubMedRCT
+Structured abstract sections
+Figure 1: The data generation and training pipeline for ctELM.
+itation inherent to Eemb. The base chat model,
+represented by M, is a text-only, instruction-tuned
+large language model (LLM). Formally, this model
+translates one sequence of language tokens into
+another: M : X →↑ X . The chat model com-
+prises two primary components, namely the to-
+ken embedding layer Ebase and the transformer
+layers Mbase. The token embedding layer Ebase
+maps input tokens to a token embedding space:
+Ebase : X →↑ Zbase, where each token x ↓X is
+encoded into a token embedding vector z ↓Z base.
+The transformer layers Mbase subsequently trans-
+forms these token embeddings into output token
+sequences: Mbase : Zbase →↑ X.
+3.2 Architecture
+Our objective is to extend the base model M to
+a target model ( Mtgt ) capable of processing and
+interpreting embeddings produced by the external
+embedding model Eemb, alongside standard lan-
+guage tokens. Speciﬁcally, Mtgt operates on a
+combination of tokens and embeddings to produce
+text output: Mtgt :( X , Zemb) →↑ X. To accom-
+plish this, we adapt the approach proposed by Ten-
+nenholtz et al. (2024). We introduce an adapter
+module A to align the embedding spaces of Zemb
+and Zbase. Consequently, the target model is de-
+ﬁned as: Mtgt =( A,E base,M base). The adapter
+A is a two-layer multilayer perceptron (MLP):
+W1(ω (W0Zemb + b0)) + b1, (1)
+where W0,b 0,W 1,b 1 are learnable weights and ω
+is a non-linear activation function. The adapter
+ensures that the embeddings Zemb produced by
+the external embedding model Eemb are projected
+into the embedding space Zbase, thereby enabling
+Mbase to generate output texts by effectively lever-
+aging both token-derived contextual information
+(Zbase) and the semantic content encoded within
+Zemb. In this sense, the ELM architecture has simi-
+larities with Vision Language Models ( Zhang et al.,
+2024a), which must also use adapters to align lan-
+guage models to a dense vector space containing
+visual information.
+3.3 Data & Task Preparation
+We use PubMed 200K RCT ( Dernoncourt and Lee ,
+2017), which contains 190,654, 2,500, and 2,500
+abstracts for training, validation, and testing sets,
+respectively. This dataset was created to aid in
+classifying structured abstract sections; here we
+will use it to generate those sections, and as a clean

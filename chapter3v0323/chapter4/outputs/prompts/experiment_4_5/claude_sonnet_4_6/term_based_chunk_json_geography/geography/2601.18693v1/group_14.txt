@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "DarkMatter",
+  "depositedBeyond",
+  "region_100kpc",
+  "ClusterSample",
+  "drawnFrom",
+  "HydrodynamicalSimulation",
+  "simulation_tng100",
+  "partOf",
+  "project_illustristng",
+  "simulation_gizmo7k",
+  "project_the_three_hundred",
+  "SimulationSuite",
+  "occupiesRegion",
+  "ParameterPlane",
+  "StrippedParticle",
+  "locatedBeyond",
+  "CosmologicalSimulation",
+  "generatesSpatialEnvironment",
+  "ClusterHalo",
+  "GroupScaleHalo",
+  "containsEntity",
+  "SatellitePopulation",
+  "DiffuseStellarComponent",
+  "StrippedStar",
+  "exhibitsSpatialPattern",
+  "SpatialDistribution",
+  "samplesRegion",
+  "ClusterEnvironment",
+  "HorizonAgn",
+  "occupiesSpatialVolume",
+  "SimulationVolume",
+  "StrippedMass",
+  "locatedInRegion",
+  "RadialRegion",
+  "Substructure",
+  "undergoesSpatialDisruption",
+  "PrematureDisruption",
+  "IntraclusterLight",
+  "possessesSpatialProperty",
+  "PhaseSpaceDistribution",
+  "runsSimulationCode",
+  "Ramses",
+  "simulation_horizonAgn",
+  "hasSpatialResolution",
+  "spatialResolution_1kpc",
+  "containsEnvironmentalFeature",
+  "feature_radiativeCooling",
+  "adoptsCosmologicalEnvironment",
+  "cosmology_wmap7",
+  "simulation_hydrangea",
+  "simulatesSpatialEntity",
+  "spatialEntity_galaxyClusters",
+  "hasSpatialFeature",
+  "spatialFeature_0.7kpc",
+  "spatialVolume_110Mpc3",
+  "cosmology_planck2016",
+  "project_theThreeHundred",
+  "spatialEntity_massiveGalaxyClusters",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris"
+]
+
+Triples:
+[
+  {
+    "subject": "DarkMatter",
+    "relation": "depositedBeyond",
+    "object": "region_100kpc",
+    "chunk": "completedocument27",
+    "context": "However, only a small fraction of the stellar mass reaches the ICL, whereas the majority of the DM (around 90 per cent) is deposited beyond 100 kpc."
+  },
+  {
+    "subject": "ClusterSample",
+    "relation": "drawnFrom",
+    "object": "HydrodynamicalSimulation",
+    "chunk": "completedocument27",
+    "context": "Figure C1 summarises the variation in the Schechter-function parameters 𝛼 (faint-end slope) and log10𝑀★ (characteristic mass) fitted to the stellar mass functions of infalling satellites across a sample of clusters drawn from four hydrodynamical simulations – Horizon-AGN (Dubois et al. 2014, 2016), Hydrangea Bahé et al. (2017), TNG100 (Nelson et al. 2019) from the IllustrisTNG project, and the GIZMO7K run (Gómez et al. 2025; Cui et al., in prep.) from The Three Hundred project."
+  },
+  {
+    "subject": "simulation_tng100",
+    "relation": "partOf",
+    "object": "project_illustristng",
+    "chunk": "completedocument27",
+    "context": "Figure C1 summarises the variation in the Schechter-function parameters 𝛼 (faint-end slope) and log10𝑀★ (characteristic mass) fitted to the stellar mass functions of infalling satellites across a sample of clusters drawn from four hydrodynamical simulations – Horizon-AGN (Dubois et al. 2014, 2016), Hydrangea Bahé et al. (2017), TNG100 (Nelson et al. 2019) from the IllustrisTNG project, and the GIZMO7K run (Gómez et al. 2025; Cui et al., in prep.) from The Three Hundred project."
+  },
+  {
+    "subject": "simulation_gizmo7k",
+    "relation": "partOf",
+    "object": "project_the_three_hundred",
+    "chunk": "completedocument27",
+    "context": "Figure C1 summarises the variation in the Schechter-function parameters 𝛼 (faint-end slope) and log10𝑀★ (characteristic mass) fitted to the stellar mass functions of infalling satellites across a sample of clusters drawn from four hydrodynamical simulations – Horizon-AGN (Dubois et al. 2014, 2016), Hydrangea Bahé et al. (2017), TNG100 (Nelson et al. 2019) from the IllustrisTNG project, and the GIZMO7K run (Gómez et al. 2025; Cui et al., in prep.) from The Three Hundred project."
+  },
+  {
+    "subject": "SimulationSuite",
+    "relation": "occupiesRegion",
+    "object": "ParameterPlane",
+    "chunk": "completedocument27",
+    "context": "The four simulation suites occupy distinct regions of the 𝛼−log10𝑀★ plane."
+  },
+  {
+    "subject": "StrippedParticle",
+    "relation": "locatedBeyond",
+    "object": "region_100kpc",
+    "chunk": "completedocument27",
+    "context": "Results are split between results for all stripped particles (left, solid lines) and only stripped particles with 𝑟 > 100 kpc (right, dashed lines)."
+  },
+  {
+    "subject": "CosmologicalSimulation",
+    "relation": "generatesSpatialEnvironment",
+    "object": "ClusterHalo",
+    "chunk": "completedocument28",
+    "context": "These simulations provide cluster and group-scale haloes with resolved satellite populations and diffuse stellar components, allowing a comparison of stellar–to–DM energy, angular momentum, and radial density offsets."
+  },
+  {
+    "subject": "CosmologicalSimulation",
+    "relation": "generatesSpatialEnvironment",
+    "object": "GroupScaleHalo",
+    "chunk": "completedocument28",
+    "context": "These simulations provide cluster and group-scale haloes with resolved satellite populations and diffuse stellar components, allowing a comparison of stellar–to–DM energy, angular momentum, and radial density offsets."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "containsEntity",
+    "object": "SatellitePopulation",
+    "chunk": "completedocument28",
+    "context": "These simulations provide cluster and group-scale haloes with resolved satellite populations and diffuse stellar components, allowing a comparison of stellar–to–DM energy, angular momentum, and radial density offsets."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "containsEntity",
+    "object": "DiffuseStellarComponent",
+    "chunk": "completedocument28",
+    "context": "These simulations provide cluster and group-scale haloes with resolved satellite populations and diffuse stellar components, allowing a comparison of stellar–to–DM energy, angular momentum, and radial density offsets."
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "exhibitsSpatialPattern",
+    "object": "SpatialDistribution",
+    "chunk": "completedocument28",
+    "context": "In Martin et al. (2024), we showed that limited mass and force resolution can lead to artificially enhanced stripping of stellar components, resulting in an overproduction of ICL and inaccuracies in the inferred spatial and phase-space distributions of stripped stars."
+  },
+  {
+    "subject": "CosmologicalSimulation",
+    "relation": "samplesRegion",
+    "object": "ClusterEnvironment",
+    "chunk": "completedocument28",
+    "context": "We therefore compare our model predictions to a set of complementary cosmological simulations that together sample a broad range of cluster environments, resolutions and numerical implementations."
+  },
+  {
+    "subject": "HorizonAgn",
+    "relation": "occupiesSpatialVolume",
+    "object": "SimulationVolume",
+    "chunk": "completedocument28",
+    "context": "Horizon-AGN(Dubois et al. 2014, 2016; Kaviraj et al. 2017) is a cosmological hydrodynamical simulation evolved with the adaptive mesh refinement code Ramses(Teyssier 2002), run in a (100 h^-1 Mpc)^3 volume."
+  },
+  {
+    "subject": "StrippedMass",
+    "relation": "locatedInRegion",
+    "object": "RadialRegion",
+    "chunk": "completedocument28",
+    "context": "Results are split between results for all stripped particles (left, solid lines) and results showing the stripped mass corresponding to r > 100 kpc as a fraction of the infalling satellite mass (right, dashed lines)."
+  },
+  {
+    "subject": "Substructure",
+    "relation": "undergoesSpatialDisruption",
+    "object": "PrematureDisruption",
+    "chunk": "completedocument28",
+    "context": "For example, Chiang et al. (2025) derived resolution criteria showing that insufficient mass and force resolution leads to systematic over-stripping and premature disruption of substructure."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "possessesSpatialProperty",
+    "object": "PhaseSpaceDistribution",
+    "chunk": "completedocument28",
+    "context": "Together, these results imply that both the amount and detailed phase-space properties of the ICL in cosmological simulations should be interpreted with caution."
+  },
+  {
+    "subject": "HorizonAgn",
+    "relation": "runsSimulationCode",
+    "object": "Ramses",
+    "chunk": "completedocument28",
+    "context": "Horizon-AGN(Dubois et al. 2014, 2016; Kaviraj et al. 2017) is a cosmological hydrodynamical simulation evolved with the adaptive mesh refinement code Ramses(Teyssier 2002), run in a (100 h^-1 Mpc)^3 volume."
+  },
+  {
+    "subject": "simulation_horizonAgn",
+    "relation": "hasSpatialResolution",
+    "object": "spatialResolution_1kpc",
+    "chunk": "completedocument29",
+    "context": "The maximum physical spatial resolution isΔ𝑥=1 kpc(proper)."
+  },
+  {
+    "subject": "simulation_horizonAgn",
+    "relation": "containsEnvironmentalFeature",
+    "object": "feature_radiativeCooling",
+    "chunk": "completedocument29",
+    "context": "The simulation includes radiative cooling, star formation, stellar feedback, and dual-mode AGN feedback implemented in thermal and kinetic modes."
+  },
+  {
+    "subject": "simulation_horizonAgn",
+    "relation": "adoptsCosmologicalEnvironment",
+    "object": "cosmology_wmap7",
+    "chunk": "completedocument29",
+    "context": "Horizon-AGNadopts a WMAP7-like cosmology (Komatsu et al. 2011) with(Ω m,ΩΛ,Ωb,𝜎8,𝑛𝑠,𝐻0)= (0.272,0.728,0.045,0.81,0.967,70.4 km s−1Mpc−1)."
+  },
+  {
+    "subject": "simulation_hydrangea",
+    "relation": "simulatesSpatialEntity",
+    "object": "spatialEntity_galaxyClusters",
+    "chunk": "completedocument29",
+    "context": "Hydrangea(Bahé et al. 2017) is a suite of hydrodynamical zoom simulations of galaxy clusters, built using the modified Gadget-3smoothed particle hydrodynamics code and theEAGLEsubgrid model (Schaye et al. 2015), with initial conditions consistent with theEAGLEreference resolution:𝑚 DM= 9.7×106M⊙and𝑚 gas=1.8×106M⊙."
+  },
+  {
+    "subject": "simulation_hydrangea",
+    "relation": "hasSpatialFeature",
+    "object": "spatialFeature_0.7kpc",
+    "chunk": "completedocument29",
+    "context": "The Plummer-equivalent gravitational softening length is𝜖=0.7 kpc."
+  },
+  {
+    "subject": "simulation_tng100",
+    "relation": "occupiesSpatialVolume",
+    "object": "spatialVolume_110Mpc3",
+    "chunk": "completedocument29",
+    "context": "TNG100(Marinacci et al. 2018; Nelson et al. 2018; Pillepich et al. 2018;Naimanetal.2018;Springeletal.2018)isacosmologicalmagnetohydrodynamical simulation evolving a(110 Mpc)3comoving volumeusingthemoving-meshcodeArepo(Springel2010)."
+  },
+  {
+    "subject": "simulation_tng100",
+    "relation": "adoptsCosmologicalEnvironment",
+    "object": "cosmology_planck2016",
+    "chunk": "completedocument29",
+    "context": "AΛCDM cosmology consistent with Planck Collaboration XIII (2016) is adopted, with(Ω m,ΩΛ,Ωb,𝜎8,𝑛𝑠,𝐻0)= (0.3089,0.6911,0.0486,0.8159,0.9667,67.74 km s−1Mpc−1)."
+  },
+  {
+    "subject": "project_theThreeHundred",
+    "relation": "simulatesSpatialEntity",
+    "object": "spatialEntity_massiveGalaxyClusters",
+    "chunk": "completedocument29",
+    "context": "TheThreeHundredproject (Cui et al. 2018) comprises 324 zoom-in simulations of a mass-complete sample of massive galaxy clusters at𝑧=0, selected from a large cosmological DM only simulation, MDPL2 (Klypin et al. 2016)."
+  }
+]

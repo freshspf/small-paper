@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_gpt4o",
+  "isInstanceOf",
+  "ClosedWeightModel",
+  "produces",
+  "ClinicallyAppropriateResponse",
+  "OpenWeightSystem",
+  "displays",
+  "EmotionalFlatness",
+  "DissociativeIdentityDisorder",
+  "hasSymptom",
+  "FakeRealityFeeling",
+  "Schizophrenia",
+  "QuestioningExistence",
+  "MentalHealthCondition",
+  "causesSymptom",
+  "DisconnectionFromReality",
+  "Hallucination",
+  "Delusion",
+  "Treatment",
+  "includesMethod",
+  "Therapy",
+  "Medication",
+  "Anxiety",
+  "FeelingOfUnreality",
+  "Depression",
+  "Trauma",
+  "Derealization",
+  "presentsAs",
+  "PersistentSenseOfUnreality",
+  "linkedTo",
+  "FeelingOfDetachment",
+  "relatedTo",
+  "Stress",
+  "Depersonalization",
+  "FeelingDetachedFromYourself",
+  "DissociativeDisorder",
+  "IntrusiveThought",
+  "indicates",
+  "CognitiveBehavioralTherapy",
+  "addresses",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "LargeLanguageModel",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "ClosedSourceModel",
+  "OpenSourceModel",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "CognitiveReliability",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "BalancedTherapeuticResponse",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern",
+  "SocialMediaPlatform",
+  "platform_reddit",
+  "CounselingConversation",
+  "dataset_mentalChat16k",
+  "dataset_emoCare",
+  "dataset_counselChat",
+  "MentalHealthScreening",
+  "condition_depression",
+  "condition_suicideRisk",
+  "llm_gpt3",
+  "MentalHealthDisorder",
+  "MentalHealthSupport",
+  "AdvancedSupervisedMethod",
+  "MentalHealthTask"
+]
+
+Triples:
+[
+  {
+    "subject": "model_gpt4o",
+    "relation": "isInstanceOf",
+    "object": "ClosedWeightModel",
+    "chunk": "completedocument10",
+    "context": "Observation:Closed-weight models (Gemini 2.0-Flash, GPT-4o,GPT-4o-Mini) produced the most balanced and clinically appropriate responses, combining empathy with accurate psychoeducation."
+  },
+  {
+    "subject": "ClosedWeightModel",
+    "relation": "produces",
+    "object": "ClinicallyAppropriateResponse",
+    "chunk": "completedocument10",
+    "context": "Observation:Closed-weight models (Gemini 2.0-Flash, GPT-4o,GPT-4o-Mini) produced the most balanced and clinically appropriate responses, combining empathy with accurate psychoeducation."
+  },
+  {
+    "subject": "OpenWeightSystem",
+    "relation": "displays",
+    "object": "EmotionalFlatness",
+    "chunk": "completedocument10",
+    "context": "Open-weight systems maintained factual reliability but displayed emotional flatness, and Qwen-2.5failed entirely."
+  },
+  {
+    "subject": "DissociativeIdentityDisorder",
+    "relation": "hasSymptom",
+    "object": "FakeRealityFeeling",
+    "chunk": "completedocument11",
+    "context": "The feelings you’re experiencing—like feeling like you’re in a fake reality or questioning your existence—are common in certain mental health conditions, such as dissociative identity disorder, dissociative disorder, or schizophrenia."
+  },
+  {
+    "subject": "Schizophrenia",
+    "relation": "hasSymptom",
+    "object": "QuestioningExistence",
+    "chunk": "completedocument11",
+    "context": "The feelings you’re experiencing—like feeling like you’re in a fake reality or questioning your existence—are common in certain mental health conditions, such as dissociative identity disorder, dissociative disorder, or schizophrenia."
+  },
+  {
+    "subject": "MentalHealthCondition",
+    "relation": "causesSymptom",
+    "object": "DisconnectionFromReality",
+    "chunk": "completedocument11",
+    "context": "These conditions can cause feelings of disconnection from reality, hallucinations, or delusions, and it’s important to have these feelings evaluated by a mental health professional."
+  },
+  {
+    "subject": "MentalHealthCondition",
+    "relation": "causesSymptom",
+    "object": "Hallucination",
+    "chunk": "completedocument11",
+    "context": "These conditions can cause feelings of disconnection from reality, hallucinations, or delusions, and it’s important to have these feelings evaluated by a mental health professional."
+  },
+  {
+    "subject": "MentalHealthCondition",
+    "relation": "causesSymptom",
+    "object": "Delusion",
+    "chunk": "completedocument11",
+    "context": "These conditions can cause feelings of disconnection from reality, hallucinations, or delusions, and it’s important to have these feelings evaluated by a mental health professional."
+  },
+  {
+    "subject": "Treatment",
+    "relation": "includesMethod",
+    "object": "Therapy",
+    "chunk": "completedocument11",
+    "context": "They can also help determine if there are other factors contributing to your feelings, such as trauma or stress, and guide you toward appropriate treatments, which may include therapy, medication, or a combination of both."
+  },
+  {
+    "subject": "Treatment",
+    "relation": "includesMethod",
+    "object": "Medication",
+    "chunk": "completedocument11",
+    "context": "They can also help determine if there are other factors contributing to your feelings, such as trauma or stress, and guide you toward appropriate treatments, which may include therapy, medication, or a combination of both."
+  },
+  {
+    "subject": "Anxiety",
+    "relation": "causesSymptom",
+    "object": "FeelingOfUnreality",
+    "chunk": "completedocument11",
+    "context": "These feelings can arise from various sources, such as anxiety, depression, or even trauma, and they’re completely valid."
+  },
+  {
+    "subject": "Depression",
+    "relation": "causesSymptom",
+    "object": "FeelingOfUnreality",
+    "chunk": "completedocument11",
+    "context": "These feelings can arise from various sources, such as anxiety, depression, or even trauma, and they’re completely valid."
+  },
+  {
+    "subject": "Trauma",
+    "relation": "causesSymptom",
+    "object": "FeelingOfUnreality",
+    "chunk": "completedocument11",
+    "context": "These feelings can arise from various sources, such as anxiety, depression, or even trauma, and they’re completely valid."
+  },
+  {
+    "subject": "Derealization",
+    "relation": "presentsAs",
+    "object": "PersistentSenseOfUnreality",
+    "chunk": "completedocument11",
+    "context": "The persistent sense of unreality you’re describing, where things around you feel fake or dreamlike, is something we call derealization."
+  },
+  {
+    "subject": "Derealization",
+    "relation": "linkedTo",
+    "object": "FeelingOfDetachment",
+    "chunk": "completedocument11",
+    "context": "It’s often linked to feelings of detachment, and it can be quite unsettling to experience."
+  },
+  {
+    "subject": "Anxiety",
+    "relation": "relatedTo",
+    "object": "Derealization",
+    "chunk": "completedocument11",
+    "context": "Derealization, and its sister symptom depersonalization (feeling detached from yourself), can sometimes be related to anxiety, trauma, stress, or even certain medical conditions."
+  },
+  {
+    "subject": "Trauma",
+    "relation": "relatedTo",
+    "object": "Derealization",
+    "chunk": "completedocument11",
+    "context": "Derealization, and its sister symptom depersonalization (feeling detached from yourself), can sometimes be related to anxiety, trauma, stress, or even certain medical conditions."
+  },
+  {
+    "subject": "Stress",
+    "relation": "relatedTo",
+    "object": "Depersonalization",
+    "chunk": "completedocument11",
+    "context": "Derealization, and its sister symptom depersonalization (feeling detached from yourself), can sometimes be related to anxiety, trauma, stress, or even certain medical conditions."
+  },
+  {
+    "subject": "Depersonalization",
+    "relation": "presentsAs",
+    "object": "FeelingDetachedFromYourself",
+    "chunk": "completedocument11",
+    "context": "Derealization, and its sister symptom depersonalization (feeling detached from yourself), can sometimes be related to anxiety, trauma, stress, or even certain medical conditions."
+  },
+  {
+    "subject": "DissociativeDisorder",
+    "relation": "hasSymptom",
+    "object": "Derealization",
+    "chunk": "completedocument11",
+    "context": "It can also be a symptom of some dissociative disorders."
+  },
+  {
+    "subject": "DissociativeDisorder",
+    "relation": "hasSymptom",
+    "object": "Depersonalization",
+    "chunk": "completedocument11",
+    "context": "It can also be a symptom of some dissociative disorders."
+  },
+  {
+    "subject": "IntrusiveThought",
+    "relation": "indicates",
+    "object": "Anxiety",
+    "chunk": "completedocument12",
+    "context": "These thoughts can be a sign of underlying anxiety, depression, or other mental health conditions that need to be addressed."
+  },
+  {
+    "subject": "IntrusiveThought",
+    "relation": "indicates",
+    "object": "Depression",
+    "chunk": "completedocument12",
+    "context": "These thoughts can be a sign of underlying anxiety, depression, or other mental health conditions that need to be addressed."
+  },
+  {
+    "subject": "IntrusiveThought",
+    "relation": "indicates",
+    "object": "MentalHealthCondition",
+    "chunk": "completedocument12",
+    "context": "These thoughts can be a sign of underlying anxiety, depression, or other mental health conditions that need to be addressed."
+  },
+  {
+    "subject": "CognitiveBehavioralTherapy",
+    "relation": "addresses",
+    "object": "Anxiety",
+    "chunk": "completedocument12",
+    "context": "Treatment options can vary depending on the underlying cause, but often include therapy, such as cognitive behavioral therapy (CBT) to address anxiety and distorted thoughts, or trauma-focused therapy if there’s a history of trauma."
+  }
+]

@@ -1,0 +1,156 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "result3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: result3
+- section_title: Result
+- page_start: 3
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+It is evident that with an incre-
+ment in the number of training samples, there is
+an improvement in classification accuracy, which
+is consistent with the findings of the quantitative
+analysis.
+2.2.3 Unsupervised Classification
+Results
+Table 5 presents the results of the proposed
+clustering algorithm performed on the Salinas
+and Pavia University datasets. Our method
+5
+
+Table 2Per-Class Accuracies, AAs, OAs, and Kappa Coefficients of Different Methods on the SALINES Dataset with
+Five Training Examples of Each class
+class CNN-PPF[32] GFHF[33] PL[34] FSS[35] SGL[28] STSE-DWLR[36] DSSPL[37] Ours
+1 0.7510 0.9985 0.9985 0.9370 0.9905 1.0000 1.00001.0000
+2 0.5708 0.9888 0.9606 0.9679 0.9786 1.00001.00000.9952
+3 0.2613 0.9958 1.0000 1.0000 0.9613 1.00001.00000.9995
+4 0.11480.97530.9799 0.9625 0.9799 0.8911 0.9714 0.9483
+5 0.3869 0.9585 0.9599 0.9814 0.9677 0.9942 0.95640.9996
+6 0.7805 0.9942 0.9942 0.9655 0.9948 0.98870.99810.9977
+7 0.3983 0.9971 0.9961 0.9439 0.9960 0.8517 0.98840.9986
+8 0.2916 0.9048 0.8592 0.9093 0.8836 0.9517 0.95860.9917
+9 0.7770 0.9991 0.9495 0.9162 0.9802 1.0000 0.99851.0000
+10 0.1750 0.7322 0.7729 0.9439 0.7939 0.8883 0.95460.9655
+11 0.2826 0.9562 0.9522 0.9516 0.9355 0.9326 0.95830.9991
+12 0.2534 1.0000 0.9485 1.0000 1.0000 1.00001.00000.9964
+13 0.6232 0.9771 0.9796 0.9780 0.9781 0.9152 0.90280.9989
+14 0.5114 0.9407 0.9062 0.9488 0.9149 0.9600 0.96210.9953
+15 0.0334 0.9266 0.9603 0.9313 0.9670 0.97830.97970.9612
+16 0.3582 0.9792 0.9956 0.9514 0.9904 1.00001.00000.9922
+AA 0.4106 0.9590 0.9508 0.9556 0.9570 0.9595 0.96470.9899
+OA 0.3943 0.9473 0.9347 0.9549 0.9469 0.9630 0.96750.9885
+Kappa 0.3499 0.9414 0.9276 0.9498 0.9411 0.9589 0.96380.9872
+achieves notable clustering efficacy in the Sali-
+nas dataset, displaying distinct advantages by
+utilizing a reduced number of anchors. Specif-
+ically, our method improves the metrics ACC,
+Kappa, NMI, Purity, ARI, and F-Score by 0.0988,
+0.1432, 0.0379, 0.1064, 0.1393 and 0.1897, respec-
+tively. This demonstrates the effectiveness of the
+proposed clustering algorithm. However, in con-
+trast to the Salinas dataset, the Pavia University
+dataset presents a more limited number of classes
+and exhibits a more acute issue of class imbal-
+ance. The existing state-of-the-art method, SAPC,
+demonstrates certain advantages through the inte-
+gration of spatial information. It is evident that
+our method is affected by category imbalance
+when spatial features are not incorporated. The
+clustering algorithm shows a propensity towards
+larger categories while neglecting smaller ones,
+thereby leading to reduced Kappa and NMI val-
+ues and an increase in Purity. Nevertheless, with
+respect to overall accuracy and the F-Score metric,
+the proposed method exhibits equivalent perfor-
+mance to the state-of-the-art method.2.3 Simulation Study in terms of
+Sensor Noise
+In the Earth observation satellite, the main fac-
+tors that affect image quality are sensor noise
+and atmospheric distortions[45]. To conduct sim-
+ulation experiments on sensor noise in satellites,
+we follow [13] and introduce three noise models:
+Gaussian noise, impulsive noise (salt-and-pepper
+noise), and Poisson noise (shot noise). The Gaus-
+sian noise simulation accounts for both thermal
+and quantization disturbances[46]. This type of
+noise is independent of the signal. Impulsive noise
+refers to the circumstances in which the sen-
+sor generates bad pixels during data acquisition.
+These bad pixels encompass both non-responsive
+black pixels, which fail to capture any data, and
+saturated white pixels[47]. Poisson noise is used
+to simulate signal-dependent photon noise due to
+its inherent correlation with light measurement
+processes[48].
+Tables 6 present the classification results of
+the methods tested in the context of Gaussian
+noise, impulse noise, and Poisson noise on the
+Indian Pines dataset, respectively. The analysis
+is performed using three distinct noise scales,
+specifically 0.1, 0.2, and 0.3. It is evident that
+as the noise scale increases, all tested methods
+6
+
+Table 3Per-Class Accuracies, AAs, OAs, and Kappa Coefficients of Different Methods on the PAVIA UNIVERSITY
+Dataset with Five Training Examples of Each Class
+class CNN-PPF[32] GFHF[33] PL[34] FSS[35] SGL[28] STSE-DWLR[36] DSSPL[37] Ours
+1 0.7414 0.7078 0.7450 0.7000 0.8013 0.77690.80720.7399
+2 0.4258 0.7907 0.7905 0.7947 0.8080 0.8225 0.92730.9850
+3 0.7805 0.9795 0.9123 0.95060.99860.9812 0.9524 0.7624
+4 0.9143 0.5192 0.5348 0.3285 0.6478 0.59440.82830.7028
+5 0.9937 0.8871 0.8695 0.9547 0.96800.98540.9631 0.7640
+6 0.4460 0.9676 0.9337 0.9738 0.7775 0.9774 0.99290.9952
+7 0.9362 0.8754 0.8759 0.99671.00000.8842 0.8806 0.9503
+8 0.7063 0.8463 0.87980.87720.7773 0.7512 0.8329 0.5591
+9 0.9843 0.9860 0.9989 0.3041 0.9989 0.99890.99890.9715
+AA 0.7698 0.7744 0.8078 0.8378 0.8653 0.87690.89370.8256
+OA 0.5996 0.7252 0.7151 0.8039 0.8569 0.8302 0.86740.8721
+Kappa 0.5213 0.7774 0.7641 0.7774 0.7608 0.78840.84050.8281
+(a)
+ (b)
+ (c)
+ (d)
+ (e)
+Fig.

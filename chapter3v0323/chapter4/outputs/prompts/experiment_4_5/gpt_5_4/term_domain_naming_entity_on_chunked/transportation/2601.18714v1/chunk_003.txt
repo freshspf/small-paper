@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["RealWorldEnvironment","TriLocNetVLAD","OrchardEnvironment","SpatialContextDescriptor","PointCloudDensity","Height","SpatialInformation","TripletNeuralNetwork","HighDimensionalFeature","LowDimensionalFeature","NetVLADAggregationModule","SPVSoAP3D","VoxelBasedFeatureExtractionModule","SecondOrderPooling","LogEuclideanProjection","PowerNormalization","FullyConnectedLayer","L2Normalization","PointNetPGAPSLC","PointNet","PairwiseFeatureInteraction","GlobalAveragePooling","VineyardSegmentation","SegmentLevelConsistencyModel","PointNetVLAD","PointNetArchitecture","LocalFeature","LPDNet","Neighborhood","Linearity","Planarity","ScatteringProperty","GraphBasedAggregationModule","MinkLoc3D","MinkowskiConvolution","SparseTensor","Unordered3DCoordinate","TransposedMinkowskiConvolution","Transformer","AttentionModule"]
+
+Triples:
+[{"subject":"RobotFieldOfVision","relation":"constrainedTo","object":"immediate_vineyard_row"},{"subject":"robot","relation":"operatesIn","object":"immediate_vineyard_row"},{"subject":"PlaceRecognitionProblem","relation":"remains","object":"active_research_area"},{"subject":"AgriculturalEnvironment","relation":"studiedFor","object":"classification"},{"subject":"AgriculturalEnvironment","relation":"studiedFor","object":"semantic_segmentation"},{"subject":"localization_in_agricultural_environment","relation":"remains","object":"largely_unexplored"},{"subject":"Liu_et_al_approach","relation":"usedFor","object":"autonomous_navigation_in_vineyard_environment"},{"subject":"Liu_et_al_approach","relation":"uses","object":"PathDetectionFramework"},{"subject":"PathDetectionFramework","relation":"detects","object":"Traversability"},{"subject":"PathDetectionFramework","relation":"usesInputFrom","object":"RGBDImageSource"},{"subject":"vision_localization_solution_16","relation":"usesEstimationOf","object":"VineyardRowEndLocation"},{"subject":"vision_localization_solution_16","relation":"uses","object":"DepthMap"},{"subject":"vision_localization_solution_16","relation":"uses","object":"MobileNet"},{"subject":"MobileNet","relation":"classifies","object":"Object"},{"subject":"Object","relation":"detectedIn","object":"VisionSystem"},{"subject":"vision_localization_solution_16","relation":"facilitates","object":"LocalizationSolution"},{"subject":"vision_localization_solution_16","relation":"testedIn","object":"RealWorldEnvironment"},{"subject":"TriLocNetVLAD","relation":"isFocusedOn","object":"OrchardEnvironment"},{"subject":"TriLocNetVLAD","relation":"isA","object":"long_term_lpr_solution"},{"subject":"TriLocNetVLAD","relation":"consistsOf","object":"SpatialContextDescriptor"},{"subject":"SpatialContextDescriptor","relation":"basedOn","object":"PointCloudDensity"},{"subject":"SpatialContextDescriptor","relation":"basedOn","object":"Height"},{"subject":"SpatialContextDescriptor","relation":"basedOn","object":"SpatialInformation"},{"subject":"TriLocNetVLAD","relation":"uses","object":"TripletNeuralNetwork"},{"subject":"TripletNeuralNetwork","relation":"fuses","object":"HighDimensionalFeature"},{"subject":"TripletNeuralNetwork","relation":"fuses","object":"LowDimensionalFeature"},{"subject":"TripletNeuralNetwork","relation":"uses","object":"NetVLADAggregationModule"},{"subject":"SPVSoAP3D","relation":"consistsOf","object":"VoxelBasedFeatureExtractionModule"},{"subject":"SPVSoAP3D","relation":"followedBy","object":"SoAP_module"},{"subject":"SoAP_module","relation":"combines","object":"SecondOrderPooling"},{"subject":"SoAP_module","relation":"combines","object":"LogEuclideanProjection"},{"subject":"SoAP_module","relation":"combines","object":"PowerNormalization"},{"subject":"SPVSoAP3D","relation":"producesDescriptorThrough","object":"FullyConnectedLayer"},{"subject":"FullyConnectedLayer","relation":"uses","object":"L2Normalization"},{"subject":"PointNetPGAPSLC","relation":"extractsFeaturesFrom","object":"PointCloud"},{"subject":"PointNetPGAPSLC","relation":"leverages","object":"PointNet"},{"subject":"PointNetPGAPSLC","relation":"aggregatesFeaturesThrough","object":"PairwiseFeatureInteraction"},{"subject":"PointNetPGAPSLC","relation":"aggregatesFeaturesThrough","object":"GlobalAveragePooling"},{"subject":"PointNetPGAPSLC","relation":"incorporates","object":"VineyardSegmentation"},{"subject":"VineyardSegmentation","relation":"incorporatedInto","object":"SegmentLevelConsistencyModel"}]

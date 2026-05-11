@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "minkunext_vine",
+  "operatesIn",
+  "VineyardEnvironment",
+  "utilizesSensor",
+  "LowCostLidarSensor",
+  "isA",
+  "LprPipeline",
+  "basedOn",
+  "minkunext",
+  "FiltrationProcess",
+  "removesData",
+  "PointWithZeroCoordinates",
+  "PointBeyondSixtyMeters",
+  "NormalizationProcess",
+  "normalizesTo",
+  "RangeMinusOneToOne",
+  "followsArchitecture",
+  "UNetArchitecture",
+  "incorporatesComponent",
+  "SkipConnection",
+  "model_minkunext_vine",
+  "integratesComponent",
+  "GeMPoolingAggregator",
+  "model_minkunext",
+  "usesLossFunction",
+  "TruncatedSmoothAveragePrecision",
+  "MatryoshkaRepresentationLearning",
+  "isTypeOf",
+  "MultiLossParadigm",
+  "dataset_grapesnet",
+  "providesData",
+  "RgbdImagery",
+  "locatedIn",
+  "location_india",
+  "dataset_bacchus_long_term",
+  "collectedWith",
+  "sensor_3d_lidar",
+  "dataset_tempo_vine",
+  "location_greece",
+  "location_united_kingdom",
+  "location_riseholme_vineyard",
+  "lacksData",
+  "GpsData",
+  "Robot",
+  "traversesArea",
+  "location_ktima_gerovassiliou_vineyard",
+  "platform_saga_robotics_thorvald_ii",
+  "functionsAs",
+  "RoboticPlatform",
+  "sensor_mounting",
+  "includesSensor",
+  "zed2i_camera",
+  "ouster_os1_16_lidar",
+  "point_cloud",
+  "hasRange",
+  "100_meters",
+  "MobileRobot",
+  "PlaceRecognitionTask",
+  "MinkunextVine",
+  "DeepLearningMethod",
+  "RoboticSystem",
+  "Environment",
+  "GpsDeniedEnvironment",
+  "AutonomousNavigationSystem",
+  "Vineyard",
+  "AgriculturalEnvironment",
+  "AgriculturalVehicle",
+  "AutonomousNavigation",
+  "AgriculturalRobotics",
+  "LprNetwork",
+  "MrlApproach",
+  "LprMethod",
+  "LidarSensor",
+  "LowCost",
+  "LowResolution",
+  "CrossSeasonScenario",
+  "VineyardDataset",
+  "DenseFoliage",
+  "RobotFieldOfVision",
+  "PathDetectionFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "minkunext_vine",
+    "relation": "operatesIn",
+    "object": "VineyardEnvironment",
+    "chunk": "completedocument3",
+    "context": "To address the unique challenges of vineyard environments and low-cost LiDAR sensors, we propose MinkUNeXt-VINE."
+  },
+  {
+    "subject": "minkunext_vine",
+    "relation": "utilizesSensor",
+    "object": "LowCostLidarSensor",
+    "chunk": "completedocument3",
+    "context": "To address the unique challenges of vineyard environments and low-cost LiDAR sensors, we propose MinkUNeXt-VINE."
+  },
+  {
+    "subject": "minkunext_vine",
+    "relation": "isA",
+    "object": "LprPipeline",
+    "chunk": "completedocument3",
+    "context": "It is a lightweight LPR pipeline optimized for repetitive settings with a focus on high efficiency, based on the backbone MinkUNeXt [13]."
+  },
+  {
+    "subject": "minkunext_vine",
+    "relation": "basedOn",
+    "object": "minkunext",
+    "chunk": "completedocument3",
+    "context": "It is a lightweight LPR pipeline optimized for repetitive settings with a focus on high efficiency, based on the backbone MinkUNeXt [13]."
+  },
+  {
+    "subject": "FiltrationProcess",
+    "relation": "removesData",
+    "object": "PointWithZeroCoordinates",
+    "chunk": "completedocument3",
+    "context": "In order to ensure the integrity of our algorithm, a process of filtration is implemented to remove points that may contain extraneous data, such as those characterized by zero values for the x, y, z coordinates."
+  },
+  {
+    "subject": "FiltrationProcess",
+    "relation": "removesData",
+    "object": "PointBeyondSixtyMeters",
+    "chunk": "completedocument3",
+    "context": "Additionally, a filtration process is employed to remove points that are situated at a distance greater than 60 meters, a procedure that is applied to both datasets."
+  },
+  {
+    "subject": "NormalizationProcess",
+    "relation": "normalizesTo",
+    "object": "RangeMinusOneToOne",
+    "chunk": "completedocument3",
+    "context": "Finally, we normalize each point in a [−1,1] range."
+  },
+  {
+    "subject": "minkunext",
+    "relation": "followsArchitecture",
+    "object": "UNetArchitecture",
+    "chunk": "completedocument3",
+    "context": "MinkUNeXt is a LiDAR place recognition method that follows a U-Net architecture and relies solely on Minkowski convolutions to produce a robust global descriptor."
+  },
+  {
+    "subject": "minkunext",
+    "relation": "incorporatesComponent",
+    "object": "SkipConnection",
+    "chunk": "completedocument3",
+    "context": "This network is based on the encoder-decoder type, incorporating skip connections."
+  },
+  {
+    "subject": "model_minkunext_vine",
+    "relation": "integratesComponent",
+    "object": "GeMPoolingAggregator",
+    "chunk": "completedocument4",
+    "context": "Figure 1 depicts the architecture of MinkUNeXt-VINE, highlighting the strategic integration of the GeM pooling aggregator immediately following the second transpose convolution."
+  },
+  {
+    "subject": "model_minkunext",
+    "relation": "usesLossFunction",
+    "object": "TruncatedSmoothAveragePrecision",
+    "chunk": "completedocument4",
+    "context": "The original MinkUNeXt method uses a simple Truncated Smooth Average Precision (TSAP) loss function, which aims to maximize the ranking of the positives with the following formula:"
+  },
+  {
+    "subject": "MatryoshkaRepresentationLearning",
+    "relation": "isTypeOf",
+    "object": "MultiLossParadigm",
+    "chunk": "completedocument4",
+    "context": "A specific multi-loss paradigm that has gained significant traction recently is Matryoshka Representation Learning (MRL) [14]."
+  },
+  {
+    "subject": "dataset_grapesnet",
+    "relation": "providesData",
+    "object": "RgbdImagery",
+    "chunk": "completedocument4",
+    "context": "For example, the GrapesNet dataset [35] provides RGB-D imagery taken on a vineyard located in India."
+  },
+  {
+    "subject": "dataset_grapesnet",
+    "relation": "locatedIn",
+    "object": "location_india",
+    "chunk": "completedocument4",
+    "context": "For example, the GrapesNet dataset [35] provides RGB-D imagery taken on a vineyard located in India."
+  },
+  {
+    "subject": "dataset_bacchus_long_term",
+    "relation": "collectedWith",
+    "object": "sensor_3d_lidar",
+    "chunk": "completedocument4",
+    "context": "In this study, we use the data from the only two vineyard datasets to this date that are taken in long-term periods with 3D LiDAR sensors: the Bacchus Long-Term (BLT) Dataset [37] and the TEMPO-VINE dataset [38]."
+  },
+  {
+    "subject": "dataset_tempo_vine",
+    "relation": "collectedWith",
+    "object": "sensor_3d_lidar",
+    "chunk": "completedocument4",
+    "context": "In this study, we use the data from the only two vineyard datasets to this date that are taken in long-term periods with 3D LiDAR sensors: the Bacchus Long-Term (BLT) Dataset [37] and the TEMPO-VINE dataset [38]."
+  },
+  {
+    "subject": "dataset_bacchus_long_term",
+    "relation": "locatedIn",
+    "object": "location_greece",
+    "chunk": "completedocument4",
+    "context": "The BLT dataset [37] was collected in two different vineyard environments located in Greece (Ktima Gerovassiliou) and the United Kingdom (Riseholme)."
+  },
+  {
+    "subject": "dataset_bacchus_long_term",
+    "relation": "locatedIn",
+    "object": "location_united_kingdom",
+    "chunk": "completedocument4",
+    "context": "The BLT dataset [37] was collected in two different vineyard environments located in Greece (Ktima Gerovassiliou) and the United Kingdom (Riseholme)."
+  },
+  {
+    "subject": "location_riseholme_vineyard",
+    "relation": "lacksData",
+    "object": "GpsData",
+    "chunk": "completedocument4",
+    "context": "It is important to note that, in the initial two campaigns conducted at the Riseholme vineyard, GPS data is not available."
+  },
+  {
+    "subject": "Robot",
+    "relation": "traversesArea",
+    "object": "location_ktima_gerovassiliou_vineyard",
+    "chunk": "completedocument4",
+    "context": "With regard to the expansion of the data set collected in this particular vineyard, the robot traverses a total of five rows within the Ktima Gerovassiliou vineyard, with each row spanning a length of 50 meters."
+  },
+  {
+    "subject": "platform_saga_robotics_thorvald_ii",
+    "relation": "functionsAs",
+    "object": "RoboticPlatform",
+    "chunk": "completedocument4",
+    "context": "Regarding the robotic setup employed to collect these data, a robotic SAGA Robotics Thorvald II platform was used."
+  },
+  {
+    "subject": "sensor_mounting",
+    "relation": "includesSensor",
+    "object": "zed2i_camera",
+    "chunk": "completedocument5",
+    "context": "The sensor mounting in- cludes two Zed2i stereo RGB-D cameras, a SICK MRS1000 2D LiDAR, a FPS BX992 GPS-RTK system, a RSK-UM7 inertial measurement unit (IMU) sen- sor and an Ouster OS1-16 3D LiDAR."
+  },
+  {
+    "subject": "sensor_mounting",
+    "relation": "includesSensor",
+    "object": "ouster_os1_16_lidar",
+    "chunk": "completedocument5",
+    "context": "The sensor mounting in- cludes two Zed2i stereo RGB-D cameras, a SICK MRS1000 2D LiDAR, a FPS BX992 GPS-RTK system, a RSK-UM7 inertial measurement unit (IMU) sen- sor and an Ouster OS1-16 3D LiDAR."
+  },
+  {
+    "subject": "ouster_os1_16_lidar",
+    "relation": "providesData",
+    "object": "point_cloud",
+    "chunk": "completedocument5",
+    "context": "For the LPR task, the Ouster OS1-16 provides high quality point clouds of the environment, as it is able to capture more than 300k points per second with a range of more than 100 meters with its 16 simultaneous beams."
+  },
+  {
+    "subject": "ouster_os1_16_lidar",
+    "relation": "hasRange",
+    "object": "100_meters",
+    "chunk": "completedocument5",
+    "context": "For the LPR task, the Ouster OS1-16 provides high quality point clouds of the environment, as it is able to capture more than 300k points per second with a range of more than 100 meters with its 16 simultaneous beams."
+  }
+]

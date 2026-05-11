@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CognitiveSupport",
+  "includes",
+  "Safety",
+  "AffectiveResonance",
+  "Empathy",
+  "Helpfulness",
+  "Interpretation",
+  "PsychiatricEvaluator",
+  "blindedTo",
+  "ModelIdentity",
+  "prevents",
+  "SourceRelatedBias",
+  "ratesOn",
+  "LikertScale",
+  "LargeLanguageModel",
+  "evaluatedFor",
+  "BehavioralReliability",
+  "operatesIn",
+  "MentalHealthCounseling",
+  "model_gpt4o",
+  "demonstrates",
+  "CognitiveReliability",
+  "model_gemini_2_0_flash",
+  "model_gpt4o_mini",
+  "AffectiveTone",
+  "model_llama_3_1",
+  "outperforms",
+  "OpenSourceModel",
+  "model_deepseek_llama",
+  "exhibits",
+  "ModerateCapability",
+  "model_claude_3_5_haiku",
+  "HighVariance",
+  "model_qwen_3",
+  "indicates",
+  "LimitedRobustness",
+  "hasAccessType",
+  "access_closed",
+  "model_gemini20Flash",
+  "model_llama31",
+  "access_open",
+  "model_deepseekLlama",
+  "model_claude35Haiku",
+  "model_qwen3",
+  "achievesHighScoreIn",
+  "attribute_informativeness",
+  "attribute_safety",
+  "exhibitsWeaknessIn",
+  "attribute_empathy",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "ClosedSourceModel",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern",
+  "SocialMediaPlatform",
+  "platform_reddit",
+  "CounselingConversation",
+  "dataset_mentalChat16k",
+  "dataset_emoCare",
+  "dataset_counselChat",
+  "MentalHealthScreening",
+  "condition_depression",
+  "condition_suicideRisk"
+]
+
+Triples:
+[
+  {
+    "subject": "CognitiveSupport",
+    "relation": "includes",
+    "object": "Safety",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "AffectiveResonance",
+    "relation": "includes",
+    "object": "Empathy",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "AffectiveResonance",
+    "relation": "includes",
+    "object": "Helpfulness",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "AffectiveResonance",
+    "relation": "includes",
+    "object": "Interpretation",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "PsychiatricEvaluator",
+    "relation": "blindedTo",
+    "object": "ModelIdentity",
+    "chunk": "completedocument5",
+    "context": "Evaluators were blinded to model identity to prevent source-related bias and instructed to rate each response on a 5-point Likert scale."
+  },
+  {
+    "subject": "PsychiatricEvaluator",
+    "relation": "prevents",
+    "object": "SourceRelatedBias",
+    "chunk": "completedocument5",
+    "context": "Evaluators were blinded to model identity to prevent source-related bias and instructed to rate each response on a 5-point Likert scale."
+  },
+  {
+    "subject": "PsychiatricEvaluator",
+    "relation": "ratesOn",
+    "object": "LikertScale",
+    "chunk": "completedocument5",
+    "context": "Evaluators were blinded to model identity to prevent source-related bias and instructed to rate each response on a 5-point Likert scale."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "evaluatedFor",
+    "object": "BehavioralReliability",
+    "chunk": "completedocument5",
+    "context": "This setup provided a clinically grounded reference point for comparing the behavioral reliability of different LLMs in mental health counseling contexts (van Heerden, Pozuelo, and Kohrt 2023)."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "operatesIn",
+    "object": "MentalHealthCounseling",
+    "chunk": "completedocument5",
+    "context": "This setup provided a clinically grounded reference point for comparing the behavioral reliability of different LLMs in mental health counseling contexts (van Heerden, Pozuelo, and Kohrt 2023)."
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "demonstrates",
+    "object": "CognitiveReliability",
+    "chunk": "completedocument5",
+    "context": "GPT-4o achieved the highest overall mean of 4.70, followed closely by Gemini 2.0-Flash (4.56) and GPT-4o-mini (4.57)—all closed-source models that demonstrated both cognitive reliability and balanced affective tone."
+  },
+  {
+    "subject": "model_gemini_2_0_flash",
+    "relation": "demonstrates",
+    "object": "CognitiveReliability",
+    "chunk": "completedocument5",
+    "context": "GPT-4o achieved the highest overall mean of 4.70, followed closely by Gemini 2.0-Flash (4.56) and GPT-4o-mini (4.57)—all closed-source models that demonstrated both cognitive reliability and balanced affective tone."
+  },
+  {
+    "subject": "model_gpt4o_mini",
+    "relation": "demonstrates",
+    "object": "AffectiveTone",
+    "chunk": "completedocument5",
+    "context": "GPT-4o achieved the highest overall mean of 4.70, followed closely by Gemini 2.0-Flash (4.56) and GPT-4o-mini (4.57)—all closed-source models that demonstrated both cognitive reliability and balanced affective tone."
+  },
+  {
+    "subject": "model_llama_3_1",
+    "relation": "outperforms",
+    "object": "OpenSourceModel",
+    "chunk": "completedocument5",
+    "context": "Llama-3.1 (4.48) maintained strong, consistent performance across attributes, outperforming most open-source peers."
+  },
+  {
+    "subject": "model_deepseek_llama",
+    "relation": "exhibits",
+    "object": "ModerateCapability",
+    "chunk": "completedocument5",
+    "context": "In contrast, DeepSeek-LLaMA (4.23), DeepSeek-Qwen (4.20), Qwen-2.5 (4.16), and Claude-3.5-Haiku (4.12) exhibited moderate capability but higher variance, particularly in empathy and helpfulness."
+  },
+  {
+    "subject": "model_claude_3_5_haiku",
+    "relation": "exhibits",
+    "object": "HighVariance",
+    "chunk": "completedocument5",
+    "context": "In contrast, DeepSeek-LLaMA (4.23), DeepSeek-Qwen (4.20), Qwen-2.5 (4.16), and Claude-3.5-Haiku (4.12) exhibited moderate capability but higher variance, particularly in empathy and helpfulness."
+  },
+  {
+    "subject": "model_qwen_3",
+    "relation": "indicates",
+    "object": "LimitedRobustness",
+    "chunk": "completedocument5",
+    "context": "Qwen-3 (3.60) ranked lowest overall, indicating limited robustness in both cognitive and affective dimensions."
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "hasAccessType",
+    "object": "access_closed",
+    "chunk": "completedocument6",
+    "context": "GPT-4o Closed 4.43±0.65 4.72±0.49 4.99±0.15 4.98±0.14 4.38±0.74 4.70±0.52 4.70±0.26"
+  },
+  {
+    "subject": "model_gemini20Flash",
+    "relation": "hasAccessType",
+    "object": "access_closed",
+    "chunk": "completedocument6",
+    "context": "Gemini 2.0-Flash Closed 4.37±0.73 4.67±0.53 4.99±0.12 4.98±0.13 3.99±0.75 4.34±0.69 4.56±0.30"
+  },
+  {
+    "subject": "model_llama31",
+    "relation": "hasAccessType",
+    "object": "access_open",
+    "chunk": "completedocument6",
+    "context": "Llama-3.1 Open 3.98±0.90 4.44±0.67 4.96±0.24 4.95±0.25 4.12±0.67 4.43±0.64 4.48±0.32"
+  },
+  {
+    "subject": "model_deepseekLlama",
+    "relation": "hasAccessType",
+    "object": "access_open",
+    "chunk": "completedocument6",
+    "context": "DeepSeek-LLaMA Open 3.67±0.81 3.78±0.74 4.96±0.22 4.90±0.39 4.24±0.82 3.83±0.71 4.23±0.39"
+  },
+  {
+    "subject": "model_claude35Haiku",
+    "relation": "hasAccessType",
+    "object": "access_closed",
+    "chunk": "completedocument6",
+    "context": "Claude-3.5-Haiku Closed 3.66±0.93 3.92±0.78 4.96±0.31 4.90±0.40 3.66±0.87 3.65±0.73 4.12±0.45"
+  },
+  {
+    "subject": "model_qwen3",
+    "relation": "hasAccessType",
+    "object": "access_open",
+    "chunk": "completedocument6",
+    "context": "Qwen-3 Open 2.46±1.19 3.19±1.00 4.65±0.97 4.53±1.01 3.64±1.01 3.10±0.96 3.60±0.77"
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "achievesHighScoreIn",
+    "object": "attribute_informativeness",
+    "chunk": "completedocument6",
+    "context": "GPT-4o, for instance, achieved the highest overall scores—4.72 (Informativeness), 4.43 (Guidance), and 4.99 (Safety)—forming a nearly symmetrical upper-bound region on the radar chart."
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "achievesHighScoreIn",
+    "object": "attribute_safety",
+    "chunk": "completedocument6",
+    "context": "GPT-4o, for instance, achieved the highest overall scores—4.72 (Informativeness), 4.43 (Guidance), and 4.99 (Safety)—forming a nearly symmetrical upper-bound region on the radar chart."
+  },
+  {
+    "subject": "model_gemini20Flash",
+    "relation": "exhibitsWeaknessIn",
+    "object": "attribute_empathy",
+    "chunk": "completedocument6",
+    "context": "Gemini 2.0-Flash followed closely with comparable cognitive strength (4.67 Informativeness, 4.37 Guidance, 4.99 Safety), though its Empathy (3.99)and Helpfulness (4.34) dipped slightly, reflecting weaker af-fective engagement."
+  }
+]

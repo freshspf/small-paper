@@ -1,0 +1,153 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "result1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: result1
+- section_title: Result
+- page_start: 3
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+rank-constraint-based graph clustering algorithmis developed to annotate the anchors instead of
+manual intervention. By reorganizing the anchor-
+anchor graph, the proposed algorithm shows a
+high adaptability to various complex scenes. In
+general, the proposed method for onboard hyper-
+spectral image classification exhibits linear-time
+complexity and better robustness.
+2 Result
+2.1 Benchmark
+To demonstrate the effectiveness of the proposed
+method, we conducted exhaustive experiments on
+three widely used hyperspectral image datasets.
+2.1.1 Indian Pines
+It represents one of the first hyperspectral
+image datasets for classification, captured by the
+Airborne Visual Infrared Imaging Spectrometer
+(AVIRIS) in 1992. The dataset has a size of
+145×145 and 220 spectral bands, of which 200
+are retained after the exclusion of the 20 water
+absorption bands. The dataset has a spatial reso-
+lution of approximately 20 meters and includes 16
+land cover categories. Consequently, this increases
+the probability of generating mixed pixels, thus
+complicating the classification process.
+2.1.2 Salinas
+The dataset was acquired by the AVIRIS sensor
+within the Salinas Valley in California. It has a
+resolution of 512×217 and 224 spectral bands.
+The original 224 spectral bands included 20 bands
+related to water absorption. After discarding these
+20 bands, the remaining 204 bands were retained
+for classification. It has 16 different land cover
+categories.
+2.1.3 Pavia University
+The dataset was obtained using the Reflective
+Optics System Imaging Spectrometer (ROSIS)
+sensor in the region of Pavia, located in northern
+Italy. The imagery comprises a spatial resolu-
+tion of 610×340 pixels and 103 spectral bands.
+This dataset has been classified into 9 classes,
+comprising a total of 42,776 annotated samples.
+3
+
+Table 1Per-Class Accuracies, AAs, OAs, and Kappa Coefficients of Different Methods on the Indian Pines Dataset with
+Five Training Examples of Each Class
+class CNN-PPF[32] GFHF[33] PL[34] FSS[35] SGL[28] STSE-DWLR[36] DSSPL[37] Ours
+1 0.6610 0.8609 0.9130 0.7715 0.9652 0.98480.99130.9778
+2 0.0806 0.5564 0.4863 0.8388 0.4856 0.4791 0.70780.9406
+3 0.0856 0.5141 0.4592 0.7759 0.5749 0.6425 0.78290.9042
+4 0.5746 0.7460 0.8468 0.7965 0.8384 0.8350 0.85400.9744
+5 0.0720 0.7714 0.7979 0.6907 0.8110 0.8025 0.81700.9561
+6 0.2265 0.7011 0.8192 0.8138 0.8301 0.9116 0.89401.0000
+7 0.4435 0.9714 0.9429 0.7264 0.9679 0.9786 0.98211.0000
+8 0.5476 0.9920 0.9973 0.9129 0.99690.99940.9987 0.9936
+9 0.5800 0.9525 0.8647 0.66101.00000.9900 0.9900 0.0000
+10 0.3065 0.7213 0.7267 0.7508 0.8110 0.6989 0.81481.0000
+11 0.2621 0.6360 0.6475 0.9042 0.6610 0.8329 0.82900.9496
+12 0.0954 0.6440 0.6125 0.7921 0.6857 0.7764 0.72480.9915
+13 0.6010 0.8951 0.9906 0.8855 0.9951 0.99510.99510.9901
+14 0.7606 0.7324 0.8283 0.7483 0.8603 0.8304 0.87121.0000
+15 0.4328 0.7554 0.7902 0.6480 0.8166 0.8728 0.88061.0000
+16 0.9000 0.8903 0.9892 0.8963 0.9806 0.9514 0.99031.0000
+AA 0.4144 0.7057 0.8033 0.7883 0.8300 0.8576 0.87020.9176
+OA 0.3087 0.6499 0.7060 0.8142 0.7270 0.8052 0.85910.9663
+Kappa 0.2488 0.6641 0.6592 0.8028 0.6940 0.7868 0.83320.9616
+2.2 Simulation of onboard
+processing under spaceborne
+conditions
+To test the effectiveness of the proposed two-
+stage label propagation for classification, we intro-
+duce CNN-PPF[32], GFHF[33], PL[34], FSS[35],
+SGL[28], STSE DWLR[36], and DSSPL[37] as
+comparison methods. Among these methods, SGL
+and DSSPL employ graph-based semi-supervised
+classification techniques. It should be noted that
+DSSPL further incorporates the label propagation
+strategy. Furthermore, to evaluate the efficacy of
+the proposed clustering algorithms, we have intro-
+duced K-means, FCM, FSCAG[38], SGCNR[39],
+HESSC[40], NCSC[41], SGLSC[42],S3AGC[43],
+and SAPC[44]. Within the aforementioned meth-
+ods, SAPC is the most similar to the proposed
+approach, as it similarly utilizes anchor graph and
+rank constraint. To improve computational effi-
+ciency, we slice the input test set in a fixed interval
+θ.θwas configured as 3000, 4000, and 4000 for
+the Indian Pines, Salinas, and Pavia University
+datasets, respectively. The dimensionsdof the
+three datasets after PCA are set to 30, 40 and
+50, respectively. In experiments carried out within
+the semi-supervised framework, three evaluationmetrics are introduced: average accuracy (AA),
+overall accuracy (OA) and the kappa coefficient.
+Following SAPC, in the clustering performance
+experiment, six evaluation metrics were employed:
+accuracy (ACC), kappa coefficient, normalized
+mutual information (NMI), purity, adjusted rand
+index (ARI) and F-score.
+2.2.1 Semi-supervised Classification
+Results
+Tables 1, 2, and 3 show the classification results of
+the proposed method in the Indian Pines, Salinas,
+and Pavia University dataset, where the anchor
+label is obtained from the ground truth.

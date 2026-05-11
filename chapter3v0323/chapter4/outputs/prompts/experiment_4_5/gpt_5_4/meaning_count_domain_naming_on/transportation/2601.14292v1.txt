@@ -1,0 +1,224 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Introducing a Novel Systems Thinking approach inspired by STPA: Road Safety
+Intervention design case study
+Halima El Badaoui a,→, Siddartha Khastgir a, Mariat James Elizebeth a, Shufeng Chen a, Takuya Nakashimab, Paul Jenningsa
+aWMG, University of Warwick, 6 Lord Bhattacharyya Way, Coventry, CV4 7AL, West Midlands, United Kingdom
+b Graduate School of Frontier Sciences, The University of Tokyo, 5-1-5 Kashiwanoha , Kashiwa, 277-8563, Japan
+Abstract
+According to the latest provisional statistics released by the UK Department for Transport, Great Britain recorded 1,633 road deaths
+in 2024, representing a slight increase from 2023 and raising concerns about safety progress, which indicates that preventable
+fatalities remain a challenge. The deployment of advanced mobility systems, even certiﬁed and safety-assessed, is not su ﬃcient
+to deliver improved safety outcomes, and existing road infrastructure is not su ﬃciently equipped to prevent severe collisions.
+Successful application of the “Safe System” approach demands systems thinking in an integrated and holistic manner, encompassing
+all aspects of road safety. This paper argues that road safety must be managed as a complex socio-technical system where risk
+evolves dynamically and must be continuously monitored. To address these safety gaps, we propose a systems thinking approach that
+identiﬁes factors contributing to fatal outcomes and mitigates them. The framework consists of four steps: 1) List stakeholders who
+inﬂuence road safety, 2) Model the interactions between these stakeholders, 3) List assumptions that might be identiﬁed as factors
+for fatalities, and 4) Monitor these assumptions throughout the system lifecycle. The approach is applied to the United Kingdom
+(UK) road network to demonstrate feasibility. The study provides actionable guidance and new KPIs categories for stakeholders to
+implement road safety monitoring and eliminate any unreasonable road safety risks.
+Keywords: Road safety, Systems Thinking, Assumptions, Leading Indicators, Corrective Actions, Control structure.
+1. Introduction
+Reducing fatalities and increasing the survival rate in road
+transport remains a global challenge, despite the rapid deploy-
+ment of advanced safety technologies such as Advanced Driver
+Assistance Systems (ADAS) and Automated Driving Systems
+(ADS). While these technological advancements are widely pro-
+moted for their potential to improve road safety, a reduction in
+serious and fatal crashes has not yet materialised. Achieving
+meaningful and measurable safety gain requires a comprehen-
+sive approach that integrates public perception and infrastructure
+readiness into every stage of system design and throughout the
+operational life cycle [ 1, 2]. Neglecting these essential interac-
+tions between people, technology and infrastructure not only
+undermines the potential beneﬁts of automation but may also
+introduce new risks that might increase the likelihood of serious
+or fatal incidents [ 3, 4]. The safe deployment of these tech-
+nologies depends on social acceptance and the adaptability of
+existing road infrastructure, factors often overlooked in techni-
+cal analyses. Statistical evidence reinforces the necessity of a
+systemic approach. The World Health Organisation reports that
+1.9 million people die each year from road tra ﬃc injuries and
+millions suﬀer from disability [5].
+Persistence or rising Killed or Seriously Injured (KSI) statis-
+tics worldwide demonstrate that current strategies, often built
+→Corresponding Author
+Email address: halima.el-badaoui@warwick.ac.uk (Halima El
+Badaoui)
+around retrospective crash data, are not achieving the targeted
+reductions in harm [ 5, 6]. Multiple critical factors from road
+geometry, infrastructure quality and driver behaviour impact the
+severity of road crashes and their outcomes[ 1]. If strategies and
+action plans fail to address the combined and evolving e ﬀects of
+these factors, especially as new technologies are introduced, pre-
+ventable losses will continue to occur [ 7]. Traditional analytical
+methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA),
+Event Tree Analysis (ETA), Failure Mode and E ﬀects Analy-
+sis (FMEA), and Hazard and Operability Analysis (HAZOP),
+alongside road-speciﬁc approaches such as blackspot analysis[8],
+and crash-based statistical models, remain reactive and limited
+in scope. They mainly focus on historical collision data and
+correlations, rather than the underlying systemic causes of risk
+[9–11]. These methods tend to assume that risk is static and pre-
+dictable and overlook feedback loops and emergent properties
+arising from stakeholder interactions. The current stagnation
+in fatality and injury reduction signals the need to shift from
+retrospective crash data analysis toward continuous system-level
+risk monitoring [12–14].
+Recent developments in safety science, particularly the System-
+Theoretic Accident Model and Processes (STAMP) perspec-
+tive, have helped shift the focus from linear accident causation
+to understanding accidents as emergent properties of complex
+socio-technical systems[15, 16]. STAMP-based method, such
+as System-Theoretic Process Analysis (STPA), incorporates sys-
+tem thinking to enable hazard identiﬁcation and the deﬁnition of
+safety constraints across technical, human and organisational fac-
+arXiv:2601.14292v1 [physics.soc-ph] 14 Jan 2026
+tors. However, while systems thinking can reveal what might go
+wrong, it does not guarantee that identiﬁed hazards and assump-
+tions will remain valid once systems are deployed [ 17]. The
+challenge of maintaining the validity of assumptions throughout
+the entire lifecycle, particularly as road systems adapt to techno-
+logical, behavioural and policy changes, remains insu ﬃciently
+addressed.
+1.1. Literature Review
+Recent national and international road safety reports high-
+light that the persistent issue of reducing injury rates remains
+unresolved. In the United Kingdom, recent statistics published
+by the Department for Transport (DfT) report that " There has
+been no signiﬁcant reduction in serious injuries ". Despite years
+of investigation and investment in road safety programmes, the
+progress in reducing fatalities has stagnated. In [ 18],the authors
+further highlights a critical mismatch between global estimates
+of road safety performance and local data. This discrepancy
+creates uncertainty regarding what is actually being addressed
+by policymakers and researchers. which may help explain the
+lack of improvement in road safety outcomes. Traditional ap-
+proaches focus mainly on road safety behaviour, treating road
+safety as a transport issue. Consequently, the authors advocate
+adopting a systems approach to road safety, which considers it
+as an emergent property of a complex socio-technical system,
+and systems thinking o ﬀers a suitable framework for this pur-
+pose, as it enables the interactions between system components,
+including road users, government, infrastructure, and vehicle
+manufacturers.
+Building upon this foundation, [ 19] explores the historical
+development of systems thinking and investigating transport and
+industry safety management to gain insight into how best to
+use the experiences in general road safety management. Simi-
+larly, a study that addresses the challenges associated with the
+Safe System approach and illustrates how inadequate road sys-
+tem design can hinder safe road user behaviour is presented in
+[20]. Numerous studies conducted by Salmon and his colleagues
+have demonstrated that Systems Theory, originally derived from
+workplace safety, can uncover the complex web of interacting
+factors across multiple levels of the road transport system that
+contribute to crashes [21][22]. An article that examines the ‘drift
+into failure’ approach for road safety e ﬀorts, which argues that
+road transport systems do currently display characteristics of
+complex systems in drift, and that a greater understanding of
+complexity theory-based models will support improved road
+safety eﬀorts, is presented in [23].
+From a system theoretic safety perspective, STPA has been
+applied to Austria’s road safety to expose gaps in the road safety
+inspection (RSI) process, especially the limited treatment of
+human, vehicle, and road interactions. The authors identify
+three main areas for improvement: 1) extend RSI beyond the
+TEN-T(Trans-European network) network to Non-TEN-T roads,
+2) broaden the scope to include human factors, vehicle dynam-
+ics, and road user interactions, and 3) apply STPA within the
+overall road safety management process.Their key ﬁndings re-
+veal that the current RSI practice in Austria is reactive rather
+than proactive, inspection boundaries are too narrow, excluding
+human, vehicle, and road interactions, and feedback loops are
+missing. These ﬁndings highlight a critical limitation: the ab-
+sence of closed-loop monitoring to ensure implementation of
+recommendations, along with gaps in procedures and regulatory
+support needed to implement the proposed improvements[ 24].
+While systems approaches and safety analysis like STPA pro-
+vides valuable insights and highlight area of improvement, there
+remains a need for a new framework that can deliver ongoing,
+operational assurance, through the continuous monitoring of
+underlying system assumptions.
+As applied currently, STPA remains primarily a design haz-
+ard analysis and does not prescribe a run-time monitoring frame-
+work. While STPA ’s prominent role at design time is widely
+recognised, establishing continuous, operational monitoring re-
+quires additional assurance steps. As Leveson notes [ 25], the
+concept of assumption-based leading indicators provides guid-
+ance to identify and monitor key assumptions across the entire
+lifecycle. Y et, it does not specify metrics for every assump-
+tion, nor does it establish a mechanism for continuous, opera-
+tional monitoring of assumptions. [ 26] addresses this gap by
+proposing Early Warning Sign Analysis based on the STPA
+(EWaSAP), an extension to STPA that is built around perceiv-
+able signs. EWaSAP helps analysts identify observable early
+warning signs and supports the conﬁguration of sensors and
+awareness actions so that such signals are transmitted and moni-
+tored eﬀectively. In their case study at a drinking water treatment
+works, EWaSAP started from an established STPA, ﬁrst identi-
+fying signs indicating violations, next identifying systems with
+sensors capable of perceiving those signs, and ﬁnally stakehold-
+ers. This process, however, produced a large number of early
+warning signs, and the author acknowledges the complexity of
+managing such a multitude of early warning signs. EWaSAP
+as an important extension to STPA that emphasises perceivable
+signs, non-perceivable assumptions may require complementary
+assurance mechanisms(e.g., audit, pass / fail rate) to keep the
+monitoring burden tractable.
+1.2. Paper Contribution and Novelty
+To address these limitations, this paper proposes the inte-
+gration of systems thinking with systems engineering to enable
+continuous safety assurance across the entire lifecycle. Sys-
+tems engineering introduces lifecycle governance, conﬁguration
+management, veriﬁcation and validation and traceability from
+hazards identiﬁcation to deployment and operation [ 17]. Unlike
+traditional safety analysis, system engineering principles provide
+robust mechanisms to monitor system behaviour and continu-
+ously validate the assumptions on which systems, policies, and
+safety decisions are based, ensuring they remain valid as tech-
+nologies, regulations, and user behaviour evolve. The novelty
+of the proposed approach is a structured framework to monitor
+both perceivable assumptions which can be directly observed or
+measure through operational indicators (e.g., calibration range,
+sensor accuracy...) and non-perceivable assumptions, that cannot
+be directly observed and therefore require indirect veriﬁcation
+or periodic validation through audits or documentation (e.g.,

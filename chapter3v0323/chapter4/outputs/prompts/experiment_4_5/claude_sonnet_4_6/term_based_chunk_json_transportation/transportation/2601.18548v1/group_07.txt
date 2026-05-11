@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ImplicitModel",
+  "mapsTo",
+  "Distance",
+  "DistanceField",
+  "yields",
+  "UnifiedDifferentiableRepresentation",
+  "ConfigurationSpaceDistanceField",
+  "defines",
+  "ScalarField",
+  "satisfies",
+  "EikonalProperty",
+  "eliminates",
+  "Distortion",
+  "VanishingGradient",
+  "NonlinearMapping",
+  "induces",
+  "supports",
+  "MotionPlanning",
+  "integratesWith",
+  "GradientBasedTrajectoryOptimization",
+  "ConfigurationSpace",
+  "couples",
+  "EuclideanBaseMotion",
+  "NumericalSolver",
+  "handles",
+  "ImplicitlyDefinedConstraint",
+  "SignedDistanceField",
+  "definedIn",
+  "TaskSpace",
+  "ForwardKinematics",
+  "introduces",
+  "Nonlinearity",
+  "bridges",
+  "NumericalOptimizationAlgorithm",
+  "NeuralNetwork",
+  "encodes",
+  "ObstaclePoint",
+  "transformedTo",
+  "MobileBaseFrame",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "incorporates",
+  "TranslationalDegreeOfFreedom",
+  "RobotConfiguration",
+  "comprises",
+  "TranslationalComponent",
+  "RotationalComponent",
+  "WeightingMatrix",
+  "controls",
+  "TranslationalDistance",
+  "influences",
+  "GradientDirection",
+  "EikonalEquation",
+  "MobileManipulator",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "Collision",
+  "WholeBodyGeometry",
+  "Robot",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety",
+  "Planner",
+  "CollisionConstraint",
+  "GeometricModel",
+  "MoveAndActScheme",
+  "MobileManipulation",
+  "CoordinatedWholeBodyBehavior",
+  "CollisionFreeTrajectory"
+]
+
+Triples:
+[
+  {
+    "subject": "ImplicitModel",
+    "relation": "mapsTo",
+    "object": "Distance",
+    "chunk": "completedocument6",
+    "context": "In contrast, end-to-end neural approaches learn a single implicit model that maps joint configurations and workspace points directly to distances and gradients [40], [41]."
+  },
+  {
+    "subject": "DistanceField",
+    "relation": "yields",
+    "object": "UnifiedDifferentiableRepresentation",
+    "chunk": "completedocument6",
+    "context": "In both cases, representing the robot as a distance field yields a unified, differentiable representation for reasoning about self-collision, contact, and clearance."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "defines",
+    "object": "ScalarField",
+    "chunk": "completedocument6",
+    "context": "CDF [43] defines a scalar field over joint configurations, where the value at each configuration equals the minimal joint motion required to reach the collision manifold, with its gradient providing the corresponding avoidance direction."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "satisfies",
+    "object": "EikonalProperty",
+    "chunk": "completedocument6",
+    "context": "In contrast to task-space SDFs, CDF satisfies an eikonal property in configuration space: its level sets are uniformly spaced, and its gradient has unit norm and consistently points away from the collision set."
+  },
+  {
+    "subject": "EikonalProperty",
+    "relation": "eliminates",
+    "object": "Distortion",
+    "chunk": "completedocument6",
+    "context": "This eliminates distortions or vanishing gradients induced by the nonlinear mapping between task space and joint space, and enables one-step gradient projection for inverse kinematics."
+  },
+  {
+    "subject": "EikonalProperty",
+    "relation": "eliminates",
+    "object": "VanishingGradient",
+    "chunk": "completedocument6",
+    "context": "This eliminates distortions or vanishing gradients induced by the nonlinear mapping between task space and joint space, and enables one-step gradient projection for inverse kinematics."
+  },
+  {
+    "subject": "NonlinearMapping",
+    "relation": "induces",
+    "object": "VanishingGradient",
+    "chunk": "completedocument6",
+    "context": "This eliminates distortions or vanishing gradients induced by the nonlinear mapping between task space and joint space, and enables one-step gradient projection for inverse kinematics."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "supports",
+    "object": "MotionPlanning",
+    "chunk": "completedocument6",
+    "context": "Building on this idea, subsequent work has leveraged CDF for motion planning and control by integrating it with barrier-function formulations [84], gradient-based trajectory optimization [85], and model predictive path integral control [86], highlighting CDF as an effective representation for efficient and safe motion generation in joint space."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "integratesWith",
+    "object": "GradientBasedTrajectoryOptimization",
+    "chunk": "completedocument6",
+    "context": "Building on this idea, subsequent work has leveraged CDF for motion planning and control by integrating it with barrier-function formulations [84], gradient-based trajectory optimization [85], and model predictive path integral control [86], highlighting CDF as an effective representation for efficient and safe motion generation in joint space."
+  },
+  {
+    "subject": "ConfigurationSpace",
+    "relation": "couples",
+    "object": "EuclideanBaseMotion",
+    "chunk": "completedocument6",
+    "context": "However, these approaches focus primarily on fixed-base manipulators, and CDF for mobile manipulators where the configuration space couples Euclidean base motion with joint orientations, have not yet been systematically explored."
+  },
+  {
+    "subject": "NumericalSolver",
+    "relation": "handles",
+    "object": "ImplicitlyDefinedConstraint",
+    "chunk": "completedocument6",
+    "context": "Moreover, efficient and robust numerical solvers capable of handling such structured, implicitly defined constraints are still lacking, limiting the practicality of existing methods."
+  },
+  {
+    "subject": "SignedDistanceField",
+    "relation": "definedIn",
+    "object": "TaskSpace",
+    "chunk": "completedocument6",
+    "context": "SDF was originally defined in task space as the distance from a query point p to the boundary of a set Ω, with positive and negative signs indicating whether the point lies outside or inside Ω, respectively."
+  },
+  {
+    "subject": "ForwardKinematics",
+    "relation": "introduces",
+    "object": "Nonlinearity",
+    "chunk": "completedocument6",
+    "context": "While the signed distance fs maintains Euclidean properties in workspace (or task space), the forward kinematics embedded in the manifold constraint p′ ∈ ∂r(q) introduces significant nonlinearity in configuration space, where the optimization is conducted."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "definedIn",
+    "object": "ConfigurationSpace",
+    "chunk": "completedocument6",
+    "context": "In contrast to the minimum distance in task space as defined in (1), CDF is defined as the minimum distance in configuration space."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "bridges",
+    "object": "TaskSpace",
+    "chunk": "completedocument7",
+    "context": "Remark 1.CDF effectively bridges task space and configura- tion space while preserving several advantageous properties: it maintains the implicit structure and Boolean operations of SDF , and more significantly, it preserves the uniform gradient property with Euclidean distance in configuration space."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "bridges",
+    "object": "ConfigurationSpace",
+    "chunk": "completedocument7",
+    "context": "Remark 1.CDF effectively bridges task space and configura- tion space while preserving several advantageous properties: it maintains the implicit structure and Boolean operations of SDF , and more significantly, it preserves the uniform gradient property with Euclidean distance in configuration space."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "integratesWith",
+    "object": "NumericalOptimizationAlgorithm",
+    "chunk": "completedocument7",
+    "context": "These characteristics collectively make CDF an ideal candidate for integration with gradient-based numerical optimization algorithms, enabling simultaneous safety guarantees and task achievement."
+  },
+  {
+    "subject": "NeuralNetwork",
+    "relation": "encodes",
+    "object": "ConfigurationSpaceDistanceField",
+    "chunk": "completedocument7",
+    "context": "Moreover, the efficient data collection and net- work training proposed in [43] provides a practical pipeline for neural network-encoded CDF function that enables fast batch-parallel computation of both distance values and gra- dients during online operation."
+  },
+  {
+    "subject": "ObstaclePoint",
+    "relation": "transformedTo",
+    "object": "MobileBaseFrame",
+    "chunk": "completedocument7",
+    "context": "Theoretically, the shift caused by base translation can be mitigated by transforming obstacle points to the mobile base frame, and the gradients with respect to translational degrees of freedom can be obtained through the chain rule by utilizing the gradients of obstacle point positions."
+  },
+  {
+    "subject": "GeneralizedConfigurationSpaceDistanceField",
+    "relation": "incorporates",
+    "object": "TranslationalDegreeOfFreedom",
+    "chunk": "completedocument7",
+    "context": "Therefore, in our training process, we redefine the CDF to incorporate translational degrees of freedom while introducing appropriate scaling factors to balance translational distances and rotational angles."
+  },
+  {
+    "subject": "RobotConfiguration",
+    "relation": "comprises",
+    "object": "TranslationalComponent",
+    "chunk": "completedocument7",
+    "context": "Definition 1(Generalized CDF).For a robot configu- rationq∈Rncomprising a translational component qtand a rotational componentqr, and an environmen- tal pointp∈R3, the generalized configuration space distance field (GCDF)fg c(p,q) :Rn×R3→Ris: fg c(p,q) =±min q′∈Z(p)∥q′−q∥ M,(4)"
+  },
+  {
+    "subject": "RobotConfiguration",
+    "relation": "comprises",
+    "object": "RotationalComponent",
+    "chunk": "completedocument7",
+    "context": "Definition 1(Generalized CDF).For a robot configu- rationq∈Rncomprising a translational component qtand a rotational componentqr, and an environmen- tal pointp∈R3, the generalized configuration space distance field (GCDF)fg c(p,q) :Rn×R3→Ris: fg c(p,q) =±min q′∈Z(p)∥q′−q∥ M,(4)"
+  },
+  {
+    "subject": "WeightingMatrix",
+    "relation": "controls",
+    "object": "TranslationalDistance",
+    "chunk": "completedocument7",
+    "context": "First, it controls the relative influence of translational and rotational distances on the CDF value."
+  },
+  {
+    "subject": "WeightingMatrix",
+    "relation": "influences",
+    "object": "GradientDirection",
+    "chunk": "completedocument7",
+    "context": "Second, it shapes the characteristics of the nearest configuration by influencing the gradient direction and consequently the robot’s motion tendency in proximity to objects."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "satisfies",
+    "object": "EikonalEquation",
+    "chunk": "completedocument7",
+    "context": "A key theoretical foundation of the original CDF is its satisfaction of theeikonal equationin configuration space, which ensures unit gradient norms and enables single-step projections to the zero level set."
+  }
+]

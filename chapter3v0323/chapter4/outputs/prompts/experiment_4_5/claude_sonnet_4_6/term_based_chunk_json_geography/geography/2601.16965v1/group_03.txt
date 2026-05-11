@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "system_geoAnQu",
+  "identifies",
+  "FunctionalRole",
+  "system_reAct",
+  "introduces",
+  "ThoughtActionObservationLoop",
+  "system_toolformer",
+  "enables",
+  "SelfSupervisedToolUseLearning",
+  "system_codeAct",
+  "generates",
+  "ExecutableCode",
+  "system_llmGeo",
+  "demonstrates",
+  "AutonomousGisCapability",
+  "system_geoGPT",
+  "uses",
+  "model_gpt4",
+  "system_geoAgent",
+  "integrates",
+  "mechanism_rag",
+  "system_gtChain",
+  "fineTunes",
+  "model_llama",
+  "theory_coreConcepts",
+  "provides",
+  "FoundationalBuildingBlock",
+  "includes",
+  "concept_object",
+  "concept_field",
+  "concept_network",
+  "ontology_coreConceptDataType",
+  "SemanticConstraint",
+  "LlmBasedAgent",
+  "reliesOn",
+  "GeneralPurposePlanning",
+  "LlmAgent",
+  "represents",
+  "SpatialRelationship",
+  "Terminal",
+  "containedWithin",
+  "Airport",
+  "LargeLanguageModel",
+  "treats",
+  "GeospatialTool",
+  "ExplicitSpatialGrounding",
+  "transforms",
+  "SemanticDescription",
+  "TheoryDrivenFramework",
+  "leverages",
+  "GiscienceCoreConcept",
+  "GeoFlowGraph",
+  "bridges",
+  "SpatialKnowledge",
+  "SpatialAgent",
+  "operatesThrough",
+  "MultiStagePipeline",
+  "SpatialInformationTheoryAnalysis",
+  "extracts",
+  "CoreConcept",
+  "ConceptTransformationDrafting",
+  "retrieves",
+  "Template",
+  "GeoFlowGraphConstruction",
+  "assembles",
+  "Transformation",
+  "GroundingProcess",
+  "requires",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph"
+]
+
+Triples:
+[
+  {
+    "subject": "system_geoAnQu",
+    "relation": "identifies",
+    "object": "FunctionalRole",
+    "chunk": "completedocument2",
+    "context": "Scheider et al. (2021) and its follow-up work, GeoAnQu (Xu et al., 2023), move toward geo-analytical questions by identifying functional roles and spatial concept transformations, but remain rule-based and offline."
+  },
+  {
+    "subject": "system_reAct",
+    "relation": "introduces",
+    "object": "ThoughtActionObservationLoop",
+    "chunk": "completedocument2",
+    "context": "Re-Act (Yao et al., 2022) introduced the thought-action-observation loop for interleaved reasoning and acting."
+  },
+  {
+    "subject": "system_toolformer",
+    "relation": "enables",
+    "object": "SelfSupervisedToolUseLearning",
+    "chunk": "completedocument2",
+    "context": "Toolformer (Schick et al., 2023) enables self-supervised tool use learning, while Code-Act (Wang et al., 2024) shows that generating executable code outperforms JSON-based actions by up to 20%."
+  },
+  {
+    "subject": "system_codeAct",
+    "relation": "generates",
+    "object": "ExecutableCode",
+    "chunk": "completedocument2",
+    "context": "Toolformer (Schick et al., 2023) enables self-supervised tool use learning, while Code-Act (Wang et al., 2024) shows that generating executable code outperforms JSON-based actions by up to 20%."
+  },
+  {
+    "subject": "system_llmGeo",
+    "relation": "demonstrates",
+    "object": "AutonomousGisCapability",
+    "chunk": "completedocument2",
+    "context": "In the geospatial domain, LLM-Geo (Li and Ning, 2023) and GeoGPT (Zhang et al., 2024) demonstrate autonomous GIS capabilities using GPT-4 for geoprocessing workflow generation and code execution."
+  },
+  {
+    "subject": "system_geoGPT",
+    "relation": "uses",
+    "object": "model_gpt4",
+    "chunk": "completedocument2",
+    "context": "In the geospatial domain, LLM-Geo (Li and Ning, 2023) and GeoGPT (Zhang et al., 2024) demonstrate autonomous GIS capabilities using GPT-4 for geoprocessing workflow generation and code execution."
+  },
+  {
+    "subject": "system_geoAgent",
+    "relation": "integrates",
+    "object": "mechanism_rag",
+    "chunk": "completedocument2",
+    "context": "GeoAgent (Chen et al., 2024) integrates RAG with Monte Carlo Tree Search for geospatial data processing, and GTChain (Zhang et al., 2025b) fine-tunes LLaMA for geospatial tool-use chains."
+  },
+  {
+    "subject": "system_gtChain",
+    "relation": "fineTunes",
+    "object": "model_llama",
+    "chunk": "completedocument2",
+    "context": "GeoAgent (Chen et al., 2024) integrates RAG with Monte Carlo Tree Search for geospatial data processing, and GTChain (Zhang et al., 2025b) fine-tunes LLaMA for geospatial tool-use chains."
+  },
+  {
+    "subject": "theory_coreConcepts",
+    "relation": "provides",
+    "object": "FoundationalBuildingBlock",
+    "chunk": "completedocument2",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) provides foundational building blocks for spatial information, including Object, Field, Event, and Network."
+  },
+  {
+    "subject": "FoundationalBuildingBlock",
+    "relation": "includes",
+    "object": "concept_object",
+    "chunk": "completedocument2",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) provides foundational building blocks for spatial information, including Object, Field, Event, and Network."
+  },
+  {
+    "subject": "FoundationalBuildingBlock",
+    "relation": "includes",
+    "object": "concept_field",
+    "chunk": "completedocument2",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) provides foundational building blocks for spatial information, including Object, Field, Event, and Network."
+  },
+  {
+    "subject": "FoundationalBuildingBlock",
+    "relation": "includes",
+    "object": "concept_network",
+    "chunk": "completedocument2",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) provides foundational building blocks for spatial information, including Object, Field, Event, and Network."
+  },
+  {
+    "subject": "ontology_coreConceptDataType",
+    "relation": "enables",
+    "object": "SemanticConstraint",
+    "chunk": "completedocument2",
+    "context": "Scheider et al. (2020) formalized these into the Core Concept Data Type (CCD) ontology, enabling semantic constraints for GIS workflow automation."
+  },
+  {
+    "subject": "LlmBasedAgent",
+    "relation": "reliesOn",
+    "object": "GeneralPurposePlanning",
+    "chunk": "completedocument3",
+    "context": "Unlike existing LLM-based agents that rely on general-purpose planning and reasoning, Spatial-Agent is designed around a key insight: geo-analytical questions require grounding natural-language semantics into computational spatial representations."
+  },
+  {
+    "subject": "LlmAgent",
+    "relation": "represents",
+    "object": "SpatialRelationship",
+    "chunk": "completedocument3",
+    "context": "LLM agents represent spatial relationships as linguistic patterns rather than geometric structures."
+  },
+  {
+    "subject": "Terminal",
+    "relation": "containedWithin",
+    "object": "Airport",
+    "chunk": "completedocument3",
+    "context": "For instance, “airport” and “terminal” are linguistically interchangeable, yet spatially the terminal is contained within the airport—a distinction critical for distance computation but invisible to language models."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "treats",
+    "object": "GeospatialTool",
+    "chunk": "completedocument3",
+    "context": "LLMs treat geospatial tools as black-box APIs without understanding the procedural structure of geo-analytical questions."
+  },
+  {
+    "subject": "ExplicitSpatialGrounding",
+    "relation": "transforms",
+    "object": "SemanticDescription",
+    "chunk": "completedocument3",
+    "context": "To address these challenges, Spatial-Agent introduces: (1) explicit spatial grounding that transforms semantic descriptions into computational representations with precise geometric meanings"
+  },
+  {
+    "subject": "TheoryDrivenFramework",
+    "relation": "leverages",
+    "object": "GiscienceCoreConcept",
+    "chunk": "completedocument3",
+    "context": "To address these challenges, Spatial-Agent introduces: [...] (2) a theory-driven framework leveraging GIScience core concepts and functional roles to decompose geo-analytical questions"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "bridges",
+    "object": "SpatialKnowledge",
+    "chunk": "completedocument3",
+    "context": "To address these challenges, Spatial-Agent introduces: [...] (3) the GeoFlow Graph as an intermediate representation bridging spatial knowledge with agent execution."
+  },
+  {
+    "subject": "SpatialAgent",
+    "relation": "operatesThrough",
+    "object": "MultiStagePipeline",
+    "chunk": "completedocument3",
+    "context": "System Overview. As illustrated in Figure 2, Spatial-Agent operates through a multi-stage pipeline"
+  },
+  {
+    "subject": "SpatialInformationTheoryAnalysis",
+    "relation": "extracts",
+    "object": "CoreConcept",
+    "chunk": "completedocument3",
+    "context": "(1) Spatial Information Theory Analysis (§3.2) extracts core concepts from the question and groups them by functional roles"
+  },
+  {
+    "subject": "ConceptTransformationDrafting",
+    "relation": "retrieves",
+    "object": "Template",
+    "chunk": "completedocument3",
+    "context": "(2) Concept Transformation Drafting retrieves templates to define transformation patterns between concepts"
+  },
+  {
+    "subject": "GeoFlowGraphConstruction",
+    "relation": "assembles",
+    "object": "Transformation",
+    "chunk": "completedocument3",
+    "context": "(3) GeoFlow Graph Construction (§3.3) assembles transformations into an ordered graph following role-based precedence constraints"
+  },
+  {
+    "subject": "GroundingProcess",
+    "relation": "requires",
+    "object": "CoreConcept",
+    "chunk": "completedocument3",
+    "context": "This grounding process requires two complementary formalisms: core concepts that define what spatial entities exist, and functional roles that specify how they participate in analysis."
+  }
+]

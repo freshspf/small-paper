@@ -1,0 +1,149 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument19
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+Ma,
+“Collision-free trajectory optimization in cluttered environments using
+sums-of-squares programming,”IEEE Robotics and Automation Letters,
+vol. 9, no. 12, pp. 11 026–11 033, 2024.
+[37] K. Tracy, T. A. Howell, and Z. Manchester, “Differentiable collision
+detection for a set of convex primitives,” in2023 IEEE International
+Conference on Robotics and Automation (ICRA), 2023, pp. 3663–3670.
+[38] M. Spahn, B. Brito, and J. Alonso-Mora, “Coupled mobile manipulation
+via trajectory optimization with free space decomposition,” in2021 IEEE
+International Conference on Robotics and Automation (ICRA), 2021, pp.
+12 759–12 765.
+[39] S. Zhao, X. Zhou, J. Mao, and C. Zhang, “MPC-DCBF based motion
+planning of mobile manipulator in dynamic environment,” in2025
+10th International Conference on Automation, Control and Robotics
+Engineering (CACRE), 2025, pp. 41–45.
+[40] M. Koptev, N. Figueroa, and A. Billard, “Neural joint space implicit
+signed distance functions for reactive robot manipulator control,”IEEE
+Robotics and Automation Letters, vol. 8, no. 2, pp. 480–487, 2023.
+[41] P. Liu, K. Zhang, D. Tateo, S. Jauhri, J. Peters, and G. Chalvatzaki,
+“Regularized deep signed distance fields for reactive motion generation,”
+in2022 IEEE International Conference on Intelligent Robots and
+Systems (IROS), 2022, pp. 6673–6680.
+[42] Y . Li, Y . Zhang, A. Razmjoo, and S. Calinon, “Representing robot
+geometry as distance fields: Applications to whole-body manipulation,”
+in2024 IEEE International Conference on Robotics and Automation
+(ICRA), 2024, pp. 15 351–15 357.
+[43] Y . Li, X. Chi, A. Razmjoo, and S. Calinon, “Configuration space distance
+fields for manipulation planning.” inRobotics: Science and Systems
+(RSS), 2024.
+[44] A. Jordana, S. Kleff, A. Meduri, J. Carpentier, N. Mansard, and
+L. Righetti, “Structure-exploiting sequential quadratic programming for
+model-predictive control,”IEEE Transactions on Robotics, vol. 41, pp.
+4960–4974, 2025.
+
+18
+[45] P. E. Gill and E. Wong, “Sequential quadratic programming methods,” in
+Mixed Integer Nonlinear Programming. New York, NY , USA: Springer,
+2012, pp. 147–224.
+[46] J. Schulman, Y . Duan, J. Ho, A. Lee, I. Awwal, H. Bradlow, J. Pan,
+S. Patil, K. Goldberg, and P. Abbeel, “Motion planning with sequential
+convex optimization and convex collision checking,”The International
+Journal of Robotics Research, vol. 33, no. 9, pp. 1251–1270, 2014.
+[47] J.-C. Latombe,Robot Motion Planning. New York, NY , USA: Springer,
+2012.
+[48] J. T. Schwartz and M. Sharir, “On the "Piano Movers" problem. ii.
+general techniques for computing topological properties of real algebraic
+manifolds,”Advances in Applied Mathematics, vol. 4, no. 3, pp. 298–
+351, 1983.
+[49] T. Asano, T. Asano, L. Guibas, J. Hershberger, and H. Imai, “Visibility-
+polygon search and Euclidean shortest paths,” in26th Annual Symposium
+on Foundations of Computer Science (SFCS), 1985, pp. 155–164.
+[50] T. Lozano-Pérez and M. A. Wesley, “An algorithm for planning collision-
+free paths among polyhedral obstacles,”Communications of the ACM,
+vol. 22, no. 10, pp. 560–570, 1979.
+[51] P. Bhattacharya and M. L. Gavrilova, “Roadmap-based path planning -
+using the voronoi diagram for a clearance-based shortest path,”IEEE
+Robotics & Automation Magazine, vol. 15, no. 2, pp. 58–66, 2008.
+[52] L. E. Kavraki, P. Svestka, J.-C. Latombe, and M. H. Overmars, “Prob-
+abilistic roadmaps for path planning in high-dimensional configuration
+spaces,”IEEE Transactions on Robotics and Automation, vol. 12, no. 4,
+pp. 566–580, 1996.
+[53] S. M. LaValleet al., “Rapidly-exploring random trees: A new tool for
+path planning,” 1998.
+[54] I. A. Sucan, M. Moll, and L. E. Kavraki, “The open motion planning
+library,”IEEE Robotics & Automation Magazine, vol. 19, no. 4, pp.
+72–82, 2012.
+[55] D. Coleman, I. Sucan, S. Chitta, and N. Correll, “Reducing the
+barrier to entry of complex robotic software: a MoveIt! case study,”
+arXiv:1404.3785, 2014.
+[56] D. Berenson, S. S. Srinivasa, D. Ferguson, and J. J. Kuffner, “Manip-
+ulation planning on constraint manifolds,” in2009 IEEE International
+Conference on Robotics and Automation (ICRA), 2009, pp. 625–632.
+[57] R. Deits and R. Tedrake, “Computing large convex regions of obstacle-
+free space through semidefinite programming,” inAlgorithmic Founda-
+tions of Robotics XI: Selected Contributions of the Eleventh Interna-
+tional Workshop on the Algorithmic Foundations of Robotics (WAFR).
+Springer, 2015, pp. 109–124.
+[58] Q. Wang, Z. Wang, M. Wang, J. Ji, Z. Han, T. Wu, R. Jin, Y . Gao,
+C. Xu, and F. Gao, “Fast iterative region inflation for computing large
+2-D/3-D convex regions of obstacle-free space,”IEEE Transactions on
+Robotics, 2025.
+[59] S. Liu, M. Watterson, K. Mohta, K. Sun, S. Bhattacharya, C. J. Taylor,
+and V . Kumar, “Planning dynamically feasible trajectories for quadrotors
+using safe flight corridors in 3D complex environments,”IEEE Robotics
+and Automation Letters, vol. 2, no. 3, pp. 1688–1695, 2017.
+[60] C. Toumieh and A.

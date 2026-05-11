@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "assistant_Geogpt",
+  "understands",
+  "GeospatialTask",
+  "processes",
+  "SpatialConceptSpace",
+  "includesConcept",
+  "concept_location",
+  "concept_object",
+  "concept_network",
+  "SpatialConcept",
+  "representsCategory",
+  "GeographicPhenomena",
+  "servesAs",
+  "AtomicUnit",
+  "isA",
+  "SpatialReference",
+  "anchors",
+  "DiscreteSpatialEntity",
+  "hasFeature",
+  "IdentifiableBoundary",
+  "concept_field",
+  "ContinuousSpatialDistribution",
+  "concept_event",
+  "TemporallyBoundedSpatialOccurrence",
+  "GraphStructuredSpatialSystem",
+  "supports",
+  "Connectivity",
+  "Routing",
+  "concept_amount",
+  "QuantitativeAggregation",
+  "derivedFrom",
+  "concept_proportion",
+  "NormalizedQuantity",
+  "FunctionalRoleSpace",
+  "includesRole",
+  "role_extent",
+  "role_subcond",
+  "FunctionalRole",
+  "specifiesParticipationIn",
+  "GeoAnalyticalWorkflow",
+  "ContextualRole",
+  "constrains",
+  "AnalysisDomain",
+  "restricts",
+  "DataCollection",
+  "role_textent",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Aggregation",
+  "GisTool",
+  "postgis",
+  "arcgis",
+  "qgis",
+  "BuildingBlockOfSpatialInformation",
+  "Object",
+  "Field",
+  "Event",
+  "Network",
+  "Measure"
+]
+
+Triples:
+[
+  {
+    "subject": "assistant_Geogpt",
+    "relation": "understands",
+    "object": "GeospatialTask",
+    "chunk": "completedocument9",
+    "context": "Geogpt: An assistant for understanding and processing geospatial tasks."
+  },
+  {
+    "subject": "assistant_Geogpt",
+    "relation": "processes",
+    "object": "GeospatialTask",
+    "chunk": "completedocument9",
+    "context": "Geogpt: An assistant for understanding and processing geospatial tasks."
+  },
+  {
+    "subject": "SpatialConceptSpace",
+    "relation": "includesConcept",
+    "object": "concept_location",
+    "chunk": "completedocument10",
+    "context": "The spatial concept space is defined as:\nC=(\nLOCATION,OBJECT,FIELD,EVENT,\nNETWORK,AMOUNT,PROPORTION)\n."
+  },
+  {
+    "subject": "SpatialConceptSpace",
+    "relation": "includesConcept",
+    "object": "concept_object",
+    "chunk": "completedocument10",
+    "context": "The spatial concept space is defined as:\nC=(\nLOCATION,OBJECT,FIELD,EVENT,\nNETWORK,AMOUNT,PROPORTION)\n."
+  },
+  {
+    "subject": "SpatialConceptSpace",
+    "relation": "includesConcept",
+    "object": "concept_network",
+    "chunk": "completedocument10",
+    "context": "The spatial concept space is defined as:\nC=(\nLOCATION,OBJECT,FIELD,EVENT,\nNETWORK,AMOUNT,PROPORTION)\n."
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "representsCategory",
+    "object": "GeographicPhenomena",
+    "chunk": "completedocument10",
+    "context": "Each concept c∈ C represents a fundamental category of geographic phenomena and serves as an atomic unit in concept transformation reasoning."
+  },
+  {
+    "subject": "SpatialConcept",
+    "relation": "servesAs",
+    "object": "AtomicUnit",
+    "chunk": "completedocument10",
+    "context": "Each concept c∈ C represents a fundamental category of geographic phenomena and serves as an atomic unit in concept transformation reasoning."
+  },
+  {
+    "subject": "concept_location",
+    "relation": "isA",
+    "object": "SpatialReference",
+    "chunk": "completedocument10",
+    "context": "•LOCATION: A spatial reference or place identifier, typically used to anchor other concepts (e.g., cities, regions, coordinates)."
+  },
+  {
+    "subject": "concept_location",
+    "relation": "anchors",
+    "object": "SpatialConcept",
+    "chunk": "completedocument10",
+    "context": "•LOCATION: A spatial reference or place identifier, typically used to anchor other concepts (e.g., cities, regions, coordinates)."
+  },
+  {
+    "subject": "concept_object",
+    "relation": "isA",
+    "object": "DiscreteSpatialEntity",
+    "chunk": "completedocument10",
+    "context": "•OBJECT: Discrete spatial entities with identifiable boundaries (e.g., buildings, schools, fire stations)."
+  },
+  {
+    "subject": "concept_object",
+    "relation": "hasFeature",
+    "object": "IdentifiableBoundary",
+    "chunk": "completedocument10",
+    "context": "•OBJECT: Discrete spatial entities with identifiable boundaries (e.g., buildings, schools, fire stations)."
+  },
+  {
+    "subject": "concept_field",
+    "relation": "isA",
+    "object": "ContinuousSpatialDistribution",
+    "chunk": "completedocument10",
+    "context": "•FIELD: Continuous spatial distributions over space (e.g., elevation, temperature, distance fields)."
+  },
+  {
+    "subject": "concept_event",
+    "relation": "isA",
+    "object": "TemporallyBoundedSpatialOccurrence",
+    "chunk": "completedocument10",
+    "context": "•EVENT: Temporally bounded spatial occurrences (e.g., traffic accidents, crime incidents)."
+  },
+  {
+    "subject": "concept_network",
+    "relation": "isA",
+    "object": "GraphStructuredSpatialSystem",
+    "chunk": "completedocument10",
+    "context": "•NETWORK: Graph-structured spatial systems supporting connectivity and routing (e.g., road networks, river networks)."
+  },
+  {
+    "subject": "concept_network",
+    "relation": "supports",
+    "object": "Connectivity",
+    "chunk": "completedocument10",
+    "context": "•NETWORK: Graph-structured spatial systems supporting connectivity and routing (e.g., road networks, river networks)."
+  },
+  {
+    "subject": "concept_network",
+    "relation": "supports",
+    "object": "Routing",
+    "chunk": "completedocument10",
+    "context": "•NETWORK: Graph-structured spatial systems supporting connectivity and routing (e.g., road networks, river networks)."
+  },
+  {
+    "subject": "concept_amount",
+    "relation": "isA",
+    "object": "QuantitativeAggregation",
+    "chunk": "completedocument10",
+    "context": "•AMOUNT: Quantitative aggregations derived from objects, fields, or events (e.g., population count, total area)."
+  },
+  {
+    "subject": "concept_amount",
+    "relation": "derivedFrom",
+    "object": "concept_object",
+    "chunk": "completedocument10",
+    "context": "•AMOUNT: Quantitative aggregations derived from objects, fields, or events (e.g., population count, total area)."
+  },
+  {
+    "subject": "concept_proportion",
+    "relation": "isA",
+    "object": "NormalizedQuantity",
+    "chunk": "completedocument10",
+    "context": "•PROPORTION: Normalized quantities expressing ratios or densities (e.g., population density, percentage coverage)."
+  },
+  {
+    "subject": "FunctionalRoleSpace",
+    "relation": "includesRole",
+    "object": "role_extent",
+    "chunk": "completedocument10",
+    "context": "Definition 2(Functional Role Set).We define the\nfunctional role space as:\nR=(\nEXTENT,TEXTENT,SUBCOND,\nCOND,SUPPORT,MEASURE)\n.(6)"
+  },
+  {
+    "subject": "FunctionalRoleSpace",
+    "relation": "includesRole",
+    "object": "role_subcond",
+    "chunk": "completedocument10",
+    "context": "Definition 2(Functional Role Set).We define the\nfunctional role space as:\nR=(\nEXTENT,TEXTENT,SUBCOND,\nCOND,SUPPORT,MEASURE)\n.(6)"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "specifiesParticipationIn",
+    "object": "GeoAnalyticalWorkflow",
+    "chunk": "completedocument10",
+    "context": "Each role r∈ R specifies how a concept participates in a geo-analytical workflow."
+  },
+  {
+    "subject": "ContextualRole",
+    "relation": "constrains",
+    "object": "AnalysisDomain",
+    "chunk": "completedocument10",
+    "context": "Contextual roles constrain the domain of analysis but do not participate in procedural ordering."
+  },
+  {
+    "subject": "role_extent",
+    "relation": "restricts",
+    "object": "DataCollection",
+    "chunk": "completedocument10",
+    "context": "•EXTENT: Spatial scope restricting data collection (e.g., “in New York City”)."
+  },
+  {
+    "subject": "role_textent",
+    "relation": "restricts",
+    "object": "DataCollection",
+    "chunk": "completedocument10",
+    "context": "•TEXTENT: Temporal scope restricting data collection (e.g., “in 2025”)."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "pubmed",
+  "contains",
+  "randomized_controlled_trials",
+  "mesh_child",
+  "definesAge",
+  "ages_6_to_12",
+  "mesh_aged",
+  "age_65_and_above",
+  "schools",
+  "associatedWith",
+  "child_studies",
+  "dementia",
+  "aged_studies",
+  "us_national_clinical_trial",
+  "identifiedByRegex",
+  "regex_nct",
+  "chinese_clinical_trials_register",
+  "regex_chictr",
+  "extraction_agent",
+  "comprises",
+  "model_gpt_4o",
+  "reversesAgeOf",
+  "study_participants",
+  "model_ctelm",
+  "synthesizes",
+  "semantically_coherent_sentences",
+  "reflects",
+  "thematic_overlaps",
+  "generates",
+  "novel_study_hypotheses",
+  "EmbeddingBasedGeneration",
+  "isToolFor",
+  "LiteratureBasedResearch",
+  "Workflow",
+  "modifies",
+  "ClinicalTrialEmbedding",
+  "uses",
+  "ConceptActivationVector",
+  "appliesTo",
+  "AgeConceptActivationVector",
+  "PubMedSearchString",
+  "searchesFor",
+  "MaleSingleSexClinicalTrial",
+  "excludesTerm",
+  "UrogenitalDisease",
+  "PelvicNeoplasm",
+  "FemaleSingleSexClinicalTrial",
+  "Pregnancy",
+  "Menopause",
+  "BreastNeoplasm",
+  "MenstruationDisturbance",
+  "PostmenopausalOsteoporosis",
+  "ctelm",
+  "ClinicalTrial",
+  "LargeLanguageModel",
+  "EmbeddingLanguageModel",
+  "ConceptVector",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "TextEmbedding",
+  "ClinicalTrialAbstract",
+  "vec2text",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "Corrector",
+  "HypothesisText",
+  "Text",
+  "ContextualEmbedding"
+]
+
+Triples:
+[
+  {
+    "subject": "pubmed",
+    "relation": "contains",
+    "object": "randomized_controlled_trials",
+    "chunk": "completedocument15",
+    "context": "We thus searched PubMed for randomized controlled trials with only one of the top-level MeSH age groups ‘Child’ (defined in MeSH as ages 6-12) and ‘Aged’ (defined as age 65 and above), further excluding the other top-level groups (‘Infant’, ‘Child, Preschool’, ‘Adolescent’, ‘Adult’, and ‘Middle Aged’)."
+  },
+  {
+    "subject": "mesh_child",
+    "relation": "definesAge",
+    "object": "ages_6_to_12",
+    "chunk": "completedocument15",
+    "context": "We thus searched PubMed for randomized controlled trials with only one of the top-level MeSH age groups ‘Child’ (defined in MeSH as ages 6-12) and ‘Aged’ (defined as age 65 and above), further excluding the other top-level groups (‘Infant’, ‘Child, Preschool’, ‘Adolescent’, ‘Adult’, and ‘Middle Aged’)."
+  },
+  {
+    "subject": "mesh_aged",
+    "relation": "definesAge",
+    "object": "age_65_and_above",
+    "chunk": "completedocument15",
+    "context": "We thus searched PubMed for randomized controlled trials with only one of the top-level MeSH age groups ‘Child’ (defined in MeSH as ages 6-12) and ‘Aged’ (defined as age 65 and above), further excluding the other top-level groups (‘Infant’, ‘Child, Preschool’, ‘Adolescent’, ‘Adult’, and ‘Middle Aged’)."
+  },
+  {
+    "subject": "schools",
+    "relation": "associatedWith",
+    "object": "child_studies",
+    "chunk": "completedocument15",
+    "context": "To find studies appli- cable across ages, we also excluded age-specific study elements, such as ‘Schools’ for child stud-ies or ‘Dementia’ for aged studies."
+  },
+  {
+    "subject": "dementia",
+    "relation": "associatedWith",
+    "object": "aged_studies",
+    "chunk": "completedocument15",
+    "context": "To find studies appli- cable across ages, we also excluded age-specific study elements, such as ‘Schools’ for child stud-ies or ‘Dementia’ for aged studies."
+  },
+  {
+    "subject": "us_national_clinical_trial",
+    "relation": "identifiedByRegex",
+    "object": "regex_nct",
+    "chunk": "completedocument15",
+    "context": "NCT[0-9]{8}US National Clinical Trial"
+  },
+  {
+    "subject": "chinese_clinical_trials_register",
+    "relation": "identifiedByRegex",
+    "object": "regex_chictr",
+    "chunk": "completedocument15",
+    "context": "ChiCTR[A-Z0-9-]+Chinese Clinical Trials Register"
+  },
+  {
+    "subject": "extraction_agent",
+    "relation": "comprises",
+    "object": "model_gpt_4o",
+    "chunk": "completedocument15",
+    "context": "To evaluate responsiveness of ctELM to CA Vs, we employed an extraction agent comprising gpt-4o-2024-11-20 with the system messages depicted in Figures 20 and 21 for sex and age, respectively."
+  },
+  {
+    "subject": "model_gpt_4o",
+    "relation": "reversesAgeOf",
+    "object": "study_participants",
+    "chunk": "completedocument15",
+    "context": "gpt-4o-2024-11-20 to reverse the age of study participants in these initial 50 abstracts, using the prompt in Fig. 19."
+  },
+  {
+    "subject": "model_ctelm",
+    "relation": "synthesizes",
+    "object": "semantically_coherent_sentences",
+    "chunk": "completedocument15",
+    "context": "As shown in Fig. 22, Fig. 23, and Fig. 24, ctELM successfully synthesizes semantically coherent sentences that reflect thematic overlaps between the paired source abstracts."
+  },
+  {
+    "subject": "semantically_coherent_sentences",
+    "relation": "reflects",
+    "object": "thematic_overlaps",
+    "chunk": "completedocument15",
+    "context": "As shown in Fig. 22, Fig. 23, and Fig. 24, ctELM successfully synthesizes semantically coherent sentences that reflect thematic overlaps between the paired source abstracts."
+  },
+  {
+    "subject": "model_ctelm",
+    "relation": "generates",
+    "object": "novel_study_hypotheses",
+    "chunk": "completedocument15",
+    "context": "For instance, by sampling embeddings from underrepresented or “empty” regions of the seman- tic space (i.e., areas not directly covered by existing training data), ctELM could be prompted to gener- ate novel study hypotheses, bridging previouslyunconnected biomedical concepts."
+  },
+  {
+    "subject": "EmbeddingBasedGeneration",
+    "relation": "isToolFor",
+    "object": "LiteratureBasedResearch",
+    "chunk": "completedocument16",
+    "context": "This highlights the potential of embedding-based generation as a tool for ideation and discovery in literature-based research."
+  },
+  {
+    "subject": "Workflow",
+    "relation": "modifies",
+    "object": "ClinicalTrialEmbedding",
+    "chunk": "completedocument16",
+    "context": "Figure 13: The workflow for modifying clinical trial embeddings with Concept Activation Vectors, including data collection, augmentation, linear model training, generation from modified embeddings, and evaluation."
+  },
+  {
+    "subject": "Workflow",
+    "relation": "uses",
+    "object": "ConceptActivationVector",
+    "chunk": "completedocument16",
+    "context": "Figure 13: The workflow for modifying clinical trial embeddings with Concept Activation Vectors, including data collection, augmentation, linear model training, generation from modified embeddings, and evaluation."
+  },
+  {
+    "subject": "Workflow",
+    "relation": "appliesTo",
+    "object": "AgeConceptActivationVector",
+    "chunk": "completedocument16",
+    "context": "Depicted here is the sex CA V; the same workflow applies to age, except with child and aged instead of male and female."
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "searchesFor",
+    "object": "MaleSingleSexClinicalTrial",
+    "chunk": "completedocument16",
+    "context": "Figure 14: The PubMed search string for male single-sex clinical trials."
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "UrogenitalDisease",
+    "chunk": "completedocument16",
+    "context": "NOT ( Urogenital Diseases [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "PelvicNeoplasm",
+    "chunk": "completedocument16",
+    "context": "NOT ( Pelvic Neoplasms [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "searchesFor",
+    "object": "FemaleSingleSexClinicalTrial",
+    "chunk": "completedocument16",
+    "context": "Figure 15: The PubMed search string for female single-sex clinical trials."
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "Pregnancy",
+    "chunk": "completedocument16",
+    "context": "NOT ( Pregnancy [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "Menopause",
+    "chunk": "completedocument16",
+    "context": "NOT ( Menopause [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "BreastNeoplasm",
+    "chunk": "completedocument16",
+    "context": "NOT ( Breast Neoplasms [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "MenstruationDisturbance",
+    "chunk": "completedocument16",
+    "context": "NOT ( Menstruation Disturbances [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "PostmenopausalOsteoporosis",
+    "chunk": "completedocument16",
+    "context": "NOT ( Osteoporosis , Postmenopausal [ MeSH Terms ])"
+  }
+]

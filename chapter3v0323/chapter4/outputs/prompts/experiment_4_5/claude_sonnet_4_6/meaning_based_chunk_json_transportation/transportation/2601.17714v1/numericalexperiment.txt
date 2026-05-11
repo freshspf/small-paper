@@ -1,0 +1,63 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "numericalexperiment",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: numericalexperiment
+- section_title: Numerical experiment
+- page_start: 12
+- page_end: 12
+
+**INPUT TEXT CHUNK:**
+In this section, based on the analytical results above, we will conduct a numerical experiment on the dynamical
+properties of the four models. In the numerical results, we shift the oscillation back to the synchronized flow to obtain
+the absolute coordinates. The synchronized flow location in the phase space is set atd ji= 1.3m andv j=vi= 1m/s,
+corresponding to a constant time headway oft h= 1.3s in pedestrian context. By adjusting these parameters, the
+results can be transferred to road traffic without altering any dynamical properties.
+Given the wave function parameters (A= 0.8, ω= 1),δis set to -0.5 s in the reaction model and 0.5 s in the
+anticipation model. We plot the traffic response processes of the four models as shown in Fig. 7. The figure presents
+the results of the absolute coordinates in the time domain, where theTDcan be directly observed. The numerical
+results are in agreement with the analytical results. In the FVD model, whenδis set to 0.5 s, the phases ofd jiandv i
+are perfectly consistent, corresponding hysteresis in the(ξ ji,˙ξi)plane degenerates into a straight line, which equation
+is identical to function ofv d. At this point, traffic unitiis in a delicate state of equilibrium, i.e.,v i=vd. In Fig. 8,
+we plot the curve of the hysteresis in the(ξ ji,˙ξij)plane along with the corresponding time domain variations of the
+TTC. These results show a consistent trend with the analytical analysis as illustrated above.

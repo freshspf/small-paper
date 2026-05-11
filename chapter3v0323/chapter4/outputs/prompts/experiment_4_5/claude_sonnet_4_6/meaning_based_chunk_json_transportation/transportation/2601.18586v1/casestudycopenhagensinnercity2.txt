@@ -1,0 +1,95 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "casestudycopenhagensinnercity2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: casestudycopenhagensinnercity2
+- section_title: Case Study: Copenhagen's Inner City
+- page_start: 4
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+While NC and RND are intentionally simple ref-
+erences, the comparison highlights the value of coordinated
+long-horizon decisions: RND can reduce some impact com-
+ponents, but does so via excessive and poorly timed spending,
+which dominates the objective.
+Figure 3 shows the corresponding temporal profiles. NC
+exhibits persistently high impact costs over the horizon. RND
+reduces impacts early, but sustains large action and main-
+tenance costs throughout the episode, indicating redundant
+or mistimed deployments. In contrast, the RL policy learns
+a more targeted investment pattern—incurring substantially
+lower and more stable expenditures while achieving sustained
+reductions in infrastructure damage, delays, and cancella-
+tions. Overall, the learned policy operationalizes the intended
+trade-off between upfront investment and avoided long-run
+losses.
+4.3 Performance across climate scenarios and
+robustness
+Table 1 summarizes performance when training and
+evaluating the RL policy within each climate scenario
+(RCP2.6/4.5/8.5). Across scenarios, the policy increases
+adaptation spending as projected conditions become more se-
+vere (higher action and maintenance costs under RCP8.5),
+while keeping the monetized transport impact components
+comparatively contained. In fact, it turns out that, when
+4Notice that total reward is given by Eq. 2 (i.e.,−P
+trt), thus
+costs have the opposite sign of rewards.
+
+Figure 2: Comparison of different adaptation strategies. Total reward (top-left, scaled by108), and reward components are shown: infrastruc-
+ture damage costs (top-middle), travel delays (top-right), travel cancellations (bottom-left), actions direct costs (bottom-middle), and action
+maintenance costs (bottom-right). All values correspond to Danish Kroner (DKK). Please note the different y-axis scale across figures.
+Figure 3: Average (and standard deviations shaded) for all five reward components over the period 2024–2100 under the RCP4.5 climate
+scenario. While Random Control reduces impacts through high and persistent investment costs, the RL policy achieves sustained impact
+reduction with substantially lower and more stable adaptation expenditures. All values correspond to Danish Kroner (DKK). Please note the
+different y-axis scale across subfigures.
+Table 1: Total reward and costs per reward component using different climate scenarios (RCP2.6, RCP4.5, and RCP8.5) over different 10
+runs. Average results are reported ± standard deviations.
+RCP2.6 RCP4.5 RCP8.5
+Infrastructure damage 8.00 ± 0.18×1087.90 ± 0.13×1088.05 ± 0.19×108
+Travel delays 6.55 ± 0.10×1096.01 ± 0.06×1095.54 ± 0.17×109
+Travel cancellations 1.63 ± 0.10×1091.61 ± 0.09×1091.49 ± 0.10×109
+Action costs 1.73 ± 0.09×1092.32 ± 0.11×1093.27 ± 0.34×109
+Action maintenance costs 3.46 ± 0.32×1074.23 ± 0.21×1071.88 ± 0.57×108
+Total reward4-1.07 ± 0.02×1011-1.08 ± 0.01×1011-1.13 ± 0.02×1011.

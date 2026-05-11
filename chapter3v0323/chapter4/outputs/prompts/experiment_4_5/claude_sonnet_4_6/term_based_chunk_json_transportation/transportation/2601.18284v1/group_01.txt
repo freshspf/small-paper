@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TrafficCongestion",
+  "challenges",
+  "ModernCity",
+  "causes",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "produces",
+  "CarbonEmission",
+  "requires",
+  "TrafficManagement",
+  "ReinforcementLearning",
+  "enables",
+  "AutonomousPolicyLearning",
+  "operatesWithout",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "controls",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "supports",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "evaluates",
+  "TscMethod",
+  "develops",
+  "simulator_sumo",
+  "isA",
+  "TrafficSimulationPlatform",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "models",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "employs",
+  "TrafficSignalControl",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework",
+  "framework_sumo_rl",
+  "RlEnvironment",
+  "library_gymnasium",
+  "library_pettingzoo",
+  "SingleAgentScenario",
+  "MultiAgentScenario",
+  "State",
+  "Reward",
+  "framework_vissim_rl",
+  "IndustrialApplication",
+  "ModularArchitecture",
+  "Action",
+  "CommercialSimulationPlatform",
+  "DecisionMakingProcess",
+  "Intersection",
+  "LargeScaleUrbanTrafficScenario",
+  "MicroscopicTrafficSimulator",
+  "MultimodalTraffic",
+  "NativePythonApi",
+  "RlAlgorithm",
+  "RlEnvironmentFramework",
+  "TransportationAgency",
+  "VissimWrapper",
+  "algorithm_DQN",
+  "algorithm_MAPPO",
+  "algorithm_PPO",
+  "api_Gymnasium",
+  "api_PettingZoo",
+  "framework_SumoRL",
+  "framework_VissimRL",
+  "interface_COM",
+  "library_RLlib",
+  "library_StableBaselines3"
+]
+
+Triples:
+[
+  {
+    "subject": "TrafficCongestion",
+    "relation": "challenges",
+    "object": "ModernCity",
+    "chunk": "introduction",
+    "context": "Traffic congestion remains a critical challenge for modern cities, causing substantial economic and environmental impacts."
+  },
+  {
+    "subject": "TrafficCongestion",
+    "relation": "causes",
+    "object": "EconomicImpact",
+    "chunk": "introduction",
+    "context": "Traffic congestion remains a critical challenge for modern cities, causing substantial economic and environmental impacts."
+  },
+  {
+    "subject": "TrafficCongestion",
+    "relation": "causes",
+    "object": "EnvironmentalImpact",
+    "chunk": "introduction",
+    "context": "Traffic congestion remains a critical challenge for modern cities, causing substantial economic and environmental impacts."
+  },
+  {
+    "subject": "TrafficCongestion",
+    "relation": "causes",
+    "object": "Delay",
+    "chunk": "introduction",
+    "context": "The European Union estimated that congestion resulted in annual losses of about C270 billion [1], while in the United States, congestion in 2022 led to 8.5 billion hours of delay, 3.3 billion gallons of excess fuel consumption, and approximately $224 billion in losses [2]."
+  },
+  {
+    "subject": "TrafficCongestion",
+    "relation": "causes",
+    "object": "ExcessFuelConsumption",
+    "chunk": "introduction",
+    "context": "The European Union estimated that congestion resulted in annual losses of about C270 billion [1], while in the United States, congestion in 2022 led to 8.5 billion hours of delay, 3.3 billion gallons of excess fuel consumption, and approximately $224 billion in losses [2]."
+  },
+  {
+    "subject": "TrafficCongestion",
+    "relation": "causes",
+    "object": "FinancialLoss",
+    "chunk": "introduction",
+    "context": "The European Union estimated that congestion resulted in annual losses of about C270 billion [1], while in the United States, congestion in 2022 led to 8.5 billion hours of delay, 3.3 billion gallons of excess fuel consumption, and approximately $224 billion in losses [2]."
+  },
+  {
+    "subject": "TrafficCongestion",
+    "relation": "produces",
+    "object": "CarbonEmission",
+    "chunk": "introduction",
+    "context": "In London, congestion produced 2.2 million metric tons of CO 2in 2021, accounting for roughly 15% of the city’s total emissions [3], underscoring the urgency of effective traffic management."
+  },
+  {
+    "subject": "TrafficCongestion",
+    "relation": "requires",
+    "object": "TrafficManagement",
+    "chunk": "introduction",
+    "context": "In London, congestion produced 2.2 million metric tons of CO 2in 2021, accounting for roughly 15% of the city’s total emissions [3], underscoring the urgency of effective traffic management."
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "enables",
+    "object": "AutonomousPolicyLearning",
+    "chunk": "introduction",
+    "context": "Traffic Signal Control (TSC) offers a cost-effective and scalable solution, and Reinforcement Learning (RL) has shown great potential by enabling autonomous policy learning without explicit traffic models [4]."
+  },
+  {
+    "subject": "AutonomousPolicyLearning",
+    "relation": "operatesWithout",
+    "object": "TrafficModel",
+    "chunk": "introduction",
+    "context": "Traffic Signal Control (TSC) offers a cost-effective and scalable solution, and Reinforcement Learning (RL) has shown great potential by enabling autonomous policy learning without explicit traffic models [4]."
+  },
+  {
+    "subject": "DeepReinforcementLearning",
+    "relation": "controls",
+    "object": "SingleIntersectionControl",
+    "chunk": "introduction",
+    "context": "Since the introduction of the Deep Q-Network (DQN) in 2013 [5], Deep Reinforcement Learning (DRL) has become an important research direction, with proven effectiveness in both single-intersection [6], [7] and multi-intersection control [8], [9]."
+  },
+  {
+    "subject": "DeepReinforcementLearning",
+    "relation": "controls",
+    "object": "MultiIntersectionControl",
+    "chunk": "introduction",
+    "context": "Since the introduction of the Deep Q-Network (DQN) in 2013 [5], Deep Reinforcement Learning (DRL) has become an important research direction, with proven effectiveness in both single-intersection [6], [7] and multi-intersection control [8], [9]."
+  },
+  {
+    "subject": "RlTsc",
+    "relation": "requires",
+    "object": "SimulationEnvironment",
+    "chunk": "introduction",
+    "context": "Nevertheless, real-world deployment of reinforcement learning for traffic signal control (RL-TSC) requires highly realistic and reproducible simulation environments to support large-scale training and evaluation."
+  },
+  {
+    "subject": "SimulationEnvironment",
+    "relation": "supports",
+    "object": "LargeScaleTraining",
+    "chunk": "introduction",
+    "context": "Nevertheless, real-world deployment of reinforcement learning for traffic signal control (RL-TSC) requires highly realistic and reproducible simulation environments to support large-scale training and evaluation."
+  },
+  {
+    "subject": "SimulationEnvironment",
+    "relation": "supports",
+    "object": "Evaluation",
+    "chunk": "introduction",
+    "context": "Nevertheless, real-world deployment of reinforcement learning for traffic signal control (RL-TSC) requires highly realistic and reproducible simulation environments to support large-scale training and evaluation."
+  },
+  {
+    "subject": "TrafficSimulationTool",
+    "relation": "evaluates",
+    "object": "TscMethod",
+    "chunk": "introduction",
+    "context": "Traffic simulation tools are essential for developing and evaluating TSC methods, as real-world systems cannot be frequently adjusted or tested."
+  },
+  {
+    "subject": "TrafficSimulationTool",
+    "relation": "develops",
+    "object": "TscMethod",
+    "chunk": "introduction",
+    "context": "Traffic simulation tools are essential for developing and evaluating TSC methods, as real-world systems cannot be frequently adjusted or tested."
+  },
+  {
+    "subject": "simulator_sumo",
+    "relation": "isA",
+    "object": "TrafficSimulationPlatform",
+    "chunk": "introduction",
+    "context": "Commonly used platforms include SUMO [11], CityFlow [12], and Vissim [13]."
+  },
+  {
+    "subject": "simulator_cityflow",
+    "relation": "isA",
+    "object": "TrafficSimulationPlatform",
+    "chunk": "introduction",
+    "context": "Commonly used platforms include SUMO [11], CityFlow [12], and Vissim [13]."
+  },
+  {
+    "subject": "simulator_vissim",
+    "relation": "isA",
+    "object": "TrafficSimulationPlatform",
+    "chunk": "introduction",
+    "context": "Commonly used platforms include SUMO [11], CityFlow [12], and Vissim [13]."
+  },
+  {
+    "subject": "simulator_cityflow",
+    "relation": "supports",
+    "object": "RlExperiment",
+    "chunk": "introduction",
+    "context": "SUMO is open-source and widely used in academia; CityFlow is designed for RL experiments with high efficiency and scalability; and Vissim, as a commercial-grade software, provides highly realistic modeling of driver behaviors and complex traffic scenarios [14]."
+  },
+  {
+    "subject": "simulator_vissim",
+    "relation": "models",
+    "object": "DriverBehavior",
+    "chunk": "introduction",
+    "context": "SUMO is open-source and widely used in academia; CityFlow is designed for RL experiments with high efficiency and scalability; and Vissim, as a commercial-grade software, provides highly realistic modeling of driver behaviors and complex traffic scenarios [14]."
+  },
+  {
+    "subject": "simulator_vissim",
+    "relation": "models",
+    "object": "ComplexTrafficScenario",
+    "chunk": "introduction",
+    "context": "SUMO is open-source and widely used in academia; CityFlow is designed for RL experiments with high efficiency and scalability; and Vissim, as a commercial-grade software, provides highly realistic modeling of driver behaviors and complex traffic scenarios [14]."
+  },
+  {
+    "subject": "RlTscResearch",
+    "relation": "employs",
+    "object": "simulator_sumo",
+    "chunk": "introduction",
+    "context": "Research on RL-TSC has mostly employed open-source simulators such as SUMO and CityFlow [20], given their accessibility and scalability."
+  },
+  {
+    "subject": "RlTscResearch",
+    "relation": "employs",
+    "object": "simulator_cityflow",
+    "chunk": "introduction",
+    "context": "Research on RL-TSC has mostly employed open-source simulators such as SUMO and CityFlow [20], given their accessibility and scalability."
+  }
+]

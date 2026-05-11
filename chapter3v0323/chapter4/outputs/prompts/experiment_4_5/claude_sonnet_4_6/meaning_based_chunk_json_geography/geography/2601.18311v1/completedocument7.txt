@@ -1,0 +1,146 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument7",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument7
+- section_title: Complete Document
+- page_start: 1
+- page_end: 8
+
+**INPUT TEXT CHUNK:**
+Such high beam flux in the
+soft X-ray energy range will be available at the beamlines
+of the new-generation synchrotron radiation facilities, such
+as NanoTerasu (e.g., [54, 55]) and SPring-8-II (an update
+project).
+B-13-05
+
+'F$MJOF'F(MJOFFig. 6 (top) Heat maps of photon counts in each pulse-height channel, obtained by scanning the input synchrotron photon energy around
+the expected centroid energy of Fe 3C line (left) and 3G line (right). The dotted horizontal lines indicate the lower and upper limits
+of the region of interest for the Fe Lαphotons. Events registered to this region are selected to plot the projected spectra shown in
+the bottom panels. (bottom) Count rates of the detected photons for Fe 3C (left) and 3G (right) lines in the above-selected region,
+shown as a function of the input synchrotron photon energy. 3C line is detected and fitted with a Gaussian+linear model. The fit
+result is shown in a solid red line.
+Table 1 Best-fit parameters for the oxygen Heα, iron 3C and 3G spectra
+Centroid energy (eV) Area (Counts s−1eV) FWHM (eV)
+O Heαw 573.776±0.001 1.46±0.06 0.092±0.003
+Fe 3C 825.658±0.003 1.06±0.06 0.189±0.009
+Fe 3G 726.90 (fixed) 0.378 (95% upper limit) 0.33 (fixed)
+5 Conclusion
+We performed photoexcitation spectroscopy using the
+JAXA-EBIT at the SPring-8 soft X-ray beamline, to pre-
+cisely measure atomic data of the astronomically important
+Ne-like Fe16+Lαtransitions. As a result, high-resolution
+spectra of the He-like O6+2p–1s(Heαw) and Ne-like
+Fe16+[2p5
+1/23d3/2]J=1→[2p6]J=0(3C) resonance tran-
+sitions were successfully obtained. The Ne-like Fe16+
+[2p5
+3/23s1/2]J=1→[2p6]J=0(3G) resonance transition was
+also measured, but not detected due to the signal-to-noise
+ratio being insufficient. The oscillator strength ratio of 3G
+to 3C is experimentally constrained to the 95% upper limit
+of 0.322, from these results. The measured centroid en-
+ergies of the O Heαw and Fe 3C lines are systematically
+shifted approximately 0.17 eV from the well-known the-
+oretical values. To detect the weak 3G line and perform
+accurate measurement of atomic data, such as transitionenergies and oscillator strengths, we need to improve our
+experimental system. For instance, we needed to improve
+the signal-to-noise ratio by at least an order of magnitude.
+The noise can be reduced by at least an order of magnitude
+by upgrading the detector and modifying data acquisition
+methods. The signal can be increased by an order of mag-
+nitude, for example, by irradiating the ions with a much
+brighter light source. The new-generation syncrotron radi-
+ation facilities, such as NanoTerasu and SPring-8-II, can be
+utilized for a follow-up experiment in the near future. We
+will apply the experimental values obtained in the present
+work to observational studies of astrophysical objects to
+help improve the accuracy of plasma diagnostics using up-
+to-date high-resolution spectra. Our future work will also
+involve comprehensive measurement of different atomic
+data of astrophysical interest, employing the experimental
+approach established in this study.
+B-13-06
+
+Acknowledgments
+The authors thank Dr. Atsushi Takada and Dr. Takeshi
+Go Tsuru for their help in the preparation for the present
+experiment. The presented synchrotron radiation exper-
+iment was performed at beamline BL17SU of SPring-8
+with the approval of the RIKEN SPring-8 Center (pro-
+posal No. 20240064). The authors deeply appreciate all
+the technical team members of BL17SU, SPring-8. This
+work is supported by JSPS/MEXT Scientific Research
+Grant Nos. JP24K17106 (Y .A.), JP22H00158 (H.Y .), and
+JP23H01211 (H.Y .).
+[1] Hitomi Collaboration, Nature535, 117 (2016)
+[2] M. Tashiro et al.,Space Telescopes and Instrumentation
+2018: Ultraviolet to Gamma Ray, Proc. Vol. 10699, J. A.
+den Herder et al. (SPIE, Washington, 2018) p. 1069922-1
+[3] Y . Ishisaki et al.,Space Telescopes and Instrumentation
+2022: Ultraviolet to Gamma Ray, Proc. Vol. 12181, J. A.
+den Herder et al. (SPIE, Washington, 2022) p. 121811S-1
+[4] XRISM Collaboration, Publ. Astron. Soc. Jpn.76(6), 1186
+(2024)
+[5] XRISM Collaboration, Publ. Astron. Soc. Jpn.77(1), L1
+(2025)
+[6] XRISM Collaboration, Astrophys. J.998(2), L58 (2025)
+[7] S. Suzuki et al., Publ. Astron. Soc. Jpn.77(SP1), S131
+(2025)
+[8] P. Plucinsky et al., Publ. Astron. Soc. Jpn.77(SP1), S171
+(2025)
+[9] R. K. Smith et al., Astrophys. J.556, L91 (2001)
+[10] A. R. Foster et al., Astrophys. J.756, 128 (2012)
+[11] J. de Plaa et al.,Astronomical Data Analysis Software and
+Systems XXIX, ASP Conf. Ser. Vol.527, R. Pizzo et al. (As-
+tronomical Society of the Pacific, California, 2020) p. 725
+[12] K. P. Dere et al., Astron. Astrophys. Suppl. Ser.125, 149
+(1997)
+[13] G. Del Zanna et al., Astron. Astrophys.582, A56 (2015)
+[14] Hitomi Collaboration, Publ. Astron. Soc. Jpn.70(2), 12
+(2018)
+[15] R. E. Marrs et al., Phys. Rev. Lett.60, 1715 (1988)
+[16] M. A. Leutenegger et al., Phys. Rev. Lett.125, 243001
+(2020)
+[17] T. M. Baumann et al., Phys. Rev.

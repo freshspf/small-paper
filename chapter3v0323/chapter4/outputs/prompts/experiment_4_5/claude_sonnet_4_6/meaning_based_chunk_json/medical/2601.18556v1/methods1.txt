@@ -1,0 +1,118 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "methods1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: methods1
+- section_title: Methods
+- page_start: 3
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+2.1 Overall Framework and Technical Roadmap
+TheproposedSDA-QEC(SimplifiedDiffusionAugmentationwithQuantum-Enhanced
+Classification) framework addresses the prevalent class imbalance problem in medical im-
+age classification through systematic design at two levels: data distribution reconstruc-
+tion and model discriminative capability enhancement. Unlike traditional end-to-end
+deep learning paradigms that directly train classifiers on imbalanced data, our method
+first performs adaptive synthesis of minority class samples through a Simplified Diffusion
+Process, achieving class balance at the data level. Subsequently, a Lightweight Quantum
+Feature Mapping is introduced to nonlinearly enhance classical convolutional features,
+elevating the complexity of decision boundaries at the model level.
+The overall workflow consists of four core stages: (1) data loading and class distri-
+bution analysis; (2) adaptive generation of minority class samples based on the diffusion
+process; (3) discriminative feature extraction via lightweight convolutional networks; and
+(4) quantum-enhanced classification module for final diagnostic decisions.
+The framework’s design aims to achieve synergy between data and model: the dif-
+fusion augmentation module reshapes the training set’s class distribution, enabling the
+model to fully learn minority class feature patterns, while the quantum enhancement
+module embeds classical features into a high-dimensional Hilbert space, constructing
+more complex decision boundaries and enhancing the model’s capability to capture subtle
+pathological features. Notably, compared to complete diffusion generative models (such
+as DDPM), this work adopts a parameterized forward diffusion process for data augmen-
+tation, avoiding the high computational cost of reverse denoising networks, making the
+overall framework clinically deployable while maintaining high performance. Addition-
+ally, the quantum circuit adopts a small-scale parameterized design (4 qubits, 2-layer
+circuit) with total parameters approximately 1/20 of the classical counterpart, ensuring
+operational efficiency on resource-constrained medical devices.
+At the theoretical level, this method can be viewed as a cascaded optimization
+strategy of distribution alignment-feature enhancement. Let the original training set be
+Dorig={(x i, yi)}N
+i=1, wherey i∈ {0,1}denotes class labels, and the sample ratio of class
+0 (majority) to class 1 (minority) isρ=N 0/N 1≫1. The diffusion augmentation module
+generates a synthetic sample setD syn={(˜x j,1)}M
+j=1such that the augmented dataset
+Daug=Dorig∪ Dsynsatisfies the target balance ratioρ target≈1.4(i.e., minority class
+samples reach 70% of majority class). Subsequently, the quantum-enhanced classifier
+fθ,ϕ(x)is trained onD aug, whereθrepresents classical convolutional network parameters
+3
+
+andϕrepresents quantum circuit parameters. This design enables the model to learn
+on balanced data distributions while enhancing discriminative capability for boundary
+samples through quantum feature mapping.
+2.2 Simplified Diffusion Model-Driven Adaptive Data Augmen-
+tation
+In medical image classification tasks, minority class samples (e.g., rare disease cases)
+are costly to obtain and scarce in number, leading to insufficient learning of minority
+classes by models. Traditional data augmentation methods such as rotation, flipping,
+and color jittering only perform geometric or photometric transformations on existing
+samples and cannot extend the coverage of the feature space. The simplified diffusion
+augmentation mechanism proposed in this paper approaches from a generative modeling
+perspective, constructing a synthetic sample set with controllable diversity for minority
+class samples by simulating the forward steps of the diffusion process.
+2.2.1 Forward Modeling of Diffusion Process
+Traditional diffusion models (such as DDPM) define a Markov chain that maps the
+data distribution to a standard Gaussian distribution by progressively adding Gaussian
+noise. This work simplifies this process, retaining only the noise addition step of forward
+diffusion, avoiding training complex reverse denoising networks. Specifically, for minority
+classsamples, thenoiseadditionprocessattimestept∈ {0,1, . . . , T−1}canbeexpressed
+as:
+xt=√¯αt·x0+√
+1−¯α t·ϵ,ϵ∼ N(0,I)(1)
+where¯α t=Qt
+s=1(1−β s)is the cumulative noise scheduling coefficient, andβ sis the
+noise intensity parameter at steps. This work adopts a linear scheduling strategy:
+βs=βstart+s−1
+T−1(βend−βstart)(2)
+whereβ start= 0.0001,β end= 0.02, andT= 5. This design ensures that early time
+steps add only slight noise to preserve the original image structure, while later time steps
+introduce stronger noise to increase diversity.

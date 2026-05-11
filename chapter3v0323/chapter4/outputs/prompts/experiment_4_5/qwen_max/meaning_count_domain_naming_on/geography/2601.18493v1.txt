@@ -1,0 +1,187 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+DisasterInsight: A Multimodal Benchmark for Function-Aware
+and Grounded Disaster Assessment
+Sara Tehrani∗ Yonghao Xu†∗ Leif Haglund ‡ Amanda Berg ‡
+Michael Felsberg∗
+Abstract
+Timely interpretation of satellite imagery is critical for disaster response, yet existing vi-
+sion–language benchmarks for remote sensing largely focus on coarse labels and image-level
+recognition, overlooking the functional understanding and instruction robustness required
+in real humanitarian workﬂows. We introduce DisasterInsight, a multimodal benchmark de-
+signed to evaluate vision–language models (VLMs) on realistic disaster analysis tasks. Disas-
+terInsight restructures the xBD dataset into approximately 112K building-centered instances
+and supports instruction-diverse evaluation across multiple tasks, including building-function
+classiﬁcation, damage-level and disaster-type classiﬁcation, counting, and structured report
+generation aligned with humanitarian assessment guidelines.
+To establish domain-adapted baselines, we propose DI-Chat, obtained by ﬁne-tuning
+existing VLM backbones on disaster-speciﬁc instruction data using parameter-e!cient Low-
+Rank Adaptation (LoRA). Extensive experiments on state-of-the-art generic and remote-
+sensing VLMs reveal substantial performance gaps across tasks, particularly in damage un-
+derstanding and structured report generation. DI-Chat achieves signiﬁcant improvements
+on damage-level and disaster-type classiﬁcation as well as report generation quality, while
+building-function classiﬁcation remains challenging for all evaluated models. DisasterInsight
+provides a uniﬁed benchmark for studying grounded multimodal reasoning in disaster im-
+agery.
+Keywords: Vision-Language Models; Remote Sensing; Disaster Response; Multimodal Bench-
+mark.
+1 Introduction
+Rapid and accurate interpretation of satellite imagery is a cornerstone of e"ective disaster re-
+sponse. Following large-scale hazards such as earthquakes, ﬂoods, or hurricanes, emergency
+coordination agencies require ﬁne-grained, building-level assessments to support triage, resource
+allocation, and risk mitigation decisions [1]. Operational disaster-response guidelines from the
+International Search and Rescue Advisory Group (INSARAG) 1 and the Federal Emergency
+Management Agency (FEMA) 2 further emphasize that, beyond estimating physical damage,
+responders must assess the function and use of a"ected structures, such as whether a damaged
+building serves as a hospital, school, industrial facility, or residential shelter, as these directly
+inﬂuence priorities including medical surge capacity, shelter availability, search-and-rescue plan-
+ning, and infrastructure restoration.
+∗Computer Vision Laboratory, Linköping University, Sweden.
+†Corresponding author.
+‡Computer Vision Laboratory, Linköping University, Sweden; and Vantor, Linköping, Sweden.
+1INSARAG Guidelines, Vol. II, Manual B, Sec. 5.8.2, p. 37, available at https://insarag.org/wp-content/
+uploads/2021/06/INSARAG20Guidelines20Vol20II2C20Man20B.pdf, accessed Dec. 2025.
+2FEMA Preliminary Damage Assessment Guide, p. 21, available at https://www.fema.gov/disaster/
+how-declared/preliminary-damage-assessments/guide , accessed Dec. 2025.
+arXiv:2601.18493v1 [cs.CV] 26 Jan 2026
+Despite recent advances in vision–language models (VLMs), existing remote sensing bench-
+marks do not adequately capture these operational requirements. Most datasets emphasize
+coarse damage labels or scene-level analysis, treating buildings as an undi"erentiated class and
+overlooking functional semantics and per-building reasoning [2, 3, 4]. Recent multimodal bench-
+marks incorporating natural language outputs have explored captioning and question answering
+over disaster imagery, but typically rely on unstructured, scene-level narratives that are not
+explicitly grounded to individual buildings or aligned with humanitarian reporting practices
+[5, 6, 7].
+To address these limitations, we introduce DisasterInsight, a multimodal benchmark de-
+signed to reﬂect real-world disaster assessment workﬂows. Building upon the xBD dataset [4],
+DisasterInsight restructures imagery into 112,507 building-centered instances and deﬁnes ﬁve
+complementary tasks: (i) building function classiﬁcation, (ii) damage level classiﬁcation, (iii)
+disaster type classiﬁcation, (iv) building counting, and (v) structured report generation follow-
+ing established humanitarian assessment guidelines. Unlike prior benchmarks focused on scene-
+level recognition or generic captioning, DisasterInsight explicitly evaluates spatial grounding
+via bounding boxes, temporal reasoning using pre- and post-event imagery, functional under-
+standing through OpenStreetMap-derived labels [8], and instruction robustness through diverse
+prompt formulations.
+To establish a domain-adapted baseline, we propose DI-Chat, a vision–language model ob-
+tained by ﬁne-tuning TeoChat [5] using parameter-e!cient Low-Rank Adaptation (LoRA), fol-
+lowing a Video-LLaV A-style [9] multimodal training framework. Experiments across generic and
+remote-sensing VLMs reveal substantial performance gaps on DisasterInsight, particularly for
+damage understanding and structured report generation, while building-function classiﬁcation
+remains challenging for all models. These results underscore the importance of disaster-speciﬁc
+instruction tuning and grounded evaluation. Our work makes three primary contributions to-
+ward building-centered, function-aware disaster assessment:
+• DisasterInsight is introduced as a large-scale, building-centered vision–language bench-
+mark for disaster analysis, comprising instance-level building function annotations derived
+from OpenStreetMap and an instruction-diverse evaluation protocol with multiple prompt
+formulations per task, enabling robust assessment of function-aware and instruction-following
+capabilities under realistic disaster-response scenarios.
+• A structured report generation task is deﬁned to produce building-grounded disaster nar-
+ratives aligned with humanitarian assessment practices, moving beyond generic image
+captioning.
+• DI-Chat is proposed as a domain-adapted instruction-ﬁnetuning framework on DisasterIn-
+sight and is instantiated on multiple vision–language backbones, including TeoChat and
+Qwen2.5-VL, to establish strong disaster-aware baselines and to systematically study the
+impact of domain-speciﬁc instruction tuning across disaster-analysis tasks.
+2R e l a t e d W o r k
+2.1 Disaster Assessment Datasets
+Remote sensing (RS) datasets support automated disaster assessment through damage mapping
+and change analysis. xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event
+imagery with damage annotations across multiple hazards, but largely treat buildings as a
+single class and emphasize scene-level labels. As a result, they do not support function-aware,
+instance-level evaluation or structured reporting aligned with humanitarian assessment practices.
+Table 1: Comparison of DisasterInsight(DI) with representative remote sensing and disaster-
+focused multimodal datasets.
+Dataset Domain Pre/Post Instance F unc. Damage Report Count Loc. Mod.
+RSICD[16] RS ✁✁ ✁ ✁ Cap. ✁ Scene RGB
+BRIGHT[2] RS ✂ Poly. ✁✂ ✁✁ Poly. RGB
+FloodNet[3] RS+VL ✂ Box ✁✂ VQA ✂ Box RGB
+xBD[4] RS ✂ Poly. ✁✂ ✁✁ Poly. RGB
+CrisisMMD[17] LLM+Social ✁ Tweet ✁✂ Sum. ✁✁ Txt+Img
+CrisisF ACTS[18] LLM ✁ Doc ✁✁ Sum. ✁✁ Txt
+DisasterQA[19] LLM ✁ N/A ✁✁ QA ✁✁ Txt
+DisasterM3[6] RS+VL ✂ Pixel ✁✂ Scene ✂ Pixel RGB+SAR
+DI (Ours) RS+VL+LLM ✂ Box ✂✂ Struct. ✂ Box RGB
+2.2 Vision–Language Models in Remote Sensing
+Recent work extends vision–language models (VLMs) to remote sensing by adapting LLaV A-
+style architectures to satellite and aerial imagery, including GeoChat [7], TeoChat [5], and
+EarthDial [10]. Generic VLMs such as LLaV A-OneVision [11] and Qwen-VL [12] have also been
+evaluated via zero-shot prompting, but typically lack geographic priors and struggle with ﬁne-
+grained, per-building semantics. Existing RS VLM benchmarks remain predominantly scene-
+level and do not explicitly require building-grounded reasoning or structured operational outputs.
+2.3 LLM-Based Disaster Reporting
+Large language models (LLMs) have been applied to crisis summarization, event reconstruction,
+and social-media analysis [13, 14, 15], but these approaches rely primarily on text-only inputs
+and lack visual grounding. DisasterM3 [6] introduces multimodal summaries, yet its outputs
+remain scene-level and are not explicitly grounded to individual buildings or constrained by
+operational reporting guidelines. In contrast, the report-generation task considered in this work
+requires building-level grounding, integration of function and damage metadata, bi-temporal
+reasoning, and adherence to professional reporting constraints.
+2.4 Comparison with Existing Disaster and VLM Datasets
+Table 1 positions DisasterInsight relative to representative remote sensing and disaster-focused
+datasets. RS datasets such as RSICD [16], BRIGHT [2], FloodNet [3], and xBD [4] lack building-
+function annotations and structured reporting, while disaster–LLM datasets (CrisisMMD [17],
+CrisisF ACTS [18], DisasterQA [19]) provide rich text but no satellite imagery or visual ground-
+ing. DisasterM3 [6] is the closest multimodal benchmark, yet its summaries are scene-level and
+not building-grounded.
+In contrast, DisasterInsight integrates instance-level building-function labels, multi-hazard
+bi-temporal imagery, structured report generation aligned with humanitarian practices, and
+building-level tasks spanning classiﬁcation, counting, and narrative generation, forming a uniﬁed
+evaluation setting for realistic building-level disaster assessment.
+3 The DisasterInsight Benchmark
+Humanitarian disaster response workﬂows operate at the level of individual structures, where
+building function, damage severity, and spatial context jointly inform prioritization and re-
+source allocation. However, evaluating vision–language models under such building-centered
+and function-aware settings remains challenging due to the lack of benchmarks that reﬂect op-
+erational assessment procedures.
+In practice, agencies such as FEMA and INSARAG conduct post-disaster assessment by
+integrating information about building function, damage level, hazard context, and situational
+risk to support response planning and reporting. Existing benchmarks do not fully support this
+level of building-centered granularity, nor do they unify classiﬁcation, counting, and structured
+report generation within a single multimodal evaluation framework.
+As illustrated in Fig. 1, DisasterInsight is designed to reﬂect the analytical steps performed
+during post-disaster assessment. The benchmark integrates object-level recognition, scene-level
+aggregation, and grounded language generation by combining classiﬁcation, counting, and struc-
+tured reporting tasks within a uniﬁed multimodal framework. This design enables controlled
+evaluation of how vision–language models integrate spatial, temporal, and semantic cues when
+reasoning about disaster-a"ected environments.
+Building Function ClassificationQ: Identify the functional category of the building within bounding box [26, 226, 86, 255]. A: ResidentialQ: Within [26, 191, 85, 221], what kind of building can you see? A: Commercial
+Disaster RecognitionQ: Which disaster type best explains the difference? A: Hurricane
+Report GenerationShort Version:A hurricane disaster has affected the north-west area, with a total of 4 buildings impacted, including residential, commercial, and medical facilities.The number of people affected is currently unknown, but the damage to buildings may lead to displacement and disruption of essential services.The disaster has resulted in no damage to 2 buildings, minor damage to 1 medical facility, and major damage to 1 commercial building, potentially affecting livelihoods and access to healthcare.
+Damage level classificationQ: Classify the damage level for the building footprint at [13, 21, 96, 169]

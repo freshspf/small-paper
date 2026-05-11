@@ -1,0 +1,145 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "conclusion1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: conclusion1
+- section_title: Conclusion
+- page_start: 7
+- page_end: 9
+
+**INPUT TEXT CHUNK:**
+We propose UniCD, a change detection framework that sys-
+tematically adapts to varying annotation levels through a uni-
+fied feature representation and constraint system. We de-
+sign STAM for supervised learning to efficiently aggregate
+bi-temporal structural information. For weakly-supervised
+learning, we design CRR to optimize the stable and separa-
+ble change representations in latent space, thereby suppress-
+ing artificial changes and enhancing the structural integrity of
+change boundaries. Simultaneously, SPCI is developed for
+unsupervised learning, It utilizes foundation model priors to
+generate usable proxy supervision signals on unlabeled data,
+naturally transforming unsupervised tasks into optimizable
+weakly-supervised learning pathways. Experiments demon-
+strate that the proposed method exhibits stable advantages
+under supervised, weakly-supervised, and unsupervised set-
+
+tings, validating UniCD’s robustness and generalization po-
+tential in complex remote sensing dynamic scenarios.
+
+[Kweon and Yoon, 2024 ]Hyeokjun Kweon and Kuk-Jin
+Yoon. From sam to cams: Exploring segment any-
+thing model for weakly supervised semantic segmenta-
+tion. InProceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition, pages 19499–
+19509, 2024.
+[Liet al., 2021 ]Zewen Li, Fan Liu, Wenjie Yang, Shouheng
+Peng, and Jun Zhou. A survey of convolutional neural
+networks: analysis, applications, and prospects.IEEE
+transactions on neural networks and learning systems,
+33(12):6999–7019, 2021.
+[Liu and Shi, 2021 ]Mengxi Liu and Qian Shi. Dsamnet:
+A deeply supervised attention metric based network for
+change detection of high-resolution images. In2021 IEEE
+International Geoscience and Remote Sensing Symposium
+IGARSS, pages 6159–6162. IEEE, 2021.
+[Liuet al., 2022 ]Mengxi Liu, Zhuoqun Chai, Haojun Deng,
+and Rong Liu. A cnn-transformer network with multiscale
+context aggregation for fine-grained cropland change de-
+tection.IEEE Journal of Selected Topics in Applied Earth
+Observations and Remote Sensing, 15:4297–4306, 2022.
+[Luoet al., 2025 ]Yunfan Luo, Ronghao Yang, Junxiang
+Tan, Guyue Hu, Hongyu Yang, Zhiqiu Liang, Yuyun Ding,
+and Shaojun Liu. Mdenet: Multi-scale difference infor-
+mation guided dual-temporal enhancement network for re-
+mote sensing change detection.IEEE Journal of Selected
+Topics in Applied Earth Observations and Remote Sens-
+ing, 2025.
+[Maet al., 2024 ]Xiaowen Ma, Zhenkai Wu, Rongrong
+Lian, Wei Zhang, and Siyang Song. Rethinking remote
+sensing change detection with a mask view.arXiv preprint
+arXiv:2406.15320, 2024.
+[Ninget al., 2025 ]Hailong Ning, Qi He, Tao Lei, Xiaopeng
+Cao, Wuxia Zhang, Yanping Chen, and Asoke K Nandi.
+Da 2-net: Integrating sam2 with domain adaption and dif-
+ference aggregation for remote sensing change detection.
+IEEE Transactions on Geoscience and Remote Sensing,
+2025.
+[Nohet al., 2022 ]Hyeoncheol Noh, Jingi Ju, Minseok Seo,
+Jongchan Park, and Dong-Geol Choi. Unsupervised
+change detection based on image reconstruction loss. In
+proceedings of the IEEE/CVF conference on computer vi-
+sion and pattern recognition, pages 1352–1361, 2022.
+[Paszkeet al., 2019 ]Adam Paszke, Sam Gross, Francisco
+Massa, Adam Lerer, James Bradbury, Gregory Chanan,
+Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca
+Antiga, et al. Pytorch: An imperative style, high-
+performance deep learning library.Advances in neural in-
+formation processing systems, 32, 2019.
+[Sahaet al., 2019 ]Sudipan Saha, Francesca Bovolo, and
+Lorenzo Bruzzone. Unsupervised deep change vector
+analysis for multiple-change detection in vhr images.
+IEEE transactions on geoscience and remote sensing,
+57(6):3677–3693, 2019.
+[Wanget al., 2020 ]Yude Wang, Jie Zhang, Meina Kan,
+Shiguang Shan, and Xilin Chen. Self-supervised equivari-ant attention mechanism for weakly supervised semantic
+segmentation. InProceedings of the IEEE/CVF confer-
+ence on computer vision and pattern recognition, pages
+12275–12284, 2020.
+[Wanget al., 2022 ]Pei Wang, Zhaowei Cai, Hao Yang, Gu-
+rumurthy Swaminathan, Nuno Vasconcelos, Bernt Schiele,
+and Stefano Soatto. Omni-detr: Omni-supervised ob-
+ject detection with transformers. InProceedings of the
+IEEE/CVF conference on computer vision and pattern
+recognition, pages 9367–9376, 2022.
+[Wanget al., 2023 ]Lukang Wang, Min Zhang, and Wen-
+zhong Shi. Cs-wscdnet: Class activation mapping and seg-
+ment anything model-based framework for weakly super-
+vised change detection.IEEE Transactions on Geoscience
+and Remote Sensing, 61:1–12, 2023.
+[Wuet al., 2013 ]Chen Wu, Bo Du, and Liangpei Zhang.
+Slow feature analysis for change detection in multispectral
+imagery.IEEE Transactions on Geoscience and Remote
+Sensing, 52(5):2858–2874, 2013.
+[Wuet al., 2021 ]Chen Wu, Hongruixuan Chen, Bo Du, and
+Liangpei Zhang.

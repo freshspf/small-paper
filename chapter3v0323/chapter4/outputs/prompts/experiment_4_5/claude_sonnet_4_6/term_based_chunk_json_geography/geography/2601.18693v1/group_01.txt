@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "university_nottingham",
+  "locatedIn",
+  "city_nottingham",
+  "location_universityPark",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "city_paris",
+  "street_boulevardArago",
+  "country_france",
+  "university_universityOfWesternAustralia",
+  "city_crawley",
+  "street_stirlingHighway",
+  "region_westernAustralia",
+  "country_australia",
+  "IntraclusterLight",
+  "encodesInformationAbout",
+  "DarkMatterHalo",
+  "dominates",
+  "MatterContent",
+  "survey_euclid",
+  "detects",
+  "detectsIn",
+  "Cluster",
+  "traces",
+  "HaloProperty",
+  "IntraclusterLightMorphology",
+  "correspondsTo",
+  "DarkMatterHaloMorphology",
+  "IntraclusterLightShape",
+  "follows",
+  "TotalMassDistribution",
+  "alignsWith",
+  "DarkMatter",
+  "differsFrom",
+  "ClusterGalaxy",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "CompactRadialDensityProfile",
+  "DarkMatterComponent",
+  "StellarComponent",
+  "IntraclusterStar",
+  "LowerOrbitalEnergy",
+  "MassiveSatellite",
+  "OrbitalEnergy",
+  "Satellite",
+  "ClusterHalo",
+  "DiffuseStarlight",
+  "ClusterDarkMatterHalo",
+  "SatelliteGalaxy",
+  "SpatialDistribution",
+  "HernquistProfile",
+  "OrbitalConfiguration",
+  "CentralGalaxy",
+  "gadget_4",
+  "CosmologicalNBodyCode",
+  "SmoothedParticleHydrodynamicsCode",
+  "GravitationalForce",
+  "HierarchicalTreeAlgorithm",
+  "TreeComponent",
+  "MultipoleExpansion",
+  "AdaptiveOpeningCriterion",
+  "GravitationalSoftening",
+  "CubicSplineKernel",
+  "DarkMatterParticle",
+  "StellarParticle",
+  "softening_length_200pc",
+  "softening_length_50pc"
+]
+
+Triples:
+[
+  {
+    "subject": "university_nottingham",
+    "relation": "locatedIn",
+    "object": "city_nottingham",
+    "chunk": "completedocument1",
+    "context": "1School of Physics & Astronomy, University of Nottingham, University Park, Nottingham NG7 2RD, UK"
+  },
+  {
+    "subject": "location_universityPark",
+    "relation": "locatedIn",
+    "object": "city_nottingham",
+    "chunk": "completedocument1",
+    "context": "1School of Physics & Astronomy, University of Nottingham, University Park, Nottingham NG7 2RD, UK"
+  },
+  {
+    "subject": "city_nottingham",
+    "relation": "locatedIn",
+    "object": "country_uk",
+    "chunk": "completedocument1",
+    "context": "1School of Physics & Astronomy, University of Nottingham, University Park, Nottingham NG7 2RD, UK"
+  },
+  {
+    "subject": "institution_observatoireDeSauverny",
+    "relation": "locatedIn",
+    "object": "city_versoix",
+    "chunk": "completedocument1",
+    "context": "2Laboratoire d’Astrophysique, École Polytechnique Fédérale de Lausanne (EPFL), Observatoire de Sauverny, 1290 Versoix, Switzerland"
+  },
+  {
+    "subject": "city_versoix",
+    "relation": "locatedIn",
+    "object": "country_switzerland",
+    "chunk": "completedocument1",
+    "context": "2Laboratoire d’Astrophysique, École Polytechnique Fédérale de Lausanne (EPFL), Observatoire de Sauverny, 1290 Versoix, Switzerland"
+  },
+  {
+    "subject": "university_universidadAutonomaDeMadrid",
+    "relation": "locatedIn",
+    "object": "city_madrid",
+    "chunk": "completedocument1",
+    "context": "3Departamento de Física Teórica, Módulo 15, Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain"
+  },
+  {
+    "subject": "city_madrid",
+    "relation": "locatedIn",
+    "object": "country_spain",
+    "chunk": "completedocument1",
+    "context": "3Departamento de Física Teórica, Módulo 15, Facultad de Ciencias, Universidad Autónoma de Madrid, 28049 Madrid, Spain"
+  },
+  {
+    "subject": "institution_royalObservatory",
+    "relation": "locatedIn",
+    "object": "city_edinburgh",
+    "chunk": "completedocument1",
+    "context": "5Institute for Astronomy, Royal Observatory, Edinburgh EH9 3HJ, UK"
+  },
+  {
+    "subject": "city_edinburgh",
+    "relation": "locatedIn",
+    "object": "country_uk",
+    "chunk": "completedocument1",
+    "context": "5Institute for Astronomy, Royal Observatory, Edinburgh EH9 3HJ, UK"
+  },
+  {
+    "subject": "institution_institutDAstrophysiqueDeParis",
+    "relation": "locatedIn",
+    "object": "city_paris",
+    "chunk": "completedocument1",
+    "context": "6Institut d’Astrophysique de Paris, UMR 7095, CNRS, Sorbonne Université, 98 bis boulevard Arago, 75014 Paris, France"
+  },
+  {
+    "subject": "street_boulevardArago",
+    "relation": "locatedIn",
+    "object": "city_paris",
+    "chunk": "completedocument1",
+    "context": "6Institut d’Astrophysique de Paris, UMR 7095, CNRS, Sorbonne Université, 98 bis boulevard Arago, 75014 Paris, France"
+  },
+  {
+    "subject": "city_paris",
+    "relation": "locatedIn",
+    "object": "country_france",
+    "chunk": "completedocument1",
+    "context": "6Institut d’Astrophysique de Paris, UMR 7095, CNRS, Sorbonne Université, 98 bis boulevard Arago, 75014 Paris, France"
+  },
+  {
+    "subject": "university_universityOfWesternAustralia",
+    "relation": "locatedIn",
+    "object": "city_crawley",
+    "chunk": "completedocument1",
+    "context": "7International Centre for Radio Astronomy Research, University of Western Australia, 35 Stirling Highway, Crawley, Western Australia 6009, Australia"
+  },
+  {
+    "subject": "street_stirlingHighway",
+    "relation": "locatedIn",
+    "object": "city_crawley",
+    "chunk": "completedocument1",
+    "context": "7International Centre for Radio Astronomy Research, University of Western Australia, 35 Stirling Highway, Crawley, Western Australia 6009, Australia"
+  },
+  {
+    "subject": "city_crawley",
+    "relation": "locatedIn",
+    "object": "region_westernAustralia",
+    "chunk": "completedocument1",
+    "context": "7International Centre for Radio Astronomy Research, University of Western Australia, 35 Stirling Highway, Crawley, Western Australia 6009, Australia"
+  },
+  {
+    "subject": "region_westernAustralia",
+    "relation": "locatedIn",
+    "object": "country_australia",
+    "chunk": "completedocument1",
+    "context": "7International Centre for Radio Astronomy Research, University of Western Australia, 35 Stirling Highway, Crawley, Western Australia 6009, Australia"
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "encodesInformationAbout",
+    "object": "DarkMatterHalo",
+    "chunk": "completedocument2",
+    "context": "Because its spatial and kinematic distributions are set primarily by the cluster potential and the cu-mulativeaccretionhistoryofsatellites,theICLencodesinformation about both assembly processes and the properties of the underlying DM halo that dominates the matter content of the cluster (Gonzalez etal.2007,2013;Montes&Trujillo2019;Golden-Marxetal.2023, 2025)."
+  },
+  {
+    "subject": "DarkMatterHalo",
+    "relation": "dominates",
+    "object": "MatterContent",
+    "chunk": "completedocument2",
+    "context": "Because its spatial and kinematic distributions are set primarily by the cluster potential and the cu-mulativeaccretionhistoryofsatellites,theICLencodesinformation about both assembly processes and the properties of the underlying DM halo that dominates the matter content of the cluster (Gonzalez etal.2007,2013;Montes&Trujillo2019;Golden-Marxetal.2023, 2025)."
+  },
+  {
+    "subject": "survey_euclid",
+    "relation": "detects",
+    "object": "IntraclusterLight",
+    "chunk": "completedocument2",
+    "context": "Euclidis forecast to detect ICL in tens of thousands of clusters up to𝑧=1.5, while LSST will reach𝜇=30–31 mag arcsec−2(3𝜎,10′′×10′′) (Martin et al. 2022; Brough et al. 2024; Englert et al. 2025)."
+  },
+  {
+    "subject": "survey_euclid",
+    "relation": "detectsIn",
+    "object": "Cluster",
+    "chunk": "completedocument2",
+    "context": "Euclidis forecast to detect ICL in tens of thousands of clusters up to𝑧=1.5, while LSST will reach𝜇=30–31 mag arcsec−2(3𝜎,10′′×10′′) (Martin et al. 2022; Brough et al. 2024; Englert et al. 2025)."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "traces",
+    "object": "HaloProperty",
+    "chunk": "completedocument2",
+    "context": "These datasets will enable direct comparison of ICL with weak lensing and X-ray observations, allowing ICL to trace halo properties and assembly histories."
+  },
+  {
+    "subject": "IntraclusterLightMorphology",
+    "relation": "correspondsTo",
+    "object": "DarkMatterHaloMorphology",
+    "chunk": "completedocument2",
+    "context": "A growing body of observational and theoretical work demon-stratesastrongcorrespondencebetweenthelarge-scalemorphology of the ICL and that of the cluster DM halo."
+  },
+  {
+    "subject": "IntraclusterLightShape",
+    "relation": "follows",
+    "object": "TotalMassDistribution",
+    "chunk": "completedocument2",
+    "context": "For example, Montes & Trujillo (2019) showed that the projected shape of the ICL closely follows that of the lensing-derived total mass distribution inHubble Space TelescopeFrontier Fields clusters, while Ellien et al. (2025) showssimilarresultsusingEuclidEarlyReleaseObservations."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "alignsWith",
+    "object": "DarkMatter",
+    "chunk": "completedocument2",
+    "context": "Cos-mological simulations also report alignments between ICL and DM onlargescales(e.g.Yooetal.2024)."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "differsFrom",
+    "object": "ClusterGalaxy",
+    "chunk": "completedocument2",
+    "context": "Numerical simulations show that the ICL’s kinematicpropertiesdiffersystematicallyfromthoseofbothclus-ter galaxies and the underlying DM halo (Rudick et al. 2006, 2011; Dolagetal.2010)andoccupiessystematicallylowerorbitalenergies and higher anisotropies than the background DM halo, producing phase-space offsets that are sensitive to a cluster’s accretion history (Butler et al. 2025)."
+  }
+]

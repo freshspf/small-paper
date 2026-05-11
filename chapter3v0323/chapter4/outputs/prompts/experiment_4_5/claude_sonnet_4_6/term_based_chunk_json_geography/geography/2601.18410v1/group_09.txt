@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ConvexProblem",
+  "solvedUsing",
+  "InteriorPointMethod",
+  "uses",
+  "BarrierFunction",
+  "ComputationalComplexity",
+  "measuredBy",
+  "NewtonStep",
+  "growsLinearlyWith",
+  "InequalityConstraint",
+  "requires",
+  "GradientCalculation",
+  "HessianCalculation",
+  "solvedIn",
+  "Algorithm2",
+  "usedFor",
+  "PowerControl",
+  "HybridNetwork",
+  "hasComponent",
+  "SatelliteComponent",
+  "TerrestrialComponent",
+  "SpectrumSharingFramework",
+  "hasProperty",
+  "TimeScaleAdaptability",
+  "SpectrumSharingScheme",
+  "LowComplexity",
+  "QualityOfService",
+  "appliesTo",
+  "CognitiveUser",
+  "SecondaryUser",
+  "RandomTopology",
+  "characterizes",
+  "TransmissionRate",
+  "measuredFor",
+  "PowerAllocation",
+  "appliedTo",
+  "SatelliteTerrestrialIntegratedNetwork",
+  "TrajectoryControl",
+  "appliedIn",
+  "IntegratedSatelliteAerialTerrestrialNetwork",
+  "SatelliteTerrestrialCoexistence",
+  "basedOn",
+  "RadioMap",
+  "HybridSatelliteTerrestrialNetwork",
+  "contains",
+  "UserCentricChannelPool",
+  "Satellite",
+  "integratedWith",
+  "MobileEdgeComputing",
+  "enables",
+  "WideAreaEdgeIntelligence",
+  "AutonomousResourceManagementArchitecture",
+  "designedFor",
+  "BandwidthAllocation",
+  "MultibeamSatelliteNetwork",
+  "EarthStationAntenna",
+  "usedIn",
+  "FixedSatelliteService",
+  "SatelliteNetwork",
+  "TerrestrialNetwork",
+  "university_minzuUniversityOfChina",
+  "city_beijing",
+  "country_china",
+  "university_tsinghua",
+  "university_durham",
+  "city_durham",
+  "country_uk",
+  "university_southeast",
+  "laboratory_purpleMountainLaboratories",
+  "city_nanjing",
+  "User",
+  "SpatialDistribution",
+  "HybridSatelliteUavTerrestrialMaritimeNetwork",
+  "MaritimeNetwork",
+  "SatelliteLink",
+  "TerrestrialLink",
+  "BaseStation",
+  "Uav",
+  "AerialStation",
+  "TerrestrialBaseStation"
+]
+
+Triples:
+[
+  {
+    "subject": "ConvexProblem",
+    "relation": "solvedUsing",
+    "object": "InteriorPointMethod",
+    "chunk": "completedocument14",
+    "context": "Taking the interior-point method with barrier functions for inequality constraints as a benchmark, the complexity of each approximated convex problem can be measured by the number of basic searching steps, e.g., Newton steps, and the complexity of each step."
+  },
+  {
+    "subject": "InteriorPointMethod",
+    "relation": "uses",
+    "object": "BarrierFunction",
+    "chunk": "completedocument14",
+    "context": "Taking the interior-point method with barrier functions for inequality constraints as a benchmark, the complexity of each approximated convex problem can be measured by the number of basic searching steps, e.g., Newton steps, and the complexity of each step."
+  },
+  {
+    "subject": "ComputationalComplexity",
+    "relation": "measuredBy",
+    "object": "NewtonStep",
+    "chunk": "completedocument14",
+    "context": "the complexity of each approximated convex problem can be measured by the number of basic searching steps, e.g., Newton steps, and the complexity of each step."
+  },
+  {
+    "subject": "NewtonStep",
+    "relation": "growsLinearlyWith",
+    "object": "InequalityConstraint",
+    "chunk": "completedocument14",
+    "context": "the number of total Newton steps grows linearly with p MN cNs/K2+ 2MN c/K+ 2N s/K, where MN cNs/K2+ 2MN c/K+ 2N s/K is the number of inequality constraints in (21)."
+  },
+  {
+    "subject": "NewtonStep",
+    "relation": "requires",
+    "object": "GradientCalculation",
+    "chunk": "completedocument14",
+    "context": "the complexity of each Newton step mainly lies in calculation of the gradient and Hessian of the combined target with barrier functions for the inequality constraints."
+  },
+  {
+    "subject": "NewtonStep",
+    "relation": "requires",
+    "object": "HessianCalculation",
+    "chunk": "completedocument14",
+    "context": "the complexity of each Newton step mainly lies in calculation of the gradient and Hessian of the combined target with barrier functions for the inequality constraints."
+  },
+  {
+    "subject": "ConvexProblem",
+    "relation": "solvedIn",
+    "object": "Algorithm2",
+    "chunk": "completedocument14",
+    "context": "As presented in Lines 12–17 in Algorithm 2, an approximated convex problem of (21) based on (25) and (48) needs to be solved in each iteration for power control."
+  },
+  {
+    "subject": "ConvexProblem",
+    "relation": "usedFor",
+    "object": "PowerControl",
+    "chunk": "completedocument14",
+    "context": "an approximated convex problem of (21) based on (25) and (48) needs to be solved in each iteration for power control."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "hasComponent",
+    "object": "SatelliteComponent",
+    "chunk": "completedocument14",
+    "context": "Satellite selection is supported to adapt to the case when multiple satellites are available in the satellite component."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "hasComponent",
+    "object": "TerrestrialComponent",
+    "chunk": "completedocument14",
+    "context": "both full and partial frequency reuse could be adopted among BSs in the terrestrial component."
+  },
+  {
+    "subject": "SpectrumSharingFramework",
+    "relation": "hasProperty",
+    "object": "TimeScaleAdaptability",
+    "chunk": "completedocument14",
+    "context": "A time-scale-adaptable spectrum sharing framework has been proposed, in which joint link scheduling and power control are implemented for maximization of the average sum rate of the network."
+  },
+  {
+    "subject": "SpectrumSharingScheme",
+    "relation": "hasProperty",
+    "object": "LowComplexity",
+    "chunk": "completedocument14",
+    "context": "a low-complexity spectrum sharing scheme has been proposed based on link-feature-sketching-aided hierarchical link clustering and Monte-Carlo-and-successive-approximation-aided transmit power optimization."
+  },
+  {
+    "subject": "QualityOfService",
+    "relation": "appliesTo",
+    "object": "CognitiveUser",
+    "chunk": "completedocument14",
+    "context": "joint link scheduling and power control are implemented for maximization of the average sum rate of the network while ensuring QoS for both CUs and SUs."
+  },
+  {
+    "subject": "QualityOfService",
+    "relation": "appliesTo",
+    "object": "SecondaryUser",
+    "chunk": "completedocument14",
+    "context": "joint link scheduling and power control are implemented for maximization of the average sum rate of the network while ensuring QoS for both CUs and SUs."
+  },
+  {
+    "subject": "RandomTopology",
+    "relation": "characterizes",
+    "object": "HybridNetwork",
+    "chunk": "completedocument14",
+    "context": "Average transmission rate of each SU in a random topology of the hybrid network for F= 1."
+  },
+  {
+    "subject": "TransmissionRate",
+    "relation": "measuredFor",
+    "object": "SecondaryUser",
+    "chunk": "completedocument14",
+    "context": "Average transmission rate of each SU in a random topology of the hybrid network for F= 1."
+  },
+  {
+    "subject": "PowerAllocation",
+    "relation": "appliedTo",
+    "object": "SatelliteTerrestrialIntegratedNetwork",
+    "chunk": "completedocument15",
+    "context": "Wang, “Joint beamforming and power allocation for satellite-terrestrial integrated networks with non-orthogonal multiple access,”IEEE Journal of Selected Topics in Signal Processing, vol. 13, no. 3, pp. 657–670, Jun. 2019."
+  },
+  {
+    "subject": "TrajectoryControl",
+    "relation": "appliedIn",
+    "object": "IntegratedSatelliteAerialTerrestrialNetwork",
+    "chunk": "completedocument15",
+    "context": "[12] F. Pervez, L. Zhao, and C. Yang, “Joint user association, power optimization and trajectory control in an integrated satellite-aerial-terrestrial network,”IEEE Transactions on Wireless Communications, vol. 21, no. 5, pp. 3279–3290, May 2022."
+  },
+  {
+    "subject": "SatelliteTerrestrialCoexistence",
+    "relation": "basedOn",
+    "object": "RadioMap",
+    "chunk": "completedocument15",
+    "context": "[13] Y . Wang, and Z. Lu, “Coordinated resource allocation for satellite-terrestrial coexistence based on radio maps,”China Communications, V ol. 15, No. 3, pp. 149–156, Mar. 2018."
+  },
+  {
+    "subject": "HybridSatelliteTerrestrialNetwork",
+    "relation": "contains",
+    "object": "UserCentricChannelPool",
+    "chunk": "completedocument15",
+    "context": "[16] Y . Wang, W. Feng, M. Xiao, and C. -X. Wang, “Double-target collaborative spectrum sharing for 6G hybrid satellite-terrestrial networks with user-centric channel pools,”China Communications, vol. 22, no. 10, pp. 25–33, Oct. 2025."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "integratedWith",
+    "object": "MobileEdgeComputing",
+    "chunk": "completedocument15",
+    "context": "[17] Y . Lin, W. Feng, T. Zhou, Y . Wang, Y . Chen, N. Ge, and C.-X. Wang, “Integrating satellites and mobile edge computing for 6G wide-area edge intelligence: minimal structures and systematic thinking,”IEEE Network, vol. 37, no. 2, pp. 14–21, Mar./Apr. 2023."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "enables",
+    "object": "WideAreaEdgeIntelligence",
+    "chunk": "completedocument15",
+    "context": "[17] Y . Lin, W. Feng, T. Zhou, Y . Wang, Y . Chen, N. Ge, and C.-X. Wang, “Integrating satellites and mobile edge computing for 6G wide-area edge intelligence: minimal structures and systematic thinking,”IEEE Network, vol. 37, no. 2, pp. 14–21, Mar./Apr. 2023."
+  },
+  {
+    "subject": "AutonomousResourceManagementArchitecture",
+    "relation": "designedFor",
+    "object": "SatelliteTerrestrialIntegratedNetwork",
+    "chunk": "completedocument15",
+    "context": "[19] F. Ding, C. Bao, D. Zhou, M. Sheng, Y . Shi, and J. Li, “Toward autonomous resource management architecture for 6G satellite-terrestrial integrated networks,”IEEE Network, vol. 38, no. 2, pp. 113–121, Mar. 2024."
+  },
+  {
+    "subject": "BandwidthAllocation",
+    "relation": "appliedIn",
+    "object": "MultibeamSatelliteNetwork",
+    "chunk": "completedocument15",
+    "context": "[20] L. Liang, P. Duan, G. Cui, and W. Wang, “Multiagent DRL for two-timescale bandwidth allocation in multibeam satellite networks,”IEEE Internet of Things Journal, vol. 12, no. 8, pp. 10613–10626, Apr. 2025."
+  },
+  {
+    "subject": "EarthStationAntenna",
+    "relation": "usedIn",
+    "object": "FixedSatelliteService",
+    "chunk": "completedocument15",
+    "context": "[30] Radio Communication Sector of International Telecommunication Union (ITU-R), “Reference radiation pattern for earth station antennas in the fixed-satellite service for use in coordination and interference assessment in the frequency range from 2 to 31 GHz,”Recommendation ITU-R S.465-6, 2010."
+  }
+]

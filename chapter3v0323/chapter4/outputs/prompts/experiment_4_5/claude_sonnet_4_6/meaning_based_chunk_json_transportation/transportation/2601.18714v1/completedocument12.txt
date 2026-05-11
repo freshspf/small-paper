@@ -1,0 +1,137 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument12",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument12
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+**INPUT TEXT CHUNK:**
+It also remains resilient in the presence
+of noisy input, such as data collected in an open field at higher velocities
+with varying grass heights, as seen in the TEMPO-VINE dataset with both
+Velodyne and Livox sensors.
+Among our contributions, we emphasize on the importance of a correct
+processing of the 3D coordinates provided by the LiDAR sensor. Further-
+more, we justify the use of simpler deep learning architectures that produce
+lower-dimensional global descriptors to encode repetitive settings for place
+recognition tasks. Additionally, the necessity of complementing the original
+embedding produced by the network with a lower-dimensionality embedding
+derived from intermediate features via a MRL multi-loss function was con-
+ducted. This is due to the critical importance of enhancing the discrimina-
+tiveness of descriptors in localization and mapping tasks within agricultural
+environments. This approach has been proven to improve the robustness of
+the global descriptor output in sparser inputs.
+As future work, we intend to investigate multi-modal sensor fusion strate-
+gies, exploiting the availability of camera and LiDAR data in the datasets to
+further improve robustness. Additionally, we target the deployment of these
+techniques in a real-world setting, bridging the gap between offline validation
+and onboard real-time operation.
+Author statement
+We would like to make the following declarations: All authors confirm
+that this work is original and has not been published elsewhere, nor is it
+currently under consideration for publication elsewhere.
+We confirm that the manuscript has been read and approved by all named
+authors and that there are no other persons who satisfy the criteria for au-
+thorship but are not listed. We further confirm that the order of authors
+listed in the manuscript has been approved by all of us.
+We understand that the Corresponding Author is the sole contact for
+the Editorial process. He is responsible for communicating with the other
+authors about progress, submissions of revisions and final approval of proofs.
+29
+
+CRediT authorship contribution statement
+Judith Vilella-Cantos:Writing – review & editing, Writing – original
+draft, Software, Methodology, Data curation, Conceptualization.Mauro
+Martini:Supervision, Formal analysis, Conceptualization.Marcello Chi-
+aberge:Resources, Conceptualization, Project administration.M´ onica
+Ballesta:Supervision, Formal analysis, Writing – review & editing, Project
+administration, Funding acquisition.David Valiente:Supervision, For-
+mal analysis, Writing – review & editing, Project administration, Funding
+acquisition.
+Declaration of competing interest
+The authors declare that they have no known competing financial inter-
+ests or personal relationships that could have appeared to influence the work
+reported in this paper.
+Acknowledgements
+This research work is part of the project PID2023-149575OB-I00 funded
+by MICIU/AEI/10.13039/501100011033 and by FEDER, UE. It is also part
+of the project CIPROM/2024/8, funded by Generalitat Valenciana, Conselle-
+ria de Educaci´ on, Cultura, Universidades y Empleo (program PROMETEO
+2025).
+Data availability
+The data of our model is available for reproduction.
+References
+[1] I. A. Kazerouni, L. Fitzgerald, G. Dooly, D. Toal, A survey of state-of-
+the-art on visual SLAM, Expert Systems with Applications 205 (2022)
+117734.
+[2] A. Macario Barros, M. Michel, Y. Moline, G. Corre, F. Carrel, A com-
+prehensive survey of visual SLAM algorithms, Robotics 11 (1) (2022)
+24.
+30
+
+[3] Y. Zhang, P. Shi, J. Li, 3D LiDAR SLAM: A survey, The Photogram-
+metric Record 39 (186) (2024) 457–517.
+[4] M. A. Uy, G. H. Lee, PointNetVLAD: Deep point cloud based retrieval
+for large-scale place recognition, in: Proceedings of the IEEE conference
+on computer vision and pattern recognition, 2018, pp. 4470–4479.
+[5] J. Komorowski, MinkLoc3D: Point cloud based large-scale place recog-
+nition, in: Proceedings of the IEEE/CVF winter conference on applica-
+tions of computer vision, 2021, pp. 1790–1799.
+[6] X. Chen, T. L¨ abe, A. Milioto, T. R¨ ohling, J. Behley, C. Stachniss, Over-
+lapNet: A siamese network for computing LiDAR scan similarity with
+applications to loop closing and localization, Autonomous Robots 46 (1)
+(2022) 61–81.
+[7] C. Lehnert, D. Tsai, A. Eriksson, C. McCool, 3D move to see: Multi-
+perspective visual servoing towards the next best view within unstruc-
+tured and occluded environments, in: 2019 IEEE/RSJ international
+conference on intelligent robots and systems (IROS), IEEE, 2019, pp.
+3890–3897.
+[8] H. Ding, B. Zhang, J. Zhou, Y. Yan, G. Tian, B. Gu, Recent devel-
+opments and applications of simultaneous localization and mapping in
+agriculture, Journal of field robotics 39 (6) (2022) 956–983.
+[9] S. Coulibaly, B. Kamsu-Foguem, D. Kamissoko, D. Traore, Deep learn-
+ing for precision agriculture: A bibliometric analysis, Intelligent Systems
+with Applications 16 (2022) 200102.
+[10] H. Teng, Y. Wang, X. Song, K.

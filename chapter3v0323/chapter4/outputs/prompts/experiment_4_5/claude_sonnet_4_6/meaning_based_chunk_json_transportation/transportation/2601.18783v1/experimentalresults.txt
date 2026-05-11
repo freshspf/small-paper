@@ -1,0 +1,120 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experimentalresults",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experimentalresults
+- section_title: Experimental Results
+- page_start: 6
+- page_end: 6
+
+**INPUT TEXT CHUNK:**
+In this section, we present results from experiments con-
+ducted using the proposed MORL framework in a custom
+multi-objective RL environment that we developed for truck
+driving in a highway simulation. Our GPI-LS MOPPO algo-
+rithm is implemented on top of the MORL-Baselines toolkit
+[Feltenet al., 2023 ]. The implementations of MORL and the
+environment are provided as open-source1.
+We begin by examining the trade-offs learned by the agent
+under varying traffic densities. Figure 2 shows the Pareto-
+optimal policies for zero, medium, and high traffic scenarios.
+1Source Code: https://github.com/deepthi-pathare/morl and
+sumo gym env/Each Pareto front is obtained by evaluating the trained agent
+over 500 equally spaced weight vectors, averaged across 5
+episodes. The resulting Pareto-optimal policies illustrate the
+trade-offs between energy cost and driver cost, as well as their
+corresponding successful completion rates. For medium traf-
+fic density, we use 0.015 vehicles per meter, which corre-
+sponds to 7 vehicles (6 cars and 1 truck) based on the cho-
+sen moving window size and heterogeneous vehicle ratio re-
+ported in Table 1 in Appendix B. For high traffic density,
+we use 0.03 vehicles per meter, corresponding to 13 vehicles
+(11 cars and 2 trucks). Across all traffic settings, a clear and
+interpretable Pareto structure emerges, demonstrating that the
+learned policies successfully capture the fundamental conflict
+between energy cost and driver cost. Notably, the failure rate
+is zero for all policies across all traffic conditions considered,
+with success defined as reaching the target within the finite
+episode horizon.
+In the zero-traffic scenario, the environment dynamics and
+initial conditions are deterministic, so reachability is a de-
+terministic property of a policy: for a fixed policy, episodes
+either always succeed or always fail. The absence of non-
+dominated policies in the intermediate region of the Pareto
+front arises from the structure of the cost function and the
+speed–cost relationship in the obstacle-free setting. In par-
+ticular, reducing cruising speed from the high-speed regime
+leads to a rapid increase in driver cost due to longer travel
+time, while yielding only marginal reductions in energy cost,
+as energy consumption varies weakly with speed in this
+range. Consequently, policies that operate at intermediate
+speeds incur substantially higher driver cost without achiev-
+ing proportional energy savings and are therefore dominated
+by faster cruising policies that achieve similar energy cost
+with lower driver cost. As a result, no Pareto-optimal solu-
+tions emerge in the intermediate region of the cost space.
+In contrast, when traffic is present, interactions with other
+vehicles impose state-dependent speed constraints that intro-
+duce variability in both travel time and energy usage. Even
+policies with similar average speeds can experience differ-
+ent patterns of acceleration, deceleration, and lane changes,
+resulting in a wider range of achievable cost combinations.
+This breaks the near-deterministic mapping between speed
+and cost observed in the zero-traffic case and produces multi-
+ple non-dominated policies spanning a broader region of the
+Pareto front. The successful completion rate remains high
+for a wide range of trade-offs, indicating that the policies can
+balance driver and energy costs without compromising the
+feasibility of the task.
+Figure 3 compares the average speed and correspond-
+ing cost values of Pareto-optimal policies that achieved a
+100%successful completion rate against the analytical op-
+timal speed and cost obtained under the constant-speed as-
+sumption. A detailed graph of the analytical results that il-
+lustrates how the cost values vary as a function of the speed
+is given in Appendix E. The analysis indicates that the op-
+timal constant speed is 24.04 m/s, yielding a minimum total
+cost of 3.68 euros for a distance of 3000 meters (0.0012 eu-
+ros/m). In the zero-traffic scenario, the learned policies ap-
+proximately match the analytical baseline, as the absence of
+interactions allows the truck to maintain a speed with mini-

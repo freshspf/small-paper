@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "June",
+  "representsPeakOf",
+  "VegetativeOcclusion",
+  "September",
+  "isInfluencedBy",
+  "PreHarvestIntervention",
+  "reExposes",
+  "StructuralElement",
+  "EarlyYearPackage",
+  "containsCampaign",
+  "FebruaryCampaign",
+  "MarchCampaign",
+  "AprilCampaign",
+  "MidYearPackage",
+  "MayCampaign",
+  "JuneCampaign",
+  "LateYearPackage",
+  "JulyCampaign",
+  "AugustCampaign",
+  "SeptemberCampaign",
+  "DiverseEnvironmentalCondition",
+  "introduces",
+  "IntraClassVariability",
+  "TallGrass",
+  "introducesDifficultyIn",
+  "LearningProcess",
+  "trains",
+  "MinkUnextVine",
+  "BacchusLongTermDataset",
+  "collectedBy",
+  "OusterOs116Lidar",
+  "MinkUNeXtVine",
+  "trainedOn",
+  "NvidiaA30",
+  "MinkLoc3Dv2",
+  "basedOn",
+  "MinkowskiConvolutions",
+  "ScanContext",
+  "isA",
+  "HandcraftedDescriptor",
+  "FastPointFeatureHistogram",
+  "usesVoxelSize",
+  "VoxelSizeOf0.1Meters",
+  "fusedVia",
+  "GlobalMeanPooling",
+  "evaluatedUsing",
+  "CosineSimilarity",
+  "CorrectMatch",
+  "definedAs",
+  "DistanceOf5MetersOrLess",
+  "TempoVineDataset",
+  "recordedWith",
+  "HigherLinearVelocity",
+  "recordedBy",
+  "RoboticPlatform",
+  "MobileRobot",
+  "PlaceRecognitionTask",
+  "MinkunextVine",
+  "DeepLearningMethod",
+  "VineyardEnvironment",
+  "RoboticSystem",
+  "Environment",
+  "GpsDeniedEnvironment",
+  "AutonomousNavigationSystem",
+  "Vineyard",
+  "AgriculturalEnvironment",
+  "AgriculturalVehicle",
+  "AutonomousNavigation",
+  "AgriculturalRobotics",
+  "LprNetwork",
+  "MrlApproach",
+  "LprMethod",
+  "LidarSensor",
+  "LowCost",
+  "LowResolution",
+  "CrossSeasonScenario",
+  "VineyardDataset",
+  "DenseFoliage",
+  "RobotFieldOfVision",
+  "PathDetectionFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "June",
+    "relation": "representsPeakOf",
+    "object": "VegetativeOcclusion",
+    "chunk": "completedocument9",
+    "context": "This phenomenon occurs because June represents the peak of vegetative occlusion."
+  },
+  {
+    "subject": "September",
+    "relation": "isInfluencedBy",
+    "object": "PreHarvestIntervention",
+    "chunk": "completedocument9",
+    "context": "In contrast, September is influenced by pre-harvest interventions, specifically canopy management and leaf removal, which re-expose structural elements of the vineyard, making it geometrically more similar to the winter months."
+  },
+  {
+    "subject": "PreHarvestIntervention",
+    "relation": "reExposes",
+    "object": "StructuralElement",
+    "chunk": "completedocument9",
+    "context": "In contrast, September is influenced by pre-harvest interventions, specifically canopy management and leaf removal, which re-expose structural elements of the vineyard, making it geometrically more similar to the winter months."
+  },
+  {
+    "subject": "EarlyYearPackage",
+    "relation": "containsCampaign",
+    "object": "FebruaryCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Early-Year” package contains the campaigns from February, March and April."
+  },
+  {
+    "subject": "EarlyYearPackage",
+    "relation": "containsCampaign",
+    "object": "MarchCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Early-Year” package contains the campaigns from February, March and April."
+  },
+  {
+    "subject": "EarlyYearPackage",
+    "relation": "containsCampaign",
+    "object": "AprilCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Early-Year” package contains the campaigns from February, March and April."
+  },
+  {
+    "subject": "MidYearPackage",
+    "relation": "containsCampaign",
+    "object": "MayCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Mid-Year” package contains the campaigns from May and June (both)."
+  },
+  {
+    "subject": "MidYearPackage",
+    "relation": "containsCampaign",
+    "object": "JuneCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Mid-Year” package contains the campaigns from May and June (both)."
+  },
+  {
+    "subject": "LateYearPackage",
+    "relation": "containsCampaign",
+    "object": "JulyCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Late-Year” package contains the campaigns from July (both), August and September."
+  },
+  {
+    "subject": "LateYearPackage",
+    "relation": "containsCampaign",
+    "object": "AugustCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Late-Year” package contains the campaigns from July (both), August and September."
+  },
+  {
+    "subject": "LateYearPackage",
+    "relation": "containsCampaign",
+    "object": "SeptemberCampaign",
+    "chunk": "completedocument9",
+    "context": "The ”Late-Year” package contains the campaigns from July (both), August and September."
+  },
+  {
+    "subject": "DiverseEnvironmentalCondition",
+    "relation": "introduces",
+    "object": "IntraClassVariability",
+    "chunk": "completedocument9",
+    "context": "The reason behind this behaviour is the increased intra-class variability introduced by diverse environmental conditions."
+  },
+  {
+    "subject": "TallGrass",
+    "relation": "introducesDifficultyIn",
+    "object": "LearningProcess",
+    "chunk": "completedocument9",
+    "context": "This is because the training set contains two campaigns recorded with tall grass, which introduced difficulty in the learning process of MinkUNeXt-VINE."
+  },
+  {
+    "subject": "LearningProcess",
+    "relation": "trains",
+    "object": "MinkUnextVine",
+    "chunk": "completedocument9",
+    "context": "This is because the training set contains two campaigns recorded with tall grass, which introduced difficulty in the learning process of MinkUNeXt-VINE."
+  },
+  {
+    "subject": "BacchusLongTermDataset",
+    "relation": "collectedBy",
+    "object": "OusterOs116Lidar",
+    "chunk": "completedocument10",
+    "context": "The point clouds from the BLT dataset are obtained with an Ouster OS1-16 LiDAR scan."
+  },
+  {
+    "subject": "MinkUNeXtVine",
+    "relation": "trainedOn",
+    "object": "NvidiaA30",
+    "chunk": "completedocument10",
+    "context": "The experiments presented in this section were executed using an Nvidia GeForce RTX 3090 GPU except for the MinkUNeXt-VINE training on the TEMPO-VINE dataset, which were executed on an Nvidia A30 as made in Section 6."
+  },
+  {
+    "subject": "MinkLoc3Dv2",
+    "relation": "basedOn",
+    "object": "MinkowskiConvolutions",
+    "chunk": "completedocument10",
+    "context": "Primary works such as PointNetVLAD [4] and LPD-Net [23] are considered, as well as MinkLoc3Dv2 [39] for a Minkowski convolutions-based counterpart to our proposed MinkUNeXt-VINE."
+  },
+  {
+    "subject": "ScanContext",
+    "relation": "isA",
+    "object": "HandcraftedDescriptor",
+    "chunk": "completedocument10",
+    "context": "The handcrafted descriptors used in these experiments are Scan Context [25] and Fast Point Feature Histogram (FPFH) [40]."
+  },
+  {
+    "subject": "FastPointFeatureHistogram",
+    "relation": "isA",
+    "object": "HandcraftedDescriptor",
+    "chunk": "completedocument10",
+    "context": "The handcrafted descriptors used in these experiments are Scan Context [25] and Fast Point Feature Histogram (FPFH) [40]."
+  },
+  {
+    "subject": "ScanContext",
+    "relation": "usesVoxelSize",
+    "object": "VoxelSizeOf0.1Meters",
+    "chunk": "completedocument10",
+    "context": "For the Scan Context method, the voxel size was set to 0.1 meters to account for the smaller dimensions of the vineyard datasets compared to city datasets."
+  },
+  {
+    "subject": "FastPointFeatureHistogram",
+    "relation": "fusedVia",
+    "object": "GlobalMeanPooling",
+    "chunk": "completedocument10",
+    "context": "For FPFH, since it produces local descriptors, they were fused via global mean pooling to generate the global descriptor needed for the place recognition task."
+  },
+  {
+    "subject": "HandcraftedDescriptor",
+    "relation": "evaluatedUsing",
+    "object": "CosineSimilarity",
+    "chunk": "completedocument10",
+    "context": "Both of these handcrafted descriptors are evaluated using cosine similarity, considering a correct match to be a distance of 5 meters or less."
+  },
+  {
+    "subject": "CorrectMatch",
+    "relation": "definedAs",
+    "object": "DistanceOf5MetersOrLess",
+    "chunk": "completedocument10",
+    "context": "Both of these handcrafted descriptors are evaluated using cosine similarity, considering a correct match to be a distance of 5 meters or less."
+  },
+  {
+    "subject": "TempoVineDataset",
+    "relation": "recordedWith",
+    "object": "HigherLinearVelocity",
+    "chunk": "completedocument10",
+    "context": "Unlike the BLT dataset, this dataset provides more challenging 3D data for place recognition because it was recorded with a higher linear velocity in the robotic platform and registers different heights of grass in the field."
+  },
+  {
+    "subject": "TempoVineDataset",
+    "relation": "recordedBy",
+    "object": "RoboticPlatform",
+    "chunk": "completedocument10",
+    "context": "Unlike the BLT dataset, this dataset provides more challenging 3D data for place recognition because it was recorded with a higher linear velocity in the robotic platform and registers different heights of grass in the field."
+  }
+]

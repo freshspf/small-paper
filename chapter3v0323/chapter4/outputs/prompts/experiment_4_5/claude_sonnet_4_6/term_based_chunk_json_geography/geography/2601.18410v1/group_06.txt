@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CellularUser",
+  "separatedByLargeDistanceFrom",
+  "SecondaryUser",
+  "SuSatelliteLink",
+  "scheduledIn",
+  "Subcarrier",
+  "BsCuLink",
+  "scheduledInSameSubcarrierAs",
+  "ProposedScheme",
+  "appliesInterLinkInterferenceConstraint",
+  "InterLinkInterferenceThreshold",
+  "hasValue",
+  "sigma2_minus_12.2dB",
+  "hasSmallImpactOn",
+  "CellularUserSumRate",
+  "HybridNetwork",
+  "evaluatedOverRandomTopologyCount",
+  "10",
+  "hasFrequencyReuseClusterSize",
+  "F_equals_4",
+  "groupedByFrequencyReuseCluster",
+  "FrequencyReuseCluster",
+  "allocatedTo",
+  "BaseStation",
+  "performsSatelliteSelection",
+  "SatelliteSelection",
+  "location_116E_40N",
+  "hasLongitude",
+  "116_degrees_East",
+  "hasLatitude",
+  "40_degrees_North",
+  "achievesHigherSumRateThan",
+  "RandScheme",
+  "usesLinkFeatureSketchingAidedScheduling",
+  "LinkFeatureSketchingAidedLinkScheduling",
+  "containsNodeType",
+  "Satellite",
+  "hasIdentifier",
+  "FRCr_equals_1",
+  "evaluatedWithFrequencyReuseClusterSize",
+  "F_equals_1",
+  "satellite_107E40N",
+  "hasSubSatellitePoint",
+  "location_107E_40N",
+  "satellite_125E40N",
+  "location_125E_40N",
+  "hasSimilarLinkStrengthTo",
+  "HybridSatelliteTerrestrialNetwork",
+  "SatelliteNetwork",
+  "TerrestrialNetwork",
+  "university_minzuUniversityOfChina",
+  "city_beijing",
+  "country_china",
+  "university_tsinghua",
+  "university_durham",
+  "city_durham",
+  "country_uk",
+  "university_southeast",
+  "laboratory_purpleMountainLaboratories",
+  "city_nanjing",
+  "User",
+  "SpatialDistribution",
+  "HybridSatelliteUavTerrestrialMaritimeNetwork",
+  "MaritimeNetwork",
+  "SatelliteLink",
+  "TerrestrialLink",
+  "SatelliteComponent",
+  "TerrestrialComponent",
+  "Uav",
+  "AerialStation",
+  "TerrestrialBaseStation",
+  "SmartVehicle",
+  "TerrestrialTransmitterReceiverPair",
+  "PrimarySatelliteNetwork",
+  "SatelliteMulticastDownlink",
+  "TerrestrialDownlink",
+  "NonOrthogonalMultipleAccessUser",
+  "MobileWirelessService",
+  "MeteorologicalSatelliteService",
+  "TerrestrialMobileTerminal"
+]
+
+Triples:
+[
+  {
+    "subject": "CellularUser",
+    "relation": "separatedByLargeDistanceFrom",
+    "object": "SecondaryUser",
+    "chunk": "completedocument12",
+    "context": "CUs and SUs scheduled in the same subcarrier are well separated with each other by relatively-large distances."
+  },
+  {
+    "subject": "SuSatelliteLink",
+    "relation": "scheduledIn",
+    "object": "Subcarrier",
+    "chunk": "completedocument12",
+    "context": "SU-satellite links scheduled in different subcarriers are indicated by colors of both cross markers denoting the SUs and circles around the SUs."
+  },
+  {
+    "subject": "BsCuLink",
+    "relation": "scheduledIn",
+    "object": "Subcarrier",
+    "chunk": "completedocument12",
+    "context": "SU-satellite links and BS-CU links with the same color are scheduled in the same subcarrier."
+  },
+  {
+    "subject": "SuSatelliteLink",
+    "relation": "scheduledInSameSubcarrierAs",
+    "object": "BsCuLink",
+    "chunk": "completedocument12",
+    "context": "SU-satellite links and BS-CU links with the same color are scheduled in the same subcarrier."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "appliesInterLinkInterferenceConstraint",
+    "object": "InterLinkInterferenceThreshold",
+    "chunk": "completedocument12",
+    "context": "although strict inter-link interference constraints are adopted with γth = σ2 − 12.2dB, the proposed spectrum sharing scheme still achieves a significant improvement in average sum rate for the hybrid network."
+  },
+  {
+    "subject": "InterLinkInterferenceThreshold",
+    "relation": "hasValue",
+    "object": "sigma2_minus_12.2dB",
+    "chunk": "completedocument12",
+    "context": "although strict inter-link interference constraints are adopted with γth = σ2 − 12.2dB, the proposed spectrum sharing scheme still achieves a significant improvement in average sum rate for the hybrid network."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "hasSmallImpactOn",
+    "object": "CellularUserSumRate",
+    "chunk": "completedocument12",
+    "context": "the impact of inter-link interference on the CUs caused by the proposed spectrum sharing scheme is very small and could be ignored."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "evaluatedOverRandomTopologyCount",
+    "object": "10",
+    "chunk": "completedocument12",
+    "context": "the results in Fig. 3 are obtained based on average among 10 randomly-selected topologies of the hybrid network."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "hasFrequencyReuseClusterSize",
+    "object": "F_equals_4",
+    "chunk": "completedocument12",
+    "context": "the QoS achieved for the SUs by different schemes when F = 4 is presented in Fig. 5 and Fig. 6."
+  },
+  {
+    "subject": "SuSatelliteLink",
+    "relation": "groupedByFrequencyReuseCluster",
+    "object": "FrequencyReuseCluster",
+    "chunk": "completedocument12",
+    "context": "Cross markers with the same color indicate SU-satellite links scheduled in subcarriers allocated to BSs in the same FRC."
+  },
+  {
+    "subject": "Subcarrier",
+    "relation": "allocatedTo",
+    "object": "BaseStation",
+    "chunk": "completedocument12",
+    "context": "Cross markers with the same color indicate SU-satellite links scheduled in subcarriers allocated to BSs in the same FRC."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "performsSatelliteSelection",
+    "object": "SatelliteSelection",
+    "chunk": "completedocument12",
+    "context": "It is noticed that among the 3 satellites available for all SUs, only the one with its sub-satellite point at (116◦E,40◦N) is actually selected in the simulation results for the proposed scheme."
+  },
+  {
+    "subject": "location_116E_40N",
+    "relation": "hasLongitude",
+    "object": "116_degrees_East",
+    "chunk": "completedocument12",
+    "context": "only the one with its sub-satellite point at (116◦E,40◦N) is actually selected in the simulation results for the proposed scheme."
+  },
+  {
+    "subject": "location_116E_40N",
+    "relation": "hasLatitude",
+    "object": "40_degrees_North",
+    "chunk": "completedocument12",
+    "context": "only the one with its sub-satellite point at (116◦E,40◦N) is actually selected in the simulation results for the proposed scheme."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "achievesHigherSumRateThan",
+    "object": "RandScheme",
+    "chunk": "completedocument12",
+    "context": "Although Fig. 3 indicates that an improvement of the average sum rate is also achieved by the RandScheme, Fig. 5 and Fig. 6 demonstrate that QoS requirements of about 20% of the SUs cannot be satisfied on average in order to ensure QoS for the CUs in the RandScheme."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "usesLinkFeatureSketchingAidedScheduling",
+    "object": "LinkFeatureSketchingAidedLinkScheduling",
+    "chunk": "completedocument12",
+    "context": "the spatial distribution of the CUs and SUs is well considered in the link-feature-sketching-aided link scheduling in the proposed scheme via its impact on the statistical CSI of the links."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "containsNodeType",
+    "object": "CellularUser",
+    "chunk": "completedocument12",
+    "context": "the scheduling result of the SU-satellite links and BS-CU links in a random topology of the hybrid network obtained by the proposed scheme when F = 4."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "containsNodeType",
+    "object": "SecondaryUser",
+    "chunk": "completedocument12",
+    "context": "the scheduling result of the SU-satellite links and BS-CU links in a random topology of the hybrid network obtained by the proposed scheme when F = 4."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "containsNodeType",
+    "object": "BaseStation",
+    "chunk": "completedocument12",
+    "context": "the scheduling result of the SU-satellite links and BS-CU links in a random topology of the hybrid network obtained by the proposed scheme when F = 4."
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "containsNodeType",
+    "object": "Satellite",
+    "chunk": "completedocument12",
+    "context": "It is noticed that among the 3 satellites available for all SUs, only the one with its sub-satellite point at (116◦E,40◦N) is actually selected in the simulation results for the proposed scheme."
+  },
+  {
+    "subject": "FrequencyReuseCluster",
+    "relation": "hasIdentifier",
+    "object": "FRCr_equals_1",
+    "chunk": "completedocument12",
+    "context": "SU-satellite links and BS-CU links scheduled in subcarriers allocated to the BSs in FRCr = 1 corresponding to Fig. 7."
+  },
+  {
+    "subject": "ProposedScheme",
+    "relation": "evaluatedWithFrequencyReuseClusterSize",
+    "object": "F_equals_1",
+    "chunk": "completedocument12",
+    "context": "Average sum rate of the hybrid network for F = 1."
+  },
+  {
+    "subject": "satellite_107E40N",
+    "relation": "hasSubSatellitePoint",
+    "object": "location_107E_40N",
+    "chunk": "completedocument13",
+    "context": "With their sub-satellite points being located at(107◦E,40◦N)and(125◦E,40◦N), the two satellites are similar in strength of the SU-satellite links for the SUs."
+  },
+  {
+    "subject": "satellite_125E40N",
+    "relation": "hasSubSatellitePoint",
+    "object": "location_125E_40N",
+    "chunk": "completedocument13",
+    "context": "With their sub-satellite points being located at(107◦E,40◦N)and(125◦E,40◦N), the two satellites are similar in strength of the SU-satellite links for the SUs."
+  },
+  {
+    "subject": "satellite_107E40N",
+    "relation": "hasSimilarLinkStrengthTo",
+    "object": "satellite_125E40N",
+    "chunk": "completedocument13",
+    "context": "With their sub-satellite points being located at(107◦E,40◦N)and(125◦E,40◦N), the two satellites are similar in strength of the SU-satellite links for the SUs."
+  }
+]

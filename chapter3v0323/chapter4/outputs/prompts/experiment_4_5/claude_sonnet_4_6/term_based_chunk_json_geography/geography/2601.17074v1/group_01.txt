@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SnowDepth",
+  "exertsControlOn",
+  "ArcticSeaIceThickness",
+  "era5",
+  "isInstanceOf",
+  "ReanalysisProduct",
+  "lacksMeasurementOf",
+  "influences",
+  "SeaIceThermodynamics",
+  "PhysicsEncodedNeuralNetwork",
+  "implements",
+  "InverseModeling",
+  "SeaIcePhysics",
+  "derivedFrom",
+  "HydrostaticBalanceEquation",
+  "enablesPredictionOf",
+  "infers",
+  "IntrinsicPhysicalParameter",
+  "appliedIn",
+  "LakeTemperatureModeling",
+  "Hydrology",
+  "reliesOn",
+  "PhysicalPrior",
+  "PosteriorDistribution",
+  "region_arctic",
+  "classifiedAs",
+  "DataSparseDomain",
+  "ForwardModel",
+  "sensitiveTo",
+  "NoisyInput",
+  "system_arcticSeaIce",
+  "DynamicPhysicalSystem",
+  "possesses",
+  "TimeVaryingParameter",
+  "model_physEInv",
+  "predicts",
+  "modelsRelationshipBetween",
+  "SnowVariable",
+  "SeaIceVariable",
+  "ModelLatentSpace",
+  "capturesRelationshipBetween",
+  "ArcticSnow",
+  "describes",
+  "embedsConstraintFrom",
+  "BijectiveMapping",
+  "limitsCapturingOf",
+  "EvolvingRelationship",
+  "PeNN",
+  "introduces",
+  "Rigor",
+  "SnowDensity",
+  "Tomography",
+  "SeismicWaveformAnalysis",
+  "MaterialsScience",
+  "MachineLearningEnhancedInverseModeling",
+  "HiddenPhysicalParameter",
+  "ObservableGeospatialPhenomenon",
+  "Dataset",
+  "Era5ReanalysisData",
+  "EuropeanCentreForMediumRangeWeatherForecasts",
+  "ObservationalData",
+  "RemoteSensingInstrument",
+  "SpatiotemporalData",
+  "region_centralArcticOcean",
+  "latitudeRange_70Nto85N",
+  "resolution_25km",
+  "feature_snowDepth",
+  "feature_seaIceThickness",
+  "feature_snowAlbedo",
+  "feature_snowDensity",
+  "feature_seaIceConcentration",
+  "ProxyModel",
+  "SeaIceConcentration",
+  "GeophysicalObservation",
+  "SnowAlbedo",
+  "DensityField",
+  "IceThickness",
+  "Freeboard",
+  "InverseRelationship",
+  "SurjectiveMapping"
+]
+
+Triples:
+[
+  {
+    "subject": "SnowDepth",
+    "relation": "exertsControlOn",
+    "object": "ArcticSeaIceThickness",
+    "chunk": "introduction",
+    "context": "Snow depth (h s) exerts a first-order control on Arctic sea ice thickness, yet reliable observations of it remain remarkably scarce."
+  },
+  {
+    "subject": "era5",
+    "relation": "isInstanceOf",
+    "object": "ReanalysisProduct",
+    "chunk": "introduction",
+    "context": "For instance, widely used reanalysis products such as ERA5 do not provide direct measurements of snow depth over sea ice (Hersbach et al., 2020), despite its well-established influence on sea ice thermodynamics (Li et al., 2024)."
+  },
+  {
+    "subject": "era5",
+    "relation": "lacksMeasurementOf",
+    "object": "SnowDepth",
+    "chunk": "introduction",
+    "context": "For instance, widely used reanalysis products such as ERA5 do not provide direct measurements of snow depth over sea ice (Hersbach et al., 2020), despite its well-established influence on sea ice thermodynamics (Li et al., 2024)."
+  },
+  {
+    "subject": "SnowDepth",
+    "relation": "influences",
+    "object": "SeaIceThermodynamics",
+    "chunk": "introduction",
+    "context": "For instance, widely used reanalysis products such as ERA5 do not provide direct measurements of snow depth over sea ice (Hersbach et al., 2020), despite its well-established influence on sea ice thermodynamics (Li et al., 2024)."
+  },
+  {
+    "subject": "PhysicsEncodedNeuralNetwork",
+    "relation": "implements",
+    "object": "InverseModeling",
+    "chunk": "introduction",
+    "context": "To address this gap, we exploit Physics-encoded Neural Networks (PeNNs) (Faroughi et al., 2022), a class of models widely applied in scientific analysis to implement inverse modeling."
+  },
+  {
+    "subject": "SeaIcePhysics",
+    "relation": "derivedFrom",
+    "object": "HydrostaticBalanceEquation",
+    "chunk": "introduction",
+    "context": "Therefore, our work introduces a novel framework that not only encodes sea ice physics derived from the hydrostatic balance equation (Kwasniok, 2022) but, critically, leverages this equation as a target-formulation proxy to enable the estimation of hidden parameters and yield physically consistent prediction of snow depth (h s) from the noisy observational data."
+  },
+  {
+    "subject": "HydrostaticBalanceEquation",
+    "relation": "enablesPredictionOf",
+    "object": "SnowDepth",
+    "chunk": "introduction",
+    "context": "Therefore, our work introduces a novel framework that not only encodes sea ice physics derived from the hydrostatic balance equation (Kwasniok, 2022) but, critically, leverages this equation as a target-formulation proxy to enable the estimation of hidden parameters and yield physically consistent prediction of snow depth (h s) from the noisy observational data."
+  },
+  {
+    "subject": "InverseModeling",
+    "relation": "infers",
+    "object": "IntrinsicPhysicalParameter",
+    "chunk": "introduction",
+    "context": "Inverse modeling is a powerful tool for inferring intrinsic physical parameters and uncovering hidden characteristics of complex physical phenomena."
+  },
+  {
+    "subject": "InverseModeling",
+    "relation": "appliedIn",
+    "object": "LakeTemperatureModeling",
+    "chunk": "introduction",
+    "context": "These models extract meaningful insights from systems in various fields, including lake temperature modeling (Tayal et al., 2022), tomography (Bubba et al., 2019), seismic waveform analysis (Sun et al., 2020), materials science (Liao & Li, 2020), and hydrology (Ghorbanidehno et al., 2020)."
+  },
+  {
+    "subject": "InverseModeling",
+    "relation": "appliedIn",
+    "object": "Hydrology",
+    "chunk": "introduction",
+    "context": "These models extract meaningful insights from systems in various fields, including lake temperature modeling (Tayal et al., 2022), tomography (Bubba et al., 2019), seismic waveform analysis (Sun et al., 2020), materials science (Liao & Li, 2020), and hydrology (Ghorbanidehno et al., 2020)."
+  },
+  {
+    "subject": "InverseModeling",
+    "relation": "reliesOn",
+    "object": "PhysicalPrior",
+    "chunk": "introduction",
+    "context": "However, a common limitation is that many of these methods rely on physical priors or posterior distributions for parameter estimation (Karumuri & Bilionis, 2024)."
+  },
+  {
+    "subject": "InverseModeling",
+    "relation": "reliesOn",
+    "object": "PosteriorDistribution",
+    "chunk": "introduction",
+    "context": "However, a common limitation is that many of these methods rely on physical priors or posterior distributions for parameter estimation (Karumuri & Bilionis, 2024)."
+  },
+  {
+    "subject": "region_arctic",
+    "relation": "classifiedAs",
+    "object": "DataSparseDomain",
+    "chunk": "relatedworks1",
+    "context": "Furthermore, in data-sparse domains like the Arctic, the forward model is highly sensitive to noisy input, exacerbating this error propagation."
+  },
+  {
+    "subject": "ForwardModel",
+    "relation": "sensitiveTo",
+    "object": "NoisyInput",
+    "chunk": "relatedworks1",
+    "context": "Furthermore, in data-sparse domains like the Arctic, the forward model is highly sensitive to noisy input, exacerbating this error propagation."
+  },
+  {
+    "subject": "system_arcticSeaIce",
+    "relation": "classifiedAs",
+    "object": "DynamicPhysicalSystem",
+    "chunk": "relatedworks1",
+    "context": "While this one-to-one correspondence is suitable for static systems (e.g., unchanging material properties), its strict nature is restrictive in the context of a dynamic physical system like Arctic sea ice, where underlying parameters are time-varying."
+  },
+  {
+    "subject": "system_arcticSeaIce",
+    "relation": "possesses",
+    "object": "TimeVaryingParameter",
+    "chunk": "relatedworks1",
+    "context": "While this one-to-one correspondence is suitable for static systems (e.g., unchanging material properties), its strict nature is restrictive in the context of a dynamic physical system like Arctic sea ice, where underlying parameters are time-varying."
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "predicts",
+    "object": "SnowDepth",
+    "chunk": "relatedworks1",
+    "context": "The novelty of this work lies not in the creation of a novel network architecture, but in the constrained inversion methodology, which enables a more direct and efficient optimization for predicting snow depth through inverse modeling."
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "modelsRelationshipBetween",
+    "object": "SnowVariable",
+    "chunk": "relatedworks1",
+    "context": "We embed a linear physical equation derived from the hydrostatic balance Kwok & Cunningham (2008) to relate the cause-and-effect phenomena between sea ice and snow variables, leveraging the physical equation as a target formulation proxy for inversion."
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "modelsRelationshipBetween",
+    "object": "SeaIceVariable",
+    "chunk": "relatedworks1",
+    "context": "We embed a linear physical equation derived from the hydrostatic balance Kwok & Cunningham (2008) to relate the cause-and-effect phenomena between sea ice and snow variables, leveraging the physical equation as a target formulation proxy for inversion."
+  },
+  {
+    "subject": "ModelLatentSpace",
+    "relation": "capturesRelationshipBetween",
+    "object": "ArcticSnow",
+    "chunk": "relatedworks1",
+    "context": "This is critical because it compels the model’s latent space to capture the physically meaningful relationships between Arctic snow and sea ice variables."
+  },
+  {
+    "subject": "ModelLatentSpace",
+    "relation": "capturesRelationshipBetween",
+    "object": "SeaIceVariable",
+    "chunk": "relatedworks1",
+    "context": "This is critical because it compels the model’s latent space to capture the physically meaningful relationships between Arctic snow and sea ice variables."
+  },
+  {
+    "subject": "HydrostaticBalanceEquation",
+    "relation": "describes",
+    "object": "ArcticSeaIceThickness",
+    "chunk": "relatedworks1",
+    "context": "(2)Moving beyond traditional inverse modeling, our framework achieves effective physics encoding by embedding constraints from the hydrostatic balance equation of Arctic sea ice thickness directly into the neural network."
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "embedsConstraintFrom",
+    "object": "HydrostaticBalanceEquation",
+    "chunk": "relatedworks1",
+    "context": "(2)Moving beyond traditional inverse modeling, our framework achieves effective physics encoding by embedding constraints from the hydrostatic balance equation of Arctic sea ice thickness directly into the neural network."
+  },
+  {
+    "subject": "BijectiveMapping",
+    "relation": "limitsCapturingOf",
+    "object": "EvolvingRelationship",
+    "chunk": "relatedworks1",
+    "context": "A bijective mapping may not be flexible enough to capture these evolving relationships, as it rigidly links a single input state to a single output state, limiting its ability to account for the continuous evolution of the system."
+  },
+  {
+    "subject": "PeNN",
+    "relation": "introduces",
+    "object": "Rigor",
+    "chunk": "relatedworks2",
+    "context": "Building on the rigor introduced by PeNNs, machine learning–enhanced inverse modeling offers a powerful way to uncover hidden physical parameters that govern observable geospatial phenomena, many of which cannot be measured directly."
+  }
+]

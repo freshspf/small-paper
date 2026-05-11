@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ClusterSample",
+  "drawnFrom",
+  "simulation_horizonAgn",
+  "simulation_hydrangea",
+  "simulation_tng100",
+  "simulation_theThreeHundred",
+  "RadialDensityProfile",
+  "describes",
+  "CentralComponent",
+  "AccretedComponent",
+  "partOf",
+  "GalaxyCluster",
+  "CentralStellarComponent",
+  "normalisedTo",
+  "CentralGalaxy",
+  "MeanTotalStellarMass",
+  "measuredWithin",
+  "RegionWithinR200",
+  "RadialBoundary200",
+  "contains",
+  "Star",
+  "DarkMatter",
+  "deviatesFrom",
+  "SimulationSuite",
+  "IntraclusterStellarDensityProfile",
+  "concentratesMoreCentrallyThan",
+  "DmProfile",
+  "Model",
+  "assumesSpatialStructure",
+  "SphericallySymmetricHaloPotential",
+  "InfallingSatellitePopulation",
+  "determinesFeaturesOf",
+  "IclSpatialDistribution",
+  "Satellite",
+  "drivesSeparationIn",
+  "PhaseSpaceDistribution",
+  "encompassesSpatialComponent",
+  "ExtendedDmHalo",
+  "Orbit",
+  "undergoes",
+  "OrbitalDecay",
+  "MassiveSatellite",
+  "steepens",
+  "InnerProfile",
+  "DynamicalFriction",
+  "operatesOn",
+  "causes",
+  "RapidLossOfOrbitalEnergy",
+  "strippedFrom",
+  "removedAt",
+  "HigherEnergy",
+  "MajorMerger",
+  "dominates",
+  "BuildUpOfCentralGalaxy",
+  "contributesTo",
+  "IntraclusterLight",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris",
+  "country_france",
+  "university_universityOfWesternAustralia"
+]
+
+Triples:
+[
+  {
+    "subject": "ClusterSample",
+    "relation": "drawnFrom",
+    "object": "simulation_horizonAgn",
+    "chunk": "completedocument16",
+    "context": "Coloured points show the median ratios measured across cluster samples drawn from theHorizon-AGN,Hydrangea,TNG100, and TheThreeHundredsimulation suites, as indicated in the legend."
+  },
+  {
+    "subject": "ClusterSample",
+    "relation": "drawnFrom",
+    "object": "simulation_hydrangea",
+    "chunk": "completedocument16",
+    "context": "Coloured points show the median ratios measured across cluster samples drawn from theHorizon-AGN,Hydrangea,TNG100, and TheThreeHundredsimulation suites, as indicated in the legend."
+  },
+  {
+    "subject": "ClusterSample",
+    "relation": "drawnFrom",
+    "object": "simulation_tng100",
+    "chunk": "completedocument16",
+    "context": "Coloured points show the median ratios measured across cluster samples drawn from theHorizon-AGN,Hydrangea,TNG100, and TheThreeHundredsimulation suites, as indicated in the legend."
+  },
+  {
+    "subject": "ClusterSample",
+    "relation": "drawnFrom",
+    "object": "simulation_theThreeHundred",
+    "chunk": "completedocument16",
+    "context": "Coloured points show the median ratios measured across cluster samples drawn from theHorizon-AGN,Hydrangea,TNG100, and TheThreeHundredsimulation suites, as indicated in the legend."
+  },
+  {
+    "subject": "RadialDensityProfile",
+    "relation": "describes",
+    "object": "CentralComponent",
+    "chunk": "completedocument16",
+    "context": "These areˆ𝜌 ★,cen(𝑟),ˆ𝜌★,acc(𝑟),ˆ𝜌 DM,cen(𝑟)andˆ𝜌 DM,acc(𝑟),whichrepresenttheradialden-sity profiles predicted by our model for the central and accreted components of the cluster, for both the stars and DM."
+  },
+  {
+    "subject": "RadialDensityProfile",
+    "relation": "describes",
+    "object": "AccretedComponent",
+    "chunk": "completedocument16",
+    "context": "These areˆ𝜌 ★,cen(𝑟),ˆ𝜌★,acc(𝑟),ˆ𝜌 DM,cen(𝑟)andˆ𝜌 DM,acc(𝑟),whichrepresenttheradialden-sity profiles predicted by our model for the central and accreted components of the cluster, for both the stars and DM."
+  },
+  {
+    "subject": "CentralComponent",
+    "relation": "partOf",
+    "object": "GalaxyCluster",
+    "chunk": "completedocument16",
+    "context": "These areˆ𝜌 ★,cen(𝑟),ˆ𝜌★,acc(𝑟),ˆ𝜌 DM,cen(𝑟)andˆ𝜌 DM,acc(𝑟),whichrepresenttheradialden-sity profiles predicted by our model for the central and accreted components of the cluster, for both the stars and DM."
+  },
+  {
+    "subject": "CentralStellarComponent",
+    "relation": "normalisedTo",
+    "object": "CentralGalaxy",
+    "chunk": "completedocument16",
+    "context": "The stellar components are re-weighted separately: the cen-tral stellar component is normalised to the mean stellar mass of the central galaxy𝑀sim\n★,cen, while the accreted component is normalised\ntothedifferencebetweenthemeantotalstellarmasswithin𝑅 200and\n𝑀sim\n★,cen,𝑀sim\n★,acc."
+  },
+  {
+    "subject": "MeanTotalStellarMass",
+    "relation": "measuredWithin",
+    "object": "RegionWithinR200",
+    "chunk": "completedocument16",
+    "context": "The stellar components are re-weighted separately: the cen-tral stellar component is normalised to the mean stellar mass of the central galaxy𝑀sim\n★,cen, while the accreted component is normalised\ntothedifferencebetweenthemeantotalstellarmasswithin𝑅 200and\n𝑀sim\n★,cen,𝑀sim\n★,acc."
+  },
+  {
+    "subject": "RadialBoundary200",
+    "relation": "contains",
+    "object": "Star",
+    "chunk": "completedocument17",
+    "context": "For each simulation, we measure the fraction of stars and DM within 𝑅 200 that are excluded from the calculation and re-weight the corresponding central and accreted components accordingly."
+  },
+  {
+    "subject": "RadialBoundary200",
+    "relation": "contains",
+    "object": "DarkMatter",
+    "chunk": "completedocument17",
+    "context": "For each simulation, we measure the fraction of stars and DM within 𝑅 200 that are excluded from the calculation and re-weight the corresponding central and accreted components accordingly."
+  },
+  {
+    "subject": "simulation_horizonAgn",
+    "relation": "deviatesFrom",
+    "object": "SimulationSuite",
+    "chunk": "completedocument17",
+    "context": "There is substantial scatter in the stellar–to–DM density ratio profiles across the different simulation suites, with Horizon-AGN in particular deviating significantly from the others."
+  },
+  {
+    "subject": "IntraclusterStellarDensityProfile",
+    "relation": "concentratesMoreCentrallyThan",
+    "object": "DmProfile",
+    "chunk": "completedocument17",
+    "context": "Individual simulation studies have shown that the intracluster stellar density profile is steeper and more centrally concentrated than the DM profile, such that the ratio 𝜌 ★/𝜌DM follows an approximate power law (e.g. Alonso Asensio et al. 2020; Reina-Campos et al. 2023; Contreras-Santos et al. 2024; Butler et al. 2025; Jeon et al. 2025), with similar trends seen observationally (e.g. Diego et al. 2023)."
+  },
+  {
+    "subject": "Model",
+    "relation": "assumesSpatialStructure",
+    "object": "SphericallySymmetricHaloPotential",
+    "chunk": "completedocument17",
+    "context": "Despite the simplifying assumptions of our model, including a static, spherically symmetric halo potential and idealised satellite structure, the predicted stellar–to–DM density ratio profiles reproduce the simulation results to within < 0.2 dex over 2 orders of magnitude in radius, once differences in star-formation efficiency and central galaxy structure are accounted for."
+  },
+  {
+    "subject": "InfallingSatellitePopulation",
+    "relation": "determinesFeaturesOf",
+    "object": "IclSpatialDistribution",
+    "chunk": "completedocument17",
+    "context": "This suggests that the properties of the infalling satellite population alone are sufficient to capture the dominant features of the ICL spatial distribution."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "drivesSeparationIn",
+    "object": "PhaseSpaceDistribution",
+    "chunk": "completedocument17",
+    "context": "A central result is that the separation between the phase-space distributions of stripped stars and stripped DM is driven primarily by satellites with the most similar satellite–to–host mass ratios."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "encompassesSpatialComponent",
+    "object": "ExtendedDmHalo",
+    "chunk": "completedocument17",
+    "context": "First, the extended DM haloes of satellites are stripped early, while the more tightly bound stellar components survive to later stages of the orbit and are deposited only after further orbital decay."
+  },
+  {
+    "subject": "Orbit",
+    "relation": "undergoes",
+    "object": "OrbitalDecay",
+    "chunk": "completedocument17",
+    "context": "First, the extended DM haloes of satellites are stripped early, while the more tightly bound stellar components survive to later stages of the orbit and are deposited only after further orbital decay."
+  },
+  {
+    "subject": "MassiveSatellite",
+    "relation": "steepens",
+    "object": "InnerProfile",
+    "chunk": "completedocument17",
+    "context": "Increasing the contribution of more massive satellites only slightly steepens the inner profile."
+  },
+  {
+    "subject": "DynamicalFriction",
+    "relation": "operatesOn",
+    "object": "MassiveSatellite",
+    "chunk": "completedocument18",
+    "context": "Second, dynamical friction operates most efficiently on massive satellites, causing rapid loss of orbital energy and angular momentum prior to significant stellar stripping."
+  },
+  {
+    "subject": "DynamicalFriction",
+    "relation": "causes",
+    "object": "RapidLossOfOrbitalEnergy",
+    "chunk": "completedocument18",
+    "context": "Second, dynamical friction operates most efficiently on massive satellites, causing rapid loss of orbital energy and angular momentum prior to significant stellar stripping."
+  },
+  {
+    "subject": "Star",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument18",
+    "context": "As a result, stars are preferentially stripped from satellites that have already migrated onto more bound orbits, whereas the bulk of the DM is removed earlier at higher energies."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "removedAt",
+    "object": "HigherEnergy",
+    "chunk": "completedocument18",
+    "context": "As a result, stars are preferentially stripped from satellites that have already migrated onto more bound orbits, whereas the bulk of the DM is removed earlier at higher energies."
+  },
+  {
+    "subject": "MajorMerger",
+    "relation": "dominates",
+    "object": "BuildUpOfCentralGalaxy",
+    "chunk": "completedocument18",
+    "context": "The most extreme case of this process corresponds to major mergers, which are expected to dominate the direct build-up of the central galaxy while also contributing a centrally concentrated component to the ICL (e.g. Contini et al. 2018)."
+  },
+  {
+    "subject": "MajorMerger",
+    "relation": "contributesTo",
+    "object": "IntraclusterLight",
+    "chunk": "completedocument18",
+    "context": "The most extreme case of this process corresponds to major mergers, which are expected to dominate the direct build-up of the central galaxy while also contributing a centrally concentrated component to the ICL (e.g. Contini et al. 2018)."
+  }
+]

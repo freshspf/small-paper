@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["CardinalityConstraint","Efficacy","Toxicity","InteractionStrength","ClinicalSeverity","SixDrugNetwork","Ritonavir","Everolimus","Cabazitaxel","Metformin","Erlotinib","Topotecan","PharmacologicalClass","LowEnergyConfiguration","ClinicallyMeaningfulDrugSubset","DecisionSupport","MathematicalFramework","Drug","BinaryDecisionVariable","CandidateMultiDrugCombination","Bitstring","WeightedGraph","Vertex","InteractionWeight","PharmacologicalResource","LossFunction","PenaltyCoefficient","HarmfulWeight","PauliZEigenvalue","PauliZOperator","GroundState","Qubit"]
+
+Triples:
+[{"subject":"ObjectiveHamiltonian","relation":"encodes","object":"DDIAwareObjective"},{"subject":"FeedbackMechanism","relation":"enforces","object":"MonotonicDecreaseOfObjectiveEnergy"},{"subject":"FeedbackMechanism","relation":"implements","object":"QuantumGradientDescent"},{"subject":"QuantumGradientDescent","relation":"avoids","object":"GradientEvaluation"},{"subject":"QuantumGradientDescent","relation":"avoids","object":"MultiParameterTuning"},{"subject":"QuantumControlBasedFramework","relation":"formulates","object":"MaximumSafeSubsetProblem"},{"subject":"QuantumControlBasedFramework","relation":"formulates","object":"SynergyConstrainedOptimizationProblem"},{"subject":"MaximumSafeSubsetProblem","relation":"seeks","object":"LargestSafeDrugSet"},{"subject":"MaximumSafeSubsetProblem","relation":"mapsTo","object":"IsingHamiltonian"},{"subject":"MaximumSafeSubsetProblem","relation":"uses","object":"PenalizingCoupling"},{"subject":"SynergyConstrainedOptimizationProblem","relation":"augments","object":"MaximumSafeSubsetProblem"},{"subject":"SynergyConstrainedOptimizationProblem","relation":"incorporates","object":"SynergyReward"},{"subject":"SynergyConstrainedOptimizationProblem","relation":"incorporates","object":"CardinalityConstraint"},{"subject":"SynergyConstrainedOptimizationProblem","relation":"capturesTradeOffBetween","object":"Efficacy"},{"subject":"SynergyConstrainedOptimizationProblem","relation":"capturesTradeOffBetween","object":"Toxicity"},{"subject":"SynergyConstrainedOptimizationProblem","relation":"capturesTradeOffBetween","object":"RegimenSize"},{"subject":"Objective","relation":"isEncodedAs","object":"IsingHamiltonian"},{"subject":"InteractionData","relation":"isObtainedFrom","object":"DrugsCom"},{"subject":"InteractionData","relation":"isObtainedFrom","object":"SYNERGxDB"},{"subject":"InteractionStrength","relation":"reflects","object":"ClinicalSeverity"},{"subject":"InteractionStrength","relation":"reflects","object":"SynergyStrength"},{"subject":"SixDrugNetwork","relation":"consistsOf","object":"Ritonavir"},{"subject":"SixDrugNetwork","relation":"consistsOf","object":"Everolimus"},{"subject":"SixDrugNetwork","relation":"consistsOf","object":"Cabazitaxel"},{"subject":"SixDrugNetwork","relation":"consistsOf","object":"Metformin"},{"subject":"SixDrugNetwork","relation":"consistsOf","object":"Erlotinib"},{"subject":"SixDrugNetwork","relation":"consistsOf","object":"Topotecan"},{"subject":"SixDrugNetwork","relation":"has","object":"HarmfulInteraction"},{"subject":"SixDrugNetwork","relation":"has","object":"SynergisticInteraction"},{"subject":"ITEFALQON","relation":"convergesTo","object":"LowEnergyConfiguration"},{"subject":"LowEnergyConfiguration","relation":"belongsTo","object":"MaximumSafeSubsetProblem"},{"subject":"LowEnergyConfiguration","relation":"belongsTo","object":"SynergyConstrainedOptimizationProblem"},{"subject":"ITEFALQON","relation":"outperforms","object":"FALQON"},{"subject":"ITEFALQON","relation":"identifies","object":"ClinicallyMeaningfulDrugSubset"},{"subject":"Method","relation":"isAppliedTo","object":"COVID19CaseStudy"},{"subject":"FeedbackBasedQuantumControl","relation":"supports","object":"BiomedicalOptimization"},{"subject":"FALQON","relation":"offersRouteToward","object":"DecisionSupport"},{"subject":"DecisionSupport","relation":"appliesTo","object":"DrugCombinationDesign"},{"subject":"MathematicalFramework","relation":"encodes","object":"DrugDrugInteractionData"},{"subject":"DrugDrugInteractionData","relation":"isEncodedInto","object":"IsingHamiltonian"}]

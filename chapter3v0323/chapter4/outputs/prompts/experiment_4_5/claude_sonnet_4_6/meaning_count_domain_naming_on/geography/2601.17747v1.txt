@@ -1,0 +1,569 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Bridging Supervision Gaps: A Uniﬁed Framework for Remote Sensing
+Change Detection
+Kaixuan Jiang , Chen Wu→ , Zhenghui Zhao and Chengxi Han
+State Key Laboratory of Information Engineering in Surveying, Mapping and Remote Sensing, Wuhan
+University, Wuhan, China
+{kaixuan.jiang, chen.wu}@whu.edu.cn
+Abstract
+Change detection (CD) aims to identify surface
+changes from multi-temporal remote sensing im-
+agery. In real-world scenarios, Pixel-level change
+labels are expensive to acquire, and existing mod-
+els struggle to adapt to scenarios with diverse an-
+notation availability. To tackle this challenge,
+we propose a uniﬁed change detection framework
+(UniCD), which collaboratively handles super-
+vised, weakly-supervised, and unsupervised tasks
+through a coupled architecture. UniCD eliminates
+architectural barriers through a shared encoder
+and multi-branch collaborative learning mecha-
+nism, achieving deep coupling of heterogeneous
+supervision signals. Speciﬁcally, UniCD consists
+of three supervision-speciﬁc branches. In the su-
+pervision branch, UniCD introduces the spatial-
+temporal awareness module (STAM), achieving ef-
+ﬁcient synergistic fusion of bi-temporal features.
+In the weakly-supervised branch, we construct
+change representation regularization (CRR), which
+steers model convergence from coarse-grained acti-
+vations toward coherent and separable change mod-
+eling. In the unsupervised branch, we propose
+semantic prior-driven change inference (SPCI),
+which transforms unsupervised tasks into con-
+trolled weakly-supervised path optimization. Ex-
+periments on mainstream datasets demonstrate that
+UniCD achieves optimal performance across three
+tasks. It exhibits signiﬁcant accuracy improve-
+ments in weakly and unsupervised scenarios, sur-
+passing current state-of-the-art by 12.72 % and
+12.37% on LEVIR-CD, respectively. The code will
+be available at: link.
+1 Introduction
+Change detection (CD) is a technique that identiﬁes land
+cover changes by analyzing multi-temporal remote sensing
+images. It plays an important role in land resource monitor-
+ing, urban expansion analysis, disaster assessment, and agri-
+cultural monitoring [Hussain et al. , 2013 ]. With the rapid
+→Corresponding Author
+Figure 1: Our proposed UniCD is a supervision-adaptive framework
+that supports supervised, weakly-supervised, and unsupervised CD
+tasks in a uniﬁed manner.
+advancement of remote sensing platforms, multi-temporal
+observation data has become widely accessible, enabling a
+more granular characterization of surface dynamics through
+time-series comparisons. Meanwhile, multi-temporal remote
+sensing imagery also exhibits complex time-varying features
+driven by multiple factors, including land cover evolution, il-
+lumination changes, and seasonal effects. Consequently, how
+to effectively distinguish real changes and pseudo changes re-
+mains a core challenge in CD.
+Early CD research primarily focused on designing effec-
+tive network architectures, evolving from Convolutional Neu-
+ral Networks (CNNs) [Li et al., 2021] to Transformers [Han
+et al. , 2022 ] and Mamba [Gu and Dao, 2024 ]. To further
+enhance the model’s ability to perceive complex scenes, re-
+searchers have recently begun to leverage powerful seman-
+tic priors from large-scale pre-training. Consequently, visual
+foundation models (VFMs) [Awais et al., 2025] have demon-
+strated remarkable generalization capabilities across a wide
+range of vision tasks. However, when applied to remote sens-
+ing CD, VFMs (e.g., SAM [Kirillov et al., 2023]) still require
+task-speciﬁc adaptation with explicit supervision signals to
+accurately distinguish temporal changes from complex back-
+ground variations.
+Most existing CD methods are still constrained by su-
+pervised learning paradigms. Some works explore weakly-
+supervised or unsupervised learning paradigms. However,
+arXiv:2601.17747v1 [cs.CV] 25 Jan 2026
+weakly-supervised methods reduce annotation requirements
+but struggle to effectively suppress spurious changes while
+preserving structural integrity of changed regions. Unsuper-
+vised methods are highly susceptible to interference from
+pseudo-changes such as lighting and seasonal variations due
+to their lack of explicit modeling for spatial-temporal differ-
+ences. Moreover, CD methods for various supervision tasks
+are typically modeled independently, which restricts their
+ﬂexibility to adapt to the varying availability of annotations
+in practical applications. Therefore, how to construct CD ar-
+chitectures adaptable to supervised, weakly-supervised, and
+unsupervised settings while demonstrating outstanding detec-
+tion efﬁciency has become a key challenge for CD methods
+in complex dynamic scenarios.
+To address this dilemma, we propose a uniﬁed change
+detection framework (UniCD) that integrates latent-driven
+strategies to accommodate three supervision paradigms. The
+overall architecture of UniCD is depicted in Fig. 1. Exper-
+imental results demonstrate that UniCD exhibits outstanding
+detection performance across all three tasks. The main con-
+tributions are as follows:
+• We propose a uniﬁed change detection framework
+(UniCD), which can collaboratively support super-
+vised, weakly-supervised, and unsupervised learning
+paradigms.
+• We design a spatial-temporal awareness module
+(STAM) for supervised learning. By explicitly process-
+ing spatial correlations and temporal evolution between
+bi-temporal features, it achieves reﬁned reconstruction
+of change areas with a concise and efﬁcient architecture.
+• We design change representation regularization (CRR)
+for weakly-supervised learning. It integrates spatial
+consistency regularization (SCR) and contrast feature
+regularization (CFR) to impose geometric invariance
+constraints while driving semantic feature alignment,
+thereby forming more discriminative change decision
+boundaries.
+• We propose a semantic prior-driven change inference
+(SPCI) for unsupervised learning. By leveraging CLIP’s
+cross-modal semantic alignment capability, UniCD gen-
+erates variant pseudo-annotations under unlabeled con-
+ditions, effectively bridging the gap between unsuper-
+vised and weakly-supervised learning.
+2 Related Work
+2.1 Remote Sensing Change Detection
+Categorized by supervision information, remote sensing CD
+tasks can generally be divided into three main paradigms: su-
+pervised, weakly-supervised, and unsupervised CD. Super-
+vised CD relies on pixel-level change annotations, enabling
+direct learning of precise change boundaries. DSAMNet inte-
+grates deep supervision with attention-based metric learning
+to better model bi-temporal differences [Liu and Shi, 2021 ].
+BIT pioneers Transformer-based CD by using self-attention
+to capture long-range spatial–temporal dependencies [Chen
+et al., 2021]. Moreover, SAM-CD incorporates a visual foun-
+dation model as the backbone [Ding et al. , 2024 ], leverag-
+ing large-scale pretraining priors to improve robustness in
+complex scenes. Supervised CD methods have established a
+relatively mature technical framework across various remote
+sensing applications. However, such methods heavily rely on
+precise pixel-level change annotations, which are costly to
+obtain and difﬁcult to scale to large, multi-region, or long-
+term application scenarios.
+Weakly-supervised CD relies solely on image-level or
+region-level annotations, attempting to locate change areas
+through indirect supervision signals. CS-WSCD leverages
+Class Activation Maps (CAM) to extract spatial responses
+from classiﬁcation networks, thereby delineating potential
+change regions [Wang et al. , 2023 ]. Driven by the demand
+to further reduce reliance on manual annotations, researchers
+have turned their attention to unsupervised CD that oper-
+ate entirely without change labels. DSFA [Du et al. , 2019 ]
+characterize potential change areas by measuring differences
+between bi-temporal images in latent space. AnyChange
+[Zheng et al. , 2024 ] introduces SAM to identify changes
+through bi-temporal latent matching.
+Despite steady progress in network architectures and rep-
+resentation learning strategies, most existing remote sensing
+CD methods are developed under ﬁxed supervision assump-
+tions. This limits their ﬂexibility in practical applications.
+Such limitations motivate the exploration of more general
+frameworks that can adaptively handle diverse supervision
+conditions.
+2.2 Multi-Level Supervision Learning
+In computer vision, researchers have explored adapting
+supervised, weakly-supervised, and unsupervised training
+modes within a uniﬁed model framework to address label
+heterogeneity, thereby enhancing model applicability under
+diverse annotation conditions. For instance, in image seg-
+mentation tasks, Omni-RES proposes a uniﬁed modeling
+paradigm for referential segmentation learning [Huang et al.,
+2024]. Through a teacher-student framework within a single
+model architecture, it effectively adapts to different supervi-
+sion settings by leveraging pixel-level labels, weak labels, and
+unlabeled data, respectively. In object detection tasks, Omni-
+DETR employs shared feature representations while adopting
+differentiated optimization strategies for different supervision
+conditions, thereby avoiding separate model designs for each
+supervision paradigm [Wang et al., 2022].
+In remote sensing CD, to address the longstanding frag-
+mentation between supervised, weakly-supervised, and unsu-
+pervised CD tasks, FCD-GAN pioneeringly proposes a repre-
+sentative method for simultaneous modeling across all three
+supervision paradigms [Wu et al. , 2023 ]. FCD-GAN im-
+plicitly models the change distribution through an adversarial
+learning process between the segmenter, generator, and dis-
+criminator. This framework directly optimizes using pixel-
+level annotations in supervised scenarios, while characteriz-
+ing changed regions via generative modeling and distribution
+constraints in weakly-supervised and unsupervised settings.
+However, FCD-GAN lacks explicit constraints on the
+structural stability and semantic discriminability of changed
+Figure 2: Framework of UniCD. It consists of three branches. The supervised branch employs STAM for pixel-level prediction. In the
+weakly-supervised branch, UniCD is reﬁned by SCR and CFR. SCR enforces geometric consistency under view perturbations to learn stable,
+invariant features. CFR uses CAMs as semantic anchors to align unchanged features and separate changed features. In the unsupervised
+branch, SPCI leverages semantic priors from foundation models and integrates feature responses to extract pseudo-labels, transforming the
+unsupervised task into CRR-constrained optimization within the weakly-supervised branch.
+regions. The GAN-based optimization process suffers from
+training instability, which limits its performance across differ-
+ent supervision paradigms. In this work, we propose a uniﬁed
+CD framework that enables stable and discriminative change
+perception across multiple supervision paradigms.
+3 Method
+3.1 Overview
+As shown in Fig. 2, we propose a uniﬁed framework UniCD,
+which aims to unify CD tasks with varying supervision levels.
+Speciﬁcally, STAM for supervised learning in Section 3.2 ,
+CRR for weakly-supervised learning in Section 3.3, SPCI for
+unsupervised learning in Section 3.4.
+Initially, we employ the frozen FastSAM as the feature
+encoder ω (·), ﬁne-tuned with adapter. Given a pair of bi-
+temporal images, the model produces a set of multi-scale fea-
+ture representations {F t
+i }t=1,2
+i=1,2,3,4 after passing through ω (·).
+In the supervised branch, multi-scale features are fused by
+STAM to model spatial structures and temporal variations,
+generating the prediction map ˆY through the decoder. Later,
+supervised by pixel-level label Y , the supervised component
+is optimized using a batch-balanced contrastive loss, deﬁned
+as follows:
+Lsup = 1
+i,j
+(1 → Yi,j ) · ˆY 2
+i,j
++ 1
+i,j
+Yi,j · max(0, 1 → ˆYi,j )2,
+(1)
+In the weakly-supervised branch, to effectively learn the
+spatial distribution of changed regions, UniCD introduces
+CRR. Following multi-scale feature extraction, a classiﬁca-
+tion branch is added to generate CAM. Subsequently, the
+network undergoes deep constraints by combining SCR and
+CFR, progressively reﬁning spatially interpretable changed
+regions from coarse-grained semantic activations. During
+training, CAM is continuously calibrated and reﬁned through
+the joint optimization of regularization terms, enabling the
+model to progressively develop clearer representations of
+changed regions. The weakly-supervised branch jointly opti-
+mizes three objectives: binary classiﬁcation loss Lbc, spatial
+coherency loss Lsc, and contrastive feature loss Lcf . The
+combined training objective is:
+Lweak = Lcls + Lsc + Lcf , (2)
+In the unsupervised branch, UniCD ingeniously trans-
+forms unsupervised perception logic into a learnable weakly-
+supervised process by incorporating SPCI. It utilizes Fast-
+SAM to extract panoramic feature masks. Subsequently,
+Figure 3: The overall structure of STAM, which can effectively
+model spatial structures and temporal variations.
+CLIP is used to compute the semantic similarity between
+instance-level masks and text prompts to anchor foreground
+features. By calculating the cosine distance of encoder fea-
+tures to identify change patterns, foreground features are mul-
+tiplied with change patterns to generate a change map fo-
+cused on the foreground. Thus, the unsupervised paradigm
+is ingeniously transformed into pseudo label-driven weakly-
+supervised tasks, leveraging generated pseudo-labels for op-
+timization to achieve modeling of changed regions under un-
+supervised conditions.
+3.2 Spatial-Temporal Awareness Module
+The core design principle of STAM lies in achieving efﬁcient
+feature modeling. Unlike many methods that rely on com-
+plex attention mechanisms, STAM fully exploits the spatial-
+temporal correlations through lightweight convolutional op-
+erators without complex computations. {F t
+i }t=1,2
+i=1,2,3,4 are
+fed into STAM for feature fusion. STAM progressively in-
+tegrates multi-scale features through hierarchical merging
+of bi-temporal characteristics, gradually combining spatial
+structures and temporal information into a uniﬁed represen-
+tation. STAM primarily consists of two stages: spatial-aware
+fusion and temporal-aware fusion.
+Spatial-Aware Fusion
+STAM adopts a top-down integration strategy to aggregate
+multi-scale spatial features within each temporal phase t ↑
+{1, 2}. For scale i, the deep feature F t
+i+1 is reshaped to match
+the resolution of the shallower layer F t
+i . The fused spatial
+representation St
+i is formulated as:
+i = ML P(Concat(F t
+i ,R e s h a p e(F t
+i+1))), (3)
+where MLP (·) denotes a lightweight mapping block con-
+sisting of convolution, normalization, and ReLU activation.
+This process effectively integrates structural textures from
+shallow layers with semantic cues from deep layers.
+Temporal-Aware Fusion
+To capture the evolutionary logic between bi-temporal
+phases, STAM further performs temporal coupling. Given the
+aggregated spatial features S1
+i and S2
+i for both timestamps,
+the ﬁnal spatio-temporal output Sout
+i is generated by:
+Sout
+i = ML P(Concat(S1
+i ,S 2
+i )), (4)
+By concatenating along the temporal dimension and apply-
+ing deep integration, STAM yields a discriminative feature
+map rich in spatial-temporal evolution information, which is
+then used for the ﬁnal change prediction.
+3.3 Change Representation Regularization
+In weakly-supervised CD scenarios, due to reliance solely
+on image-level labels or coarse-grained signals, the model
+lacks sufﬁcient pixel-level discriminative constraints, making
+it difﬁcult to naturally form clear and stable change bound-
+aries. Existing methods typically employ class activation
+maps (CAMs) to derive spatial responses from the reverse
+gradients of classiﬁcation branches. However, the generation
+mechanism of CAM inherently focuses on the saliency at-
+tribution of global discriminative targets. Direct reliance on
+CAMs often encounters two critical bottlenecks: First, spa-
+tial instability, CAMs’ semantic responses are highly sensi-
+tive to geometric perturbations, resulting in activation regions
+lacking spatial robustness; Second, the representation ambi-
+guity, where changes and unchanged features in the feature
+space lack sufﬁcient separability, making the model sensitive
+to background noise and unable to focus on real changes. To
+tackle the issues, UniCD proposes spatial consistency regu-
+larization and contrast feature regularization, aiming to re-
+solve the common problems in weakly-supervised CD.
+Spatial Coherency Regularization
+The model initially applies a random spatial inversion trans-
+formation T(·) to the bi-temporal input image pair I, feeding
+it into encoder ω (·) to extract multi-scale hierarchical fea-
+tures. Subsequently, to evaluate feature stability within a uni-
+ﬁed metric space, we perform coordinate realignment by ap-
+plying an inverse transform operator to these features. The
+spatial consistency loss Lsc is deﬁned by calculating the L1
+norm distance between the original feature stream and the in-
+verse transform feature stream:
+Lsc =
+T →1(ω(T (I))) → ω(I)
+1 , (5)
+This regularization mechanism signiﬁcantly enhances the
+robustness of underlying feature extraction by imposing
+structural constraints in the latent space. It effectively sup-
+presses local texture ﬂuctuations and random noise responses
+from background interference. This enables the model to
+transition from simple “saliency detection” to perceiving the
+overall geometric consistency of the target. This guides the
+spatial form of the variation region to gradually converge into
+a coherent and reliable structural representation during train-
+ing, ultimately achieving topological preservation of the vari-
+ation target even in conditions lacking precise annotations.
+Contrastive Feature Regularization
+CFR adopts representational learning perspectives to im-
+pose explicit discriminative constraints on bi-temporal fea-
+tures. This enhances the separability of change and un-
+changed regions within the latent space, thereby alleviating
+the sparse supervision problem. Model utilizes class acti-
+vation maps as change anchors to impose contrastive con-
+straints on the feature streams {F t
+i }t=1,2
+i=1,2,3,4 extracted by en-
+coder ω (·). For regions with low CAM responses, we extract
+Figure 4: Qualitative visual analysis of LEVIR-CD under three supervision patterns. False positive (erroneously changed) pixels are marked
+in red, while false negative (erroneously unchanged) pixels are marked in blue.
+and construct them as an unchanging region anchors Ru. In
+the spatial domain deﬁned by Ru, the explicit constraints on
+bi-temporal feature representations converge toward consis-
+tency, thereby reinforcing temporal consistency in unchanged
+regions and boosting the stability of background representa-
+tion. In contrast, we extract regions with higher CAM re-
+sponses as change anchors Rc, encouraging broader diver-
+gence of bi-temporal features in the latent space. This ef-
+fectively enhances the model’s ability to distinguish change
+patterns, driving the model to achieve precise focus on real-
+world changes from a macro-semantic dimension. The con-
+trastive feature loss Lcf is deﬁned as:
+Lcf =1 →
+(
+F t1
+i → F t2
+· Rc
+1∑ Mc + ε +
+(
+F t1
+i → F t2
+· Ru
+1∑ Mu + ε ,
+(6)
+Contrastive feature regularization fully leverages the inher-
+ent properties of background semantic consistency and target
+evolution heterogeneity in CD tasks. This enables the net-
+work to learn more stable and discriminative change repre-
+sentations under weakly-supervised settings, effectively sup-
+pressing false change interference while improving both the
+localization accuracy and boundary integrity of changed re-
+gions.
+3.4 Semantic Prior-Driven Change Inference
+Without labels, neural networks struggle to reliably identify
+changed regions. UniCD introduces SPCI, integrating cross-
+modal knowledge into the decisional process. We utilize Fast-
+SAM instance segmentation to capture potential target in-
+stance masks M = {m1,m 2,...,m k} from remote sensing
+image I. Subsequently, by constructing a foreground seman-
+Model LEVIR-CD WHU-CD CLCD
+F1 IoU OA F1 IoU OA F1 IoU OA
+SNUNet 89.96 81.75 98.97 79.69 66.23 96.82 64.01 47.06 94.62
+ChangeFormer 89.10 80.34 98.89 83.77 72.07 97.84 64.16 47.24 94.84
+DMINet 88.78 79.82 98.85 82.11 69.65 98.39 63.08 46.07 94.36
+SAM-CD 89.53 81.06 98.48 91.40 84.51 99.41 63.74 46.78 94.73
+CDMask 90.48 82.61 99.21 91.44 84.23 99.39 67.13 50.53 94.94
+ChangeMamba 90.37 82.43 99.03 91.96 85.11 99.45 71.71 55.89 95.98
+Meta-CD 91.25 83.91 99.11 92.16 85.46 99.44 70.24 54.13 94.95
+MDENet 91.33 84.05 99.11 91.92 85.05 99.35 71.53 55.68 95.70
+DA!Net 91.40 84.17 99.12 92.48 86.02 99.42 71.99 56.24 96.20
+UniCDv1 91.55 84.43 99.16 93.38 87.58 99.47 72.70 57.11 96.29
+UniCDv2 92.10 85.36 99.19 93.94 88.57 99.51 75.94 61.22 96.55
+Table 1: Supervised results ( %) on LEVIR-CD, WHU-CD and
+CLCD. We highlight the best and second best value in red and blue
+colors.
+tic vocabulary Tfg and a background semantic vocabulary
+Tbg , and feeding them into CLIP’s text encoder Et to extract
+semantic feature vectors. Meanwhile, M is fed into CLIP’s
+image encoder Ei. By calculating the cosine similarity be-
+tween instance masks and semantic categories, the model can
+obtain the foreground probability scores for each instance.
+P (mj )=
+t↑Tfg
+exp(cos(Ei(I ↓ mj ),E t(t)))
+t↑Tfg ↓Tbg
+exp(cos(Ei(I ↓ mj ),E t(t))) , (7)
+By conducting a weighted mapping of the probability
+scores over their corresponding instances masks, the fore-
+Model LEVIR-CD WHU-CD CLCD
+F1 IoU OA F1 IoU OA F1 IoU OA
+WCDNet 34.45 20.81 85.46 48.90 32.36 90.56 25.66 14.72 92.11
+SEAM 41.38 26.09 88.99 50.10 33.42 94.89 51.01 34.23 92.29
+MS-Former 64.64 47.76 96.36 65.68 48.89 95.53 37.17 22.83 87.18
+MCTFormer 64.55 44.66 95.45 55.99 38.87 93.01 34.39 20.77 90.10
+BGMix 52.03 35.16 96.84 59.43 42.28 96.29 33.90 20.41 91.17
+FCD-GAN 55.42 38.33 93.79 50.74 33.98 96.13 25.88 14.86 92.92
+TransWCD 63.44 46.46 95.97 70.01 53.87 96.44 47.70 31.32 92.78
+CS-WSCD 64.14 47.21 96.87 73.05 57.53 97.08 49.96 33.30 91.10
+S2C 65.08 48.22 96.35 73.40 58.01 97.47 50.84 34.08 91.54
+UniCDv1 72.84 57.28 97.29 73.86 58.56 97.74 59.10 41.95 94.21
+UniCDv2 77.80 63.67 98.15 75.89 61.14 97.72 58.46 41.30 94.37
+Table 2: Weakly-supervised results ( %) on LEVIR-CD, WHU-CD
+and CLCD. We highlight the best and second best value in red and
+blue colors.
+ground saliency feature map Ff is generated. To detect
+whether the foreground has changed, UniCD further uti-
+lizes the multi-scale features output by FastSAM to perform
+concatenation and scale alignment operations, obtaining the
+fused bi-temporal global features Ft1 and Ft2. By calculat-
+ing the cosine distance between bi-temporal features in the
+embedding space, we capture the feature distance map D.
+D =1 → Ft1 · Ft2
+↔Ft1↔↔Ft2↔, (8)
+Subsequently, UniCD performs a pixel-wise multiplication
+between the difference map D and the foreground saliency
+feature map Ff . This operation highlights changed regions
+under foreground objects, thus obtaining the pseudo change
+label V . The formula is as follows:
+V = Ff ↗ D, (9)
+4 Experiments
+4.1 Datasets and Implementation Details
+To validate UniCD’s performance across various CD tasks,
+we conduct extensive experiments on three publicly avail-
+able benchmark datasets: LEVIR-CD [Chen and Shi, 2020 ],
+WHU-CD [Ji et al. , 2018 ], and CLCD [Liu et al. , 2022 ].
+All experiments in this paper are implemented on the Py-
+Torch framework [Paszke et al. , 2019 ] and trained on a sin-
+gle NVIDIA GeForce RTX 3090 GPU. We selected AdamW
+[Kingma, 2014] as the model optimizer with an initial learn-
+ing rate of 1 ↗ 10→4. All experiments maintained consistent
+training strategies to ensure fairness in performance evalua-
+tion. Ultimately, we evaluate the model performance using
+three commonly metrics, including F1-score (F1), Intersec-
+tion over Union (IoU), and Overall Accuracy (OA).
+4.2 Comparative Experiment
+To comprehensively and objectively evaluate UniCD’s per-
+formance, this study selected twenty-seven representative
+Model LEVIR-CD WHU-CD CLCD
+F1 IoU OA F1 IoU OA F1 IoU OA
+ISFA 10.20 5.37 71.84 8.70 4.55 73.71 17.83 9.79 76.13
+DCV A 12.21 6.50 56.57 9.06 4.75 54.46 17.35 9.50 55.45
+DSFA 10.09 5.32 72.64 10.00 5.26 74.04 18.32 10.08 57.81
+KPCA 9.05 4.74 62.04 11.91 6.33 72.26 17.16 9.38 70.06
+CDRL 10.30 5.43 64.88 8.49 4.43 74.54 12.26 6.54 49.49
+SiROC 9.58 5.03 78.91 9.37 4.92 81.90 19.79 11.00 80.87
+I3PE 30.87 18.26 86.62 23.52 13.33 79.97 34.44 20.78 85.87
+FCD-GAN 11.08 5.86 71.76 9.71 5.10 77.53 34.86 21.12 83.63
+AnyChange 24.71 14.09 76.18 22.86 12.90 76.15 27.39 15.87 80.88
+UniCDv1 39.79 24.84 88.28 29.28 17.15 89.42 38.12 23.56 83.40
+UniCDv2 43.24 27.58 89.36 32.13 19.14 88.67 45.96 29.84 91.38
+Table 3: Unsupervised results ( %) on LEVIR-CD, WHU-CD and
+CLCD. We highlight the best and second best value in red and blue
+colors.
+methods across three paradigms, with nine methods for each
+category: (i) Supervised methods: SNUNet [Fang et al. ,
+2021], ChangeFormer [Bandara and Patel, 2022 ], DMINet
+[Feng et al. , 2023 ], SAM-CD [Ding et al. , 2024 ], CD-
+Mask [Ma et al. , 2024 ], ChangeMamba [Chen et al. , 2024 ],
+MetaCD [Gao et al., 2025], MDENet [Luo et al., 2025], and
+DA!Net [Ning et al., 2025]. (ii) Weakly-supervised methods:
+WCDNet [Andermatt and Timofte, 2020 ], SEAM [Wang et
+al., 2020], MS-Former [Kalita et al., 2021], MCTFormer [Xu
+et al., 2022], BGMix [Huang et al., 2023], FCD-GAN [Wu et
+al., 2023], TransWCD [Zhao et al., 2023], CS-WSCD [Wang
+et al., 2023 ], and S2C [Kweon and Y oon, 2024]. (iii) Unsu-
+pervised methods: ISFA [Wu et al. , 2013 ], DCV A [Saha et
+al., 2019], DSFA [Du et al., 2019], KPCA [Wu et al., 2021],
+CDRL [Noh et al. , 2022 ], SiROC [Kondmann et al. , 2021 ],
+I3PE [Chen et al. , 2023 ], FCD-GAN [Wu et al. , 2023 ], and
+AnyChange [Zheng et al. , 2024 ]. To validate the impact of
+backbone selection on the performance of the UniCD, we of-
+fer two versions: UniCDv1 and UniCDv2, which employ the
+foundational model FastSAM and the classic network ResNet
+as feature extractors, respectively.
+Supervised Change Detection Results
+Table 1 presents quantitative comparisons of various CD
+methods across the LEVIR-CD, WHU-CD, and CLCD
+datasets. Experimental results demonstrate that UniCD sur-
+passes SOTA performance across multiple core metrics, val-
+idating its superior capability under the fully supervised
+paradigm. On LEVIR-CD, UniCDv1 achieves an F1-score
+of 91.55 %, while UniCDv2 further reaches 92.10 %. On
+WHU-CD, UniCD exhibits even more pronounced advan-
+tages. UniCDv2 achieved an F1-score of 93.94 % and an IoU
+of 88.57%, surpassing DA2Net by 1.46% and 2.55%, respec-
+tively. On CLCD, UniCD exhibits exceptional robustness.
+UniCDv2 achieves an IoU of 61.22 %, surpassing DA2Net by
+4.98%. Notably, UniCD achieves SoTA performance while
+maintaining high computational efﬁciency solely by introduc-
+ing STAM.

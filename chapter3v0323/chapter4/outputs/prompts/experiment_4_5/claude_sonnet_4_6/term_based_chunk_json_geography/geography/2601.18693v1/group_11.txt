@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "StellarToDmEnergyRatio",
+  "variesWith",
+  "AccretionTime",
+  "ModelPrediction",
+  "comparedAgainst",
+  "CosmologicalHydrodynamicalSimulationSuite",
+  "includes",
+  "simulation_horizonAgn",
+  "simulation_hydrangea",
+  "simulation_tng100",
+  "InfallingSatellitePopulation",
+  "shapes",
+  "RelationshipBetweenIclAndDm",
+  "Icl",
+  "moreCentrallyConcentratedThan",
+  "Dm",
+  "concentratedIn",
+  "cluster_smacs0723",
+  "IclSurfaceBrightnessProfile",
+  "traces",
+  "ClusterRadialMassDistribution",
+  "WeakLensingMeasurement",
+  "sourcedFrom",
+  "project_euclid",
+  "project_lsst",
+  "MassDistributionOfIndividualCluster",
+  "DmDistribution",
+  "inferredFrom",
+  "SpatialStructureOfIcl",
+  "VariationInSatelliteStellarMassFunction",
+  "produces",
+  "PredictedRadialGradient",
+  "MassiveSatellite",
+  "generates",
+  "VisibleTidalDebris",
+  "influences",
+  "GlobalDynamicalState",
+  "KinematicSubstructure",
+  "StellarPopulationGradient",
+  "locatedIn",
+  "IntraClusterLight",
+  "ModelSatellite",
+  "evolvesWithin",
+  "LiveClusterHalo",
+  "StrippedStar",
+  "occupies",
+  "PhaseSpaceRegion",
+  "DarkMatter",
+  "depositedOn",
+  "Orbit",
+  "Satellite",
+  "ClusterPotential",
+  "OrbitalEnergy",
+  "transferredTo",
+  "ClusterDarkMatterHalo",
+  "PhaseSpaceOffset",
+  "isSensitiveTo",
+  "CharacteristicMass",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris"
+]
+
+Triples:
+[
+  {
+    "subject": "StellarToDmEnergyRatio",
+    "relation": "variesWith",
+    "object": "AccretionTime",
+    "chunk": "completedocument20",
+    "context": "However, previous work by Butler et al. (2025) has shown that, in realistically evolving cluster potentials which include non-adiabatic growth, the stellar–to–DM energy ratio of tidally stripped stars and DM varies only modestly with accretion time."
+  },
+  {
+    "subject": "ModelPrediction",
+    "relation": "comparedAgainst",
+    "object": "CosmologicalHydrodynamicalSimulationSuite",
+    "chunk": "completedocument20",
+    "context": "To assess whether these simplifying assumptions fundamentally limit the applicability of our results, we compared our model predictions against four independent cosmological hydrodynamical simulation suites (Horizon-AGN, Hydrangea, TNG100, and The Three Hundred GIZMO 7K; see Section 6)."
+  },
+  {
+    "subject": "CosmologicalHydrodynamicalSimulationSuite",
+    "relation": "includes",
+    "object": "simulation_horizonAgn",
+    "chunk": "completedocument20",
+    "context": "To assess whether these simplifying assumptions fundamentally limit the applicability of our results, we compared our model predictions against four independent cosmological hydrodynamical simulation suites (Horizon-AGN, Hydrangea, TNG100, and The Three Hundred GIZMO 7K; see Section 6)."
+  },
+  {
+    "subject": "CosmologicalHydrodynamicalSimulationSuite",
+    "relation": "includes",
+    "object": "simulation_hydrangea",
+    "chunk": "completedocument20",
+    "context": "To assess whether these simplifying assumptions fundamentally limit the applicability of our results, we compared our model predictions against four independent cosmological hydrodynamical simulation suites (Horizon-AGN, Hydrangea, TNG100, and The Three Hundred GIZMO 7K; see Section 6)."
+  },
+  {
+    "subject": "CosmologicalHydrodynamicalSimulationSuite",
+    "relation": "includes",
+    "object": "simulation_tng100",
+    "chunk": "completedocument20",
+    "context": "To assess whether these simplifying assumptions fundamentally limit the applicability of our results, we compared our model predictions against four independent cosmological hydrodynamical simulation suites (Horizon-AGN, Hydrangea, TNG100, and The Three Hundred GIZMO 7K; see Section 6)."
+  },
+  {
+    "subject": "InfallingSatellitePopulation",
+    "relation": "shapes",
+    "object": "RelationshipBetweenIclAndDm",
+    "chunk": "completedocument20",
+    "context": "It suggests that, within the cluster mass range tested (𝑀 h,200<1015M⊙), the dominant factor shaping the relationship between the ICL and DM remains the infalling satellite population, with only a secondary dependence on the detailed implementation of baryonic physics, the inclusion of a fully cosmological context, or variations in host halo assembly history and dynamical state."
+  },
+  {
+    "subject": "Icl",
+    "relation": "moreCentrallyConcentratedThan",
+    "object": "Dm",
+    "chunk": "completedocument20",
+    "context": "Diego et al. (2023, 2024) found that ICL is more centrally concentrated than DM in SMACS0723, consistent with our predictions."
+  },
+  {
+    "subject": "Icl",
+    "relation": "concentratedIn",
+    "object": "cluster_smacs0723",
+    "chunk": "completedocument20",
+    "context": "Diego et al. (2023, 2024) found that ICL is more centrally concentrated than DM in SMACS0723, consistent with our predictions."
+  },
+  {
+    "subject": "IclSurfaceBrightnessProfile",
+    "relation": "traces",
+    "object": "ClusterRadialMassDistribution",
+    "chunk": "completedocument20",
+    "context": "In contrast, Zhang et al. (2019) found that ICL surface brightness profiles appear to trace the cluster radial mass distribution well in 528 DES clusters, suggesting a flatter𝜌 ★/𝜌DMprofile."
+  },
+  {
+    "subject": "WeakLensingMeasurement",
+    "relation": "sourcedFrom",
+    "object": "project_euclid",
+    "chunk": "completedocument20",
+    "context": "Combining deep ICL imaging with weak lensing measurements from Euclid and LSST will soon enable systematic tests of the ICL–DM relationship across large cluster samples."
+  },
+  {
+    "subject": "WeakLensingMeasurement",
+    "relation": "sourcedFrom",
+    "object": "project_lsst",
+    "chunk": "completedocument20",
+    "context": "Combining deep ICL imaging with weak lensing measurements from Euclid and LSST will soon enable systematic tests of the ICL–DM relationship across large cluster samples."
+  },
+  {
+    "subject": "Icl",
+    "relation": "traces",
+    "object": "MassDistributionOfIndividualCluster",
+    "chunk": "completedocument20",
+    "context": "Crucially, ICL offers the potential to trace mass distributions of individual clusters at high redshift (e.g. Euclid Collaboration, Bellhouse et al. 2025) and with low background source densities(e.g.,Hoekstraetal.2013)whereweaklensingconstraints becomechallengingtoobtain,providingapowerfulindependentand complementary probe of cluster mass distributions."
+  },
+  {
+    "subject": "DmDistribution",
+    "relation": "inferredFrom",
+    "object": "SpatialStructureOfIcl",
+    "chunk": "completedocument20",
+    "context": "Any attempt to infer the DM distribution from the spatial or kinematic structure of the ICL must account for the substantial sensitivity of the stellar–to–DM phase-space offsets to the underlying infalling satellite population."
+  },
+  {
+    "subject": "VariationInSatelliteStellarMassFunction",
+    "relation": "produces",
+    "object": "PredictedRadialGradient",
+    "chunk": "completedocument20",
+    "context": "Variations in the satellite stellar mass function represent the dominant source of uncertainty, producing a wide range of possible specific orbital energy and angular momentum ratios and correspondingly large variation in the predicted radial gradients of 𝜌★/𝜌DM."
+  },
+  {
+    "subject": "MassiveSatellite",
+    "relation": "generates",
+    "object": "VisibleTidalDebris",
+    "chunk": "completedocument21",
+    "context": "These systems can generate visible tidal debris, influence the global dynamical state of the cluster (e.g. Kimmig et al. 2025), and produce distinctive kinematic substructure (e.g. Dolag et al. 2010)."
+  },
+  {
+    "subject": "MassiveSatellite",
+    "relation": "influences",
+    "object": "GlobalDynamicalState",
+    "chunk": "completedocument21",
+    "context": "These systems can generate visible tidal debris, influence the global dynamical state of the cluster (e.g. Kimmig et al. 2025), and produce distinctive kinematic substructure (e.g. Dolag et al. 2010)."
+  },
+  {
+    "subject": "MassiveSatellite",
+    "relation": "produces",
+    "object": "KinematicSubstructure",
+    "chunk": "completedocument21",
+    "context": "These systems can generate visible tidal debris, influence the global dynamical state of the cluster (e.g. Kimmig et al. 2025), and produce distinctive kinematic substructure (e.g. Dolag et al. 2010)."
+  },
+  {
+    "subject": "StellarPopulationGradient",
+    "relation": "locatedIn",
+    "object": "IntraClusterLight",
+    "chunk": "completedocument21",
+    "context": "In addition, stellar-population gradients in the ICL provide an independent estimate of the characteristic progenitor mass scale, offering a route to constrain the dominant contributors even when individual accretion events cannot be isolated (e.g. Morishita et al. 2017; Montes & Trujillo 2018; DeMaio et al. 2018)."
+  },
+  {
+    "subject": "ModelSatellite",
+    "relation": "evolvesWithin",
+    "object": "LiveClusterHalo",
+    "chunk": "completedocument21",
+    "context": "In this study we followed the tidal disruption of the stellar and DM components of model satellites evolving within a live cluster halo."
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "occupies",
+    "object": "PhaseSpaceRegion",
+    "chunk": "completedocument21",
+    "context": "Stripped stars and DM occupy systematically different regions of phase-space."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "occupies",
+    "object": "PhaseSpaceRegion",
+    "chunk": "completedocument21",
+    "context": "Stripped stars and DM occupy systematically different regions of phase-space."
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "depositedOn",
+    "object": "Orbit",
+    "chunk": "completedocument21",
+    "context": "Across all satellite mass ratios and orbital configurations explored, stripped stars are deposited on orbits that are systematically more bound and dynamically colder than those of the stripped DM component, occupying lower specific energies and lower specific angular momenta (Figure 4)."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "evolvesWithin",
+    "object": "ClusterPotential",
+    "chunk": "completedocument21",
+    "context": "These offsets arise from the differential removal of stars and DM from satellites, coupled with the subsequent orbital evolution of the satellite within the cluster potential."
+  },
+  {
+    "subject": "OrbitalEnergy",
+    "relation": "transferredTo",
+    "object": "ClusterDarkMatterHalo",
+    "chunk": "completedocument21",
+    "context": "Orbital energy lost by satellites is transferred to the cluster DM halo, but with only a weak global response."
+  },
+  {
+    "subject": "PhaseSpaceOffset",
+    "relation": "isSensitiveTo",
+    "object": "CharacteristicMass",
+    "chunk": "completedocument22",
+    "context": "(vi)Population-averaged stellar–to–DM phase-space offsets are most sensitive to the characteristic mass of the infalling satellite stellar mass function."
+  }
+]

@@ -1,0 +1,101 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "consumptionskewnessovertime",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: consumptionskewnessovertime
+- section_title: Consumption Skewness over Time
+- page_start: 5
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+In order to better understand the bandwidth usage, we
+measured the bandwidth consumed at the three differ-
+ent stages of our experiments (Setup, Submission, and
+Cooldown) as defined in Section 3.
+Fig. 3 differentiates the Transmitted (TX) data, which
+are sent from nodes to clients, from the Received (RX)
+data, which are sent from clients to nodes, when 5 clients
+submit 19,995 transactions (3,999 each) to 5 nodes.
+6.1 Impact of communication protocols on
+idle traffic
+A distinct disparity is visible in the overhead traffic dur-
+ing the non-submission phases (Setup and Cooldown).
+Aptos exhibits significantly higher bandwidth consump-
+tion during these idle periods compared to other
+blockchains. For instance, during Phase 0 (Setup),
+Aptos nodes transmitted 218,856 KiB of data, whereas
+Avalanche and Redbelly transmitted only 298 KiB and
+11 KiB, respectively.
+This massive overhead in Aptos is attributed to its
+client communication architecture. While Avalanche,
+Redbelly, and Solana utilize WebSocket streaming to
+push updates to clients efficiently, Aptos clients rely on
+polling. Consequently, Aptos clients repeatedly request
+data even when blocks are empty, resulting in substantial
+bandwidth usage (≈227,000 KiB in Phase 2) despite the
+absence of new transaction submissions.
+6.2 Block verification and data efficiency
+During the Submission phase (Phase 1), a clear diver-
+gence in data efficiency emerges between Solana and the
+chains compatible with the Ethereum Web3 WebSocket
+API (Avalanche, Redbelly) that use the same methods to
+send and listen to blocks as Ethereum.
+Full block transmissionThese protocols exhibit a high
+ratio of TX to RX traffic. For example, Redbelly re-
+ceived 7,314 KiB of transaction data (RX) but transmitted
+66,511 KiB (TX) back to the clients. This amplification oc-
+curs because these protocols require the node to broad-
+cast the entire block (containing transaction bodies and
+metadata) to every client for verification. Even though a
+client only needs transaction hashes to confirm their fi-
+nality, it must download the full block payload.
+Signature-based verificationSolana demonstrates a
+more balanced traffic profile during submission (RX:
+13,099 KiB vs. TX: 16,325 KiB). Despite Solana having a
+relatively large raw transaction size (215 B) compared to
+Redbelly (105 B) or Avalanche (117 B), its outgoing traffic
+is significantly lower. This efficiency stems from Solana’s
+verification mechanism; clients requesting block confir-
+mation do not need to download the full block body. In-
+stead, they request only the hashes or signatures of com-
+5

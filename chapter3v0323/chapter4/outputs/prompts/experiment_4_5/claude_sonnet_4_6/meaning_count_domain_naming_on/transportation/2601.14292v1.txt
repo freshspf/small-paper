@@ -1,0 +1,450 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Introducing a Novel Systems Thinking approach inspired by STPA: Road Safety
+Intervention design case study
+Halima El Badaoui a,→, Siddartha Khastgir a, Mariat James Elizebeth a, Shufeng Chen a, Takuya Nakashimab, Paul Jenningsa
+aWMG, University of Warwick, 6 Lord Bhattacharyya Way, Coventry, CV4 7AL, West Midlands, United Kingdom
+b Graduate School of Frontier Sciences, The University of Tokyo, 5-1-5 Kashiwanoha , Kashiwa, 277-8563, Japan
+Abstract
+According to the latest provisional statistics released by the UK Department for Transport, Great Britain recorded 1,633 road deaths
+in 2024, representing a slight increase from 2023 and raising concerns about safety progress, which indicates that preventable
+fatalities remain a challenge. The deployment of advanced mobility systems, even certiﬁed and safety-assessed, is not su ﬃcient
+to deliver improved safety outcomes, and existing road infrastructure is not su ﬃciently equipped to prevent severe collisions.
+Successful application of the “Safe System” approach demands systems thinking in an integrated and holistic manner, encompassing
+all aspects of road safety. This paper argues that road safety must be managed as a complex socio-technical system where risk
+evolves dynamically and must be continuously monitored. To address these safety gaps, we propose a systems thinking approach that
+identiﬁes factors contributing to fatal outcomes and mitigates them. The framework consists of four steps: 1) List stakeholders who
+inﬂuence road safety, 2) Model the interactions between these stakeholders, 3) List assumptions that might be identiﬁed as factors
+for fatalities, and 4) Monitor these assumptions throughout the system lifecycle. The approach is applied to the United Kingdom
+(UK) road network to demonstrate feasibility. The study provides actionable guidance and new KPIs categories for stakeholders to
+implement road safety monitoring and eliminate any unreasonable road safety risks.
+Keywords: Road safety, Systems Thinking, Assumptions, Leading Indicators, Corrective Actions, Control structure.
+1. Introduction
+Reducing fatalities and increasing the survival rate in road
+transport remains a global challenge, despite the rapid deploy-
+ment of advanced safety technologies such as Advanced Driver
+Assistance Systems (ADAS) and Automated Driving Systems
+(ADS). While these technological advancements are widely pro-
+moted for their potential to improve road safety, a reduction in
+serious and fatal crashes has not yet materialised. Achieving
+meaningful and measurable safety gain requires a comprehen-
+sive approach that integrates public perception and infrastructure
+readiness into every stage of system design and throughout the
+operational life cycle [ 1, 2]. Neglecting these essential interac-
+tions between people, technology and infrastructure not only
+undermines the potential beneﬁts of automation but may also
+introduce new risks that might increase the likelihood of serious
+or fatal incidents [ 3, 4]. The safe deployment of these tech-
+nologies depends on social acceptance and the adaptability of
+existing road infrastructure, factors often overlooked in techni-
+cal analyses. Statistical evidence reinforces the necessity of a
+systemic approach. The World Health Organisation reports that
+1.9 million people die each year from road tra ﬃc injuries and
+millions suﬀer from disability [5].
+Persistence or rising Killed or Seriously Injured (KSI) statis-
+tics worldwide demonstrate that current strategies, often built
+→Corresponding Author
+Email address: halima.el-badaoui@warwick.ac.uk (Halima El
+Badaoui)
+around retrospective crash data, are not achieving the targeted
+reductions in harm [ 5, 6]. Multiple critical factors from road
+geometry, infrastructure quality and driver behaviour impact the
+severity of road crashes and their outcomes[ 1]. If strategies and
+action plans fail to address the combined and evolving e ﬀects of
+these factors, especially as new technologies are introduced, pre-
+ventable losses will continue to occur [ 7]. Traditional analytical
+methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA),
+Event Tree Analysis (ETA), Failure Mode and E ﬀects Analy-
+sis (FMEA), and Hazard and Operability Analysis (HAZOP),
+alongside road-speciﬁc approaches such as blackspot analysis[8],
+and crash-based statistical models, remain reactive and limited
+in scope. They mainly focus on historical collision data and
+correlations, rather than the underlying systemic causes of risk
+[9–11]. These methods tend to assume that risk is static and pre-
+dictable and overlook feedback loops and emergent properties
+arising from stakeholder interactions. The current stagnation
+in fatality and injury reduction signals the need to shift from
+retrospective crash data analysis toward continuous system-level
+risk monitoring [12–14].
+Recent developments in safety science, particularly the System-
+Theoretic Accident Model and Processes (STAMP) perspec-
+tive, have helped shift the focus from linear accident causation
+to understanding accidents as emergent properties of complex
+socio-technical systems[15, 16]. STAMP-based method, such
+as System-Theoretic Process Analysis (STPA), incorporates sys-
+tem thinking to enable hazard identiﬁcation and the deﬁnition of
+safety constraints across technical, human and organisational fac-
+arXiv:2601.14292v1 [physics.soc-ph] 14 Jan 2026
+tors. However, while systems thinking can reveal what might go
+wrong, it does not guarantee that identiﬁed hazards and assump-
+tions will remain valid once systems are deployed [ 17]. The
+challenge of maintaining the validity of assumptions throughout
+the entire lifecycle, particularly as road systems adapt to techno-
+logical, behavioural and policy changes, remains insu ﬃciently
+addressed.
+1.1. Literature Review
+Recent national and international road safety reports high-
+light that the persistent issue of reducing injury rates remains
+unresolved. In the United Kingdom, recent statistics published
+by the Department for Transport (DfT) report that " There has
+been no signiﬁcant reduction in serious injuries ". Despite years
+of investigation and investment in road safety programmes, the
+progress in reducing fatalities has stagnated. In [ 18],the authors
+further highlights a critical mismatch between global estimates
+of road safety performance and local data. This discrepancy
+creates uncertainty regarding what is actually being addressed
+by policymakers and researchers. which may help explain the
+lack of improvement in road safety outcomes. Traditional ap-
+proaches focus mainly on road safety behaviour, treating road
+safety as a transport issue. Consequently, the authors advocate
+adopting a systems approach to road safety, which considers it
+as an emergent property of a complex socio-technical system,
+and systems thinking o ﬀers a suitable framework for this pur-
+pose, as it enables the interactions between system components,
+including road users, government, infrastructure, and vehicle
+manufacturers.
+Building upon this foundation, [ 19] explores the historical
+development of systems thinking and investigating transport and
+industry safety management to gain insight into how best to
+use the experiences in general road safety management. Simi-
+larly, a study that addresses the challenges associated with the
+Safe System approach and illustrates how inadequate road sys-
+tem design can hinder safe road user behaviour is presented in
+[20]. Numerous studies conducted by Salmon and his colleagues
+have demonstrated that Systems Theory, originally derived from
+workplace safety, can uncover the complex web of interacting
+factors across multiple levels of the road transport system that
+contribute to crashes [21][22]. An article that examines the ‘drift
+into failure’ approach for road safety e ﬀorts, which argues that
+road transport systems do currently display characteristics of
+complex systems in drift, and that a greater understanding of
+complexity theory-based models will support improved road
+safety eﬀorts, is presented in [23].
+From a system theoretic safety perspective, STPA has been
+applied to Austria’s road safety to expose gaps in the road safety
+inspection (RSI) process, especially the limited treatment of
+human, vehicle, and road interactions. The authors identify
+three main areas for improvement: 1) extend RSI beyond the
+TEN-T(Trans-European network) network to Non-TEN-T roads,
+2) broaden the scope to include human factors, vehicle dynam-
+ics, and road user interactions, and 3) apply STPA within the
+overall road safety management process.Their key ﬁndings re-
+veal that the current RSI practice in Austria is reactive rather
+than proactive, inspection boundaries are too narrow, excluding
+human, vehicle, and road interactions, and feedback loops are
+missing. These ﬁndings highlight a critical limitation: the ab-
+sence of closed-loop monitoring to ensure implementation of
+recommendations, along with gaps in procedures and regulatory
+support needed to implement the proposed improvements[ 24].
+While systems approaches and safety analysis like STPA pro-
+vides valuable insights and highlight area of improvement, there
+remains a need for a new framework that can deliver ongoing,
+operational assurance, through the continuous monitoring of
+underlying system assumptions.
+As applied currently, STPA remains primarily a design haz-
+ard analysis and does not prescribe a run-time monitoring frame-
+work. While STPA ’s prominent role at design time is widely
+recognised, establishing continuous, operational monitoring re-
+quires additional assurance steps. As Leveson notes [ 25], the
+concept of assumption-based leading indicators provides guid-
+ance to identify and monitor key assumptions across the entire
+lifecycle. Y et, it does not specify metrics for every assump-
+tion, nor does it establish a mechanism for continuous, opera-
+tional monitoring of assumptions. [ 26] addresses this gap by
+proposing Early Warning Sign Analysis based on the STPA
+(EWaSAP), an extension to STPA that is built around perceiv-
+able signs. EWaSAP helps analysts identify observable early
+warning signs and supports the conﬁguration of sensors and
+awareness actions so that such signals are transmitted and moni-
+tored eﬀectively. In their case study at a drinking water treatment
+works, EWaSAP started from an established STPA, ﬁrst identi-
+fying signs indicating violations, next identifying systems with
+sensors capable of perceiving those signs, and ﬁnally stakehold-
+ers. This process, however, produced a large number of early
+warning signs, and the author acknowledges the complexity of
+managing such a multitude of early warning signs. EWaSAP
+as an important extension to STPA that emphasises perceivable
+signs, non-perceivable assumptions may require complementary
+assurance mechanisms(e.g., audit, pass / fail rate) to keep the
+monitoring burden tractable.
+1.2. Paper Contribution and Novelty
+To address these limitations, this paper proposes the inte-
+gration of systems thinking with systems engineering to enable
+continuous safety assurance across the entire lifecycle. Sys-
+tems engineering introduces lifecycle governance, conﬁguration
+management, veriﬁcation and validation and traceability from
+hazards identiﬁcation to deployment and operation [ 17]. Unlike
+traditional safety analysis, system engineering principles provide
+robust mechanisms to monitor system behaviour and continu-
+ously validate the assumptions on which systems, policies, and
+safety decisions are based, ensuring they remain valid as tech-
+nologies, regulations, and user behaviour evolve. The novelty
+of the proposed approach is a structured framework to monitor
+both perceivable assumptions which can be directly observed or
+measure through operational indicators (e.g., calibration range,
+sensor accuracy...) and non-perceivable assumptions, that cannot
+be directly observed and therefore require indirect veriﬁcation
+or periodic validation through audits or documentation (e.g.,
+competence currency, policy acknowledgement...), enabling run-
+time traceability from the stakeholder through the assumptions
+to the leading indicator, action-owner, and corrective action if
+an assumption is invalid. This approach introduces a detection
+mechanism that can trace changes in stakeholders’ roles or re-
+sponsibilities at run time, addressing an operational gap not
+covered by EWaSAP . Unlike EWaSAP , it does not require a pre-
+established STPA artefact, making it especially suitable when
+the study objective is assurance rather than hazards identiﬁcation.
+This delivers a practical, explicit framework to ensure assump-
+tion validity, precisely where conducting a full STPA analysis
+can be unnecessarily lengthy or outside project scope. It is es-
+sential to note that this approach does not aim to replace STPA,
+but rather focuses on safety assurance in an operational context
+by monitoring assumptions, rather than conducting hazard anal-
+yses of socio-technical systems. The proposed approach retains
+ST AMP’s system thinking foundation to understand and analyse
+complex systems through the examination of interactions and
+mutual inﬂuences among their social and technical components,
+and combines it with system engineering disciplines. Unlike
+STPA, which begins by identifying losses to be mitigated, this
+method starts by listing stakeholders and deﬁning goals to be
+achieved. The second step is similar to STPA ’s control structure
+modelling. The third step lists assumptions based on each stake-
+holder’s responsibilities and inputs, i.e., how assumptions are
+formed from received control actions and feedback from other
+stakeholders. In contrast, STPA ’s third step focuses on identi-
+fying unsafe control actions. The fourth step of the proposed
+approach centres on ensuring and tracking the validity of each
+assumption by identifying speciﬁc leading indicators, metrics
+for continuous monitoring and corrective actions to be initiated
+upon detection of violations. This aligns with STPA ’s step four,
+which deﬁnes requirements to mitigate unsafe control actions.
+Thus, the approach adopts system thinking from STPA but ex-
+tends it to provide a new method for monitoring assumptions
+and managing safety across the entire system lifecycle. Fig-
+ure 1 presents the mapping between the proposed approach and
+STPA, emphasising their structural and methodological di ﬀer-
+ences. Currently, the approach does not require a pre-established
+STPA to begin monitoring; it can link to STPA results when
+available, but can also operate independently when the scope is
+operational assurance.
+Accordingly, we propose a four-step system engineering
+approach inspired by STAMP base STPA:
+• Step 1: Identiﬁcation of stakeholders (hardware compo-
+nents, software components, organisational, etc.),
+• Step 2: Creation of a nested control structure for identiﬁed
+stakeholders,
+• Step 3: Listing of assumptions, and step,
+• Step 4: Monitoring of assumptions through the systems
+lifecycle.
+This will answer the following research questions:
+• RQ1- How to ensure the validity of assumptions through
+the entire lifecycle?
+• RQ2- How can systems engineering incorporating sys-
+tems thinking be e ﬀectively combined to enable an injury
+reduction and an increase in survival rates?
+By continuously monitoring assumptions, this approach
+aims to bridge the gap between hazard identiﬁcation and post-
+deployment. This supports the global e ﬀort to reduce fatalities
+and increase survival rates by transforming road safety man-
+agement from a reactive, data-driven process into a proactive,
+adaptive system.
+2. Methodology
+To ensure that system safety is maintained consistently through-
+out the entire lifecycle, this paper introduces a structured ap-
+proach based on four steps that integrate systems engineering
+principles, as systems thinking and systems engineering disci-
+pline are important foundations of system engineering principles,
+see Fig. 3. This integration enables the e ﬀective management
+of system complexity and lifecycle change, both of which are
+essential in modern socio-technical systems such as road trans-
+port. The proposed approach functions as a problem-solving
+framework that combines two foundational principles: systems
+thinking, which enables a holistic understanding of the sys-
+tem by examining its boundaries, components, interactions, and
+feedback loops; and systems engineering, which provides a dis-
+ciplined process model to ensure that safety-related assumptions
+and requirements remain valid from system conception through
+deployment, operation, and retirement. Figure 2 summarises the
+key steps of the proposed approach.
+Identifying stakeholders: This step aims to deﬁne the com-
+plete boundaries of the system under consideration. According
+to system engineering principles, a system cannot be adequately
+described and fully understood without specifying not only its
+internal components but also external interfaces and interrela-
+tionships [ 27]. In system engineering, systems are generally
+considered open; their elements interact not only internally but
+also with the surrounding environment. Stakeholders, which
+include organisational, Humans, hardware, software, and infras-
+tructure. These stakeholders collectively contribute to or inﬂu-
+ence the system lifecycle, including development, operational,
+maintenance, and retirement. Therefore, identifying stakehold-
+ers ensures all actors involved in or impacted by system safety
+and performance are captured within the system boundaries. The
+latter may vary depending on the focus of the analysis. This step
+provides a complete system deﬁnition and the basis required to
+deﬁne responsibilities and model interactions. As emphasised in
+the literature [28], the following four characteristics should be
+considered for a comprehensive system deﬁnition:
+1. Resource listing: A system consists of a complex combi-
+nation of resources, including human, materials, organisa-
+tions, and data.
+2. Subsystem decomposition: Systems can be broken down
+into subsystems and components. It is essential to analyse
+both internal and external interactions.
+Figure 1: Overview of the proposed approach inspired by the STPA
+Figure 2: Methodology overview
+3. Purpose deﬁnition: a system must have a clearly deﬁned
+purpose, and all included elements should contribute to
+fulﬁlling this purpose.
+To ensure completeness, stakeholders should be identiﬁed across
+all system lifecycle phases from multiple viewpoints, such as
+organisational, technical regulatory.
+Identifying interactions between stakeholders: After es-
+tablishing the system boundary and listing all stakeholders in-
+volved, the next step is to model the hierarchical structure of
+interactions, aligning with systems engineering principles. This
+involves not only identifying authority paths but also operational
+relationships to deﬁne stakeholders’ value. Stakeholders are
+positioned within this interaction hierarchy according to their
+responsibilities, authority and impact on other stakeholders. The
+control structure must explicitly capture control actions and
+feedback, thereby forming a closed loop. By tracing these in-
+teractions at all hierarchical levels. Potential gaps or unsigned
+responsibilities can be spotted. it is also to deﬁne stakeholder
+value, to depict each stakeholder’s contribution, responsibilities,
+and expectations in relation to system objectives. This approach
+is consistent with the system-oriented view and network thinking
+advocated in systems engineering literature [28].
+• Closed loop control structure: The control structure
+needed to form a closed loop decomposes into control
+action and feedback.
+• Hierarchical and networked modelling: systems are
+broken down into subsystems and components, and con-
+trol relationships are traced at each level, facilitating de-
+tection of potential gaps.
+• Value and responsibilities: stakeholders value the deﬁni-
+tion and allocation of responsibilities within the model.
+Listing assumptions: after modelling the interactions and
+Figure 3: SE Principles
+having a better visualisation of stakeholders’ interaction, this
+step aims to list assumptions that explicitly deﬁne each con-
+troller’s process model. These assumptions articulate what each
+stakeholder presumes about the system state, the behaviour of
+other actors and the operating environment when issuing control
+action or interpreting feedback. Listing these assumptions is
+important to avoid discrepancies between assumed and actual
+system states [29]. Assumptions may relate to system function-
+alities, response time, resource availability, environmental con-
+ditions, and a reliable feedback loop. Each assumption should
+be formulated clearly, specifying the conditions under which the
+system can achieve the expected system’s purpose. Assumptions
+can be categorised as either perceivable assumptions that can be
+continuously monitored through direct, observable indicators,
+or non-perceivable assumptions, which can lack telemetry (e.g.,
+public perception, compliance rate, fraud...). Explicitly, these as-
+sumptions ensure traceability to enable their ongoing validation
+as the system and its environment evolve, for facilitating early
+detection.
+To ensure a comprehensive list, a structured checklist guides
+stakeholders to record all assumptions that need monitoring for
+safe deployment, covering:
+• Availability: Is the control action or feedback (CA /FB)
+available whenever it is required to support safe and e ﬀec-
+tive operation?
+• Timing: Does the CA /FB arrive soon enough to enable
+timely and correct decision-making within the control
+process?
+• Accuracy: Is the information conveyed by the CA /FB
+accurate, reliable, and free from corruption or ambiguity?
+• Authority: Is it clearly deﬁned who has the authority to
+issue, approve, or override this CA /FB, especially in cases
+of conﬂict or uncertainty?
+• Boundary: Within what operational or environmental
+boundaries does the stakeholder rely on this CA /FB being
+valid?
+All responses to these guiding questions should be structured
+as follow:
+[Stakeholder] assumes that [ CA/FB][ satisﬁes the relevant
+criteria availability, timing, accuracy, authority and boundary in
+a speciﬁc context].
+Monitoring the assumptions: To ensure that the assump-
+tions listed in the previous step are subject to supervision as soon
+as they are deﬁned, each assumption must be translated into a
+measurable term by identifying one or more leading indicators.
+This approach transforms assumptions from static documenta-
+tion into dynamically supervised metrics of system safety. For
+every assumption, it is necessary to deﬁne early warning signals
+or metrics that indicate when an assumption may become invalid
+or is at risk of drift. These Leading Indicators may include,
+for example, calibration thresholds, data completeness, and up-
+date rates. Leading indicators should be chosen to allow for
+the prompt detection of emerging hazards before a loss occurs.
+For each monitored assumption, the following elements shall be
+speciﬁed:
+• Leading Indicators: The measurable variable that best
+reﬂects the validity of the assumption can be measurable
+leading indicators, or linked to evidence-based schedules
+(training records, audits, compliance inspections.
+• Thresholds and Criteria: The quantitative or qualitative
+limits that deﬁne acceptable thresholds.
+• Corrective Action: Actions to be initiated when thresh-
+olds are breached, including automatic safe state transition
+or operator notiﬁcation.
+This approach enables continuous veriﬁcation of the validity
+of the assumptions as the system or its operating environment
+evolves. It contributes to a more robust safety strategy by not
+only addressing identiﬁed hazards, as conventional safety anal-
+yses typically do, but also actively monitoring the underlying
+assumptions that support system design and behaviour. As an
+outcome of this approach, all monitored elements are presented
+within the same operational dashboard to provide uniﬁed visibil-
+ity and facilitate the early identiﬁcation of assumption drift. It
+also enables traceability from stakeholders, assumptions, leading
+indicators, action-owner, and corrective action.
+3. Case Study and Results
+3.1. Identifying Stakeholders:
+In accordance with system engineering principles, a system
+cannot be fully deﬁned without specifying both internal and ex-
+ternal components. As part of the ﬁrst step of our methodology,
+stakeholders must be identiﬁed to capture all actors that inﬂu-
+ence or are impacted by system behaviour during its lifecycle.
+This aligns with the four characteristics of comprehensive sys-
+tem deﬁnition: resource listing, hierarchy deﬁnition, subsystem
+decomposition, and purpose deﬁnition.

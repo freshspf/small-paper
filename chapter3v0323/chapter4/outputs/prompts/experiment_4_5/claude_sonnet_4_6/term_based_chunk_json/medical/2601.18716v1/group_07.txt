@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "vhl",
+  "belongsTo",
+  "E3Ligase",
+  "crbn",
+  "mdm2",
+  "vhl_high_affinity_compound",
+  "contains",
+  "SubstitutedAromaticRing",
+  "FlexibleLinker",
+  "vhl_no_affinity_compound",
+  "features",
+  "BulkyFusedRingSystem",
+  "SulfurContainingGroup",
+  "mdm2_high_affinity_scaffold",
+  "BiphenylMotif",
+  "PolarSideChain",
+  "crbn_high_affinity_compound",
+  "includes",
+  "EtherLinkedAlkylChain",
+  "crbn_no_affinity_compound",
+  "exhibits",
+  "ComplexFusedPolyaromaticSystem",
+  "Molecule",
+  "representedBy",
+  "MolecularGraph",
+  "JunctionTree",
+  "servesAsInputTo",
+  "ligase_conditioned_jt_vae",
+  "decomposedInto",
+  "Clique",
+  "assembledInto",
+  "JunctionTreeNode",
+  "represents",
+  "JunctionTreeEdge",
+  "AtomSharingConnection",
+  "MolecularGraphNode",
+  "Atom",
+  "MolecularGraphEdge",
+  "Bond",
+  "ligase_conditioned_jtnnvae",
+  "trainedUsing",
+  "adam_optimizer",
+  "TDistributedStochasticNeighborEmbedding",
+  "assesses",
+  "ChemicalDiversity",
+  "projects",
+  "MolecularFingerprint",
+  "ligase_vhl",
+  "categorizedAs",
+  "ligase_crbn",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "UbiquitinProteasomeSystem",
+  "Crbn",
+  "Vhl",
+  "Mdm2",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability",
+  "HypoxiaSignaling"
+]
+
+Triples:
+[
+  {
+    "subject": "vhl",
+    "relation": "belongsTo",
+    "object": "E3Ligase",
+    "chunk": "completedocument7",
+    "context": "To further dissect the structural characteristics associated with varying binding affinities, we conducted a scaffold analysis of compounds across the high, low, and no -affinity categories for each E3 ligase (VHL, CRBN, and MDM2) (Figure 7 )."
+  },
+  {
+    "subject": "crbn",
+    "relation": "belongsTo",
+    "object": "E3Ligase",
+    "chunk": "completedocument7",
+    "context": "To further dissect the structural characteristics associated with varying binding affinities, we conducted a scaffold analysis of compounds across the high, low, and no -affinity categories for each E3 ligase (VHL, CRBN, and MDM2) (Figure 7 )."
+  },
+  {
+    "subject": "mdm2",
+    "relation": "belongsTo",
+    "object": "E3Ligase",
+    "chunk": "completedocument7",
+    "context": "To further dissect the structural characteristics associated with varying binding affinities, we conducted a scaffold analysis of compounds across the high, low, and no -affinity categories for each E3 ligase (VHL, CRBN, and MDM2) (Figure 7 )."
+  },
+  {
+    "subject": "vhl_high_affinity_compound",
+    "relation": "contains",
+    "object": "SubstitutedAromaticRing",
+    "chunk": "completedocument7",
+    "context": "For VHL ( Figure 7a ), high -affinity compounds predominantly contained substituted aromatic rings and flexible linkers incorporating nitrogen atoms, while low -affinity compounds were structurally simpler, often lacking key heteroatoms."
+  },
+  {
+    "subject": "vhl_high_affinity_compound",
+    "relation": "contains",
+    "object": "FlexibleLinker",
+    "chunk": "completedocument7",
+    "context": "For VHL ( Figure 7a ), high -affinity compounds predominantly contained substituted aromatic rings and flexible linkers incorporating nitrogen atoms, while low -affinity compounds were structurally simpler, often lacking key heteroatoms."
+  },
+  {
+    "subject": "vhl_no_affinity_compound",
+    "relation": "features",
+    "object": "BulkyFusedRingSystem",
+    "chunk": "completedocument7",
+    "context": "No -affinity compounds tended to feature bulky fused -ring systems and sulfur -containing groups, which may contribute to steric hindrance or poor complementarity at the binding site."
+  },
+  {
+    "subject": "vhl_no_affinity_compound",
+    "relation": "features",
+    "object": "SulfurContainingGroup",
+    "chunk": "completedocument7",
+    "context": "No -affinity compounds tended to feature bulky fused -ring systems and sulfur -containing groups, which may contribute to steric hindrance or poor complementarity at the binding site."
+  },
+  {
+    "subject": "mdm2_high_affinity_scaffold",
+    "relation": "features",
+    "object": "BiphenylMotif",
+    "chunk": "completedocument7",
+    "context": "In the case of MDM2 ( Figure 7b ), high -affinity scaffolds were characterized by biphenyl motifs and polar side chains, likely enhancing both hydrophobic packing and hydrogen bonding."
+  },
+  {
+    "subject": "mdm2_high_affinity_scaffold",
+    "relation": "features",
+    "object": "PolarSideChain",
+    "chunk": "completedocument7",
+    "context": "In the case of MDM2 ( Figure 7b ), high -affinity scaffolds were characterized by biphenyl motifs and polar side chains, likely enhancing both hydrophobic packing and hydrogen bonding."
+  },
+  {
+    "subject": "crbn_high_affinity_compound",
+    "relation": "includes",
+    "object": "EtherLinkedAlkylChain",
+    "chunk": "completedocument7",
+    "context": "For CRBN ( Figure 7c ), high -affinity compounds commonly included ether -linked alkyl chains and small heterocycles, suggesting that flexibility and size may be important determinants of binding."
+  },
+  {
+    "subject": "crbn_no_affinity_compound",
+    "relation": "exhibits",
+    "object": "ComplexFusedPolyaromaticSystem",
+    "chunk": "completedocument7",
+    "context": "No -affinity compounds frequently exhibited complex fused polyaromatic systems and sulfur -containing linkers, which may disrupt favorable binding orientations."
+  },
+  {
+    "subject": "Molecule",
+    "relation": "representedBy",
+    "object": "MolecularGraph",
+    "chunk": "completedocument7",
+    "context": "To facilitate the generation of chemically valid and interpretable molecular structures, we utilized dual representations for each molecule: a molecular graph and a junction tree, serving as structured inputs to the Ligase -Conditioned JT -VAE framework."
+  },
+  {
+    "subject": "Molecule",
+    "relation": "representedBy",
+    "object": "JunctionTree",
+    "chunk": "completedocument7",
+    "context": "To facilitate the generation of chemically valid and interpretable molecular structures, we utilized dual representations for each molecule: a molecular graph and a junction tree, serving as structured inputs to the Ligase -Conditioned JT -VAE framework."
+  },
+  {
+    "subject": "MolecularGraph",
+    "relation": "servesAsInputTo",
+    "object": "ligase_conditioned_jt_vae",
+    "chunk": "completedocument7",
+    "context": "To facilitate the generation of chemically valid and interpretable molecular structures, we utilized dual representations for each molecule: a molecular graph and a junction tree, serving as structured inputs to the Ligase -Conditioned JT -VAE framework."
+  },
+  {
+    "subject": "Molecule",
+    "relation": "decomposedInto",
+    "object": "Clique",
+    "chunk": "completedocument7",
+    "context": "Each molecule was decomposed into a set of cliques -maximal subgraphs such as aromatic rings or functional groups -to capture its structural hierarchy (Supplementary Figure S 5a)."
+  },
+  {
+    "subject": "Clique",
+    "relation": "assembledInto",
+    "object": "JunctionTree",
+    "chunk": "completedocument7",
+    "context": "These cliques were assembled into a junction tree structure, where each no de represents a clique and edges represent direct atom -sharing connections between cliques (Supplementary Figure S 5b)."
+  },
+  {
+    "subject": "JunctionTreeNode",
+    "relation": "represents",
+    "object": "Clique",
+    "chunk": "completedocument7",
+    "context": "These cliques were assembled into a junction tree structure, where each no de represents a clique and edges represent direct atom -sharing connections between cliques (Supplementary Figure S 5b)."
+  },
+  {
+    "subject": "JunctionTreeEdge",
+    "relation": "represents",
+    "object": "AtomSharingConnection",
+    "chunk": "completedocument7",
+    "context": "These cliques were assembled into a junction tree structure, where each no de represents a clique and edges represent direct atom -sharing connections between cliques (Supplementary Figure S 5b)."
+  },
+  {
+    "subject": "MolecularGraphNode",
+    "relation": "represents",
+    "object": "Atom",
+    "chunk": "completedocument7",
+    "context": "The molecular graph representation ( Supplementary Figure S 5c) captures atomic -level detail, with nodes representing atoms and edges representing bonds; standard bonds are shown in blue, while bonds participating in rings are highlighted in red."
+  },
+  {
+    "subject": "MolecularGraphEdge",
+    "relation": "represents",
+    "object": "Bond",
+    "chunk": "completedocument7",
+    "context": "The molecular graph representation ( Supplementary Figure S 5c) captures atomic -level detail, with nodes representing atoms and edges representing bonds; standard bonds are shown in blue, while bonds participating in rings are highlighted in red."
+  },
+  {
+    "subject": "ligase_conditioned_jtnnvae",
+    "relation": "trainedUsing",
+    "object": "adam_optimizer",
+    "chunk": "completedocument7",
+    "context": "The ligase -conditioned JTNNVAE model was trained for 500 epochs using the Adam optimizer with an initial learning rate of 1e -3 and an exponential learning rate decay (decay rate = 0.9 per step)."
+  },
+  {
+    "subject": "TDistributedStochasticNeighborEmbedding",
+    "relation": "assesses",
+    "object": "ChemicalDiversity",
+    "chunk": "completedocument8",
+    "context": "To assess the chemical diversity and distribution of AI -generated compounds relative to training molecules, we employed t -distributed stochastic neighbor embedding (t -SNE) to project high -dimensional molecular fingerprints into two -dimensional space."
+  },
+  {
+    "subject": "TDistributedStochasticNeighborEmbedding",
+    "relation": "projects",
+    "object": "MolecularFingerprint",
+    "chunk": "completedocument8",
+    "context": "To assess the chemical diversity and distribution of AI -generated compounds relative to training molecules, we employed t -distributed stochastic neighbor embedding (t -SNE) to project high -dimensional molecular fingerprints into two -dimensional space."
+  },
+  {
+    "subject": "ligase_vhl",
+    "relation": "categorizedAs",
+    "object": "E3Ligase",
+    "chunk": "completedocument8",
+    "context": "To en able clear visualization of the chemical space, we randomly selected 100 training compounds for each E3 ligase (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "ligase_crbn",
+    "relation": "categorizedAs",
+    "object": "E3Ligase",
+    "chunk": "completedocument8",
+    "context": "To en able clear visualization of the chemical space, we randomly selected 100 training compounds for each E3 ligase (VHL, CRBN, and MDM2)."
+  }
+]

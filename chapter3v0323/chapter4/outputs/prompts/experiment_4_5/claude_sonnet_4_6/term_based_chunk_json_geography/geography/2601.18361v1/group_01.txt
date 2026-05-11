@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LowEarthOrbitSatellite",
+  "movesRegarding",
+  "FixedRegion",
+  "InternetOfThingsConnectivity",
+  "expandedTo",
+  "RemoteRegion",
+  "UnderservedRegion",
+  "application_ForestFireDetection",
+  "occursIn",
+  "Forest",
+  "application_OffshoreShipTracking",
+  "OffshoreRegion",
+  "university_UniversityOfOulu",
+  "locatedIn",
+  "country_Finland",
+  "university_FederalUniversityOfSantaCatarina",
+  "location_Florianopolis",
+  "country_Brazil",
+  "university_MidSwedenUniversity",
+  "location_Sundsvall",
+  "country_Sweden",
+  "providesCoverage",
+  "GlobalCoverage",
+  "covers",
+  "EarthSurface",
+  "hasAltitude",
+  "HighOrbitalAltitude",
+  "HighAltitudePlatformStation",
+  "operatesIn",
+  "Stratosphere",
+  "altitude_8To50Km",
+  "positionedAbove",
+  "WeatherDisturbance",
+  "closerTo",
+  "Ground",
+  "RegionalCoverage",
+  "deployedDuring",
+  "NaturalDisaster",
+  "MultiplePlatform",
+  "providesCoverageIn",
+  "SparseRegion",
+  "GeographicallyDispersedRegion",
+  "HAPS",
+  "providesConnectivityIn",
+  "LEOSatellite",
+  "TerrestrialNetwork",
+  "WideArea",
+  "LargeArea",
+  "DisasterArea",
+  "RuralArea",
+  "OffshoreArea",
+  "Flood",
+  "Earthquake",
+  "region_hokkaido",
+  "region_japan",
+  "region_germany",
+  "Haps",
+  "Area",
+  "LeoSatellite",
+  "Altitude",
+  "earth",
+  "RemoteArea",
+  "UnderservedArea",
+  "Satellite",
+  "Trajectory",
+  "RemoteScenario",
+  "Agriculture",
+  "EnvironmentalMonitoring",
+  "MaritimeConnectivity",
+  "CoordinatedOrbit",
+  "IoTDevice",
+  "TerrestrialGateway",
+  "CircularArea",
+  "CircularAreaCenter",
+  "GroundLevel",
+  "Earth",
+  "EquatorialRadius",
+  "CircularOrbit",
+  "SphericalShape",
+  "GroundBaseStation"
+]
+
+Triples:
+[
+  {
+    "subject": "LowEarthOrbitSatellite",
+    "relation": "movesRegarding",
+    "object": "FixedRegion",
+    "chunk": "completedocument1",
+    "context": "To make the analysis more realistic, we con- sidered movement of LEO satellites regarding a fixed region, elevation angle between gateway and devices, and different fading models for terrestrial and non-terrestrial communication."
+  },
+  {
+    "subject": "InternetOfThingsConnectivity",
+    "relation": "expandedTo",
+    "object": "RemoteRegion",
+    "chunk": "completedocument1",
+    "context": "Expanding Internet of Things (IoT) connectivity to remote and underserved regions remains a major challenge to achieve global digital inclusion [1]."
+  },
+  {
+    "subject": "InternetOfThingsConnectivity",
+    "relation": "expandedTo",
+    "object": "UnderservedRegion",
+    "chunk": "completedocument1",
+    "context": "Expanding Internet of Things (IoT) connectivity to remote and underserved regions remains a major challenge to achieve global digital inclusion [1]."
+  },
+  {
+    "subject": "application_ForestFireDetection",
+    "relation": "occursIn",
+    "object": "Forest",
+    "chunk": "completedocument1",
+    "context": "Typical applications include herd and wildlife tracking [2], forest fire detection [3], agricultural and aquacul- ture monitoring, offshore ship tracking [4], and cargo moni- toring [5]."
+  },
+  {
+    "subject": "application_OffshoreShipTracking",
+    "relation": "occursIn",
+    "object": "OffshoreRegion",
+    "chunk": "completedocument1",
+    "context": "Typical applications include herd and wildlife tracking [2], forest fire detection [3], agricultural and aquacul- ture monitoring, offshore ship tracking [4], and cargo moni- toring [5]."
+  },
+  {
+    "subject": "university_UniversityOfOulu",
+    "relation": "locatedIn",
+    "object": "country_Finland",
+    "chunk": "completedocument1",
+    "context": "J. M. S. Sant’Ana and N. H. Mahmood are with the Cen- tre for Wireless Communications (CWC), University of Oulu, Finland ({Jean.DeSouzaSantana, NurulHuda.Mahmood}@oulu.fi)."
+  },
+  {
+    "subject": "university_FederalUniversityOfSantaCatarina",
+    "relation": "locatedIn",
+    "object": "location_Florianopolis",
+    "chunk": "completedocument1",
+    "context": "F. A. Tondo is with the Federal University of Santa Catarina (UFSC), Florianpolis, SC, Brazil. (felipe.tondo@posgrad.ufsc.br)."
+  },
+  {
+    "subject": "location_Florianopolis",
+    "relation": "locatedIn",
+    "object": "country_Brazil",
+    "chunk": "completedocument1",
+    "context": "F. A. Tondo is with the Federal University of Santa Catarina (UFSC), Florianpolis, SC, Brazil. (felipe.tondo@posgrad.ufsc.br)."
+  },
+  {
+    "subject": "university_MidSwedenUniversity",
+    "relation": "locatedIn",
+    "object": "location_Sundsvall",
+    "chunk": "completedocument1",
+    "context": "A. Mahmood is with the Department of Computer and Electri- cal Engineering, Mid Sweden University, 851 70 Sundsvall, Sweden (aamir.mahmood@miun.se)."
+  },
+  {
+    "subject": "location_Sundsvall",
+    "relation": "locatedIn",
+    "object": "country_Sweden",
+    "chunk": "completedocument1",
+    "context": "A. Mahmood is with the Department of Computer and Electri- cal Engineering, Mid Sweden University, 851 70 Sundsvall, Sweden (aamir.mahmood@miun.se)."
+  },
+  {
+    "subject": "LowEarthOrbitSatellite",
+    "relation": "providesCoverage",
+    "object": "GlobalCoverage",
+    "chunk": "completedocument1",
+    "context": "As a potential solution, Low Earth Orbit (LEO) satellites offer global coverage and scalability [6]."
+  },
+  {
+    "subject": "LowEarthOrbitSatellite",
+    "relation": "covers",
+    "object": "EarthSurface",
+    "chunk": "completedocument1",
+    "context": "Furthermore, since LEO satellites simultaneously cover large portions of the Earth’s surface due to their high orbital altitude, they can lead to interference challenges in massive IoT scenarios [8]."
+  },
+  {
+    "subject": "LowEarthOrbitSatellite",
+    "relation": "hasAltitude",
+    "object": "HighOrbitalAltitude",
+    "chunk": "completedocument1",
+    "context": "Furthermore, since LEO satellites simultaneously cover large portions of the Earth’s surface due to their high orbital altitude, they can lead to interference challenges in massive IoT scenarios [8]."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "operatesIn",
+    "object": "Stratosphere",
+    "chunk": "completedocument1",
+    "context": "Another alternative for non-terrestrial networks (NTN) is the High Altitude Platform (HAPS) mounted network, which is a quasi-stationary aerial system operating in the stratosphere, typically between 8 and 50 km of altitude [9]."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "hasAltitude",
+    "object": "altitude_8To50Km",
+    "chunk": "completedocument1",
+    "context": "Another alternative for non-terrestrial networks (NTN) is the High Altitude Platform (HAPS) mounted network, which is a quasi-stationary aerial system operating in the stratosphere, typically between 8 and 50 km of altitude [9]."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "positionedAbove",
+    "object": "WeatherDisturbance",
+    "chunk": "completedocument1",
+    "context": "Positioned above weather disturbances, yet much closer to the ground than satellites, HAPS can provide direct communication links to IoT devices with a more favorable link budget and lower round trip time (RTT) latencies."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "closerTo",
+    "object": "Ground",
+    "chunk": "completedocument1",
+    "context": "Positioned above weather disturbances, yet much closer to the ground than satellites, HAPS can provide direct communication links to IoT devices with a more favorable link budget and lower round trip time (RTT) latencies."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "providesCoverage",
+    "object": "RegionalCoverage",
+    "chunk": "completedocument1",
+    "context": "These characteristics allow for intermittent or regional coverage, eliminate the need for gateway synchronization, and offer greater flexibility compared to terrestrial base stations (BS)."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "deployedDuring",
+    "object": "NaturalDisaster",
+    "chunk": "completedocument1",
+    "context": "In addition, specific use cases, such as natural disasters, transform HAPS into a competitive technology for conventional infrastructures."
+  },
+  {
+    "subject": "MultiplePlatform",
+    "relation": "providesCoverageIn",
+    "object": "SparseRegion",
+    "chunk": "completedocument2",
+    "context": "In addition, multiple platforms may be required to provide coverage in very sparse or geographically dispersed regions."
+  },
+  {
+    "subject": "MultiplePlatform",
+    "relation": "providesCoverageIn",
+    "object": "GeographicallyDispersedRegion",
+    "chunk": "completedocument2",
+    "context": "In addition, multiple platforms may be required to provide coverage in very sparse or geographically dispersed regions."
+  },
+  {
+    "subject": "HAPS",
+    "relation": "providesConnectivityIn",
+    "object": "RemoteRegion",
+    "chunk": "completedocument2",
+    "context": "In this work, we conduct a comparative evaluation of HAPS and LEO satellite systems for IoT connectivity in remote regions."
+  },
+  {
+    "subject": "LEOSatellite",
+    "relation": "providesConnectivityIn",
+    "object": "RemoteRegion",
+    "chunk": "completedocument2",
+    "context": "In this work, we conduct a comparative evaluation of HAPS and LEO satellite systems for IoT connectivity in remote regions."
+  },
+  {
+    "subject": "TerrestrialNetwork",
+    "relation": "locatedIn",
+    "object": "RemoteRegion",
+    "chunk": "completedocument2",
+    "context": "•A simulation framework for comparing HAPS, LEO satellites, and terrestrial networks in remote areas, each with its own spatial deployment and channel model."
+  },
+  {
+    "subject": "HAPS",
+    "relation": "operatesIn",
+    "object": "Stratosphere",
+    "chunk": "completedocument2",
+    "context": "HAPS are quasi-stationary aerial communication platforms that operate in the stratosphere, typically between 8 and 50 km in altitude."
+  }
+]

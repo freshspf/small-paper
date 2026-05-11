@@ -1,0 +1,109 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "consumptionskewnessoverroutes",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: consumptionskewnessoverroutes
+- section_title: Consumption Skewness over Routes
+- page_start: 4
+- page_end: 4
+
+**INPUT TEXT CHUNK:**
+Routes
+A high bandwidth usage does not necessarily in-
+duce a detrimental performance, especially when the
+bandwidth consumption is well-balanced over multiple
+routes. In fact, previous works have shown that balanc-
+ing an amount of information that is quadratic in the
+number of network nodes over a quadratic number of
+routes of this network could be more efficient than reduc-
+ing this amount of information to a linear factor but sent
+across the same routes [35]. It is thus important to under-
+stand how a blockchain protocol balances its bandwidth
+consumption over a network.
+5.1 Some nodes exchange more data than
+others
+In the Aptos heatmap of Fig. 1, we can see that some
+nodes of the Aptos network seem to consume more band-width than other nodes of the same network, and traffic
+is heavily unbalanced across nodes. Five nodes, the ones
+that receive the transactions sent by the clients, send more
+messages than all the other nodes as indicated by the top
+five rows in light colors. They also send more messages
+to themselves than to the rest of the nodes, as indicated
+by the yellow 5-by-5 sub-matrix of the top left corner of
+the heatmap. This is due to its Quorum Store optimiza-
+tion [7] that puts more load on the receivers of transac-
+tions than on the rest of the network by requiring them to
+collect signatures. More precisely, these validator nodes
+have to sign transaction batch digests and collect the pro-
+duced signatures from a quorum of blockchain nodes to
+form a “proof-of-store”. This signature collection puts in-
+evitably more bandwidth pressure on the nodes respon-
+sible for signing.
+In the Solana heatmap of Fig. 1, the color shows that
+there is no clear per-node distinction as no column or
+row stands out. As a result, the bandwidth consump-
+tion of Solana appears generally more balanced than the
+one of Aptos. It is interesting to note that Solana, which
+consumes a lot of bandwidth as we showed in Section 4,
+manages to balance the load pretty well.
+Finally, the Algorand heatmap of Fig. 1 shows some
+imbalance in that the second half of the nodesn 11, . . . ,n 20
+receive and send more messages than others.
+5.2 Some nodes send more than they receive
+in Avalanche and Redbelly
+Another interesting dimension to consider is the level of
+unbalance between sending and receiving traffic. The
+nodes receiving transactions could either consume more
+bandwidth by propagating the information or, instead,
+they could consume less than the nodes agreeing on
+which block to append. For example, the Avalanche
+heatmap of Fig. 1 shows that the nodes of Avalanche that
+receive transactions generate more traffic than what they
+receive.
+The Avalanche heatmap of Fig. 1 shows the five top
+rows in lighter color than the five left columns. This indi-
+cates that the five Avalanche nodes that receive transac-
+tions send more data than they receive. By contrast with
+Aptos, they do not need to send more data to themselves
+than to the rest of the network. This is explained by the
+4

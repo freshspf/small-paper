@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "StellarDebris",
+  "formsMorphology",
+  "CoherentStream",
+  "ShellLikeStructure",
+  "DarkMatter",
+  "distributedAs",
+  "RoundDebris",
+  "drawnFrom",
+  "InitialRadius",
+  "originatesFrom",
+  "CentralRegion",
+  "hasSpatialDistribution",
+  "CentrallyConcentrated",
+  "locatedIn",
+  "Satellite",
+  "Star",
+  "strippedFrom",
+  "MassiveSatellite",
+  "loses",
+  "OrbitalEnergy",
+  "retains",
+  "DarkMatterHalo",
+  "OneToThreeMerger",
+  "mergesWith",
+  "CentralGalaxy",
+  "PericentreOf4kpc",
+  "locatedWithin",
+  "StellarHalfMassRadius",
+  "LowMassSatellite",
+  "InitialOrbitalEnergy",
+  "RamPressureStripping",
+  "occursIn",
+  "ClusterEnvironment",
+  "removes",
+  "Gas",
+  "System",
+  "reaches",
+  "strippedAt",
+  "HighestEnergyOrbit",
+  "strippedAfter",
+  "LowestEnergyOrbit",
+  "Debris",
+  "populates",
+  "ClusterPotential",
+  "StrippedParticle",
+  "occupiesState",
+  "LowerEnergyState",
+  "StrippedStar",
+  "distributedIn",
+  "SatelliteRestFrame",
+  "experiences",
+  "FasterOrbitalDecay",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris",
+  "country_france",
+  "university_universityOfWesternAustralia",
+  "street_stirlingHighway",
+  "city_crawley",
+  "region_westernAustralia",
+  "country_australia"
+]
+
+Triples:
+[
+  {
+    "subject": "StellarDebris",
+    "relation": "formsMorphology",
+    "object": "CoherentStream",
+    "chunk": "completedocument5",
+    "context": "At high circularity both components form coherent streams (especially at disparate mass ratios); at low circularity the debris form shell-like structures."
+  },
+  {
+    "subject": "StellarDebris",
+    "relation": "formsMorphology",
+    "object": "ShellLikeStructure",
+    "chunk": "completedocument5",
+    "context": "At high circularity both components form coherent streams (especially at disparate mass ratios); at low circularity the debris form shell-like structures."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "distributedAs",
+    "object": "RoundDebris",
+    "chunk": "completedocument5",
+    "context": "The DM forms smoother, rounder debris, consistent with material drawn from a wide range of initial radii and therefore a broad spread in orbital energies, leading to more rapid phase-mixing."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "drawnFrom",
+    "object": "InitialRadius",
+    "chunk": "completedocument5",
+    "context": "The DM forms smoother, rounder debris, consistent with material drawn from a wide range of initial radii and therefore a broad spread in orbital energies, leading to more rapid phase-mixing."
+  },
+  {
+    "subject": "StellarDebris",
+    "relation": "originatesFrom",
+    "object": "CentralRegion",
+    "chunk": "completedocument5",
+    "context": "The stellar debris, originating from the tightly bound central regions of the satellite, appear more centrally concentrated and often retain coherent morphology (streams or shells), suggestive of slower mixing."
+  },
+  {
+    "subject": "StellarDebris",
+    "relation": "hasSpatialDistribution",
+    "object": "CentrallyConcentrated",
+    "chunk": "completedocument5",
+    "context": "The stellar debris, originating from the tightly bound central regions of the satellite, appear more centrally concentrated and often retain coherent morphology (streams or shells), suggestive of slower mixing."
+  },
+  {
+    "subject": "CentralRegion",
+    "relation": "locatedIn",
+    "object": "Satellite",
+    "chunk": "completedocument5",
+    "context": "The stellar debris, originating from the tightly bound central regions of the satellite, appear more centrally concentrated and often retain coherent morphology (streams or shells), suggestive of slower mixing."
+  },
+  {
+    "subject": "Star",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument5",
+    "context": "This is important because stars and DM are stripped from satellites with energies and angular momenta approximately symmetrically offset about that of the satellite’s orbit (e.g.Hendel&Johnston2015)."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument5",
+    "context": "This is important because stars and DM are stripped from satellites with energies and angular momenta approximately symmetrically offset about that of the satellite’s orbit (e.g.Hendel&Johnston2015)."
+  },
+  {
+    "subject": "MassiveSatellite",
+    "relation": "loses",
+    "object": "OrbitalEnergy",
+    "chunk": "completedocument6",
+    "context": "The rate of decay depends strongly on satellite mass ratio: more massive satellites lose orbital energy more rapidly owing to stronger dynamical friction and tidal torques."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "retains",
+    "object": "DarkMatterHalo",
+    "chunk": "completedocument6",
+    "context": "All satellites exhibit an initially steeper decline in orbital energy prior to first pericentric passage (indicated by filled circles along eachsatellite’strack),whentheyretainmostoftheirDMhaloes."
+  },
+  {
+    "subject": "OneToThreeMerger",
+    "relation": "mergesWith",
+    "object": "CentralGalaxy",
+    "chunk": "completedocument6",
+    "context": "Equal-massmergerscoalescealmostimmediately,while1:3mergers typicallymergewiththecentralgalaxywithinoneortwopericentric passages."
+  },
+  {
+    "subject": "PericentreOf4kpc",
+    "relation": "locatedWithin",
+    "object": "StellarHalfMassRadius",
+    "chunk": "completedocument6",
+    "context": "Even for highly radial orbits reaching pericentres of∼4kpc(wellwithinthecentralgalaxy’sstellarhalf-massradius), low-masssatellitescanretainmostoftheirinitialorbitalenergy."
+  },
+  {
+    "subject": "LowMassSatellite",
+    "relation": "retains",
+    "object": "InitialOrbitalEnergy",
+    "chunk": "completedocument6",
+    "context": "Even for highly radial orbits reaching pericentres of∼4kpc(wellwithinthecentralgalaxy’sstellarhalf-massradius), low-masssatellitescanretainmostoftheirinitialorbitalenergy."
+  },
+  {
+    "subject": "RamPressureStripping",
+    "relation": "occursIn",
+    "object": "ClusterEnvironment",
+    "chunk": "completedocument6",
+    "context": "However, in cluster environments, ram-pressure strippingefficientlyremovesgasfromsuchsystemsbeforetheyreach thecentralregions(e.g.Roediger&Hensler2005;Tonnesen&Bryan 2009;Jafféetal.2018;Arthuretal.2019;Kulieretal.2023),sothe absence of a collisional gas component is unlikely to be critical."
+  },
+  {
+    "subject": "RamPressureStripping",
+    "relation": "removes",
+    "object": "Gas",
+    "chunk": "completedocument6",
+    "context": "However, in cluster environments, ram-pressure strippingefficientlyremovesgasfromsuchsystemsbeforetheyreach thecentralregions(e.g.Roediger&Hensler2005;Tonnesen&Bryan 2009;Jafféetal.2018;Arthuretal.2019;Kulieretal.2023),sothe absence of a collisional gas component is unlikely to be critical."
+  },
+  {
+    "subject": "System",
+    "relation": "reaches",
+    "object": "CentralRegion",
+    "chunk": "completedocument6",
+    "context": "However, in cluster environments, ram-pressure strippingefficientlyremovesgasfromsuchsystemsbeforetheyreach thecentralregions(e.g.Roediger&Hensler2005;Tonnesen&Bryan 2009;Jafféetal.2018;Arthuretal.2019;Kulieretal.2023),sothe absence of a collisional gas component is unlikely to be critical."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "strippedAt",
+    "object": "HighestEnergyOrbit",
+    "chunk": "completedocument6",
+    "context": "EveninthelimitingcasewhereallDMisstripped at the satellite’s highest-energy orbit and all stars are stripped only after it has reached its lowest energy, the resulting offset cannot ex- ceed the total orbital energy decay."
+  },
+  {
+    "subject": "Star",
+    "relation": "strippedAfter",
+    "object": "LowestEnergyOrbit",
+    "chunk": "completedocument6",
+    "context": "EveninthelimitingcasewhereallDMisstripped at the satellite’s highest-energy orbit and all stars are stripped only after it has reached its lowest energy, the resulting offset cannot ex- ceed the total orbital energy decay."
+  },
+  {
+    "subject": "Debris",
+    "relation": "populates",
+    "object": "ClusterPotential",
+    "chunk": "completedocument6",
+    "context": "In this section, we analyse the dynamical properties of the stripped stellar and DM components themselves, which quantify how the debris populates the cluster potential."
+  },
+  {
+    "subject": "Star",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument6",
+    "context": "Figure 4 shows the specific orbital energy–angular momentum dis- tributions for stars and DM stripped from satellites with the mass ratio and orbital circularity indicated in the top-left of each panel."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument6",
+    "context": "Figure 4 shows the specific orbital energy–angular momentum dis- tributions for stars and DM stripped from satellites with the mass ratio and orbital circularity indicated in the top-left of each panel."
+  },
+  {
+    "subject": "StrippedParticle",
+    "relation": "occupiesState",
+    "object": "LowerEnergyState",
+    "chunk": "completedocument7",
+    "context": "Particles stripped later consistently occupy lower energy and an- gular momentum states than those stripped earlier, independent of the satellite mass ratio."
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "distributedIn",
+    "object": "SatelliteRestFrame",
+    "chunk": "completedocument7",
+    "context": "Thisreflectsthefactthat,inthesatellite’srestframe, stripped stars and DM are distributed approximately symmetrically about zero (e.g. Johnston 1998), acquiring no systematic offset at a fixed stripping time."
+  },
+  {
+    "subject": "MassiveSatellite",
+    "relation": "experiences",
+    "object": "FasterOrbitalDecay",
+    "chunk": "completedocument7",
+    "context": "The magnitude of this offset scales with satellite mass ratio, since more massive satellites experience faster orbital decay (Figure 3)."
+  }
+]

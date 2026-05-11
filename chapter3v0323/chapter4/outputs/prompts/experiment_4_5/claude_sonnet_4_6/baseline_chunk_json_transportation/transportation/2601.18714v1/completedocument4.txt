@@ -1,0 +1,149 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument4
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+INPUT TEXT CHUNK:
+This resulted in a 192-dimensional global
+descriptor, which is much more compact than the original 512-dimensional
+global descriptor. As demonstrated in Section 6.2, this streamlining signifi-
+cantly reduces pipeline complexity while enhancing retrieval performance.
+Figure 1 depicts the architecture of MinkUNeXt-VINE, highlighting the
+strategic integration of the GeM pooling aggregator immediately following
+the second transpose convolution. This design yields a significantly more
+compact pipeline compared to the baseline, ensuring efficient real-time per-
+formance as quantitatively demonstrated in Section 7.2.
+Figure 1: MinkUNeXt-VINE’s proposed architecture. The parent backbone has been
+pruned to improve efficiency and performance in unstructured settings.
+7
+
+3.3. Learning with a multi-loss approach
+The original MinkUNeXt method uses a simple Truncated Smooth Aver-
+age Precision (TSAP) loss function, which aims to maximize the ranking of
+the positives with the following formula:
+LTSAP =1
+bbX
+q=1(1−AP q) (2)
+Wherebis the batch size andAPis the smooth average precision, which is
+calculated with this formula:
+AP=1
+|P|X
+i∈P1 +P
+j∈P,j̸=i G(d(q, i)−d(q, j);τ)
+1 +P
+j∈Ω,j̸=i G(d(q, i)−d(q, j);τ)(3)
+Where, for a set of positivesP, the average precision of a given point cloud
+qis computed as the mean of the soft precision values calculated for each
+positive samplei. Here, Ω represents the complete set of all samples in the
+batch, including both positives and negatives. On the other hand,d(·,·) is
+the distance metric between the query descriptor and a candidate, repre-
+sented by the Euclidean distance. The Sigmoid functionG(·;τ), whereτis a
+temperature parameter, controls the sharpness of the ranking approximation.
+Nevertheless, multi-loss approaches have been proven to enhance fea-
+ture robustness by enforcing constraints at different levels of granularity
+[31, 32, 33]. A specific multi-loss paradigm that has gained significant trac-
+tion recently is Matryoshka Representation Learning (MRL) [14]. Mimick-
+ing the structure of nesting dolls, MRL enforces that nested sub-vectors of
+the full descriptor independently encode discriminative information. This is
+achieved through a weighted summation strategy, where the loss is evaluated
+at multiple embedding dimensions simultaneously.
+The formula for the MRL approach adopted by our method is defined in
+Equation 4:
+Lmat=X
+m∈Mwm· LTSAP(z1:m) (4)
+whereL matrepresents the total combined loss. The termMdenotes the
+set of nested dimensions (e.g.,{16,32,64, ..., d}),w mis the weight assigned to
+each granularity, andL TSAP(z1:m) is the TSAP loss computed on the firstm
+dimensions of the descriptorz. In our MinkUNeXt-VINE, we select the list
+8
+
+of dimensions [64,128,192] with the weights of [1.0,0.5,0.25] for each dimen-
+sion, based on the results of the preliminary dimensionality ablation study
+presented in Section 6.1. This approach prioritizes lower-dimensionalities to
+focus on high efficiency.
+4. Datasets
+Traditionally, public data from vineyard environments have been centered
+around vision tasks (classification and segmentation tasks) [34]. For example,
+the GrapesNet dataset [35] provides RGB-D imagery taken on a vineyard lo-
+cated in India. Abdelghafour et al. [36] also presented an annotated imagery
+dataset for vineyard environments. The aforementioned datasets were pub-
+lished with the objective of addressing the necessity for data classification in
+the context of disease identification tasks.
+In this study, we use the data from the only two vineyard datasets to
+this date that are taken in long-term periods with 3D LiDAR sensors: the
+Bacchus Long-Term (BLT) Dataset [37] and the TEMPO-VINE dataset [38].
+4.1. Bacchus Long-Term Dataset
+The BLT dataset [37] was collected in two different vineyard environ-
+ments located in Greece (Ktima Gerovassiliou) and the United Kingdom
+(Riseholme). The Greek campaigns are eleven, recorded between the months
+of March and September and covering all the different phases of the crop.
+On the other side, the campaigns taken in the Riseholme vineyard are five
+and were taken in the months of July and August. It is important to note
+that, in the initial two campaigns conducted at the Riseholme vineyard, GPS
+data is not available. Consequently, these campaigns are not appropriate for
+LPR algorithms due to the absence of a ground-truth source.
+With regard to the expansion of the data set collected in this particular
+vineyard, the robot traverses a total of five rows within the Ktima Gerovas-
+siliou vineyard, with each row spanning a length of 50 meters. Similarly, the
+Riseholme vineyard encompasses five rows, which are half the length of their
+Greek counterpart. Both data collection settings encompass the process of
+revisiting the same row in reverse order.
+Regarding the robotic setup employed to collect these data, a robotic
+SAGA Robotics Thorvald II platform was used.

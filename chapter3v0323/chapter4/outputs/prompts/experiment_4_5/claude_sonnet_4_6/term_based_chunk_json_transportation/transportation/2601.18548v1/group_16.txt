@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "WholeBodyControl",
+  "uses",
+  "EndToEndReinforcementLearning",
+  "algorithm_n2m2",
+  "learns",
+  "Navigation",
+  "occursIn",
+  "DynamicEnvironment",
+  "InteractiveNavigation",
+  "appliedTo",
+  "LeggedManipulator",
+  "LearnedArmPushingController",
+  "LocalReactiveControl",
+  "MobileManipulator",
+  "ensures",
+  "WholeBodySafety",
+  "operatesIn",
+  "ComplexEnvironment",
+  "algorithm_topay",
+  "performs",
+  "TrajectoryPlanning",
+  "DifferentialDriveMobileManipulator",
+  "TopologicalPathSearch",
+  "MobileManipulation",
+  "utilizes",
+  "TrajectoryOptimization",
+  "FreeSpaceDecomposition",
+  "MotionPlanning",
+  "ConvexCollisionChecking",
+  "PathPlanning",
+  "generates",
+  "CollisionFreePath",
+  "navigatesAmong",
+  "PolyhedralObstacle",
+  "RoadmapBasedPathPlanning",
+  "VoronoiDiagram",
+  "computes",
+  "ClearanceBasedShortestPath",
+  "ProbabilisticRoadmap",
+  "usedFor",
+  "HighDimensionalConfigurationSpace",
+  "RapidlyExploringRandomTree",
+  "SemidefiniteProgramming",
+  "ObstacleFreeSpace",
+  "DynamicallyFeasibleTrajectory",
+  "plannedFor",
+  "Quadrotor",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "Robot",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety",
+  "Planner",
+  "CollisionConstraint",
+  "GeometricModel",
+  "MoveAndActScheme",
+  "CoordinatedWholeBodyBehavior",
+  "CollisionFreeTrajectory",
+  "Decoupling",
+  "Interdependence",
+  "WholeBodyReconfiguration",
+  "SamplingBasedMethod",
+  "ReinforcementLearning"
+]
+
+Triples:
+[
+  {
+    "subject": "WholeBodyControl",
+    "relation": "uses",
+    "object": "EndToEndReinforcementLearning",
+    "chunk": "completedocument18",
+    "context": "[28] J. Kindle, F. Furrer, T. Novkovic, J. J. Chung, R. Siegwart, and J. Nieto, “Whole-body control of a mobile manipulator using end-to-end reinforcement learning,”arXiv:2003.02637, 2020."
+  },
+  {
+    "subject": "algorithm_n2m2",
+    "relation": "learns",
+    "object": "Navigation",
+    "chunk": "completedocument18",
+    "context": "[29] D. Honerkamp, T. Welschehold, and A. Valada, “N2M2: Learning navigation for arbitrary mobile manipulation motions in unseen and dynamic environments,”IEEE Transactions on Robotics, vol. 39, no. 5, pp. 3601–3619, 2023."
+  },
+  {
+    "subject": "Navigation",
+    "relation": "occursIn",
+    "object": "DynamicEnvironment",
+    "chunk": "completedocument18",
+    "context": "[29] D. Honerkamp, T. Welschehold, and A. Valada, “N2M2: Learning navigation for arbitrary mobile manipulation motions in unseen and dynamic environments,”IEEE Transactions on Robotics, vol. 39, no. 5, pp. 3601–3619, 2023."
+  },
+  {
+    "subject": "InteractiveNavigation",
+    "relation": "appliedTo",
+    "object": "LeggedManipulator",
+    "chunk": "completedocument18",
+    "context": "[30] Z. Bi, K. Chen, C. Zheng, Y . Li, H. Li, and J. Ma, “Interactive navigation for legged manipulators with learned arm-pushing controller,” in 2025 IEEE International Conference on Intelligent Robots and Systems (IROS), 2025, pp. 9–16."
+  },
+  {
+    "subject": "InteractiveNavigation",
+    "relation": "uses",
+    "object": "LearnedArmPushingController",
+    "chunk": "completedocument18",
+    "context": "[30] Z. Bi, K. Chen, C. Zheng, Y . Li, H. Li, and J. Ma, “Interactive navigation for legged manipulators with learned arm-pushing controller,” in 2025 IEEE International Conference on Intelligent Robots and Systems (IROS), 2025, pp. 9–16."
+  },
+  {
+    "subject": "LocalReactiveControl",
+    "relation": "appliedTo",
+    "object": "MobileManipulator",
+    "chunk": "completedocument18",
+    "context": "[33] C. Zheng, Y . Li, Z. Song, Z. Bi, J. Zhou, B. Zhou, and J. Ma, “Local reactive control for mobile manipulators with whole-body safety in complex environments,”IEEE Robotics and Automation Letters, vol. 10, no. 5, pp. 4556–4563, 2025."
+  },
+  {
+    "subject": "LocalReactiveControl",
+    "relation": "ensures",
+    "object": "WholeBodySafety",
+    "chunk": "completedocument18",
+    "context": "[33] C. Zheng, Y . Li, Z. Song, Z. Bi, J. Zhou, B. Zhou, and J. Ma, “Local reactive control for mobile manipulators with whole-body safety in complex environments,”IEEE Robotics and Automation Letters, vol. 10, no. 5, pp. 4556–4563, 2025."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "operatesIn",
+    "object": "ComplexEnvironment",
+    "chunk": "completedocument18",
+    "context": "[33] C. Zheng, Y . Li, Z. Song, Z. Bi, J. Zhou, B. Zhou, and J. Ma, “Local reactive control for mobile manipulators with whole-body safety in complex environments,”IEEE Robotics and Automation Letters, vol. 10, no. 5, pp. 4556–4563, 2025."
+  },
+  {
+    "subject": "algorithm_topay",
+    "relation": "performs",
+    "object": "TrajectoryPlanning",
+    "chunk": "completedocument18",
+    "context": "[35] L. Xu, C. Wong, M. Zhang, J. Lin, J. Hou, and F. Gao, “TopAY: Efficient trajectory planning for differential drive mobile manipulators via topological paths search and arc length-yaw parameterization,” arXiv:2507.02761, 2025."
+  },
+  {
+    "subject": "TrajectoryPlanning",
+    "relation": "appliedTo",
+    "object": "DifferentialDriveMobileManipulator",
+    "chunk": "completedocument18",
+    "context": "[35] L. Xu, C. Wong, M. Zhang, J. Lin, J. Hou, and F. Gao, “TopAY: Efficient trajectory planning for differential drive mobile manipulators via topological paths search and arc length-yaw parameterization,” arXiv:2507.02761, 2025."
+  },
+  {
+    "subject": "algorithm_topay",
+    "relation": "uses",
+    "object": "TopologicalPathSearch",
+    "chunk": "completedocument18",
+    "context": "[35] L. Xu, C. Wong, M. Zhang, J. Lin, J. Hou, and F. Gao, “TopAY: Efficient trajectory planning for differential drive mobile manipulators via topological paths search and arc length-yaw parameterization,” arXiv:2507.02761, 2025."
+  },
+  {
+    "subject": "MobileManipulation",
+    "relation": "utilizes",
+    "object": "TrajectoryOptimization",
+    "chunk": "completedocument19",
+    "context": "[38] M. Spahn, B. Brito, and J. Alonso-Mora, “Coupled mobile manipulation via trajectory optimization with free space decomposition,” in2021 IEEE International Conference on Robotics and Automation (ICRA), 2021, pp. 12 759–12 765."
+  },
+  {
+    "subject": "TrajectoryOptimization",
+    "relation": "utilizes",
+    "object": "FreeSpaceDecomposition",
+    "chunk": "completedocument19",
+    "context": "[38] M. Spahn, B. Brito, and J. Alonso-Mora, “Coupled mobile manipulation via trajectory optimization with free space decomposition,” in2021 IEEE International Conference on Robotics and Automation (ICRA), 2021, pp. 12 759–12 765."
+  },
+  {
+    "subject": "MotionPlanning",
+    "relation": "appliedTo",
+    "object": "MobileManipulator",
+    "chunk": "completedocument19",
+    "context": "[39] S. Zhao, X. Zhou, J. Mao, and C. Zhang, “MPC-DCBF based motion planning of mobile manipulator in dynamic environment,” in2025 10th International Conference on Automation, Control and Robotics Engineering (CACRE), 2025, pp. 41–45."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "operatesIn",
+    "object": "DynamicEnvironment",
+    "chunk": "completedocument19",
+    "context": "[39] S. Zhao, X. Zhou, J. Mao, and C. Zhang, “MPC-DCBF based motion planning of mobile manipulator in dynamic environment,” in2025 10th International Conference on Automation, Control and Robotics Engineering (CACRE), 2025, pp. 41–45."
+  },
+  {
+    "subject": "MotionPlanning",
+    "relation": "utilizes",
+    "object": "ConvexCollisionChecking",
+    "chunk": "completedocument19",
+    "context": "[46] J. Schulman, Y . Duan, J. Ho, A. Lee, I. Awwal, H. Bradlow, J. Pan, S. Patil, K. Goldberg, and P. Abbeel, “Motion planning with sequential convex optimization and convex collision checking,”The International Journal of Robotics Research, vol. 33, no. 9, pp. 1251–1270, 2014."
+  },
+  {
+    "subject": "PathPlanning",
+    "relation": "generates",
+    "object": "CollisionFreePath",
+    "chunk": "completedocument19",
+    "context": "[50] T. Lozano-Pérez and M. A. Wesley, “An algorithm for planning collision-free paths among polyhedral obstacles,”Communications of the ACM, vol. 22, no. 10, pp. 560–570, 1979."
+  },
+  {
+    "subject": "CollisionFreePath",
+    "relation": "navigatesAmong",
+    "object": "PolyhedralObstacle",
+    "chunk": "completedocument19",
+    "context": "[50] T. Lozano-Pérez and M. A. Wesley, “An algorithm for planning collision-free paths among polyhedral obstacles,”Communications of the ACM, vol. 22, no. 10, pp. 560–570, 1979."
+  },
+  {
+    "subject": "RoadmapBasedPathPlanning",
+    "relation": "uses",
+    "object": "VoronoiDiagram",
+    "chunk": "completedocument19",
+    "context": "[51] P. Bhattacharya and M. L. Gavrilova, “Roadmap-based path planning - using the voronoi diagram for a clearance-based shortest path,”IEEE Robotics & Automation Magazine, vol. 15, no. 2, pp. 58–66, 2008."
+  },
+  {
+    "subject": "VoronoiDiagram",
+    "relation": "computes",
+    "object": "ClearanceBasedShortestPath",
+    "chunk": "completedocument19",
+    "context": "[51] P. Bhattacharya and M. L. Gavrilova, “Roadmap-based path planning - using the voronoi diagram for a clearance-based shortest path,”IEEE Robotics & Automation Magazine, vol. 15, no. 2, pp. 58–66, 2008."
+  },
+  {
+    "subject": "ProbabilisticRoadmap",
+    "relation": "usedFor",
+    "object": "PathPlanning",
+    "chunk": "completedocument19",
+    "context": "[52] L. E. Kavraki, P. Svestka, J.-C. Latombe, and M. H. Overmars, “Probabilistic roadmaps for path planning in high-dimensional configuration spaces,”IEEE Transactions on Robotics and Automation, vol. 12, no. 4, pp. 566–580, 1996."
+  },
+  {
+    "subject": "PathPlanning",
+    "relation": "operatesIn",
+    "object": "HighDimensionalConfigurationSpace",
+    "chunk": "completedocument19",
+    "context": "[52] L. E. Kavraki, P. Svestka, J.-C. Latombe, and M. H. Overmars, “Probabilistic roadmaps for path planning in high-dimensional configuration spaces,”IEEE Transactions on Robotics and Automation, vol. 12, no. 4, pp. 566–580, 1996."
+  },
+  {
+    "subject": "RapidlyExploringRandomTree",
+    "relation": "usedFor",
+    "object": "PathPlanning",
+    "chunk": "completedocument19",
+    "context": "[53] S. M. LaValleet al., “Rapidly-exploring random trees: A new tool for path planning,” 1998."
+  },
+  {
+    "subject": "SemidefiniteProgramming",
+    "relation": "computes",
+    "object": "ObstacleFreeSpace",
+    "chunk": "completedocument19",
+    "context": "[57] R. Deits and R. Tedrake, “Computing large convex regions of obstacle-free space through semidefinite programming,” inAlgorithmic Foundations of Robotics XI: Selected Contributions of the Eleventh International Workshop on the Algorithmic Foundations of Robotics (WAFR). Springer, 2015, pp. 109–124."
+  },
+  {
+    "subject": "DynamicallyFeasibleTrajectory",
+    "relation": "plannedFor",
+    "object": "Quadrotor",
+    "chunk": "completedocument19",
+    "context": "[59] S. Liu, M. Watterson, K. Mohta, K. Sun, S. Bhattacharya, C. J. Taylor, and V . Kumar, “Planning dynamically feasible trajectories for quadrotors using safe flight corridors in 3D complex environments,”IEEE Robotics and Automation Letters, vol. 2, no. 3, pp. 1688–1695, 2017."
+  }
+]

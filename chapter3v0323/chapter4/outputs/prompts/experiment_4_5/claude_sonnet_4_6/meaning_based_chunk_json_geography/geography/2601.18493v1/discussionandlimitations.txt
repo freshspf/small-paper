@@ -1,0 +1,71 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "discussionandlimitations",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: discussionandlimitations
+- section_title: Discussion and Limitations
+- page_start: 10
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+Our results reveal several important insights into multimodal reasoning for disaster imagery.
+Among all evaluated tasks, building-function classification remains the most challenging due to
+severe class imbalance and the ambiguity of inferring functional semantics from overhead im-
+agery. This highlights function recognition as a core open problem for disaster-response bench-
+marks and motivates building-centered, function-aware evaluation beyond scene-level analysis.
+While generic vision–language models achieve moderate accuracy on damage-level classifi-
+cation, their macro-F1 scores remain low under class imbalance and severity confusion. Perfor-
+mance on disaster-type classification is substantially weaker, with both low accuracy and low
+macro-F1. For damage-level classification, macro-F1 captures exact label agreement but ignores
+the ordinal nature of damage severity. We therefore additionally report ordinal MAE, which
+penalizes large severity confusions (e.g., no-damage vs. destroyed) more strongly than adjacent
+ones, providing a more operationally meaningful assessment.
+Quantitatively, DI-Chat achieves the lowest ordinal MAE for damage-level classification,
+indicating fewer severe misclassifications compared to generic baselines, even when overall accu-
+racy differences are modest. Together with consistent gains in report generation and counting
+accuracy, these results demonstrate that disaster-specific instruction tuning improves both se-
+mantic grounding and severity-aware reasoning. Nonetheless, DisasterInsight has limitations,
+including noisy OpenStreetMap-derived function labels, reliance on optical imagery, and au-
+tomatically generated reports; future work will address these through multimodal extensions,
+improved annotations, and expert human evaluation.
+10

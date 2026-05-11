@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AerialAfRelay",
+  "requires",
+  "RelayTransmitPower",
+  "incurs",
+  "RelayTransmissionStage",
+  "AerialActiveRis",
+  "benefitsFrom",
+  "CascadedReflection",
+  "hasSpatialAttribute",
+  "Height",
+  "UavBs",
+  "TwoDimensionalDistance",
+  "TotalPower",
+  "isAffectedBy",
+  "Distance",
+  "increases",
+  "PathLoss",
+  "hasHigherPowerGrowthRateThan",
+  "AerialPassiveRis",
+  "AmplificationPower",
+  "DynamicNoise",
+  "guarantees",
+  "LineOfSightProbability",
+  "isSpatiallySeparatedFrom",
+  "AerialRis",
+  "ActiveRis",
+  "contains",
+  "ActiveRisElement",
+  "hasAttribute",
+  "AerialActiveRisAssistedBackhaulArchitecture",
+  "providesCoverageFor",
+  "UavBsBackhaulNetwork",
+  "operatesIn",
+  "6gNetwork",
+  "BackhaulingUavBs",
+  "requiresResource",
+  "MinimumTotalPower",
+  "EqualAmplificationGain",
+  "maximizes",
+  "EnergyEfficiency",
+  "induces",
+  "hasConfigurationParameter",
+  "Placement",
+  "ActiveHardware",
+  "consumes",
+  "Power",
+  "AerialActiveRisMethod",
+  "reduces",
+  "LowAltitudePlatform",
+  "locatedIn",
+  "UrbanEnvironment",
+  "Uav",
+  "establishes",
+  "BaseStation",
+  "AerialBackhaulArchitecture",
+  "Full3dCoverage",
+  "HighAltitudeAerialPlatform",
+  "LineOfSightLink",
+  "MultiplicativeFading",
+  "TrafficSurge",
+  "UrbanArea",
+  "BackhaulSignal",
+  "Blockage",
+  "AerialBaseStation",
+  "NetworkCoverage",
+  "HighTrafficScenario",
+  "HighAltitudeOperation",
+  "Obstacle",
+  "DirectBackhaulLink",
+  "ReconfigurableIntelligentSurface",
+  "WirelessCoverage",
+  "PassiveReflectingElement",
+  "IncidentSignal",
+  "ConventionalRis",
+  "PassiveReflectionElement",
+  "ReflectionTypeAmplifier",
+  "SignalAmplification",
+  "ConventionalPassiveRis",
+  "DoubleFadingLoss",
+  "PassiveRis"
+]
+
+Triples:
+[
+  {
+    "subject": "AerialAfRelay",
+    "relation": "requires",
+    "object": "RelayTransmitPower",
+    "chunk": "completedocument9",
+    "context": "Note that beyond a certain distance in the figure, the AF-relay curve dramatically rises as the relay transmit power required to compensate for the multiplicative path loss becomes dominant [58]."
+  },
+  {
+    "subject": "AerialAfRelay",
+    "relation": "incurs",
+    "object": "RelayTransmissionStage",
+    "chunk": "completedocument9",
+    "context": "Furthermore, the pronounced gap from aerial-active-RIS and aerial-AF-relay stems from the fundamental architectural differences between the two systems: the aerial-AF-relay incurs an additional relay transmission stage, where the aerial-AF-relay is located at an intermediate position between the source and the receivers, to compensate for multiplicative path loss loss and amplified noise"
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "benefitsFrom",
+    "object": "CascadedReflection",
+    "chunk": "completedocument9",
+    "context": "whereas the aerial-active-RIS benefits from cascaded source-RIS-destination reflection with amplification gain and relies only on low-power element-level amplification and control circuitry represented byP E."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "hasSpatialAttribute",
+    "object": "Height",
+    "chunk": "completedocument9",
+    "context": "Fig. 5 illustrates the variation ofκ mwith respect to the aerial-active-RIS height(H)and the 2D distance of the UA V-BS from the source(||w m||2)."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "hasSpatialAttribute",
+    "object": "TwoDimensionalDistance",
+    "chunk": "completedocument9",
+    "context": "Fig. 5 illustrates the variation ofκ mwith respect to the aerial-active-RIS height(H)and the 2D distance of the UA V-BS from the source(||w m||2)."
+  },
+  {
+    "subject": "TotalPower",
+    "relation": "isAffectedBy",
+    "object": "Distance",
+    "chunk": "completedocument10",
+    "context": "Fig. 7(a) illustrates the total power according to the distance of ρρρG from the source (d G) with the implementation of active-RIS."
+  },
+  {
+    "subject": "Distance",
+    "relation": "increases",
+    "object": "TotalPower",
+    "chunk": "completedocument10",
+    "context": "It is also clear that d G leads to the increase of total power, owing to the increase of path loss and probability to adopt the full-array scenario [43]."
+  },
+  {
+    "subject": "Distance",
+    "relation": "increases",
+    "object": "PathLoss",
+    "chunk": "completedocument10",
+    "context": "It is also clear that d G leads to the increase of total power, owing to the increase of path loss and probability to adopt the full-array scenario [43]."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "hasHigherPowerGrowthRateThan",
+    "object": "AerialPassiveRis",
+    "chunk": "completedocument10",
+    "context": "Moreover, as d G increases, the power growth rate of the aerial-active-RIS becomes greater than that of the aerial-passive-RIS, which is shown by decrease in performance gain."
+  },
+  {
+    "subject": "AmplificationPower",
+    "relation": "increases",
+    "object": "TotalPower",
+    "chunk": "completedocument10",
+    "context": "It is because at longer distances, α∗ becomes stronger, which also leads to an increase in both amplification power and dynamic noise which leads to the increase of total power."
+  },
+  {
+    "subject": "DynamicNoise",
+    "relation": "increases",
+    "object": "TotalPower",
+    "chunk": "completedocument10",
+    "context": "It is because at longer distances, α∗ becomes stronger, which also leads to an increase in both amplification power and dynamic noise which leads to the increase of total power."
+  },
+  {
+    "subject": "Height",
+    "relation": "guarantees",
+    "object": "LineOfSightProbability",
+    "chunk": "completedocument10",
+    "context": "Fig. 7(b) illustrates the total power according to feasible H with the guarantee of high LoS probability [7], [8]."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "isSpatiallySeparatedFrom",
+    "object": "AerialRis",
+    "chunk": "completedocument10",
+    "context": "Similar to the scenario illustrated in Fig. 7, an increase in H results in a greater distance between the UA V-BS and the aerial-RIS, which leads to, similar to Fig. 7, the decrease of performance gain."
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "contains",
+    "object": "ActiveRisElement",
+    "chunk": "completedocument10",
+    "context": "Fig. 7(c) shows the total power with respect to the number of active-RIS elements (N)."
+  },
+  {
+    "subject": "AerialRis",
+    "relation": "hasAttribute",
+    "object": "Height",
+    "chunk": "completedocument10",
+    "context": "Fig. 8. Behavior of RHS 2 in (29) with respect to the height of aerial-RIS and the number of active-RIS elements."
+  },
+  {
+    "subject": "AerialActiveRisAssistedBackhaulArchitecture",
+    "relation": "providesCoverageFor",
+    "object": "UavBsBackhaulNetwork",
+    "chunk": "completedocument11",
+    "context": "In this paper, we proposed a novel aerial-active-RIS-assisted backhaul architecture to enable energy-efficient full 3D coverage for UA V-BS backhaul networks in 6G."
+  },
+  {
+    "subject": "AerialActiveRisAssistedBackhaulArchitecture",
+    "relation": "operatesIn",
+    "object": "6gNetwork",
+    "chunk": "completedocument11",
+    "context": "In this paper, we proposed a novel aerial-active-RIS-assisted backhaul architecture to enable energy-efficient full 3D coverage for UA V-BS backhaul networks in 6G."
+  },
+  {
+    "subject": "BackhaulingUavBs",
+    "relation": "requiresResource",
+    "object": "MinimumTotalPower",
+    "chunk": "completedocument11",
+    "context": "We derived the minimum total power required for backhauling UA V- BSs under target data rate constraints and showed that equal amplification gain is an effective strategy for maximizing energy-efficiency."
+  },
+  {
+    "subject": "EqualAmplificationGain",
+    "relation": "maximizes",
+    "object": "EnergyEfficiency",
+    "chunk": "completedocument11",
+    "context": "We derived the minimum total power required for backhauling UA V- BSs under target data rate constraints and showed that equal amplification gain is an effective strategy for maximizing energy-efficiency."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "induces",
+    "object": "DynamicNoise",
+    "chunk": "completedocument11",
+    "context": "By employing a practical aerial-active-RIS signal model and accounting for active-RIS-induced dynamic noise, we optimized the placement, array configuration, amplification gain, and phase of the aerial-active-RIS."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "hasConfigurationParameter",
+    "object": "Placement",
+    "chunk": "completedocument11",
+    "context": "By employing a practical aerial-active-RIS signal model and accounting for active-RIS-induced dynamic noise, we optimized the placement, array configuration, amplification gain, and phase of the aerial-active-RIS."
+  },
+  {
+    "subject": "ActiveHardware",
+    "relation": "consumes",
+    "object": "Power",
+    "chunk": "completedocument11",
+    "context": "As shown in the figure, although considering the reflection powerP Rand power consumption by active hardwareNP E, the proposed method with aerial-active-RIS greatly reduces the power, where the performance gain by our proposed algorithm withα2=α∗2is approximately given by 36.11 and 30.98 dB forN= 120and 300, respectively."
+  },
+  {
+    "subject": "AerialActiveRisMethod",
+    "relation": "reduces",
+    "object": "TotalPower",
+    "chunk": "completedocument11",
+    "context": "As shown in the figure, although considering the reflection powerP Rand power consumption by active hardwareNP E, the proposed method with aerial-active-RIS greatly reduces the power, where the performance gain by our proposed algorithm withα2=α∗2is approximately given by 36.11 and 30.98 dB forN= 120and 300, respectively."
+  },
+  {
+    "subject": "LowAltitudePlatform",
+    "relation": "locatedIn",
+    "object": "UrbanEnvironment",
+    "chunk": "completedocument12",
+    "context": "[7] A. Al-Houraniet al., “Modeling air-to-ground path loss for low altitude\nplatforms in urban environments,” inProc. IEEE Glob. Commun. Conf.\n(GLOBECOM) Workshops, Dec. 2014, pp. 2898–2904."
+  },
+  {
+    "subject": "Uav",
+    "relation": "establishes",
+    "object": "BaseStation",
+    "chunk": "completedocument12",
+    "context": "[8] S.-C. Nohet al., “Energy-efficient deployment of multiple UA Vs using\nellipse clustering to establish base stations,”IEEE Wireless Commun.\nLett., vol. 9, no. 8, pp. 1155–1159, Aug. 2020."
+  }
+]

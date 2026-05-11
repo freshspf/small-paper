@@ -1,0 +1,125 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+1
+Time-Scale-Adaptable Spectrum Sharing for Hybrid
+Satellite-Terrestrial Networks
+Yanmin Wang, Wei Feng,Senior Member, IEEE, Yunfei Chen,Fellow, IEEE, Yongxu Zhu,Senior Member, IEEE,
+Shidong Zhou,Member, IEEE, and Cheng-Xiang Wang,Fellow, IEEE
+Abstract—Cooperation between satellite and terrestrial wire-
+less networks promises great potential in meeting fast-growing de-
+mands for ubiquitous communications coverage. To tackle spec-
+trum scarcity, spectrum sharing is studied for a hybrid satellite-
+terrestrial network where satellite links share the same group of
+time-slotted subcarriers with terrestrial links opportunistically.
+In particular, with coarse network-wide time synchronization, a
+time-scale-adaptable spectrum sharing framework is proposed
+based on a satellite-terrestrial cooperation time scale that can
+be flexibly adjusted according to practical requirements. For
+generality, it is assumed that both full and partial frequency reuse
+could be adopted among the base stations (BSs) and satellite selec-
+tion is supported when multiple satellites are available. Relying on
+only statistical channel state information (CSI), joint link schedul-
+ing and power control are explored to maximize the average
+sum rate of the network while ensuring quality of service (QoS)
+for users. To solve the complicated mixed integer programming
+(MIP) problem, a low-complexity spectrum sharing scheme is
+presented based on link-feature-sketching-aided hierarchical link
+clustering and Monte-Carlo-and-successive-approximation-aided
+transmit power optimization. Simulation results demonstrate that
+by link feature sketching, diversity of the links brought by
+the spatial distribution of the users could be well utilized. The
+proposed scheme promises a significant performance gain even
+under strict inter-link interference constraints.
+Index Terms—Channel state information, hybrid satellite-
+terrestrial network, link feature, spectrum sharing, time scale
+I. INTRODUCTION
+Hybrid satellite-terrestrial networks are widely acknowl-
+edged as a promising solution for ubiquitous communication
+coverage in the sixth-generation (6G) era [1]–[5]. To tackle
+the problem of spectrum scarcity, spectrum sharing between
+the satellite and terrestrial components has attracted a lot
+of attention [8]–[16]. In practical applications, spectrum is
+usually utilized in terms of time-frequency resource blocks
+(RBs) consisting of subcarriers and time slots [3]–[5], [8]. Ac-
+cordingly, spectrum sharing could be opportunistically carried
+Yanmin Wang is with the School of Information Engineering, Minzu Uni-
+versity of China, Beijing 100081, China (email: wangyanmin@muc.edu.cn).
+Wei Feng (corresponding author) and Shidong Zhou are with the De-
+partment of Electronic Engineering, Tsinghua University, Beijing 100084,
+China (email: zhousd@tsinghua.edu.cn, fengwei@tsinghua.edu.cn). Wei Feng
+is also with State Key Laboratory of Space Network and Communications,
+Tsinghua University, Beijing 100084, China.
+Yunfei Chen is with Department of Engineering, University of Durham,
+Durham DH1 3LE, U.K. (email: yunfei.chen@durham.ac.uk).
+Yongxu Zhu and Cheng-Xiang Wang are with National Mobile Communi-
+cations Research Laboratory, School of Information Science and Engineering,
+Southeast University, Nanjing 210096, China, and also with the Purple Moun-
+tain Laboratories, Nanjing 211111, China (email: yongxu.zhu@seu.edu.cn,
+chxwang@seu.edu.cn).out both in the frequency domain over subcarriers and in the
+time domain over time slots, so as to fully exploit the diversity
+of links and achieve higher spectrum efficiency [3]–[5], [8],
+[16].
+For satellite-terrestrial spectrum sharing in the time domain,
+synchronization between links is a fundamental prerequi-
+site [3]–[5], [8], [16]. However, due to significant difference
+between link delays in the satellite and terrestrial components,
+network-wide fine time synchronization, e.g., over ms-level
+time slots, is rather challenging [4], [8]. As a result, spectrum
+sharing in the time domain over time slots is more difficult
+than that in the frequency domain over subcarriers for a
+hybrid network [8]–[15]. With the idea of circumventing the
+challenge of network-wide fine time synchronization, a fine-
+over-coarse scheme was proposed for the hybrid satellite-UA V-
+terrestrial maritime network based on link scheduling in our
+previous work in [8]. By link clustering and grouped time slice
+allocation for link clusters, satellite-terrestrial synchronization
+just needed to be achieved coarsely at a time scale much larger
+than an ms-level time slot [8].

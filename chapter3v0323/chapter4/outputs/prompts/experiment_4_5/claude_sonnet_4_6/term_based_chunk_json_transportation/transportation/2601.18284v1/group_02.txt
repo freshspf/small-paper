@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RuleBasedDriverBehaviorModel",
+  "oversimplifies",
+  "TrafficDynamics",
+  "simulator_vissim",
+  "hasInterface",
+  "ComProgrammingInterface",
+  "lacks",
+  "RlFramework",
+  "framework_sumo_rl",
+  "integratesWith",
+  "simulator_sumo",
+  "offers",
+  "RlEnvironment",
+  "library_gymnasium",
+  "supports",
+  "SingleAgentScenario",
+  "library_pettingzoo",
+  "MultiAgentScenario",
+  "customizes",
+  "State",
+  "Reward",
+  "framework_vissim_rl",
+  "designsFor",
+  "TrafficSignalControl",
+  "operatesIn",
+  "suits",
+  "IndustrialApplication",
+  "adopts",
+  "ModularArchitecture",
+  "framework_VissimRL",
+  "hasComponent",
+  "VissimWrapper",
+  "RlEnvironmentFramework",
+  "encapsulates",
+  "interface_COM",
+  "implements",
+  "api_Gymnasium",
+  "api_PettingZoo",
+  "extends",
+  "framework_SumoRL",
+  "designedFor",
+  "simulator_Vissim",
+  "algorithm_DQN",
+  "algorithm_PPO",
+  "algorithm_MAPPO",
+  "simulator_SUMO",
+  "developedBy",
+  "organization_GermanAerospaceCenter",
+  "isInstanceOf",
+  "MicroscopicTrafficSimulator",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_cityflow",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "Action",
+  "CommercialSimulationPlatform",
+  "DecisionMakingProcess"
+]
+
+Triples:
+[
+  {
+    "subject": "RuleBasedDriverBehaviorModel",
+    "relation": "oversimplifies",
+    "object": "TrafficDynamics",
+    "chunk": "introduction",
+    "context": "However, their rule-based driver behavior models often oversimplify traffic dynamics [21], and their relevance to industry and policy is limited."
+  },
+  {
+    "subject": "simulator_vissim",
+    "relation": "hasInterface",
+    "object": "ComProgrammingInterface",
+    "chunk": "introduction",
+    "context": "By contrast, the simulator Vissim offers industry-grade realism but is rarely used in RL research due to its complex Component Object Model (COM) programming interface [22] and the lack of RL frameworks for seamless integration."
+  },
+  {
+    "subject": "simulator_vissim",
+    "relation": "lacks",
+    "object": "RlFramework",
+    "chunk": "introduction",
+    "context": "By contrast, the simulator Vissim offers industry-grade realism but is rarely used in RL research due to its complex Component Object Model (COM) programming interface [22] and the lack of RL frameworks for seamless integration."
+  },
+  {
+    "subject": "framework_sumo_rl",
+    "relation": "integratesWith",
+    "object": "simulator_sumo",
+    "chunk": "introduction",
+    "context": "In this context, SUMO-RL [23] has been a widely used open-source RL framework for SUMO, offering standardized interfaces for RL environments compatible with Gymnasium [24] for single-agent and PettingZoo [25] for multi-agent scenarios, and supporting flexible customization of states and rewards."
+  },
+  {
+    "subject": "framework_sumo_rl",
+    "relation": "offers",
+    "object": "RlEnvironment",
+    "chunk": "introduction",
+    "context": "In this context, SUMO-RL [23] has been a widely used open-source RL framework for SUMO, offering standardized interfaces for RL environments compatible with Gymnasium [24] for single-agent and PettingZoo [25] for multi-agent scenarios, and supporting flexible customization of states and rewards."
+  },
+  {
+    "subject": "library_gymnasium",
+    "relation": "supports",
+    "object": "SingleAgentScenario",
+    "chunk": "introduction",
+    "context": "In this context, SUMO-RL [23] has been a widely used open-source RL framework for SUMO, offering standardized interfaces for RL environments compatible with Gymnasium [24] for single-agent and PettingZoo [25] for multi-agent scenarios, and supporting flexible customization of states and rewards."
+  },
+  {
+    "subject": "library_pettingzoo",
+    "relation": "supports",
+    "object": "MultiAgentScenario",
+    "chunk": "introduction",
+    "context": "In this context, SUMO-RL [23] has been a widely used open-source RL framework for SUMO, offering standardized interfaces for RL environments compatible with Gymnasium [24] for single-agent and PettingZoo [25] for multi-agent scenarios, and supporting flexible customization of states and rewards."
+  },
+  {
+    "subject": "framework_sumo_rl",
+    "relation": "customizes",
+    "object": "State",
+    "chunk": "introduction",
+    "context": "In this context, SUMO-RL [23] has been a widely used open-source RL framework for SUMO, offering standardized interfaces for RL environments compatible with Gymnasium [24] for single-agent and PettingZoo [25] for multi-agent scenarios, and supporting flexible customization of states and rewards."
+  },
+  {
+    "subject": "framework_sumo_rl",
+    "relation": "customizes",
+    "object": "Reward",
+    "chunk": "introduction",
+    "context": "In this context, SUMO-RL [23] has been a widely used open-source RL framework for SUMO, offering standardized interfaces for RL environments compatible with Gymnasium [24] for single-agent and PettingZoo [25] for multi-agent scenarios, and supporting flexible customization of states and rewards."
+  },
+  {
+    "subject": "framework_vissim_rl",
+    "relation": "designsFor",
+    "object": "TrafficSignalControl",
+    "chunk": "introduction",
+    "context": "This paper proposes VissimRL, an RL framework designed for TSC in the Vissim environment, which achieves the same user-friendliness and extensibility as SUMO-RL, while delivering higher modeling fidelity suitable for industrial applications."
+  },
+  {
+    "subject": "framework_vissim_rl",
+    "relation": "operatesIn",
+    "object": "simulator_vissim",
+    "chunk": "introduction",
+    "context": "This paper proposes VissimRL, an RL framework designed for TSC in the Vissim environment, which achieves the same user-friendliness and extensibility as SUMO-RL, while delivering higher modeling fidelity suitable for industrial applications."
+  },
+  {
+    "subject": "framework_vissim_rl",
+    "relation": "suits",
+    "object": "IndustrialApplication",
+    "chunk": "introduction",
+    "context": "This paper proposes VissimRL, an RL framework designed for TSC in the Vissim environment, which achieves the same user-friendliness and extensibility as SUMO-RL, while delivering higher modeling fidelity suitable for industrial applications."
+  },
+  {
+    "subject": "framework_vissim_rl",
+    "relation": "adopts",
+    "object": "ModularArchitecture",
+    "chunk": "introduction",
+    "context": "The framework adopts a flexible modular architecture to..."
+  },
+  {
+    "subject": "framework_VissimRL",
+    "relation": "hasComponent",
+    "object": "VissimWrapper",
+    "chunk": "relatedwork1",
+    "context": "The architecture of VissimRL consists of two major components: (1) the Vissim Wrapper, a Python-based encapsulation of the Component Object Model (COM) interface that provides user-friendly APIs; and (2) the RL environment framework, which implements standardized Gymnasium and PettingZoo interfaces for single- and multi-agent scenarios."
+  },
+  {
+    "subject": "framework_VissimRL",
+    "relation": "hasComponent",
+    "object": "RlEnvironmentFramework",
+    "chunk": "relatedwork1",
+    "context": "The architecture of VissimRL consists of two major components: (1) the Vissim Wrapper, a Python-based encapsulation of the Component Object Model (COM) interface that provides user-friendly APIs; and (2) the RL environment framework, which implements standardized Gymnasium and PettingZoo interfaces for single- and multi-agent scenarios."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "encapsulates",
+    "object": "interface_COM",
+    "chunk": "relatedwork1",
+    "context": "The architecture of VissimRL consists of two major components: (1) the Vissim Wrapper, a Python-based encapsulation of the Component Object Model (COM) interface that provides user-friendly APIs; and (2) the RL environment framework, which implements standardized Gymnasium and PettingZoo interfaces for single- and multi-agent scenarios."
+  },
+  {
+    "subject": "RlEnvironmentFramework",
+    "relation": "implements",
+    "object": "api_Gymnasium",
+    "chunk": "relatedwork1",
+    "context": "The architecture of VissimRL consists of two major components: (1) the Vissim Wrapper, a Python-based encapsulation of the Component Object Model (COM) interface that provides user-friendly APIs; and (2) the RL environment framework, which implements standardized Gymnasium and PettingZoo interfaces for single- and multi-agent scenarios."
+  },
+  {
+    "subject": "RlEnvironmentFramework",
+    "relation": "implements",
+    "object": "api_PettingZoo",
+    "chunk": "relatedwork1",
+    "context": "The architecture of VissimRL consists of two major components: (1) the Vissim Wrapper, a Python-based encapsulation of the Component Object Model (COM) interface that provides user-friendly APIs; and (2) the RL environment framework, which implements standardized Gymnasium and PettingZoo interfaces for single- and multi-agent scenarios."
+  },
+  {
+    "subject": "framework_VissimRL",
+    "relation": "extends",
+    "object": "framework_SumoRL",
+    "chunk": "relatedwork1",
+    "context": "In addition, VissimRL extends SUMO-RL by supporting performance metrics from six to eleven and expanding one action type to three action types, as shown in Table I."
+  },
+  {
+    "subject": "framework_VissimRL",
+    "relation": "designedFor",
+    "object": "simulator_Vissim",
+    "chunk": "relatedwork1",
+    "context": "To the best of our knowledge, VissimRL is the first framework specifically designed for Vissim with multi-agent RL, enabling RL in Vissim’s high-fidelity traffic simulation environment."
+  },
+  {
+    "subject": "framework_VissimRL",
+    "relation": "supports",
+    "object": "algorithm_DQN",
+    "chunk": "relatedwork1",
+    "context": "It seamlessly supports mainstream algorithms, e.g., DQN [5], PPO [26], MAPPO [27], without additional glue code, and provides a flexible state–action–reward pipeline, substantially enhancing the applicability of Vissim in RL-TSC research."
+  },
+  {
+    "subject": "framework_VissimRL",
+    "relation": "supports",
+    "object": "algorithm_PPO",
+    "chunk": "relatedwork1",
+    "context": "It seamlessly supports mainstream algorithms, e.g., DQN [5], PPO [26], MAPPO [27], without additional glue code, and provides a flexible state–action–reward pipeline, substantially enhancing the applicability of Vissim in RL-TSC research."
+  },
+  {
+    "subject": "framework_VissimRL",
+    "relation": "supports",
+    "object": "algorithm_MAPPO",
+    "chunk": "relatedwork1",
+    "context": "It seamlessly supports mainstream algorithms, e.g., DQN [5], PPO [26], MAPPO [27], without additional glue code, and provides a flexible state–action–reward pipeline, substantially enhancing the applicability of Vissim in RL-TSC research."
+  },
+  {
+    "subject": "simulator_SUMO",
+    "relation": "developedBy",
+    "object": "organization_GermanAerospaceCenter",
+    "chunk": "relatedwork1",
+    "context": "SUMO [11], developed by the German Aerospace Center in 2002, is one of the most widely used microscopic traffic simulators in academia [20]."
+  },
+  {
+    "subject": "simulator_SUMO",
+    "relation": "isInstanceOf",
+    "object": "MicroscopicTrafficSimulator",
+    "chunk": "relatedwork1",
+    "context": "SUMO [11], developed by the German Aerospace Center in 2002, is one of the most widely used microscopic traffic simulators in academia [20]."
+  }
+]

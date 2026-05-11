@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PruningStrategy",
+  "achieves",
+  "GraphSparsification",
+  "InitialLabel",
+  "influences",
+  "ClassificationOutcome",
+  "BiasedInitialLabel",
+  "degrades",
+  "ClassificationPerformance",
+  "SparseInitialAnnotation",
+  "leadsTo",
+  "UnstableLocalDecision",
+  "AnchorSelectionStrategy",
+  "tradesOff",
+  "CategoryDiscrimination",
+  "dataset_indianPines",
+  "contains",
+  "class_9",
+  "class_11",
+  "Satellite",
+  "passesOver",
+  "UnseenRegion",
+  "SpectralLibrary",
+  "ReferenceReflectanceCurve",
+  "SpectralMatching",
+  "provides",
+  "ApproximateSemanticLabel",
+  "Pixel",
+  "isExtractedFrom",
+  "LandCoverCategory",
+  "isLocatedIn",
+  "ObservationArea",
+  "Sample",
+  "Anchor",
+  "covers",
+  "LandCoverType",
+  "AnchorGraph",
+  "connects",
+  "initial_label_matrix_f0",
+  "determinedBy",
+  "LabelPropagation",
+  "appliesTo",
+  "AnchorLabelInformation",
+  "distributedTo",
+  "exploits",
+  "SimilarityRelationship",
+  "initial_affinity_matrix_w1",
+  "deducedBy",
+  "anchor_graph_z",
+  "sparse_graph_wk",
+  "derivedBy",
+  "PrePruningTopKStrategy",
+  "initial_affinity_matrix_wa",
+  "usedAs",
+  "FullyConnectedGraph",
+  "LabelInformation",
+  "propagatedFrom",
+  "propagatedTo",
+  "EarthObservationMission",
+  "GlobalEnvironmentalChange",
+  "Orbit",
+  "HyperspectralSensor",
+  "ContinuousSpectralInformation",
+  "HyperspectralSatellite",
+  "EarthObservationProduct",
+  "OfflineProcessing",
+  "TerrestrialSystem",
+  "DataTransmission",
+  "EmergencyScenario",
+  "DisasterMonitoring",
+  "EmergencyMapping",
+  "SatelliteOnboardProcessing",
+  "ArtificialIntelligenceAlgorithm",
+  "ValidationPlatform",
+  "platform_opsSat",
+  "mission_phiSat1",
+  "org_esa",
+  "DeepConvolutionalNetwork",
+  "CloudSegmentation",
+  "mission_hypso"
+]
+
+Triples:
+[
+  {
+    "subject": "PruningStrategy",
+    "relation": "achieves",
+    "object": "GraphSparsification",
+    "chunk": "discussion",
+    "context": "In subsequent work, we plan to further reduce the number of edges in graph by optimizing pruning strategies to achieve graph sparsification and enhance computational speed."
+  },
+  {
+    "subject": "InitialLabel",
+    "relation": "influences",
+    "object": "ClassificationOutcome",
+    "chunk": "discussion",
+    "context": "The quality and distribution of the initial labels exert a critical influence on the final classification outcomes in label propagation algorithms."
+  },
+  {
+    "subject": "BiasedInitialLabel",
+    "relation": "degrades",
+    "object": "ClassificationPerformance",
+    "chunk": "discussion",
+    "context": "Biased or erroneous initial labels tend to be amplified through the graph structure, subsequently degrading the overall classification performance."
+  },
+  {
+    "subject": "SparseInitialAnnotation",
+    "relation": "leadsTo",
+    "object": "UnstableLocalDecision",
+    "chunk": "discussion",
+    "context": "When the initial annotations are overly sparse or unevenly distributed across the data manifold, the propagation process may fail to reach all samples, leading to unstable local decisions and indistinct class boundaries."
+  },
+  {
+    "subject": "AnchorSelectionStrategy",
+    "relation": "tradesOff",
+    "object": "CategoryDiscrimination",
+    "chunk": "discussion",
+    "context": "This issue arises because the anchor selection strategy we used trades off a degree of category discrimination to meet the demand for fast response."
+  },
+  {
+    "subject": "dataset_indianPines",
+    "relation": "contains",
+    "object": "class_9",
+    "chunk": "discussion",
+    "context": "For instance, in the Indian Pines dataset, Class 9 contains only 20 samples, whereas Class 11 comprises 2,455 samples, reflecting a pronounced class imbalance."
+  },
+  {
+    "subject": "dataset_indianPines",
+    "relation": "contains",
+    "object": "class_11",
+    "chunk": "discussion",
+    "context": "For instance, in the Indian Pines dataset, Class 9 contains only 20 samples, whereas Class 11 comprises 2,455 samples, reflecting a pronounced class imbalance."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "passesOver",
+    "object": "UnseenRegion",
+    "chunk": "discussion",
+    "context": "During in-orbit operations, satellites continuously pass over unseen regions, and it is infeasible to upload annotated samples in real time via satellite–ground links."
+  },
+  {
+    "subject": "SpectralLibrary",
+    "relation": "contains",
+    "object": "ReferenceReflectanceCurve",
+    "chunk": "discussion",
+    "context": "A common solution is to pre-load a spectral library containing reference reflectance curves acquired under controlled laboratory conditions."
+  },
+  {
+    "subject": "SpectralMatching",
+    "relation": "provides",
+    "object": "ApproximateSemanticLabel",
+    "chunk": "discussion",
+    "context": "Although spectral matching can provide approximate semantic labels, such libraries often"
+  },
+  {
+    "subject": "Pixel",
+    "relation": "isExtractedFrom",
+    "object": "LandCoverCategory",
+    "chunk": "method1",
+    "context": "Conventional graph-based semi-supervised approaches[49][28][50][37] for hyperspectral image classification generally employ a fixed number of pixels extracted from each predefined land cover category as labeled samples."
+  },
+  {
+    "subject": "LandCoverCategory",
+    "relation": "isLocatedIn",
+    "object": "ObservationArea",
+    "chunk": "method1",
+    "context": "However, these approaches require prior knowledge of the land cover category in the observation area, which can be a burden in numerous scenarios."
+  },
+  {
+    "subject": "Sample",
+    "relation": "isExtractedFrom",
+    "object": "LandCoverCategory",
+    "chunk": "method1",
+    "context": "Through the generation of anchors for a given hyperspectral image dataset, it becomes feasible to uniformly extract samples from all land cover categories without prior knowledge."
+  },
+  {
+    "subject": "Anchor",
+    "relation": "covers",
+    "object": "LandCoverType",
+    "chunk": "method1",
+    "context": "Although the random selection strategy is notably efficient, it does not guarantee comprehensive coverage of all types of land cover by the generated anchors."
+  },
+  {
+    "subject": "AnchorGraph",
+    "relation": "connects",
+    "object": "Pixel",
+    "chunk": "method1",
+    "context": "Given the set of generated anchorsQ={q i|i= 1, ..., m, q i∈Rd}and the set of unlabeled pixelsP={p i|i= 1, ..., n, p i∈Rd}, we need to construct the anchor graphZ∈Rn×mbetween pixels and anchors."
+  },
+  {
+    "subject": "AnchorGraph",
+    "relation": "connects",
+    "object": "Anchor",
+    "chunk": "method1",
+    "context": "Given the set of generated anchorsQ={q i|i= 1, ..., m, q i∈Rd}and the set of unlabeled pixelsP={p i|i= 1, ..., n, p i∈Rd}, we need to construct the anchor graphZ∈Rn×mbetween pixels and anchors."
+  },
+  {
+    "subject": "initial_label_matrix_f0",
+    "relation": "determinedBy",
+    "object": "LabelPropagation",
+    "chunk": "method2",
+    "context": "Subsequent to the obtain of the anchor graph Z and the anchor label U ∈ Rm×c, the initial label matrix F 0 ∈ Rn×c for all pixels can be efficiently determined by label propagation[51]:"
+  },
+  {
+    "subject": "initial_label_matrix_f0",
+    "relation": "appliesTo",
+    "object": "Pixel",
+    "chunk": "method2",
+    "context": "Subsequent to the obtain of the anchor graph Z and the anchor label U ∈ Rm×c, the initial label matrix F 0 ∈ Rn×c for all pixels can be efficiently determined by label propagation[51]:"
+  },
+  {
+    "subject": "AnchorLabelInformation",
+    "relation": "distributedTo",
+    "object": "Pixel",
+    "chunk": "method2",
+    "context": "The information of the anchor label is distributed to all pixels by exploiting the similarity relationship between the anchors and the pixels."
+  },
+  {
+    "subject": "AnchorLabelInformation",
+    "relation": "exploits",
+    "object": "SimilarityRelationship",
+    "chunk": "method2",
+    "context": "The information of the anchor label is distributed to all pixels by exploiting the similarity relationship between the anchors and the pixels."
+  },
+  {
+    "subject": "initial_affinity_matrix_w1",
+    "relation": "deducedBy",
+    "object": "anchor_graph_z",
+    "chunk": "method2",
+    "context": "Moreover, the initial affinity matrix W 1 ∈ Rn×n between pixels can be deduced by utilizing the anchor graph Z, which is as follows[52]:"
+  },
+  {
+    "subject": "sparse_graph_wk",
+    "relation": "derivedBy",
+    "object": "PrePruningTopKStrategy",
+    "chunk": "method2",
+    "context": "By applying the pruning strategy, a sparse graph Wk ∈ Rn×n can be derived."
+  },
+  {
+    "subject": "initial_affinity_matrix_wa",
+    "relation": "usedAs",
+    "object": "FullyConnectedGraph",
+    "chunk": "method2",
+    "context": "In this section, the initial affinity matrix Wa is used as the fully connected graph to be pruned."
+  },
+  {
+    "subject": "LabelInformation",
+    "relation": "propagatedFrom",
+    "object": "Anchor",
+    "chunk": "method2",
+    "context": "In Eq.2, the label information is propagated exclusively from the anchors to the pixels."
+  },
+  {
+    "subject": "LabelInformation",
+    "relation": "propagatedTo",
+    "object": "Pixel",
+    "chunk": "method2",
+    "context": "In Eq.2, the label information is propagated exclusively from the anchors to the pixels."
+  }
+]

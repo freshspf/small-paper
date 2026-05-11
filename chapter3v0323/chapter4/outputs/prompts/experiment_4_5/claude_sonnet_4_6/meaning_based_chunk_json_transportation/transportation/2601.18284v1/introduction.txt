@@ -1,0 +1,118 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "introduction",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: introduction
+- section_title: Introduction
+- page_start: 1
+- page_end: 1
+
+**INPUT TEXT CHUNK:**
+Traffic congestion remains a critical challenge for modern
+cities, causing substantial economic and environmental im-
+pacts. The European Union estimated that congestion resulted
+in annual losses of about C270 billion [1], while in the United
+States, congestion in 2022 led to 8.5 billion hours of delay, 3.3
+billion gallons of excess fuel consumption, and approximately
+$224 billion in losses [2]. In London, congestion produced 2.2
+million metric tons of CO 2in 2021, accounting for roughly
+15% of the city’s total emissions [3], underscoring the urgency
+of effective traffic management. Traffic Signal Control (TSC)
+offers a cost-effective and scalable solution, and Reinforce-
+ment Learning (RL) has shown great potential by enabling
+autonomous policy learning without explicit traffic models
+[4]. Since the introduction of the Deep Q-Network (DQN) in
+2013 [5], Deep Reinforcement Learning (DRL) has become
+This work was supported in part by the National Science and Technology
+Council (NSTC) of Taiwan under Grant, NSTC 114-2221-E-A49-005, NSTC
+114-2221-E-A49-006.
+1Department of Computer Science, National Yang Ming Chiao Tung
+University, Hsinchu, Taiwan.
+2Research Center for Information Technology Innovation, Academia Sinica,
+Taipei, Taiwan.
+3Correspondence (e-mail: icwu@cs.nycu.edu.tw)
+*Equal contribution.an important research direction, with proven effectiveness in
+both single-intersection [6], [7] and multi-intersection control
+[8], [9]. Nevertheless, real-world deployment of reinforcement
+learning for traffic signal control (RL-TSC) requires highly
+realistic and reproducible simulation environments to support
+large-scale training and evaluation.
+Traffic simulation tools are essential for developing and
+evaluating TSC methods, as real-world systems cannot be
+frequently adjusted or tested. Simulations provide a safer and
+more feasible alternative, operating dozens to over a hundred
+times faster than reality [10]. Commonly used platforms
+include SUMO [11], CityFlow [12], and Vissim [13]. SUMO
+is open-source and widely used in academia; CityFlow is de-
+signed for RL experiments with high efficiency and scalability;
+and Vissim, as a commercial-grade software, provides highly
+realistic modeling of driver behaviors and complex traffic
+scenarios [14]. Owing to its superior accuracy, Vissim has
+been adopted in official guidelines by various U.S. state De-
+partments of Transportation [15]–[18] and also recommended
+by Transport for London [19].
+Research on RL-TSC has mostly employed open-source
+simulators such as SUMO and CityFlow [20], given their
+accessibility and scalability. However, their rule-based driver
+behavior models often oversimplify traffic dynamics [21], and
+their relevance to industry and policy is limited. By contrast,
+the simulator Vissim offers industry-grade realism but is rarely
+used in RL research due to its complex Component Object
+Model (COM) programming interface [22] and the lack of
+RL frameworks for seamless integration.
+To address these gaps, this paper adopts Vissim as the
+primary simulation platform and develops an RL-compatible
+framework that leverages its modeling accuracy while enabling
+broader applicability in both academic research and practical
+deployment. In this context, SUMO-RL [23] has been a
+widely used open-source RL framework for SUMO, offering
+standardized interfaces for RL environments compatible with
+Gymnasium [24] for single-agent and PettingZoo [25] for
+multi-agent scenarios, and supporting flexible customization
+of states and rewards. Its user-friendliness and extensibility
+have made it a foundational platform for RL-TSC research.
+This paper proposes VissimRL, an RL framework designed
+for TSC in the Vissim environment, which achieves the same
+user-friendliness and extensibility as SUMO-RL, while deliv-
+ering higher modeling fidelity suitable for industrial applica-
+tions. The framework adopts a flexible modular architecture toarXiv:2601.18284v1  [cs.MA]  26 Jan 2026

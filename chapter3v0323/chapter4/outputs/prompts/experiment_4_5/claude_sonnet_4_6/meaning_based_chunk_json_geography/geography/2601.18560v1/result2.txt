@@ -1,0 +1,153 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "result2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: result2
+- section_title: Result
+- page_start: 3
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+To ensure
+an equitable comparison of the performance of
+the proposed methods under the conditions of
+limited labeled data, five pixels are randomly sam-
+pled from each category to serve as the labeled
+data for the other seven compared methods. The
+proposed method demonstrates optimal classifica-
+tion performance on all datasets. In particular in
+the Indian Pines dataset, the proposed method
+achieves an increase in OA that exceeds 11%
+compared to the state-of-the-art method. Even
+with the Pavia University dataset, which demon-
+strates the least favorable outcomes, the proposed
+method maintains comparable performance on
+4
+
+par with the state-of-the-art method and exceeds
+it as the number of sampled pixels increases.
+Note that unlike existing methods that exhibit
+superior classification performance, our method
+exclusively utilizes the single-pixel-level spectral
+features, eschewing any incorporation of spatial
+information.
+For the Indian Pines dataset, a remarkable
+improvement in classification accuracy is achieved
+compared to existing methods. The Indian Pines
+dataset exhibits a significant imbalance in class
+distribution, notably with the 7 thand 9 thclasses
+comprising fewer than 30 pixels. For most classes,
+the proposed method exhibits superior class accu-
+racy compared to existing methods. However, the
+9thclass is characterized by an extremely sparse
+pixel count, which leads to its exclusion during
+the anchor selection process, thus resulting in a
+classification accuracy of zero for this class. This
+phenomenon is effectively mitigated by increasing
+the number of anchors, for example, by sampling
+10 pixels per category. Meanwhile, this extreme
+imbalance among categories reduces the impact
+of this particular case of misclassification on OA.
+For the Salinas dataset, although existing methods
+already demonstrate high classification accuracy,
+the proposed method achieves a discernible degree
+of performance enhancement. Within the OA met-
+ric, the proposed method achieves an improvement
+of 2.1%. In contrast to the first two datasets, the
+Pavia University dataset has a smaller number of
+categories. Consequently, this led to a reduction in
+the number of anchors, which decreased from 80
+in the other datasets to 45 in the Pavia University
+dataset. The integration of spatial information is
+particularly crucial in existing methods when sam-
+ple features are limited, as it facilitates the attain-
+ment of high classification accuracy. However, our
+method still achieves results comparable to those
+of the state-of-the-art method in the absence of
+spatial information. Overall, the proposed method
+demonstrates excellent classification performance
+within a semi-supervised framework, independent
+of any reliance on spatial information.
+2.2.2 Impact of the Number of
+Labeled Samples
+To investigate the influence of the varying number
+of labeled samples on the method, we established
+four sampling strategies comprising 3, 5, 10, and30 samples per class. Table 4 presents the compar-
+ative performance of the proposed methodology
+and the existing approaches with respect to overall
+accuracy (OA) in four distinct sampling strategies.
+Given that the Indian Pines dataset contains fewer
+than 30 pixels for the classes 7 and 9, a sampling
+size of 15 pixels is used for these classes instead of
+the standard 30 pixels. The analysis of the results
+reveals that an increase in the number of labeled
+samples substantively enhances the classification
+accuracy across all methods. It is significant to
+observe that the proposed method yields superior
+performance compared to all other methods in the
+four sampling numbers on the Indian Pines and
+Salinas datasets. Specifically, when using a sam-
+pling strategy of 30 labeled pixels per class, our
+method achieves an overall accuracy of 99%. In the
+case of the Pavia University dataset, the proposed
+method exhibits a lower performance relative to
+the state-of-the-art method when employing sam-
+pling strategies of 3 pixels per class. However,
+as the number of samples is increased, the accu-
+racy of our method begins to improve significantly
+and eventually exceeds the performance of the
+state-of-the-art method. This phenomenon can be
+attributed to the fact that with an increased num-
+ber of labeled pixels, the richness of the available
+spectral information is enhanced. In this scenario,
+despite the lack of spatial information, our method
+is able to take full advantage of the enhanced
+spectral features to achieve superior classification
+accuracy. By setting a different number of sam-
+ples, it is demonstrated that our method exhibits
+superior capability in fully leveraging the aug-
+mented pixel compared to other methods.
+Furthermore, we present maps that illustrate
+the classification results of our method in vary-
+ing numbers of training samples, as depicted in
+Fig.2, Fig.3, Fig.4.

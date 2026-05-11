@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PatientPrognosis",
+  "guidesDecision",
+  "IcuAdmission",
+  "TreatmentSelection",
+  "RiskIntervention",
+  "Clinician",
+  "formulates",
+  "Prognosis",
+  "HolisticView",
+  "includes",
+  "StaticBaseline",
+  "DynamicState",
+  "AcutePhysiologicalSignal",
+  "Electrocardiogram",
+  "isTypeOf",
+  "Comorbidity",
+  "derivedFrom",
+  "Ehr",
+  "TWaveInversion",
+  "signifies",
+  "CriticalMortalityRisk",
+  "AbnormalPotassiumLevel",
+  "contextualizes",
+  "HypertensionHistory",
+  "CrossModalReasoning",
+  "isChallengeIn",
+  "ComputationalPrognosis",
+  "MachineLearningModel",
+  "designedAs",
+  "SingleTaskPredictor",
+  "RawEcgWaveform",
+  "isA",
+  "DenseSignal",
+  "UniPACT",
+  "UnifiedFramework",
+  "designedFor",
+  "MultimodalPrognosticQuestionAnswering",
+  "employs",
+  "DedicatedWaveformEncoder",
+  "learnsFrom",
+  "TwelveLeadEcgSignal",
+  "uses",
+  "StructuredPromptingMechanism",
+  "converts",
+  "NumericalData",
+  "UniPACTFramework",
+  "performs",
+  "PrognosticQuestionAnswering",
+  "unifies",
+  "StructuredEhrData",
+  "GenerativeModel",
+  "UniPACTArchitecture",
+  "EcgEncoder",
+  "LargeLanguageModel",
+  "MultimodalRepresentation",
+  "FinalPrediction",
+  "EcgWaveformEncoder",
+  "Raw12LeadEcgWaveform",
+  "DiagnosticInformation",
+  "TransformerArchitecture",
+  "DiscriminativeRepresentation",
+  "FeatureEmbedding",
+  "TemporalPattern",
+  "MorphologicalPattern",
+  "StructuredEhrPrompting",
+  "Demographics",
+  "Biometrics",
+  "VitalParameters",
+  "PredefinedTemplate",
+  "EhrRepresentation",
+  "NumericalPrecision",
+  "ContextualCue",
+  "consistsOf",
+  "textualizes",
+  "fuses",
+  "generates",
+  "processes",
+  "contains",
+  "basedOn",
+  "learns"
+]
+
+Triples:
+[
+  {
+    "subject": "PatientPrognosis",
+    "relation": "guidesDecision",
+    "object": "IcuAdmission",
+    "chunk": "introduction",
+    "context": "Accurate patient prognosis in acute care is a cornerstone of modern medicine, directly guiding critical decisions such as ICU admission, treatment selection, and risk intervention [1]."
+  },
+  {
+    "subject": "PatientPrognosis",
+    "relation": "guidesDecision",
+    "object": "TreatmentSelection",
+    "chunk": "introduction",
+    "context": "Accurate patient prognosis in acute care is a cornerstone of modern medicine, directly guiding critical decisions such as ICU admission, treatment selection, and risk intervention [1]."
+  },
+  {
+    "subject": "PatientPrognosis",
+    "relation": "guidesDecision",
+    "object": "RiskIntervention",
+    "chunk": "introduction",
+    "context": "Accurate patient prognosis in acute care is a cornerstone of modern medicine, directly guiding critical decisions such as ICU admission, treatment selection, and risk intervention [1]."
+  },
+  {
+    "subject": "Clinician",
+    "relation": "formulates",
+    "object": "Prognosis",
+    "chunk": "introduction",
+    "context": "Clinicians formulate a prognosis not from a single data point, but by synthesizing a holistic view of the patient: their static baseline (demographics, comorbidities from EHR), dynamic state (vital signs), and acute physiological signals (like the 12-lead Electrocardiogram) [2]."
+  },
+  {
+    "subject": "HolisticView",
+    "relation": "includes",
+    "object": "StaticBaseline",
+    "chunk": "introduction",
+    "context": "Clinicians formulate a prognosis not from a single data point, but by synthesizing a holistic view of the patient: their static baseline (demographics, comorbidities from EHR), dynamic state (vital signs), and acute physiological signals (like the 12-lead Electrocardiogram) [2]."
+  },
+  {
+    "subject": "HolisticView",
+    "relation": "includes",
+    "object": "DynamicState",
+    "chunk": "introduction",
+    "context": "Clinicians formulate a prognosis not from a single data point, but by synthesizing a holistic view of the patient: their static baseline (demographics, comorbidities from EHR), dynamic state (vital signs), and acute physiological signals (like the 12-lead Electrocardiogram) [2]."
+  },
+  {
+    "subject": "HolisticView",
+    "relation": "includes",
+    "object": "AcutePhysiologicalSignal",
+    "chunk": "introduction",
+    "context": "Clinicians formulate a prognosis not from a single data point, but by synthesizing a holistic view of the patient: their static baseline (demographics, comorbidities from EHR), dynamic state (vital signs), and acute physiological signals (like the 12-lead Electrocardiogram) [2]."
+  },
+  {
+    "subject": "Electrocardiogram",
+    "relation": "isTypeOf",
+    "object": "AcutePhysiologicalSignal",
+    "chunk": "introduction",
+    "context": "Clinicians formulate a prognosis not from a single data point, but by synthesizing a holistic view of the patient: their static baseline (demographics, comorbidities from EHR), dynamic state (vital signs), and acute physiological signals (like the 12-lead Electrocardiogram) [2]."
+  },
+  {
+    "subject": "Comorbidity",
+    "relation": "derivedFrom",
+    "object": "Ehr",
+    "chunk": "introduction",
+    "context": "Clinicians formulate a prognosis not from a single data point, but by synthesizing a holistic view of the patient: their static baseline (demographics, comorbidities from EHR), dynamic state (vital signs), and acute physiological signals (like the 12-lead Electrocardiogram) [2]."
+  },
+  {
+    "subject": "TWaveInversion",
+    "relation": "signifies",
+    "object": "CriticalMortalityRisk",
+    "chunk": "introduction",
+    "context": "A subtle T-wave inversion (from the ECG), for instance, may signify a critical mortality risk, but only when contextualized by abnormal potassium levels and a history of hypertension (from the EHR)."
+  },
+  {
+    "subject": "AbnormalPotassiumLevel",
+    "relation": "contextualizes",
+    "object": "TWaveInversion",
+    "chunk": "introduction",
+    "context": "A subtle T-wave inversion (from the ECG), for instance, may signify a critical mortality risk, but only when contextualized by abnormal potassium levels and a history of hypertension (from the EHR)."
+  },
+  {
+    "subject": "HypertensionHistory",
+    "relation": "contextualizes",
+    "object": "TWaveInversion",
+    "chunk": "introduction",
+    "context": "A subtle T-wave inversion (from the ECG), for instance, may signify a critical mortality risk, but only when contextualized by abnormal potassium levels and a history of hypertension (from the EHR)."
+  },
+  {
+    "subject": "CrossModalReasoning",
+    "relation": "isChallengeIn",
+    "object": "ComputationalPrognosis",
+    "chunk": "introduction",
+    "context": "Capturing thiscomplex, cross-modal reasoning is the central challenge in computational prognosis."
+  },
+  {
+    "subject": "MachineLearningModel",
+    "relation": "designedAs",
+    "object": "SingleTaskPredictor",
+    "chunk": "introduction",
+    "context": "While standard machine learning models offered improved accuracy, they are predominantly designed as rigid, single-task predictors [3]."
+  },
+  {
+    "subject": "RawEcgWaveform",
+    "relation": "isA",
+    "object": "DenseSignal",
+    "chunk": "introduction",
+    "context": "Raw ECG waveforms are dense signals where subtle morphology holds diagnostic meaning, while structured EHR data consists of context-poor numerical values."
+  },
+  {
+    "subject": "UniPACT",
+    "relation": "isA",
+    "object": "UnifiedFramework",
+    "chunk": "introduction",
+    "context": "UniPACT is a unified framework designed for multimodal prognostic question answering and makes raw physiological signals and structured data “legible” to an LLM."
+  },
+  {
+    "subject": "UniPACT",
+    "relation": "designedFor",
+    "object": "MultimodalPrognosticQuestionAnswering",
+    "chunk": "introduction",
+    "context": "UniPACT is a unified framework designed for multimodal prognostic question answering and makes raw physiological signals and structured data “legible” to an LLM."
+  },
+  {
+    "subject": "UniPACT",
+    "relation": "employs",
+    "object": "DedicatedWaveformEncoder",
+    "chunk": "introduction",
+    "context": "For the ECG, it employs a dedicated waveform encoder to learn deep representations directly from the 12-lead ECG signal."
+  },
+  {
+    "subject": "DedicatedWaveformEncoder",
+    "relation": "learnsFrom",
+    "object": "TwelveLeadEcgSignal",
+    "chunk": "introduction",
+    "context": "For the ECG, it employs a dedicated waveform encoder to learn deep representations directly from the 12-lead ECG signal."
+  },
+  {
+    "subject": "UniPACT",
+    "relation": "uses",
+    "object": "StructuredPromptingMechanism",
+    "chunk": "introduction",
+    "context": "For the EHR, it uses a novel structured prompting mechanism to convert numerical data into semantically rich sentences"
+  },
+  {
+    "subject": "StructuredPromptingMechanism",
+    "relation": "converts",
+    "object": "NumericalData",
+    "chunk": "introduction",
+    "context": "For the EHR, it uses a novel structured prompting mechanism to convert numerical data into semantically rich sentences"
+  },
+  {
+    "subject": "UniPACTFramework",
+    "relation": "performs",
+    "object": "PrognosticQuestionAnswering",
+    "chunk": "method",
+    "context": "The UniPACT framework is designed to perform prognos- tic question answering by unifying raw ECG waveforms and structured EHR data within an end-to-end generative model."
+  },
+  {
+    "subject": "UniPACTFramework",
+    "relation": "unifies",
+    "object": "RawEcgWaveform",
+    "chunk": "method",
+    "context": "The UniPACT framework is designed to perform prognos- tic question answering by unifying raw ECG waveforms and structured EHR data within an end-to-end generative model."
+  },
+  {
+    "subject": "UniPACTFramework",
+    "relation": "unifies",
+    "object": "StructuredEhrData",
+    "chunk": "method",
+    "context": "The UniPACT framework is designed to perform prognos- tic question answering by unifying raw ECG waveforms and structured EHR data within an end-to-end generative model."
+  },
+  {
+    "subject": "UniPACTFramework",
+    "relation": "uses",
+    "object": "GenerativeModel",
+    "chunk": "method",
+    "context": "The UniPACT framework is designed to perform prognos- tic question answering by unifying raw ECG waveforms and structured EHR data within an end-to-end generative model."
+  }
+]

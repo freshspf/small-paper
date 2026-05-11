@@ -1,0 +1,97 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "appendix2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: appendix2
+- section_title: APPENDIX
+- page_start: 12
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+In climate science, where a perfect one-to-one match in geospatial grids is
+often not expected, the alignment of the probability distributions becomes a more crucial evaluation
+criterion. A strong correspondence between the predicted and true PDFs indicates that the model is
+not merely a regression function for individual data points but is capable of generalizing the data’s
+generative process. This is crucial for capturing the system’s overall statistical behavior, including
+the frequency and likelihood of different outcome magnitudes. The PhysE-Inv model successfully
+3.0
+ 2.5
+ 2.0
+ 1.5
+ 1.0
+ 0.5
+ 0.0 0.5
+Deviation0.00.20.40.60.8PDFProbability Density Function (PDF)
+Truth
+PhysE-Inv
+Figure 6: PDF of mean snow depth anomalies for true values and PhysE-Inv predictions.
+captures the unimodal nature of the measured deviations in the ground truth distribution (Fig. 6).
+14
+
+Published as a conference paper at ICLR 2026
+By incorporating physics encoding, it captures real-world variabilities, reducing prediction error and
+producing more physically consistent and robust predictions.
+A.6 IMPLEMENTATION
+Table 4: Model Training and Architectural Hyperparameters
+Category Details
+Data and Setup
+Input Feature Snow density field (time series)
+Target Normalized snow depth proxy
+Input/Target Shapes [Batch size, Sequence Length, Features]
+TrainX/YShape[8757,10,1]
+TestX/YShape[2183,10,1]
+Supervision Strategy Prediction at the final time step (t= 10)
+Optimization
+Loss Function Mean Squared Error (MSE)
+Optimizer Adam,η= 0.0005
+Batch Size 16
+Training Epochs 500
+Implementation / Hardware PyTorch on NVIDIA V100 GPU
+Architecture
+Encoder/Decoder 2-layer LSTM (64 hidden units)
+LSTM Dropout Rate 0.4
+Attention Mechanism 4-headed self-attention
+Prediction Head Fully connected layer
+Physical Parameter Head 3-layer FFN with ReLU
+Output Transformation Ensures stable parameter ranges
+15.

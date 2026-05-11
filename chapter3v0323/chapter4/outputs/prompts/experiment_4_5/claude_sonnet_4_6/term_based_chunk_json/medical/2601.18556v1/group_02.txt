@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "DiffusionModel",
+  "provides",
+  "SuperiorStability",
+  "synthesizes",
+  "CtImage",
+  "QuantumMachineLearning",
+  "utilizes",
+  "Qubit",
+  "QuantumCircuit",
+  "improves",
+  "MriClassification",
+  "QuantumLayer",
+  "positionedAfter",
+  "model_mobilenetV2",
+  "model_simpleDiffusionAugmentor",
+  "simulates",
+  "ForwardDiffusionProcess",
+  "generates",
+  "SyntheticImage",
+  "alleviates",
+  "ClassImbalance",
+  "framework_sda_qec",
+  "addressesProblem",
+  "problem_class_imbalance",
+  "occursInTask",
+  "task_medical_image_classification",
+  "synthesizesSample",
+  "sample_minority_class",
+  "utilizesMethod",
+  "method_simplified_diffusion_process",
+  "mapping_lightweight_quantum_feature",
+  "enhancesFeature",
+  "feature_classical_convolutional",
+  "module_diffusion_augmentation",
+  "reshapesDistribution",
+  "distribution_training_set_class",
+  "module_quantum_enhancement",
+  "embedsIntoSpace",
+  "space_high_dimensional_hilbert",
+  "capturesFeature",
+  "feature_subtle_pathological",
+  "adoptsProcess",
+  "process_parameterized_forward_diffusion",
+  "avoidsNetwork",
+  "network_reverse_denoising",
+  "circuit_quantum",
+  "operatesOnDevice",
+  "device_resource_constrained_medical",
+  "includesInstance",
+  "sample_rare_disease_case",
+  "method_traditional_data_augmentation",
+  "method_rotation",
+  "performsTransformation",
+  "transformation_geometric",
+  "mechanism_simplified_diffusion_augmentation",
+  "constructsSet",
+  "set_synthetic_sample",
+  "model_traditional_diffusion",
+  "model_ddpm",
+  "addsNoise",
+  "noise_gaussian",
+  "ArtificialIntelligence",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "Pneumonia",
+  "ChestXRay",
+  "BreastCancer",
+  "DeepLearningModel",
+  "Image",
+  "Classification",
+  "MedicalData",
+  "dataset_covid19Pneumonia",
+  "LowRecallRate",
+  "DiagnosticAccuracy",
+  "ClinicalMisdiagnosis",
+  "PatientRisk",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "Noise"
+]
+
+Triples:
+[
+  {
+    "subject": "DiffusionModel",
+    "relation": "provides",
+    "object": "SuperiorStability",
+    "chunk": "introduction",
+    "context": "Diffusion models generate samples through forward noise addition and reverse denoising, providing superior stability compared to GANs."
+  },
+  {
+    "subject": "DiffusionModel",
+    "relation": "synthesizes",
+    "object": "CtImage",
+    "chunk": "introduction",
+    "context": "In the medical context, studies have employed diffusion models to synthesize CT images, but their computational intensity limits practicality; this work simplifies them into an aug- mentor focusing solely on forward processing for resource-limited scenarios [15]."
+  },
+  {
+    "subject": "QuantumMachineLearning",
+    "relation": "utilizes",
+    "object": "Qubit",
+    "chunk": "introduction",
+    "context": "Quantum machine learning utilizes qubits for high-dimensional data processing, inte- grating quantum circuits into CNNs to improve MRI classification."
+  },
+  {
+    "subject": "QuantumCircuit",
+    "relation": "improves",
+    "object": "MriClassification",
+    "chunk": "introduction",
+    "context": "Quantum machine learning utilizes qubits for high-dimensional data processing, inte- grating quantum circuits into CNNs to improve MRI classification."
+  },
+  {
+    "subject": "QuantumLayer",
+    "relation": "positionedAfter",
+    "object": "model_mobilenetV2",
+    "chunk": "introduction",
+    "context": "Here, we innovatively position a quantum layer after MobileNetV2 to enhance features."
+  },
+  {
+    "subject": "model_simpleDiffusionAugmentor",
+    "relation": "simulates",
+    "object": "ForwardDiffusionProcess",
+    "chunk": "introduction",
+    "context": "A SimpleDiffusionAugmentor simulates the forward diffusion process to create “diffusion-like” variants, generating high-quality synthetic images for minority classes to alleviate imbalance."
+  },
+  {
+    "subject": "model_simpleDiffusionAugmentor",
+    "relation": "generates",
+    "object": "SyntheticImage",
+    "chunk": "introduction",
+    "context": "A SimpleDiffusionAugmentor simulates the forward diffusion process to create “diffusion-like” variants, generating high-quality synthetic images for minority classes to alleviate imbalance."
+  },
+  {
+    "subject": "model_simpleDiffusionAugmentor",
+    "relation": "alleviates",
+    "object": "ClassImbalance",
+    "chunk": "introduction",
+    "context": "A SimpleDiffusionAugmentor simulates the forward diffusion process to create “diffusion-like” variants, generating high-quality synthetic images for minority classes to alleviate imbalance."
+  },
+  {
+    "subject": "framework_sda_qec",
+    "relation": "addressesProblem",
+    "object": "problem_class_imbalance",
+    "chunk": "methods1",
+    "context": "TheproposedSDA-QEC(SimplifiedDiffusionAugmentationwithQuantum-Enhanced\nClassification) framework addresses the prevalent class imbalance problem in medical im-\nage classification through systematic design at two levels: data distribution reconstruc-\ntion and model discriminative capability enhancement."
+  },
+  {
+    "subject": "problem_class_imbalance",
+    "relation": "occursInTask",
+    "object": "task_medical_image_classification",
+    "chunk": "methods1",
+    "context": "TheproposedSDA-QEC(SimplifiedDiffusionAugmentationwithQuantum-Enhanced\nClassification) framework addresses the prevalent class imbalance problem in medical im-\nage classification through systematic design at two levels: data distribution reconstruc-\ntion and model discriminative capability enhancement."
+  },
+  {
+    "subject": "framework_sda_qec",
+    "relation": "synthesizesSample",
+    "object": "sample_minority_class",
+    "chunk": "methods1",
+    "context": "Unlike traditional end-to-end\ndeep learning paradigms that directly train classifiers on imbalanced data, our method\nfirst performs adaptive synthesis of minority class samples through a Simplified Diffusion\nProcess, achieving class balance at the data level."
+  },
+  {
+    "subject": "framework_sda_qec",
+    "relation": "utilizesMethod",
+    "object": "method_simplified_diffusion_process",
+    "chunk": "methods1",
+    "context": "Unlike traditional end-to-end\ndeep learning paradigms that directly train classifiers on imbalanced data, our method\nfirst performs adaptive synthesis of minority class samples through a Simplified Diffusion\nProcess, achieving class balance at the data level."
+  },
+  {
+    "subject": "mapping_lightweight_quantum_feature",
+    "relation": "enhancesFeature",
+    "object": "feature_classical_convolutional",
+    "chunk": "methods1",
+    "context": "Subsequently, a Lightweight Quantum\nFeature Mapping is introduced to nonlinearly enhance classical convolutional features,\nelevating the complexity of decision boundaries at the model level."
+  },
+  {
+    "subject": "module_diffusion_augmentation",
+    "relation": "reshapesDistribution",
+    "object": "distribution_training_set_class",
+    "chunk": "methods1",
+    "context": "The framework’s design aims to achieve synergy between data and model: the dif-\nfusion augmentation module reshapes the training set’s class distribution, enabling the\nmodel to fully learn minority class feature patterns, while the quantum enhancement\nmodule embeds classical features into a high-dimensional Hilbert space, constructing\nmore complex decision boundaries and enhancing the model’s capability to capture subtle\npathological features."
+  },
+  {
+    "subject": "module_quantum_enhancement",
+    "relation": "embedsIntoSpace",
+    "object": "space_high_dimensional_hilbert",
+    "chunk": "methods1",
+    "context": "The framework’s design aims to achieve synergy between data and model: the dif-\nfusion augmentation module reshapes the training set’s class distribution, enabling the\nmodel to fully learn minority class feature patterns, while the quantum enhancement\nmodule embeds classical features into a high-dimensional Hilbert space, constructing\nmore complex decision boundaries and enhancing the model’s capability to capture subtle\npathological features."
+  },
+  {
+    "subject": "module_quantum_enhancement",
+    "relation": "capturesFeature",
+    "object": "feature_subtle_pathological",
+    "chunk": "methods1",
+    "context": "The framework’s design aims to achieve synergy between data and model: the dif-\nfusion augmentation module reshapes the training set’s class distribution, enabling the\nmodel to fully learn minority class feature patterns, while the quantum enhancement\nmodule embeds classical features into a high-dimensional Hilbert space, constructing\nmore complex decision boundaries and enhancing the model’s capability to capture subtle\npathological features."
+  },
+  {
+    "subject": "framework_sda_qec",
+    "relation": "adoptsProcess",
+    "object": "process_parameterized_forward_diffusion",
+    "chunk": "methods1",
+    "context": "Notably, compared to complete diffusion generative models (such\nas DDPM), this work adopts a parameterized forward diffusion process for data augmen-\ntation, avoiding the high computational cost of reverse denoising networks, making the\noverall framework clinically deployable while maintaining high performance."
+  },
+  {
+    "subject": "process_parameterized_forward_diffusion",
+    "relation": "avoidsNetwork",
+    "object": "network_reverse_denoising",
+    "chunk": "methods1",
+    "context": "Notably, compared to complete diffusion generative models (such\nas DDPM), this work adopts a parameterized forward diffusion process for data augmen-\ntation, avoiding the high computational cost of reverse denoising networks, making the\noverall framework clinically deployable while maintaining high performance."
+  },
+  {
+    "subject": "circuit_quantum",
+    "relation": "operatesOnDevice",
+    "object": "device_resource_constrained_medical",
+    "chunk": "methods1",
+    "context": "Additionally, the quantum circuit adopts a small-scale parameterized design (4 qubits, 2-layer\ncircuit) with total parameters approximately 1/20 of the classical counterpart, ensuring\noperational efficiency on resource-constrained medical devices."
+  },
+  {
+    "subject": "sample_minority_class",
+    "relation": "includesInstance",
+    "object": "sample_rare_disease_case",
+    "chunk": "methods1",
+    "context": "In medical image classification tasks, minority class samples (e.g., rare disease cases)\nare costly to obtain and scarce in number, leading to insufficient learning of minority\nclasses by models."
+  },
+  {
+    "subject": "method_traditional_data_augmentation",
+    "relation": "includesInstance",
+    "object": "method_rotation",
+    "chunk": "methods1",
+    "context": "Traditional data augmentation methods such as rotation, flipping,\nand color jittering only perform geometric or photometric transformations on existing\nsamples and cannot extend the coverage of the feature space."
+  },
+  {
+    "subject": "method_traditional_data_augmentation",
+    "relation": "performsTransformation",
+    "object": "transformation_geometric",
+    "chunk": "methods1",
+    "context": "Traditional data augmentation methods such as rotation, flipping,\nand color jittering only perform geometric or photometric transformations on existing\nsamples and cannot extend the coverage of the feature space."
+  },
+  {
+    "subject": "mechanism_simplified_diffusion_augmentation",
+    "relation": "constructsSet",
+    "object": "set_synthetic_sample",
+    "chunk": "methods1",
+    "context": "The simplified diffusion\naugmentation mechanism proposed in this paper approaches from a generative modeling\nperspective, constructing a synthetic sample set with controllable diversity for minority\nclass samples by simulating the forward steps of the diffusion process."
+  },
+  {
+    "subject": "model_traditional_diffusion",
+    "relation": "includesInstance",
+    "object": "model_ddpm",
+    "chunk": "methods1",
+    "context": "Traditional diffusion models (such as DDPM) define a Markov chain that maps the\ndata distribution to a standard Gaussian distribution by progressively adding Gaussian\nnoise."
+  },
+  {
+    "subject": "model_traditional_diffusion",
+    "relation": "addsNoise",
+    "object": "noise_gaussian",
+    "chunk": "methods1",
+    "context": "Traditional diffusion models (such as DDPM) define a Markov chain that maps the\ndata distribution to a standard Gaussian distribution by progressively adding Gaussian\nnoise."
+  }
+]

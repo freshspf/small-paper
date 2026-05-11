@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TimeDelay",
+  "captures",
+  "HysteresisFlip",
+  "HysteresisLoop",
+  "originatesFrom",
+  "OrthogonalWave",
+  "CompositeWave",
+  "forms",
+  "EllipticalShape",
+  "HysteresisEvolutionDirection",
+  "determinedBy",
+  "PhaseLag",
+  "Hysteresis",
+  "degeneratesInto",
+  "StraightLine",
+  "Equation35",
+  "represents",
+  "Ellipse",
+  "characterizes",
+  "Equation39",
+  "describes",
+  "Equation43",
+  "Equation47",
+  "isEquivalentTo",
+  "LissajousFigure",
+  "FrequencyInconsistency",
+  "causes",
+  "RendezvousPoint",
+  "synthesizedFrom",
+  "OrthogonalFourierSeries",
+  "EvolutionTrajectory",
+  "is",
+  "Ellipse3D",
+  "TrajectoryProjection",
+  "constitutes",
+  "Hysteresis2D",
+  "EllipseProjection",
+  "FundamentalDiagramHysteresis",
+  "LinearDensity",
+  "isReciprocalOf",
+  "Headway",
+  "conveys",
+  "DynamicalInformation",
+  "FvdModelHysteresis",
+  "depicts",
+  "CriticalEquilibriumState",
+  "AnticipationBehavior",
+  "promotesContractionOf",
+  "ReactionBehavior",
+  "promotesExpansionOf",
+  "representsMechanismOf",
+  "IndividualDeviation",
+  "TimeToCollision",
+  "evaluates",
+  "TrafficHysteresis",
+  "TimeDelayPhenomenon",
+  "Dynamics",
+  "ResponseMechanism",
+  "DynamicalEvolution",
+  "TimeDelayVariation",
+  "HysteresisExpansion",
+  "HysteresisContraction",
+  "EvolutionOrientation",
+  "StringStability",
+  "MultipleRendezvousPoint",
+  "SpaceSpeedPhasePlane",
+  "ConciseFramework",
+  "DynamicalEquation",
+  "ConstantTimeHeadwayStrategy",
+  "Traffic",
+  "parameter_timeHeadway",
+  "PedestrianContext",
+  "DesiredSpeed",
+  "OptimalVelocity",
+  "TrafficUnit",
+  "PrecedingTrafficUnit",
+  "Position",
+  "FollowerTrafficUnit",
+  "DynamicResponse",
+  "DynamicalSystem"
+]
+
+Triples:
+[
+  {
+    "subject": "TimeDelay",
+    "relation": "captures",
+    "object": "HysteresisFlip",
+    "chunk": "analyticalhysteresis1",
+    "context": "In this analysis, the TD between relative distance d ji(t) and follower speed v i(t) is crucial, as it captures the flip of hysteresis in the (ξ ji,˙ξi) plane, which will be discussed in the following section."
+  },
+  {
+    "subject": "HysteresisLoop",
+    "relation": "originatesFrom",
+    "object": "OrthogonalWave",
+    "chunk": "analyticalhysteresis1",
+    "context": "By extending the wave functions to the complex plane, it becomes evident that the hysteresis loop originates from the synthesis of two orthogonal waves with different phases."
+  },
+  {
+    "subject": "CompositeWave",
+    "relation": "forms",
+    "object": "EllipticalShape",
+    "chunk": "analyticalhysteresis1",
+    "context": "Since these waves share an identical frequency, the resulting composite wave forms an elliptical shape in the phase plane."
+  },
+  {
+    "subject": "HysteresisEvolutionDirection",
+    "relation": "determinedBy",
+    "object": "PhaseLag",
+    "chunk": "analyticalhysteresis1",
+    "context": "In this condition, the evolution direction of the hysteresis is uniquely determined by the phase lag: when ϕ ∆<0, the hysteresis trajectory evolves clockwise; when ϕ ∆= 0, the hysteresis degenerates into a straight line passing through the origin; and when ϕ ∆>0, the trajectory evolves counterclockwise."
+  },
+  {
+    "subject": "Hysteresis",
+    "relation": "degeneratesInto",
+    "object": "StraightLine",
+    "chunk": "analyticalhysteresis1",
+    "context": "when ϕ ∆= 0, the hysteresis degenerates into a straight line passing through the origin"
+  },
+  {
+    "subject": "Equation35",
+    "relation": "represents",
+    "object": "Ellipse",
+    "chunk": "analyticalhysteresis2",
+    "context": "ForMcosϕ̸= 1, Eq. (35) represents an ellipse in the(ξ ji,˙ξj)plane, characterizing the hysteresis of the relative\ndistance oscillation versus to the leader’s speed oscillation."
+  },
+  {
+    "subject": "Equation35",
+    "relation": "characterizes",
+    "object": "Hysteresis",
+    "chunk": "analyticalhysteresis2",
+    "context": "ForMcosϕ̸= 1, Eq. (35) represents an ellipse in the(ξ ji,˙ξj)plane, characterizing the hysteresis of the relative\ndistance oscillation versus to the leader’s speed oscillation."
+  },
+  {
+    "subject": "Equation39",
+    "relation": "describes",
+    "object": "Ellipse",
+    "chunk": "analyticalhysteresis2",
+    "context": "ForM̸= cosϕ, Eq. (39) describes an ellipse in the(ξ ji,˙ξi)plane."
+  },
+  {
+    "subject": "Equation43",
+    "relation": "describes",
+    "object": "Ellipse",
+    "chunk": "analyticalhysteresis2",
+    "context": "Forsinϕ̸= 0, Eq. (43) describes an ellipse in the plane of( ˙ξi,˙ξj)."
+  },
+  {
+    "subject": "Equation47",
+    "relation": "describes",
+    "object": "Ellipse",
+    "chunk": "analyticalhysteresis2",
+    "context": "Eq. (47) describes an ellipse in the plane of(ξ ji,˙ξij)."
+  },
+  {
+    "subject": "Hysteresis",
+    "relation": "isEquivalentTo",
+    "object": "LissajousFigure",
+    "chunk": "analyticalhysteresis2",
+    "context": "It is straightforward that all hystereses are equivalent to Lissajous figures under the condition\nof equal frequency."
+  },
+  {
+    "subject": "FrequencyInconsistency",
+    "relation": "causes",
+    "object": "RendezvousPoint",
+    "chunk": "analyticalhysteresis2",
+    "context": "In the context of simple harmonic oscillations, the rendezvous points in Lissajous figures are\ncaused only by frequency inconsistency."
+  },
+  {
+    "subject": "Hysteresis",
+    "relation": "synthesizedFrom",
+    "object": "OrthogonalFourierSeries",
+    "chunk": "analyticalhysteresis2",
+    "context": "In the complex plane, hysteresis can be understood as the synthesis of waves described by two sets\nof orthogonal Fourier series."
+  },
+  {
+    "subject": "EvolutionTrajectory",
+    "relation": "is",
+    "object": "Ellipse3D",
+    "chunk": "analyticalhysteresis2",
+    "context": "In the 3D phase space( ˙ξj,˙ξi, ξji), the evolution trajectory of the dynamical system is a 3D ellipse synthesized\nfrom three orthogonal wave."
+  },
+  {
+    "subject": "Ellipse3D",
+    "relation": "synthesizedFrom",
+    "object": "OrthogonalWave",
+    "chunk": "analyticalhysteresis2",
+    "context": "In the 3D phase space( ˙ξj,˙ξi, ξji), the evolution trajectory of the dynamical system is a 3D ellipse synthesized\nfrom three orthogonal wave."
+  },
+  {
+    "subject": "TrajectoryProjection",
+    "relation": "constitutes",
+    "object": "Hysteresis2D",
+    "chunk": "analyticalhysteresis2",
+    "context": "The projections of the dynamical trajectory onto different phase planes constitute the\nhysteresis in a general 2D sense."
+  },
+  {
+    "subject": "EllipseProjection",
+    "relation": "represents",
+    "object": "FundamentalDiagramHysteresis",
+    "chunk": "analyticalhysteresis2",
+    "context": "Specifically, the ellipse projection in the(ξ ji,˙ξi)plane represents the hysteresis in\nFD as traditionally understood (statistically, linear density is the reciprocal of headway)."
+  },
+  {
+    "subject": "LinearDensity",
+    "relation": "isReciprocalOf",
+    "object": "Headway",
+    "chunk": "analyticalhysteresis2",
+    "context": "Specifically, the ellipse projection in the(ξ ji,˙ξi)plane represents the hysteresis in\nFD as traditionally understood (statistically, linear density is the reciprocal of headway)."
+  },
+  {
+    "subject": "Ellipse3D",
+    "relation": "conveys",
+    "object": "DynamicalInformation",
+    "chunk": "analyticalhysteresis2",
+    "context": "These 3D ellipses convey the\ncomplete dynamical information of the traffic oscillations."
+  },
+  {
+    "subject": "FvdModelHysteresis",
+    "relation": "forms",
+    "object": "StraightLine",
+    "chunk": "analyticalhysteresis2",
+    "context": "Given the settings for the time scale of anticipation and reaction behaviors, whenδ= 0.5, the hysteresis of the\nFVD model in the(ξ ji,˙ξi)plane is a straight line passing through the origin."
+  },
+  {
+    "subject": "StraightLine",
+    "relation": "depicts",
+    "object": "CriticalEquilibriumState",
+    "chunk": "analyticalhysteresis2",
+    "context": "This depicts a critical equilibrium state\nofvi=vd, corresponding to the statistical metricTD=ϕ dji,vi/ω= 0."
+  },
+  {
+    "subject": "AnticipationBehavior",
+    "relation": "promotesContractionOf",
+    "object": "Hysteresis",
+    "chunk": "analyticalhysteresis3",
+    "context": "It can be observed that anticipation behavior promotes the contraction of the hysteresis, whereas reaction behavior promotes its expansion."
+  },
+  {
+    "subject": "ReactionBehavior",
+    "relation": "promotesExpansionOf",
+    "object": "Hysteresis",
+    "chunk": "analyticalhysteresis3",
+    "context": "It can be observed that anticipation behavior promotes the contraction of the hysteresis, whereas reaction behavior promotes its expansion."
+  },
+  {
+    "subject": "Hysteresis",
+    "relation": "representsMechanismOf",
+    "object": "IndividualDeviation",
+    "chunk": "analyticalhysteresis3",
+    "context": "We understand that hysteresis in the(ξ ji,˙ξi)plane represents the dynamical mechanisms of individual deviation from the equilibrium state, which can be directly evaluated throughTDstatistics."
+  },
+  {
+    "subject": "TimeToCollision",
+    "relation": "evaluates",
+    "object": "Hysteresis",
+    "chunk": "analyticalhysteresis3",
+    "context": "Therefore, from the perspective of an observer, which quantitative metrics are effective for evaluating hysteresis in the(ξ ji,˙ξij)plane? That isTTC."
+  }
+]

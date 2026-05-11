@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "BlackBoxApproach",
+  "usedTo",
+  "DeployBlockchainProtocol",
+  "Layer1Blockchain",
+  "offersGuarantees",
+  "BlockchainGuarantee",
+  "performsDifferentlyAt",
+  "LargeScale",
+  "RecentStudy",
+  "hasShown",
+  "PerformanceOfBlockchainFarFromPromises",
+  "MisunderstandingOfNetworkingProtocol",
+  "presents",
+  "EconomicDrawback",
+  "AlgorandNetwork",
+  "isA",
+  "BlockchainProtocol",
+  "usesMechanism",
+  "CryptographicSortition",
+  "usesFunction",
+  "VerifiableRandomFunction",
+  "selectsParticipantsFor",
+  "ConsensusProtocol",
+  "usesProtocol",
+  "GossipProtocol",
+  "Node",
+  "validatesBeforeRelaying",
+  "Transaction",
+  "AlgorandNode",
+  "maintainsConnection",
+  "TCPConnection",
+  "offersProtocol",
+  "WebSocket",
+  "AvalancheNetwork",
+  "basedOn",
+  "SnowflakeConsensusProtocol",
+  "requiresMinimumStakeOnline",
+  "Stake",
+  "exploits",
+  "Throttling",
+  "appliesRateLimitTo",
+  "RateLimit",
+  "DynamicProposerSelection",
+  "manages",
+  "NetworkLoad",
+  "BlockProduction",
+  "selectsProposerUsing",
+  "Proposer",
+  "assignedBasedOn",
+  "ParentBlock",
+  "hasMinimumDelay",
+  "Block",
+  "BlockchainTechnology",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "BandwidthConsumption",
+  "Validator",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode"
+]
+
+Triples:
+[
+  {
+    "subject": "BlackBoxApproach",
+    "relation": "usedTo",
+    "object": "DeployBlockchainProtocol",
+    "chunk": "introduction",
+    "context": "Using this black-box approach, we deploy five different blockchain protocols, namely Algorand [18], Aptos [3], Avalanche [31], Redbelly [12], and Solana [37]."
+  },
+  {
+    "subject": "Layer1Blockchain",
+    "relation": "offersGuarantees",
+    "object": "BlockchainGuarantee",
+    "chunk": "introduction",
+    "context": "There exist various layer-1 blockchains offering different guarantees and performing differently at large scale."
+  },
+  {
+    "subject": "Layer1Blockchain",
+    "relation": "performsDifferentlyAt",
+    "object": "LargeScale",
+    "chunk": "introduction",
+    "context": "There exist various layer-1 blockchains offering different guarantees and performing differently at large scale."
+  },
+  {
+    "subject": "RecentStudy",
+    "relation": "hasShown",
+    "object": "PerformanceOfBlockchainFarFromPromises",
+    "chunk": "introduction",
+    "context": "Recent studies [19, 20] have shown that the performance and robustness of some blockchains is quite far from the promises claimed by their designers."
+  },
+  {
+    "subject": "MisunderstandingOfNetworkingProtocol",
+    "relation": "presents",
+    "object": "EconomicDrawback",
+    "chunk": "introduction",
+    "context": "The misunderstanding of these networking protocols also presents economic drawbacks."
+  },
+  {
+    "subject": "AlgorandNetwork",
+    "relation": "isA",
+    "object": "BlockchainProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Algorand [18] is a blockchain protocol that shuffles participants via cryptographic sortition to enhance security."
+  },
+  {
+    "subject": "AlgorandNetwork",
+    "relation": "usesMechanism",
+    "object": "CryptographicSortition",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Algorand [18] is a blockchain protocol that shuffles participants via cryptographic sortition to enhance security."
+  },
+  {
+    "subject": "AlgorandNetwork",
+    "relation": "usesFunction",
+    "object": "VerifiableRandomFunction",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "More precisely, it uses Verifiable Random Functions (VRFs) to randomly select participants for specific roles in the consensus execution."
+  },
+  {
+    "subject": "VerifiableRandomFunction",
+    "relation": "selectsParticipantsFor",
+    "object": "ConsensusProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "More precisely, it uses Verifiable Random Functions (VRFs) to randomly select participants for specific roles in the consensus execution."
+  },
+  {
+    "subject": "AlgorandNetwork",
+    "relation": "usesProtocol",
+    "object": "GossipProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "In Algorand, nodes communicate with a gossip-based protocol where each node validates each message before relaying it and sends it at most once to each other node [9]."
+  },
+  {
+    "subject": "Node",
+    "relation": "validatesBeforeRelaying",
+    "object": "Transaction",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "In Algorand, nodes communicate with a gossip-based protocol where each node validates each message before relaying it and sends it at most once to each other node [9]."
+  },
+  {
+    "subject": "AlgorandNode",
+    "relation": "maintainsConnection",
+    "object": "TCPConnection",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "To this end, each node maintains one TCP connection per node in its neighborhood, which offers WebSockets over HTTP."
+  },
+  {
+    "subject": "TCPConnection",
+    "relation": "offersProtocol",
+    "object": "WebSocket",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "To this end, each node maintains one TCP connection per node in its neighborhood, which offers WebSockets over HTTP."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "basedOn",
+    "object": "SnowflakeConsensusProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Avalanche, based on the Snowflake consensus protocol [31], is a probabilistic blockchain that requires, by default, a proportion of the nodes that collectively own at least 80% of the total stake to be online."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "isA",
+    "object": "BlockchainProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Avalanche, based on the Snowflake consensus protocol [31], is a probabilistic blockchain that requires, by default, a proportion of the nodes that collectively own at least 80% of the total stake to be online."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "requiresMinimumStakeOnline",
+    "object": "Stake",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Avalanche, based on the Snowflake consensus protocol [31], is a probabilistic blockchain that requires, by default, a proportion of the nodes that collectively own at least 80% of the total stake to be online."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "usesProtocol",
+    "object": "TCPConnection",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "In Avalanche, nodes communicate over TCP and exploit throttling to limit their resource usage."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "exploits",
+    "object": "Throttling",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "In Avalanche, nodes communicate over TCP and exploit throttling to limit their resource usage."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "appliesRateLimitTo",
+    "object": "RateLimit",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "More specifically, messages and connections are rate-limited [4] to cap the amount of CPU, disk, bandwidth, and message handling that other nodes consume."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "usesMechanism",
+    "object": "DynamicProposerSelection",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Avalanche uses a dynamic proposer selection algorithm to manage network load and block production."
+  },
+  {
+    "subject": "DynamicProposerSelection",
+    "relation": "manages",
+    "object": "NetworkLoad",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Avalanche uses a dynamic proposer selection algorithm to manage network load and block production."
+  },
+  {
+    "subject": "DynamicProposerSelection",
+    "relation": "manages",
+    "object": "BlockProduction",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Avalanche uses a dynamic proposer selection algorithm to manage network load and block production."
+  },
+  {
+    "subject": "AvalancheNetwork",
+    "relation": "selectsProposerUsing",
+    "object": "Stake",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "After each parent block, it pseudo-randomly selects an ordered list of potential proposers for the next block height, weighted by stake and using a seed derived from the parent block's height and chain ID."
+  },
+  {
+    "subject": "Proposer",
+    "relation": "assignedBasedOn",
+    "object": "ParentBlock",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "After each parent block, it pseudo-randomly selects an ordered list of potential proposers for the next block height, weighted by stake and using a seed derived from the parent block's height and chain ID."
+  },
+  {
+    "subject": "Proposer",
+    "relation": "hasMinimumDelay",
+    "object": "Block",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Each proposer is assigned a minimum delay based on their position in the list before they can propose a block."
+  }
+]

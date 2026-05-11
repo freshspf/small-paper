@@ -1,0 +1,124 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+**INPUT TEXT CHUNK:**
+2.2 Binding site identified in Amyloid Beta42  
+To identify ligandable regions on the Aβ42 fibril structure, we employed the 
+SiteMap module within Schrödinger Maestro to predict and characterize potential 
+binding pockets based on physicochemical and geometric criteria [45]. 
+ 
+2.3 E3 Ligase Structure Selection and Preparation  
+High -quality crystallographic structures of three E3 ligases -VHL (PDB ID: 
+4W9C), CRBN (PDB ID: 4CI3), and MDM2 (PDB ID: 4OAS) -were selected based 
+on resolution and relevance to small -molecule recruitment. The VHL structure 
+(1.45 Å) offers a well -defined ligand -binding interface suitable for docking studies 
+targeting Aβ42 degradation. The CRBN structure, resolved with thalidomide,
+
+Biomolecules 2025 , 15, 849 4 of 31  
+reveals the canonical molecular glue binding site, while the MDM2 structure 
+features a co -crystallized inhibitor occupying the druggable p53 -interacting cleft. 
+All structures were prepared using Schrödinger’s Protein Preparation Wizard 
+[45], with preproces sing steps including removal of non -essential heteroatoms 
+and waters, bond order assignment, hydrogen addition, hydrogen bonding 
+optimization, and restrained energy minimization using the OPLS3e or OPLS4 
+force fields. These curated models served as the str uctural foundation for E3 
+ligase -specific molecular glue design.  Prepared structures of VHL, CRBN, and 
+MDM2 are shown in Figure  1. 
+ 
+2.4 ADMET based filtering and docking  
+To optimize drug -likeness and safety, in silico ADMET (Absorption, 
+Distribution, Metabolism, Excretion, and Toxicity) screening was performed on 
+compound libraries from the Vitas and ChEMBL databases [46,47] using 
+Schrödinger’s QikProp and ADMET/Tox module s [48]. Compounds were filtered 
+based on Lipinski’s Rule of Five and Veber’s rule, followed by predictions for 
+intestinal absorption, blood -brain barrier permeability, CYP450 inhibition, 
+hepatotoxicity, and AMES mutagenicity. Only candidates meeting all 
+pharmacokinetic and toxicity thresholds were retained for downstream studies. 
+Filtered compounds were docked into the ligand -binding sites of VHL, CRBN, 
+and MDM2 using Schrödinger’s Glide module in standard precision (SP) and 
+extra precision (XP) modes. For each docked complex, Aβ42 was aligned near the 
+E3-ligase interface, and ternary complexes were refined using Rosetta 
+FlexPepDock and evaluated based on docking scores.  
+Additionally, all -atom molecular dynamics (MD) simulations were conducted 
+using the Desmond simulation engine (Schrödinger Suite) with the OPLS4 force 
+field. Ternary complexes were solvated in TIP3P water, neutralized with 
+counterions, minimized, equilibra ted under NPT conditions (300 K, 1 atm) using 
+the Berendsen thermostat and barostat, and subjected to 100 ns production runs.  
+ 
+2.5 Dataset Construction and Feature Engineering for Ligase -Conditioned 
+Molecular Glue Design  
+The training dataset consisted of ADMET -screened and docking -prioritized 
+compounds capable of forming ternary complexes with CRBN, VHL, and MDM2 
+E3 ligases and amyloid -β42. All molecules were converted into molecular graph 
+and junction tree formats using R DKit and the original JT -VAE preprocessing 
+pipeline located at https://github.com/croningp/JTNN -VAE , which subdirectories 
+for fast_molvae and python script preprocess.py at 
+https://github.com/croningp/JTNN -
+VAE/blob/master/fast_molvae/preprocess.py . To enhance molecular 
+representation beyond the capabilities of the original JT -VAE framework, we 
+extended the preprocessing pipeline to incorporate torsional (dihedral) angle 
+features for rotatable bonds. These dihedral angles were computed using a 
+custom RDKit -based routine, which identifies rotatable bonds and calculates their 
+dihedral values via the custom Python function “get_torsional_angle”  
+(Supplementary Figure S1 ). This addition enables the model to better capture 
+conformational flexibility in sma ll molecules. Furthermore, each compound was 
+paired with the corresponding E3 ligase’s binding site sequence embedding,
+
+Biomolecules 2025 , 15, 849 5 of 31  
+allowing the model to learn protein -contextual chemical features. Together, these 
+enhancements -dihedral angle integration and protein sequence conditioning -
+enabled the development of a modified JT -VAE framework capable of generating 
+E3 ligase -specific molecular glues for CRBN, VHL, and MDM2.  
+ 
+2.6 Development of Ligase -Conditioned JT -VAE Incorporating Torsional Features 
+for Molecular Glue Design  
+To enable the generation of E3 ligase -specific molecular glues, we extended the 
+canonical Junction Tree Variational Autoencoder (JT -VAE) framework 
+introduced by Jin et al. [49], originally designed for chemically valid molecule 
+generation without target protein context [50].

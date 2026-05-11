@@ -1,0 +1,154 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: result6
+- section_title: Result
+- page_start: 3
+- page_end: 10
+
+INPUT TEXT CHUNK:
+Notably,
+within the Salinas and Pavia University datasets,
+distinct inflection points can be identified. There-
+fore, for the Salinas and Pavia University datasets,
+the values ofσ2are specified as 1 and 2, respec-
+tively. In the case of the Indian Pines dataset,
+the maximum classification precision is reached
+at aσ2value of 0.2, with a subsequent decrease
+9
+
+Table 7Ablation studies on the proposed method
+Datasets Metricw/o F 0w/otop-k w/o F∗Full
+Indian PinesAA 0.9119 0.9223 0.8114 0.9174
+OA 0.9550 0.9681 0.8338 0.9662
+Kappa 0.9487 0.9637 0.8099 0.9615
+SalinasAA 0.9859 0.9888 0.9602 0.9899
+OA 0.9783 0.9806 0.9331 0.9885
+Kappa 0.9758 0.9783 0.9255 0.9872
+Pavia UniversityAA 0.8116 0.8571 0.6951 0.8256
+OA 0.8653 0.8908 0.7439 0.8721
+Kappa 0.8182 0.8537 0.6572 0.8251
+as theσvalue increases. Consequently, the opti-
+mal value ofσ2for the Indian Pines dataset is
+determined to be 0.2. The selection of the param-
+eterkduring the pruning process significantly
+influences not only the accuracy of the classifica-
+tion but also the computational efficiency of the
+algorithm. Fig.6 illustrates the impact of varying
+the selections of the parameterkon the per-
+formance of the proposed method in the three
+datasets. In general, the classification accuracies
+in all three datasets exhibit an increasing trend as
+the parameterkincreases. However, this enhance-
+ment becomes marginal askexceeds a particular
+threshold. Therefore, to maintain an equilibrium
+between computational efficiency and classifica-
+tion accuracy, the parameterkis configured as
+1000, 500, and 500 for the Indian Pines, Salinas,
+and Pavia University datasets, respectively.
+In the proposed clustering algorithm, there
+exist two pivotal parameters that require man-
+ual adjustment: the first isβ, and the second
+is the number of nonzero termsh. Fig.7 illus-
+trates the changes in the precision of the clus-
+tering under differentβvalues. In general, asβ
+increases, the effect of rank constraints becomes
+more pronounced, and the clustering effect even-
+tually stabilizes. The values for the first parameter
+are set to 35 for the Salinas dataset and 25 for the
+Pavia University dataset, respectively. Regard-
+ing the value ofh, an excessively largehis
+likely to result in the accuracy being compromised
+by noise; conversely, an excessively smallhmay
+lead to inadequate feature information for effec-
+tive clustering. Consequently, in the classification
+results forhas illustrated in Fig.8, a distinct peak
+is observable. Finally, we set thehvalues for theSalinas and Pavia University dataset at 25 and
+110, respectively.
+2.6 Onboard Computational
+Efficiency Analysis
+To evaluate the time efficiency of the pro-
+posed method and its applicability for onboard
+deployment, we conducted a time analysis
+between the proposed method and other machine
+learning algorithms including K-Nearest Neigh-
+bors (KNN),k-means, Support Vector Machine
+(SVM), Random Forest (RF), and Fuzzy C-Means
+(FCM). Table 8 shows the inference times for each
+evaluated method, where Ours-G and Ours-O rep-
+resent the inference time of the proposed method
+on the ground processing platform and the simu-
+lation onboard processing platform, respectively.
+The ground processing platform utilizes an Intel
+Core i7 9700 CPU. It is observed that, when
+compared to machine learning algorithms such
+as KNN, k-means, SVM, and RF, the proposed
+method does not exhibit an advantage. However,
+considering the huge gap in classification accuracy,
+the time disadvantage of the proposed method
+is not unacceptable. In particular, by reducing
+the parameterkto a value of 10, the proposed
+method achieves a reduction in the ground infer-
+ence time that exceeds two-thirds, while maintain-
+ing an overall classification accuracy comparable
+to that of the state-of-the-art method. To test the
+onboard inference speed of the proposed method,
+we simulated the hardware environment on the
+satellite. HYPSO-1 [7] is chosen as the reference
+model. This small hyperspectral imaging satellite
+employs a dual-core Cortex-A9 CPU to construct
+10.

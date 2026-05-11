@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "module_STAM",
+  "models",
+  "TemporalVariation",
+  "Decoder",
+  "generates",
+  "PredictionMap",
+  "SupervisedComponent",
+  "supervisedBy",
+  "PixelLevelLabel",
+  "optimizedUsing",
+  "BatchBalancedContrastiveLoss",
+  "framework_UniCD",
+  "introduces",
+  "module_CRR",
+  "learns",
+  "SpatialDistribution",
+  "characterizes",
+  "ChangedRegion",
+  "ClassificationBranch",
+  "ClassActivationMap",
+  "WeaklySupervisedBranch",
+  "optimizes",
+  "BinaryClassificationLoss",
+  "SpatialCoherencyLoss",
+  "ContrastiveFeatureLoss",
+  "model_FastSAM",
+  "extracts",
+  "PanoramicFeatureMask",
+  "model_CLIP",
+  "computes",
+  "SemanticSimilarity",
+  "anchors",
+  "ForegroundFeature",
+  "exploits",
+  "SpatialTemporalCorrelation",
+  "utilizes",
+  "LightweightConvolutionalOperator",
+  "consistsOf",
+  "SpatialAwareFusion",
+  "TemporalAwareFusion",
+  "adopts",
+  "TopDownIntegrationStrategy",
+  "aggregates",
+  "MultiScaleSpatialFeature",
+  "yields",
+  "DiscriminativeFeatureMap",
+  "contains",
+  "SpatialTemporalEvolutionInformation",
+  "Model",
+  "lacks",
+  "PixelLevelDiscriminativeConstraint",
+  "forms",
+  "ChangeBoundary",
+  "UniCd",
+  "proposes",
+  "SpatialConsistencyRegularization",
+  "ChangeDetection",
+  "LandCoverChange",
+  "MultiTemporalRemoteSensingImage",
+  "LandResourceMonitoring",
+  "UrbanExpansionAnalysis",
+  "DisasterAssessment",
+  "AgriculturalMonitoring",
+  "model_uniCd",
+  "SupervisionAdaptiveFramework",
+  "SupervisedChangeDetectionTask",
+  "WeaklySupervisedChangeDetectionTask",
+  "UnsupervisedChangeDetectionTask",
+  "RemoteSensingPlatform",
+  "MultiTemporalObservationData",
+  "SurfaceDynamics",
+  "TimeSeriesComparison",
+  "TimeVaryingFeature",
+  "LandCoverEvolution",
+  "IlluminationChange",
+  "SeasonalEffect",
+  "RealChange",
+  "PseudoChange",
+  "NetworkArchitecture",
+  "ConvolutionalNeuralNetwork"
+]
+
+Triples:
+[
+  {
+    "subject": "module_STAM",
+    "relation": "models",
+    "object": "TemporalVariation",
+    "chunk": "method1",
+    "context": "In the supervised branch, multi-scale features are fused by STAM to model spatial structures and temporal variations, generating the prediction map ˆYthrough the decoder."
+  },
+  {
+    "subject": "Decoder",
+    "relation": "generates",
+    "object": "PredictionMap",
+    "chunk": "method1",
+    "context": "In the supervised branch, multi-scale features are fused by STAM to model spatial structures and temporal variations, generating the prediction map ˆYthrough the decoder."
+  },
+  {
+    "subject": "SupervisedComponent",
+    "relation": "supervisedBy",
+    "object": "PixelLevelLabel",
+    "chunk": "method1",
+    "context": "Later, supervised by pixel-level labelY, the supervised component is optimized using a batch-balanced contrastive loss"
+  },
+  {
+    "subject": "SupervisedComponent",
+    "relation": "optimizedUsing",
+    "object": "BatchBalancedContrastiveLoss",
+    "chunk": "method1",
+    "context": "Later, supervised by pixel-level labelY, the supervised component is optimized using a batch-balanced contrastive loss"
+  },
+  {
+    "subject": "framework_UniCD",
+    "relation": "introduces",
+    "object": "module_CRR",
+    "chunk": "method1",
+    "context": "In the weakly-supervised branch, to effectively learn the spatial distribution of changed regions, UniCD introduces CRR."
+  },
+  {
+    "subject": "module_CRR",
+    "relation": "learns",
+    "object": "SpatialDistribution",
+    "chunk": "method1",
+    "context": "In the weakly-supervised branch, to effectively learn the spatial distribution of changed regions, UniCD introduces CRR."
+  },
+  {
+    "subject": "SpatialDistribution",
+    "relation": "characterizes",
+    "object": "ChangedRegion",
+    "chunk": "method1",
+    "context": "In the weakly-supervised branch, to effectively learn the spatial distribution of changed regions, UniCD introduces CRR."
+  },
+  {
+    "subject": "ClassificationBranch",
+    "relation": "generates",
+    "object": "ClassActivationMap",
+    "chunk": "method1",
+    "context": "Following multi-scale feature extraction, a classifica- tion branch is added to generate CAM."
+  },
+  {
+    "subject": "WeaklySupervisedBranch",
+    "relation": "optimizes",
+    "object": "BinaryClassificationLoss",
+    "chunk": "method1",
+    "context": "The weakly-supervised branch jointly opti- mizes three objectives: binary classification lossL bc, spatial coherency lossL sc, and contrastive feature lossL cf."
+  },
+  {
+    "subject": "WeaklySupervisedBranch",
+    "relation": "optimizes",
+    "object": "SpatialCoherencyLoss",
+    "chunk": "method1",
+    "context": "The weakly-supervised branch jointly opti- mizes three objectives: binary classification lossL bc, spatial coherency lossL sc, and contrastive feature lossL cf."
+  },
+  {
+    "subject": "WeaklySupervisedBranch",
+    "relation": "optimizes",
+    "object": "ContrastiveFeatureLoss",
+    "chunk": "method1",
+    "context": "The weakly-supervised branch jointly opti- mizes three objectives: binary classification lossL bc, spatial coherency lossL sc, and contrastive feature lossL cf."
+  },
+  {
+    "subject": "model_FastSAM",
+    "relation": "extracts",
+    "object": "PanoramicFeatureMask",
+    "chunk": "method1",
+    "context": "It utilizes Fast- SAM to extract panoramic feature masks."
+  },
+  {
+    "subject": "model_CLIP",
+    "relation": "computes",
+    "object": "SemanticSimilarity",
+    "chunk": "method1",
+    "context": "Subsequently, CLIP is used to compute the semantic similarity between instance-level masks and text prompts to anchor foreground features."
+  },
+  {
+    "subject": "SemanticSimilarity",
+    "relation": "anchors",
+    "object": "ForegroundFeature",
+    "chunk": "method1",
+    "context": "Subsequently, CLIP is used to compute the semantic similarity between instance-level masks and text prompts to anchor foreground features."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "exploits",
+    "object": "SpatialTemporalCorrelation",
+    "chunk": "method1",
+    "context": "Unlike many methods that rely on com- plex attention mechanisms, STAM fully exploits the spatial- temporal correlations through lightweight convolutional op- erators without complex computations."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "utilizes",
+    "object": "LightweightConvolutionalOperator",
+    "chunk": "method1",
+    "context": "Unlike many methods that rely on com- plex attention mechanisms, STAM fully exploits the spatial- temporal correlations through lightweight convolutional op- erators without complex computations."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "consistsOf",
+    "object": "SpatialAwareFusion",
+    "chunk": "method1",
+    "context": "STAM primarily consists of two stages: spatial-aware fusion and temporal-aware fusion."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "consistsOf",
+    "object": "TemporalAwareFusion",
+    "chunk": "method1",
+    "context": "STAM primarily consists of two stages: spatial-aware fusion and temporal-aware fusion."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "adopts",
+    "object": "TopDownIntegrationStrategy",
+    "chunk": "method1",
+    "context": "STAM adopts a top-down integration strategy to aggregate multi-scale spatial features within each temporal phaset∈ {1,2}."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "aggregates",
+    "object": "MultiScaleSpatialFeature",
+    "chunk": "method1",
+    "context": "STAM adopts a top-down integration strategy to aggregate multi-scale spatial features within each temporal phaset∈ {1,2}."
+  },
+  {
+    "subject": "module_STAM",
+    "relation": "yields",
+    "object": "DiscriminativeFeatureMap",
+    "chunk": "method1",
+    "context": "By concatenating along the temporal dimension and apply- ing deep integration, STAM yields a discriminative feature map rich in spatial-temporal evolution information"
+  },
+  {
+    "subject": "DiscriminativeFeatureMap",
+    "relation": "contains",
+    "object": "SpatialTemporalEvolutionInformation",
+    "chunk": "method1",
+    "context": "By concatenating along the temporal dimension and apply- ing deep integration, STAM yields a discriminative feature map rich in spatial-temporal evolution information"
+  },
+  {
+    "subject": "Model",
+    "relation": "lacks",
+    "object": "PixelLevelDiscriminativeConstraint",
+    "chunk": "method1",
+    "context": "In weakly-supervised CD scenarios, due to reliance solely on image-level labels or coarse-grained signals, the model lacks sufficient pixel-level discriminative constraints, making it difficult to naturally form clear and stable change bound- aries."
+  },
+  {
+    "subject": "PixelLevelDiscriminativeConstraint",
+    "relation": "forms",
+    "object": "ChangeBoundary",
+    "chunk": "method1",
+    "context": "In weakly-supervised CD scenarios, due to reliance solely on image-level labels or coarse-grained signals, the model lacks sufficient pixel-level discriminative constraints, making it difficult to naturally form clear and stable change bound- aries."
+  },
+  {
+    "subject": "UniCd",
+    "relation": "proposes",
+    "object": "SpatialConsistencyRegularization",
+    "chunk": "method2",
+    "context": "To tackle the issues, UniCD proposes spatial consistency regularization and contrast feature regularization, aiming to resolve the common problems in weakly-supervised CD."
+  }
+]

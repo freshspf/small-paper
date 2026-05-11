@@ -1,0 +1,19 @@
+import networkx as nx
+
+# 构建有向图
+G = nx.DiGraph()
+
+# 添加直接边：A subClassOf B，则添加 A -> B
+direct_edges = [("猫", "哺乳动物"), ("哺乳动物", "动物"), ("动物", "生物")]
+G.add_edges_from(direct_edges)
+
+# 计算传递闭包（返回新图）
+transitive_closure = nx.transitive_closure(G)
+
+# 获取所有可达关系对（不含自身）
+pairs = list(transitive_closure.edges())
+semantic_content = len(pairs)
+
+print(f"直接边数: {len(direct_edges)}")
+print(f"传递闭包边数(语义蕴含量): {semantic_content}")
+print(f"所有隐含关系: {pairs}")

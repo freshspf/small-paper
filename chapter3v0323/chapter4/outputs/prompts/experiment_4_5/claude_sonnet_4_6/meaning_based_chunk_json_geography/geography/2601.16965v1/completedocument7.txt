@@ -1,0 +1,148 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument7",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument7
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+Reflexion
+consistently exhibits the highest latency due to its
+iterative self-reflection mechanism.
+Cost Analysis.We compare token consumption
+across methods: SpatialAgent uses 9,185 input and
+1,451 output tokens per query; Reflexion consumes
+the most (10,964 input, 1,271 output); ReAct uses
+7
+
+Method Overall Place Info Nearby Routing Trip
+Closed-Source LLMs
+Direct LLM (GPT-4o-mini) 32.23 45.31 32.53 22.73 28.36
+ReAct (GPT-4o-mini) 32.98 60.94 22.89 22.73 25.37
+Reflexion (GPT-4o-mini) 38.29 65.63 22.89 30.30 34.33
+MapEval API (GPT-3.5-Turbo) 27.33 39.06 22.89 33.33 19.40
+MapEval API (GPT-4o-mini) 23.00 28.13 14.46 13.64 43.28
+Spatial-Agent (GPT-3.5-Turbo) 34.61↑26.64% 57.81↑48.03% 26.51↑15.81% 36.36 ↑9.09% 25.37↑30.77%
+Spatial-Agent (GPT-4o-mini) 45.15 ↑96.30% 70.31 ↑149.91% 33.73 ↑133.26% 30.30↑122.14% 46.27 ↑6.91%
+Spatial-Agent (GPT-5)71.88 85.94 53.01 75.76 77.61
+Open-Source LLMs
+MapEval API (LlaMA-70B) 37.67 53.13 32.53 42.42 31.34
+Spatial-Agent (LlaMA-70B) 47.77↑26.82%71.88↑35.29%53.01↑62.96% 34.85↓17.85% 31.34↑0.00%
+Spatial-Agent (Qwen2.5-72B-Instruct)53.4168.75 39.76 43.94 61.19
+Spatial-Agent (Qwen2.5-32B-Instruct) 52.35 71.8839.76 50.0047.76
+Spatial-Agent (Gemma-2-9B) 22.70 31.25 14.46 19.70 25.37
+Table 1: Results on MapEval-API. Accuracy (%) across four task categories.Bold/ underline : best/second-best. ↑/↓:
+improvement/decrease over baseline.
+Type Method Overall Adj Amen Amen-A Amen-AS Cmp-Cl Dist
+Closed-SourceDirect LLM (GPT-4o-mini) 13.55 6.00 36.00 4.00 0.00 35.29 0.00
+ReAct (GPT-4o-mini) 43.7956.0028.00 16.00 64.00 64.7134.00
+Reflexion (GPT-4o-mini) 53.79 50.00 80.00 30.00 64.00 64.7134.00
+Spatial-Agent (GPT-4o-mini)61.4552.00 82.00 56.00 74.00 64.71 40.00
+Open-SourceSpatial-Agent (Qwen2.5-72B-Instruct) 61.45 48.00 76.00 64.00 78.00 64.71 38.00
+Spatial-Agent (LlaMA-70B) 62.45 54.00 84.00 58.00 76.00 64.71 38.00
+Table 2: Results on the MapQA benchmark. Adj: Adjacent; Amen: Amenities; Amen-A: Amenities-Around;
+Amen-AS: Amenities-Around-Specific; Cmp-Cl: Compare-Closer; Dist: Distance.
+fewer (7,354 input, 735 output); Direct LLM is
+minimal (1,500 input, 50 output). With GPT-4o-
+mini pricing ($0.15/1M input, $0.60/1M output),
+all methods cost below $0.003 per query, with Spa-
+tialAgent at $0.0022 offering the best accuracy-cost
+trade-off.
+4.4 Ablation Study
+Effect of Fine-tuning.We evaluate our two-stage
+fine-tuning on Qwen-14B (Table 3, bottom). The
+base model achieves 49.59% accuracy. SFT alone
+improves to 56.84% (+14.6%) by learning con-
+cept extraction and role assignment; DPO alone
+yields 55.13% (+11.2%) through preference learn-
+ing for graph construction. However, both single-
+stage strategies cause drops onRoutetasks, suggest-
+ing overfitting on certain patterns. The combined
+SFT+DPO achieves the best accuracy of 60.58%
+(+22.2%) with consistent improvements across all
+categories, especiallyTrip(+50.0%), indicating
+that multi-step planning benefits from both accurate
+concept extraction and valid graph composition.
+Effect of Template Composition.We compare
+Spatial-Agent with and without templates using
+GPT-4o-mini (Table 3, top). Removing templatesMethod All POI Near Route Trip
+Plan-and-Solve (4o-mini) 41.17 60.94 30.12 31.8241.79
+Spatial-Agent (4o-mini)45.15 70.31 33.7330.30 46.27
+w/o Template 39.32↓12.9%57.81↓17.8%28.92↓14.3%27.27↓10.0%43.28 ↓6.5%
+Spatial-Agent (Qwen-14B) 49.59 64.06 46.99 48.48 38.81
+w/ SFT only 56.84 ↑14.6%79.69↑24.4%46.99 ↑0.0%45.45↓6.3%55.22 ↑42.3%
+w/ DPO only 55.13↑11.2%81.25 ↑26.8%44.58↓5.1%43.94↓9.4%50.75↑30.8%
+w/ SFT + DPO60.58↑22.2%84.38↑31.7%48.19↑2.6%51.52↑6.3%58.21↑50.0%
+Table 3: Ablation study results.
+drops accuracy from 45.15% to 39.32% (-12.9%),
+with consistent degradation across categories:POI
+(-17.8%),Near(-14.3%),Route(-10.0%),Trip(-
+6.5%). This validates that templates encoding re-
+curring geo-analytical patterns improve validity.
+5 Conclusion
+We present Spatial-Agent, a geospatial AI agent
+that formalizes geo-analytical question answering
+as a concept transformation problem grounded in
+GIScience theory. The GeoFlow Graph represen-
+tation encodes spatial concepts, functional roles,
+and well-formedness constraints, enabling struc-
+tured reasoning over geographic workflows. Our
+template-based compositional generation leverages
+recurring geo-analytical patterns to improve struc-
+tural validity, while SFT+DPO fine-tuning enables
+models to internalize geographic constraints. Ex-
+8
+
+periments demonstrate that Spatial-Agent signifi-
+cantly outperforms existing agent baselines. Er-
+ror analysis reveals that the primary bottleneck
+lies in external API interactions rather than rea-
+soning components, validating the effectiveness of
+our structured spatial reasoning approach.
+Limitations
+Several limitations remain. First, the framework’s
+accuracy is bounded by the reliability of external
+geospatial APIs, with most errors occurring during
+execution due to data quality issues.

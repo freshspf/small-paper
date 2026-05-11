@@ -1,0 +1,147 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument17
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+In this work, we used a standard MLP;
+however, more expressive architectures may better fit larger
+and higher-resolution datasets, yielding more accurate values
+and gradients and further improving downstream optimiza-
+tion performance. Moreover, the relative weighting between
+translational and rotational components in the GCDF metric
+can significantly influence optimization behavior. While we
+empirically selected a strong setting, an interesting direction
+is to treat these weights as conditioning inputs to the network,
+allowing a single model to realize different trade-offs without
+retraining.
+Second, despite substantial efficiency optimizations, the
+overall computation can still be dominated by the scale of
+collision constraints, since obstacle geometries are represented
+by many sampled points. This creates a trade-off between
+geometric fidelity and constraint complexity: faithfully repre-
+senting curved or complex obstacles may require dense sam-
+pling, whereas sparse sampling can lead to undesired solutions
+(e.g., the arm threading through gaps between samples). A
+natural extension is to move beyond point-based constraints
+by learning GCDF over parametric primitives. For example,
+by representing obstacles as spheres (or other primitives) with
+radiusrand defining a GCDF that takes(q,p, r)as inputs.
+Such primitive-aware constraints could significantly reduce the
+number of constraints, improve geometric coverage, and mit-
+igate failure modes caused by undersampling, while retaining
+the benefits of configuration-space collision reasoning.
+REFERENCES
+[1] V . Helm, S. Ercan, F. Gramazio, and M. Kohler, “Mobile robotic
+fabrication on construction sites: Dimrob,” in2012 IEEE International
+Conference on Intelligent Robots and Systems (IROS), 2012, pp. 4335–
+4341.
+[2] V . Pilania and K. Gupta, “Mobile manipulator planning under uncer-
+tainty in unknown environments,”The International Journal of Robotics
+Research, vol. 37, no. 2-3, pp. 316–339, 2018.
+[3] M. Tzes, V . Vasilopoulos, Y . Kantaros, and G. J. Pappas, “Reactive
+informative planning for mobile manipulation tasks under sensing
+and environmental uncertainty,” in2022 International Conference on
+Robotics and Automation (ICRA), 2022, pp. 7320–7326.
+[4] J. Michaux, P. Holmes, B. Zhang, C. Chen, B. Wang, S. Sahgal,
+T. Zhang, S. Dey, S. Kousik, and R. Vasudevan, “Can not touch this:
+Real-time, safe motion planning and control for manipulators under
+uncertainty,”IEEE Transactions on Robotics, vol. 41, pp. 4719–4740,
+2025.
+
+17
+[5] T. A. Howell, S. Le Cleac’h, S. Singh, P. Florence, Z. Manchester,
+and V . Sindhwani, “Trajectory optimization with optimization-based
+dynamics,”IEEE Robotics and Automation Letters, vol. 7, no. 3, pp.
+6750–6757, 2022.
+[6] N. Ratliff, M. Zucker, J. A. Bagnell, and S. Srinivasa, “CHOMP:
+Gradient optimization techniques for efficient motion planning,” in2009
+IEEE International Conference on Robotics and Automation (ICRA),
+2009, pp. 489–494.
+[7] M. Kalakrishnan, S. Chitta, E. Theodorou, P. Pastor, and S. Schaal,
+“STOMP: Stochastic trajectory optimization for motion planning,” in
+2011 IEEE International Conference on Robotics and Automation
+(ICRA), 2011, pp. 4569–4574.
+[8] Y . Pi, X. Liu, Z. Yang, Y . Zhong, T. Huang, H. Pu, and J. Luo, “OMEPP:
+Online multi-population evolutionary path planning for mobile manip-
+ulators in dynamic environments,”IEEE Transactions on Automation
+Science and Engineering, vol. 22, pp. 6234–6245, 2025.
+[9] J. Pankert and M. Hutter, “Perceptive model predictive control for con-
+tinuous mobile manipulation,”IEEE Robotics and Automation Letters,
+vol. 5, no. 4, pp. 6177–6184, 2020.
+[10] C. Wu, R. Wang, M. Song, F. Gao, J. Mei, and B. Zhou, “Real-
+time whole-body motion planning for mobile manipulators using
+environment-adaptive search and spatial-temporal optimization,” in2024
+IEEE International Conference on Robotics and Automation (ICRA),
+2024, pp. 1369–1375.
+[11] S. Chitta, E. G. Jones, M. Ciocarlie, and K. Hsiao, “Mobile manipulation
+in unstructured environments: Perception, planning, and execution,”
+IEEE Robotics & Automation Magazine, vol. 19, no. 2, pp. 58–71, 2012.
+[12] P. D. Lillo, D. D. Vito, and G. Antonelli, “Merging global and local
+planners: Real-time replanning algorithm of redundant robots within a
+task-priority framework,”IEEE Transactions on Automation Science and
+Engineering, vol. 20, no. 2, pp. 1180–1193, 2023.
+[13] M. Giftthaler, F. Farshidian, T. Sandy, L. Stadelmann, and J. Buchli, “Ef-
+ficient kinematic planning for mobile manipulators with non-holonomic
+constraints using optimal control,” in2017 IEEE International Confer-
+ence on Robotics and Automation (ICRA), 2017, pp. 3411–3417.
+[14] A. Gawel, H. Blum, J. Pankert, K. Krämer, L. Bartolomei, S. Ercan,
+F. Farshidian, M. Chli, F. Gramazio, R. Siegwart, M. Hutter, and
+T.

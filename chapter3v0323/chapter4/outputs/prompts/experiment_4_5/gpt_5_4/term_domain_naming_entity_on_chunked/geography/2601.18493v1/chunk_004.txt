@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[]
+
+Triples:
+[{"subject":"DamageSeverity","relation":"jointlyInforms","object":"ResourceAllocation"},{"subject":"SpatialContext","relation":"jointlyInforms","object":"ResourceAllocation"},{"subject":"FederalEmergencyManagementAgency","relation":"conducts","object":"PostDisasterAssessment"},{"subject":"InternationalSearchAndRescueAdvisoryGroup","relation":"conducts","object":"PostDisasterAssessment"},{"subject":"PostDisasterAssessment","relation":"integrates","object":"BuildingFunction"},{"subject":"PostDisasterAssessment","relation":"integrates","object":"DamageLevel"},{"subject":"PostDisasterAssessment","relation":"integrates","object":"HazardContext"},{"subject":"PostDisasterAssessment","relation":"integrates","object":"SituationalRisk"},{"subject":"PostDisasterAssessment","relation":"supports","object":"ResponsePlanning"},{"subject":"PostDisasterAssessment","relation":"supports","object":"Reporting"},{"subject":"DisasterInsight","relation":"combines","object":"Classification"},{"subject":"DisasterInsight","relation":"combines","object":"Counting"},{"subject":"DisasterInsight","relation":"combines","object":"StructuredReporting"},{"subject":"DisasterInsight","relation":"enablesEvaluationOf","object":"SpatialCueIntegration"},{"subject":"DisasterInsight","relation":"enablesEvaluationOf","object":"TemporalCueIntegration"},{"subject":"DisasterInsight","relation":"enablesEvaluationOf","object":"SemanticCueIntegration"},{"subject":"VisionLanguageModel","relation":"reasonsAbout","object":"DisasterAffectedEnvironment"},{"subject":"BoundingBox_26_226_86_255","relation":"hasBuildingFunction","object":"ResidentialBuilding"},{"subject":"BoundingBox_26_191_85_221","relation":"hasBuildingFunction","object":"CommercialBuilding"},{"subject":"DifferenceInImagery","relation":"isBestExplainedBy","object":"Hurricane"},{"subject":"Hurricane","relation":"affectsArea","object":"NorthWestArea"},{"subject":"NorthWestArea","relation":"hasImpactedBuildingCount","object":"4"},{"subject":"NorthWestArea","relation":"includesFacilityType","object":"ResidentialBuilding"},{"subject":"NorthWestArea","relation":"includesFacilityType","object":"CommercialBuilding"},{"subject":"NorthWestArea","relation":"includesFacilityType","object":"MedicalFacility"},{"subject":"AffectedPeopleCount","relation":"is","object":"Unknown"},{"subject":"BuildingDamage","relation":"mayLeadTo","object":"Displacement"},{"subject":"BuildingDamage","relation":"mayLeadTo","object":"DisruptionOfEssentialService"},{"subject":"NorthWestArea","relation":"hasUndamagedBuildingCount","object":"2"},{"subject":"MedicalFacility","relation":"hasDamageLevel","object":"MinorDamage"},{"subject":"CommercialBuilding","relation":"hasDamageLevel","object":"MajorDamage"},{"subject":"MajorDamage","relation":"potentiallyAffects","object":"Livelihood"},{"subject":"MinorDamage","relation":"potentiallyAffects","object":"AccessToHealthcare"},{"subject":"LargeScaleHazard","relation":"includes","object":"Earthquake"},{"subject":"LargeScaleHazard","relation":"includes","object":"Flood"},{"subject":"LargeScaleHazard","relation":"includes","object":"Hurricane"},{"subject":"DIChat","relation":"isInstantiatedOn","object":"TeoChat"},{"subject":"DIChat","relation":"isInstantiatedOn","object":"Qwen2_5VL"}]

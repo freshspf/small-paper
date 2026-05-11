@@ -1,0 +1,122 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: relatedworks
+- section_title: Related Works
+- page_start: 2
+- page_end: 2
+
+INPUT TEXT CHUNK:
+2
+attention toward interaction-relevant features.
+The main contributions of this work are threefold:
+•A 4D, robot-free R2S2R frameworkthat reconstructs
+real-world assets and manipulation sequences into ed-
+itable 3DGS assets and their dynamics, enabling scalable,
+embodiment-consistent data generation.
+•AirExo-3, an open-source, low-cost, accurate, and
+durable manipulation data collection device.
+•A Mask Adapterthat injects semantic mask information
+into the policy to steer attention toward interaction-
+relevant regions, thereby enhancing robustness.
+II. RELATEDWORKS
+A. Sim-to-Real Transfer and 3D Gaussian Splatting
+Due to persistent discrepancies in appearance, geometry,
+and contact dynamics, policies trained in simulation often fail
+to generalize to the real world, motivating Real-to-Sim-to-Real
+(R2S2R) pipelines. R2S2R pipelines reconstruct photorealistic
+digital twins from real scenes and perform data generation and
+policy learning in reconstructed environments, leveraging neu-
+ral radiance fields or 3D Gaussian Splatting for high-fidelity
+rendering and novel view synthesis [3], [4]. These approaches
+generally fall into interaction-oriented frameworks that sup-
+port closed-loop training and rendering-centered pipelines that
+scale data generation via photorealistic replay [5]–[9], yet
+limitations in physical interactability and contact modeling
+persist.
+Compared with NeRF [1], 3DGS [2] offers an explicit,
+point-based representation with fast optimization and real-
+time rendering, making it suitable for robotics. With recent
+extensions incorporating dynamics and physical priors [10],
+[11], 3DGS has emerged as an editable, geometry-aware world
+model for manipulation and navigation [6], [12]–[15], enabling
+geometry-consistent edits beyond 2D augmentation [16]. Nev-
+ertheless, effectively leveraging 3DGS for robot learning re-
+quires tight integration of demonstration acquisition, pose
+modeling, and interaction-aware replay.
+Therefore, a Real-to-Sim-to-Real framework that tightly
+couples real-world demonstration acquisition, accurate pose
+modeling, and geometry-consistent 3DGS replay is still needed
+to support scalable, contact-rich manipulation learning with
+high visual fidelity, a gap thatExoGSaddresses.
+B. Demonstration Data Collection
+Demonstration data is fundamental to scalable and gener-
+alizable imitation learning in robotic manipulation [17]–[21].
+Although teleoperation enables embodiment-consistent robot
+demonstrations, its scalability is fundamentally constrained by
+hardware cost, deployment overhead, and non-intuitive human-
+robot interfaces.
+To reduce these limitations, an alternative direction focuses
+on in-the-wild demonstration collection using human-operated
+devices such as handheld grippers, VR/AR systems, motion-
+capture gloves, and exoskeletons [22]–[27]. These systems re-
+duce deployment cost and enable more natural demonstrations,
+but often suffer from limited kinematic fidelity, trajectory
+accuracy, or environment diversity.Therefore, existing approaches lack a low-cost, robot-free
+data collection framework that preserves robot-aligned kine-
+matics and supporting scalable, geometry-consistent replay,
+motivating the Real-to-Sim-to-Real design ofExoGS.

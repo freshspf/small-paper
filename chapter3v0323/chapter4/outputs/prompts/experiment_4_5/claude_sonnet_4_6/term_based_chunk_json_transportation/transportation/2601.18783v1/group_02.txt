@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Environment",
+  "implementedUsing",
+  "sumo_simulator",
+  "provides",
+  "MicroscopicVehicleDynamics",
+  "Simulation",
+  "consistsOf",
+  "ThreeLaneHighwaySegment",
+  "populatedBy",
+  "MixedTraffic",
+  "includes",
+  "PassengerCar",
+  "Truck",
+  "EgoVehicle",
+  "modeledAs",
+  "TractorSemitrailerCombination",
+  "TacticalDecisionMakingProblem",
+  "formulatedWithin",
+  "MultiObjectiveReinforcementLearningFramework",
+  "MultiObjectiveMarkovDecisionProcess",
+  "definedBy",
+  "StateSpace",
+  "ActionSpace",
+  "TransitionProbabilityDistribution",
+  "Policy",
+  "defines",
+  "DecisionRule",
+  "Optimality",
+  "definedInTermsOf",
+  "ParetoDominance",
+  "algorithm_1",
+  "constructs",
+  "SetOfPolicies",
+  "hasAssociated",
+  "ValueVector",
+  "approximates",
+  "ConvexCoverageSet",
+  "selects",
+  "WeightVector",
+  "learns",
+  "optimizes",
+  "ScalarizedObjective",
+  "extends",
+  "GpiLsFramework",
+  "WeightSelection",
+  "guidedBy",
+  "CornerWeight",
+  "MultiObjectiveValueVector",
+  "correspondsTo",
+  "TrainedPolicy",
+  "OptimalPolicy",
+  "estimatedUsing",
+  "GeneralizedPolicyImprovement",
+  "outputs",
+  "ActionLogit",
+  "AutonomousDriving",
+  "RealTimeDecisionMaking",
+  "requires",
+  "HeavyDutyTruck",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "hasCharacteristic",
+  "TraditionalApproach",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "reliesOn",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "VehicleBehavior",
+  "governs",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "performs",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "appliedTo"
+]
+
+Triples:
+[
+  {
+    "subject": "Environment",
+    "relation": "implementedUsing",
+    "object": "sumo_simulator",
+    "chunk": "problemformulation",
+    "context": "The environment is implemented using the open-source traffic simulator SUMO (Simulation of Urban MObility), which provides realistic microscopic vehicle dynamics."
+  },
+  {
+    "subject": "sumo_simulator",
+    "relation": "provides",
+    "object": "MicroscopicVehicleDynamics",
+    "chunk": "problemformulation",
+    "context": "The environment is implemented using the open-source traffic simulator SUMO (Simulation of Urban MObility), which provides realistic microscopic vehicle dynamics."
+  },
+  {
+    "subject": "Simulation",
+    "relation": "consistsOf",
+    "object": "ThreeLaneHighwaySegment",
+    "chunk": "problemformulation",
+    "context": "The simulation consists of a three-lane highway segment populated by mixed traffic, including passenger cars and trucks."
+  },
+  {
+    "subject": "ThreeLaneHighwaySegment",
+    "relation": "populatedBy",
+    "object": "MixedTraffic",
+    "chunk": "problemformulation",
+    "context": "The simulation consists of a three-lane highway segment populated by mixed traffic, including passenger cars and trucks."
+  },
+  {
+    "subject": "MixedTraffic",
+    "relation": "includes",
+    "object": "PassengerCar",
+    "chunk": "problemformulation",
+    "context": "The simulation consists of a three-lane highway segment populated by mixed traffic, including passenger cars and trucks."
+  },
+  {
+    "subject": "MixedTraffic",
+    "relation": "includes",
+    "object": "Truck",
+    "chunk": "problemformulation",
+    "context": "The simulation consists of a three-lane highway segment populated by mixed traffic, including passenger cars and trucks."
+  },
+  {
+    "subject": "EgoVehicle",
+    "relation": "modeledAs",
+    "object": "TractorSemitrailerCombination",
+    "chunk": "problemformulation",
+    "context": "The ego vehicle is modeled as a tractor–semitrailer combination with realistic dynamics."
+  },
+  {
+    "subject": "TacticalDecisionMakingProblem",
+    "relation": "formulatedWithin",
+    "object": "MultiObjectiveReinforcementLearningFramework",
+    "chunk": "problemformulation",
+    "context": "To explicitly capture these trade-offs, we formulate the problem within a multi-objective reinforcement learning (MORL) framework."
+  },
+  {
+    "subject": "Environment",
+    "relation": "modeledAs",
+    "object": "MultiObjectiveMarkovDecisionProcess",
+    "chunk": "problemformulation",
+    "context": "The environment is modeled as a Multi-Objective Markov Decision Process (MOMDP), defined by the tupleM= (S,A, p, γ,r)whereSandAdenote the state and action spaces, respectively, andp(·|s, a)is the transition probability distribution over next states given the current state–action pair(s, a)."
+  },
+  {
+    "subject": "MultiObjectiveMarkovDecisionProcess",
+    "relation": "definedBy",
+    "object": "StateSpace",
+    "chunk": "problemformulation",
+    "context": "The environment is modeled as a Multi-Objective Markov Decision Process (MOMDP), defined by the tupleM= (S,A, p, γ,r)whereSandAdenote the state and action spaces, respectively, andp(·|s, a)is the transition probability distribution over next states given the current state–action pair(s, a)."
+  },
+  {
+    "subject": "MultiObjectiveMarkovDecisionProcess",
+    "relation": "definedBy",
+    "object": "ActionSpace",
+    "chunk": "problemformulation",
+    "context": "The environment is modeled as a Multi-Objective Markov Decision Process (MOMDP), defined by the tupleM= (S,A, p, γ,r)whereSandAdenote the state and action spaces, respectively, andp(·|s, a)is the transition probability distribution over next states given the current state–action pair(s, a)."
+  },
+  {
+    "subject": "MultiObjectiveMarkovDecisionProcess",
+    "relation": "definedBy",
+    "object": "TransitionProbabilityDistribution",
+    "chunk": "problemformulation",
+    "context": "The environment is modeled as a Multi-Objective Markov Decision Process (MOMDP), defined by the tupleM= (S,A, p, γ,r)whereSandAdenote the state and action spaces, respectively, andp(·|s, a)is the transition probability distribution over next states given the current state–action pair(s, a)."
+  },
+  {
+    "subject": "Policy",
+    "relation": "defines",
+    "object": "DecisionRule",
+    "chunk": "problemformulation",
+    "context": "A policyπ:S → Adefines the agent’s decision rule, mapping states to actions, and value function of the policy is defined as, Vπ(s) =E π\"∞X t=0γtrt+1|st=s# .(1) where the value functionVπ(s)∈Rdis vector valued."
+  },
+  {
+    "subject": "Optimality",
+    "relation": "definedInTermsOf",
+    "object": "ParetoDominance",
+    "chunk": "problemformulation",
+    "context": "Optimality is defined in terms of Pareto dominance: a policyπ′dominatesπif it performs at least as well in all objectives and strictly better in at least one."
+  },
+  {
+    "subject": "algorithm_1",
+    "relation": "constructs",
+    "object": "SetOfPolicies",
+    "chunk": "methodology1",
+    "context": "The procedure presented in Algorithm 1 iteratively constructs a set of policiesΠ ={π(a|s,w)}whose associated value vectorsVapproximate the CCS."
+  },
+  {
+    "subject": "SetOfPolicies",
+    "relation": "hasAssociated",
+    "object": "ValueVector",
+    "chunk": "methodology1",
+    "context": "The procedure presented in Algorithm 1 iteratively constructs a set of policiesΠ ={π(a|s,w)}whose associated value vectorsVapproximate the CCS."
+  },
+  {
+    "subject": "ValueVector",
+    "relation": "approximates",
+    "object": "ConvexCoverageSet",
+    "chunk": "methodology1",
+    "context": "The procedure presented in Algorithm 1 iteratively constructs a set of policiesΠ ={π(a|s,w)}whose associated value vectorsVapproximate the CCS."
+  },
+  {
+    "subject": "algorithm_1",
+    "relation": "selects",
+    "object": "WeightVector",
+    "chunk": "methodology1",
+    "context": "At each iteration, the algorithm selects a weight vectorwand learns a policyπ wthat optimizes the corresponding scalarized objective."
+  },
+  {
+    "subject": "algorithm_1",
+    "relation": "learns",
+    "object": "Policy",
+    "chunk": "methodology1",
+    "context": "At each iteration, the algorithm selects a weight vectorwand learns a policyπ wthat optimizes the corresponding scalarized objective."
+  },
+  {
+    "subject": "Policy",
+    "relation": "optimizes",
+    "object": "ScalarizedObjective",
+    "chunk": "methodology1",
+    "context": "At each iteration, the algorithm selects a weight vectorwand learns a policyπ wthat optimizes the corresponding scalarized objective."
+  },
+  {
+    "subject": "algorithm_1",
+    "relation": "extends",
+    "object": "GpiLsFramework",
+    "chunk": "methodology1",
+    "context": "This procedure extends the GPI-LS framework in [Alegreet al., 2023 ]to a policy-gradient RL setting."
+  },
+  {
+    "subject": "WeightSelection",
+    "relation": "guidedBy",
+    "object": "CornerWeight",
+    "chunk": "methodology1",
+    "context": "Weight selection in each iteration is guided by the concept of corner weights [Alegreet al., 2023 ]."
+  },
+  {
+    "subject": "MultiObjectiveValueVector",
+    "relation": "correspondsTo",
+    "object": "TrainedPolicy",
+    "chunk": "methodology1",
+    "context": "LetV={vπi}n i=1 denote the set of multi-objective value vectors corresponding to ntrained policies."
+  },
+  {
+    "subject": "OptimalPolicy",
+    "relation": "estimatedUsing",
+    "object": "GeneralizedPolicyImprovement",
+    "chunk": "methodology1",
+    "context": "We estimate the optimal policy for computing above utility loss using Generalized Policy Improvement (GPI) [Barretoet al., 2017 ]."
+  },
+  {
+    "subject": "Policy",
+    "relation": "outputs",
+    "object": "ActionLogit",
+    "chunk": "methodology1",
+    "context": "In our PPO-based setting, each policyπoutputs action logits rather than Q-values."
+  }
+]

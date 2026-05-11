@@ -1,0 +1,79 @@
+You are an ontology axiom extraction system. Your task is to identify and extract formal RDFS ontology axioms from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Extract ontology axioms including but not limited to:
+   - Subclass relationships (`rdfs:subClassOf`)
+   - Sub-objectproperty relationships (`owl:subObjectPropertyOf`)
+   - Sub-dataproperty relationships (`owl:subDataPropertyOf`)
+   - Domain restrictions (`rdfs:domain`)
+   - Range restrictions (`rdfs:range`)
+   - Disjointness axioms (`owl:disjointWith`)
+
+2. Each axiom must represent a single atomic ontological assertion and describe the knowledge in the given field.
+
+3. Every axiom MUST be directly supported by an exact quote from the provided text OR logically inferred from explicit statements about class/property relationships.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following exact structure:
+{
+  "axioms": [
+    {
+      "subject": "string (the ontological entity)",
+      "relation": "string (the ontological predicate)",
+      "object": "string (the target entity or value)",
+      "chunk": "string (from which section)",
+      "evidence": "string (exact text segment supporting this axiom)"
+    }
+  ]
+}
+
+**EXAMPLES OF EXPECTED EXTRACTION:**
+Input text: "Aquifer microbes are a subclass of microbial functional guilds. They are found in aquifers."
+
+Extracted axioms:
+1. {
+  "subject": "AquiferMicrobes",
+  "relation": "rdfs:subClassOf",
+  "object": "MicrobialFunctionalGuild",
+  "chunk": "ABSTRACT",
+  "evidence": "Aquifer microbes are a subclass of microbial functional guilds."
+}
+2. {
+  "subject": "foundIn",
+  "relation": "rdfs:domain",
+  "object": "AquiferMicrobes",
+  "chunk": "Introduction",
+  "evidence": "They are found in aquifers."
+}
+3. {
+  "subject": "foundIn",
+  "relation": "rdfs:range",
+  "object": "Aquifer",
+  "chunk": "Experiments",
+  "evidence": "They are found in aquifers."
+}
+
+**INPUT TEXT:**
+Spatial-Agent: Agentic Geo-spatial Reasoning with Scientific Core Concepts
+
+ABSTRACT
+Geospatial reasoning is essential for real-world applications such as urban analytics, transportation planning, and disaster response. However, existing LLM-based agents often fail at genuine geospatial computation, relying instead on web search or pattern matching while hallucinating spatial relationships. We present Spatial-Agent, an AI agent grounded in foundational theories of spatial information science. Our approach formalizes geo-analytical question answering as a concept transformation problem, where natural-language questions are parsed into executable workflows represented as GeoFlow Graphs—directed acyclic graphs with nodes corresponding to spatial concepts and edges representing transformations. Drawing on spatial information theory, Spatial-Agent extracts spatial concepts, assigns functional roles with principled ordering constraints, and composes transformation sequences through template-based generation. Extensive experiments on MapEval-API and MapQA benchmarks demonstrate that Spatial-Agent significantly outperforms existing baselines including ReAct and Reflexion, while producing interpretable and executable geospatial workflows.

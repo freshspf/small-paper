@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "GroundTruthMap",
+  "belongsTo",
+  "pavia_university_dataset",
+  "ClassificationMap",
+  "generatedOn",
+  "Method",
+  "evaluatedOn",
+  "dataset_IndianPines",
+  "dataset_Salinas",
+  "dataset_PaviaUniversity",
+  "testedWith",
+  "noise_GaussianNoise",
+  "noise_ImpulseNoise",
+  "noise_PossionNoise",
+  "LabelPropagation",
+  "utilizes",
+  "AnchorGraph",
+  "FullyConnectedGraph",
+  "increases",
+  "ComputationalTime",
+  "SparseGraph",
+  "improves",
+  "ComputationalEfficiency",
+  "GraphConstruction",
+  "GaussianKernelFunction",
+  "requiresParameter",
+  "Bandwidth",
+  "PruningStage",
+  "ParameterK",
+  "hasParameter",
+  "defines",
+  "Smoothness",
+  "dataset_salinas",
+  "hasSigma2Value",
+  "value_1",
+  "dataset_paviaUniversity",
+  "value_2",
+  "dataset_indianPines",
+  "hasOptimalSigma2Value",
+  "value_0.2",
+  "parameter_k",
+  "influences",
+  "metric_classificationAccuracy",
+  "metric_computationalEfficiency",
+  "configuredWithKValue",
+  "value_1000",
+  "value_500",
+  "algorithm_proposedClustering",
+  "requiresAdjustmentOf",
+  "parameter_beta",
+  "EarthObservationMission",
+  "GlobalEnvironmentalChange",
+  "Satellite",
+  "Orbit",
+  "HyperspectralSensor",
+  "ContinuousSpectralInformation",
+  "HyperspectralSatellite",
+  "EarthObservationProduct",
+  "OfflineProcessing",
+  "TerrestrialSystem",
+  "DataTransmission",
+  "EmergencyScenario",
+  "DisasterMonitoring",
+  "EmergencyMapping",
+  "SatelliteOnboardProcessing",
+  "ArtificialIntelligenceAlgorithm",
+  "ValidationPlatform",
+  "platform_opsSat",
+  "mission_phiSat1",
+  "org_esa",
+  "DeepConvolutionalNetwork",
+  "CloudSegmentation",
+  "mission_hypso",
+  "OceanObservation",
+  "KMeansAlgorithm",
+  "mission_eo1",
+  "Sea",
+  "Land",
+  "Cloud",
+  "SmallSatellite"
+]
+
+Triples:
+[
+  {
+    "subject": "GroundTruthMap",
+    "relation": "belongsTo",
+    "object": "pavia_university_dataset",
+    "chunk": "result4",
+    "context": "Fig. 4Ground-truth map and classification maps on the Pavia University dataset using different training samples per class."
+  },
+  {
+    "subject": "ClassificationMap",
+    "relation": "generatedOn",
+    "object": "pavia_university_dataset",
+    "chunk": "result4",
+    "context": "Fig. 4Ground-truth map and classification maps on the Pavia University dataset using different training samples per class."
+  },
+  {
+    "subject": "Method",
+    "relation": "evaluatedOn",
+    "object": "dataset_IndianPines",
+    "chunk": "result5",
+    "context": "Table 4OAs of Different Methods on the Indian Pines, Salinas, and Pavia University Datasets"
+  },
+  {
+    "subject": "Method",
+    "relation": "evaluatedOn",
+    "object": "dataset_Salinas",
+    "chunk": "result5",
+    "context": "Table 4OAs of Different Methods on the Indian Pines, Salinas, and Pavia University Datasets"
+  },
+  {
+    "subject": "Method",
+    "relation": "evaluatedOn",
+    "object": "dataset_PaviaUniversity",
+    "chunk": "result5",
+    "context": "Table 4OAs of Different Methods on the Indian Pines, Salinas, and Pavia University Datasets"
+  },
+  {
+    "subject": "dataset_IndianPines",
+    "relation": "testedWith",
+    "object": "noise_GaussianNoise",
+    "chunk": "result5",
+    "context": "Table 6AAs, OAs, and Kappa Coefficients of Different Methods on the Indian Pines Dataset with Different Level of Gaussian Noise, Impulse Noise, and Possion Noise"
+  },
+  {
+    "subject": "dataset_IndianPines",
+    "relation": "testedWith",
+    "object": "noise_ImpulseNoise",
+    "chunk": "result5",
+    "context": "Table 6AAs, OAs, and Kappa Coefficients of Different Methods on the Indian Pines Dataset with Different Level of Gaussian Noise, Impulse Noise, and Possion Noise"
+  },
+  {
+    "subject": "dataset_IndianPines",
+    "relation": "testedWith",
+    "object": "noise_PossionNoise",
+    "chunk": "result5",
+    "context": "Table 6AAs, OAs, and Kappa Coefficients of Different Methods on the Indian Pines Dataset with Different Level of Gaussian Noise, Impulse Noise, and Possion Noise"
+  },
+  {
+    "subject": "LabelPropagation",
+    "relation": "utilizes",
+    "object": "AnchorGraph",
+    "chunk": "result5",
+    "context": "In this case, we investigate the extent to which over- all classification accuracy can be maintained by employing rapid label propagation via the anchor graph."
+  },
+  {
+    "subject": "FullyConnectedGraph",
+    "relation": "increases",
+    "object": "ComputationalTime",
+    "chunk": "result5",
+    "context": "In contrast, the adoption of a fully connected graph leads to an exponential escalation in com- putational time."
+  },
+  {
+    "subject": "SparseGraph",
+    "relation": "improves",
+    "object": "ComputationalEfficiency",
+    "chunk": "result5",
+    "context": "Consequently, with respect to the algorithm’s overall computational efficiency, the sparse graph is deemed to be more suitable."
+  },
+  {
+    "subject": "GraphConstruction",
+    "relation": "utilizes",
+    "object": "GaussianKernelFunction",
+    "chunk": "result5",
+    "context": "Two critical parameters must be manually configured during the label propagation process: the bandwidthσof the Gaussian kernel function used in graph construction"
+  },
+  {
+    "subject": "LabelPropagation",
+    "relation": "requiresParameter",
+    "object": "Bandwidth",
+    "chunk": "result5",
+    "context": "Two critical parameters must be manually configured during the label propagation process: the bandwidthσof the Gaussian kernel function used in graph construction"
+  },
+  {
+    "subject": "PruningStage",
+    "relation": "requiresParameter",
+    "object": "ParameterK",
+    "chunk": "result5",
+    "context": "and the value ofkrequired for selection in the pruning stage."
+  },
+  {
+    "subject": "GaussianKernelFunction",
+    "relation": "hasParameter",
+    "object": "Bandwidth",
+    "chunk": "result5",
+    "context": "The bandwidthσis a fundamental parameter of the Gaussian kernel function, which plays a crucial role in defining the smoothness of the func- tion."
+  },
+  {
+    "subject": "Bandwidth",
+    "relation": "defines",
+    "object": "Smoothness",
+    "chunk": "result5",
+    "context": "The bandwidthσis a fundamental parameter of the Gaussian kernel function, which plays a crucial role in defining the smoothness of the func- tion."
+  },
+  {
+    "subject": "dataset_salinas",
+    "relation": "hasSigma2Value",
+    "object": "value_1",
+    "chunk": "result6",
+    "context": "There- fore, for the Salinas and Pavia University datasets, the values ofσ2are specified as 1 and 2, respec- tively."
+  },
+  {
+    "subject": "dataset_paviaUniversity",
+    "relation": "hasSigma2Value",
+    "object": "value_2",
+    "chunk": "result6",
+    "context": "There- fore, for the Salinas and Pavia University datasets, the values ofσ2are specified as 1 and 2, respec- tively."
+  },
+  {
+    "subject": "dataset_indianPines",
+    "relation": "hasOptimalSigma2Value",
+    "object": "value_0.2",
+    "chunk": "result6",
+    "context": "Consequently, the optimal value ofσ2for the Indian Pines dataset is determined to be 0.2."
+  },
+  {
+    "subject": "parameter_k",
+    "relation": "influences",
+    "object": "metric_classificationAccuracy",
+    "chunk": "result6",
+    "context": "The selection of the param- eterkduring the pruning process significantly influences not only the accuracy of the classifica- tion but also the computational efficiency of the algorithm."
+  },
+  {
+    "subject": "parameter_k",
+    "relation": "influences",
+    "object": "metric_computationalEfficiency",
+    "chunk": "result6",
+    "context": "The selection of the param- eterkduring the pruning process significantly influences not only the accuracy of the classifica- tion but also the computational efficiency of the algorithm."
+  },
+  {
+    "subject": "dataset_indianPines",
+    "relation": "configuredWithKValue",
+    "object": "value_1000",
+    "chunk": "result6",
+    "context": "Therefore, to maintain an equilibrium between computational efficiency and classifica- tion accuracy, the parameterkis configured as 1000, 500, and 500 for the Indian Pines, Salinas, and Pavia University datasets, respectively."
+  },
+  {
+    "subject": "dataset_salinas",
+    "relation": "configuredWithKValue",
+    "object": "value_500",
+    "chunk": "result6",
+    "context": "Therefore, to maintain an equilibrium between computational efficiency and classifica- tion accuracy, the parameterkis configured as 1000, 500, and 500 for the Indian Pines, Salinas, and Pavia University datasets, respectively."
+  },
+  {
+    "subject": "dataset_paviaUniversity",
+    "relation": "configuredWithKValue",
+    "object": "value_500",
+    "chunk": "result6",
+    "context": "Therefore, to maintain an equilibrium between computational efficiency and classifica- tion accuracy, the parameterkis configured as 1000, 500, and 500 for the Indian Pines, Salinas, and Pavia University datasets, respectively."
+  },
+  {
+    "subject": "algorithm_proposedClustering",
+    "relation": "requiresAdjustmentOf",
+    "object": "parameter_beta",
+    "chunk": "result6",
+    "context": "In the proposed clustering algorithm, there exist two pivotal parameters that require man- ual adjustment: the first isβ, and the second is the number of nonzero termsh."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SequentialConvexOptimization",
+  "suitableFor",
+  "FastTrajectoryPlanning",
+  "locatedIn",
+  "ObstacleDenseEnvironment",
+  "ObstaclePoint",
+  "transformedInto",
+  "RobotLocalBaseFrame",
+  "RobotBasePose",
+  "treatedAs",
+  "Origin",
+  "GcdfBasedCollisionAvoidanceConstraint",
+  "definedThrough",
+  "NeuralNetwork",
+  "SparsityPattern",
+  "variesWith",
+  "ObstacleConfiguration",
+  "Crisp",
+  "chosenAs",
+  "BackboneSolver",
+  "CompactRepresentation",
+  "capturesRelationshipBetween",
+  "RobotQueryPoint",
+  "DenseGcdfGradientMatrix",
+  "mappedInto",
+  "SparseJacobianMatrix",
+  "PytorchGcdfModel",
+  "convertedInto",
+  "CasadiFunction",
+  "L4casadiLibrary",
+  "computes",
+  "Gradient",
+  "CPlusPlusCode",
+  "generatedFrom",
+  "compiledInto",
+  "DynamicLibrary",
+  "GcdfCollisionAvoidanceConstraint",
+  "constitutesComponentOf",
+  "OptimizationProblem",
+  "consideredFor",
+  "TimeStep",
+  "Workspace",
+  "enlargedBy",
+  "BaseMovement",
+  "partitionedBasedOn",
+  "ReferenceBasePosition",
+  "DataStructure",
+  "stores",
+  "SpatialCoordinate",
+  "describes",
+  "ImplicitNeuralModel",
+  "provides",
+  "GcdfGradientVector",
+  "assembledInto",
+  "SparseJacobian",
+  "OnlineReplanning",
+  "updates",
+  "JacobianSparsityPattern",
+  "ObstacleLayout",
+  "changesDuring",
+  "ObstacleSet",
+  "contains",
+  "MobileManipulator",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "Robot",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment"
+]
+
+Triples:
+[
+  {
+    "subject": "SequentialConvexOptimization",
+    "relation": "suitableFor",
+    "object": "FastTrajectoryPlanning",
+    "chunk": "completedocument11",
+    "context": "This makes our approach particularly suitable for fast trajectory planning in obstacle-dense environments where the number of constraints can scale significantly."
+  },
+  {
+    "subject": "FastTrajectoryPlanning",
+    "relation": "locatedIn",
+    "object": "ObstacleDenseEnvironment",
+    "chunk": "completedocument11",
+    "context": "This makes our approach particularly suitable for fast trajectory planning in obstacle-dense environments where the number of constraints can scale significantly."
+  },
+  {
+    "subject": "ObstaclePoint",
+    "relation": "transformedInto",
+    "object": "RobotLocalBaseFrame",
+    "chunk": "completedocument11",
+    "context": "To obtain accurate GCDF queries aligned with our training distribution, we transform obstacle points into the robot’s local base frame at each time step."
+  },
+  {
+    "subject": "RobotBasePose",
+    "relation": "treatedAs",
+    "object": "Origin",
+    "chunk": "completedocument11",
+    "context": "Specifically, we treat the robot base pose as the origin and bias all obstacle points p into this coordinate frame before querying the neural GCDF."
+  },
+  {
+    "subject": "GcdfBasedCollisionAvoidanceConstraint",
+    "relation": "definedThrough",
+    "object": "NeuralNetwork",
+    "chunk": "completedocument11",
+    "context": "However, our GCDF-based collision avoidance constraints are defined implicitly through neural networks, making direct application of these approaches challenging."
+  },
+  {
+    "subject": "SparsityPattern",
+    "relation": "variesWith",
+    "object": "ObstacleConfiguration",
+    "chunk": "completedocument11",
+    "context": "Moreover, the sparsity pattern of GCDF constraints varies with different obstacle configurations and robot query point distributions, requiring a flexible representation that can be efficiently reconstructed online."
+  },
+  {
+    "subject": "Crisp",
+    "relation": "chosenAs",
+    "object": "BackboneSolver",
+    "chunk": "completedocument11",
+    "context": "In this work, we choose CRISP [88] as our backbone solver for its computational efficiency with CppAD-based automatic differentiation, capability to generate informed trajectories from naive initial guesses, and trust-region framework that naturally leverages GCDF’s accurate gradient information."
+  },
+  {
+    "subject": "CompactRepresentation",
+    "relation": "capturesRelationshipBetween",
+    "object": "RobotQueryPoint",
+    "chunk": "completedocument11",
+    "context": "This representation captures the relationship between robot query points, obstacle points, and configuration variables, allowing efficient adaptation to varying obstacle configurations."
+  },
+  {
+    "subject": "CompactRepresentation",
+    "relation": "capturesRelationshipBetween",
+    "object": "ObstaclePoint",
+    "chunk": "completedocument11",
+    "context": "This representation captures the relationship between robot query points, obstacle points, and configuration variables, allowing efficient adaptation to varying obstacle configurations."
+  },
+  {
+    "subject": "DenseGcdfGradientMatrix",
+    "relation": "mappedInto",
+    "object": "SparseJacobianMatrix",
+    "chunk": "completedocument11",
+    "context": "Third, we implement efficient memory-level sparse mapping from the dense GCDF gradient matrix into the overall problem’s sparse Jacobian matrix."
+  },
+  {
+    "subject": "PytorchGcdfModel",
+    "relation": "convertedInto",
+    "object": "CasadiFunction",
+    "chunk": "completedocument11",
+    "context": "To enable cross-platform GPU querying of the trained neural network, we first convert the PyTorch GCDF model into a batch-queryable CasADi [93] function using the L4CasADi library [94], which automatically computes gradients through CasADi’s symbolic differentiation."
+  },
+  {
+    "subject": "L4casadiLibrary",
+    "relation": "computes",
+    "object": "Gradient",
+    "chunk": "completedocument11",
+    "context": "To enable cross-platform GPU querying of the trained neural network, we first convert the PyTorch GCDF model into a batch-queryable CasADi [93] function using the L4CasADi library [94], which automatically computes gradients through CasADi’s symbolic differentiation."
+  },
+  {
+    "subject": "CPlusPlusCode",
+    "relation": "generatedFrom",
+    "object": "CasadiFunction",
+    "chunk": "completedocument11",
+    "context": "We then generate C++ code from this CasADi function and compile it into a dynamic library."
+  },
+  {
+    "subject": "CPlusPlusCode",
+    "relation": "compiledInto",
+    "object": "DynamicLibrary",
+    "chunk": "completedocument11",
+    "context": "We then generate C++ code from this CasADi function and compile it into a dynamic library."
+  },
+  {
+    "subject": "GcdfCollisionAvoidanceConstraint",
+    "relation": "constitutesComponentOf",
+    "object": "OptimizationProblem",
+    "chunk": "completedocument12",
+    "context": "In obstacle-dense environments, the GCDF collision avoidance constraints constitute the largest component of the optimization problem (11)."
+  },
+  {
+    "subject": "ObstaclePoint",
+    "relation": "consideredFor",
+    "object": "TimeStep",
+    "chunk": "completedocument12",
+    "context": "For the GCDF constraints in (11d), where each obstacle point is considered for all time steps, this would result in N×Mconstraints, which is a prohibitively large number."
+  },
+  {
+    "subject": "Workspace",
+    "relation": "enlargedBy",
+    "object": "BaseMovement",
+    "chunk": "completedocument12",
+    "context": "For mobile manipulation tasks, since the workspace is relatively larger due to base movements, it is clearly unnecessary to consider all possible collision pairs."
+  },
+  {
+    "subject": "ObstaclePoint",
+    "relation": "partitionedBasedOn",
+    "object": "ReferenceBasePosition",
+    "chunk": "completedocument12",
+    "context": "We apply a straightforward approach to partition obstacle points based on the reference base positions, only considering obstacle points within a certain range of each reference base position."
+  },
+  {
+    "subject": "DataStructure",
+    "relation": "stores",
+    "object": "SpatialCoordinate",
+    "chunk": "completedocument12",
+    "context": "To this end, we design a straightforward data structure consisting of two components: one storing the spatial coordinates of all obstacle points, and another storing the indices of obstacle points to be considered at each time step."
+  },
+  {
+    "subject": "SpatialCoordinate",
+    "relation": "describes",
+    "object": "ObstaclePoint",
+    "chunk": "completedocument12",
+    "context": "To this end, we design a straightforward data structure consisting of two components: one storing the spatial coordinates of all obstacle points, and another storing the indices of obstacle points to be considered at each time step."
+  },
+  {
+    "subject": "ImplicitNeuralModel",
+    "relation": "provides",
+    "object": "GcdfGradientVector",
+    "chunk": "completedocument12",
+    "context": "Visualization of the Jacobian sparsity pattern induced by GCDF constraints, together with the dense-to-sparse mapping that assembles the full GCDF gradient vector queried from the implicit neural model into the sparse Jacobian."
+  },
+  {
+    "subject": "GcdfGradientVector",
+    "relation": "assembledInto",
+    "object": "SparseJacobian",
+    "chunk": "completedocument12",
+    "context": "Visualization of the Jacobian sparsity pattern induced by GCDF constraints, together with the dense-to-sparse mapping that assembles the full GCDF gradient vector queried from the implicit neural model into the sparse Jacobian."
+  },
+  {
+    "subject": "OnlineReplanning",
+    "relation": "updates",
+    "object": "JacobianSparsityPattern",
+    "chunk": "completedocument12",
+    "context": "Moreover, both components can be modified online to accommodate changes in obstacle layouts, allowing for dynamic updates to the sparsity pattern and constraint count during online replanning."
+  },
+  {
+    "subject": "ObstacleLayout",
+    "relation": "changesDuring",
+    "object": "OnlineReplanning",
+    "chunk": "completedocument12",
+    "context": "Moreover, both components can be modified online to accommodate changes in obstacle layouts, allowing for dynamic updates to the sparsity pattern and constraint count during online replanning."
+  },
+  {
+    "subject": "ObstacleSet",
+    "relation": "contains",
+    "object": "ObstaclePoint",
+    "chunk": "completedocument12",
+    "context": "Suppose the obstacle setI McontainsMpoints."
+  }
+]

@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["Buffering","Overlay","Routing","Aggregation","GISWorkflow","PostGIS","ArcGIS","QGIS","SpatiotemporalOperation","GeoAnQu","Measure","Condition","Subcondition","Support","Extent","GraphNode","GraphEdge","ComputationalGISTool","MacroTemplate","TemplateMatching","IOPortComposition","GeospatialQuestionAnswering","GeographicEntity","GeoQA","GeoQA2","DBpedia","YAGO2geo","SPARQLQueryGeneration","GeoQuestions1089","GeoSPARQLQuery","TourismQA","PointOfInterest","SpatialDatabase","TextToSQLApproach","GeospatialConstraint","SemanticConstraint","MapQA","FactoidStyleQuestion","KnowledgeGraph","ToolAugmentedReasoning"]
+
+Triples:
+[{"subject":"GeoAnalyticalQuestion","relation":"involvesSelecting","object":"SpatialOperator"},{"subject":"SpatialOperator","relation":"includes","object":"Buffering"},{"subject":"SpatialOperator","relation":"includes","object":"Overlay"},{"subject":"SpatialOperator","relation":"includes","object":"Routing"},{"subject":"SpatialOperator","relation":"includes","object":"Aggregation"},{"subject":"GeoAnalyticalQuestion","relation":"involvesOrderingInto","object":"GISWorkflow"},{"subject":"GeoAnalyticalQuestion","relation":"involvesGroundingInto","object":"ComputationalGISTool"},{"subject":"ComputationalGISTool","relation":"includes","object":"PostGIS"},{"subject":"ComputationalGISTool","relation":"includes","object":"ArcGIS"},{"subject":"ComputationalGISTool","relation":"includes","object":"QGIS"},{"subject":"GeoAnalyticalQuestion","relation":"involves","object":"SpatiotemporalOperation"},{"subject":"GeoAnQu","relation":"highlights","object":"FunctionalRole"},{"subject":"FunctionalRole","relation":"includes","object":"Measure"},{"subject":"FunctionalRole","relation":"includes","object":"Condition"},{"subject":"FunctionalRole","relation":"includes","object":"Subcondition"},{"subject":"FunctionalRole","relation":"includes","object":"Support"},{"subject":"FunctionalRole","relation":"includes","object":"Extent"},{"subject":"NaturalLanguageQuestion","relation":"canBeMappedTo","object":"ConceptTransformation"},{"subject":"ConceptTransformation","relation":"formsBasisOf","object":"GISWorkflow"},{"subject":"GISWorkflow","relation":"isRepresentedAs","object":"DirectedAcyclicGraph"},{"subject":"SpatialAgent","relation":"extractsFromQuestion","object":"SpatialConcept"},{"subject":"SpatialConcept","relation":"isInstantiatedAs","object":"GraphNode"},{"subject":"SpatialAgent","relation":"identifies","object":"FunctionalRole"},{"subject":"SpatialAgent","relation":"composes","object":"GraphEdge"},{"subject":"SpatialAgent","relation":"executes","object":"ExecutableWorkflow"},{"subject":"SpatialAgent","relation":"usesToolInvocation","object":"ComputationalGISTool"},{"subject":"SpatialAgent","relation":"groundsResponseIn","object":"ComputationalResult"},{"subject":"SpatialAgent","relation":"uses","object":"MacroTemplate"},{"subject":"MacroTemplate","relation":"captures","object":"GeoAnalyticalPattern"},{"subject":"SpatialAgent","relation":"improvesStructuralValidityVia","object":"TemplateMatching"},{"subject":"SpatialAgent","relation":"improvesStructuralValidityVia","object":"IOPortComposition"},{"subject":"GeospatialQuestionAnswering","relation":"focusesOn","object":"GeographicEntity"},{"subject":"GeospatialQuestionAnswering","relation":"requires","object":"GeospatialComputation"},{"subject":"GeoQA","relation":"answersQuestionsOver","object":"DBpedia"},{"subject":"GeoQA2","relation":"answersQuestionsOver","object":"DBpedia"},{"subject":"GeoQA2","relation":"answersQuestionsOver","object":"YAGO2geo"},{"subject":"GeoQA","relation":"uses","object":"SPARQLQueryGeneration"},{"subject":"GeoQA2","relation":"uses","object":"SPARQLQueryGeneration"},{"subject":"GeoQuestions1089","relation":"provides","object":"GeoSPARQLQuery"},{"subject":"TourismQA","relation":"focusesOn","object":"PointOfInterest"}]

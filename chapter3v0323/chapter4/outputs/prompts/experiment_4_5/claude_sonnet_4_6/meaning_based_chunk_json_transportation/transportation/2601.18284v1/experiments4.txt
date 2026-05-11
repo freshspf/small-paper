@@ -1,0 +1,146 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiments4",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiments4
+- section_title: Experiments
+- page_start: 6
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+The detailed parameter settings are summarized
+in Appendix B.
+For performance evaluation, three commonly used RL-TSC
+metrics [32] are selected: delay, travel time, and waiting
+time. These indicators are used to examine the efficiency of
+different control strategies and to validate the applicability of
+the proposed system across various scenarios.
+1) Performance Validation:In this experiment, train-
+ing was conducted under two scenarios: Single-Intersection
+and Arterial-3, using three action designs implemented in
+our framework:ChooseNextPhase,SwitchNextOrNot, and
+SetPhaseDuration. For all evaluation metrics, lower values
+indicate better control performance. To observe performance
+dynamics during learning, the variations of each metric over
+training steps were plotted, providing an intuitive view of
+the convergence trends across different action designs and
+scenarios.
+
+The experimental results (Figures 9 to 11) show that, regard-
+less of the action design, all three metrics decrease rapidly
+in the early stages of training, particularly within the first
+several hundred thousand steps, reflecting the agent’s ability to
+quickly learn and adapt its signal control strategies. As training
+progresses, the rate of improvement gradually slows and
+eventually converges, indicating stable control performance.
+Comparing across scenarios, all three action designs exhibit
+consistent convergence in both the Single-Intersection case
+(Figures 9a, 10a, 11a) and the Arterial-3 case (Figures 9b, 10b,
+11b), demonstrating that the proposed framework effectively
+enhances signal control in both isolated and coordinated
+multi-intersection settings. Overall, these results confirm the
+applicability and scalability of the VissimRL framework in
+diverse traffic scenarios.
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6200000300000400000500000600000700000Total Delay Meansingle_ppo_choose
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6300000400000500000600000700000800000Total Travel Time Meansingle_ppo_choose
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e60.00.51.01.52.02.5Total Waiting Time Mean1e6
+single_ppo_choose
+(a) Single intersection
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6140000160000180000200000220000Total Delay Meanarterial3_ppo_choose
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6420000440000460000480000500000Total Travel Time Meanarterial3_ppo_choose
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e680000100000120000140000Total Waiting Time Meanarterial3_ppo_choose
+(b) Arterial-3
+Fig. 9: Training performance ofChooseNextPhasein differ-
+ent scenarios (top: Single; bottom: Arterial-3).
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6200000300000400000500000600000700000Total Delay Meansingle_ppo_switch
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6300000400000500000600000700000800000Total Travel Time Meansingle_ppo_switch
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e60.51.01.52.02.5Total Waiting Time Mean1e6
+single_ppo_switch
+(a) Single intersection
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6140000160000180000200000220000Total Delay Meanarterial3_ppo_switch
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6420000440000460000480000500000Total Travel Time Meanarterial3_ppo_switch
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e680000100000120000140000Total Waiting Time Meanarterial3_ppo_switch
+(b) Arterial-3
+Fig. 10: Training performance ofSwitchNextOrNotin dif-
+ferent scenarios (top: Single; bottom: Arterial-3).
+2) Case Study: Green Wave Emergence:In the multi-
+agent experiments conducted on the three-intersection arterial
+network (Arterial-3), a clear Green Wave phenomenon was
+observed. A Green Wave refers to the coordinated timing
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6200000300000400000500000600000700000800000Total Delay Meansingle_ppo_set
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6300000400000500000600000700000800000Total Travel Time Meansingle_ppo_set
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e60.51.01.52.02.53.0Total Waiting Time Mean1e6
+single_ppo_set(a) Single intersection
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6200000300000400000500000600000Total Delay Meanarterial3_ppo_set
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6500000600000700000800000900000Total Travel Time Meanarterial3_ppo_set
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+Timesteps Total 1e6200000300000400000500000600000Total Waiting Time Meanarterial3_ppo_set
+(b) Arterial-3
+Fig. 11: Training performance ofSetPhaseDurationin
+different scenarios (top: Single; bottom: Arterial-3).
+of traffic signals that enables vehicles to pass through mul-
+tiple intersections without stopping, thereby improving arte-
+rial efficiency and reducing delays. In this case study, the
+SwitchNextOrNotaction design was applied, allowing each
+agent to decide at every decision step whether to maintain
+or switch the current phase, thus facilitating potential signal
+coordination.
+To analyze this phenomenon, the results were visualized
+using a Green Wave Band diagram (Figure 12).

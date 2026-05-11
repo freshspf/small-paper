@@ -1,0 +1,263 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "algorithm_pointnetpgapSlc",
+  "designedFor",
+  "MobileRobot",
+  "operatesIn",
+  "Horticulture",
+  "ScanContext",
+  "performs",
+  "PlaceRecognition",
+  "operatesWithin",
+  "3dPointCloudMap",
+  "3dLidarLocalization",
+  "enables",
+  "LongTermRobotNavigation",
+  "occursIn",
+  "LargeEnvironment",
+  "uses",
+  "DeepLocalFeature",
+  "dataset_bacchusLongTerm",
+  "acquiredVia",
+  "AutomatedRobotDeployment",
+  "dataset_tempoVine",
+  "isInstanceOf",
+  "MultiTemporalSensorFusionDataset",
+  "supportsTask",
+  "LocalizationAndMapping",
+  "reliesOn",
+  "PointCloud",
+  "algorithm_fastPointFeatureHistograms",
+  "facilitatesTask",
+  "3dRegistration",
+  "dataset_grapesNet",
+  "RgbDVineyardImageDataset",
+  "providesDataFor",
+  "DeepLearningApplication",
+  "PlaceRecognitionTask",
+  "MinkunextVine",
+  "DeepLearningMethod",
+  "VineyardEnvironment",
+  "RoboticSystem",
+  "Environment",
+  "GpsDeniedEnvironment",
+  "AutonomousNavigationSystem",
+  "Vineyard",
+  "AgriculturalEnvironment",
+  "AgriculturalVehicle",
+  "AutonomousNavigation",
+  "AgriculturalRobotics",
+  "LprNetwork",
+  "MrlApproach",
+  "LprMethod",
+  "LidarSensor",
+  "LowCost",
+  "LowResolution",
+  "CrossSeasonScenario",
+  "VineyardDataset",
+  "DenseFoliage",
+  "RobotFieldOfVision",
+  "PathDetectionFramework",
+  "Traversability",
+  "RgbDImageSource",
+  "LocalizationSolution",
+  "DepthMap",
+  "ModifiedMobileNet",
+  "ObjectClassification",
+  "LprSolution",
+  "SpatialContextDescriptor",
+  "TripletNeuralNetwork",
+  "NetvladAggregationModule",
+  "FeatureExtractionModule",
+  "LidarTechnology",
+  "InvarianceToLightningChanges",
+  "LprDeepLearningAlgorithm",
+  "PointnetArchitecture",
+  "ContextualInformation",
+  "MinkowskiConvolution",
+  "SparseTensor",
+  "sensor_livox",
+  "sensor_velodyne",
+  "method_minkunext_vine",
+  "method_triloc_netvlad"
+]
+
+Triples:
+[
+  {
+    "subject": "algorithm_pointnetpgapSlc",
+    "relation": "designedFor",
+    "object": "MobileRobot",
+    "chunk": "completedocument13",
+    "context": "[21] T. Barros, L. Garrote, P. Conde, M. Coombes, C. Liu, C. Premebida, U. Nunes, PointNetPGAP-SLC: A 3D LiDAR-Based Place Recognition Approach With Segment-Level Consistency Training for Mobile Robots in Horticulture, IEEE Robotics and Automation Letters (2024)."
+  },
+  {
+    "subject": "MobileRobot",
+    "relation": "operatesIn",
+    "object": "Horticulture",
+    "chunk": "completedocument13",
+    "context": "[21] T. Barros, L. Garrote, P. Conde, M. Coombes, C. Liu, C. Premebida, U. Nunes, PointNetPGAP-SLC: A 3D LiDAR-Based Place Recognition Approach With Segment-Level Consistency Training for Mobile Robots in Horticulture, IEEE Robotics and Automation Letters (2024)."
+  },
+  {
+    "subject": "ScanContext",
+    "relation": "performs",
+    "object": "PlaceRecognition",
+    "chunk": "completedocument13",
+    "context": "[25] G. Kim, A. Kim, Scan context: Egocentric spatial descriptor for place recognition within 3D point cloud map, in: 2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), IEEE, 2018, pp. 4802–4809."
+  },
+  {
+    "subject": "PlaceRecognition",
+    "relation": "operatesWithin",
+    "object": "3dPointCloudMap",
+    "chunk": "completedocument13",
+    "context": "[25] G. Kim, A. Kim, Scan context: Egocentric spatial descriptor for place recognition within 3D point cloud map, in: 2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), IEEE, 2018, pp. 4802–4809."
+  },
+  {
+    "subject": "3dLidarLocalization",
+    "relation": "enables",
+    "object": "LongTermRobotNavigation",
+    "chunk": "completedocument13",
+    "context": "[30] M. M´ aximo, A. Santo, A. Gil, M. Ballesta, D. Valiente, A Coarse to Fine 3D LiDAR Localization with Deep Local Features for Long Term Robot Navigation in Large Environments, arXiv preprint arXiv:2505.18340 (2025)."
+  },
+  {
+    "subject": "LongTermRobotNavigation",
+    "relation": "occursIn",
+    "object": "LargeEnvironment",
+    "chunk": "completedocument13",
+    "context": "[30] M. M´ aximo, A. Santo, A. Gil, M. Ballesta, D. Valiente, A Coarse to Fine 3D LiDAR Localization with Deep Local Features for Long Term Robot Navigation in Large Environments, arXiv preprint arXiv:2505.18340 (2025)."
+  },
+  {
+    "subject": "3dLidarLocalization",
+    "relation": "uses",
+    "object": "DeepLocalFeature",
+    "chunk": "completedocument13",
+    "context": "[30] M. M´ aximo, A. Santo, A. Gil, M. Ballesta, D. Valiente, A Coarse to Fine 3D LiDAR Localization with Deep Local Features for Long Term Robot Navigation in Large Environments, arXiv preprint arXiv:2505.18340 (2025)."
+  },
+  {
+    "subject": "dataset_bacchusLongTerm",
+    "relation": "acquiredVia",
+    "object": "AutomatedRobotDeployment",
+    "chunk": "completedocument14",
+    "context": "[37] R. Polvara, S. Molina, I. Hroob, A. Papadimitriou, K. Tsiolis, D. Giak-oumis, S. Likothanassis, D. Tzovaras, G. Cielniak, M. Hanheide, Bac-chus Long-Term (BLT) data set: Acquisition of the agricultural multi-modal BLT data set with automated robot deployment, Journal of Field Robotics 41 (7) (2024) 2280–2298."
+  },
+  {
+    "subject": "dataset_tempoVine",
+    "relation": "isInstanceOf",
+    "object": "MultiTemporalSensorFusionDataset",
+    "chunk": "completedocument14",
+    "context": "[38] M. Martini, M. Ambrosio, J. Vilella-Cantos, A. Navone, M. Chiaberge, TEMPO-VINE: A Multi-Temporal Sensor Fusion Dataset for Localiza-tion and Mapping in Vineyards, arXiv preprint arXiv:2512.04772 (2025)."
+  },
+  {
+    "subject": "dataset_tempoVine",
+    "relation": "supportsTask",
+    "object": "LocalizationAndMapping",
+    "chunk": "completedocument14",
+    "context": "[38] M. Martini, M. Ambrosio, J. Vilella-Cantos, A. Navone, M. Chiaberge, TEMPO-VINE: A Multi-Temporal Sensor Fusion Dataset for Localiza-tion and Mapping in Vineyards, arXiv preprint arXiv:2512.04772 (2025)."
+  },
+  {
+    "subject": "PlaceRecognition",
+    "relation": "reliesOn",
+    "object": "PointCloud",
+    "chunk": "completedocument14",
+    "context": "[39] J. Komorowski, Improving point cloud based place recognition with ranking-based loss and large batch training, in: 2022 26th international conference on pattern recognition (ICPR), IEEE, 2022, pp. 3699–3705."
+  },
+  {
+    "subject": "algorithm_fastPointFeatureHistograms",
+    "relation": "facilitatesTask",
+    "object": "3dRegistration",
+    "chunk": "completedocument14",
+    "context": "[40] R. B. Rusu, N. Blodow, M. Beetz, Fast point feature histograms (FPFH) for 3D registration, in: 2009 IEEE international conference on robotics and automation, IEEE, 2009, pp. 3212–3217."
+  },
+  {
+    "subject": "dataset_grapesNet",
+    "relation": "isInstanceOf",
+    "object": "RgbDVineyardImageDataset",
+    "chunk": "completedocument14",
+    "context": "[35] D. K. Barbole, P. M. Jadhav, GrapesNet: Indian RGB & RGB-D vine-yard image datasets for deep learning applications, Data in Brief 48 (2023) 109100."
+  },
+  {
+    "subject": "dataset_grapesNet",
+    "relation": "providesDataFor",
+    "object": "DeepLearningApplication",
+    "chunk": "completedocument14",
+    "context": "[35] D. K. Barbole, P. M. Jadhav, GrapesNet: Indian RGB & RGB-D vine-yard image datasets for deep learning applications, Data in Brief 48 (2023) 109100."
+  }
+]

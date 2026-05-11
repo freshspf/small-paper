@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "EquilibriumPropagation",
+  "detects",
+  "AcuteMyeloidLeukemia",
+  "VariationalQuantumCircuit",
+  "detectedFrom",
+  "BloodCellMicroscopyImage",
+  "QuantumMethod",
+  "uses",
+  "dataset_aml_cytomorphology",
+  "contains",
+  "ExpertAnnotatedImage",
+  "AutomatedMicroscopyBasedAnalysis",
+  "supports",
+  "ClinicalWorkflow",
+  "DeepConvolutionalNetwork",
+  "differentiates",
+  "BloodCellMorphology",
+  "BloodSmearAnalysis",
+  "isLessInvasiveThan",
+  "BoneMarrowAspiration",
+  "encodes",
+  "ClassicalData",
+  "optimizes",
+  "CircuitParameter",
+  "ImageAnalysis",
+  "EpPipeline",
+  "performs",
+  "AmlDetection",
+  "EngineeredImageFeature",
+  "QuantumSupportVectorMachine",
+  "MriTumorClassification",
+  "AmlCytomorphologyDataset",
+  "BloodSmearMicroscopyImage",
+  "Patient",
+  "diagnosedWith",
+  "acquiredAt",
+  "MunichUniversityHospital",
+  "processedWith",
+  "MayGrunwaldGiemsaStainingProtocol",
+  "captures",
+  "Leukocyte",
+  "Hematologist",
+  "annotates",
+  "follows",
+  "WhoDiagnosticCriteria",
+  "operatesOn",
+  "Feature",
+  "isComputedFrom",
+  "BloodCellImage",
+  "InputFeature",
+  "isReducedVia",
+  "PrincipalComponentAnalysis",
+  "VariationalQuantumClassifier",
+  "QuantumMachineLearning",
+  "HybridSystem",
+  "QuantumUnit",
+  "ClassicalUnit",
+  "AreaFeature",
+  "CellRegion",
+  "PerimeterFeature",
+  "MeanIntensityFeature",
+  "GlcmTextureFeature",
+  "HopfieldNeuralNetwork",
+  "Qubit",
+  "ClassicalOptimizer",
+  "QuantumCircuit",
+  "BinaryClassification",
+  "disease_aml",
+  "healthStatus_healthy",
+  "MedicalDomain",
+  "AnnotationScarcity",
+  "RareDiseaseResearch",
+  "LargeAnnotatedDataset",
+  "QuantumInspiredEnergyBasedLearning",
+  "GradientDescentMethod",
+  "ClinicalData",
+  "NeuromorphicChip",
+  "PointOfCareDiagnostics",
+  "Aml",
+  "MultiClassHematology"
+]
+
+Triples:
+[
+  {
+    "subject": "EquilibriumPropagation",
+    "relation": "detects",
+    "object": "AcuteMyeloidLeukemia",
+    "chunk": "completedocument1",
+    "context": "We evaluate Equilibrium Propagation (EP)—an energy-based learning method that does not use backpropagation (incompatible with quantum systems due to state-collapsing measurements)—and Variational Quantum Circuits (VQCs) for automated detection of Acute Myeloid Leukemia (AML) from blood cell microscopy images using binary classification (2 classes: AML vs. Healthy)."
+  },
+  {
+    "subject": "VariationalQuantumCircuit",
+    "relation": "detects",
+    "object": "AcuteMyeloidLeukemia",
+    "chunk": "completedocument1",
+    "context": "We evaluate Equilibrium Propagation (EP)—an energy-based learning method that does not use backpropagation (incompatible with quantum systems due to state-collapsing measurements)—and Variational Quantum Circuits (VQCs) for automated detection of Acute Myeloid Leukemia (AML) from blood cell microscopy images using binary classification (2 classes: AML vs. Healthy)."
+  },
+  {
+    "subject": "AcuteMyeloidLeukemia",
+    "relation": "detectedFrom",
+    "object": "BloodCellMicroscopyImage",
+    "chunk": "completedocument1",
+    "context": "We evaluate Equilibrium Propagation (EP)—an energy-based learning method that does not use backpropagation (incompatible with quantum systems due to state-collapsing measurements)—and Variational Quantum Circuits (VQCs) for automated detection of Acute Myeloid Leukemia (AML) from blood cell microscopy images using binary classification (2 classes: AML vs. Healthy)."
+  },
+  {
+    "subject": "QuantumMethod",
+    "relation": "uses",
+    "object": "dataset_aml_cytomorphology",
+    "chunk": "completedocument1",
+    "context": "Key Result: Using limited subsets (50–250 samples per class) of the AML-Cytomorphology dataset (18,365 expert-annotated images), quantum methods achieve performance only 12–15% below classical CNNs despite reduced image resolution (64×64 pixels), engineered features (20D), and classical simulation via Qiskit."
+  },
+  {
+    "subject": "dataset_aml_cytomorphology",
+    "relation": "contains",
+    "object": "ExpertAnnotatedImage",
+    "chunk": "completedocument1",
+    "context": "Key Result: Using limited subsets (50–250 samples per class) of the AML-Cytomorphology dataset (18,365 expert-annotated images), quantum methods achieve performance only 12–15% below classical CNNs despite reduced image resolution (64×64 pixels), engineered features (20D), and classical simulation via Qiskit."
+  },
+  {
+    "subject": "AutomatedMicroscopyBasedAnalysis",
+    "relation": "supports",
+    "object": "ClinicalWorkflow",
+    "chunk": "completedocument1",
+    "context": "Automated microscopy-based analysis can support clinical workflows by reducing the time and variability associated with manual blood smear review."
+  },
+  {
+    "subject": "DeepConvolutionalNetwork",
+    "relation": "differentiates",
+    "object": "BloodCellMorphology",
+    "chunk": "completedocument1",
+    "context": "Deep convolutional networks have demonstrated highly accurate differentiation of blood cell morphologies [1], [2], with performance often surpassing human-level accuracy [3]."
+  },
+  {
+    "subject": "BloodSmearAnalysis",
+    "relation": "isLessInvasiveThan",
+    "object": "BoneMarrowAspiration",
+    "chunk": "completedocument1",
+    "context": "Our study focuses on blood smear analysis, which offers a less invasive diagnostic approach compared to bone marrow aspiration."
+  },
+  {
+    "subject": "VariationalQuantumCircuit",
+    "relation": "encodes",
+    "object": "ClassicalData",
+    "chunk": "completedocument1",
+    "context": "In Variational Quantum Circuits (VQCs), circuits encode classical data into quantum states via feature maps and optimize circuit parameters through classical optimization routines."
+  },
+  {
+    "subject": "VariationalQuantumCircuit",
+    "relation": "optimizes",
+    "object": "CircuitParameter",
+    "chunk": "completedocument1",
+    "context": "In Variational Quantum Circuits (VQCs), circuits encode classical data into quantum states via feature maps and optimize circuit parameters through classical optimization routines."
+  },
+  {
+    "subject": "ImageAnalysis",
+    "relation": "detects",
+    "object": "AcuteMyeloidLeukemia",
+    "chunk": "completedocument1",
+    "context": "In this paper we evaluate EP and VQC models on image analysis to detect Acute Myeloid Leukemia (AML) from blood cell microscopy images using the AML-Cytomorphology dataset [1]."
+  },
+  {
+    "subject": "EpPipeline",
+    "relation": "performs",
+    "object": "AmlDetection",
+    "chunk": "completedocument2",
+    "context": "•A reproducible EP pipeline for AML detection using engineered image features, trained without backpropagation."
+  },
+  {
+    "subject": "EpPipeline",
+    "relation": "uses",
+    "object": "EngineeredImageFeature",
+    "chunk": "completedocument2",
+    "context": "•A reproducible EP pipeline for AML detection using engineered image features, trained without backpropagation."
+  },
+  {
+    "subject": "QuantumSupportVectorMachine",
+    "relation": "performs",
+    "object": "MriTumorClassification",
+    "chunk": "completedocument2",
+    "context": "Prior work includes quantum support vector machines for MRI tumor classification [9], preliminary VQC studies on synthetic histopathology data, and quantum approaches to leukemia detection [10]."
+  },
+  {
+    "subject": "AmlCytomorphologyDataset",
+    "relation": "contains",
+    "object": "BloodSmearMicroscopyImage",
+    "chunk": "completedocument2",
+    "context": "This dataset comprises 18,365 single-cell blood smear microscopy images from 200 patients: 100 diagnosed with Acute Myeloid Leukemia (AML) and 100 healthy controls, forming a binary classification problem (2 classes)."
+  },
+  {
+    "subject": "Patient",
+    "relation": "diagnosedWith",
+    "object": "AcuteMyeloidLeukemia",
+    "chunk": "completedocument2",
+    "context": "This dataset comprises 18,365 single-cell blood smear microscopy images from 200 patients: 100 diagnosed with Acute Myeloid Leukemia (AML) and 100 healthy controls, forming a binary classification problem (2 classes)."
+  },
+  {
+    "subject": "BloodSmearMicroscopyImage",
+    "relation": "acquiredAt",
+    "object": "MunichUniversityHospital",
+    "chunk": "completedocument2",
+    "context": "Images were acquired at Munich University Hospital using standardized May-Gr ¨unwald-Giemsa staining protocols under 100× oil immersion magnification."
+  },
+  {
+    "subject": "BloodSmearMicroscopyImage",
+    "relation": "processedWith",
+    "object": "MayGrunwaldGiemsaStainingProtocol",
+    "chunk": "completedocument2",
+    "context": "Images were acquired at Munich University Hospital using standardized May-Gr ¨unwald-Giemsa staining protocols under 100× oil immersion magnification."
+  },
+  {
+    "subject": "BloodSmearMicroscopyImage",
+    "relation": "captures",
+    "object": "Leukocyte",
+    "chunk": "completedocument2",
+    "context": "Each image captures a centered leukocyte with expert annotations from board-certified hematologists following WHO diagnostic criteria [11]."
+  },
+  {
+    "subject": "Hematologist",
+    "relation": "annotates",
+    "object": "BloodSmearMicroscopyImage",
+    "chunk": "completedocument2",
+    "context": "Each image captures a centered leukocyte with expert annotations from board-certified hematologists following WHO diagnostic criteria [11]."
+  },
+  {
+    "subject": "Hematologist",
+    "relation": "follows",
+    "object": "WhoDiagnosticCriteria",
+    "chunk": "completedocument2",
+    "context": "Each image captures a centered leukocyte with expert annotations from board-certified hematologists following WHO diagnostic criteria [11]."
+  },
+  {
+    "subject": "EquilibriumPropagation",
+    "relation": "operatesOn",
+    "object": "EngineeredImageFeature",
+    "chunk": "completedocument2",
+    "context": "To reduce dimensionality suitable for 4-qubit circuits, EP and VQC operate on 20 engineered scalar features extracted from each image rather than raw pixels."
+  },
+  {
+    "subject": "VariationalQuantumCircuit",
+    "relation": "operatesOn",
+    "object": "EngineeredImageFeature",
+    "chunk": "completedocument2",
+    "context": "To reduce dimensionality suitable for 4-qubit circuits, EP and VQC operate on 20 engineered scalar features extracted from each image rather than raw pixels."
+  },
+  {
+    "subject": "Feature",
+    "relation": "isComputedFrom",
+    "object": "BloodCellImage",
+    "chunk": "completedocument3",
+    "context": "EACH FEATURE IS COMPUTED FROM64×64GRAYSCALE BLOOD CELL IMAGES."
+  },
+  {
+    "subject": "InputFeature",
+    "relation": "isReducedVia",
+    "object": "PrincipalComponentAnalysis",
+    "chunk": "completedocument3",
+    "context": "Input features are reduced from 20 to 4 dimensions via Principal Component Analysis"
+  }
+]

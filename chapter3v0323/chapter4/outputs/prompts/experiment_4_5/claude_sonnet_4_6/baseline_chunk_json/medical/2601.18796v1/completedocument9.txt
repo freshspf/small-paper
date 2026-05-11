@@ -1,0 +1,172 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument9
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+Invbert: Reconstructing text
+from contextualized word embeddings by inverting
+the bert pipeline.Journal of Computational Literary
+Studies, 2(1).
+Haoran Li, Mingshi Xu, and Yangqiu Song. 2023a. Sen-
+tence embedding leaks more information than you
+expect: Generative embedding inversion attack to
+recover the whole sentence. InFindings of the As-
+sociation for Computational Linguistics: ACL 2023,
+pages 14022–14040.
+Zehan Li, Xin Zhang, Yanzhao Zhang, Dingkun Long,
+Pengjun Xie, and Meishan Zhang. 2023b. Towards
+general text embeddings with multi-stage contrastive
+learning.arXiv preprint arXiv:2308.03281.
+Yang Liu, Dan Iter, Yichong Xu, Shuohang Wang,
+Ruochen Xu, and Chenguang Zhu. 2023. G-eval:
+Nlg evaluation using gpt-4 with better human align-
+ment. InProceedings of the 2023 Conference on
+Empirical Methods in Natural Language Processing,
+pages 2511–2522.
+H. B. Mann and D. R. Whitney. 1947. On a test of
+whether one of two random variables is stochastically
+larger than the other.The Annals of Mathematical
+Statistics, 18(1):50–60.
+Leland McInnes, John Healy, Nathaniel Saul, and Lukas
+Grossberger. 2018. Umap: Uniform manifold ap-
+proximation and projection.The Journal of Open
+Source Software, 3(29):861.
+Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg S Cor-
+rado, and Jeff Dean. 2013. Distributed representa-
+tions of words and phrases and their compositionality.
+Advances in neural information processing systems,
+26.
+John Morris, V olodymyr Kuleshov, Vitaly Shmatikov,
+and Alexander Rush. 2023. Text embeddings reveal
+(almost) as much as text. InProceedings of the 2023
+Conference on Empirical Methods in Natural Lan-
+guage Processing, pages 12448–12460, Singapore.
+Association for Computational Linguistics.
+Niklas Muennighoff, Nouamane Tazi, Loic Magne, and
+Nils Reimers. 2023. Mteb: Massive text embedding
+benchmark. InProceedings of the 17th Conference
+of the European Chapter of the Association for Com-
+putational Linguistics, pages 2014–2037.
+Arjun Panickssery, Samuel Bowman, and Shi Feng.
+2024. Llm evaluators recognize and favor their own
+generations.Advances in Neural Information Pro-
+cessing Systems, 37:68772–68802.
+Fabian Pedregosa, Gaël Varoquaux, Alexandre Gram-
+fort, Vincent Michel, Bertrand Thirion, Olivier Grisel,
+Mathieu Blondel, Peter Prettenhofer, Ron Weiss, Vin-
+cent Dubourg, and 1 others. 2011. Scikit-learn: Ma-
+chine learning in python.the Journal of machine
+Learning research, 12:2825–2830.Jeffrey Pennington, Richard Socher, and Christopher D
+Manning. 2014. Glove: Global vectors for word rep-
+resentation. InProceedings of the 2014 conference
+on empirical methods in natural language processing
+(EMNLP), pages 1532–1543.
+Alec Radford, Jeffrey Wu, Rewon Child, David Luan,
+Dario Amodei, Ilya Sutskever, and 1 others. 2019.
+Language models are unsupervised multitask learn-
+ers.OpenAI blog, 1(8):9.
+Colin Raffel, Noam Shazeer, Adam Roberts, Katherine
+Lee, Sharan Narang, Michael Matena, Yanqi Zhou,
+Wei Li, and Peter J Liu. 2020. Exploring the lim-
+its of transfer learning with a unified text-to-text
+transformer.Journal of machine learning research,
+21(140):1–67.
+Nils Reimers and Iryna Gurevych. 2019. Sentence-bert:
+Sentence embeddings using siamese bert-networks.
+arXiv preprint arXiv:1908.10084.
+Dominykas Seputis, Yongkang Li, Karsten Langerak,
+and Serghei Mihailov. 2025. Rethinking the privacy
+of text embeddings: A reproducibility study of “text
+embeddings reveal (almost) as much as text”. In
+Proceedings of the Nineteenth ACM Conference on
+Recommender Systems, pages 822–831.
+Congzheng Song and Ananth Raghunathan. 2020. In-
+formation leakage in embedding models. InPro-
+ceedings of the 2020 ACM SIGSAC conference on
+computer and communications security, pages 377–
+390.
+Chung-En Sun, Tuomas P. Oikarinen, Berk Ustun, and
+Tsui-Wei Weng. 2025. Concept bottleneck large lan-
+guage models. InThe Thirteenth International Con-
+ference on Learning Representations, ICLR 2025,
+Singapore, April 24-28, 2025. OpenReview.net.
+Gemma Team, Aishwarya Kamath, Johan Ferret, Shreya
+Pathak, Nino Vieillard, Ramona Merhej, Sarah Perrin,
+Tatiana Matejovicova, Alexandre Ramé, Morgane
+Rivière, and 1 others. 2025. Gemma 3 technical
+report.arXiv preprint arXiv:2503.19786.
+Guy Tennenholtz, Yinlam Chow, Chih-Wei Hsu, Ji-
+hwan Jeong, Lior Shani, Azamat Tulepbergenov,
+Deepak Ramachandran, Martin Mladenov, and Craig
+Boutilier. 2024. Demystifying embedding spaces
+using large language models. InThe Twelfth Inter-
+national Conference on Learning Representations,
+Vienna, Austria. OpenReview.net.
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob
+Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz
+Kaiser, and Illia Polosukhin. 2017. Attention is all
+you need.Advances in neural information processing
+systems, 30.
+Thomas Wolf, Lysandre Debut, Victor Sanh, Julien
+Chaumond, Clement Delangue, Anthony Moi, Pier-
+ric Cistac, Tim Rault, Rémi Louf, Morgan Funtowicz,
+and 1 others. 2020. Transformers: State-of-the-art
+natural language processing.

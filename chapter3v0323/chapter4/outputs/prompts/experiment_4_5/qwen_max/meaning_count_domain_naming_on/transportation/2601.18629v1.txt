@@ -1,0 +1,252 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+ExoGS: A 4D Real-to-Sim-to-Real Framework
+for Scalable Manipulation Data Collection
+Yiming Wang, Ruogu Zhang, Minyang Li, Hao Shi, Junbo Wang, Deyi Li,
+Jieji Ren, Wenhai Liu, Weiming Wang, Hao-Shu Fang
+Shanghai Jiao Tong University
+Fig. 1. Overview ofExoGS. (a) Real-world demonstrations captured by AirExo-3 are reconstructed into editable 3D Gaussian scenes. (b) These assets enable
+scalable data augmentation across viewpoints and lighting. (c) A semantic Mask Adapter facilitates robust sim-to-real policy transfer for manipulation tasks.
+Abstract—Real-to-Sim-to-Real technique is gaining increasing
+interest for robotic manipulation, as it can generate scalable data
+in simulation while having narrower sim-to-real gap. However,
+previous methods mainly focused on environment-level visual
+real-to-sim transfer, ignoring the transfer of interactions, which
+could be challenging and inefficient to obtain purely in simulation
+especially for contact-rich tasks. We propose ExoGS, a robot-
+free 4D Real-to-Sim-to-Real framework that captures both static
+environments and dynamic interactions in the real world and
+transfers them seamlessly to a simulated environment. It provides
+a new solution for scalable manipulation data collection and
+policy learning. ExoGS employs a self-designed robot-isomorphic
+passive exoskeleton AirExo-3 to capture kinematically consistent
+trajectories with millimeter-level accuracy and synchronized
+RGB observations during direct human demonstrations. The
+robot, objects, and environment are reconstructed as editable 3D
+Gaussian Splatting assets, enabling geometry-consistent replay
+and large-scale data augmentation. Additionally, a lightweight
+Mask Adapter injects instance-level semantics into the policy
+to enhance robustness under visual domain shifts. Real-world
+experiments demonstrate that ExoGS significantly improves data
+efficiency and policy generalization compared to teleoperation-
+based baselines. Code and hardware files have been released on
+https://github.com/zaixiabalala/ExoGS.
+Index Terms—Robotic manipulation, imitation learning,
+demonstration data collection, real-to-sim-to-real, 3D Gaussian
+Splatting, data augmentation, sim-to-real transfer.
+I. INTRODUCTION
+MITATION learning has enabled robots to acquire complex
+manipulation skills from demonstrations. However, its effi-
+cacy is heavily based on the scale and quality of the training
+data. Simulation-based data synthesis offers scalability, but
+suffers from the well-known sim-to-real gap due to discrep-
+ancies in geometric representation, visual appearance, and
+physical interaction, particularly in visual fidelity for RGB-
+based policies.
+Recent Real-to-Sim-to-Real (R2S2R) pipelines with neu-
+ral scene representations, such as NeRF and 3D Gaussian
+Splatting (3DGS) [1], [2], have shown promise in bridging
+the visual gap through photorealistic rendering. However,
+most existing R2S2R pipelines are limited to static scene
+reconstruction and rely on reinforcement learning to obtain
+manipulation data. This challenge lies in acquiring physically
+valid, high-fidelity interaction data without the burden of
+deploying expensive robotic hardware.
+To address this, this paper introducesExoGS, a low-cost,
+robot-free R2S2R framework that allows users to capture
+4D sequences comprising 3D environments and spatiotem-
+poral robot interactions with objects. Our framework con-
+sists of a custom passive exoskeleton with a 3DGS-based
+data generation pipeline. The core insight is to leverage
+a robot-isomorphic exoskeleton, AirExo-3, to sensorize and
+capture human manipulation. The manipulation data including
+exoskeleton joint configurations and object trajectories are
+captured by our platform (see Sec. III-B1) and then digitized
+into a motion sequence of editable 3DGS assets of the robot
+and the objects. This hardware-software synergy allows us
+to decouple the robot, objects, and environment, enabling
+massive, geometry-consistent data augmentation in simulation.
+Furthermore, to mitigate the residual domain shift, we in-
+troduce a Mask Adapter, a lightweight module that injects
+instance-level semantic constraints into the policy, guiding
+arXiv:2601.18629v1 [cs.RO] 26 Jan 2026
+attention toward interaction-relevant features.
+The main contributions of this work are threefold:
+•A 4D, robot-free R2S2R frameworkthat reconstructs
+real-world assets and manipulation sequences into ed-
+itable 3DGS assets and their dynamics, enabling scalable,
+embodiment-consistent data generation.
+•AirExo-3, an open-source, low-cost, accurate, and
+durable manipulation data collection device.
+•A Mask Adapterthat injects semantic mask information
+into the policy to steer attention toward interaction-
+relevant regions, thereby enhancing robustness.
+II. RELATEDWORKS
+A. Sim-to-Real Transfer and 3D Gaussian Splatting
+Due to persistent discrepancies in appearance, geometry,
+and contact dynamics, policies trained in simulation often fail
+to generalize to the real world, motivating Real-to-Sim-to-Real
+(R2S2R) pipelines. R2S2R pipelines reconstruct photorealistic
+digital twins from real scenes and perform data generation and
+policy learning in reconstructed environments, leveraging neu-
+ral radiance fields or 3D Gaussian Splatting for high-fidelity
+rendering and novel view synthesis [3], [4]. These approaches
+generally fall into interaction-oriented frameworks that sup-
+port closed-loop training and rendering-centered pipelines that
+scale data generation via photorealistic replay [5]–[9], yet
+limitations in physical interactability and contact modeling
+persist.
+Compared with NeRF [1], 3DGS [2] offers an explicit,
+point-based representation with fast optimization and real-
+time rendering, making it suitable for robotics. With recent
+extensions incorporating dynamics and physical priors [10],
+[11], 3DGS has emerged as an editable, geometry-aware world
+model for manipulation and navigation [6], [12]–[15], enabling
+geometry-consistent edits beyond 2D augmentation [16]. Nev-
+ertheless, effectively leveraging 3DGS for robot learning re-
+quires tight integration of demonstration acquisition, pose
+modeling, and interaction-aware replay.
+Therefore, a Real-to-Sim-to-Real framework that tightly
+couples real-world demonstration acquisition, accurate pose
+modeling, and geometry-consistent 3DGS replay is still needed
+to support scalable, contact-rich manipulation learning with
+high visual fidelity, a gap thatExoGSaddresses.
+B. Demonstration Data Collection
+Demonstration data is fundamental to scalable and gener-
+alizable imitation learning in robotic manipulation [17]–[21].
+Although teleoperation enables embodiment-consistent robot
+demonstrations, its scalability is fundamentally constrained by
+hardware cost, deployment overhead, and non-intuitive human-
+robot interfaces.
+To reduce these limitations, an alternative direction focuses
+on in-the-wild demonstration collection using human-operated
+devices such as handheld grippers, VR/AR systems, motion-
+capture gloves, and exoskeletons [22]–[27]. These systems re-
+duce deployment cost and enable more natural demonstrations,
+but often suffer from limited kinematic fidelity, trajectory
+accuracy, or environment diversity.
+Therefore, existing approaches lack a low-cost, robot-free
+data collection framework that preserves robot-aligned kine-
+matics and supporting scalable, geometry-consistent replay,
+motivating the Real-to-Sim-to-Real design ofExoGS.
+III. METHOD
+ExoGS first employs AirExo-3, a low-cost exoskeleton
+(detailed in Sec. III-A), to capture accurate robot manipula-
+tion demonstrations without needing a real robot (detailed in
+Sec. III-B (1)). Based on these demonstrations, 3D Gaussian
+Splatting is utilized to replay and augment the demonstrated
+interactions (detailed in Sec. III-B (2)-(4)). Building upon this
+real-to-sim dataset, we further propose a novel plug-in module,
+Mask Adapter, to facilitate more effective sim-to-real transfer
+of visuomotor policies (detailed in Sec. III-C).
+A. Hardware Design: AirExo-3
+AirExo-3 extends prior low-cost exoskeleton-based demon-
+stration systems [22], [23] by improving kinematic accuracy
+and ease of deployment. The design of AirExo-3 targets the
+following objectives:
+•Ease of deployment: AirExo-3 supports accurate zero-
+position calibration and straightforward installation with-
+out specialized tools, enabled by a simplified mechanical
+design.
+•High accuracy: Unlike handheld devices such as
+UMI [24], AirExo-3 achieves robust and accurate motion
+tracking with millimeter-level accuracy via forward kine-
+matics using high-precision rotary encoders, remaining
+insensitive to visual conditions while enforcing robot-
+consistent kinematic constraints.
+•Ease of use: AirExo-3 enables intuitive, contact-rich
+manipulation through direct gripper interaction, while its
+lightweight design supports prolonged use with minimal
+operator fatigue.
+Fig. 2. Mechanical structure of the proposed data acquisition device. (a)
+Structural design of an individual joint module. (b) Overall structure of
+AirExo-3, consisting of seven articulated joints and a parallel gripper. (c)
+The target robotic platform used in this work.
+The structure of AirExo-3 is shown in Fig. 2. It is a serial
+link-joint chain geometrically matched to the target robot and
+equipped with a replaceable handheld gripper, sharing iden-
+tical kinematic parameters, joint limits, and gripper opening
+range to ensure workspace consistency. All components are
+3D-printed with glass-fiber-reinforced nylon for a lightweight
+and robust design, with an optional spring-based suspension
+at Joint 4 to reduce operator effort.
+The core component of AirExo-3 is the joint module, which
+consists of a joint shaft, bearings, and a joint body housing
+a 12-bit miniature rotary encoder, as shown in Fig. 2 (a).
+Eight encoders are connected via a shared bus, enabling
+synchronized joint state acquisition at up to approximately 300
+Hz. The joint shaft defines the rotational limits, while cross-
+roller bearings connect the shaft and body, providing high
+stiffness and rotational accuracy. An established evaluation
+protocol for exoskeleton-based manipulation systems [23] is
+adopted to assess kinematic accuracy. The results demonstrate
+that AirExo-3 achieves an average end-effector positioning
+error of less than 1 mm.
+Limit slots are machined into the joint shaft, and a high-
+strength pin fixed to the joint body engages with the slot to
+define the joint’s angular limits. When the pin reaches the slot
+boundary, further rotation is mechanically prevented. The pin
+hole on the joint body also serves as a reference for zero-
+position calibration. Calibration is performed by mechanically
+locking the joint at its zero position using an extended pin and
+recording the corresponding encoder reading.
+Each joint incorporates a groove with a 3D-printed retaining
+ring to provide tunable passive damping, enabling stable and
+comfortable operation.
+B. 4D Data Generation and Augmentation
+Fig. 3. Overview of the pipeline for reconstructing manipulation demonstra-
+tions collected with AirExo-3 using 3D Gaussian representations. Camera-
+based object pose tracking and joint angle encoding from AirExo-3 are
+combined to generate robot motions, which, together with the reconstructed
+digital assets, allow the full manipulation process to be faithfully replayed in
+simulation.
+1) Manipulation Demonstration Collection with AirExo-3:
+Let the joint-angle vector of the robotic arm be denoted as
+q= [q 1, q2, . . . , qn]⊤, and let the gripper opening beg∈[0,1].
+Each demonstration trajectory can then be represented as a
+discrete-time sequence:
+τ={(q t, gt)}H
+t=1,(1)
+whereHdenotes the number of time steps.
+Since AirExo-3 is geometrically and kinematically identi-
+cal to the target robot, the collected joint statesq t can be
+directly used for forward kinematics computation, enabling
+high-fidelity reproduction of manipulation trajectories in both
+real and simulated environments.

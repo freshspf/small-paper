@@ -1,0 +1,256 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "framework_unipact",
+  "evaluatedOn",
+  "benchmark_mds_ed",
+  "outperforms",
+  "EstablishedBaseline",
+  "MultiTaskGenerativeModel",
+  "surpasses",
+  "SpecializedSystem",
+  "enhancesAbilityOf",
+  "LargeLanguageModel",
+  "reasonsOver",
+  "ComplexClinicalData",
+  "provides",
+  "HighFidelityMultimodalInput",
+  "Study",
+  "receivesFunding",
+  "NoFunding",
+  "Author",
+  "disclosesInterest",
+  "FinancialInterest",
+  "NonfinancialInterest",
+  "utilizesDataSet",
+  "HumanDataSet",
+  "hasAttribute",
+  "PubliclyAvailable",
+  "FullyAnonymized",
+  "requiresApproval",
+  "NoAdditionalApproval",
+  "PatientPrognosis",
+  "IcuAdmission",
+  "TreatmentSelection",
+  "RiskIntervention",
+  "Clinician",
+  "Prognosis",
+  "HolisticView",
+  "StaticBaseline",
+  "DynamicState",
+  "AcutePhysiologicalSignal",
+  "Electrocardiogram",
+  "Comorbidity",
+  "Ehr",
+  "TWaveInversion",
+  "CriticalMortalityRisk",
+  "AbnormalPotassiumLevel",
+  "HypertensionHistory",
+  "CrossModalReasoning",
+  "ComputationalPrognosis",
+  "MachineLearningModel",
+  "SingleTaskPredictor",
+  "RawEcgWaveform",
+  "DenseSignal",
+  "UniPACT",
+  "UnifiedFramework",
+  "MultimodalPrognosticQuestionAnswering",
+  "DedicatedWaveformEncoder",
+  "TwelveLeadEcgSignal",
+  "StructuredPromptingMechanism",
+  "NumericalData",
+  "UniPACTFramework",
+  "PrognosticQuestionAnswering",
+  "StructuredEhrData",
+  "GenerativeModel",
+  "UniPACTArchitecture",
+  "EcgEncoder",
+  "MultimodalRepresentation",
+  "FinalPrediction",
+  "EcgWaveformEncoder",
+  "Raw12LeadEcgWaveform",
+  "DiagnosticInformation",
+  "TransformerArchitecture",
+  "DiscriminativeRepresentation",
+  "FeatureEmbedding",
+  "TemporalPattern",
+  "MorphologicalPattern",
+  "StructuredEhrPrompting",
+  "Demographics",
+  "Biometrics",
+  "VitalParameters",
+  "PredefinedTemplate",
+  "EhrRepresentation"
+]
+
+Triples:
+[
+  {
+    "subject": "framework_unipact",
+    "relation": "evaluatedOn",
+    "object": "benchmark_mds_ed",
+    "chunk": "conclusion",
+    "context": "By translating numerical EHR into semantic prompts and fusing them with deep ECG features, our model achieves superior performance on the MDS-ED benchmark, outperforming established baselines."
+  },
+  {
+    "subject": "framework_unipact",
+    "relation": "outperforms",
+    "object": "EstablishedBaseline",
+    "chunk": "conclusion",
+    "context": "By translating numerical EHR into semantic prompts and fusing them with deep ECG features, our model achieves superior performance on the MDS-ED benchmark, outperforming established baselines."
+  },
+  {
+    "subject": "MultiTaskGenerativeModel",
+    "relation": "surpasses",
+    "object": "SpecializedSystem",
+    "chunk": "conclusion",
+    "context": "The results demonstrate that a single, multi-task generative model can surpass specialized systems in both accuracy and robustness."
+  },
+  {
+    "subject": "framework_unipact",
+    "relation": "enhancesAbilityOf",
+    "object": "LargeLanguageModel",
+    "chunk": "conclusion",
+    "context": "Our approach enhances the ability of LLMs to reason over complex clinical data by providing high-fidelity, multimodal inputs."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "reasonsOver",
+    "object": "ComplexClinicalData",
+    "chunk": "conclusion",
+    "context": "Our approach enhances the ability of LLMs to reason over complex clinical data by providing high-fidelity, multimodal inputs."
+  },
+  {
+    "subject": "framework_unipact",
+    "relation": "provides",
+    "object": "HighFidelityMultimodalInput",
+    "chunk": "conclusion",
+    "context": "Our approach enhances the ability of LLMs to reason over complex clinical data by providing high-fidelity, multimodal inputs."
+  },
+  {
+    "subject": "Study",
+    "relation": "receivesFunding",
+    "object": "NoFunding",
+    "chunk": "acknowledgmentsandethicalcompliance",
+    "context": "No funding was received for conducting this study."
+  },
+  {
+    "subject": "Author",
+    "relation": "disclosesInterest",
+    "object": "FinancialInterest",
+    "chunk": "acknowledgmentsandethicalcompliance",
+    "context": "The au- thors declare that they have no relevant financial or nonfinan- cial interests to disclose."
+  },
+  {
+    "subject": "Author",
+    "relation": "disclosesInterest",
+    "object": "NonfinancialInterest",
+    "chunk": "acknowledgmentsandethicalcompliance",
+    "context": "The au- thors declare that they have no relevant financial or nonfinan- cial interests to disclose."
+  },
+  {
+    "subject": "Study",
+    "relation": "utilizesDataSet",
+    "object": "HumanDataSet",
+    "chunk": "acknowledgmentsandethicalcompliance",
+    "context": "This study made use of publicly available and fully anonymized human data sets."
+  },
+  {
+    "subject": "HumanDataSet",
+    "relation": "hasAttribute",
+    "object": "PubliclyAvailable",
+    "chunk": "acknowledgmentsandethicalcompliance",
+    "context": "This study made use of publicly available and fully anonymized human data sets."
+  },
+  {
+    "subject": "HumanDataSet",
+    "relation": "hasAttribute",
+    "object": "FullyAnonymized",
+    "chunk": "acknowledgmentsandethicalcompliance",
+    "context": "This study made use of publicly available and fully anonymized human data sets."
+  },
+  {
+    "subject": "Study",
+    "relation": "requiresApproval",
+    "object": "NoAdditionalApproval",
+    "chunk": "acknowledgmentsandethicalcompliance",
+    "context": "In accor- dance with the policies of the data providers, no additional institutional review board approval was required."
+  }
+]

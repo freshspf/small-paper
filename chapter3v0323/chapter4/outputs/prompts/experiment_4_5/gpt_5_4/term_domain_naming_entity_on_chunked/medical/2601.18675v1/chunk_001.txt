@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["TemporalEmbeddingModel","ElectronicHealthRecord","ChronicKidneyDisease","Patient","LongitudinalElectronicHealthRecord","MIMICIVDataset","VanillaLSTM","AttentionAugmentedLSTM","TimeAwareLSTM","EmbeddingModel","EndToEndPredictor","CKDStageClustering","InICUMortalityPrediction","DaviesBouldinIndex","CKDStageClassificationAccuracy","ModelGuidedMedicine","DigitalPatientModel","DigitalTwin","DiseaseTrajectory","TherapyOption","PersonalisedCare","ClinicalPredictionModel","RepresentationLearning","Phenotyping","ClinicalTimeSeries","LaboratoryTest","VitalSign","Medication","Procedure","ObservationalClinicalData","IrregularSampling","TemporalDynamics","PatientRepresentation","HospitalDomain","ICUDomain","HospitalAdmission","ICD9Code","ICD10Code","PrescribedMedication","LabMeasurement"]
+
+Triples:
+[{"subject":"TemporalEmbeddingModel","relation":"trainedOn","object":"LongitudinalElectronicHealthRecord"},{"subject":"LongitudinalElectronicHealthRecord","relation":"belongsTo","object":"Patient"},{"subject":"Patient","relation":"diagnosedWith","object":"ChronicKidneyDisease"},{"subject":"MIMICIVDataset","relation":"usedForStudy","object":"ChronicKidneyDisease"},{"subject":"MIMICIVDataset","relation":"containsDomain","object":"HospitalDomain"},{"subject":"MIMICIVDataset","relation":"containsDomain","object":"ICUDomain"},{"subject":"HospitalDomain","relation":"contains","object":"HospitalAdmission"},{"subject":"HospitalDomain","relation":"contains","object":"ICD9Code"},{"subject":"HospitalDomain","relation":"contains","object":"ICD10Code"},{"subject":"HospitalDomain","relation":"contains","object":"PrescribedMedication"},{"subject":"HospitalDomain","relation":"contains","object":"LabMeasurement"},{"subject":"ICUDomain","relation":"contains","object":"ICUStay"},{"subject":"ICUDomain","relation":"contains","object":"ICD9Code"},{"subject":"ICUDomain","relation":"contains","object":"ICD10Code"},{"subject":"ICUDomain","relation":"contains","object":"AdministeredFluid"},{"subject":"ICUDomain","relation":"contains","object":"Medication"},{"subject":"ICUDomain","relation":"contains","object":"ChartEvent"},{"subject":"ICUDomain","relation":"contains","object":"ProcedureEvent"},{"subject":"ElectronicHealthRecord","relation":"captures","object":"LaboratoryTest"},{"subject":"ElectronicHealthRecord","relation":"captures","object":"VitalSign"},{"subject":"ElectronicHealthRecord","relation":"captures","object":"Medication"},{"subject":"ElectronicHealthRecord","relation":"captures","object":"Procedure"},{"subject":"ElectronicHealthRecord","relation":"capturesOverTime","object":"Patient"},{"subject":"ElectronicHealthRecord","relation":"hasChallenge","object":"IrregularSampling"},{"subject":"ElectronicHealthRecord","relation":"hasChallenge","object":"TemporalDynamics"},{"subject":"ModelGuidedMedicine","relation":"requires","object":"PatientRepresentation"},{"subject":"PatientRepresentation","relation":"captures","object":"DiseaseTrajectory"},{"subject":"PatientRepresentation","relation":"hasProperty","object":"Transparency"},{"subject":"PatientRepresentation","relation":"hasProperty","object":"TaskAgnostic"},{"subject":"ModelGuidedMedicine","relation":"formsFoundationFor","object":"DigitalPatientModel"},{"subject":"DigitalPatientModel","relation":"alsoCalled","object":"DigitalTwin"},{"subject":"DigitalPatientModel","relation":"represents","object":"Patient"},{"subject":"DigitalPatientModel","relation":"predicts","object":"DiseaseTrajectory"},{"subject":"DigitalPatientModel","relation":"evaluates","object":"TherapyOption"},{"subject":"DigitalPatientModel","relation":"supports","object":"PersonalisedCare"},{"subject":"RepresentationLearning","relation":"facilitatesLearningOf","object":"EmbeddingRepresentation"},{"subject":"RepresentationLearning","relation":"supports","object":"Phenotyping"},{"subject":"RecurrentArchitecture","relation":"suitedFor","object":"ObservationalClinicalData"},{"subject":"RecurrentArchitecture","relation":"models","object":"TemporalDynamics"},{"subject":"VanillaLSTM","relation":"subclassOfApproach","object":"RecurrentArchitecture"}]

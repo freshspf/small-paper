@@ -1,0 +1,74 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "conclusion",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: conclusion
+- section_title: Conclusion
+- page_start: 8
+- page_end: 9
+
+**INPUT TEXT CHUNK:**
+In this work, we presented ExoGS, a scalable, robot-free
+Real-to-Sim-to-Real framework for manipulation data collec-
+tion. By integrating a low-cost (approx. $400) passive ex-
+oskeleton with a 3D Gaussian Splatting pipeline, we enable the
+efficient acquisition of kinematically consistent demonstrations
+and their digitization into editable simulation assets. This ap-
+proach allows for massive, geometry-aware data augmentation
+that significantly enhances policy generalization. Furthermore,
+our proposed Mask Adapter effectively bridges the sim-to-
+real gap by injecting instance-level semantic constraints into
+the policy. Extensive real-world experiments demonstrate that
+ExoGS reduces data collection costs while yielding policies
+that outperform those trained via traditional teleoperation.
+However, the current framework relies on the rigid-body
+assumption of 3DGS, which restricts the modeling of de-
+formable objects with variable geometry. Future work will plan
+to further improve the automation level of the data generation
+pipeline.
+
+9
+[32] L.-C. Chen, Y . Zhu, G. Papandreou, F. Schroff, and H. Adam, “Encoder-
+decoder with atrous separable convolution for semantic image segmen-
+tation,” inProceedings of the European conference on computer vision
+(ECCV), 2018, pp. 801–818.

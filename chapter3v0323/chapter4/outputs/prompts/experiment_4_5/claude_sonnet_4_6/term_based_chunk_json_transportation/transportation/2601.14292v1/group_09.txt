@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "FleetOperations",
+  "monitors",
+  "OperatorCompliance",
+  "FundingAndStrategic",
+  "alignsWith",
+  "SafetyPriorities",
+  "LeadingIndicator",
+  "supervisedBy",
+  "SupervisingOwner",
+  "hasCorrectiveAction",
+  "CorrectiveAction",
+  "PsapOperationsManager",
+  "supervises",
+  "PsapMessageProcessingErrorRate",
+  "deploys",
+  "AiBasedSoftware",
+  "MajorTraumaCoordinator",
+  "InterFacilityTransferTime",
+  "optimises",
+  "EmergencyRoad",
+  "WorkZoneSafetyManager",
+  "VmsSignageUptime",
+  "CrashCushions",
+  "RoadAuthoritySafety",
+  "RateOfRsiActionsClosedOnTime",
+  "adjusts",
+  "FundingPriorities",
+  "TraditionalApproach",
+  "focusesOn",
+  "AccidentData",
+  "HazardIdentification",
+  "SystemAssumption",
+  "embeddedWithin",
+  "SystemControlStructure",
+  "SystemEngineeringPrinciple",
+  "incorporates",
+  "SystemThinkingPerspective",
+  "RoadSafetySystem",
+  "modelledAs",
+  "FunctionalArchitecture",
+  "consistsOf",
+  "DependentStakeholder",
+  "ControlStructureModelling",
+  "visualises",
+  "DecisionHierarchy",
+  "ControlAction",
+  "FeedbackFlow",
+  "DocumentedAssumption",
+  "linkedTo",
+  "ControlLoop",
+  "requires",
+  "TriggerThreshold",
+  "AssumptionMonitoring",
+  "uses",
+  "provides",
+  "EarlyWarningSignal",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RetrospectiveCrashData",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour"
+]
+
+Triples:
+[
+  {
+    "subject": "FleetOperations",
+    "relation": "monitors",
+    "object": "OperatorCompliance",
+    "chunk": "casestudyandresults4",
+    "context": "7. Fleet Operations & Com- pliancePreventive_Maintenance MOT_Compliance Telematics_Monitoring Enforcement_PrioritiesMonitors operational vehicle condition and operator compli- ance"
+  },
+  {
+    "subject": "FundingAndStrategic",
+    "relation": "alignsWith",
+    "object": "SafetyPriorities",
+    "chunk": "casestudyandresults4",
+    "context": "8. Funding & Strategic Resource_Allocation Funding Policy_PerformanceEnsures resources and budgets remain aligned with safety priorities"
+  },
+  {
+    "subject": "LeadingIndicator",
+    "relation": "supervisedBy",
+    "object": "SupervisingOwner",
+    "chunk": "casestudyandresults4",
+    "context": "Table 8: Example of leading indicators, their supervising owners, and corresponding corrective actions when an assumption is not valid."
+  },
+  {
+    "subject": "LeadingIndicator",
+    "relation": "hasCorrectiveAction",
+    "object": "CorrectiveAction",
+    "chunk": "casestudyandresults4",
+    "context": "Table 8: Example of leading indicators, their supervising owners, and corresponding corrective actions when an assumption is not valid."
+  },
+  {
+    "subject": "PsapOperationsManager",
+    "relation": "supervises",
+    "object": "PsapMessageProcessingErrorRate",
+    "chunk": "casestudyandresults4",
+    "context": "[A-1.1] Rate of eligible crashes with success- ful MSD. PSAP message processing error rate.PSAP operations manager"
+  },
+  {
+    "subject": "PsapOperationsManager",
+    "relation": "deploys",
+    "object": "AiBasedSoftware",
+    "chunk": "casestudyandresults4",
+    "context": "PSAP operations manager Training for operators Deploys AI-based software for data collection"
+  },
+  {
+    "subject": "MajorTraumaCoordinator",
+    "relation": "supervises",
+    "object": "InterFacilityTransferTime",
+    "chunk": "casestudyandresults4",
+    "context": "[A-2.2] Inter-facility transfer time Major trauma coordinator"
+  },
+  {
+    "subject": "MajorTraumaCoordinator",
+    "relation": "optimises",
+    "object": "EmergencyRoad",
+    "chunk": "casestudyandresults4",
+    "context": "Major trauma coordinator Air ambulance trigger Retaining protocols Optimise emergency road"
+  },
+  {
+    "subject": "WorkZoneSafetyManager",
+    "relation": "supervises",
+    "object": "VmsSignageUptime",
+    "chunk": "casestudyandresults4",
+    "context": "[A-3.3] Rate of work-zone sites with approved TTM plan Audit non-conformity rate; VMS/signage uptimeWork-zone safety manager"
+  },
+  {
+    "subject": "WorkZoneSafetyManager",
+    "relation": "deploys",
+    "object": "CrashCushions",
+    "chunk": "casestudyandresults4",
+    "context": "VMS/signage uptimeWork-zone safety manager Deploy crash cushions"
+  },
+  {
+    "subject": "RoadAuthoritySafety",
+    "relation": "supervises",
+    "object": "RateOfRsiActionsClosedOnTime",
+    "chunk": "casestudyandresults4",
+    "context": "[A-4.4] Rate of RSI actions closed on time Tracks backlogRoad-authority safety"
+  },
+  {
+    "subject": "RoadAuthoritySafety",
+    "relation": "adjusts",
+    "object": "FundingPriorities",
+    "chunk": "casestudyandresults4",
+    "context": "Tracks backlogRoad-authority safety Escalate overdue actions Adjust funding priorities"
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "focusesOn",
+    "object": "AccidentData",
+    "chunk": "discussion1",
+    "context": "Traditional approaches focus heavily on accident data and hazard identification, which is important for that end, but only that might overlook a fundamental dimension of system behaviour: the assumption that the system design and operation are built upon."
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "focusesOn",
+    "object": "HazardIdentification",
+    "chunk": "discussion1",
+    "context": "Traditional approaches focus heavily on accident data and hazard identification, which is important for that end, but only that might overlook a fundamental dimension of system behaviour: the assumption that the system design and operation are built upon."
+  },
+  {
+    "subject": "SystemAssumption",
+    "relation": "embeddedWithin",
+    "object": "SystemControlStructure",
+    "chunk": "discussion1",
+    "context": "This study contributes a novel perspective by shifting the safety focus from hazards alone to the assumptions embedded within the system control structure."
+  },
+  {
+    "subject": "SystemEngineeringPrinciple",
+    "relation": "incorporates",
+    "object": "SystemThinkingPerspective",
+    "chunk": "discussion1",
+    "context": "By integrating system engineering principles, which incorporate a system thinking perspective, the study enabled a holistic understanding of the road safety system across its lifecycle, capturing technical, organisational and operational interactions."
+  },
+  {
+    "subject": "RoadSafetySystem",
+    "relation": "modelledAs",
+    "object": "FunctionalArchitecture",
+    "chunk": "discussion1",
+    "context": "The use of system thinking was essential, as it allowed the road safety system to be modelled not as an abstract set of actors but as a functional architecture of dependent stakeholders."
+  },
+  {
+    "subject": "FunctionalArchitecture",
+    "relation": "consistsOf",
+    "object": "DependentStakeholder",
+    "chunk": "discussion1",
+    "context": "The use of system thinking was essential, as it allowed the road safety system to be modelled not as an abstract set of actors but as a functional architecture of dependent stakeholders."
+  },
+  {
+    "subject": "ControlStructureModelling",
+    "relation": "visualises",
+    "object": "DecisionHierarchy",
+    "chunk": "discussion1",
+    "context": "Through control structure modelling, it became possible to visualise decision hierarchies, control action, and feedback flows across government, agencies, emergency services, infrastructure, commercial fleets, research bodies, and road users."
+  },
+  {
+    "subject": "ControlStructureModelling",
+    "relation": "visualises",
+    "object": "ControlAction",
+    "chunk": "discussion1",
+    "context": "Through control structure modelling, it became possible to visualise decision hierarchies, control action, and feedback flows across government, agencies, emergency services, infrastructure, commercial fleets, research bodies, and road users."
+  },
+  {
+    "subject": "ControlStructureModelling",
+    "relation": "visualises",
+    "object": "FeedbackFlow",
+    "chunk": "discussion1",
+    "context": "Through control structure modelling, it became possible to visualise decision hierarchies, control action, and feedback flows across government, agencies, emergency services, infrastructure, commercial fleets, research bodies, and road users."
+  },
+  {
+    "subject": "DocumentedAssumption",
+    "relation": "linkedTo",
+    "object": "ControlLoop",
+    "chunk": "discussion1",
+    "context": "Maintaining an assumption documented linked to control loop."
+  },
+  {
+    "subject": "CorrectiveAction",
+    "relation": "requires",
+    "object": "TriggerThreshold",
+    "chunk": "discussion1",
+    "context": "Setting trigger thresholds for corrective action."
+  },
+  {
+    "subject": "AssumptionMonitoring",
+    "relation": "uses",
+    "object": "LeadingIndicator",
+    "chunk": "discussion1",
+    "context": "For this reason, the study introduced monitoring of assumptions using leading indicators."
+  },
+  {
+    "subject": "LeadingIndicator",
+    "relation": "provides",
+    "object": "EarlyWarningSignal",
+    "chunk": "discussion1",
+    "context": "These Indicators provide early warning signals when reality begins to drift away from what the system presumes to be true."
+  }
+]

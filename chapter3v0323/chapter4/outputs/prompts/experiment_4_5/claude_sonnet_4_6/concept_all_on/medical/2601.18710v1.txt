@@ -1,0 +1,91 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic triples.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use only normalized terms from the input.
+   - Do not invent new terms unless absolutely necessary.
+   - Do not introduce external background knowledge.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by context.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf only when a subclass relation is explicit or strongly implied.
+   - Avoid overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Only assign domain/range when the subject/object types are clear from normalized terms and updated triples.
+   - Avoid speculative domain/range assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication
+   - Prefer fewer but higher-confidence axioms
+   - Keep results logically coherent
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[{"term": "Disease", "type": "Class"}, {"term": "MedicalDataset", "type": "Class"}, {"term": "MedicalImage", "type": "Class"}, {"term": "BiologicalCell", "type": "Class"}, {"term": "ClinicalProcedure", "type": "Class"}, {"term": "DiagnosticProtocol", "type": "Class"}, {"term": "HealthcareFacility", "type": "Class"}, {"term": "MedicalProfessional", "type": "Class"}, {"term": "MachineLearningAlgorithm", "type": "Class"}, {"term": "ImageFeature", "type": "Class"}, {"term": "PatientCohort", "type": "Class"}, {"term": "disease_acuteMyeloidLeukemia", "type": "Instance"}, {"term": "amlCytomorphology", "type": "Instance"}, {"term": "image_bloodSmear", "type": "Instance"}, {"term": "cell_leukocyte", "type": "Instance"}, {"term": "cell_bloodCell", "type": "Instance"}, {"term": "procedure_bloodSmearAnalysis", "type": "Instance"}, {"term": "procedure_boneMarrowAspiration", "type": "Instance"}, {"term": "protocol_mayGrunwaldGiemsa", "type": "Instance"}, {"term": "protocol_whoDiagnosticCriteria", "type": "Instance"}, {"term": "facility_munichUniversityHospital", "type": "Instance"}, {"term": "professional_boardCertifiedHematologist", "type": "Instance"}, {"term": "patient_amlCohort", "type": "Instance"}, {"term": "patient_healthyCohort", "type": "Instance"}, {"term": "algorithm_equilibriumPropagation", "type": "Instance"}, {"term": "algorithm_variationalQuantumCircuit", "type": "Instance"}, {"term": "algorithm_convolutionalNeuralNetwork", "type": "Instance"}, {"term": "feature_meanIntensity", "type": "Instance"}, {"term": "feature_cellArea", "type": "Instance"}, {"term": "feature_edgeDensity", "type": "Instance"}, {"term": "feature_glcmContrast", "type": "Instance"}, {"term": "diagnosedWith", "type": "Property"}, {"term": "lacksDisease", "type": "Property"}, {"term": "contains", "type": "Property"}, {"term": "captures", "type": "Property"}, {"term": "stainedWith", "type": "Property"}, {"term": "acquiredAt", "type": "Property"}, {"term": "annotatedBy", "type": "Property"}, {"term": "followsCriteria", "type": "Property"}, {"term": "isLessInvasiveThan", "type": "Property"}, {"term": "analyzes", "type": "Property"}, {"term": "detects", "type": "Property"}, {"term": "extractsFeature", "type": "Property"}, {"term": "evaluates", "type": "Property"}]
+
+Triples:
+[{"subject": "patient_amlCohort", "relation": "diagnosedWith", "object": "disease_acuteMyeloidLeukemia"}, {"subject": "patient_healthyCohort", "relation": "lacksDisease", "object": "disease_acuteMyeloidLeukemia"}, {"subject": "amlCytomorphology", "relation": "contains", "object": "image_bloodSmear"}, {"subject": "amlCytomorphology", "relation": "evaluates", "object": "disease_acuteMyeloidLeukemia"}, {"subject": "image_bloodSmear", "relation": "captures", "object": "cell_leukocyte"}, {"subject": "image_bloodSmear", "relation": "captures", "object": "cell_bloodCell"}, {"subject": "image_bloodSmear", "relation": "stainedWith", "object": "protocol_mayGrunwaldGiemsa"}, {"subject": "image_bloodSmear", "relation": "acquiredAt", "object": "facility_munichUniversityHospital"}, {"subject": "image_bloodSmear", "relation": "annotatedBy", "object": "professional_boardCertifiedHematologist"}, {"subject": "professional_boardCertifiedHematologist", "relation": "followsCriteria", "object": "protocol_whoDiagnosticCriteria"}, {"subject": "procedure_bloodSmearAnalysis", "relation": "isLessInvasiveThan", "object": "procedure_boneMarrowAspiration"}, {"subject": "procedure_bloodSmearAnalysis", "relation": "detects", "object": "disease_acuteMyeloidLeukemia"}, {"subject": "algorithm_equilibriumPropagation", "relation": "analyzes", "object": "image_bloodSmear"}, {"subject": "algorithm_variationalQuantumCircuit", "relation": "analyzes", "object": "image_bloodSmear"}, {"subject": "algorithm_convolutionalNeuralNetwork", "relation": "analyzes", "object": "image_bloodSmear"}, {"subject": "algorithm_equilibriumPropagation", "relation": "detects", "object": "disease_acuteMyeloidLeukemia"}, {"subject": "algorithm_variationalQuantumCircuit", "relation": "detects", "object": "disease_acuteMyeloidLeukemia"}, {"subject": "algorithm_convolutionalNeuralNetwork", "relation": "detects", "object": "disease_acuteMyeloidLeukemia"}, {"subject": "image_bloodSmear", "relation": "extractsFeature", "object": "feature_meanIntensity"}, {"subject": "image_bloodSmear", "relation": "extractsFeature", "object": "feature_cellArea"}, {"subject": "image_bloodSmear", "relation": "extractsFeature", "object": "feature_edgeDensity"}, {"subject": "image_bloodSmear", "relation": "extractsFeature", "object": "feature_glcmContrast"}]

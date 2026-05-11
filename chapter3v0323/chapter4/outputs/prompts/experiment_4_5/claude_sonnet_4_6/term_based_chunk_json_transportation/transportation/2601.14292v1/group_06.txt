@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Stakeholder",
+  "impactedBy",
+  "SystemBehaviour",
+  "uk_road_transport_safety_system",
+  "isA",
+  "ComplexSocioTechnicalSystem",
+  "reduces",
+  "RoadTrafficFatality",
+  "improves",
+  "PostCollisionSurvivalOutcome",
+  "SafeSystemApproach",
+  "ensuresCoverageOf",
+  "contributesTo",
+  "RoadTransportSafetyPerformance",
+  "Interaction",
+  "occursBetween",
+  "SafetyPerformance",
+  "emergesFrom",
+  "CollisionPrevention",
+  "dependsOn",
+  "CoordinatedAction",
+  "PostCrashSurvivability",
+  "performedBy",
+  "EmergencyService",
+  "includes",
+  "AuthorityPath",
+  "OperationalDependency",
+  "ClosedLoopControlInteraction",
+  "impacts",
+  "increases",
+  "SurvivalRate",
+  "HighLevelControlStructure",
+  "provides",
+  "SystemWideView",
+  "showsFlowAcross",
+  "AssumptionList",
+  "ensuresFunctioningOf",
+  "ClosedLoopControlStructure",
+  "presumes",
+  "issues",
+  "ControlAction",
+  "EmergencyResponseDelay",
+  "FatalityRisk",
+  "DispatchMiscommunication",
+  "causes",
+  "WrongResourceArrival",
+  "ExtricationDelay",
+  "prevents",
+  "MedicalCare",
+  "RoadCongestion",
+  "AmbulanceResponseTime",
+  "AdverseWeatherCondition",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RetrospectiveCrashData",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour",
+  "RoadTrafficInjury",
+  "SafeDeployment",
+  "SafetyConstraintDefinition"
+]
+
+Triples:
+[
+  {
+    "subject": "Stakeholder",
+    "relation": "impactedBy",
+    "object": "SystemBehaviour",
+    "chunk": "casestudyandresults1",
+    "context": "As part of the first step of our methodology, stakeholders must be identified to capture all actors that influence or are impacted by system behaviour during its lifecycle."
+  },
+  {
+    "subject": "uk_road_transport_safety_system",
+    "relation": "isA",
+    "object": "ComplexSocioTechnicalSystem",
+    "chunk": "casestudyandresults1",
+    "context": "The objective of this case study is to examine the United Kingdom road transport safety system as a complex socio-technical system, to reduce road traffic fatalities and serious injuries while improving post-collision survival outcomes."
+  },
+  {
+    "subject": "uk_road_transport_safety_system",
+    "relation": "reduces",
+    "object": "RoadTrafficFatality",
+    "chunk": "casestudyandresults1",
+    "context": "The objective of this case study is to examine the United Kingdom road transport safety system as a complex socio-technical system, to reduce road traffic fatalities and serious injuries while improving post-collision survival outcomes."
+  },
+  {
+    "subject": "uk_road_transport_safety_system",
+    "relation": "improves",
+    "object": "PostCollisionSurvivalOutcome",
+    "chunk": "casestudyandresults1",
+    "context": "The objective of this case study is to examine the United Kingdom road transport safety system as a complex socio-technical system, to reduce road traffic fatalities and serious injuries while improving post-collision survival outcomes."
+  },
+  {
+    "subject": "SafeSystemApproach",
+    "relation": "ensuresCoverageOf",
+    "object": "Stakeholder",
+    "chunk": "casestudyandresults1",
+    "context": "A safe system approach is adopted to ensure a comprehensive coverage of all relevant stakeholders under five categories: safe road and roadsides, safe speeds, safe vehicles, safe road users, and post crash care."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "contributesTo",
+    "object": "RoadTransportSafetyPerformance",
+    "chunk": "casestudyandresults1",
+    "context": "These stakeholders contribute directly or indirectly to road transport safety performance, and the following steps."
+  },
+  {
+    "subject": "Interaction",
+    "relation": "occursBetween",
+    "object": "Stakeholder",
+    "chunk": "casestudyandresults1",
+    "context": "Next step is to define the interactions between the identified stakeholders, in line with system engineering principles, which incorporate a systems thinking perspective to capture how safety performance emerges from the interaction between multiple stakeholders rather than from their isolated provided actions."
+  },
+  {
+    "subject": "SafetyPerformance",
+    "relation": "emergesFrom",
+    "object": "Interaction",
+    "chunk": "casestudyandresults1",
+    "context": "Next step is to define the interactions between the identified stakeholders, in line with system engineering principles, which incorporate a systems thinking perspective to capture how safety performance emerges from the interaction between multiple stakeholders rather than from their isolated provided actions."
+  },
+  {
+    "subject": "CollisionPrevention",
+    "relation": "dependsOn",
+    "object": "CoordinatedAction",
+    "chunk": "casestudyandresults1",
+    "context": "This perspective is highly needed in road safety, where outcomes such as collision prevention and post-crash survivability depend on coordinated actions across regulatory bodies, road operates, emergency services, vehicle manufacturers and road users."
+  },
+  {
+    "subject": "PostCrashSurvivability",
+    "relation": "dependsOn",
+    "object": "CoordinatedAction",
+    "chunk": "casestudyandresults1",
+    "context": "This perspective is highly needed in road safety, where outcomes such as collision prevention and post-crash survivability depend on coordinated actions across regulatory bodies, road operates, emergency services, vehicle manufacturers and road users."
+  },
+  {
+    "subject": "CoordinatedAction",
+    "relation": "performedBy",
+    "object": "EmergencyService",
+    "chunk": "casestudyandresults1",
+    "context": "This perspective is highly needed in road safety, where outcomes such as collision prevention and post-crash survivability depend on coordinated actions across regulatory bodies, road operates, emergency services, vehicle manufacturers and road users."
+  },
+  {
+    "subject": "Interaction",
+    "relation": "includes",
+    "object": "AuthorityPath",
+    "chunk": "casestudyandresults1",
+    "context": "These interactions include both authority paths and operational dependencies that define how control actions and feedback are modelled."
+  },
+  {
+    "subject": "Interaction",
+    "relation": "includes",
+    "object": "OperationalDependency",
+    "chunk": "casestudyandresults1",
+    "context": "These interactions include both authority paths and operational dependencies that define how control actions and feedback are modelled."
+  },
+  {
+    "subject": "ClosedLoopControlInteraction",
+    "relation": "impacts",
+    "object": "RoadTrafficFatality",
+    "chunk": "casestudyandresults1",
+    "context": "Specifically, those that directly impact the reduction of fatalities and increase the survival rate."
+  },
+  {
+    "subject": "ClosedLoopControlInteraction",
+    "relation": "increases",
+    "object": "SurvivalRate",
+    "chunk": "casestudyandresults1",
+    "context": "Specifically, those that directly impact the reduction of fatalities and increase the survival rate."
+  },
+  {
+    "subject": "HighLevelControlStructure",
+    "relation": "provides",
+    "object": "SystemWideView",
+    "chunk": "casestudyandresults1",
+    "context": "High-level control structure: provides a system-wide view of information and control flow across major stakeholders, presented in Fig. 4."
+  },
+  {
+    "subject": "HighLevelControlStructure",
+    "relation": "showsFlowAcross",
+    "object": "Stakeholder",
+    "chunk": "casestudyandresults1",
+    "context": "High-level control structure: provides a system-wide view of information and control flow across major stakeholders, presented in Fig. 4."
+  },
+  {
+    "subject": "AssumptionList",
+    "relation": "ensuresFunctioningOf",
+    "object": "ClosedLoopControlStructure",
+    "chunk": "casestudyandresults1",
+    "context": "Once the safety-relevant interactions have been modelled through closed loop control structures, in this step, an assumption list will be generated in order to ensure these closed loops are functioning as intended."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "presumes",
+    "object": "SystemBehaviour",
+    "chunk": "casestudyandresults1",
+    "context": "These assumptions reflect what each stakeholder (controller) presumes about the system behaviour, resource availability, and reliability of feedback when issuing a control action."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "issues",
+    "object": "ControlAction",
+    "chunk": "casestudyandresults1",
+    "context": "These assumptions reflect what each stakeholder (controller) presumes about the system behaviour, resource availability, and reliability of feedback when issuing a control action."
+  },
+  {
+    "subject": "EmergencyResponseDelay",
+    "relation": "increases",
+    "object": "FatalityRisk",
+    "chunk": "casestudyandresults1",
+    "context": "These assumptions are safety-critical because delays in emergency response increase fatality risk."
+  },
+  {
+    "subject": "DispatchMiscommunication",
+    "relation": "causes",
+    "object": "WrongResourceArrival",
+    "chunk": "casestudyandresults1",
+    "context": "If dispatch miscommunicates incident details, the wrong resources may arrive."
+  },
+  {
+    "subject": "ExtricationDelay",
+    "relation": "prevents",
+    "object": "MedicalCare",
+    "chunk": "casestudyandresults1",
+    "context": "If Fire & Rescue delays extrication, medical care cannot begin."
+  },
+  {
+    "subject": "RoadCongestion",
+    "relation": "increases",
+    "object": "AmbulanceResponseTime",
+    "chunk": "casestudyandresults1",
+    "context": "Road congestion or adverse weather conditions may increase ambulance response time beyond safe limits."
+  },
+  {
+    "subject": "AdverseWeatherCondition",
+    "relation": "increases",
+    "object": "AmbulanceResponseTime",
+    "chunk": "casestudyandresults1",
+    "context": "Road congestion or adverse weather conditions may increase ambulance response time beyond safe limits."
+  }
+]

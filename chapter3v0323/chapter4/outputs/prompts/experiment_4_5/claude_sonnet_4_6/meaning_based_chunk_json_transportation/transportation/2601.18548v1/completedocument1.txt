@@ -1,0 +1,139 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+1
+Fast and Safe Trajectory Optimization for Mobile
+Manipulators With Neural Configuration Space
+Distance Field
+Yulin Li1,2, Zhiyuan Song1, Yiming Li3, Zhicheng Song1, Kai Chen1, Chunxin Zheng1,
+Zhihai Bi1, Jiahang Cao4, Sylvain Calinon3, Fan Shi2, and Jun Ma1
+Abstract—Mobile manipulators promise agile, long-horizon
+behavior by coordinating base and arm motion, yet whole-
+body trajectory optimization in cluttered, confined spaces re-
+mains difficult due to high-dimensional nonconvexity and the
+need for fast, accurate collision reasoning. Configuration Space
+Distance Fields (CDF) enable fixed-base manipulators to model
+collisions directly in configuration space via smooth, implicit
+distances. This representation holds strong potential to bypass
+the nonlinear configuration-to-workspace mapping while preserv-
+ing accurate whole-body geometry and providing optimization-
+friendly collision costs. Yet, extending this capability to mobile
+manipulators is hindered by unbounded workspaces and tighter
+base–arm coupling. We lift this promise to mobile manipulation
+with Generalized Configuration Space Distance Fields (GCDF),
+extending CDF to robots with both translational and rotational
+joints in unbounded workspaces with tighter base–arm coupling.
+We prove that GCDF preserves Euclidean-like local distance
+structure and accurately encodes whole-body geometry in con-
+figuration space, and develop a data generation and training
+pipeline that yields continuous neural GCDFs with accurate
+values and gradients, supporting efficient GPU-batched queries.
+Building on this representation, we develop a high-performance
+sequential convex optimization framework centered on GCDF-
+based collision reasoning. The solver scales to large numbers
+of implicit constraints through (i) online specification of neural
+constraints, (ii) sparsity-aware active-set detection with parallel
+batched evaluation across thousands of constraints, and (iii)
+incremental constraint management for rapid replanning under
+scene changes. Extensive randomized high-density benchmarks
+and real-robot experiments demonstrate consistently superior
+success rates, trajectory quality, and solve times compared to
+strong baselines, enabling fast, safe, and reliable whole-body
+planning with minimal initialization effort. Source code is avail-
+able at the project website*.
+I. INTRODUCTION
+Mobile manipulators have emerged as essential tools for
+real-world robotic applications, combining mobility, dexterity,
+and workspace coverage to enable complex, contact-rich, and
+long-horizon tasks across both structured and unstructured
+environments [1], [2], [3], [4]. To accomplish these tasks,
+mobile manipulators must leverage their multiple degrees of
+1Robotics and Autonomous Systems Thrust, The Hong Kong University of
+Science and Technology (Guangzhou), Guangzhou, China.
+2Department of Electrical and Computer Engineering, National University
+of Singapore, Singapore.
+3Idiap Research Institute, Martigny, Switzerland and EPFL, Lausanne,
+Switzerland.
+4Institute of Data Science, The University of Hong Kong, Hong Kong SAR,
+China.
+*https://yulinli0.github.io/GCDF/
+(a)
+(b)Fig. 1: Trajectory generation in complex environments for
+mobile manipulators using the proposed numerical optimiza-
+tion algorithm with neural Generalized Configuration Space
+Distance Fields. Starting from a trivial initial guess (the mobile
+base linearly interpolated between start and goal while the
+manipulator joints are all zeros, i.e., kept upright), the solver
+generates collision-free trajectories from scratch, exhibiting
+smooth and agile maneuvers that leverage whole-body coordi-
+nation for safe obstacle avoidance. (a) Simulation results are
+shown from front and top views. (b) Real-world experiments
+in a similarly cluttered setup.
+freedom to coordinate arm and base motion, continuously re-
+configuring whole-body posture to adapt to complex, cluttered
+environments while maintainingagilityand ensuringsafety.
+However, this synergy of mobility and manipulation introduces
+a fundamental planning challenge: planners must make rapid,
+reliable decisions in high-dimensional configuration spaces
+while respecting collision constraints derived from accurate
+geometric models of both the robot and the scene, whicharXiv:2601.18548v1  [cs.RO]  26 Jan 2026
+
+2
+are essential for achieving agile, non-conservative perfor-
+mance [5], [6], [7], [8]. Despite recent advances in perception,
+whole-body planning, and optimization-based control for mo-
+bile manipulation [9], [10], [11], [12], [13], fast and reliable
+trajectory generation in cluttered, confined remains an open
+challenge.
+Background.Traditional hierarchical “move-and-act”
+schemes [14], [15] decompose mobile manipulation into
+separate planning subproblems for the base and the arm,
+offering simplicity but constraining coordinated whole-body
+behaviors.

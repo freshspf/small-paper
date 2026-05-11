@@ -1,0 +1,116 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "results2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: results2
+- section_title: Results
+- page_start: 8
+- page_end: 16
+
+**INPUT TEXT CHUNK:**
+Among negative samples, 5 are misclassified as positive (false posi-
+9
+
+tive rate 8.33%); among positive samples, 2 are misclassified as negative (false negative
+rate 3.33%). Although these numbers appear small, scaling to larger clinical scenarios
+(e.g., 10,000 screening cases annually) would mean 833 false positives and 333 false nega-
+tives, translating to approximately $4.165 million in unnecessary medical costs (assuming
+$5,000 per false positive) and potentially 333 patients missing optimal treatment oppor-
+tunities. This performance gap highlights the practical value of SDA-QEC’s technical
+improvements.
+MobileNetV2’s confusion matrix shows more pronounced class imbalance effectsA-
+mong negative samples, 7 are misclassified as positive (false positive rate 11.7%); among
+positive samples, 12 are misclassified as negative (false negative rate 20.0%). The lat-
+ter is significantly higher than the former, confirming traditional methods’ insufficient
+learning on minority classes. This phenomenon stems fundamentally from MobileNetV2
+baseline training directly on imbalanced original datasets (majority to minority ratio ap-
+proximately 1.3:1), with model gradient updates primarily dominated by majority class
+samples, leading to inadequate feature learning for minority classes. From absolute num-
+bers in the confusion matrix, 12 misclassifications in the positive class clinically translate
+to a 20% missed diagnosis rate, representing unacceptably high risk in disease screening
+scenarios.
+DenseNet121’sconfusionmatrixpresentsspecificity-biasedextremepatterns. Among
+negative samples, only 3 are misclassified (false positive rate 5.0%), demonstrating strong
+negative sample recognition capability; however, among positive samples, as many as 20
+are misclassified (false negative rate 33.3%), meaning the model misclassifies a large
+number of actual patients as healthy, leading to serious missed diagnosis risks. This im-
+balanced performance may stem from DenseNet121’s dense connection structure, which,
+when trained on imbalanced data, tends to learn majority class discriminative features
+whileformingconservativepredictionstrategiesforminorityclasses(i.e., tendencytoward
+negative predictions). From a clinical decision perspective, a 33.3% missed diagnosis rate
+would cause numerous patients to miss optimal treatment windows, with extremely seri-
+ous consequences.
+VGG16’s confusion matrix demonstrates another extreme of sensitivity-biased pat-
+terns. All 60 positive class samples are correctly identified (false negative rate 0%, sen-
+sitivity 100%); however, among negative samples, 47 are misclassified as positive (false
+positive rate 78.3%), with only 13 correctly identified. This means VGG16 adopts an ex-
+treme conservative strategy of “better to err than miss,” classifying the vast majority of
+samples as positive. From a clinical perspective, this strategy leads to massive false pos-
+itive alerts, subjecting healthy populations to unnecessary coronary angiography, stent
+implantation, and other invasive examinations, not only increasing medical costs (as-
+suming $5,000 additional cost per false positive, 47 cases generate $235,000 waste) but
+also imposing enormous psychological burden and physical risks on patients (angiogra-
+phy itself involves radiation exposure, contrast agent allergy, and other risks). VGG16’s
+imbalanced performance stems from its overly deep network structure (16 convolutional
+layers) and massive fully connected layer parameters (approximately 138M), making it
+highly prone to overfitting on small-sample medical image datasets, and lacking modern
+regularization techniques like Batch Normalization, resulting in extremely weak general-
+ization capability.
+10
+
+3.3 ROC Curve and Bootstrap Confidence Interval Analysis
+The ROC curve comprehensively evaluates classifier discriminative ability across the
+entire threshold space by plotting the relationship between true positive rate and false
+positive rate at different decision thresholds. AUC is a comprehensive metric for mea-
+suring classifier performance: AUC=1.0 represents a perfect classifier, while AUC=0.5
+represents random guessing. The left panel of Figure 2 displays ROC curves for five mod-
+els and their 95% confidence intervals estimated through Bootstrap resampling (n=500
+iterations), with shaded areas representing statistical uncertainty ranges.
+Figure 2: ROC curves with 95% confidence intervals for five models
+From the ROC curve family in Figure 2, we observe:
+SDA-QEC’s ROC curve occupies the uppermost left position, hugging the left side
+and top boundary of the coordinate axes, with AUC reaching 0.9878 and an extremely
+narrow confidence interval (gray shading) barely visible. This indicates minimal AUC
+fluctuation (standard deviation approximately 0.008) across 500 Bootstrap resampling
+iterations, demonstrating that its performance is not only excellent but also extremely
+stable, unaffected by test set sample selection.

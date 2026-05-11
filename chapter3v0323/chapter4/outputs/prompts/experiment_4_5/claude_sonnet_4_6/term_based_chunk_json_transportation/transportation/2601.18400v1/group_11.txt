@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Aptos",
+  "hasBandwidthUsage",
+  "227000KiB",
+  "Avalanche",
+  "isCompatibleWith",
+  "EthereumWeb3WebSocketAPI",
+  "Redbelly",
+  "EthereumWeb3WebSocketAPICompatibleChain",
+  "usesMethodsOf",
+  "Ethereum",
+  "FullBlockTransmissionProtocol",
+  "exhibitsHighRatio",
+  "TXtoRXTraffic",
+  "receivedDataVolume",
+  "7314KiB",
+  "transmittedDataVolumeDuringSubmission",
+  "66511KiB",
+  "requiresNodeToBroadcast",
+  "EntireBlock",
+  "contains",
+  "TransactionBody",
+  "Metadata",
+  "Client",
+  "requiresForFinality",
+  "TransactionHash",
+  "mustDownload",
+  "FullBlockPayload",
+  "Solana",
+  "hasTrafficProfile",
+  "BalancedTrafficProfile",
+  "hasReceivedDataVolume",
+  "13099KiB",
+  "hasTransmittedDataVolume",
+  "16325KiB",
+  "hasRawTransactionSize",
+  "215Bytes",
+  "105Bytes",
+  "117Bytes",
+  "usesVerificationMechanism",
+  "SignatureBasedVerification",
+  "SolanaClient",
+  "requestsForVerification",
+  "doesNotRequire",
+  "FullBlockBody",
+  "PollingMechanism",
+  "causesHighBandwidthUsage",
+  "BandwidthConsumption",
+  "WebSocketStreaming",
+  "pushesUpdatesTo",
+  "CommunicationProtocol",
+  "impacts",
+  "IdleTraffic",
+  "SetupPhase",
+  "isNonSubmissionPhase",
+  "ExperimentStage",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "Validator",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics"
+]
+
+Triples:
+[
+  {
+    "subject": "Aptos",
+    "relation": "hasBandwidthUsage",
+    "object": "227000KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "resulting in substantial bandwidth usage (≈227,000 KiB in Phase 2) despite the absence of new transaction submissions."
+  },
+  {
+    "subject": "Avalanche",
+    "relation": "isCompatibleWith",
+    "object": "EthereumWeb3WebSocketAPI",
+    "chunk": "consumptionskewnessovertime",
+    "context": "a clear divergence in data efficiency emerges between Solana and the chains compatible with the Ethereum Web3 WebSocket API (Avalanche, Redbelly) that use the same methods to send and listen to blocks as Ethereum."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "isCompatibleWith",
+    "object": "EthereumWeb3WebSocketAPI",
+    "chunk": "consumptionskewnessovertime",
+    "context": "a clear divergence in data efficiency emerges between Solana and the chains compatible with the Ethereum Web3 WebSocket API (Avalanche, Redbelly) that use the same methods to send and listen to blocks as Ethereum."
+  },
+  {
+    "subject": "EthereumWeb3WebSocketAPICompatibleChain",
+    "relation": "usesMethodsOf",
+    "object": "Ethereum",
+    "chunk": "consumptionskewnessovertime",
+    "context": "the chains compatible with the Ethereum Web3 WebSocket API (Avalanche, Redbelly) that use the same methods to send and listen to blocks as Ethereum."
+  },
+  {
+    "subject": "FullBlockTransmissionProtocol",
+    "relation": "exhibitsHighRatio",
+    "object": "TXtoRXTraffic",
+    "chunk": "consumptionskewnessovertime",
+    "context": "These protocols exhibit a high ratio of TX to RX traffic."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "receivedDataVolume",
+    "object": "7314KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "For example, Redbelly received 7,314 KiB of transaction data (RX) but transmitted 66,511 KiB (TX) back to the clients."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "transmittedDataVolumeDuringSubmission",
+    "object": "66511KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "For example, Redbelly received 7,314 KiB of transaction data (RX) but transmitted 66,511 KiB (TX) back to the clients."
+  },
+  {
+    "subject": "FullBlockTransmissionProtocol",
+    "relation": "requiresNodeToBroadcast",
+    "object": "EntireBlock",
+    "chunk": "consumptionskewnessovertime",
+    "context": "This amplification occurs because these protocols require the node to broadcast the entire block (containing transaction bodies and metadata) to every client for verification."
+  },
+  {
+    "subject": "EntireBlock",
+    "relation": "contains",
+    "object": "TransactionBody",
+    "chunk": "consumptionskewnessovertime",
+    "context": "these protocols require the node to broadcast the entire block (containing transaction bodies and metadata) to every client for verification."
+  },
+  {
+    "subject": "EntireBlock",
+    "relation": "contains",
+    "object": "Metadata",
+    "chunk": "consumptionskewnessovertime",
+    "context": "these protocols require the node to broadcast the entire block (containing transaction bodies and metadata) to every client for verification."
+  },
+  {
+    "subject": "Client",
+    "relation": "requiresForFinality",
+    "object": "TransactionHash",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Even though a client only needs transaction hashes to confirm their finality, it must download the full block payload."
+  },
+  {
+    "subject": "Client",
+    "relation": "mustDownload",
+    "object": "FullBlockPayload",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Even though a client only needs transaction hashes to confirm their finality, it must download the full block payload."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasTrafficProfile",
+    "object": "BalancedTrafficProfile",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Solana demonstrates a more balanced traffic profile during submission (RX: 13,099 KiB vs. TX: 16,325 KiB)."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasReceivedDataVolume",
+    "object": "13099KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Solana demonstrates a more balanced traffic profile during submission (RX: 13,099 KiB vs. TX: 16,325 KiB)."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasTransmittedDataVolume",
+    "object": "16325KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Solana demonstrates a more balanced traffic profile during submission (RX: 13,099 KiB vs. TX: 16,325 KiB)."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasRawTransactionSize",
+    "object": "215Bytes",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Despite Solana having a relatively large raw transaction size (215 B) compared to Redbelly (105 B) or Avalanche (117 B), its outgoing traffic is significantly lower."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "hasRawTransactionSize",
+    "object": "105Bytes",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Despite Solana having a relatively large raw transaction size (215 B) compared to Redbelly (105 B) or Avalanche (117 B), its outgoing traffic is significantly lower."
+  },
+  {
+    "subject": "Avalanche",
+    "relation": "hasRawTransactionSize",
+    "object": "117Bytes",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Despite Solana having a relatively large raw transaction size (215 B) compared to Redbelly (105 B) or Avalanche (117 B), its outgoing traffic is significantly lower."
+  },
+  {
+    "subject": "Solana",
+    "relation": "usesVerificationMechanism",
+    "object": "SignatureBasedVerification",
+    "chunk": "consumptionskewnessovertime",
+    "context": "This efficiency stems from Solana's verification mechanism; clients requesting block confirmation do not need to download the full block body."
+  },
+  {
+    "subject": "SolanaClient",
+    "relation": "requestsForVerification",
+    "object": "TransactionHash",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Instead, they request only the hashes or signatures of com-"
+  },
+  {
+    "subject": "SolanaClient",
+    "relation": "doesNotRequire",
+    "object": "FullBlockBody",
+    "chunk": "consumptionskewnessovertime",
+    "context": "clients requesting block confirmation do not need to download the full block body."
+  },
+  {
+    "subject": "PollingMechanism",
+    "relation": "causesHighBandwidthUsage",
+    "object": "BandwidthConsumption",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Consequently, Aptos clients repeatedly request data even when blocks are empty, resulting in substantial bandwidth usage (≈227,000 KiB in Phase 2) despite the absence of new transaction submissions."
+  },
+  {
+    "subject": "WebSocketStreaming",
+    "relation": "pushesUpdatesTo",
+    "object": "Client",
+    "chunk": "consumptionskewnessovertime",
+    "context": "While Avalanche, Redbelly, and Solana utilize WebSocket streaming to push updates to clients efficiently, Aptos clients rely on polling."
+  },
+  {
+    "subject": "CommunicationProtocol",
+    "relation": "impacts",
+    "object": "IdleTraffic",
+    "chunk": "consumptionskewnessovertime",
+    "context": "A distinct disparity is visible in the overhead traffic during the non-submission phases (Setup and Cooldown)."
+  },
+  {
+    "subject": "SetupPhase",
+    "relation": "isNonSubmissionPhase",
+    "object": "ExperimentStage",
+    "chunk": "consumptionskewnessovertime",
+    "context": "A distinct disparity is visible in the overhead traffic during the non-submission phases (Setup and Cooldown)."
+  }
+]

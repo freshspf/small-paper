@@ -1,0 +1,132 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+1
+Ampli-Flection for 6G: Active-RIS-Aided
+Aerial Backhaul with Full 3D Coverage
+Hong-Bae Jeon,Member, IEEE, and Chan-Byoung Chae,Fellow, IEEE
+Abstract—In this paper, we propose a novel aerial backhaul
+architecture that employs an aerial active reconfigurable intelli-
+gent surface (RIS) to achieve energy-efficient, full 3D coverage
+including UA V-BSs and ground users in 6G wireless networks.
+Unlike prior aerial-RIS approaches limited to 2D coverage with
+only servicing ground users or passive operation, the proposed
+design integrates an active-RIS onto a high-altitude aerial
+platform, enabling reliable line-of-sight links and overcoming
+multiplicative fading through amplification. In a scenario with
+UA V-BSs deployed to handle sudden traffic surges in urban areas,
+the aerial-active-RIS both reflects and amplifies backhaul signals
+to overcome blockage. We jointly optimize the aerial platform
+placement, array partitioning, and RIS phase configuration to
+maximize UA V-BS energy-efficiency. Simulation results confirm
+that the proposed method significantly outperforms benchmarks,
+demonstrating its strong potential to deliver resilient backhaul
+connectivity with comprehensive 3D coverage in 6G networks.
+Index Terms—Active reconfigurable intelligent surface, un-
+manned aerial vehicle, wireless backhaul, non-convex optimiza-
+tion, energy-efficiency.
+I. INTRODUCTION
+OF LATE, the rapid expansion of data-driven applications
+with the push for extended wireless coverage in beyond
+fifth-generation (B5G) and sixth-generation (6G) networks
+have driven an unprecedented demand for providing ultra-
+reliable and high-capacity communications anywhere [2]–[4].
+In response, researchers have been exploring the deployment
+of aerial base stations, realized through unmanned-aerial-
+vehicle-base-stations (UA V-BSs), for rapid and flexible cover-
+age extensions [5], [6]. These UA V-BSs present a compelling
+solution for extending network coverage to areas where con-
+ventional base station infrastructure is inadequate, offering
+rapid deployment capabilities in emergency or high-traffic
+scenarios. Their high-altitude operation further enhances the
+likelihood of rich line-of-sight (LoS) links [7], [8], thereby
+improving communication reliability and efficiency. To enable
+efficient UA V-BS deployment, prior studies have investigated
+deployment strategy design [9], [10], trajectory optimiza-
+tion [11], [12], and power control schemes [13], [14]. One
+of the critical challenges that remains for deploying UA V-BSs
+is the backhaul connectivity, particularly in dense urban areas
+This work was supported by Hankuk University of Foreign Studies Research
+Fund of 2026. This article was presented in part at the IEEE ICTC 2022, Jeju
+Island, South Korea, October 19-21, 2022 [1].(Corresponding Author: Chan-
+Byoung Chae.)
+H.-B. Jeon is with the Department of Information Communications Engi-
+neering, Hankuk University of Foreign Studies, Yong-in, 17035, Korea (e-
+mail: hongbae08@hufs.ac.kr).
+C.-B. Chae is with the School of Integrated Technology, Yonsei University,
+Seoul 03722, Korea (e-mail: cbchae@yonsei.ac.kr).where obstacles obstruct direct backhaul links from terrestrial
+sources and generates non-LoS (NLoS) components, which
+severely deteriorates the system’s energy-efficiency, posing a
+critical challenge for 6G wireless networks operating with
+higher spectrum [15]–[17].
+Therefore, the reconfigurable intelligent surfaces (RIS) have
+been explored as a means to enhance wireless coverage and
+mitigate blockages [18]–[21]. RIS is an artificial metasurface
+composed of passive reflecting elements capable of adjusting
+both the amplitude and phase of an incident signal [22], [23].
+Furthermore, due to its passive array architecture, the RIS
+exhibits high channel capacity with low power consumption,
+which leads to the energy-efficiency compared to conventional
+decode-and-forward or amplify-and-forward (DF/AF) relays
+in several scenarios [24]–[26]. However, conventional RIS
+has passive reflection elements, which highly suffer from
+severe “multiplicative fading,” where the path loss is given by
+the multiplication of Tx-to-RIS and RIS-to-Rx links, limiting
+their effectiveness in practical scenarios [27], [28]. These
+disadvantages become more severe when the RIS is deployed
+in terrestrial infrastructure on dense urban areas.
+To overcome the fundamental physical limitation imposed
+by the multiplicative fading effect of cascaded channels in
+RIS-assisted systems, the concept of active-RIS has recently
+been proposed [27], [29]. Unlike conventional passive-RISs,
+which only reflect incident signals without amplification,
+active-RISs incorporate reflection-type amplifiers within each
+element, thereby enabling signal amplification at the cost
+of additional power consumption [30].

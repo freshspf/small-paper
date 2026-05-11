@@ -1,0 +1,116 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: introduction
+- section_title: Introduction
+- page_start: 1
+- page_end: 1
+
+INPUT TEXT CHUNK:
+Artificial Intelligence (AI) has already transformed healthcare
+and continues to hold substantial potential for further inno-
+vation within clinical ecosystems. Recently, Medical Large
+Vision-Language Models (Med-LVLMs) have shown great
+promise for advancing interactive and intelligent diagnosis [1,
+2]. Despite this potential, current Med-LVLMs still face sig-
+nificant reliability issues, particularly their tendency to gen-
+erate non-factual medical responses [3], making them unreli-
+able in critical medical applications. These factuality issues
+raise serious concerns when deploying such models in clini-
+∗Equal contribution.†Corresponding author.cal settings, where even small diagnostic errors could lead to
+severe consequences for patient care.
+Recently, researchers have begun to focus on improving
+the factuality of Med-LVLMs through various techniques, in-
+cluding fine-tuning [1], low-rank adaptation [4], and retrieval-
+augmented generation (RAG) [5, 6]. Fine-tuning is a direct
+method to improve model performance, but faces several lim-
+itations in the medical field. First, there is a lack of sufficient
+high-quality labeled data for fine-tuning in the medical do-
+main. Second, a distribution shift often exists between train-
+ing datasets the real-world deployment data, leading to signif-
+icantly worse model performance during deployment. Hence,
+Retrieval-Augmented Generation (RAG) [5] has emerged as
+a promising solution, grounding model outputs in external
+knowledge to improve factuality. Recent works adapted RAG
+for medicine, including MedRAG [6], MMed-RAG [7]. De-
+spite improvements, current methods remain vulnerable to se-
+mantic over-reliance, cross-modality misalignment, and spu-
+rious correlations, largely due to mismatch between retrieved
+contexts and visual–language grounding.
+Causality-based methods seek to improve retrieval accu-
+racy and representation learning, but critical limitations per-
+sist [8]. CausalRAG [9] ranks contexts by causal importance,
+but does not address cross-modal alignment. Similarly, CM-
+CRL [10] learns shared causal representations but underuses
+the structural dependencies needed for medical reasoning. Al-
+though causal graphs improve interpretability [11, 12], cur-
+rent approaches mainly rely on language-only causal discov-
+ery [9].
+These limitations necessitate a more holistic framework
+that simultaneously addresses factuality and alignment by in-
+tegrating causal reasoning with a multimodal structure. Ac-
+cordingly, we propose to build explicit causal graphs from
+multimodal data and use them to guide RAG retrieval for
+medical reasoning.
+In this paper, we propose MCRAG (Multimodal Causal
+Retrieval-Augmented Generation), a retrieval framework de-
+signed to improve factuality and robustness in Med-LVLMs.
+MCRAG introduces a causal alignment graph constructed
+from verifiable medical literature, capturing structured depen-
+dencies between visual and textual modalities. This graph
+enables retrieval guided not only by semantic similarity but
+also by causal and structural relevance, thus mitigating spuri-arXiv:2601.18356v1  [cs.LG]  26 Jan 2026

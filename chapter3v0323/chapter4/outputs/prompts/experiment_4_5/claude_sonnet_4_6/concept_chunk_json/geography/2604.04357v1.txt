@@ -1,0 +1,745 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic relations.
+
+**DOMAIN CONTEXT:**
+The input belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships such as containment, adjacency, distribution, and location-based constraints.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use normalized terms from the input as your primary vocabulary.
+   - Prefer using input normalized terms directly.
+   - You may introduce a small number of additional high-confidence ontology elements only when they are strongly justified by the normalized terms and merged relations.
+   - Do not introduce external background knowledge that is unsupported by the input.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by the input.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf when a subclass relation is explicit or strongly implied.
+   - Moderate ontology completion is allowed if it is tightly grounded in the input and improves ontology coherence.
+   - Avoid vague or overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Use normalized terms and merged evidence-bearing relations as the primary basis.
+   - You may complete missing domain/range information when it is strongly implied by repeated evidence patterns.
+   - Avoid speculative assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication.
+   - Prefer coherent and reusable ontology structures.
+   - Keep results logically consistent.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. When the input strongly supports them, include multiple high-confidence classes, properties, hierarchies, domain axioms, and range axioms.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names. Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[
+  {
+    "term": "StreetViewGeoLocalization",
+    "type": "Class"
+  },
+  {
+    "term": "GeographicPosition",
+    "type": "Class"
+  },
+  {
+    "term": "Image",
+    "type": "Class"
+  },
+  {
+    "term": "GpsCoordinate",
+    "type": "Class"
+  },
+  {
+    "term": "SemanticTextAnnotation",
+    "type": "Class"
+  },
+  {
+    "term": "LocalizationCue",
+    "type": "Class"
+  },
+  {
+    "term": "NearbyLocation",
+    "type": "Class"
+  },
+  {
+    "term": "DistantLocation",
+    "type": "Class"
+  },
+  {
+    "term": "ClipStyleRetrieval",
+    "type": "Class"
+  },
+  {
+    "term": "GeographicTag",
+    "type": "Class"
+  },
+  {
+    "term": "WeakPositive",
+    "type": "Class"
+  },
+  {
+    "term": "GeographicPhenomenon",
+    "type": "Class"
+  },
+  {
+    "term": "SpatialAutocorrelation",
+    "type": "Class"
+  },
+  {
+    "term": "ToblersFirstLawOfGeography",
+    "type": "Class"
+  },
+  {
+    "term": "Neighborhood",
+    "type": "Class"
+  },
+  {
+    "term": "Observation",
+    "type": "Class"
+  },
+  {
+    "term": "model_swClip",
+    "type": "Instance"
+  },
+  {
+    "term": "GeographicAlignment",
+    "type": "Class"
+  },
+  {
+    "term": "LocationCaption",
+    "type": "Class"
+  },
+  {
+    "term": "SpatiallyWeightedSoftLabel",
+    "type": "Class"
+  },
+  {
+    "term": "GeodesicDistance",
+    "type": "Class"
+  },
+  {
+    "term": "NearbyImage",
+    "type": "Class"
+  },
+  {
+    "term": "SimilarImageEmbedding",
+    "type": "Class"
+  },
+  {
+    "term": "NearbyLocationText",
+    "type": "Class"
+  },
+  {
+    "term": "SimilarTextEmbedding",
+    "type": "Class"
+  },
+  {
+    "term": "CrossModalRepresentation",
+    "type": "Class"
+  },
+  {
+    "term": "NeighborhoodStructure",
+    "type": "Class"
+  },
+  {
+    "term": "GeoTaggedStreetViewImage",
+    "type": "Class"
+  },
+  {
+    "term": "Latitude",
+    "type": "Class"
+  },
+  {
+    "term": "Longitude",
+    "type": "Class"
+  },
+  {
+    "term": "HierarchicalIdentifier",
+    "type": "Class"
+  },
+  {
+    "term": "Street",
+    "type": "Class"
+  },
+  {
+    "term": "City",
+    "type": "Class"
+  },
+  {
+    "term": "HaversineFormula",
+    "type": "Class"
+  },
+  {
+    "term": "planet_earth",
+    "type": "Instance"
+  },
+  {
+    "term": "radius_6371000m",
+    "type": "Instance"
+  },
+  {
+    "term": "Distance",
+    "type": "Class"
+  },
+  {
+    "term": "SpatialWeighting",
+    "type": "Class"
+  },
+  {
+    "term": "NeighborhoodDefinition",
+    "type": "Class"
+  },
+  {
+    "term": "NearbyEntity",
+    "type": "Class"
+  },
+  {
+    "term": "DistantEntity",
+    "type": "Class"
+  },
+  {
+    "term": "NearbyObservation",
+    "type": "Class"
+  },
+  {
+    "term": "SimilarSceneContext",
+    "type": "Class"
+  },
+  {
+    "term": "HigherSimilarityTarget",
+    "type": "Class"
+  },
+  {
+    "term": "Country",
+    "type": "Class"
+  },
+  {
+    "term": "Sample",
+    "type": "Class"
+  },
+  {
+    "term": "GeographicRegion",
+    "type": "Class"
+  },
+  {
+    "term": "hasLatitude",
+    "type": "Property"
+  },
+  {
+    "term": "hasLongitude",
+    "type": "Property"
+  },
+  {
+    "term": "includes",
+    "type": "Property"
+  },
+  {
+    "term": "computedUsing",
+    "type": "Property"
+  },
+  {
+    "term": "hasRadius",
+    "type": "Property"
+  },
+  {
+    "term": "providesBasisFor",
+    "type": "Property"
+  },
+  {
+    "term": "isMoreRelatedThan",
+    "type": "Property"
+  },
+  {
+    "term": "shares",
+    "type": "Property"
+  },
+  {
+    "term": "guidedBy",
+    "type": "Property"
+  },
+  {
+    "term": "receives",
+    "type": "Property"
+  },
+  {
+    "term": "encodes",
+    "type": "Property"
+  },
+  {
+    "term": "contains",
+    "type": "Property"
+  },
+  {
+    "term": "partitionedInto",
+    "type": "Property"
+  },
+  {
+    "term": "dataset_xRI",
+    "type": "Instance"
+  },
+  {
+    "term": "city_eightCities",
+    "type": "Instance"
+  },
+  {
+    "term": "country_unitedKingdom",
+    "type": "Instance"
+  },
+  {
+    "term": "sample_geoReferenced",
+    "type": "Instance"
+  },
+  {
+    "term": "image_rgbStreetView",
+    "type": "Instance"
+  },
+  {
+    "term": "coordinate_gps",
+    "type": "Instance"
+  },
+  {
+    "term": "StreetBlock",
+    "type": "Class"
+  },
+  {
+    "term": "CityIdentifier",
+    "type": "Class"
+  },
+  {
+    "term": "loss_lFair",
+    "type": "Instance"
+  },
+  {
+    "term": "GeographicImbalance",
+    "type": "Class"
+  },
+  {
+    "term": "region_various",
+    "type": "Instance"
+  },
+  {
+    "term": "model_clip",
+    "type": "Instance"
+  },
+  {
+    "term": "GeolocationError",
+    "type": "Class"
+  },
+  {
+    "term": "ContrastiveLearning",
+    "type": "Class"
+  },
+  {
+    "term": "GeoLocalization",
+    "type": "Class"
+  },
+  {
+    "term": "ComputerMovie",
+    "type": "Class"
+  },
+  {
+    "term": "UrbanGrowth",
+    "type": "Class"
+  },
+  {
+    "term": "region_detroit",
+    "type": "Instance"
+  },
+  {
+    "term": "model_geoClip",
+    "type": "Instance"
+  },
+  {
+    "term": "Location",
+    "type": "Class"
+  },
+  {
+    "term": "WorldwideGeoLocalization",
+    "type": "Class"
+  },
+  {
+    "term": "model_spatialClip",
+    "type": "Instance"
+  },
+  {
+    "term": "ImageRepresentation",
+    "type": "Class"
+  },
+  {
+    "term": "SpatiallyDiscriminativeLanguage",
+    "type": "Class"
+  },
+  {
+    "term": "model_addressClip",
+    "type": "Instance"
+  },
+  {
+    "term": "VisionLanguageModel",
+    "type": "Class"
+  },
+  {
+    "term": "CityWideImageAddressLocalization",
+    "type": "Class"
+  },
+  {
+    "term": "model_geoReasoner",
+    "type": "Instance"
+  },
+  {
+    "term": "GeospatiallyGroundedContext",
+    "type": "Class"
+  },
+  {
+    "term": "CrossViewGeoLocalization",
+    "type": "Class"
+  },
+  {
+    "term": "NaturalLanguageDescription",
+    "type": "Class"
+  }
+]
+
+Merged Relations:
+[
+  {
+    "subject": "StreetViewGeoLocalization",
+    "relation": "aimsToInfer",
+    "object": "GeographicPosition"
+  },
+  {
+    "subject": "Image",
+    "relation": "isAccompaniedBy",
+    "object": "GpsCoordinate"
+  },
+  {
+    "subject": "SemanticTextAnnotation",
+    "relation": "provides",
+    "object": "LocalizationCue"
+  },
+  {
+    "subject": "NearbyLocation",
+    "relation": "isMoreRelatedThan",
+    "object": "DistantLocation"
+  },
+  {
+    "subject": "ClipStyleRetrieval",
+    "relation": "adaptsTo",
+    "object": "GeographicTag"
+  },
+  {
+    "subject": "NearbyLocation",
+    "relation": "represents",
+    "object": "WeakPositive"
+  },
+  {
+    "subject": "GeographicPhenomenon",
+    "relation": "hasProperty",
+    "object": "SpatialAutocorrelation"
+  },
+  {
+    "subject": "ToblersFirstLawOfGeography",
+    "relation": "expresses",
+    "object": "SpatialAutocorrelation"
+  },
+  {
+    "subject": "Neighborhood",
+    "relation": "contains",
+    "object": "Observation"
+  },
+  {
+    "subject": "model_swClip",
+    "relation": "shiftsObjectiveTo",
+    "object": "GeographicAlignment"
+  },
+  {
+    "subject": "LocationCaption",
+    "relation": "encodes",
+    "object": "GeographicPosition"
+  },
+  {
+    "subject": "SpatiallyWeightedSoftLabel",
+    "relation": "derivesFrom",
+    "object": "GeodesicDistance"
+  },
+  {
+    "subject": "NearbyImage",
+    "relation": "has",
+    "object": "SimilarImageEmbedding"
+  },
+  {
+    "subject": "NearbyLocationText",
+    "relation": "has",
+    "object": "SimilarTextEmbedding"
+  },
+  {
+    "subject": "CrossModalRepresentation",
+    "relation": "preserves",
+    "object": "NeighborhoodStructure"
+  },
+  {
+    "subject": "CrossModalRepresentation",
+    "relation": "supports",
+    "object": "StreetViewGeoLocalization"
+  },
+  {
+    "subject": "GeoTaggedStreetViewImage",
+    "relation": "hasLatitude",
+    "object": "Latitude"
+  },
+  {
+    "subject": "GeoTaggedStreetViewImage",
+    "relation": "hasLongitude",
+    "object": "Longitude"
+  },
+  {
+    "subject": "HierarchicalIdentifier",
+    "relation": "includes",
+    "object": "Street"
+  },
+  {
+    "subject": "HierarchicalIdentifier",
+    "relation": "includes",
+    "object": "City"
+  },
+  {
+    "subject": "GeodesicDistance",
+    "relation": "computedUsing",
+    "object": "HaversineFormula"
+  },
+  {
+    "subject": "planet_earth",
+    "relation": "hasRadius",
+    "object": "radius_6371000m"
+  },
+  {
+    "subject": "Distance",
+    "relation": "providesBasisFor",
+    "object": "SpatialWeighting"
+  },
+  {
+    "subject": "Distance",
+    "relation": "providesBasisFor",
+    "object": "NeighborhoodDefinition"
+  },
+  {
+    "subject": "NearbyEntity",
+    "relation": "isMoreRelatedThan",
+    "object": "DistantEntity"
+  },
+  {
+    "subject": "NearbyObservation",
+    "relation": "shares",
+    "object": "SimilarSceneContext"
+  },
+  {
+    "subject": "model_swClip",
+    "relation": "guidedBy",
+    "object": "ToblersFirstLawOfGeography"
+  },
+  {
+    "subject": "model_swClip",
+    "relation": "guidedBy",
+    "object": "SpatialAutocorrelation"
+  },
+  {
+    "subject": "NearbyLocation",
+    "relation": "receives",
+    "object": "HigherSimilarityTarget"
+  },
+  {
+    "subject": "LocationCaption",
+    "relation": "contains",
+    "object": "Street"
+  },
+  {
+    "subject": "LocationCaption",
+    "relation": "contains",
+    "object": "City"
+  },
+  {
+    "subject": "LocationCaption",
+    "relation": "contains",
+    "object": "Country"
+  },
+  {
+    "subject": "Sample",
+    "relation": "partitionedInto",
+    "object": "GeographicRegion"
+  },
+  {
+    "subject": "dataset_xRI",
+    "relation": "collectedFrom",
+    "object": "city_eightCities"
+  },
+  {
+    "subject": "city_eightCities",
+    "relation": "locatedIn",
+    "object": "country_unitedKingdom"
+  },
+  {
+    "subject": "dataset_xRI",
+    "relation": "comprises",
+    "object": "sample_geoReferenced"
+  },
+  {
+    "subject": "sample_geoReferenced",
+    "relation": "consistsOf",
+    "object": "image_rgbStreetView"
+  },
+  {
+    "subject": "sample_geoReferenced",
+    "relation": "consistsOf",
+    "object": "coordinate_gps"
+  },
+  {
+    "subject": "sample_geoReferenced",
+    "relation": "associatedWith",
+    "object": "StreetBlock"
+  },
+  {
+    "subject": "sample_geoReferenced",
+    "relation": "associatedWith",
+    "object": "CityIdentifier"
+  },
+  {
+    "subject": "loss_lFair",
+    "relation": "mitigates",
+    "object": "GeographicImbalance"
+  },
+  {
+    "subject": "GeographicImbalance",
+    "relation": "occursIn",
+    "object": "region_various"
+  },
+  {
+    "subject": "model_swClip",
+    "relation": "reduces",
+    "object": "GeolocationError"
+  },
+  {
+    "subject": "model_swClip",
+    "relation": "outperforms",
+    "object": "model_clip"
+  },
+  {
+    "subject": "model_swClip",
+    "relation": "improves",
+    "object": "GeoLocalization"
+  },
+  {
+    "subject": "model_swClip",
+    "relation": "injects",
+    "object": "SpatialAutocorrelation"
+  },
+  {
+    "subject": "SpatialAutocorrelation",
+    "relation": "integratedInto",
+    "object": "ContrastiveLearning"
+  },
+  {
+    "subject": "artifact_computer_movie",
+    "relation": "simulates",
+    "object": "process_urban_growth"
+  },
+  {
+    "subject": "process_urban_growth",
+    "relation": "locatedIn",
+    "object": "location_detroit_region"
+  },
+  {
+    "subject": "model_geoclip",
+    "relation": "alignsWith",
+    "object": "entity_locations"
+  },
+  {
+    "subject": "model_geoclip",
+    "relation": "supports",
+    "object": "task_worldwide_geo_localization"
+  },
+  {
+    "subject": "model_spatialclip",
+    "relation": "learns",
+    "object": "concept_3d_aware_image_representations"
+  },
+  {
+    "subject": "model_spatialclip",
+    "relation": "learnsFrom",
+    "object": "concept_spatially_discriminative_language"
+  },
+  {
+    "subject": "model_addressclip",
+    "relation": "empowers",
+    "object": "model_vision_language_models"
+  },
+  {
+    "subject": "model_vision_language_models",
+    "relation": "performs",
+    "object": "task_city_wide_image_address_localization"
+  },
+  {
+    "subject": "model_georeasoner",
+    "relation": "reasonsOn",
+    "object": "concept_geospatially_grounded_context"
+  },
+  {
+    "subject": "task_cross_view_geo_localization",
+    "relation": "uses",
+    "object": "concept_natural_language_descriptions"
+  }
+]

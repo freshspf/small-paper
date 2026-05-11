@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "BuildingBlockOfSpatialInformation",
+  "includes",
+  "Event",
+  "Network",
+  "FunctionalRole",
+  "Measure",
+  "Condition",
+  "Subcondition",
+  "Support",
+  "Extent",
+  "encodes",
+  "ProceduralStructure",
+  "NaturalLanguageQuestion",
+  "isMappedInto",
+  "ConceptTransformation",
+  "GisWorkflow",
+  "isRepresentedAs",
+  "DirectedAcyclicGraph",
+  "GeoAnalyticalQuestionAnswering",
+  "isFormalizedAs",
+  "ConceptTransformationProblem",
+  "isParsedInto",
+  "ExecutableWorkflow",
+  "GeoFlowGraph",
+  "system_spatialAgent",
+  "extracts",
+  "SpatialConcept",
+  "identifies",
+  "imposes",
+  "OrderingConstraint",
+  "GeoFlowGraphGenerationApproach",
+  "isBasedOn",
+  "MacroTemplate",
+  "captures",
+  "RecurringGeoAnalyticalPattern",
+  "GeospatialQuestionAnswering",
+  "isSubDomainOf",
+  "QuestionAnswering",
+  "EarlyGeospatialQaSystem",
+  "focusesOn",
+  "FactoidStyleQuestion",
+  "system_geoQA",
+  "answersQuestionOver",
+  "database_DBpedia",
+  "uses",
+  "TemplateBasedSparqlQueryGeneration",
+  "benchmark_geoQuestions1089",
+  "provides",
+  "GeoSparqlQuery",
+  "dataset_tourismQA",
+  "isA",
+  "TourismOrientedGeospatialQaDataset",
+  "benchmark_mapQA",
+  "PoiRetrievalBenchmark",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoflowGraph",
+  "GeoflowGraphNode",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Routing",
+  "Aggregation",
+  "GisTool",
+  "postgis",
+  "arcgis",
+  "qgis",
+  "Object",
+  "Field"
+]
+
+Triples:
+[
+  {
+    "subject": "BuildingBlockOfSpatialInformation",
+    "relation": "includes",
+    "object": "Event",
+    "chunk": "completedocument1",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) and subsequent work by Scheider et al. (Scheider et al., 2020) identifies foundational building blocks of spatial information, such as Object, Field, Event and Network."
+  },
+  {
+    "subject": "BuildingBlockOfSpatialInformation",
+    "relation": "includes",
+    "object": "Network",
+    "chunk": "completedocument1",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) and subsequent work by Scheider et al. (Scheider et al., 2020) identifies foundational building blocks of spatial information, such as Object, Field, Event and Network."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "Measure",
+    "chunk": "completedocument1",
+    "context": "GeoAnQu research (Xu et al., 2023) highlights functional roles (Measure, Condition, Subcondition, Support, Extent, etc.) that encode the procedural structure of geo-analytical questions."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "Condition",
+    "chunk": "completedocument1",
+    "context": "GeoAnQu research (Xu et al., 2023) highlights functional roles (Measure, Condition, Subcondition, Support, Extent, etc.) that encode the procedural structure of geo-analytical questions."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "Subcondition",
+    "chunk": "completedocument1",
+    "context": "GeoAnQu research (Xu et al., 2023) highlights functional roles (Measure, Condition, Subcondition, Support, Extent, etc.) that encode the procedural structure of geo-analytical questions."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "Support",
+    "chunk": "completedocument1",
+    "context": "GeoAnQu research (Xu et al., 2023) highlights functional roles (Measure, Condition, Subcondition, Support, Extent, etc.) that encode the procedural structure of geo-analytical questions."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "Extent",
+    "chunk": "completedocument1",
+    "context": "GeoAnQu research (Xu et al., 2023) highlights functional roles (Measure, Condition, Subcondition, Support, Extent, etc.) that encode the procedural structure of geo-analytical questions."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "encodes",
+    "object": "ProceduralStructure",
+    "chunk": "completedocument1",
+    "context": "GeoAnQu research (Xu et al., 2023) highlights functional roles (Measure, Condition, Subcondition, Support, Extent, etc.) that encode the procedural structure of geo-analytical questions."
+  },
+  {
+    "subject": "NaturalLanguageQuestion",
+    "relation": "isMappedInto",
+    "object": "ConceptTransformation",
+    "chunk": "completedocument1",
+    "context": "By combining core concepts and functional roles, GeoAnQu demonstrates that natural-language questions can be mapped into concept transformations"
+  },
+  {
+    "subject": "GisWorkflow",
+    "relation": "isRepresentedAs",
+    "object": "DirectedAcyclicGraph",
+    "chunk": "completedocument1",
+    "context": "forming the basis of GIS workflows represented as directed acyclic graphs (DAGs)."
+  },
+  {
+    "subject": "GeoAnalyticalQuestionAnswering",
+    "relation": "isFormalizedAs",
+    "object": "ConceptTransformationProblem",
+    "chunk": "completedocument2",
+    "context": "We formalize geo-analytical question answering as aconcept transformationproblem, where natural-language questions are parsed into executable workflows represented asGeoFlow Graphs."
+  },
+  {
+    "subject": "NaturalLanguageQuestion",
+    "relation": "isParsedInto",
+    "object": "ExecutableWorkflow",
+    "chunk": "completedocument2",
+    "context": "We formalize geo-analytical question answering as aconcept transformationproblem, where natural-language questions are parsed into executable workflows represented asGeoFlow Graphs."
+  },
+  {
+    "subject": "ExecutableWorkflow",
+    "relation": "isRepresentedAs",
+    "object": "GeoFlowGraph",
+    "chunk": "completedocument2",
+    "context": "We formalize geo-analytical question answering as aconcept transformationproblem, where natural-language questions are parsed into executable workflows represented asGeoFlow Graphs."
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "extracts",
+    "object": "SpatialConcept",
+    "chunk": "completedocument2",
+    "context": "Specifically, the agent (i) extracts spatial concepts from questions and instantiates them as graph nodes, (ii) identifies functional roles that impose ordering constraints, (iii) composes transformation edges through a template-based approach that leverages recurring geo-analytical patterns, and (iv) executes the workflow via tool invocations, grounding its final response in verifiable computational results rather than parametric knowledge alone."
+  },
+  {
+    "subject": "system_spatialAgent",
+    "relation": "identifies",
+    "object": "FunctionalRole",
+    "chunk": "completedocument2",
+    "context": "Specifically, the agent (i) extracts spatial concepts from questions and instantiates them as graph nodes, (ii) identifies functional roles that impose ordering constraints, (iii) composes transformation edges through a template-based approach that leverages recurring geo-analytical patterns, and (iv) executes the workflow via tool invocations, grounding its final response in verifiable computational results rather than parametric knowledge alone."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "imposes",
+    "object": "OrderingConstraint",
+    "chunk": "completedocument2",
+    "context": "Specifically, the agent (i) extracts spatial concepts from questions and instantiates them as graph nodes, (ii) identifies functional roles that impose ordering constraints, (iii) composes transformation edges through a template-based approach that leverages recurring geo-analytical patterns, and (iv) executes the workflow via tool invocations, grounding its final response in verifiable computational results rather than parametric knowledge alone."
+  },
+  {
+    "subject": "GeoFlowGraphGenerationApproach",
+    "relation": "isBasedOn",
+    "object": "MacroTemplate",
+    "chunk": "completedocument2",
+    "context": "We propose a compositional GeoFlow Graph generation approach based on macro-templates, capturing recurring geo-analytical patterns and improving structural validity via template matching and IO-port composition."
+  },
+  {
+    "subject": "MacroTemplate",
+    "relation": "captures",
+    "object": "RecurringGeoAnalyticalPattern",
+    "chunk": "completedocument2",
+    "context": "We propose a compositional GeoFlow Graph generation approach based on macro-templates, capturing recurring geo-analytical patterns and improving structural validity via template matching and IO-port composition."
+  },
+  {
+    "subject": "GeospatialQuestionAnswering",
+    "relation": "isSubDomainOf",
+    "object": "QuestionAnswering",
+    "chunk": "completedocument2",
+    "context": "Geospatial question answering (Mai et al., 2021) is a sub-domain of question answering focusing on questions that involve geographic entities, concepts, and/or require geospatial computation."
+  },
+  {
+    "subject": "EarlyGeospatialQaSystem",
+    "relation": "focusesOn",
+    "object": "FactoidStyleQuestion",
+    "chunk": "completedocument2",
+    "context": "Early geospatial QA systems focused on factoid-style questions over knowledge graphs (Mai et al., 2020)."
+  },
+  {
+    "subject": "system_geoQA",
+    "relation": "answersQuestionOver",
+    "object": "database_DBpedia",
+    "chunk": "completedocument2",
+    "context": "GeoQA (Punjani et al., 2018) and its successor GeoQA2 (Kefalidis et al., 2024) answer questions over DBpedia and YAGO2geo using template-based SPARQL query generation."
+  },
+  {
+    "subject": "system_geoQA",
+    "relation": "uses",
+    "object": "TemplateBasedSparqlQueryGeneration",
+    "chunk": "completedocument2",
+    "context": "GeoQA (Punjani et al., 2018) and its successor GeoQA2 (Kefalidis et al., 2024) answer questions over DBpedia and YAGO2geo using template-based SPARQL query generation."
+  },
+  {
+    "subject": "benchmark_geoQuestions1089",
+    "relation": "provides",
+    "object": "GeoSparqlQuery",
+    "chunk": "completedocument2",
+    "context": "The GeoQuestions1089 benchmark (Kefalidis et al., 2023) provides 1,089 questions with GeoSPARQL queries for evaluation."
+  },
+  {
+    "subject": "dataset_tourismQA",
+    "relation": "isA",
+    "object": "TourismOrientedGeospatialQaDataset",
+    "chunk": "completedocument2",
+    "context": "TourismQA (Contractor et al., 2021b,a) was constructed as a tourism-oriented geospatial QA dataset focusing on retrieving points of interest (POIs) from spatial databases based on text-to-SQL approaches according to specified geospatial and semantics constraints."
+  },
+  {
+    "subject": "benchmark_mapQA",
+    "relation": "isA",
+    "object": "PoiRetrievalBenchmark",
+    "chunk": "completedocument2",
+    "context": "More recently, MapQA (Li et al., 2025) was introduced as a similar text-to-SQL style POI retrieval benchmark with diverse geospatial constraits."
+  }
+]

@@ -1,0 +1,284 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CausalPathwayIdentification",
+  "occursDuring",
+  "Inference",
+  "necessitates",
+  "ModelQuery",
+  "increases",
+  "ComputationalOverhead",
+  "constrains",
+  "Scalability",
+  "mcrag",
+  "isA",
+  "MultimodalCausalRetrievalFramework",
+  "enhances",
+  "Factuality",
+  "Robustness",
+  "improves",
+  "MedicalVisionLanguageModel",
+  "integrates",
+  "GraphBasedCausalReasoning",
+  "integratedWithin",
+  "CrossModalRetrieval",
+  "achievesResultsOn",
+  "RadiologySpecificVQA",
+  "ReportGenerationTask",
+  "AblationAnalysis",
+  "demonstratesImportanceOf",
+  "CausalGrounding",
+  "supports",
+  "ClinicallyMeaningfulEvidence",
+  "ManualRefinement",
+  "Precision",
+  "CausalRetrieval",
+  "enables",
+  "SaferDeployment",
+  "locatedIn",
+  "RealWorldClinicalSetting",
+  "ArtificialIntelligence",
+  "Healthcare",
+  "MedicalLargeVisionLanguageModel",
+  "IntelligentDiagnosis",
+  "ReliabilityIssue",
+  "NonFactualMedicalResponse",
+  "DiagnosticError",
+  "SevereConsequence",
+  "FineTuning",
+  "LowRankAdaptation",
+  "RetrievalAugmentedGeneration",
+  "ModelPerformance",
+  "MedicalField",
+  "MedicalDomain",
+  "HighQualityLabeledData",
+  "DistributionShift",
+  "ExternalKnowledge",
+  "framework_medrag",
+  "framework_mmedrag",
+  "SemanticOverReliance",
+  "CrossModalityMisalignment",
+  "CausalityBasedMethod",
+  "RetrievalAccuracy",
+  "RepresentationLearning",
+  "framework_causalrag",
+  "CausalImportance",
+  "framework_cmcrl",
+  "SharedCausalRepresentation",
+  "CausalGraph",
+  "Interpretability",
+  "HolisticFramework",
+  "Alignment",
+  "ExplicitCausalGraph",
+  "RagRetrieval",
+  "framework_mcrag",
+  "CausalAlignmentGraph",
+  "StructuredDependency",
+  "McragFramework",
+  "MedLvlm",
+  "StructuralCausalModel",
+  "DomainAwareRetrieval",
+  "OptimalRetriever",
+  "AdaptiveContextSelection",
+  "Evidence"
+]
+
+Triples:
+[
+  {
+    "subject": "CausalPathwayIdentification",
+    "relation": "occursDuring",
+    "object": "Inference",
+    "chunk": "limitations",
+    "context": "Moreover, the identification of causal path- ways during inference necessitates additional model queries, thereby increasing computational overhead and potentially constraining scalability in practical deployments."
+  },
+  {
+    "subject": "CausalPathwayIdentification",
+    "relation": "necessitates",
+    "object": "ModelQuery",
+    "chunk": "limitations",
+    "context": "Moreover, the identification of causal path- ways during inference necessitates additional model queries, thereby increasing computational overhead and potentially constraining scalability in practical deployments."
+  },
+  {
+    "subject": "CausalPathwayIdentification",
+    "relation": "increases",
+    "object": "ComputationalOverhead",
+    "chunk": "limitations",
+    "context": "Moreover, the identification of causal path- ways during inference necessitates additional model queries, thereby increasing computational overhead and potentially constraining scalability in practical deployments."
+  },
+  {
+    "subject": "CausalPathwayIdentification",
+    "relation": "constrains",
+    "object": "Scalability",
+    "chunk": "limitations",
+    "context": "Moreover, the identification of causal path- ways during inference necessitates additional model queries, thereby increasing computational overhead and potentially constraining scalability in practical deployments."
+  },
+  {
+    "subject": "mcrag",
+    "relation": "isA",
+    "object": "MultimodalCausalRetrievalFramework",
+    "chunk": "conclusion",
+    "context": "We present MCRAG, a multimodal causal retrieval frame-work that enhances factuality and robustness in medical vi-sion–language models."
+  },
+  {
+    "subject": "mcrag",
+    "relation": "enhances",
+    "object": "Factuality",
+    "chunk": "conclusion",
+    "context": "We present MCRAG, a multimodal causal retrieval frame-work that enhances factuality and robustness in medical vi-sion–language models."
+  },
+  {
+    "subject": "mcrag",
+    "relation": "enhances",
+    "object": "Robustness",
+    "chunk": "conclusion",
+    "context": "We present MCRAG, a multimodal causal retrieval frame-work that enhances factuality and robustness in medical vi-sion–language models."
+  },
+  {
+    "subject": "mcrag",
+    "relation": "improves",
+    "object": "MedicalVisionLanguageModel",
+    "chunk": "conclusion",
+    "context": "We present MCRAG, a multimodal causal retrieval frame-work that enhances factuality and robustness in medical vi-sion–language models."
+  },
+  {
+    "subject": "mcrag",
+    "relation": "integrates",
+    "object": "GraphBasedCausalReasoning",
+    "chunk": "conclusion",
+    "context": "By integrating graph-based causal reasoning within cross-modal retrieval, MCRAG achieves state-of-the-art results on radiology-specific VQA and re-port generation tasks."
+  },
+  {
+    "subject": "GraphBasedCausalReasoning",
+    "relation": "integratedWithin",
+    "object": "CrossModalRetrieval",
+    "chunk": "conclusion",
+    "context": "By integrating graph-based causal reasoning within cross-modal retrieval, MCRAG achieves state-of-the-art results on radiology-specific VQA and re-port generation tasks."
+  },
+  {
+    "subject": "mcrag",
+    "relation": "achievesResultsOn",
+    "object": "RadiologySpecificVQA",
+    "chunk": "conclusion",
+    "context": "By integrating graph-based causal reasoning within cross-modal retrieval, MCRAG achieves state-of-the-art results on radiology-specific VQA and re-port generation tasks."
+  },
+  {
+    "subject": "mcrag",
+    "relation": "achievesResultsOn",
+    "object": "ReportGenerationTask",
+    "chunk": "conclusion",
+    "context": "By integrating graph-based causal reasoning within cross-modal retrieval, MCRAG achieves state-of-the-art results on radiology-specific VQA and re-port generation tasks."
+  },
+  {
+    "subject": "AblationAnalysis",
+    "relation": "demonstratesImportanceOf",
+    "object": "CausalGrounding",
+    "chunk": "conclusion",
+    "context": "Ablation analysis further underscores the importance of causal grounding for clinically meaningful evidence and demonstrates the effectiveness of manual refine-ment in improving precision."
+  },
+  {
+    "subject": "CausalGrounding",
+    "relation": "supports",
+    "object": "ClinicallyMeaningfulEvidence",
+    "chunk": "conclusion",
+    "context": "Ablation analysis further underscores the importance of causal grounding for clinically meaningful evidence and demonstrates the effectiveness of manual refine-ment in improving precision."
+  },
+  {
+    "subject": "ManualRefinement",
+    "relation": "improves",
+    "object": "Precision",
+    "chunk": "conclusion",
+    "context": "Ablation analysis further underscores the importance of causal grounding for clinically meaningful evidence and demonstrates the effectiveness of manual refine-ment in improving precision."
+  },
+  {
+    "subject": "CausalRetrieval",
+    "relation": "enables",
+    "object": "SaferDeployment",
+    "chunk": "conclusion",
+    "context": "Taken together, these findings highlight causal retrieval as a viable pathway toward safer deployment in real-world clinical settings."
+  },
+  {
+    "subject": "SaferDeployment",
+    "relation": "locatedIn",
+    "object": "RealWorldClinicalSetting",
+    "chunk": "conclusion",
+    "context": "Taken together, these findings highlight causal retrieval as a viable pathway toward safer deployment in real-world clinical settings."
+  }
+]

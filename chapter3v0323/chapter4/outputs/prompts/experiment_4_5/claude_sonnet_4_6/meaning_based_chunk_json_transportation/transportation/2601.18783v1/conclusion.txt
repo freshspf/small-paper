@@ -1,0 +1,134 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "conclusion",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: conclusion
+- section_title: Conclusion
+- page_start: 7
+- page_end: 9
+
+**INPUT TEXT CHUNK:**
+We developed a multi-objective reinforcement learning
+framework for autonomous truck tactical decision making
+by introducing a multi-objective Proximal Policy Optimiza-
+tion (MOPPO) architecture combined with Generalized Pol-
+icy Improvement with Linear Support (GPI-LS). Experiments
+conducted in a realistic highway driving simulator show that
+the proposed approach efficiently approximates the Pareto
+frontier and enables flexible control over safety, time, and
+energy trade-offs. These results demonstrate the effective-
+ness of the method for heavy-duty vehicle applications and
+open up new possibilities for deploying adaptive, preference-
+aware autonomous driving policies in real-world logistics op-
+erations.
+
+
+
+model predictive control. In2015 International Sympo-
+sium on Innovations in Intelligent SysTems and Applica-
+tions (INISTA), pages 1–8, 2015.
+[Padenet al., 2016 ]Brian Paden, Michal ˇC´ap, Sze Zheng
+Yong, Dmitry Yershov, and Emilio Frazzoli. A survey of
+motion planning and control techniques for self-driving ur-
+ban vehicles.IEEE Transactions on intelligent vehicles,
+1(1):33–55, 2016.
+[Pathareet al., 2023 ]Deepthi Pathare, Leo Laine, and
+Morteza Haghir Chehreghani. Improved tactical decision
+making and control architecture for autonomous truck in
+sumo using reinforcement learning. In2023 IEEE Inter-
+national Conference on Big Data (BigData), pages 5321–
+5329, 2023.
+[Pathareet al., 2026 ]Deepthi Pathare, Leo Laine, and
+Morteza Haghir Chehreghani. Tactical decision making
+for autonomous trucks by deep reinforcement learning
+with total cost of operation based reward.Artificial In-
+telligence Review, 59(1):27, 2026.
+[Schulmanet al., 2015 ]John Schulman, Philipp Moritz,
+Sergey Levine, Michael Jordan, and Pieter Abbeel. High-
+dimensional continuous control using generalized advan-
+tage estimation, 2015.
+[Schulmanet al., 2017 ]John Schulman, Filip Wolski, Pra-
+fulla Dhariwal, Alec Radford, and Oleg Klimov. Proximal
+policy optimization algorithms, 2017.
+[Schwartinget al., 2018 ]Wilko Schwarting, Javier Alonso-
+Mora, and Daniela Rus. Planning and decision-making for
+autonomous vehicles.Annual Review of Control, Robotics,
+and Autonomous Systems, 1(1):187–210, 2018.
+[Surmannet al., 2025 ]Hendrik Surmann, Jorge de Heuvel,
+and Maren Bennewitz. Multi-objective reinforcement
+learning for adaptive personalized autonomous driving.
+arXiv preprint arXiv:2505.05223, 2025.
+[Treiberet al., 2000 ]Martin Treiber, Ansgar Hennecke, and
+Dirk Helbing. Congested traffic states in empirical obser-
+vations and microscopic simulations.Physical review E,
+62(2):1805, 2000.
+[Xuet al., 2018 ]Xin Xu, Lei Zuo, Xin Li, Lilin Qian, Junkai
+Ren, and Zhenping Sun. A reinforcement learning ap-
+proach to autonomous decision making of intelligent ve-
+hicles on highways.IEEE Transactions on Systems, Man,
+and Cybernetics: Systems, 50(10):3884–3897, 2018.
+[Xuet al., 2020 ]Jie Xu, Yunsheng Tian, Pingchuan Ma,
+Daniela Rus, Shinjiro Sueda, and Wojciech Matusik.
+Prediction-guided multi-objective reinforcement learning
+for continuous robot control. In Hal Daum ´e III and Aarti
+Singh, editors,Proceedings of the 37th International Con-
+ference on Machine Learning, volume 119 ofProceed-
+ings of Machine Learning Research, pages 10607–10616.
+PMLR, 13–18 Jul 2020.
+[Zhanget al., 2020 ]Jian Zhang, Kunrun Wu, Min Cheng,
+Min Yang, Yang Cheng, and Shen Li. Safety evaluation for
+connected and autonomous vehicles’ exclusive lanes con-
+sidering penetrate ratios and impact of trucks using surro-gate safety measures.Journal of advanced transportation,
+2020(1):5847814, 2020.
+[Zhanget al., 2023 ]Linzi Zhang, Zhiquan Qi, and Yong
+Shi. Multi-objective reinforcement learning – concept,
+approaches and applications.Procedia Computer Sci-
+ence, 221:526–532, 2023. Tenth International Conference
+on Information Technology and Quantitative Management
+(ITQM 2023).
+[Zhouet al., 2023 ]Zixian Zhou, Mengda Huang, Feiyang
+Pan, Jia He, Xiang Ao, Dandan Tu, and Qing He.
+Gradient-adaptive pareto optimization for constrained re-
+inforcement learning.Proceedings of the AAAI Confer-
+ence on Artificial Intelligence, 37(9):11443–11451, Jun.
+2023.

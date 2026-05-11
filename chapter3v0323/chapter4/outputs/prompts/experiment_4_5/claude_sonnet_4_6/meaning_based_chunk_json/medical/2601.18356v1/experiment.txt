@@ -1,0 +1,88 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiment",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiment
+- section_title: Experiment
+- page_start: 3
+- page_end: 3
+
+**INPUT TEXT CHUNK:**
+3.1. Experimental Setups
+For the language model, we adopt LLaV A-Med-1.5-7B [1],
+fine-tuned with LoRA [19] using the AdamW optimizer. The
+fine-tuning is performed with a learning rate of3×10−5,
+weight decay of10−2, a batch size of 16, and for 500 epochs.
+For modality-specific encoders, we employ MedVIT [20] as
+the vision encoder and BioClinicalBERT [21] as the text en-
+coder.
+We adopt the experimental framework of MMed-RAG[7]
+and evaluate hallucination mitigation methods from two com-
+plementary perspectives. Decoding-based approaches, such
+as DoLa [13], OPERA [14], and VCD [15], improve factual
+consistency by directly adjusting the model’s output distribu-
+tion. In contrast, multimodal retrieval-augmented generation
+(RAG) methods, including MedDr [16], FactMM-RAG [17],
+RULE [18], and MMed-RAG [7], mitigate hallucinations
+by grounding responses in external knowledge. We didn’t
+choose the CasualRAG is because it is not multi-modal, so
+not in our scope.
+Our experiments employ MIMIC-CXR [22] and IU-
+Xray [23] as benchmark datasets. Question–answer pairs
+are taken from MMed-RAG [7]. Following prior work [7],
+we assess medical VQA performance using Accuracy, F1
+Score, and AUROC, while report generation is evaluated with
+BLEU, ROUGE-L, and METEOR.
+3.2. Comparison Results
+Table 1 compares decoding-only baselines with retrieval-
+augmented models. While MMed-RAG delivers strong re-
+sults (e.g.,89.54Acc and87.13AUC on IU-Xray VQA),
+our method (MCRAG) consistently sets new state-of-the-
+art across all tasks. On IU-Xray VQA, MCRAGsurpasses
+MMed-RAG by+0.58Acc,+1.31F1, and+1.12AUC;
+on MIMIC-CXR VQA, it achieves further gains of+1.34
+Acc,+0.88F1, and+1.34AUC. For report generation,
+MCRAGraises BLEU to35.02and25.81, improving over
+MMed-RAG by+3.64and+2.56on IU-Xray and MIMIC-
+CXR, respectively. These results demonstrate that causality-
+guided retrieval not only enhances factual accuracy in VQA

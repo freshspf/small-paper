@@ -1,0 +1,212 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+**INPUT TEXT CHUNK:**
+DDI dataset used in the simulation (weights in-
+ferred from clinical severity).
+drugidrugjkind weight wkind
+ij
+Ritonavir Everolimus harm 0.95
+Ritonavir Cabazitaxel harm 0.90
+Metformin Ritonavir harm 0.65
+Metformin Everolimus harm 0.55
+Ritonavir Erlotinib harm 0.80
+Topotecan Cabazitaxel harm 0.75
+Erlotinib Cabazitaxel harm 0.70
+Everolimus Cabazitaxel synergy 0.60
+Everolimus Topotecan synergy 0.58
+Erlotinib Metformin synergy 0.39
+The goal of the optimization is to choose a group of
+drugs that is safe to use together and, when possible,
+
+3
+provides useful therapeutic beneﬁts. To do this, we build
+an objective function that accounts for harmful interac-
+tions, possible synergy between drugs, and the preferred
+number of drugs in the combination. We introduce two
+models below that describe how these requirements are
+encoded.
+A. Maximum Safe Subset (MSS)
+Theﬁrsttaskisthe Maximum Safe Subset (MSS)prob-
+lem. Here, the objective is to choose the largest possi-
+ble set of drugs that contains no harmful interactions.
+In other words, we seek the largest drug combination in
+which all drugs can be safely used together.
+To encode this objective, we assign a reward for se-
+lecting each drug and impose a penalty for selecting any
+harmful pair. The loss function is
+LMSS(x) =−n/summationdisplay
+i=1xi+α/summationdisplay
+(i,j)∈Eharmwharm
+ijxixj,(3)
+whereα >0 is a penalty coeﬃcient controlling the
+severity of constraint enforcement and wharm
+ijare harm-
+ful weights. The ﬁrst term encourages selecting as many
+drugs as possible, while the second term penalizes the in-
+clusion of any harmful pair. If αis suﬃciently large, the
+optimal solution will exclude all harmful pairs entirely.
+To convert Eq. (3) into an Ising Hamiltonian, we map
+xi=1−zi
+2,
+wherezi∈ {−1,+1}are Pauli-Zeigenvalues. Substitut-
+ing this relation into Eq. (3) yields an Ising Hamiltonian
+HMSS=cMSS+/summationdisplay
+ihMSS
+iZi+/summationdisplay
+i<jJMSS
+ijZiZj,(4)
+whereZiis the Pauli- Zoperator acting on qubit i, and
+the coeﬃcients determined explicitly by
+cMSS=−n
+2+α
+4/summationdisplay
+(i,j)∈Eharmwharm
+ij, (5)
+hMSS
+i=1
+2−α
+4/summationdisplay
+(i,j)∈Eharmwharm
+ij, (6)
+JMSS
+ij=α
+4wharm
+ij. (7)
+Thus, harmful interactions generate positive Ising cou-
+plingsJMSS
+ij>0, raising the energy of conﬁgurations
+where both zi=zj=−1 (i.e.,xi=xj= 1). The
+ground state of this Hamiltonian corresponds exactly to
+the largest safe drug subset.
+B. Synergy-Constrained Optimization (SCO)
+While the MSS formulation focuses exclusively on
+safetybyeliminatingharmfuldrugpairs,manytherapeu-
+tic applicationsdemand amorenuancedbalancebetweeneﬃcacy and toxicity [37]. In clinical practice, desirable
+drug combinations simultaneously exploit beneﬁcial syn-
+ergy, avoid adverse interactions, and meet a prescribed
+therapeutic size. To accommodate these competing re-
+quirements, we introduce the Synergy-Constrained Opti-
+mization (SCO) model, which extends the MSS formal-
+ism by incorporating synergistic rewards and a cardinal-
+ity constraint.
+In SCO, the objective function contains three contri-
+butions. First, synergistic interactions decrease the loss,
+favoring the co-selection of pharmacologically compati-
+ble drug pairs. Second, harmful interactions increase the
+loss through a toxicity penalty weighted by a parameter
+γ,whichallowsustomodulatethestrictnessofharmsup-
+pression. Third, a quadratic regularization term enforces
+a target combination size K, ensuring that the result-
+ing drug set satisﬁes application-speciﬁc design criteria.
+These considerations lead to the loss function
+LSCO(x) =−/summationdisplay
+(i,j)∈Esynwsyn
+ijxixj+γ/summationdisplay
+(i,j)∈Eharmwharm
+ijxixj
++µ/parenleftBiggn/summationdisplay
+i=1xi−K/parenrightBigg2
+, (8)
+whereγtunes the harmful penalty, µcontrols the
+strength of the size constraint, and Kdenotes the de-
+sired number of selected drugs. The quadratic term in-
+troducesboth localﬁelds andeﬀective all-to-allcouplings
+once expanded, reﬂecting the global nature of the cardi-
+nality requirement.
+Substituting the standard Ising mapping xi= (1−
+zi)/2 into Eq. (8) yields an Ising Hamiltonian as
+HSCO=cSCO+/summationdisplay
+ihSCO
+iZi+/summationdisplay
+i<jJSCO
+ijZiZj,(9)
+where
+cSCO=−1
+4/summationdisplay
+(i,j)∈Esynwsyn
+ij
++γ
+4/summationdisplay
+(i,j)∈Eharmwharm
+ij+µ/parenleftBign
+2−K/parenrightBig2
++µn
+4,(10)
+hSCO
+i=1
+4/summationdisplay
+j∈Esynwsyn
+ij−γ
+4/summationdisplay
+j∈Eharmwharm
+ij−µ/parenleftBign
+2−K/parenrightBig
+,
+(11)
+JSCO
+ij=−1
+4wsyn
+ij+γ
+4wharm
+ij+µ
+2. (12)
+The sign and magnitude of the couplings have clear
+pharmacological meaning: synergistic pairs generate
+negative couplings, which energetically favor their co-
+selection, harmful pairs generate positive couplings,
+which penalize conﬁgurationscontainingboth drugs, and
+thecardinalityterminducesglobalcorrelationsthatsteer
+the system towardthe prescribed combination size. Con-
+sequently, the ground state of HSCOencodes the optimal
+clinically constrained drug set, simultaneously balancing
+eﬃcacy, safety, and size.
+
+4
+III.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ChangeDetection",
+  "identifies",
+  "LandCoverChange",
+  "analyzes",
+  "MultiTemporalRemoteSensingImage",
+  "usedIn",
+  "LandResourceMonitoring",
+  "UrbanExpansionAnalysis",
+  "DisasterAssessment",
+  "AgriculturalMonitoring",
+  "model_uniCd",
+  "isA",
+  "SupervisionAdaptiveFramework",
+  "supports",
+  "SupervisedChangeDetectionTask",
+  "WeaklySupervisedChangeDetectionTask",
+  "UnsupervisedChangeDetectionTask",
+  "MultiTemporalObservationData",
+  "enables",
+  "SurfaceDynamics",
+  "exhibits",
+  "TimeVaryingFeature",
+  "drivenBy",
+  "LandCoverEvolution",
+  "IlluminationChange",
+  "SeasonalEffect",
+  "ConvolutionalNeuralNetwork",
+  "NetworkArchitecture",
+  "Transformer",
+  "Mamba",
+  "VisualFoundationModel",
+  "generalizesAcross",
+  "VisionTask",
+  "model_sam",
+  "requires",
+  "TaskSpecificAdaptation",
+  "ExplicitSupervisionSignal",
+  "constrainedBy",
+  "SupervisedLearningParadigm",
+  "RemoteSensingChangeDetection",
+  "dividedInto",
+  "SupervisedCd",
+  "WeaklySupervisedCd",
+  "RemoteSensingPlatform",
+  "TimeSeriesComparison",
+  "RealChange",
+  "PseudoChange",
+  "TemporalChange",
+  "ComplexBackgroundVariation",
+  "UnsupervisedCd",
+  "PixelLevelAnnotation",
+  "DeepSupervision",
+  "SelfAttention",
+  "ImageLevelAnnotation",
+  "RegionLevelAnnotation",
+  "ClassActivationMap",
+  "PotentialChangeArea",
+  "Sam",
+  "UnifiedModelingParadigm",
+  "SharedFeatureRepresentation",
+  "SimultaneousModelingMethod",
+  "StructuralStability",
+  "SemanticDiscriminability",
+  "dsamnet",
+  "bit",
+  "sam_cd",
+  "cs_wscd",
+  "dsfa",
+  "anychange",
+  "omni_res",
+  "omni_detr",
+  "fcd_gan",
+  "framework_UniCD",
+  "ChangeDetectionTask",
+  "module_STAM",
+  "SupervisedLearning",
+  "module_CRR",
+  "WeaklySupervisedLearning",
+  "module_SPCI",
+  "UnsupervisedLearning"
+]
+
+Triples:
+[
+  {
+    "subject": "ChangeDetection",
+    "relation": "identifies",
+    "object": "LandCoverChange",
+    "chunk": "introduction",
+    "context": "Change detection (CD) is a technique that identifies land cover changes by analyzing multi-temporal remote sensing images."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "analyzes",
+    "object": "MultiTemporalRemoteSensingImage",
+    "chunk": "introduction",
+    "context": "Change detection (CD) is a technique that identifies land cover changes by analyzing multi-temporal remote sensing images."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "usedIn",
+    "object": "LandResourceMonitoring",
+    "chunk": "introduction",
+    "context": "It plays an important role in land resource monitor-ing, urban expansion analysis, disaster assessment, and agri-cultural monitoring [Hussainet al., 2013 ]."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "usedIn",
+    "object": "UrbanExpansionAnalysis",
+    "chunk": "introduction",
+    "context": "It plays an important role in land resource monitor-ing, urban expansion analysis, disaster assessment, and agri-cultural monitoring [Hussainet al., 2013 ]."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "usedIn",
+    "object": "DisasterAssessment",
+    "chunk": "introduction",
+    "context": "It plays an important role in land resource monitor-ing, urban expansion analysis, disaster assessment, and agri-cultural monitoring [Hussainet al., 2013 ]."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "usedIn",
+    "object": "AgriculturalMonitoring",
+    "chunk": "introduction",
+    "context": "It plays an important role in land resource monitor-ing, urban expansion analysis, disaster assessment, and agri-cultural monitoring [Hussainet al., 2013 ]."
+  },
+  {
+    "subject": "model_uniCd",
+    "relation": "isA",
+    "object": "SupervisionAdaptiveFramework",
+    "chunk": "introduction",
+    "context": "Figure 1: Our proposed UniCD is a supervision-adaptive framework that supports supervised, weakly-supervised, and unsupervised CD tasks in a unified manner."
+  },
+  {
+    "subject": "model_uniCd",
+    "relation": "supports",
+    "object": "SupervisedChangeDetectionTask",
+    "chunk": "introduction",
+    "context": "Figure 1: Our proposed UniCD is a supervision-adaptive framework that supports supervised, weakly-supervised, and unsupervised CD tasks in a unified manner."
+  },
+  {
+    "subject": "model_uniCd",
+    "relation": "supports",
+    "object": "WeaklySupervisedChangeDetectionTask",
+    "chunk": "introduction",
+    "context": "Figure 1: Our proposed UniCD is a supervision-adaptive framework that supports supervised, weakly-supervised, and unsupervised CD tasks in a unified manner."
+  },
+  {
+    "subject": "model_uniCd",
+    "relation": "supports",
+    "object": "UnsupervisedChangeDetectionTask",
+    "chunk": "introduction",
+    "context": "Figure 1: Our proposed UniCD is a supervision-adaptive framework that supports supervised, weakly-supervised, and unsupervised CD tasks in a unified manner."
+  },
+  {
+    "subject": "MultiTemporalObservationData",
+    "relation": "enables",
+    "object": "SurfaceDynamics",
+    "chunk": "introduction",
+    "context": "With the rapid advancement of remote sensing platforms, multi-temporal observation data has become widely accessible, enabling a more granular characterization of surface dynamics through time-series comparisons."
+  },
+  {
+    "subject": "MultiTemporalRemoteSensingImage",
+    "relation": "exhibits",
+    "object": "TimeVaryingFeature",
+    "chunk": "introduction",
+    "context": "Meanwhile, multi-temporal remote sensing imagery also exhibits complex time-varying features driven by multiple factors, including land cover evolution, il-lumination changes, and seasonal effects."
+  },
+  {
+    "subject": "TimeVaryingFeature",
+    "relation": "drivenBy",
+    "object": "LandCoverEvolution",
+    "chunk": "introduction",
+    "context": "Meanwhile, multi-temporal remote sensing imagery also exhibits complex time-varying features driven by multiple factors, including land cover evolution, il-lumination changes, and seasonal effects."
+  },
+  {
+    "subject": "TimeVaryingFeature",
+    "relation": "drivenBy",
+    "object": "IlluminationChange",
+    "chunk": "introduction",
+    "context": "Meanwhile, multi-temporal remote sensing imagery also exhibits complex time-varying features driven by multiple factors, including land cover evolution, il-lumination changes, and seasonal effects."
+  },
+  {
+    "subject": "TimeVaryingFeature",
+    "relation": "drivenBy",
+    "object": "SeasonalEffect",
+    "chunk": "introduction",
+    "context": "Meanwhile, multi-temporal remote sensing imagery also exhibits complex time-varying features driven by multiple factors, including land cover evolution, il-lumination changes, and seasonal effects."
+  },
+  {
+    "subject": "ConvolutionalNeuralNetwork",
+    "relation": "isA",
+    "object": "NetworkArchitecture",
+    "chunk": "introduction",
+    "context": "Early CD research primarily focused on designing effec-tive network architectures, evolving from Convolutional Neu-ral Networks (CNNs) [Liet al., 2021 ]to Transformers [Han et al., 2022 ]and Mamba [Gu and Dao, 2024 ]."
+  },
+  {
+    "subject": "Transformer",
+    "relation": "isA",
+    "object": "NetworkArchitecture",
+    "chunk": "introduction",
+    "context": "Early CD research primarily focused on designing effec-tive network architectures, evolving from Convolutional Neu-ral Networks (CNNs) [Liet al., 2021 ]to Transformers [Han et al., 2022 ]and Mamba [Gu and Dao, 2024 ]."
+  },
+  {
+    "subject": "Mamba",
+    "relation": "isA",
+    "object": "NetworkArchitecture",
+    "chunk": "introduction",
+    "context": "Early CD research primarily focused on designing effec-tive network architectures, evolving from Convolutional Neu-ral Networks (CNNs) [Liet al., 2021 ]to Transformers [Han et al., 2022 ]and Mamba [Gu and Dao, 2024 ]."
+  },
+  {
+    "subject": "VisualFoundationModel",
+    "relation": "generalizesAcross",
+    "object": "VisionTask",
+    "chunk": "introduction",
+    "context": "Consequently, visual foundation models (VFMs) [Awaiset al., 2025 ]have demon-strated remarkable generalization capabilities across a wide range of vision tasks."
+  },
+  {
+    "subject": "model_sam",
+    "relation": "isA",
+    "object": "VisualFoundationModel",
+    "chunk": "introduction",
+    "context": "However, when applied to remote sens-ing CD, VFMs (e.g., SAM [Kirillovet al., 2023 ]) still require task-specific adaptation with explicit supervision signals to accurately distinguish temporal changes from complex back-ground variations."
+  },
+  {
+    "subject": "model_sam",
+    "relation": "requires",
+    "object": "TaskSpecificAdaptation",
+    "chunk": "introduction",
+    "context": "However, when applied to remote sens-ing CD, VFMs (e.g., SAM [Kirillovet al., 2023 ]) still require task-specific adaptation with explicit supervision signals to accurately distinguish temporal changes from complex back-ground variations."
+  },
+  {
+    "subject": "model_sam",
+    "relation": "requires",
+    "object": "ExplicitSupervisionSignal",
+    "chunk": "introduction",
+    "context": "However, when applied to remote sens-ing CD, VFMs (e.g., SAM [Kirillovet al., 2023 ]) still require task-specific adaptation with explicit supervision signals to accurately distinguish temporal changes from complex back-ground variations."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "constrainedBy",
+    "object": "SupervisedLearningParadigm",
+    "chunk": "introduction",
+    "context": "Most existing CD methods are still constrained by su-pervised learning paradigms."
+  },
+  {
+    "subject": "RemoteSensingChangeDetection",
+    "relation": "dividedInto",
+    "object": "SupervisedCd",
+    "chunk": "relatedwork",
+    "context": "Categorized by supervision information, remote sensing CD tasks can generally be divided into three main paradigms: su- pervised, weakly-supervised, and unsupervised CD."
+  },
+  {
+    "subject": "RemoteSensingChangeDetection",
+    "relation": "dividedInto",
+    "object": "WeaklySupervisedCd",
+    "chunk": "relatedwork",
+    "context": "Categorized by supervision information, remote sensing CD tasks can generally be divided into three main paradigms: su- pervised, weakly-supervised, and unsupervised CD."
+  }
+]

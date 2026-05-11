@@ -1,0 +1,305 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PPO_SwitchNextOrNot",
+  "hasWaitingTime",
+  "494.420",
+  "PPO_ChooseNextPhase",
+  "hasDelay",
+  "157.016",
+  "hasTravelTime",
+  "227.907",
+  "543.741",
+  "PPO_SetPhaseDuration",
+  "842.715",
+  "910.755",
+  "1234.939",
+  "PerformanceMetric",
+  "hasOptimizationDirection",
+  "LowerIsBetter",
+  "representsAverageOf",
+  "PerVehicleValue",
+  "Evaluation",
+  "conductedWith",
+  "FiveRandomSeeds",
+  "PerformanceComparison",
+  "conductedAt",
+  "DayuanInterchange",
+  "comparesAmong",
+  "ThreeActionDesign",
+  "achievesLowestDelay",
+  "performsWorseThan",
+  "FixedTime",
+  "PPO",
+  "usesActionDesign",
+  "SwitchNextOrNotAction",
+  "ChooseNextPhaseAction",
+  "SetPhaseDurationAction",
+  "TrafficSignalControlMethod",
+  "hasPerformanceMetric",
+  "Delay",
+  "TravelTime",
+  "WaitingTime",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework",
+  "framework_sumo_rl",
+  "RlEnvironment",
+  "library_gymnasium",
+  "library_pettingzoo",
+  "SingleAgentScenario",
+  "MultiAgentScenario",
+  "State",
+  "Reward",
+  "framework_vissim_rl"
+]
+
+Triples:
+[
+  {
+    "subject": "PPO_SwitchNextOrNot",
+    "relation": "hasWaitingTime",
+    "object": "494.420",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SwitchNextOrNot action) 208.962 281.028 494.420"
+  },
+  {
+    "subject": "PPO_ChooseNextPhase",
+    "relation": "hasDelay",
+    "object": "157.016",
+    "chunk": "conclusions3",
+    "context": "PPO (w/ChooseNextPhase action) 157.016 227.907 543.741"
+  },
+  {
+    "subject": "PPO_ChooseNextPhase",
+    "relation": "hasTravelTime",
+    "object": "227.907",
+    "chunk": "conclusions3",
+    "context": "PPO (w/ChooseNextPhase action) 157.016 227.907 543.741"
+  },
+  {
+    "subject": "PPO_ChooseNextPhase",
+    "relation": "hasWaitingTime",
+    "object": "543.741",
+    "chunk": "conclusions3",
+    "context": "PPO (w/ChooseNextPhase action) 157.016 227.907 543.741"
+  },
+  {
+    "subject": "PPO_SetPhaseDuration",
+    "relation": "hasDelay",
+    "object": "842.715",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SetPhaseDuration action) 842.715 910.755 1,234.939"
+  },
+  {
+    "subject": "PPO_SetPhaseDuration",
+    "relation": "hasTravelTime",
+    "object": "910.755",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SetPhaseDuration action) 842.715 910.755 1,234.939"
+  },
+  {
+    "subject": "PPO_SetPhaseDuration",
+    "relation": "hasWaitingTime",
+    "object": "1234.939",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SetPhaseDuration action) 842.715 910.755 1,234.939"
+  },
+  {
+    "subject": "PerformanceMetric",
+    "relation": "hasOptimizationDirection",
+    "object": "LowerIsBetter",
+    "chunk": "conclusions3",
+    "context": "All performance metrics are lower-the-better and represent average per-vehicle values."
+  },
+  {
+    "subject": "PerformanceMetric",
+    "relation": "representsAverageOf",
+    "object": "PerVehicleValue",
+    "chunk": "conclusions3",
+    "context": "All performance metrics are lower-the-better and represent average per-vehicle values."
+  },
+  {
+    "subject": "Evaluation",
+    "relation": "conductedWith",
+    "object": "FiveRandomSeeds",
+    "chunk": "conclusions3",
+    "context": "Evaluation was conducted with five different random seeds."
+  },
+  {
+    "subject": "PerformanceComparison",
+    "relation": "conductedAt",
+    "object": "DayuanInterchange",
+    "chunk": "conclusions3",
+    "context": "TABLE XXI: Performance comparison among three action designs at Dayuan Interchange."
+  },
+  {
+    "subject": "PerformanceComparison",
+    "relation": "comparesAmong",
+    "object": "ThreeActionDesign",
+    "chunk": "conclusions3",
+    "context": "TABLE XXI: Performance comparison among three action designs at Dayuan Interchange."
+  },
+  {
+    "subject": "PPO_ChooseNextPhase",
+    "relation": "achievesLowestDelay",
+    "object": "DayuanInterchange",
+    "chunk": "conclusions3",
+    "context": "PPO (w/ChooseNextPhase action) 157.016 227.907 543.741"
+  },
+  {
+    "subject": "PPO_SetPhaseDuration",
+    "relation": "performsWorseThan",
+    "object": "FixedTime",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SetPhaseDuration action) 842.715 910.755 1,234.939"
+  },
+  {
+    "subject": "PPO",
+    "relation": "usesActionDesign",
+    "object": "SwitchNextOrNotAction",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SwitchNextOrNot action) 208.962 281.028 494.420"
+  },
+  {
+    "subject": "PPO",
+    "relation": "usesActionDesign",
+    "object": "ChooseNextPhaseAction",
+    "chunk": "conclusions3",
+    "context": "PPO (w/ChooseNextPhase action) 157.016 227.907 543.741"
+  },
+  {
+    "subject": "PPO",
+    "relation": "usesActionDesign",
+    "object": "SetPhaseDurationAction",
+    "chunk": "conclusions3",
+    "context": "PPO (w/SetPhaseDuration action) 842.715 910.755 1,234.939"
+  },
+  {
+    "subject": "TrafficSignalControlMethod",
+    "relation": "hasPerformanceMetric",
+    "object": "Delay",
+    "chunk": "conclusions3",
+    "context": "TSC Method Delay Travel time Waiting time"
+  },
+  {
+    "subject": "TrafficSignalControlMethod",
+    "relation": "hasPerformanceMetric",
+    "object": "TravelTime",
+    "chunk": "conclusions3",
+    "context": "TSC Method Delay Travel time Waiting time"
+  },
+  {
+    "subject": "TrafficSignalControlMethod",
+    "relation": "hasPerformanceMetric",
+    "object": "WaitingTime",
+    "chunk": "conclusions3",
+    "context": "TSC Method Delay Travel time Waiting time"
+  }
+]

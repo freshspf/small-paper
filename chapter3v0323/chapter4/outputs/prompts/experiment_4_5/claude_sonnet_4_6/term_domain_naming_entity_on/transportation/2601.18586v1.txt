@@ -1,0 +1,316 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ClimateChange",
+  "Rainfall",
+  "UrbanTransportationSystem",
+  "PluvialFlooding",
+  "TravelSpeed",
+  "Rerouting",
+  "RoadClosure",
+  "RailClosure",
+  "TransportInfrastructure",
+  "UrbanTransport",
+  "TrafficAssignmentZone",
+  "ClimateScenario",
+  "Road",
+  "TransportNetwork",
+  "CyclingLane",
+  "Sidewalk",
+  "WaterDepth",
+  "TravelTime",
+  "TripCancellation",
+  "TransportImpact",
+  "InfrastructureDamage",
+  "TravelDelay",
+  "RepairWork",
+  "EconomicCost",
+  "AdaptationStrategy",
+  "ReinforcementLearning",
+  "city_copenhagen",
+  "event_cloudburst2011",
+  "action_doNothing",
+  "action_bioretentionPlanters",
+  "action_soakaway",
+  "action_storageTank",
+  "action_porousAsphalt",
+  "action_perviousConcrete",
+  "action_permeablePavers",
+  "action_gridPavers",
+  "scenario_rcp26",
+  "scenario_rcp45",
+  "scenario_rcp85"
+]
+
+Triples:
+[
+  {
+    "subject": "ClimateChange",
+    "relation": "intensifies",
+    "object": "Rainfall"
+  },
+  {
+    "subject": "Rainfall",
+    "relation": "disrupts",
+    "object": "UrbanTransportationSystem"
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "reduces",
+    "object": "TravelSpeed"
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "triggers",
+    "object": "Rerouting"
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "forces",
+    "object": "RoadClosure"
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "forces",
+    "object": "RailClosure"
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "damages",
+    "object": "TransportInfrastructure"
+  },
+  {
+    "subject": "event_cloudburst2011",
+    "relation": "locatedIn",
+    "object": "city_copenhagen"
+  },
+  {
+    "subject": "event_cloudburst2011",
+    "relation": "causes",
+    "object": "InfrastructureDamage"
+  },
+  {
+    "subject": "event_cloudburst2011",
+    "relation": "increases",
+    "object": "EconomicCost"
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "evaluates",
+    "object": "AdaptationStrategy"
+  },
+  {
+    "subject": "action_bioretentionPlanters",
+    "relation": "implementedIn",
+    "object": "TrafficAssignmentZone"
+  },
+  {
+    "subject": "action_soakaway",
+    "relation": "implementedIn",
+    "object": "TrafficAssignmentZone"
+  },
+  {
+    "subject": "action_storageTank",
+    "relation": "implementedIn",
+    "object": "TrafficAssignmentZone"
+  },
+  {
+    "subject": "action_porousAsphalt",
+    "relation": "implementedIn",
+    "object": "TrafficAssignmentZone"
+  },
+  {
+    "subject": "action_perviousConcrete",
+    "relation": "implementedIn",
+    "object": "TrafficAssignmentZone"
+  },
+  {
+    "subject": "action_permeablePavers",
+    "relation": "implementedIn",
+    "object": "TrafficAssignmentZone"
+  },
+  {
+    "subject": "action_gridPavers",
+    "relation": "implementedIn",
+    "object": "TrafficAssignmentZone"
+  },
+  {
+    "subject": "scenario_rcp26",
+    "relation": "generates",
+    "object": "Rainfall"
+  },
+  {
+    "subject": "scenario_rcp45",
+    "relation": "generates",
+    "object": "Rainfall"
+  },
+  {
+    "subject": "scenario_rcp85",
+    "relation": "generates",
+    "object": "Rainfall"
+  },
+  {
+    "subject": "Road",
+    "relation": "partOf",
+    "object": "TransportNetwork"
+  },
+  {
+    "subject": "CyclingLane",
+    "relation": "partOf",
+    "object": "TransportNetwork"
+  },
+  {
+    "subject": "Sidewalk",
+    "relation": "partOf",
+    "object": "TransportNetwork"
+  },
+  {
+    "subject": "TransportNetwork",
+    "relation": "locatedIn",
+    "object": "city_copenhagen"
+  },
+  {
+    "subject": "TrafficAssignmentZone",
+    "relation": "locatedIn",
+    "object": "city_copenhagen"
+  },
+  {
+    "subject": "WaterDepth",
+    "relation": "reduces",
+    "object": "TravelSpeed"
+  },
+  {
+    "subject": "WaterDepth",
+    "relation": "increases",
+    "object": "TravelTime"
+  },
+  {
+    "subject": "WaterDepth",
+    "relation": "causes",
+    "object": "TripCancellation"
+  },
+  {
+    "subject": "WaterDepth",
+    "relation": "causes",
+    "object": "InfrastructureDamage"
+  },
+  {
+    "subject": "InfrastructureDamage",
+    "relation": "increases",
+    "object": "EconomicCost"
+  },
+  {
+    "subject": "InfrastructureDamage",
+    "relation": "requires",
+    "object": "RepairWork"
+  },
+  {
+    "subject": "TravelDelay",
+    "relation": "increases",
+    "object": "EconomicCost"
+  },
+  {
+    "subject": "TripCancellation",
+    "relation": "increases",
+    "object": "EconomicCost"
+  },
+  {
+    "subject": "AdaptationStrategy",
+    "relation": "mitigates",
+    "object": "InfrastructureDamage"
+  },
+  {
+    "subject": "AdaptationStrategy",
+    "relation": "mitigates",
+    "object": "TravelDelay"
+  },
+  {
+    "subject": "AdaptationStrategy",
+    "relation": "mitigates",
+    "object": "TripCancellation"
+  }
+]

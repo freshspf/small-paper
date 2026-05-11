@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TimeSeriesFeature",
+  "includes",
+  "LabEvent",
+  "TimeWindow",
+  "hasDuration",
+  "duration_72_hours",
+  "defines",
+  "ObservationPeriod",
+  "ClinicalEvent",
+  "concatenatedWith",
+  "StaticFeature",
+  "DemographicData",
+  "CkdStage",
+  "derivedFrom",
+  "IcdCode",
+  "InIcuMortality",
+  "savedAs",
+  "BinaryLabel",
+  "icd10_n18_1",
+  "mapsTo",
+  "ckd_stage_1",
+  "icd9_585_1",
+  "icd10_n18_6",
+  "ckd_end_stage_renal_disease",
+  "VanillaLstm",
+  "captures",
+  "TemporalDependency",
+  "AttentionAugmentedLstm",
+  "adds",
+  "AttentionMechanism",
+  "TLstm",
+  "incorporates",
+  "TimeInterval",
+  "handles",
+  "IrregularTiming",
+  "ModelArchitecture",
+  "processes",
+  "TimeSeriesInput",
+  "learnsRepresentationOf",
+  "PatientTrajectory",
+  "IndividualModel",
+  "optimizedBy",
+  "CrossEntropyLoss",
+  "Oversampling",
+  "counteracts",
+  "ClassImbalance",
+  "learns",
+  "PatientEmbedding",
+  "represents",
+  "CkdCohort",
+  "LogisticRegressionClassifier",
+  "usesFeature",
+  "predicts",
+  "InputData",
+  "consistsOf",
+  "IcuRecord",
+  "increases",
+  "ClassificationAccuracy",
+  "TemporalGap",
+  "enhances",
+  "ClusterSeparation",
+  "TemporalEmbeddingModel",
+  "ElectronicHealthRecord",
+  "ClinicalPredictionModel",
+  "SingleTask",
+  "RecurrentArchitecture",
+  "TemporalStructure",
+  "dataset_mimic_iv",
+  "ChronicKidneyDisease",
+  "TimeAwareLstm",
+  "EmbeddingQuality",
+  "CkdStageClustering",
+  "InIcuMortalityPrediction",
+  "StructuredEmbedding",
+  "CkdStageClassificationAccuracy",
+  "EmbeddingModel",
+  "EndToEndPredictor",
+  "DigitalTwin",
+  "IndividualPatient",
+  "DiseaseTrajectory"
+]
+
+Triples:
+[
+  {
+    "subject": "TimeSeriesFeature",
+    "relation": "includes",
+    "object": "LabEvent",
+    "chunk": "completedocument2",
+    "context": "Each patient admission in the CKD cohort was split into three structured files: demographic file (consisting of demographic details specific to the patient including subject id, age, sex), static features (consisting of all static features in one single hospital or ICU stay), and time-series features (e.g., medications, lab events, procedures that change repeatedly over a stay)."
+  },
+  {
+    "subject": "TimeWindow",
+    "relation": "hasDuration",
+    "object": "duration_72_hours",
+    "chunk": "completedocument2",
+    "context": "First, we defined a window of first 72 hours."
+  },
+  {
+    "subject": "TimeWindow",
+    "relation": "defines",
+    "object": "ObservationPeriod",
+    "chunk": "completedocument2",
+    "context": "The window defines the observation period for each patient’s admission."
+  },
+  {
+    "subject": "ClinicalEvent",
+    "relation": "concatenatedWith",
+    "object": "StaticFeature",
+    "chunk": "completedocument3",
+    "context": "At each time-step, dynamic clinical events were concatenated with static features and demographic data along the feature dimension to construct a vector per time-step."
+  },
+  {
+    "subject": "ClinicalEvent",
+    "relation": "concatenatedWith",
+    "object": "DemographicData",
+    "chunk": "completedocument3",
+    "context": "At each time-step, dynamic clinical events were concatenated with static features and demographic data along the feature dimension to construct a vector per time-step."
+  },
+  {
+    "subject": "CkdStage",
+    "relation": "derivedFrom",
+    "object": "IcdCode",
+    "chunk": "completedocument3",
+    "context": "For CKD stages, the labels were derived from the ICD code."
+  },
+  {
+    "subject": "InIcuMortality",
+    "relation": "savedAs",
+    "object": "BinaryLabel",
+    "chunk": "completedocument3",
+    "context": "For in-ICU mortality, the labels were saved as binary (0-1)."
+  },
+  {
+    "subject": "icd10_n18_1",
+    "relation": "mapsTo",
+    "object": "ckd_stage_1",
+    "chunk": "completedocument3",
+    "context": "N18.1 585.1 Stage 1 0"
+  },
+  {
+    "subject": "icd9_585_1",
+    "relation": "mapsTo",
+    "object": "ckd_stage_1",
+    "chunk": "completedocument3",
+    "context": "N18.1 585.1 Stage 1 0"
+  },
+  {
+    "subject": "icd10_n18_6",
+    "relation": "mapsTo",
+    "object": "ckd_end_stage_renal_disease",
+    "chunk": "completedocument3",
+    "context": "N18.6 585.6 End stage renal disease 5"
+  },
+  {
+    "subject": "VanillaLstm",
+    "relation": "captures",
+    "object": "TemporalDependency",
+    "chunk": "completedocument3",
+    "context": "For the vanilla LSTM i.e., standard unidirectional LSTM, the model processes the input sequence timestep by timestep, effectively capturing temporal dependencies in the data (see Fig. 2 a)."
+  },
+  {
+    "subject": "AttentionAugmentedLstm",
+    "relation": "adds",
+    "object": "AttentionMechanism",
+    "chunk": "completedocument3",
+    "context": "The attention-augmented LSTM builds on the vanilla LSTM by adding an attention mechanism that facilitates the model to selectively weight different time steps according to their relevance to the final prediction."
+  },
+  {
+    "subject": "TLstm",
+    "relation": "incorporates",
+    "object": "TimeInterval",
+    "chunk": "completedocument3",
+    "context": "The T-LSTM extends the vanilla LSTM by explicitly incorporating time intervals between consecutive events into the LSTM cell computations (see Fig. 2 c)."
+  },
+  {
+    "subject": "TLstm",
+    "relation": "handles",
+    "object": "IrregularTiming",
+    "chunk": "completedocument3",
+    "context": "The modified cell operation enables the model to naturally handle the irregular timing of clinical events."
+  },
+  {
+    "subject": "ModelArchitecture",
+    "relation": "processes",
+    "object": "TimeSeriesInput",
+    "chunk": "completedocument4",
+    "context": "During training, the three model architectures processed fixed-length time-series inputs to learn robust representations of patient trajectories."
+  },
+  {
+    "subject": "ModelArchitecture",
+    "relation": "learnsRepresentationOf",
+    "object": "PatientTrajectory",
+    "chunk": "completedocument4",
+    "context": "During training, the three model architectures processed fixed-length time-series inputs to learn robust representations of patient trajectories."
+  },
+  {
+    "subject": "IndividualModel",
+    "relation": "optimizedBy",
+    "object": "CrossEntropyLoss",
+    "chunk": "completedocument4",
+    "context": "During each fold, the individual model was optimised using cross- entropy loss."
+  },
+  {
+    "subject": "Oversampling",
+    "relation": "counteracts",
+    "object": "ClassImbalance",
+    "chunk": "completedocument4",
+    "context": "Moreover, if oversampling was activated, the minority class was upsmapled before training to counteract class imbalance."
+  },
+  {
+    "subject": "ModelArchitecture",
+    "relation": "learns",
+    "object": "PatientEmbedding",
+    "chunk": "completedocument4",
+    "context": "We then compared the embeddings learnt by the three models on our CKD cohort."
+  },
+  {
+    "subject": "PatientEmbedding",
+    "relation": "represents",
+    "object": "CkdCohort",
+    "chunk": "completedocument4",
+    "context": "We then compared the embeddings learnt by the three models on our CKD cohort."
+  },
+  {
+    "subject": "LogisticRegressionClassifier",
+    "relation": "usesFeature",
+    "object": "PatientEmbedding",
+    "chunk": "completedocument4",
+    "context": "For the extrinsic evaluation, we trained a logistic regression classifier using the generated embeddings as input features to predict in-ICU mortality within a 2-hour prediction window."
+  },
+  {
+    "subject": "LogisticRegressionClassifier",
+    "relation": "predicts",
+    "object": "InIcuMortality",
+    "chunk": "completedocument4",
+    "context": "For the extrinsic evaluation, we trained a logistic regression classifier using the generated embeddings as input features to predict in-ICU mortality within a 2-hour prediction window."
+  },
+  {
+    "subject": "InputData",
+    "relation": "consistsOf",
+    "object": "IcuRecord",
+    "chunk": "completedocument4",
+    "context": "The input data consisted of the first 72 hours of ICU records, aggregated into 1-hour time bins."
+  },
+  {
+    "subject": "AttentionAugmentedLstm",
+    "relation": "increases",
+    "object": "ClassificationAccuracy",
+    "chunk": "completedocument4",
+    "context": "Adding attention mechanism on LSTM increased the average downstream classification accuracy to 0.67, which suggests better overall predictive power."
+  },
+  {
+    "subject": "TemporalGap",
+    "relation": "enhances",
+    "object": "ClusterSeparation",
+    "chunk": "completedocument4",
+    "context": "Incorporating the temporal gaps between events substantially enhanced both cluster separation (mean DBI of 9.91) and classification accuracy 0.74)."
+  }
+]

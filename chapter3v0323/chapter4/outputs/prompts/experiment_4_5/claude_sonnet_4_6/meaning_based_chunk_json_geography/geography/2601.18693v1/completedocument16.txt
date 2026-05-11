@@ -1,0 +1,127 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument16",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument16
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+This suggests that our key simplifying assumptions capture
+the dominant physical processes governing stellar–DM phase-space
+segregation in galaxy clusters.
+6.3 Comparison of radial density profiles
+Having shown that the stellar–DM phase-space offsets measured in
+cosmological simulations already lie close to the range predicted by
+themodel,wenowtakeanadditionalstepbyconditioningthemodel
+4Note that our measurements differ slightly from Butler et al. (2025), who
+use the geometric mean of the projected half-mass radius in the𝑥,𝑦, and
+𝑧projections. For consistency across all simulations, we instead adopt the
+three-dimensional half-mass radius.
+0.10.20.30.40.50.6h/hDM
+All
+0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+/DM
+0.00.10.20.30.40.50.6h/hDM
+r > 100 kpc
+(M) variation
+Fiducial
+Horizon-AGN
+Hydrangea
+TNG100
+The300 GIZMO 7kFigure11.Comparisonbetweenthestellar–to–DMmeanspecificorbitalen-
+ergy ratio,⟨𝜀⟩ ★/⟨𝜀⟩ DM, and the stellar–to–DM mean specific angular mo-
+mentum ratio,⟨ℎ⟩ ★/⟨ℎ⟩ DM, measured in the four cosmological simulations
+andthemodelenvelopesshowninFigure9.Theupperpanelincludesallpar-
+ticles within𝑅 200, while the lower panel restricts the calculation to particles
+atradii𝑟 >100,kpc.Thefilledregioncorrespondstothe1𝜎(16th–84thper-
+centile) credible interval of the combined accreted+central model obtained
+by varying the satellite stellar mass function,𝜙(𝑀 ★), while holding the
+orbital circularity distribution,𝑝(𝜂), fixed at its fiducial form. The black
+point and associated error bars indicate the fiducial model prediction and
+its credible range. Coloured points show the median ratios measured across
+cluster samples drawn from theHorizon-AGN,Hydrangea,TNG100, and
+TheThreeHundredsimulation suites, as indicated in the legend. Error bars
+indicatethe1𝜎cluster–to–clusterscatterwithineachsimulation.Stellarand
+DM orbital energies and angular momenta are computed following Butler
+et al. (2025), excluding particles beyond𝑅 200, DM particles bound to sub-
+haloes, and star particles within4𝑅 1/2of any subhalo.
+on the infalling satellite populations realised in each simulation in
+ordertomakequantitativepredictionsfortheradialdensityprofiles.
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM15
+6.3.1 Conditioning the model on cosmological simulation infalling
+satellite populations
+The comparison between our model and the cosmological simula-
+tionsisperformedbyre-weightingthepredictedradialprofilesintro-
+duced in Section 5.3. These profiles already encode the response of
+stripped stars and DM to variations in the infalling satellite popula-
+tion;herewematchtheaccretedcomponentstotheaverageinfalling
+satellite stellar mass function values found for each simulation suite
+in Appendix C and further calibrate the normalisation of the central
+component to account for differences in the average star-formation
+efficiency and central galaxy mass measured for each simulation
+suite.
+Specifically,foreachsimulationsuiteweconstructmodelprofiles
+corresponding to the fiducial orbital circularity distribution with an
+infall satellite stellar mass function derived from the average best-
+fit Schechter function values from Table C1. These areˆ𝜌 ★,cen(𝑟),
+ˆ𝜌★,acc(𝑟),ˆ𝜌 DM,cen(𝑟)andˆ𝜌 DM,acc(𝑟),whichrepresenttheradialden-
+sity profiles predicted by our model for the central and accreted
+components of the cluster, for both the stars and DM.
+TheDMcomponents𝑀sim
+DM,accand𝑀sim
+DM,cenarecombinedassum-
+ing equal-mass central and accreted contributions, consistent with
+ourprevioustreatment,inwhichweassumethattheclusterhasdou-
+bled its mass through the accretion of satellites between𝑧 formand
+𝑧=0. The stellar components are re-weighted separately: the cen-
+tral stellar component is normalised to the mean stellar mass of the
+central galaxy𝑀sim
+★,cen, while the accreted component is normalised
+tothedifferencebetweenthemeantotalstellarmasswithin𝑅 200and
+𝑀sim
+★,cen,𝑀sim
+★,acc.

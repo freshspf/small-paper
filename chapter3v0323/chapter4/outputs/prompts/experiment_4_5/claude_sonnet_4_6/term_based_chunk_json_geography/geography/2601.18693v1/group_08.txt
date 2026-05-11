@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ChangesInOrbitalCircularityDistribution",
+  "modifies",
+  "Slope",
+  "RadialDensityProfileOfDm",
+  "showsLittleVariationAcross",
+  "InfallingSatelliteStellarMassFunctions",
+  "StellarToDmRatio",
+  "sensitiveTo",
+  "CharacteristicMass",
+  "IncreasingCharacteristicMass",
+  "yields",
+  "CentrallyConcentratedStellarDistribution",
+  "RealCluster",
+  "experiences",
+  "ComplexAssemblyHistory",
+  "features",
+  "TriaxialHaloShape",
+  "SatelliteProperty",
+  "correlatesWith",
+  "HostEnvironment",
+  "AppendixE",
+  "describes",
+  "CosmologicalSimulationSuite",
+  "Cluster",
+  "hasComponent",
+  "StellarComponent",
+  "DmComponent",
+  "DmParticle",
+  "associatedWith",
+  "Subhalo",
+  "StarParticle",
+  "locatedWithin",
+  "StellarHalfMassRadius",
+  "LowMassSubhalo",
+  "hasProperty",
+  "ExclusionRadius",
+  "SimulationSuite",
+  "uses",
+  "NativeStructureFinder",
+  "simulation_TheThreeHundred",
+  "exhibits",
+  "SmallestStellarDmOrbitalEnergyOffset",
+  "HigherClusterMass",
+  "GroupHalo",
+  "preProcesses",
+  "Star",
+  "Particle",
+  "locatedAt",
+  "RadiusGreaterThan100kpc",
+  "CentralGalaxy",
+  "influences",
+  "Radius",
+  "StellarDmPhaseSpaceSegregation",
+  "occursIn",
+  "GalaxyCluster",
+  "AllSimulations",
+  "adopt",
+  "ThreeDimensionalHalfMassRadius",
+  "locatedIn",
+  "RegionWithinR200",
+  "RegionBeyondR200",
+  "DarkMatterParticle",
+  "boundTo",
+  "RegionWithin4RHalfOfSubhalo",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid"
+]
+
+Triples:
+[
+  {
+    "subject": "ChangesInOrbitalCircularityDistribution",
+    "relation": "modifies",
+    "object": "Slope",
+    "chunk": "completedocument14",
+    "context": "By contrast, changes in the orbital circularity distribution have a much smaller impact, modifying the slope by only ∼0.1."
+  },
+  {
+    "subject": "RadialDensityProfileOfDm",
+    "relation": "showsLittleVariationAcross",
+    "object": "InfallingSatelliteStellarMassFunctions",
+    "chunk": "completedocument14",
+    "context": "The radial density profile of the DM shown in purple in the inset panels shows very little variation across all plausible infalling satellite stellar mass functions and orbital distributions."
+  },
+  {
+    "subject": "StellarToDmRatio",
+    "relation": "sensitiveTo",
+    "object": "CharacteristicMass",
+    "chunk": "completedocument14",
+    "context": "The stellar–to–DM ratio is most sensitive to the characteristic mass of the satellite stellar mass function."
+  },
+  {
+    "subject": "IncreasingCharacteristicMass",
+    "relation": "yields",
+    "object": "CentrallyConcentratedStellarDistribution",
+    "chunk": "completedocument14",
+    "context": "Increasing the characteristic mass therefore lowers the mean stellar energies and angular momenta of the stripped material, yielding a more centrally concentrated stellar distribution and hence a steeper stellar–to–DM ratio profile."
+  },
+  {
+    "subject": "RealCluster",
+    "relation": "experiences",
+    "object": "ComplexAssemblyHistory",
+    "chunk": "completedocument14",
+    "context": "Real clusters experience more complex assembly histories, with multiple satellites accreting simultaneously, ongoing major mergers that violate the adiabatic approximation, triaxial halo shapes, and correlations between satellite properties and their host environment."
+  },
+  {
+    "subject": "RealCluster",
+    "relation": "features",
+    "object": "TriaxialHaloShape",
+    "chunk": "completedocument14",
+    "context": "Real clusters experience more complex assembly histories, with multiple satellites accreting simultaneously, ongoing major mergers that violate the adiabatic approximation, triaxial halo shapes, and correlations between satellite properties and their host environment."
+  },
+  {
+    "subject": "SatelliteProperty",
+    "relation": "correlatesWith",
+    "object": "HostEnvironment",
+    "chunk": "completedocument14",
+    "context": "Real clusters experience more complex assembly histories, with multiple satellites accreting simultaneously, ongoing major mergers that violate the adiabatic approximation, triaxial halo shapes, and correlations between satellite properties and their host environment."
+  },
+  {
+    "subject": "AppendixE",
+    "relation": "describes",
+    "object": "CosmologicalSimulationSuite",
+    "chunk": "completedocument15",
+    "context": "Appendix E describes the four independent cosmological hydrodynamical simulation suites used in this comparison (Horizon-AGN, Hydrangea, TNG100, and The Three Hundred GIZMO 7K), their physical models, resolution, and cluster sample selection."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "hasComponent",
+    "object": "StellarComponent",
+    "chunk": "completedocument15",
+    "context": "We measure orbital energies, angular momenta, and radial density profiles for the stellar and DM components of clusters within 𝑅 200."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "hasComponent",
+    "object": "DmComponent",
+    "chunk": "completedocument15",
+    "context": "We measure orbital energies, angular momenta, and radial density profiles for the stellar and DM components of clusters within 𝑅 200."
+  },
+  {
+    "subject": "DmParticle",
+    "relation": "associatedWith",
+    "object": "Subhalo",
+    "chunk": "completedocument15",
+    "context": "DM particles associated with subhaloes are excluded, and star particles within four times the stellar half-mass radius 𝑅 1/2 of any subhalo are excluded."
+  },
+  {
+    "subject": "StarParticle",
+    "relation": "locatedWithin",
+    "object": "StellarHalfMassRadius",
+    "chunk": "completedocument15",
+    "context": "DM particles associated with subhaloes are excluded, and star particles within four times the stellar half-mass radius 𝑅 1/2 of any subhalo are excluded."
+  },
+  {
+    "subject": "LowMassSubhalo",
+    "relation": "hasProperty",
+    "object": "ExclusionRadius",
+    "chunk": "completedocument15",
+    "context": "For low-mass subhaloes with 𝑀★ < 1011 M⊙, the exclusion radius is fixed to the 84th-percentile value of each cluster’s 𝑅 1/2 distribution measured at 𝑀 ★ = 1011 M⊙"
+  },
+  {
+    "subject": "SimulationSuite",
+    "relation": "uses",
+    "object": "NativeStructureFinder",
+    "chunk": "completedocument15",
+    "context": "Subhalo identification is performed using each simulation suite’s native structure finder."
+  },
+  {
+    "subject": "simulation_TheThreeHundred",
+    "relation": "exhibits",
+    "object": "SmallestStellarDmOrbitalEnergyOffset",
+    "chunk": "completedocument15",
+    "context": "The Three Hundred shows the smallest stellar–DM orbital energy and angular momentum offsets, consistent with enhanced or premature stripping of stellar material in these lower-resolution simulations."
+  },
+  {
+    "subject": "simulation_TheThreeHundred",
+    "relation": "hasProperty",
+    "object": "HigherClusterMass",
+    "chunk": "completedocument15",
+    "context": "This may also be reflective of the systematically higher cluster masses of the The Three Hundred sample, in which an increased fraction of the ICL mass budget is expected to originate from stars pre-processed in group haloes (Mihos et al. 2017; Contini 2021) and therefore already weakly bound upon cluster infall."
+  },
+  {
+    "subject": "GroupHalo",
+    "relation": "preProcesses",
+    "object": "Star",
+    "chunk": "completedocument15",
+    "context": "This may also be reflective of the systematically higher cluster masses of the The Three Hundred sample, in which an increased fraction of the ICL mass budget is expected to originate from stars pre-processed in group haloes (Mihos et al. 2017; Contini 2021) and therefore already weakly bound upon cluster infall."
+  },
+  {
+    "subject": "Particle",
+    "relation": "locatedAt",
+    "object": "RadiusGreaterThan100kpc",
+    "chunk": "completedocument15",
+    "context": "For particles at 𝑟 > 100 kpc (bottom panel), a larger average orbital energy offset than our model prediction is measured in all simulation suites."
+  },
+  {
+    "subject": "CentralGalaxy",
+    "relation": "influences",
+    "object": "Radius",
+    "chunk": "completedocument15",
+    "context": "However, the magnitude of this offset is likely to be quite dependent on the size and mass of the central galaxy, as this influences the radius out to which the central galaxy dominates over the accreted component."
+  },
+  {
+    "subject": "StellarDmPhaseSpaceSegregation",
+    "relation": "occursIn",
+    "object": "GalaxyCluster",
+    "chunk": "completedocument16",
+    "context": "This suggests that our key simplifying assumptions capture the dominant physical processes governing stellar–DM phase-space segregation in galaxy clusters."
+  },
+  {
+    "subject": "AllSimulations",
+    "relation": "adopt",
+    "object": "ThreeDimensionalHalfMassRadius",
+    "chunk": "completedocument16",
+    "context": "For consistency across all simulations, we instead adopt the three-dimensional half-mass radius."
+  },
+  {
+    "subject": "Particle",
+    "relation": "locatedIn",
+    "object": "RegionWithinR200",
+    "chunk": "completedocument16",
+    "context": "The upper panel includes all particles within𝑅 200, while the lower panel restricts the calculation to particles atradii𝑟 >100,kpc."
+  },
+  {
+    "subject": "Particle",
+    "relation": "locatedIn",
+    "object": "RegionBeyondR200",
+    "chunk": "completedocument16",
+    "context": "Stellarand DM orbital energies and angular momenta are computed following Butler et al. (2025), excluding particles beyond𝑅 200, DM particles bound to sub-haloes, and star particles within4𝑅 1/2of any subhalo."
+  },
+  {
+    "subject": "DarkMatterParticle",
+    "relation": "boundTo",
+    "object": "Subhalo",
+    "chunk": "completedocument16",
+    "context": "Stellarand DM orbital energies and angular momenta are computed following Butler et al. (2025), excluding particles beyond𝑅 200, DM particles bound to sub-haloes, and star particles within4𝑅 1/2of any subhalo."
+  },
+  {
+    "subject": "StarParticle",
+    "relation": "locatedIn",
+    "object": "RegionWithin4RHalfOfSubhalo",
+    "chunk": "completedocument16",
+    "context": "Stellarand DM orbital energies and angular momenta are computed following Butler et al. (2025), excluding particles beyond𝑅 200, DM particles bound to sub-haloes, and star particles within4𝑅 1/2of any subhalo."
+  }
+]

@@ -1,0 +1,91 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic triples.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use only normalized terms from the input.
+   - Do not invent new terms unless absolutely necessary.
+   - Do not introduce external background knowledge.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by context.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf only when a subclass relation is explicit or strongly implied.
+   - Avoid overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Only assign domain/range when the subject/object types are clear from normalized terms and updated triples.
+   - Avoid speculative domain/range assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication
+   - Prefer fewer but higher-confidence axioms
+   - Keep results logically coherent
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[{"term": "TrafficUnit", "type": "Class"}, {"term": "BehaviorPattern", "type": "Class"}, {"term": "TimeDelay", "type": "Class"}, {"term": "TimeToCollision", "type": "Class"}, {"term": "PhaseSpace", "type": "Class"}, {"term": "DynamicalSystem", "type": "Class"}, {"term": "SynchronizationState", "type": "Class"}, {"term": "Hysteresis", "type": "Class"}, {"term": "OptimalVelocityModel", "type": "Class"}, {"term": "ReactionModel", "type": "Class"}, {"term": "CosineForceModel", "type": "Class"}, {"term": "FullVelocityDifferenceModel", "type": "Class"}, {"term": "StringStability", "type": "Class"}, {"term": "TransferFunction", "type": "Class"}, {"term": "WaveFunction", "type": "Class"}, {"term": "ReactionBehavior", "type": "Class"}, {"term": "AnticipationBehavior", "type": "Class"}, {"term": "PureResponseMechanism", "type": "Class"}, {"term": "ZeroDissipation", "type": "Class"}, {"term": "TrafficFlow", "type": "Class"}, {"term": "Oscillation", "type": "Class"}, {"term": "LissajousFigure", "type": "Class"}, {"term": "PhaseDiagram", "type": "Class"}, {"term": "hasBehaviorPattern", "type": "Property"}, {"term": "includes", "type": "Property"}, {"term": "affects", "type": "Property"}, {"term": "measures", "type": "Property"}, {"term": "contains", "type": "Property"}, {"term": "describes", "type": "Property"}, {"term": "characterizes", "type": "Property"}, {"term": "represents", "type": "Property"}, {"term": "combines", "type": "Property"}, {"term": "dependsOn", "type": "Property"}, {"term": "analyzes", "type": "Property"}, {"term": "manifestsAs", "type": "Property"}, {"term": "influences", "type": "Property"}, {"term": "visualizes", "type": "Property"}]
+
+Triples:
+[{"subject": "TrafficUnit", "relation": "hasBehaviorPattern", "object": "BehaviorPattern"}, {"subject": "BehaviorPattern", "relation": "includes", "object": "ReactionBehavior"}, {"subject": "BehaviorPattern", "relation": "includes", "object": "AnticipationBehavior"}, {"subject": "BehaviorPattern", "relation": "includes", "object": "PureResponseMechanism"}, {"subject": "TimeDelay", "relation": "affects", "object": "Hysteresis"}, {"subject": "TimeToCollision", "relation": "measures", "object": "ZeroDissipation"}, {"subject": "PhaseSpace", "relation": "contains", "object": "Hysteresis"}, {"subject": "DynamicalSystem", "relation": "describes", "object": "TrafficFlow"}, {"subject": "SynchronizationState", "relation": "characterizes", "object": "TrafficFlow"}, {"subject": "OptimalVelocityModel", "relation": "represents", "object": "PureResponseMechanism"}, {"subject": "ReactionModel", "relation": "combines", "object": "ReactionBehavior"}, {"subject": "ReactionModel", "relation": "combines", "object": "PureResponseMechanism"}, {"subject": "CosineForceModel", "relation": "combines", "object": "AnticipationBehavior"}, {"subject": "CosineForceModel", "relation": "combines", "object": "PureResponseMechanism"}, {"subject": "FullVelocityDifferenceModel", "relation": "combines", "object": "AnticipationBehavior"}, {"subject": "FullVelocityDifferenceModel", "relation": "combines", "object": "PureResponseMechanism"}, {"subject": "StringStability", "relation": "dependsOn", "object": "TransferFunction"}, {"subject": "TransferFunction", "relation": "analyzes", "object": "Hysteresis"}, {"subject": "WaveFunction", "relation": "represents", "object": "Oscillation"}, {"subject": "Hysteresis", "relation": "manifestsAs", "object": "LissajousFigure"}, {"subject": "Hysteresis", "relation": "influences", "object": "TrafficFlow"}, {"subject": "PhaseDiagram", "relation": "visualizes", "object": "StringStability"}]

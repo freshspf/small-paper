@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["CameraBasedObjectPoseTracking","JointAngleEncoding","RobotMotion","ManipulationProcess","JointAngleVector","RoboticArm","GripperOpening","DemonstrationTrajectory","DiscreteTimeSequence","TimeStep","JointStateVector"]
+
+Triples:
+[{"subject":"Environment","relation":"reconstructedAs","object":"Editable3DGaussianSplattingAsset"},{"subject":"Editable3DGaussianSplattingAsset","relation":"enables","object":"GeometryConsistentReplay"},{"subject":"Editable3DGaussianSplattingAsset","relation":"enables","object":"LargeScaleDataAugmentation"},{"subject":"R2S2RPipeline","relation":"reconstructs","object":"DigitalTwin"},{"subject":"DigitalTwin","relation":"derivedFrom","object":"RealScene"},{"subject":"R2S2RPipeline","relation":"performsIn","object":"ReconstructedEnvironment"},{"subject":"R2S2RPipeline","relation":"uses","object":"NeuralRadianceField"},{"subject":"R2S2RPipeline","relation":"uses","object":"3DGaussianSplatting"},{"subject":"NeuralRadianceField","relation":"supports","object":"PhotorealisticRendering"},{"subject":"3DGaussianSplatting","relation":"supports","object":"PhotorealisticRendering"},{"subject":"3DGaussianSplatting","relation":"supports","object":"NovelViewSynthesis"},{"subject":"3DGaussianSplatting","relation":"hasRepresentation","object":"PointBasedRepresentation"},{"subject":"3DGaussianSplatting","relation":"supports","object":"RealTimeRendering"},{"subject":"3DGaussianSplatting","relation":"supports","object":"FastOptimization"},{"subject":"3DGaussianSplatting","relation":"isSuitableFor","object":"Robotics"},{"subject":"3DGaussianSplatting","relation":"servesAs","object":"WorldModel"},{"subject":"WorldModel","relation":"usedFor","object":"Manipulation"},{"subject":"WorldModel","relation":"usedFor","object":"Navigation"},{"subject":"3DGaussianSplatting","relation":"enables","object":"GeometryConsistentEdit"},{"subject":"ExoGS","relation":"couples","object":"DemonstrationAcquisition"},{"subject":"ExoGS","relation":"couples","object":"PoseModeling"},{"subject":"ExoGS","relation":"couples","object":"InteractionAwareReplay"},{"subject":"ImitationLearning","relation":"acquiresFrom","object":"DemonstrationData"},{"subject":"SimulationBasedDataSynthesis","relation":"offers","object":"Scalability"},{"subject":"Simulation","relation":"suffersFrom","object":"SimToRealGap"},{"subject":"SimToRealGap","relation":"causedBy","object":"GeometricRepresentationDiscrepancy"},{"subject":"SimToRealGap","relation":"causedBy","object":"VisualAppearanceDiscrepancy"},{"subject":"SimToRealGap","relation":"causedBy","object":"PhysicalInteractionDiscrepancy"},{"subject":"Simulation","relation":"usedFor","object":"DataGeneration"},{"subject":"Simulation","relation":"usedFor","object":"PolicyLearning"},{"subject":"CameraBasedObjectPoseTracking","relation":"combinedWith","object":"JointAngleEncoding"},{"subject":"CameraBasedObjectPoseTracking","relation":"generates","object":"RobotMotion"},{"subject":"JointAngleEncoding","relation":"generates","object":"RobotMotion"},{"subject":"RobotMotion","relation":"combinedWith","object":"DigitalAsset"},{"subject":"RobotMotion","relation":"allows","object":"ManipulationProcess"},{"subject":"ManipulationProcess","relation":"replayedIn","object":"Simulation"},{"subject":"DemonstrationTrajectory","relation":"representedAs","object":"DiscreteTimeSequence"},{"subject":"DiscreteTimeSequence","relation":"consistsOf","object":"JointStateVector"},{"subject":"DiscreteTimeSequence","relation":"consistsOf","object":"GripperOpening"},{"subject":"DiscreteTimeSequence","relation":"indexedBy","object":"TimeStep"}]

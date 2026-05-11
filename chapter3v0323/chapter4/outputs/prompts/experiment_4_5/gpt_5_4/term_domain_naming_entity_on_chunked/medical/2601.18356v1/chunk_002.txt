@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["TrainingDataset","RealWorldDeploymentData","MedRAG","MMedRAG","SemanticOverReliance","CrossModalityMisalignment","VisualLanguageGrounding","CausalityBasedMethod","RetrievalAccuracy","RepresentationLearning","CausalRAG","Context","CausalImportance","CMCRL","SharedCausalRepresentation","StructuralDependency","MedicalReasoning","LanguageOnlyCausalDiscovery","MultimodalStructure","MultimodalData","CausalAlignmentGraph","VerifiableMedicalLiterature","StructuredDependency","VisualModality","TextualModality","PreferenceFineTuning","Image","TextOnlyOutput","RetrievedContext","Uncertainty","CausalFiltering","Coverage","Precision","StructuralImportance","RawSimilarity","CrossModalAlignment","KnowledgeGuidedGraph","MedicalSemantic","ImageGroundedGeneration","CausallyCoherentGeneration"]
+
+Triples:
+[{"subject":"CurrentRAGMethod","relation":"remainsVulnerableTo","object":"SemanticOverReliance"},{"subject":"CurrentRAGMethod","relation":"remainsVulnerableTo","object":"CrossModalityMisalignment"},{"subject":"CurrentRAGMethod","relation":"remainsVulnerableTo","object":"SpuriousCorrelation"},{"subject":"CrossModalityMisalignment","relation":"isCausedBy","object":"MismatchBetweenRetrievedContextsAndVisualLanguageGrounding"},{"subject":"CausalityBasedMethod","relation":"seeksToImprove","object":"RetrievalAccuracy"},{"subject":"CausalityBasedMethod","relation":"seeksToImprove","object":"RepresentationLearning"},{"subject":"CausalRAG","relation":"ranks","object":"Context"},{"subject":"CausalRAG","relation":"uses","object":"CausalImportance"},{"subject":"CausalRAG","relation":"doesNotAddress","object":"CrossModalAlignment"},{"subject":"CMCRL","relation":"learns","object":"SharedCausalRepresentation"},{"subject":"CMCRL","relation":"underuses","object":"StructuralDependency"},{"subject":"StructuralDependency","relation":"isNeededFor","object":"MedicalReasoning"},{"subject":"CausalGraph","relation":"improves","object":"Interpretability"},{"subject":"CurrentApproach","relation":"reliesOn","object":"LanguageOnlyCausalDiscovery"},{"subject":"MultimodalStructure","relation":"addresses","object":"FactualAccuracy"},{"subject":"MultimodalStructure","relation":"addresses","object":"CrossModalAlignment"},{"subject":"MultimodalCausalRetrievalAugmentedGeneration","relation":"buildsFrom","object":"MultimodalData"},{"subject":"MultimodalCausalRetrievalAugmentedGeneration","relation":"uses","object":"CausalGraph"},{"subject":"CausalGraph","relation":"guides","object":"RetrievalAugmentedGeneration"},{"subject":"CausalAlignmentGraph","relation":"isConstructedFrom","object":"VerifiableMedicalLiterature"},{"subject":"CausalAlignmentGraph","relation":"captures","object":"StructuredDependency"},{"subject":"StructuredDependency","relation":"existsBetween","object":"VisualModality"},{"subject":"StructuredDependency","relation":"existsBetween","object":"TextualModality"},{"subject":"CausalAlignmentGraph","relation":"enables","object":"Retrieval"},{"subject":"Retrieval","relation":"isGuidedBy","object":"SemanticSimilarity"},{"subject":"Retrieval","relation":"isGuidedBy","object":"CausalRelevance"},{"subject":"Retrieval","relation":"isGuidedBy","object":"StructuralRelevance"},{"subject":"CausalAlignmentGraph","relation":"mitigates","object":"SpuriousCorrelation"},{"subject":"MultimodalCausalRetrievalAugmentedGeneration","relation":"incorporates","object":"PreferenceFineTuning"},{"subject":"PreferenceFineTuning","relation":"groundsResponseIn","object":"Image"},{"subject":"PreferenceFineTuning","relation":"prevents","object":"TextOnlyOutput"},{"subject":"PreferenceFineTuning","relation":"interprets","object":"RetrievedContext"},{"subject":"PreferenceFineTuning","relation":"interpretsWith","object":"CausalInference"},{"subject":"PreferenceFineTuning","relation":"enhancesRobustnessUnder","object":"Uncertainty"},{"subject":"MultimodalCausalRetrievalAugmentedGeneration","relation":"applies","object":"CausalFiltering"},{"subject":"CausalFiltering","relation":"balances","object":"Coverage"},{"subject":"CausalFiltering","relation":"balances","object":"Precision"},{"subject":"CausalFiltering","relation":"selectsContextBasedOn","object":"StructuralImportance"},{"subject":"CausalFiltering","relation":"doesNotSelectBasedOn","object":"RawSimilarity"},{"subject":"MultimodalCausalRetrievalAugmentedGeneration","relation":"integrates","object":"CausalGraph"}]

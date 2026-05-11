@@ -1,0 +1,210 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Low Cost, High E!ciency: LiDAR Place Recognition in
+Vineyards with Matryoshka Representation Learning
+Judith Vilella-Cantos a,→,M a u r oM a r t i n ib,M a r c e l l oC h i a b e r g eb,M ´ o n i c a
+Ballestaa,D a v i dV a l i e n t ea
+aUniversity Institute for Engineering Research, Miguel Hern´ andez University, Avda. de
+la Universidad s/n, Ediﬁcio Innova, Elche, 03202, Alicante, Spain
+bDepartment of Electronics and Communications, Politecnico di
+Torino, Torino, 10129, Italy
+Abstract
+Localization in agricultural environments is challenging due to their unstruc-
+tured nature and lack of distinctive landmarks. Although agricultural set-
+tings have been studied in the context of object classiﬁcation and segmenta-
+tion, the place recognition task for mobile robots is not trivial in the current
+state of the art. In this study, we propose MinkUNeXt-VINE, a lightweight,
+deep-learning-based method that surpasses state-of-the-art methods in vine-
+yard environments thanks to its pre-processing and Matryoshka Representa-
+tion Learning multi-loss approach. Our method prioritizes enhanced perfor-
+mance with low-cost, sparse LiDAR inputs and lower-dimensionality outputs
+to ensure high e!ciency in real-time scenarios. Additionally, we present a
+comprehensive ablation study of the results on various evaluation cases and
+two extensive long-term vineyard datasets employing di”erent LiDAR sen-
+sors. The results demonstrate the e!ciency of the trade-o” output produced
+by this approach, as well as its robust performance on low-cost and low-
+resolution input data. The code is publicly available for reproduction. 1
+Keywords: LiDAR Place Recognition, Deep Learning, Vineyard
+Environments, Season Generalization, Matryoshka Representation Learning
+→Corresponding author
+Email address: jvilella@umh.es (Judith Vilella-Cantos)
+1https://github.com/JudithV/MinkUNeXt-VINE
+arXiv:2601.18714v1 [cs.CV] 26 Jan 2026
+1. Introduction
+In the domain of robotic localization, the place recognition problem in-
+volves the ability to accurately match a place on real-time navigation in a
+database which stores the map of previously visited locations. A robust solu-
+tion to this problem allows any robotic system to navigate the environment
+accurately and successfully localize itself in GPS-denied environments. This
+is crucial in every simultaneous localization and mapping (SLAM) applica-
+tion and in loop closure detection algorithms [1, 2, 3].
+The utilization of Light Detection and Ranging (LiDAR) technology as an
+input in these algorithms is a growing approach. The 3D data from scans are
+more robust to illumination and weather changes than traditional vision sys-
+tems. Therefore, applying deep learning techniques to point clouds for place
+recognition tasks has become a critical component in modern autonomous
+navigation systems. [4, 5, 6].
+Agricultural environments present a series of unique challenges that are
+not present in urban settings, which are the most widely tested environments.
+In this study, the research is conducted in a speciﬁc agricultural context:
+vineyards. Among the aforementioned challenges, the presence of repetitive
+structures without distinctive landmarks, occlusions by heavy vegetation [7],
+and signiﬁcant changes in the appearance of the scene between di”erent sea-
+sons are particularly prominent [8]. Furthermore, the geometry of vine rows
+produces limited discriminative features for both visual and LiDAR sensors.
+The identiﬁcation of a robust solution to the LiDAR place recognition
+(LPR) problem in agricultural settings has the potential to facilitate the de-
+velopment of advanced applications in precision agriculture [9], ﬁeld and crop
+monitoring [10], phenotyping [11], and autonomous navigation of agricultural
+vehicles [12]. In order to address the speciﬁc challenges posed by vineyard en-
+vironments, a series of experiments were conducted with di”erent backbones
+and scopes of the training and evaluation data. We analyze how repeti-
+tive plant structures and seasonal variability a”ect the robustness of current
+place recognition networks, and propose strategies to improve generalization
+in such challenging agricultural settings. Finally, we propose MinkUNeXt-
+VINE, a variant of the MinkUNeXt backbone [13], known for its strong
+performance in urban LPR. We redesign the original architecture by pruning
+ine!cient layers and enforcing a lower-dimensional output, which drastically
+lowers parameter count and latency. We couple this lightweight design with
+Matryoshka Representation Learning (MRL) [14], a training strategy that
+enforces structure at various embedding sizes via a weighted summation of
+descriptor slices. The resulting framework o”ers a scalable and e!cient so-
+lution designed for real-time deployment in agricultural localization.
+The contributions of our work are the following:
+• We introduce MinkUNeXt-VINE, a lightweight LPR network designed
+for agricultural robotics. It leverages a multi-loss strategy through
+MRL and architectural simpliﬁcation to produce ﬂexible, low-dimensional
+descriptors suitable for real-time constraints. This is the ﬁrst contri-
+bution using a MRL approach for optimizing a LPR method.
+• We conduct a thorough analysis of architectural trade-o”s, sp eciﬁcally
+investigating the synergy between MRL, reduced layer complexity, and
+descriptor dimensionality, proving the e!cacy of our pruning strategy
+in inputs such as a Livox LiDAR sensor (low-cost, low-resolution).
+• We present an extensive validation of MinkUNeXt-VINE in cross-season
+scenarios, testing the robustness of our method across the di”erent
+months and seasons conforming the phenological cycle of the vineyards.
+• A complete benchmark of LiDAR place recognition approaches over
+most recent long-term vineyard datasets. We establish a comparison
+between the impact of our method on di”erent cost and resolution
+LiDAR sensors such as Livox and Velodyne.
+2. Related works
+2.1. Place recognition in agricultural environments
+Agricultural environments are distinguished by their uniformity and high
+variability in the di”erent seasons of the year. The environment undergoes
+notable changes depending on the crop’s developmental stage, including pe-
+riods of high vegetation density within the ﬁeld, which can impede the func-
+tionality of robotic vision systems. In particular, within vineyard environ-
+ments characterized by dense foliage, the robot’s ﬁeld of vision is constrained
+to the immediate row in which it is operating.
+The issue of place recognition in these environments remains an active
+area of research. While classiﬁcation and semantic segmentation have been
+the focus of these environments, the realm of localization remains largely un-
+explored. With regard to the issue of vision localization, proposed solutions
+include an approach by Liu et al. [15] for autonomous navigation in vine-
+yard environments. This approach utilizes a path detection framework that
+detects traversability from the RGB-D image source. In [16], the authors
+propose a localization solution that uses an estimation of the location of the
+end of the vineyard row through a depth map and a modiﬁed MobileNet [17]
+for the classiﬁcation of objects detected in the vision system. This approach
+facilitates the localization process and was tested in real-world environments.
+In the case of the LPR problem, several recent works has addressed it
+on agricultural environments. In TriLoc-NetVLAD [18], the authors pro-
+pose an orchard-focused, long-term LPR solution consisting of a spatial con-
+text descriptor based on point cloud density, height, and spatial information.
+Then, they use a triplet neural network that fuses high-dimensional and low-
+dimensional features with a NetVLAD [19] aggregation module. The method-
+ology in SPVSoAP3D [20] consists of a voxel-based feature extraction module
+(SPV), followed by a feature extraction module that combines second-order
+pooling, log-Euclidean projection, and power normalization (SoAP). Finally,
+it produces the descriptor through a fully connected layer with L2 normal-
+ization. In a similar vein, PointNetPGAP-SLC [21] proposed by Barros et
+al. presents a methodology for the extraction of features from point clouds
+by leveraging the capabilities of PointNet [22]. The subsequent aggregation
+of these features is achieved through a process that integrates the Pairwise
+Feature Interactions and Global Average Pooling (PGAP) aggregation tech-
+niques. To enhance the robustness of this methodology, a signal that con-
+siders the segmentation of vineyards is incorporated into the Segment-Level
+Consistency (SLC) model.
+2.2. LiDAR place recognition
+The use of LiDAR technology instead of a traditional 2D vision system
+provides invariance to lightning changes. For this reason, the development
+of algorithms that take as input these 3D data has been increasing over the
+last years. The grounding work for the development of LPR deep learn-
+ing algorithms is PointNetVLAD [4]. This method combines the use of the
+PointNet architecture [22] to extract higher dimensional local features from
+the point clouds and pass them to a NetVLAD [19] aggregation module.
+After the creation of PointNetVLAD, several works approached the LPR
+problem with deep learning techniques. In LPD-Net [23], the network in-
+corporates additional contextual information regarding the neighborhood of
+each point. This additional information encompasses the linearity, planarity,
+and scattering properties of the neighborhood. In contrast to other net-
+works, LPD-Net utilizes this expanded set of features for feature extraction,
+in addition to positional information. Instead of NetVLAD, a graph-based
+aggregation module is utilized. In MinkLoc3D [5], the authors propose a
+method based on Minkowski convolutions [24], which operates on sparse ten-
+sors of unordered 3D coordinates. On the same note, MinkUNeXt [13] is
+ad e e pn e t w o r kt h a ta c h i e v e se x c e p t i o n a lr e c a l lr e s u l t so nt h eL P Rt a s k s ,
+using only Minkowski convolutions and transposed Minkowski convolutions
+without additional complex mechanisms such as transformers or attention
+modules.
+Apart from the deep learning approaches to the LPR problem, some meth-
+ods use handcrafted global descriptors to solve it. These descriptors are not
+trained through a machine learning system; rather, they are built from the
+geometric characteristics of LiDAR scans. Scan Context [25] is a popular
+example. It creates a global descriptor by dividing the original point cloud
+into sectors and voxels. Then, it encodes the descriptor by taking into ac-
+count the maximum height of the points in each bin. Other methods such as
+Fusion Scan Context [26] also take into account the density of each bin (how
+many points are present in each of them) and the intensity of each bin. In
+Semantic Scan Context [27] is augmented by the application of semantic seg-
+mentation to the raw point cloud, with the resultant information projected
+onto the plane. A two-step global semantic ICP is also performed to obtain
+the 3D pose and to robustly align the point clouds. A distinct handcrafted
+place recognition descriptor is the Stable Triangle Descriptor (STD) [28].
+The STD is a six-dimensional vector formed by the length of the three tri-
+angle sides and the three normal vectors corresponding to each of the three
+vertices of the triangle. It is imperative to note that the term ”triangle”
+in this context refers to a geometric ﬁgure delineated by three keypoints,
+which are identiﬁed within the point cloud subsequent to its projection onto
+a plane. The recent Omni Point method [29], as outlined in the study, builds
+ad e s c r i p t o rf r o mt h ed i s t a n c eb e t w e e nt h ef e a t u r ep o i n t sp r e s e n ti nt h ep o i n t
+cloud, following a histogram of distances approach.
+LiDAR-based place recognition is a promising ﬁeld due to the immutabil-
+ity of these geometric data to external inﬂuences. However, further research

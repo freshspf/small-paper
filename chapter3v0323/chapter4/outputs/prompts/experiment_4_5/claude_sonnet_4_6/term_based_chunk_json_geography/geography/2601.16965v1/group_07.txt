@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "method_reflexion",
+  "exhibits",
+  "HighestLatency",
+  "utilizes",
+  "IterativeSelfReflectionMechanism",
+  "method_spatialAgent",
+  "uses",
+  "TokenConsumption",
+  "offers",
+  "BestAccuracyCostTradeOff",
+  "TwoStageFineTuning",
+  "evaluatedOn",
+  "model_qwen14b",
+  "SupervisedFineTuning",
+  "learns",
+  "ConceptExtraction",
+  "RoleAssignment",
+  "DirectPreferenceOptimization",
+  "PreferenceLearning",
+  "CombinedSftDpo",
+  "achieves",
+  "BestAccuracy",
+  "MultiStepPlanning",
+  "benefitsFrom",
+  "ValidGraphComposition",
+  "Template",
+  "encodes",
+  "GeoAnalyticalPattern",
+  "improves",
+  "Validity",
+  "isA",
+  "GeospatialAiAgent",
+  "formalizes",
+  "GeoAnalyticalQuestionAnswering",
+  "GeoFlowGraphRepresentation",
+  "SpatialConcept",
+  "FunctionalRole",
+  "WellFormednessConstraint",
+  "enables",
+  "StructuredReasoning",
+  "TemplateBasedCompositionalGeneration",
+  "leverages",
+  "GeographicConstraint",
+  "outperforms",
+  "ExistingAgentBaseline",
+  "FrameworkAccuracy",
+  "boundedBy",
+  "ExternalGeospatialApi",
+  "ExecutionError",
+  "causedBy",
+  "DataQualityIssue",
+  "TemplateLibrary",
+  "lacksCoverageFor",
+  "QuestionType",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Routing",
+  "Aggregation",
+  "GisTool",
+  "postgis"
+]
+
+Triples:
+[
+  {
+    "subject": "method_reflexion",
+    "relation": "exhibits",
+    "object": "HighestLatency",
+    "chunk": "completedocument7",
+    "context": "Reflexion consistently exhibits the highest latency due to its iterative self-reflection mechanism."
+  },
+  {
+    "subject": "method_reflexion",
+    "relation": "utilizes",
+    "object": "IterativeSelfReflectionMechanism",
+    "chunk": "completedocument7",
+    "context": "Reflexion consistently exhibits the highest latency due to its iterative self-reflection mechanism."
+  },
+  {
+    "subject": "method_spatialAgent",
+    "relation": "uses",
+    "object": "TokenConsumption",
+    "chunk": "completedocument7",
+    "context": "We compare token consumption across methods: SpatialAgent uses 9,185 input and 1,451 output tokens per query; Reflexion consumes the most (10,964 input, 1,271 output); ReAct uses fewer (7,354 input, 735 output); Direct LLM is minimal (1,500 input, 50 output)."
+  },
+  {
+    "subject": "method_spatialAgent",
+    "relation": "offers",
+    "object": "BestAccuracyCostTradeOff",
+    "chunk": "completedocument7",
+    "context": "With GPT-4o-mini pricing ($0.15/1M input, $0.60/1M output), all methods cost below $0.003 per query, with SpatialAgent at $0.0022 offering the best accuracy-cost trade-off."
+  },
+  {
+    "subject": "TwoStageFineTuning",
+    "relation": "evaluatedOn",
+    "object": "model_qwen14b",
+    "chunk": "completedocument7",
+    "context": "We evaluate our two-stage fine-tuning on Qwen-14B (Table 3, bottom)."
+  },
+  {
+    "subject": "SupervisedFineTuning",
+    "relation": "learns",
+    "object": "ConceptExtraction",
+    "chunk": "completedocument7",
+    "context": "SFT alone improves to 56.84% (+14.6%) by learning concept extraction and role assignment;"
+  },
+  {
+    "subject": "SupervisedFineTuning",
+    "relation": "learns",
+    "object": "RoleAssignment",
+    "chunk": "completedocument7",
+    "context": "SFT alone improves to 56.84% (+14.6%) by learning concept extraction and role assignment;"
+  },
+  {
+    "subject": "DirectPreferenceOptimization",
+    "relation": "utilizes",
+    "object": "PreferenceLearning",
+    "chunk": "completedocument7",
+    "context": "DPO alone yields 55.13% (+11.2%) through preference learning for graph construction."
+  },
+  {
+    "subject": "CombinedSftDpo",
+    "relation": "achieves",
+    "object": "BestAccuracy",
+    "chunk": "completedocument7",
+    "context": "The combined SFT+DPO achieves the best accuracy of 60.58% (+22.2%) with consistent improvements across all categories, especially Trip (+50.0%), indicating that multi-step planning benefits from both accurate concept extraction and valid graph composition."
+  },
+  {
+    "subject": "MultiStepPlanning",
+    "relation": "benefitsFrom",
+    "object": "ConceptExtraction",
+    "chunk": "completedocument7",
+    "context": "The combined SFT+DPO achieves the best accuracy of 60.58% (+22.2%) with consistent improvements across all categories, especially Trip (+50.0%), indicating that multi-step planning benefits from both accurate concept extraction and valid graph composition."
+  },
+  {
+    "subject": "MultiStepPlanning",
+    "relation": "benefitsFrom",
+    "object": "ValidGraphComposition",
+    "chunk": "completedocument7",
+    "context": "The combined SFT+DPO achieves the best accuracy of 60.58% (+22.2%) with consistent improvements across all categories, especially Trip (+50.0%), indicating that multi-step planning benefits from both accurate concept extraction and valid graph composition."
+  },
+  {
+    "subject": "Template",
+    "relation": "encodes",
+    "object": "GeoAnalyticalPattern",
+    "chunk": "completedocument7",
+    "context": "This validates that templates encoding recurring geo-analytical patterns improve validity."
+  },
+  {
+    "subject": "Template",
+    "relation": "improves",
+    "object": "Validity",
+    "chunk": "completedocument7",
+    "context": "This validates that templates encoding recurring geo-analytical patterns improve validity."
+  },
+  {
+    "subject": "method_spatialAgent",
+    "relation": "isA",
+    "object": "GeospatialAiAgent",
+    "chunk": "completedocument7",
+    "context": "We present Spatial-Agent, a geospatial AI agent that formalizes geo-analytical question answering as a concept transformation problem grounded in GIScience theory."
+  },
+  {
+    "subject": "method_spatialAgent",
+    "relation": "formalizes",
+    "object": "GeoAnalyticalQuestionAnswering",
+    "chunk": "completedocument7",
+    "context": "We present Spatial-Agent, a geospatial AI agent that formalizes geo-analytical question answering as a concept transformation problem grounded in GIScience theory."
+  },
+  {
+    "subject": "GeoFlowGraphRepresentation",
+    "relation": "encodes",
+    "object": "SpatialConcept",
+    "chunk": "completedocument7",
+    "context": "The GeoFlow Graph representation encodes spatial concepts, functional roles, and well-formedness constraints, enabling structured reasoning over geographic workflows."
+  },
+  {
+    "subject": "GeoFlowGraphRepresentation",
+    "relation": "encodes",
+    "object": "FunctionalRole",
+    "chunk": "completedocument7",
+    "context": "The GeoFlow Graph representation encodes spatial concepts, functional roles, and well-formedness constraints, enabling structured reasoning over geographic workflows."
+  },
+  {
+    "subject": "GeoFlowGraphRepresentation",
+    "relation": "encodes",
+    "object": "WellFormednessConstraint",
+    "chunk": "completedocument7",
+    "context": "The GeoFlow Graph representation encodes spatial concepts, functional roles, and well-formedness constraints, enabling structured reasoning over geographic workflows."
+  },
+  {
+    "subject": "GeoFlowGraphRepresentation",
+    "relation": "enables",
+    "object": "StructuredReasoning",
+    "chunk": "completedocument7",
+    "context": "The GeoFlow Graph representation encodes spatial concepts, functional roles, and well-formedness constraints, enabling structured reasoning over geographic workflows."
+  },
+  {
+    "subject": "TemplateBasedCompositionalGeneration",
+    "relation": "leverages",
+    "object": "GeoAnalyticalPattern",
+    "chunk": "completedocument7",
+    "context": "Our template-based compositional generation leverages recurring geo-analytical patterns to improve structural validity, while SFT+DPO fine-tuning enables models to internalize geographic constraints."
+  },
+  {
+    "subject": "CombinedSftDpo",
+    "relation": "enables",
+    "object": "GeographicConstraint",
+    "chunk": "completedocument7",
+    "context": "Our template-based compositional generation leverages recurring geo-analytical patterns to improve structural validity, while SFT+DPO fine-tuning enables models to internalize geographic constraints."
+  },
+  {
+    "subject": "method_spatialAgent",
+    "relation": "outperforms",
+    "object": "ExistingAgentBaseline",
+    "chunk": "completedocument7",
+    "context": "Experiments demonstrate that Spatial-Agent significantly outperforms existing agent baselines."
+  },
+  {
+    "subject": "FrameworkAccuracy",
+    "relation": "boundedBy",
+    "object": "ExternalGeospatialApi",
+    "chunk": "completedocument7",
+    "context": "First, the framework’s accuracy is bounded by the reliability of external geospatial APIs, with most errors occurring during execution due to data quality issues."
+  },
+  {
+    "subject": "ExecutionError",
+    "relation": "causedBy",
+    "object": "DataQualityIssue",
+    "chunk": "completedocument7",
+    "context": "First, the framework’s accuracy is bounded by the reliability of external geospatial APIs, with most errors occurring during execution due to data quality issues."
+  },
+  {
+    "subject": "TemplateLibrary",
+    "relation": "lacksCoverageFor",
+    "object": "QuestionType",
+    "chunk": "completedocument8",
+    "context": "Second, the template library may not cover all question types, requiring from-scratch generation for novel pat-terns."
+  }
+]

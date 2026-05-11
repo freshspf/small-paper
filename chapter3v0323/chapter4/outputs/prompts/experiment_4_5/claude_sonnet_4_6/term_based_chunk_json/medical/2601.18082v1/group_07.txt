@@ -1,0 +1,256 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CombinationTherapy",
+  "treats",
+  "Cancer",
+  "MultidrugResistantBacteria",
+  "Covid19",
+  "DrugCombination",
+  "targets",
+  "SarsCov2",
+  "DeepLearning",
+  "predicts",
+  "DrugDrugInteraction",
+  "DrugFoodInteraction",
+  "KnowledgeGraph",
+  "GraphConvolutionalNetwork",
+  "models",
+  "PolypharmacySideEffect",
+  "Synergism",
+  "evaluatedIn",
+  "DrugCombinationStudy",
+  "Antagonism",
+  "OralAntiviralTreatment",
+  "covid_19",
+  "Covid19AntiviralTherapeutic",
+  "sars_cov_2_infection",
+  "FeedbackBasedQuantumControlAlgorithm",
+  "usedFor",
+  "DrugDrugInteractionOptimization",
+  "HarmfulSideEffect",
+  "TreatmentFailure",
+  "HospitalAdmission",
+  "Patient",
+  "MultipleDrugs",
+  "CancerTherapy",
+  "ChronicDisease",
+  "InfectiousDisease",
+  "SevereBleeding",
+  "BloodThinnerCombination",
+  "MuscleDamage",
+  "KidneyFailure",
+  "CholesterolLoweringDrug",
+  "Antibiotic",
+  "HivTreatment",
+  "CancerChemotherapy",
+  "AntibioticRegimen",
+  "Effectiveness",
+  "Resistance",
+  "TreatmentStrategy",
+  "AntiviralDrug",
+  "AntiInflammatoryDrug",
+  "SupportiveDrug",
+  "algorithm_falqon",
+  "algorithm_ite_falqon",
+  "optimization_ddi_aware_drug_combination",
+  "problem_maximum_safe_subset",
+  "concept_harmful_interaction",
+  "problem_synergy_constrained_optimization",
+  "concept_efficacy",
+  "concept_toxicity",
+  "concept_regimen_size",
+  "data_interaction_data",
+  "database_drugs_com",
+  "database_synergxdb",
+  "network_six_drug_network",
+  "drug_ritonavir",
+  "drug_everolimus",
+  "drug_cabazitaxel",
+  "drug_metformin",
+  "drug_erlotinib",
+  "drug_topotecan",
+  "study_covid19_case_study",
+  "concept_nine_drug_candidates",
+  "data_ddi_data",
+  "model_weighted_graph",
+  "model_graph_vertices",
+  "concept_drugs",
+  "model_graph_edges",
+  "concept_synergistic_interaction",
+  "model_graph_nodes",
+  "concept_pairwise_interactions",
+  "Drug"
+]
+
+Triples:
+[
+  {
+    "subject": "CombinationTherapy",
+    "relation": "treats",
+    "object": "Cancer",
+    "chunk": "completedocument9",
+    "context": "Combination therapy in combating cancer, Oncotarget 8, 38022 (2017)."
+  },
+  {
+    "subject": "CombinationTherapy",
+    "relation": "treats",
+    "object": "MultidrugResistantBacteria",
+    "chunk": "completedocument9",
+    "context": "Combination approaches to combat multidrug-resistant bacteria, Trends in Biotechnology 31, 177 (2013)"
+  },
+  {
+    "subject": "CombinationTherapy",
+    "relation": "treats",
+    "object": "Covid19",
+    "chunk": "completedocument9",
+    "context": "Combination therapies for covid-19: An overview of the clinical trials landscape"
+  },
+  {
+    "subject": "DrugCombination",
+    "relation": "targets",
+    "object": "SarsCov2",
+    "chunk": "completedocument9",
+    "context": "Synergistic andantagonistic drugcombinations against sars-cov-2, Molecular Therapy 29, 873 (2021)."
+  },
+  {
+    "subject": "DeepLearning",
+    "relation": "predicts",
+    "object": "DrugDrugInteraction",
+    "chunk": "completedocument9",
+    "context": "Deep learning improves prediction of drug–drug and drug–food interactions, Proceedings of the National Academy of Sciences 115, E4304 (2018)"
+  },
+  {
+    "subject": "DeepLearning",
+    "relation": "predicts",
+    "object": "DrugFoodInteraction",
+    "chunk": "completedocument9",
+    "context": "Deep learning improves prediction of drug–drug and drug–food interactions, Proceedings of the National Academy of Sciences 115, E4304 (2018)"
+  },
+  {
+    "subject": "KnowledgeGraph",
+    "relation": "predicts",
+    "object": "DrugDrugInteraction",
+    "chunk": "completedocument9",
+    "context": "Drug-drug interactions prediction based on deep learning and knowledge graph: A review, iScience 27, 109148 (2024)."
+  },
+  {
+    "subject": "GraphConvolutionalNetwork",
+    "relation": "models",
+    "object": "PolypharmacySideEffect",
+    "chunk": "completedocument9",
+    "context": "Modeling polypharmacy side eﬀects with graph convolutional net-works, Bioinformatics 34, i457 (2018)."
+  },
+  {
+    "subject": "Synergism",
+    "relation": "evaluatedIn",
+    "object": "DrugCombinationStudy",
+    "chunk": "completedocument10",
+    "context": "Theoretical basis, experimental de-sign, and computerized simulation of synergism and antagonism in drug combination studies"
+  },
+  {
+    "subject": "Antagonism",
+    "relation": "evaluatedIn",
+    "object": "DrugCombinationStudy",
+    "chunk": "completedocument10",
+    "context": "Theoretical basis, experimental de-sign, and computerized simulation of synergism and antagonism in drug combination studies"
+  },
+  {
+    "subject": "OralAntiviralTreatment",
+    "relation": "treats",
+    "object": "covid_19",
+    "chunk": "completedocument10",
+    "context": "Oral antiviral treatments for\n\n11\ncovid-19: opportunities and challenges"
+  },
+  {
+    "subject": "Covid19AntiviralTherapeutic",
+    "relation": "targets",
+    "object": "sars_cov_2_infection",
+    "chunk": "completedocument10",
+    "context": "A guide to COVID-19 antiviral therapeutics: a summary and per-spective of the antiviral weapons against SARS-CoV-2\ninfection"
+  },
+  {
+    "subject": "FeedbackBasedQuantumControlAlgorithm",
+    "relation": "usedFor",
+    "object": "DrugDrugInteractionOptimization",
+    "chunk": "completedocument10",
+    "context": "Supporting data for drug-drug interaction optimiza-tion using the feedback-based quantum control al-gorithms"
+  }
+]

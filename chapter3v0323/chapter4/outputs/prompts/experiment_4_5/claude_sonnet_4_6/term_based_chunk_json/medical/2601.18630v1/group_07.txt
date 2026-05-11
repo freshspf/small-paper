@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AiBasedConversationalAgent",
+  "promotes",
+  "MentalHealth",
+  "WellBeing",
+  "tool_ChatCounselor",
+  "isInstanceOf",
+  "LargeLanguageModel",
+  "provides",
+  "MentalHealthSupport",
+  "tool_Faiir",
+  "YouthMentalHealthService",
+  "evaluatedAs",
+  "PsychologicalAssessor",
+  "tool_AdaptiveRag",
+  "usedFor",
+  "MentalHealthScreening",
+  "utilizes",
+  "PsychometricPractice",
+  "dataset_MentalChat16K",
+  "ConversationalMentalHealthAssistance",
+  "DepersonalizationDerealizationDisorder",
+  "hasCharacteristic",
+  "FeelingOfDetachment",
+  "FeelingOfUnreality",
+  "IntrusiveThought",
+  "suggests",
+  "Anxiety",
+  "DissociativeDisorder",
+  "EmotionalDetachment",
+  "Indifference",
+  "isA",
+  "ProtectivePsychologicalMechanism",
+  "helpsCopeWith",
+  "SensationOfUnreality",
+  "CognitiveBehavioralTherapy",
+  "isTypeOf",
+  "Psychotherapy",
+  "TraumaInformedApproach",
+  "managesSymptom",
+  "Symptom",
+  "Medication",
+  "Stabilization",
+  "MindfulnessMeditation",
+  "helpsConnectTo",
+  "PhysicalExperience",
+  "DeepBreathingExercise",
+  "StructuredDailyRoutine",
+  "model_gemini2Flash",
+  "ClosedWeightModel",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "ClosedSourceModel",
+  "OpenSourceModel",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "CognitiveReliability",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "model_gpt4o",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern",
+  "SocialMediaPlatform",
+  "platform_reddit",
+  "CounselingConversation",
+  "dataset_mentalChat16k"
+]
+
+Triples:
+[
+  {
+    "subject": "AiBasedConversationalAgent",
+    "relation": "promotes",
+    "object": "MentalHealth",
+    "chunk": "completedocument9",
+    "context": "Systematic review and meta-analysis of AI-based conversational agents for promoting mental health and well- being."
+  },
+  {
+    "subject": "AiBasedConversationalAgent",
+    "relation": "promotes",
+    "object": "WellBeing",
+    "chunk": "completedocument9",
+    "context": "Systematic review and meta-analysis of AI-based conversational agents for promoting mental health and well- being."
+  },
+  {
+    "subject": "tool_ChatCounselor",
+    "relation": "isInstanceOf",
+    "object": "LargeLanguageModel",
+    "chunk": "completedocument9",
+    "context": "ChatCounselor: A Large Language Models for Mental Health Support."
+  },
+  {
+    "subject": "tool_ChatCounselor",
+    "relation": "provides",
+    "object": "MentalHealthSupport",
+    "chunk": "completedocument9",
+    "context": "ChatCounselor: A Large Language Models for Mental Health Support."
+  },
+  {
+    "subject": "tool_Faiir",
+    "relation": "provides",
+    "object": "YouthMentalHealthService",
+    "chunk": "completedocument9",
+    "context": "FAIIR: Building Toward A Conversational AI Agent Assistant for Youth Mental Health Service Provision."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "evaluatedAs",
+    "object": "PsychologicalAssessor",
+    "chunk": "completedocument9",
+    "context": "Are LLMs effective psychological as- sessors?"
+  },
+  {
+    "subject": "tool_AdaptiveRag",
+    "relation": "usedFor",
+    "object": "MentalHealthScreening",
+    "chunk": "completedocument9",
+    "context": "Leveraging adaptive RAG for interpretable mental health screening through psychometric practice."
+  },
+  {
+    "subject": "MentalHealthScreening",
+    "relation": "utilizes",
+    "object": "PsychometricPractice",
+    "chunk": "completedocument9",
+    "context": "Leveraging adaptive RAG for interpretable mental health screening through psychometric practice."
+  },
+  {
+    "subject": "dataset_MentalChat16K",
+    "relation": "usedFor",
+    "object": "ConversationalMentalHealthAssistance",
+    "chunk": "completedocument9",
+    "context": "MentalChat16K: A Benchmark Dataset for Conversational Mental Health Assistance."
+  },
+  {
+    "subject": "DepersonalizationDerealizationDisorder",
+    "relation": "hasCharacteristic",
+    "object": "FeelingOfDetachment",
+    "chunk": "completedocument10",
+    "context": "What you’re describing sounds like you may be experiencing symptoms of depersonalization-derealization disorder, a condition characterized by persistent feelings of detachment from your surroundings and a sense that reality itself feels unreal or dreamlike."
+  },
+  {
+    "subject": "DepersonalizationDerealizationDisorder",
+    "relation": "hasCharacteristic",
+    "object": "FeelingOfUnreality",
+    "chunk": "completedocument10",
+    "context": "What you’re describing sounds like you may be experiencing symptoms of depersonalization-derealization disorder, a condition characterized by persistent feelings of detachment from your surroundings and a sense that reality itself feels unreal or dreamlike."
+  },
+  {
+    "subject": "IntrusiveThought",
+    "relation": "suggests",
+    "object": "Anxiety",
+    "chunk": "completedocument10",
+    "context": "The intrusive thoughts about harming others, combined with your sense of emotional detachment, suggest you might also be experiencing underlying anxiety or potential early signs of a dissociative disorder."
+  },
+  {
+    "subject": "IntrusiveThought",
+    "relation": "suggests",
+    "object": "DissociativeDisorder",
+    "chunk": "completedocument10",
+    "context": "The intrusive thoughts about harming others, combined with your sense of emotional detachment, suggest you might also be experiencing underlying anxiety or potential early signs of a dissociative disorder."
+  },
+  {
+    "subject": "EmotionalDetachment",
+    "relation": "suggests",
+    "object": "Anxiety",
+    "chunk": "completedocument10",
+    "context": "The intrusive thoughts about harming others, combined with your sense of emotional detachment, suggest you might also be experiencing underlying anxiety or potential early signs of a dissociative disorder."
+  },
+  {
+    "subject": "EmotionalDetachment",
+    "relation": "suggests",
+    "object": "DissociativeDisorder",
+    "chunk": "completedocument10",
+    "context": "The intrusive thoughts about harming others, combined with your sense of emotional detachment, suggest you might also be experiencing underlying anxiety or potential early signs of a dissociative disorder."
+  },
+  {
+    "subject": "Indifference",
+    "relation": "isA",
+    "object": "ProtectivePsychologicalMechanism",
+    "chunk": "completedocument10",
+    "context": "The indifference you’re feeling is likely a protective psychological mechanism that helps you cope with the overwhelming sensations of unreality."
+  },
+  {
+    "subject": "ProtectivePsychologicalMechanism",
+    "relation": "helpsCopeWith",
+    "object": "SensationOfUnreality",
+    "chunk": "completedocument10",
+    "context": "The indifference you’re feeling is likely a protective psychological mechanism that helps you cope with the overwhelming sensations of unreality."
+  },
+  {
+    "subject": "CognitiveBehavioralTherapy",
+    "relation": "isTypeOf",
+    "object": "Psychotherapy",
+    "chunk": "completedocument10",
+    "context": "This might include a combination of psychotherapy—particularly cognitive behavioral therapy or trauma-informed approaches—and potentially medication to help manage your symptoms and provide stabilization."
+  },
+  {
+    "subject": "TraumaInformedApproach",
+    "relation": "isTypeOf",
+    "object": "Psychotherapy",
+    "chunk": "completedocument10",
+    "context": "This might include a combination of psychotherapy—particularly cognitive behavioral therapy or trauma-informed approaches—and potentially medication to help manage your symptoms and provide stabilization."
+  },
+  {
+    "subject": "Psychotherapy",
+    "relation": "managesSymptom",
+    "object": "Symptom",
+    "chunk": "completedocument10",
+    "context": "This might include a combination of psychotherapy—particularly cognitive behavioral therapy or trauma-informed approaches—and potentially medication to help manage your symptoms and provide stabilization."
+  },
+  {
+    "subject": "Medication",
+    "relation": "provides",
+    "object": "Stabilization",
+    "chunk": "completedocument10",
+    "context": "This might include a combination of psychotherapy—particularly cognitive behavioral therapy or trauma-informed approaches—and potentially medication to help manage your symptoms and provide stabilization."
+  },
+  {
+    "subject": "MindfulnessMeditation",
+    "relation": "helpsConnectTo",
+    "object": "PhysicalExperience",
+    "chunk": "completedocument10",
+    "context": "Practices like mindfulness meditation, deep breathing exercises, and maintaining a structured daily routine can help you feel more connected to your immediate physical experience."
+  },
+  {
+    "subject": "DeepBreathingExercise",
+    "relation": "helpsConnectTo",
+    "object": "PhysicalExperience",
+    "chunk": "completedocument10",
+    "context": "Practices like mindfulness meditation, deep breathing exercises, and maintaining a structured daily routine can help you feel more connected to your immediate physical experience."
+  },
+  {
+    "subject": "StructuredDailyRoutine",
+    "relation": "helpsConnectTo",
+    "object": "PhysicalExperience",
+    "chunk": "completedocument10",
+    "context": "Practices like mindfulness meditation, deep breathing exercises, and maintaining a structured daily routine can help you feel more connected to your immediate physical experience."
+  },
+  {
+    "subject": "model_gemini2Flash",
+    "relation": "isInstanceOf",
+    "object": "ClosedWeightModel",
+    "chunk": "completedocument10",
+    "context": "Observation:Closed-weight models (Gemini 2.0-Flash, GPT-4o,GPT-4o-Mini) produced the most balanced and clinically appropriate responses, combining empathy with accurate psychoeducation."
+  }
+]

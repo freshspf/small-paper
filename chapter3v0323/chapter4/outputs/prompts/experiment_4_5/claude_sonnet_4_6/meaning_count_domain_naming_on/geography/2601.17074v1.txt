@@ -1,0 +1,477 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Published as a conference paper at ICLR 2026
+PHYS E-I NV:AP HYSICS -E NCODED INVERSE MODEL -
+ING APPROACH FOR ARCTIC SNOW DEPTH PREDIC -
+TION
+Akila Sampath*, Vandana Janeja & Jianwu Wang
+Department of Information Systems, UMBC
+{asampath, vjaneja, jianwu }@umbc.edu
+*Corresponding author.
+ABSTRACT
+The accurate estimation of Arctic snow depth ( hs) remains a critical time-
+varying inverse problem due to the extreme scarcity and noise inherent in as-
+sociated sea ice parameters. Existing process-based and data-driven models are
+either highly sensitive to sparse data or lack the physical interpretability re-
+quired for climate-critical applications. To address this gap, we introduce PhysE-
+Inv, a novel framework that integrates a sophisticated sequential architecture,
+an LSTM Encoder-Decoder with Multi-head Attention and physics-guided con-
+trastive learning, with physics-guided inference.Our core innovation lies in a sur-
+jective, physics-constrained inversion methodology. This methodology ﬁrst lever-
+ages the hydrostatic balance forward model as a target-formulation proxy, en-
+abling effective learning in the absence of direct hs ground truth; second, it uses
+reconstruction physics regularization over a latent space to dynamically discover
+hidden physical parameters from noisy, incomplete time-series input. Evaluated
+against state-of-the-art baselines, PhysE-Inv signiﬁcantly improves prediction per-
+formance, reducing error by 20% while demonstrating superior physical consis-
+tency and resilience to data sparsity compared to empirical methods. This ap-
+proach pioneers a path for noise-tolerant, interpretable inverse modeling, with
+wide applicability in geospatial and cryospheric domains.
+1I NTRODUCTION
+Snow depth ( hs) exerts a ﬁrst-order control on Arctic sea ice thickness, yet reliable observations
+of it remain remarkably scarce. For instance, widely used reanalysis products such as ERA5 do
+not provide direct measurements of snow depth over sea ice (Hersbach et al., 2020), despite its
+well-established inﬂuence on sea ice thermodynamics (Li et al., 2024). Compounding this data
+gap, the most available driving observations, such as snow density ( ωs), are inherently noisy and
+sparse due to measurement complexities. To address this gap, we exploit Physics-encoded Neural
+Networks (PeNNs) (Faroughi et al., 2022), a class of models widely applied in scientiﬁc analysis
+to implement inverse modeling. However, a standard PeNN approach is insufﬁcient to overcome
+the core issue of extreme data scarcity and input noise. Therefore, our work introduces a novel
+framework that not only encodes sea ice physics derived from the hydrostatic balance equation
+(Kwasniok, 2022) but, critically, leverages this equation as a target-formulation proxy to enable the
+estimation of hidden parameters and yield physically consistent prediction of snow depth ( hs) from
+the noisy observational data.
+Inverse modeling is a powerful tool for inferring intrinsic physical parameters and uncovering hid-
+den characteristics of complex physical phenomena. These models extract meaningful insights from
+systems in various ﬁelds, including lake temperature modeling (Tayal et al., 2022), tomography
+(Bubba et al., 2019), seismic waveform analysis (Sun et al., 2020), materials science (Liao & Li,
+2020), and hydrology (Ghorbanidehno et al., 2020). However, a common limitation is that many of
+these methods rely on physical priors or posterior distributions for parameter estimation (Karumuri
+& Bilionis, 2024). For example, the accuracy of the predicted variable directly depends on the accu-
+racy of the physical mapping from other variables. This dependency can be problematic because any
+arXiv:2601.17074v1 [cs.LG] 23 Jan 2026
+Published as a conference paper at ICLR 2026
+errors in the initial mapping will propagate through the model during training, potentially affecting
+the overall performance. Furthermore, in data-sparse domains like the Arctic, the forward model is
+highly sensitive to noisy input, exacerbating this error propagation. While an end-to-end learning
+approach can offer a streamlined solution, it can also limit the ability to embed additional physical
+constraints that are relevant to the system (Faroughi et al., 2022). This is because the end-to-end
+model is highly dependent on its initialization process and the pre-deﬁned forward mapping.
+Furthermore, inferring parameters through inverse modeling using complex forward-inverse ﬂow
+transformations (Tarantola, 2005; Ghosh et al., 2022; Tayal et al., 2022) can be a computationally
+demanding process. These works often rely on a bijective mapping between the input and latent
+spaces. While this one-to-one correspondence is suitable for static systems (e.g., unchanging mate-
+rial properties), its strict nature is restrictive in the context of a dynamic physical system like Arctic
+sea ice, where underlying parameters are time-varying. A bijective mapping may not be ﬂexible
+enough to capture these evolving relationships, as it rigidly links a single input state to a single
+output state, limiting its ability to account for the continuous evolution of the system. Additionally,
+these methods build upon traditional self-supervised learning that extracts general statistical patterns
+from unlabeled data. However, the learned features, which are not constrained by physical princi-
+ples, might not be physically meaningful or suitable for parameter estimation in a speciﬁc domain
+like snow depth prediction. This points to a clear need for a physics-guided contrastive learning
+approach that embeds domain knowledge directly into the feature-learning process.
+To overcome the limitations of both traditional inverse modeling and conventional self-supervised
+learning, we introduce a novel, simpliﬁed hybrid framework called PhysE-Inv (Physics-Encoded In-
+verse modeling). This framework utilizes a surjective inversion mapping for time-varying parameter
+estimation, enabling it to exploit all possible values the predicted variable could take. It operates on
+the principle that the temporal evolution of a system can be effectively modeled using linear dynam-
+ics present in its physical variables (Kwasniok, 2022). We embed a linear physical equation derived
+from the hydrostatic balance Kwok & Cunningham (2008) to relate the cause-and-effect phenom-
+ena between sea ice and snow variables, leveraging the physical equation as a target formulation
+proxy for inversion. The learning mechanism within PhysE-Inv speciﬁcally addresses the pitfalls
+of generic self-supervised learning by integrating a physics-guided contrastive learning approach
+via physics encoding. This is critical because it compels the model’s latent space to capture the
+physically meaningful relationships between Arctic snow and sea ice variables. By enforcing these
+relationships through contrastive loss, we ensure the latent space is optimally structured for the sub-
+sequent inversion and estimation of hidden parameters needed for physically consistent predictions
+of snow depth.
+The main contributions of this paper are summarized as follows: (1) We present PhysE-Inv, a novel
+hybrid framework that leverages a surjective inversion mapping integrated into a physics-guided
+contrastive learning process. The novelty of this work lies not in the creation of a novel network
+architecture, but in the constrained inversion methodology, which enables a more direct and efﬁcient
+optimization for predicting snow depth through inverse modeling. (2) Moving beyond traditional
+inverse modeling, our framework achieves effective physics encoding by embedding constraints
+from the hydrostatic balance equation of Arctic sea ice thickness directly into the neural network.
+This ensures physically consistent inferences, leading to more accurate snow depth predictions. (3)
+We demonstrate the effectiveness of our proposed model by comparing it with multiple baselines,
+showing superior performance and resilience to data sparsity.
+2R ELA TED WORKS
+2.1 P HYSICS -GUIDED MACHINE LEARNING
+Physics-encoded Neural Networks (PeNNs) represent powerful approach for integrating scientiﬁc
+principles into machine learning Faroughi et al. (2022); Willard et al. (2022); Karpatne et al. (2024).
+By incorporating physical laws in the form of differential and linear equations Rao et al. (2021);
+Chen et al. (2018); Kovachki et al. (2021); Innes et al. (2019), these models not only show improved
+performance but also adhere more closely to physical laws, transforming traditional black-box al-
+gorithms into more interpretable models. Building on the rigor introduced by PeNNs, machine
+learning–enhanced inverse modeling offers a powerful way to uncover hidden physical parameters
+that govern observable geospatial phenomena, many of which cannot be measured directly. This
+Published as a conference paper at ICLR 2026
+approach has been widely applied in ﬁelds such as hydrology Ghosh et al. (2022), water ﬂow stud-
+ies Mo et al. (2020), and lake temperature modeling Tayal et al. (2022). In seismic waveform
+inversion, for example, researchers have begun integrating theoretical knowledge of seismic wave
+propagation into deep learning frameworks Adler et al. (2021). Deep neural networks are also being
+employed to tackle electrical impedance tomography (EIT) problems, which involve inverting the
+highly nonlinear and high-dimensional Dirichlet-to-Neumann (DtN) map Fan & Ying (2020). In
+addition, innovative architectures such as SwitchNet have been developed to address forward and
+inverse scattering problems for wave equations, offering computational efﬁciency while capturing
+the global nature of scattering phenomena Khoo & Ying (2021).
+Most physics-informed machine learning (PIML) approaches, such as Physics-Informed Neural Net-
+works (PINNs) Raissi et al. (2019), are designed for learning or solving nonlinear partial differen-
+tial equations (PDEs), ordinary differential equations (ODEs), or complex dynamical and turbulent
+processes Nguyen et al. (2025); Lu et al. (2021). These frameworks are powerful for numerical
+simulation, system identiﬁcation, and discovering new dynamical laws, but they are not well suited
+to the simple, linear inverse modeling setting considered in this work, where the goal is to infer hid-
+den physical parameters from incomplete real-world observations. Our task focuses on estimating
+unobserved but physically meaningful quantities rather than solving a forward dynamical system,
+making the assumptions and machinery of PDE-based PIML unnecessarily heavy and often incom-
+patible with the available data. Similarly, foundation models such as ClimaX Nguyen et al. (2023)
+are optimized for large-scale climate prediction and cross-variable representation learning under
+conditions where abundant training data exist. Their objectives and data regimes differ substantially
+from ours: we target parameter estimation in data-scarce environments, where the structure of the
+inverse map is weakly constrained and the physical signal must be recovered from limited and par-
+tially observed inputs. As a result, our surjective inverse estimation task lies outside the problem
+class these foundation models are designed to address.
+2.2 S ELF -SUPERVISED LEARNING
+While effective, ML-enhanced inverse methods often require extensive labeled data. To address this
+data scarcity challenge, the self-supervised paradigm has also proven effective in addressing inverse
+problems across a wide range of scientiﬁc disciplines, extending beyond traditional domains like
+natural language processing Fang et al. (2020) and computer vision Bardes et al. (2022) to include
+scientiﬁc modeling Scotti et al. (2023) and noninvasive medical digital twins Kuang et al. (2025).
+By exploiting complex pretext tasks and multi-stage training, these methods can extract meaningful
+representations directly from underlying physical structures Bardes et al. (2022), which in turn en-
+ables parameter estimation without the need for explicit labels Liu et al. (2021); Jing & Tian (2020).
+A limitation of these methods is their heavy reliance on generative and regularization losses, which
+necessitate extensive hyperparameter tuning. Moreover, the use of bijective mappings (e.g., Ghosh
+et al. (2022)) assumes perfect invertibility, which is not plausible with real-world data. Despite these
+advances, a research gap remains. Our work proposes a uniﬁed framework that merges the rigor of
+physics-encoded methods (using known laws with unknown variables) with direct optimization to
+solve time-varying inverse problems for unobserved data.
+3D ATA A N D METHODOLOGY
+3.1 D ATA S E T
+The dataset comprises ERA5 reanalysis data Hersbach et al. (2020) from the European Centre for
+Medium-Range Weather Forecasts (ECMWF). ERA5 ingests a wide variety of observational data,
+a signiﬁcant portion of which comes from remote sensing instruments Hersbach et al. (2020). We
+acquired spatiotemporal data from January 1, 1995, to 2024 (10,958 time steps), speciﬁcally for the
+central Arctic Ocean region enclosed by the highlighted orange boundary in Figure 4, which roughly
+corresponds to the latitude range of approximately 70 →N to 85 →N. The data has a spatial resolution
+of 0.25 → → 0.25→ (approximately 25 km). It includes key parameters related to snow depth and
+sea ice thickness: snow albedo, snow density, and sea ice concentration. We therefore process
+these variables using a proxy model derived from the hydrostatic balance equation to generate target
+proxy data that is eventually used in the inversion process to estimate hidden characteristics. The
+implementation is available here.
+Published as a conference paper at ICLR 2026
+3.2 P ROBLEM FORMULA TION AND PRELIMINARIES
+The observational data is ﬁrst deﬁned. The primary input time series is given as X =
+[x0,x 1,...,x n↑ 1,x n], where xn represents the measurement at time step n. and N = n +1
+denotes the total number of time steps. A corresponding augmented input sequence (Ref, Fig 1),
+X↓ =[ x↓
+0,x ↓
+1,...,x ↓
+n↑ 1,x ↓
+n], is generated to facilitate contrastive learning. The target variable is
+Y =[ y0,y 1,...,y n↑ 1,y n], where yn is the observed output at time step n. Here the total number
+of time steps is N = n +1 .
+We aim to model the relationship between the input X = ωs and the target Y = hi derived via the
+proxy model, particularly in the context of physics-constrained snow depth prediction, by integrating
+snow and sea ice properties. To achieve this, we adapt the hydrostatic balance equation, which, as
+stated by Kwok & Cunningham (2008), describes the equilibrium where the weight of ice and snow
+is balanced by the buoyant force of seawater (equation 2). Using this relation, we generate proxy Y
+labels to inject physical attributes into the training process.
+4I NVERSE PROBLEM :P REDICTING hS
+In this study, we frame the inverse problem as predicting the hidden physical parameter hs using
+known geophysical observations such as sea ice concentration, snow albedo, and density ﬁelds.
+The difﬁculty arises because computing hs analytically requires inputs such as ice thickness ( hi),
+freeboard (fb), and snow density ( ωs), which are actually unobserved in ERA5.
+g(x)= hs ↑ F↑ 1(hi,ω s) (1)
+where g denotes the learned estimator that recovers snow depth from the available observations.
+This problem is fundamentally ill-posed because a unique one-to-one inversion between the ob-
+served input vector X and the target Y is impossible. For instance, several distinct combinations of
+ice thickness and snow density can result in the same observed snow depth. To address this inherent
+non-uniqueness and to stabilize the solution, we model the inverse relationship as a surjective map-
+ping. This assumption is necessary because the large, high-dimensional input space ( X) must be
+mapped onto a much smaller, physics-constrained output space ( hs), meaning the input space can be
+mapped onto multiple potential outputs. Our framework uses this surjective mapping assumption to
+estimate the hidden physical parameters ( ε, ϑ, ϖ ) at every time step t, which are used to reconstruct
+a physics-constrained prediction hs.
+4.1 P ROPOSED PROXY MODEL
+The selection of a stable ground truth for training is essential. Since direct observation of key
+parameters is uncertain in ERA5, we deﬁne our target using an analytically derived ice thickness
+proxy model based on the principle of hydrostatic equilibrium.
+This derivation establishes the core thickness equation, which serves as the starting point for any
+proxy model.
+The total weight of the snow and ice column equals the buoyant force (the weight of the displaced
+water):
+ωihi + ωshs = ωwhsub (2)
+The total depth of the column is the sum of the submerged depth ( hsub) and the surface elevation
+(freeboard, fb):
+hi + hs = hsub + fb
+Rearranging to isolate the submerged depth:
+hsub = hi + hs ↓ fb (3)
+Substitute Equation (3) back into the Hydrostatic Balance (2):
+ωihi + ωshs = ωw(hi + hs ↓ fb)
+Published as a conference paper at ICLR 2026
+Solving for hi: Expand, group all terms containing hi on one side, and factor:
+ωihi + ωshs = ωwhi + ωwhs ↓ ωwfb
+hi(ωi ↓ ωw)= hs(ωw ↓ ωs) ↓ ωwfb
+Finally, isolating hi yields the standard forward equation:
+hi = hs(ωw ↓ ωs) ↓ ωwfb
+ωi ↓ ωw
+(4)
+This is the analytical basis for formulating target proxy data with known variables. The resulting
+simpliﬁed proxy model used is:
+hi ↔ ωwC + εωs
+ωw ↓ ωi
+(5)
+This equation transforms a complex, coupled physical system into a simpliﬁed, mathematically
+tractable target proxy for our neural network.
+4.1.1 C ONCEPTUAL JUSTIFICATION FOR THE PROPOSED PROXY MODEL
+The speciﬁc proxy model (Equation 5) used in our implementation includes sea ice concentration
+(C) and snow albedo ( ε ).
+• Ice thickness is physically zero when Sea Ice Concentration ( C) is zero. Therefore, C acts
+as a critical constraint and scaling factor. While not physically equivalent, SIC often serves
+as an empirical proxy or normalization term for the bulk sea ice properties in a given area.
+Thicker, more stable, and more continuous ice (higher hi and fb) tends to be associated with
+higher SIC. In a simpliﬁed model, if freeboard cannot be measured, one may substitute a
+function of the more easily observable area coverage (SIC), especially when modeling the
+mean or volume over a large grid box.
+• The use of snow albedo ( ε ) as a proxy for snow depth ( hs) is justiﬁed because ε is a highly
+sensitive and easily observable indicator of snow cover. Only a few centimeters of snow
+are required to exceed the optical depth, achieving the maximum possible albedo, meaning
+ε effectively signals the presence and sufﬁciency of the snow layer. Since albedo is critical
+to the ice-albedo feedback loop and is measured reliably by remote sensing, it serves as
+a robust and practical stand-in for the difﬁcult-to-measure physical depth hs in large-scale
+sea ice models.
+4.2 M ODEL ARCHITECTURE
+The PhysE-Inv framework is a recurrent sequence modeling architecture designed to address the
+ill-posed nature of physical inverse problems under data scarcity. As depicted in Figure 1, our
+methodology achieves this by integrating three novel conceptual components: Surjective Inverse
+Mapping, Physics Encoding, and Physics-Guided Contrastive Learning, which together guide the
+model toward physically consistent solutions.
+Sequence Latent Representation ( zn): The foundational step is the transformation of the input
+time series X =[ x0,x 1,...,x n↑ 1,x n] (where n =9 , resulting in N = 10 total observations) into
+a robust, contextually aware latent state zn. This latent vector serves as a compressed representation
+of the entire input history for all subsequent inverse operations.
+Encoder-Decoder Architecture: We employ a standard LSTM encoder-decoder structure, lever-
+aging the LSTM’s efﬁciency in modeling the long-range temporal dependencies crucial for climate
+memory effects. The encoder sequentially processes the input X over N = n +1 time steps. For
+each step t ↗{ 0,...,n }, the LSTM updates its internal states:
+henc
+t ,c enc
+t = LSTMenc(xt,h enc
+t↑ 1,c enc
+t↑ 1)
+where henc
+n and cenc
+n summarize the total historical information.
+Published as a conference paper at ICLR 2026
+Figure 1: The Physics-Encoded Inverse (PhysE-Inv) framework outlines the fusion of physical con-
+straints, representation learning, and a surjective inverse mapping approach based on the hydrostatic
+balance proxy. T represents the ﬁnal observation time in the input sequence.
+Multi-Head Self-Attention: A multi-head self-attention mechanism reﬁnes the encoder outputs,
+specializing in identifying and weighing non-local temporal dependencies. For each time step t ↗
+{0,...,n }, the attention-enhanced representation at is computed as:
+at = Attention(qt,K ,V )=
+j=0
+εtj vj
+where the attention weights εtj are deﬁned by:
+εtj =
+exp
+qt k→
+j↔ dk
+l=0 exp
+( qt k→
+l↔ dk
+The decoder LSTM processes this reﬁned sequence, yielding the ﬁnal hidden state zn = hdec
+n , which
+serves as the deﬁnitive input to the inverse module.
+Surjective Inverse Mapping and Physics Encoding: The retrieval of sea ice parameters from
+uncertain satellite data is an ill-posed inverse problem. To address inherent non-uniqueness, we
+deﬁne a surjective inverse mapping that links the model’s latent state to the ﬁnal physical parameters,
+ensuring dynamic enforcement of physical constraints.
+We implement this mapping using an MLP-based operator that estimates the hidden sea ice param-
+eters !n =[ ωn, εn, ϑn] from the compressed history. Speciﬁcally, the ﬁnal decoder latent state zn
+is passed through a fully connected layer to produce raw predictions:
+!raw = MLP(zn) (6)
+These raw outputs are then transformed to adhere to their respective physical domains:
+ωn =2 · ϱ(ωraw) ↓ 1 ↗ [↓1, 1] (7)
+εn =e x p (εraw) ↗ (0, ↘ ) (8)
+ϑn = 10 · tanh(ϑraw) ↗ [↓10, 10] (9)
+where ϱ(·) denotes the sigmoid function. This procedure recovers dynamically varying parame-
+ters while naturally realizing a surjective mapping from the observation-driven latent space to the
+constrained physical variable space.
+Physics Encoding and Reconstruction Proxy: The estimated parameters !t are used to enforce
+hydrostatic balance via a physics encoding layer. The ﬁnal physics-constrained prediction, ˆhest
+s,t, is
+Published as a conference paper at ICLR 2026
+deﬁned by the following reconstruction proxy:
+ˆhest
+s,t = ωt · ˆh
+pred
+s,t + εt · ˆhpred
+s,t + ϑt (10)
+where ˆhpred
+s,t is the direct prediction, and ˆh
+pred
+s,t is the mean of the intermediate predictions over the
+sequence length N = n +1 . The corresponding loss, LPE-pred, ensures the ﬁnal output respects the
+physical constraints:
+LPE-pred = 1
+n +1
+t=0
+(ˆhpred
+s,t ↓ ˆhest
+s,t)2 (11)
+Physics-Guided Contrastive Learning (PGCL): To ensure the latent space respects physical
+invariance, we employ a contrastive objective based on the NT-Xent loss. Given that Gaussian
+noise augmentation ( X↓) preserves the underlying physics of the original input ( X), the model is
+encouraged to produce noise-stable embeddings. For a batch of M sequences ( 2M augmented
+views), let zi and zpos(i) denote the ﬁnal latent states zn of a positive pair. The PGCL loss is deﬁned
+as:
+LPGCL = ↓ 1
+2M∑
+i=1
+log exp(s(zi, zpos(i))/ς)
+∑2M
+k=1,k↗=i exp(s(zi, zk)/ς)
+(12)
+where s(·, ·) is cosine similarity and ς is the temperature. This objective forces the n +1 temporal
+steps into a representation robust to observational uncertainty.
+Contrastive Stability Regularizer: Rather than a canonical NT-Xent objective, we employ a sim-
+pliﬁed contrastive term tailored to our structured physical parameter space. This lightweight formu-
+lation avoids the heuristic temperature tuning and large-batch dependencies of standard contrastive
+learning. By encouraging separation between physically inconsistent reconstructions while main-
+taining latent proximity for augmented pairs, the term acts as a minimal stability-inducing regular-
+izer. This approach directly supports the surjective, invertibility-aware architecture by ensuring the
+latent state zn remains robust to observational noise without the overhead of exhaustive negative
+sampling.
+5B ASELINES
+Our study’s primary objective is conceptual: to rigorously evaluate how enforcing a surjec-
+tive, invertibility-aware mapping enables the stable recovery of latent physical parameters un-
+der data scarcity. While acknowledging the presence of general state-of-the-art architectures
+in time-series forecasting, our baseline selection is deliberately focused on controlled, ablative
+comparisons to isolate the speciﬁc impact of the PhysE-Inv framework’s conceptual innovations.
+Table 1: Comparison of model predictions with and
+without parameter estimation (PE).
+Model Without PE With PE
+MSE RMSE MSE RMSE
+LSTM 0.4679 0.6840 0.4545 0.6742
+NeuralODE 0.5066 0.7117 0.4926 0.7018
+ResNet50 0.4308 0.6563 0.4315 0.6569
+BiLSTM 0.5263 0.7255 0.5177 0.7195
+PhysE-Inv 0.3942 0.6278 0.3568 0.5973
+In domains like physics-guided inverse
+modeling, many architectures in the
+literature are custom-built to solve tightly
+scoped problems with speciﬁc assump-
+tions and non-linear partial differential
+equations, often lacking the generalizabil-
+ity needed for broader comparisons. They
+frequently only present sample-based ab-
+lations but not performance comparisons
+between state-of-the-art architectures
+Raissi et al. (2019); Ghosh et al. (2022).
+For example, we fundamentally differ from PINNs Raissi et al. (2019), which use automatic
+differentiation to solve PDEs for numerical simulation. Therefore, in our study, to facilitate a fair
+comparison across different architectural paradigms, we chose to augment each of our selected
+baselines with an inverse modeling module, enabling them to perform the same joint parameter
+estimation and prediction task as our proposed PhysE-Inv framework. Furthermore, we acknowl-
+edge the existing gap in the literature regarding direct comparisons between general-purpose
+Published as a conference paper at ICLR 2026
+architectures adapted for inverse modeling and those models speciﬁcally designed for particular
+inverse problems. It is noteworthy that our proposed model combines inverse modeling (speciﬁcally
+through its parameter estimation process) with physics-guided contrastive learning (Fig. 1).
+To ensure a fair analysis, all baselines are capacity-matched to our PhysE-Inv model. Furthermore,
+where applicable, they incorporate the same invertibility adjustment to ensure performance differ-
+ences are attributable to our novel components (Physics Encoding and Physics-Guided Contrastive
+Learning), not differences in overall model scale. Our choices represent conceptually distinct classes
+of time-series modeling with noisy, sparse real-world data:
+• LSTM serves as the minimal recurrent baseline, directly aligning with the core temporal
+backbone of our encoder-decoder structure. This comparison quantiﬁes the added value of
+our physics constraints over a standard sequence modeling approach.
+• BiLSTM is included to evaluate whether performance gains are due to the structural en-
+forcement of physical rules, or simply from leveraging broader (non-causal) temporal con-
+text.
+• Neural ODE offers a direct comparison to an intrinsically continuous-time modeling ap-
+proach, often considered ideal for latent physical dynamics, testing the efﬁcacy of our
+explicit physics-guided architecture.
+• ResNet-50 (1D variant) provides a non-recurrent, deep convolutional benchmark. This
+tests whether the temporal memory inherent in the LSTM is necessary when compared to
+a capacity-matched architecture that models implicit, discretized dynamics through hierar-
+chical feature extraction.
+These models collectively form a set of conceptually aligned baselines that effectively isolate and
+benchmark the impact of our proposed invertibility principles in estimating time-varying physical
+parameters.
+5.1 R ESULTS AND DISCUSSION
+Table 1 presents a comparison of the predictive performance of four baseline models used
+in this study with the proposed inverse model PhysE-Inv. The baseline models are LSTM,
+NeuralODE, ResNet50, and BiLSTM. The evaluation considers their performance under two
+different model settings: the ﬁrst setting, referred to as the base, reﬂects prediction with-
+out the incorporation of hidden characteristics that arise from parameter estimation and in-
+verse mapping, while the other employs parameter estimation and thus includes these hid-
+den characteristics. Model efﬁcacy is quantiﬁed using two standard error metrics (MSE
+and RMSE). Lower values for both metrics indicate a higher degree of predictive accuracy.
+Table 2: Ablation study of PhysE-Inv perfor-
+mance across varying Train/Test ratios with and
+without SCL.
+Data Split Without SCL With SCL
+(Train / Test) MSE RMSE MSE RMSE
+80% / 20% 0.6601 0.8125 0.5926 0.7698
+60% / 40% 0.6588 0.8117 0.6037 0.7770
+50% / 50% 0.8675 0.9314 0.7940 0.8911
+The results indicate that the application of param-
+eter estimation generally correlates with a reduc-
+tion in both MSE and RMSE across the evalu-
+ated models, suggesting an enhancement in pre-
+dictive accuracy. Notably, the proposed model
+demonstrates the lowest error values both in its
+base form (without inverse modeling and param-
+eter estimation) and in its form with inverse mod-
+eling and parameter estimation (PhysE-Inv), indi-
+cating superior performance in this speciﬁc pre-
+diction task. While parameter estimation shows
+improvements for other models, the extent of this
+improvement varies. For instance, both LSTM and NeuralODE exhibit a substantial decrease in
+error, whereas the performance of ResNet50 remains relatively consistent. This suggests that the
+effectiveness of parameter estimation in improving predictive accuracy is model-dependent. Addi-
+tionally, our proposed model consistently shows better performance across all comparisons.
+We conducted ablation experiments with and without contrastive learning (CL), which typically
+means the inclusion or exclusion of contrastive loss. The table (2) presents the results of ablation ex-
+periments conducted to examine the effectiveness of CL in our proposed model, using three different
+training data samples. Following Ghosh et al. (2022), we performed an ablation study by reducing

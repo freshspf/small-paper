@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ClassicalApproach",
+  "partitions",
+  "ConfigurationSpace",
+  "SamplingBasedPlanner",
+  "captures",
+  "Connectivity",
+  "OptimizationBasedApproach",
+  "decomposes",
+  "FreeSpace",
+  "grows",
+  "ConvexPolytope",
+  "constrains",
+  "RobotMotion",
+  "ContainmentRelationship",
+  "enforcedBetween",
+  "RobotGeometry",
+  "GeometricRepresentation",
+  "includes",
+  "Point",
+  "Polytope",
+  "OptimizationFramework",
+  "formulates",
+  "ContainmentConstraint",
+  "ConvexRegion",
+  "allocatedTo",
+  "Link",
+  "enables",
+  "WholeBodyPlanning",
+  "GeometricRelationship",
+  "models",
+  "Robot",
+  "Obstacle",
+  "enforces",
+  "PositiveDistanceMargin",
+  "DistanceBasedMethod",
+  "guarantees",
+  "Safety",
+  "MinimumDistanceThreshold",
+  "DistanceFunction",
+  "evaluates",
+  "RobotObstacleCollisionPair",
+  "SafetyThreshold",
+  "SeparatingHyperplane",
+  "separates",
+  "ObstacleConvexHull",
+  "MultiLinkRoboticSystem",
+  "MobileManipulator",
+  "KinematicCoupling",
+  "occursBetween",
+  "ImplicitRepresentation",
+  "encodes",
+  "MinimumDistance",
+  "measuredBetween",
+  "EnvironmentalPoint",
+  "RobotSurfacePoint",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Planner",
+  "CollisionConstraint",
+  "GeometricModel",
+  "MoveAndActScheme",
+  "MobileManipulation",
+  "CoordinatedWholeBodyBehavior"
+]
+
+Triples:
+[
+  {
+    "subject": "ClassicalApproach",
+    "relation": "partitions",
+    "object": "ConfigurationSpace",
+    "chunk": "completedocument4",
+    "context": "Classical approaches, including cell decomposition [47], [48], visibility graphs [49], [50], and V oronoi diagrams [51], systematically partition or reduce the configuration space into discrete ge- ometric structures."
+  },
+  {
+    "subject": "SamplingBasedPlanner",
+    "relation": "captures",
+    "object": "Connectivity",
+    "chunk": "completedocument4",
+    "context": "Sampling-based plan- ners [52], [53], [21] address this by probabilistically capturing connectivity, achieving widespread adoption in robot manipu- lations [54], [55], [56]."
+  },
+  {
+    "subject": "OptimizationBasedApproach",
+    "relation": "decomposes",
+    "object": "FreeSpace",
+    "chunk": "completedocument4",
+    "context": "More recently, modern optimization- based approaches favor decomposing free space into sequences of convex regions [57], [58], [59], [60], [61]."
+  },
+  {
+    "subject": "OptimizationBasedApproach",
+    "relation": "grows",
+    "object": "ConvexPolytope",
+    "chunk": "completedocument4",
+    "context": "These meth- ods grow convex polytopes in collision-free space and then constrain robot motion by enforcing containment relationships between robot geometry and these safe regions [62], [63]."
+  },
+  {
+    "subject": "OptimizationBasedApproach",
+    "relation": "constrains",
+    "object": "RobotMotion",
+    "chunk": "completedocument4",
+    "context": "These meth- ods grow convex polytopes in collision-free space and then constrain robot motion by enforcing containment relationships between robot geometry and these safe regions [62], [63]."
+  },
+  {
+    "subject": "ContainmentRelationship",
+    "relation": "enforcedBetween",
+    "object": "RobotGeometry",
+    "chunk": "completedocument4",
+    "context": "These meth- ods grow convex polytopes in collision-free space and then constrain robot motion by enforcing containment relationships between robot geometry and these safe regions [62], [63]."
+  },
+  {
+    "subject": "GeometricRepresentation",
+    "relation": "includes",
+    "object": "Point",
+    "chunk": "completedocument5",
+    "context": "Depending on the geometric representation, such as points [59], [64], polytopes [65], [66], or semialgebraic sets [36], different containment constraints can be formulated within the optimization framework."
+  },
+  {
+    "subject": "GeometricRepresentation",
+    "relation": "includes",
+    "object": "Polytope",
+    "chunk": "completedocument5",
+    "context": "Depending on the geometric representation, such as points [59], [64], polytopes [65], [66], or semialgebraic sets [36], different containment constraints can be formulated within the optimization framework."
+  },
+  {
+    "subject": "OptimizationFramework",
+    "relation": "formulates",
+    "object": "ContainmentConstraint",
+    "chunk": "completedocument5",
+    "context": "Depending on the geometric representation, such as points [59], [64], polytopes [65], [66], or semialgebraic sets [36], different containment constraints can be formulated within the optimization framework."
+  },
+  {
+    "subject": "ConvexRegion",
+    "relation": "allocatedTo",
+    "object": "Link",
+    "chunk": "completedocument5",
+    "context": "This paradigm has been extended to manipulators and mobile manipulators by allocating separate convex regions to each link [66], [33], [38], enabling coordinated whole-body planning."
+  },
+  {
+    "subject": "ConvexRegion",
+    "relation": "enables",
+    "object": "WholeBodyPlanning",
+    "chunk": "completedocument5",
+    "context": "This paradigm has been extended to manipulators and mobile manipulators by allocating separate convex regions to each link [66], [33], [38], enabling coordinated whole-body planning."
+  },
+  {
+    "subject": "GeometricRelationship",
+    "relation": "models",
+    "object": "Robot",
+    "chunk": "completedocument5",
+    "context": "The second category focuses on explicitly modeling the geometric relationship between robot and obstacles to enforce positive distance margins."
+  },
+  {
+    "subject": "GeometricRelationship",
+    "relation": "models",
+    "object": "Obstacle",
+    "chunk": "completedocument5",
+    "context": "The second category focuses on explicitly modeling the geometric relationship between robot and obstacles to enforce positive distance margins."
+  },
+  {
+    "subject": "GeometricRelationship",
+    "relation": "enforces",
+    "object": "PositiveDistanceMargin",
+    "chunk": "completedocument5",
+    "context": "The second category focuses on explicitly modeling the geometric relationship between robot and obstacles to enforce positive distance margins."
+  },
+  {
+    "subject": "DistanceBasedMethod",
+    "relation": "guarantees",
+    "object": "Safety",
+    "chunk": "completedocument5",
+    "context": "Compared to convex decomposition methods, which face combinatorial challenges in selecting which free region the robot should occupy at each time step [64], [67] and ensuring safe transitions between regions [36] (as overlapping quality between adjacent regions is often difficult to guarantee), distance-based methods provide a more direct and complete solution: safety can be absolutely guaranteed by enforcing minimum distance thresholds between the robot and all obstacles."
+  },
+  {
+    "subject": "DistanceBasedMethod",
+    "relation": "enforces",
+    "object": "MinimumDistanceThreshold",
+    "chunk": "completedocument5",
+    "context": "Compared to convex decomposition methods, which face combinatorial challenges in selecting which free region the robot should occupy at each time step [64], [67] and ensuring safe transitions between regions [36] (as overlapping quality between adjacent regions is often difficult to guarantee), distance-based methods provide a more direct and complete solution: safety can be absolutely guaranteed by enforcing minimum distance thresholds between the robot and all obstacles."
+  },
+  {
+    "subject": "DistanceFunction",
+    "relation": "evaluates",
+    "object": "RobotObstacleCollisionPair",
+    "chunk": "completedocument5",
+    "context": "The most straightforward approach explicitly constructs distance functions between robot-obstacle collision pairs and enforces safety thresholds [6], [7], [68], [69]."
+  },
+  {
+    "subject": "DistanceFunction",
+    "relation": "enforces",
+    "object": "SafetyThreshold",
+    "chunk": "completedocument5",
+    "context": "The most straightforward approach explicitly constructs distance functions between robot-obstacle collision pairs and enforces safety thresholds [6], [7], [68], [69]."
+  },
+  {
+    "subject": "SeparatingHyperplane",
+    "relation": "separates",
+    "object": "Robot",
+    "chunk": "completedocument5",
+    "context": "Another approach computes separating hyperplanes between the robot and obstacle convex hulls [71], [72]."
+  },
+  {
+    "subject": "SeparatingHyperplane",
+    "relation": "separates",
+    "object": "ObstacleConvexHull",
+    "chunk": "completedocument5",
+    "context": "Another approach computes separating hyperplanes between the robot and obstacle convex hulls [71], [72]."
+  },
+  {
+    "subject": "MultiLinkRoboticSystem",
+    "relation": "includes",
+    "object": "MobileManipulator",
+    "chunk": "completedocument5",
+    "context": "However, for multi-link robotic systems such as manipulators and mobile manipulators, these direct approaches remain difficult to generalize due to kinematic coupling between links and the high dimensionality of the configuration space."
+  },
+  {
+    "subject": "KinematicCoupling",
+    "relation": "occursBetween",
+    "object": "Link",
+    "chunk": "completedocument5",
+    "context": "However, for multi-link robotic systems such as manipulators and mobile manipulators, these direct approaches remain difficult to generalize due to kinematic coupling between links and the high dimensionality of the configuration space."
+  },
+  {
+    "subject": "ImplicitRepresentation",
+    "relation": "encodes",
+    "object": "MinimumDistance",
+    "chunk": "completedocument5",
+    "context": "The principle behind this approach is to build an implicit representation that encodes the minimum distance between environmental points and their nearest robot surface points [73], [42], [74] or nearest obstacle points [75], [76], [77]."
+  },
+  {
+    "subject": "MinimumDistance",
+    "relation": "measuredBetween",
+    "object": "EnvironmentalPoint",
+    "chunk": "completedocument5",
+    "context": "The principle behind this approach is to build an implicit representation that encodes the minimum distance between environmental points and their nearest robot surface points [73], [42], [74] or nearest obstacle points [75], [76], [77]."
+  },
+  {
+    "subject": "MinimumDistance",
+    "relation": "measuredBetween",
+    "object": "RobotSurfacePoint",
+    "chunk": "completedocument5",
+    "context": "The principle behind this approach is to build an implicit representation that encodes the minimum distance between environmental points and their nearest robot surface points [73], [42], [74] or nearest obstacle points [75], [76], [77]."
+  }
+]

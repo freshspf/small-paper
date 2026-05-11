@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RewardVector",
+  "consistsOf",
+  "Component",
+  "ElectricityConsumed",
+  "consumedAt",
+  "TimeStep",
+  "hasDuration",
+  "Duration",
+  "LongitudinalAction",
+  "duration_1s",
+  "LateralAction",
+  "duration_4s",
+  "consumedDuring",
+  "Force",
+  "appliedAt",
+  "Vehicle",
+  "hasMass",
+  "Mass",
+  "AirDrag",
+  "hasCoefficient",
+  "CoefficientOfAirDrag",
+  "Episode",
+  "terminatedBy",
+  "Collision",
+  "Policy",
+  "evaluatedUnder",
+  "TrafficCondition",
+  "TargetDistance",
+  "dependsOn",
+  "StartPosition",
+  "EndPosition",
+  "Truck",
+  "hasStartPosition",
+  "hasEndPosition",
+  "minimizes",
+  "EnergyCost",
+  "DriverCost",
+  "AverageSpeed",
+  "affects",
+  "RLEnvironment",
+  "simulates",
+  "TruckDriving",
+  "GPILSFramework",
+  "uses",
+  "PolicyBasedApproach",
+  "figure_8",
+  "isA",
+  "ParetoFront",
+  "illustrates",
+  "TradeOff",
+  "involvesMetric",
+  "AutonomousDriving",
+  "RealTimeDecisionMaking",
+  "requires",
+  "HeavyDutyTruck",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "hasCharacteristic",
+  "TraditionalApproach",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "reliesOn",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "VehicleBehavior",
+  "governs",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "performs",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "appliedTo",
+  "ReinforcementLearning",
+  "ControlPolicy",
+  "learns",
+  "DeepRlAgent"
+]
+
+Triples:
+[
+  {
+    "subject": "RewardVector",
+    "relation": "consistsOf",
+    "object": "Component",
+    "chunk": "rewardcomputation",
+    "context": "As mentioned in Section 2.3, the reward vector consists of the following components."
+  },
+  {
+    "subject": "ElectricityConsumed",
+    "relation": "consumedAt",
+    "object": "TimeStep",
+    "chunk": "rewardcomputation",
+    "context": "Cel is the electricity cost, et is the electricity consumed at time step t, Cdr is the driver cost and ∆t is the duration of a time step."
+  },
+  {
+    "subject": "TimeStep",
+    "relation": "hasDuration",
+    "object": "Duration",
+    "chunk": "rewardcomputation",
+    "context": "Cel is the electricity cost, et is the electricity consumed at time step t, Cdr is the driver cost and ∆t is the duration of a time step."
+  },
+  {
+    "subject": "LongitudinalAction",
+    "relation": "hasDuration",
+    "object": "duration_1s",
+    "chunk": "rewardcomputation",
+    "context": "∆t would be 1s for a longitudinal action and 4s for a lateral action."
+  },
+  {
+    "subject": "LateralAction",
+    "relation": "hasDuration",
+    "object": "duration_4s",
+    "chunk": "rewardcomputation",
+    "context": "∆t would be 1s for a longitudinal action and 4s for a lateral action."
+  },
+  {
+    "subject": "ElectricityConsumed",
+    "relation": "consumedDuring",
+    "object": "TimeStep",
+    "chunk": "rewardcomputation",
+    "context": "The electricity consumed during the time step t (et) is calculated as, et=ftvt∆t, (13)"
+  },
+  {
+    "subject": "Force",
+    "relation": "appliedAt",
+    "object": "TimeStep",
+    "chunk": "rewardcomputation",
+    "context": "where ft, force at time step t is given by, ft=m a t+1 2CdAfρairv2+m g C r +m gsin(arctan(slope 100))(14)"
+  },
+  {
+    "subject": "Vehicle",
+    "relation": "hasMass",
+    "object": "Mass",
+    "chunk": "rewardcomputation",
+    "context": "Here m is the mass of the vehicle, Cd is the coefficient of air drag, Af is the frontal area, ρair is the air density, Cr is the"
+  },
+  {
+    "subject": "AirDrag",
+    "relation": "hasCoefficient",
+    "object": "CoefficientOfAirDrag",
+    "chunk": "rewardcomputation",
+    "context": "Here m is the mass of the vehicle, Cd is the coefficient of air drag, Af is the frontal area, ρair is the air density, Cr is the"
+  },
+  {
+    "subject": "Episode",
+    "relation": "terminatedBy",
+    "object": "Collision",
+    "chunk": "detailedresults1",
+    "context": "The success rate indicates the number of episodes that reached the target within the maximum allowed steps, while the failure rate indicates episodes terminated due to collisions."
+  },
+  {
+    "subject": "Policy",
+    "relation": "evaluatedUnder",
+    "object": "TrafficCondition",
+    "chunk": "detailedresults1",
+    "context": "Notably, the failure rate is zero for all policies under alltraffic conditions considered."
+  },
+  {
+    "subject": "TargetDistance",
+    "relation": "dependsOn",
+    "object": "StartPosition",
+    "chunk": "detailedresults1",
+    "context": "The target distance is approximately 3000 m, with minor variations depending on the truck’s start and end positions."
+  },
+  {
+    "subject": "TargetDistance",
+    "relation": "dependsOn",
+    "object": "EndPosition",
+    "chunk": "detailedresults1",
+    "context": "The target distance is approximately 3000 m, with minor variations depending on the truck’s start and end positions."
+  },
+  {
+    "subject": "Truck",
+    "relation": "hasStartPosition",
+    "object": "StartPosition",
+    "chunk": "detailedresults1",
+    "context": "The target distance is approximately 3000 m, with minor variations depending on the truck’s start and end positions."
+  },
+  {
+    "subject": "Truck",
+    "relation": "hasEndPosition",
+    "object": "EndPosition",
+    "chunk": "detailedresults1",
+    "context": "The target distance is approximately 3000 m, with minor variations depending on the truck’s start and end positions."
+  },
+  {
+    "subject": "Policy",
+    "relation": "minimizes",
+    "object": "EnergyCost",
+    "chunk": "detailedresults1",
+    "context": "For policies that tries to minimize energy cost have low average speed and therefore higher time to reach target and consequently higher driver cost."
+  },
+  {
+    "subject": "Policy",
+    "relation": "minimizes",
+    "object": "DriverCost",
+    "chunk": "detailedresults1",
+    "context": "For policies that tries to minimize driver cost have higher average speed and consequently higher energy cost."
+  },
+  {
+    "subject": "AverageSpeed",
+    "relation": "affects",
+    "object": "EnergyCost",
+    "chunk": "detailedresults1",
+    "context": "In medium and high traffic, policies span a wider range of average speeds, which directly affects energy cost and driver cost."
+  },
+  {
+    "subject": "AverageSpeed",
+    "relation": "affects",
+    "object": "DriverCost",
+    "chunk": "detailedresults1",
+    "context": "In medium and high traffic, policies span a wider range of average speeds, which directly affects energy cost and driver cost."
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "simulates",
+    "object": "TruckDriving",
+    "chunk": "detailedresults1",
+    "context": "In our RL environment for truck driving, training the latter for7.5×105steps required approximately 35 hours, whereas the same training using our framework completed in roughly 30 hours."
+  },
+  {
+    "subject": "GPILSFramework",
+    "relation": "uses",
+    "object": "PolicyBasedApproach",
+    "chunk": "detailedresults1",
+    "context": "We also observed that our GPI-LS framework, which uses a policy-based approach (MOPPO), is computationally more efficient than the value-based GPI-LS [Alegreet al., 2023 ] as implemented in [Feltenet al., 2023 ]."
+  },
+  {
+    "subject": "figure_8",
+    "relation": "isA",
+    "object": "ParetoFront",
+    "chunk": "detailedresults2",
+    "context": "Figure 8: Pareto Front showing the trade off between driver cost and energy cost in medium traffic, along with the success rate."
+  },
+  {
+    "subject": "figure_8",
+    "relation": "illustrates",
+    "object": "TradeOff",
+    "chunk": "detailedresults2",
+    "context": "Figure 8: Pareto Front showing the trade off between driver cost and energy cost in medium traffic, along with the success rate."
+  },
+  {
+    "subject": "TradeOff",
+    "relation": "involvesMetric",
+    "object": "DriverCost",
+    "chunk": "detailedresults2",
+    "context": "Figure 8: Pareto Front showing the trade off between driver cost and energy cost in medium traffic, along with the success rate."
+  },
+  {
+    "subject": "TradeOff",
+    "relation": "involvesMetric",
+    "object": "EnergyCost",
+    "chunk": "detailedresults2",
+    "context": "Figure 8: Pareto Front showing the trade off between driver cost and energy cost in medium traffic, along with the success rate."
+  }
+]

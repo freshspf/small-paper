@@ -1,0 +1,140 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument14
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+INPUT TEXT CHUNK:
+Among these, site (c) was selected for 
+subsequent molecular docking studies based on druggabilit y and spatial characteristics. (d) Atomic -level 
+representation of the selected binding pocket, showing detailed residue arrangement and pocket archit ecture 
+to guide structure -based ligand design.
+
+Biomolecules 2025 , 15, 849 23 of 31  
+ 
+ 
+ 
+Figure 4.  Ternary complex formation between amyloid beta -42 (Aβ42), a representative molecular glue 
+compound, and E3 ligases (VHL, CRBN, and MDM2) . (a-c) 3D docking structures showing the formation of 
+ternary complexes for (a) VHL -Aβ42 -molecular glue, (b) CRBN -Aβ42 -molecular glue, and (c) MDM2 -Aβ42 -
+molecular glue. The small molecule compound (cmpd) is shown in ball -and-stick representation, bound at 
+the interface of Aβ42 and each E3 ligase. (d -f) 2D interaction diagrams corresponding to the docking poses 
+for (d) VHL, (e) CRBN, and (f) MDM2 complexes. Intermolecular interactions include hydrogen bonds 
+(purple lines), salt bridges, hydrophobic contacts (green arcs), and π -π stacking, indicating strong binding 
+affinity and ternary complex stabilization.
+
+Biomolecules 2025 , 15, 849 24 of 31  
+ 
+ 
+ 
+Figure 5.  Distribution of docking scores for compounds screened against E3 ligases VHL, CRBN, and 
+MDM2, categorized by affinity class . Docking scores are grouped into three affinity categories: High 
+Affinity (≤ -5 kcal/mol), Low Affinity ( -5 to -1kcal/mol), and No Affinity (≥ -1 kcal/mol).
+
+Biomolecules 2025 , 15, 849 25 of 31  
+ 
+ 
+Figure 6 . Relationship between docking scores and selected ADMET properties across all screened 
+compounds . Compounds are color -coded by affinity category: High Affinity (blue), Low Affinity (orange), 
+and No Affinity (green). (a) Docking scores vs. molecular weight (MW); (b) Docking scores vs. predicted 
+aqueous  solubility (logS); (c) Docking scores vs. predicted lipophilicity (logP). The plots illustrate the spread 
+of affinity  categories across diverse physicochemical properties, revealing that high -affinity compounds  tend 
+to cluster  within drug -like regions, supporting their potential suitability for further development.
+
+Biomolecules 2025 , 15, 849 26 of 31  
+ 
+Figure 7 . Most frequently occurring molecular scaffolds identified across three affinity  
+categories -High Affinity (top), Low Affinity (middle), and No Affinity (bottom) -for each E3  
+ligase: (a) VHL, (b)MDM2, and (c) CRBN.
+
+Biomolecules 2025 , 15, 849 27 of 31  
+ 
+Figure 8 . Training loss curve of the JTNNVAE model trained on docked compounds  
+targeting Amyloid beta42 . The sharp initial drop followed by gradual convergence indicates  
+successful learning of chemically valid structures relevant to E3 ligase binding.
+
+Biomolecules 2025 , 15, 849 28 of 31  
+ 
+Figure 9 . t-SNE plots visualizing the chemical space distribution of training compounds (blue) and AI -
+generated compounds (orange) for each E3 ligase : (a) VHL, (b) MDM2, and (c) CRBN.
+
+Biomolecules 2025 , 15, 849 29 of 31  
+ 
+ 
+Figure 10.  Performance evaluation of AI -generated molecules for E3 ligases VHL, MDM2, and CRBN 
+across key generative metrics . Metrics include validity, uniqueness, and novelty of generated  compounds, 
+as well as average quantitative estimate of drug -likeness (QED) and compliance with  Lipinski’s Rule of Five. 
+High validity and novelty scores indicate the model’s ability to generate chemically  sound and diverse 
+structures, while QED and Lipinski adherence reflect drug -like potential of the  designed molecules.
+
+Biomolecules 2025 , 15, 849 30 of 31  
+ 
+ 
+Figure 11 . Representative AI -generated compounds designed for three E3 ligases: (a) VHL, (b) MDM2, and (c) 
+CRBN . The series of exemplar compounds illustrate s the distinct scaffold ing preferences and functional group 
+diversity  observed from our results .
+
+Biomolecules 2025 , 15, 849 31 of 31  
+ 
+ 
+Figure 12.  Heatmap of docking scores (kcal/mol) for AI -generated compounds across VHL, CRBN, and 
+MDM2 ligases . Each row represents a compound, and each column corresponds to an E3 ligase. Stronger 
+(more negative) binding affinities are shown in blue. The results demonstrate target -specific binding, with 
+designed compounds showing preferential affinity for their i ntended ligases  and lesser binding affinity for 
+their unintended targets..

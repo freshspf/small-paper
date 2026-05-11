@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ConceptTransformationDrafting",
+  "retrievesFrom",
+  "TemplateLibrary",
+  "Llm",
+  "generates",
+  "GeoFlowGraph",
+  "guidedBy",
+  "QuestionGraphStore",
+  "SpatialAgent",
+  "operatesWith",
+  "OffTheShelfLlm",
+  "SupervisedFineTuning",
+  "utilizes",
+  "QuestionConceptPair",
+  "DirectPreferenceOptimization",
+  "trains",
+  "transformsTo",
+  "FactorizedGraph",
+  "evaluatedOn",
+  "GeospatialReasoningBenchmark",
+  "MapEvalApi",
+  "requires",
+  "Agent",
+  "comprisesTask",
+  "PlaceInfo",
+  "Nearby",
+  "Routing",
+  "Trip",
+  "benchmark_MapQA",
+  "isA",
+  "GeospatialDataset",
+  "constructedFrom",
+  "dataset_OpenStreetMap",
+  "coversRegion",
+  "region_SouthernCalifornia",
+  "region_Illinois",
+  "City",
+  "locatedIn",
+  "Country",
+  "Benchmark",
+  "evaluatesCapability",
+  "SpatialReasoning",
+  "task_PlaceInfo",
+  "requiresCapability",
+  "task_Nearby",
+  "task_Routing",
+  "MultiStepPlanning",
+  "task_Trip",
+  "questionType_AmenitiesAround",
+  "isInstanceOf",
+  "LocationBasedQuery",
+  "questionType_AmenitiesAroundSpecific",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "SpatialConcept",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "FunctionalRole",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Aggregation",
+  "GisTool",
+  "postgis"
+]
+
+Triples:
+[
+  {
+    "subject": "ConceptTransformationDrafting",
+    "relation": "retrievesFrom",
+    "object": "TemplateLibrary",
+    "chunk": "completedocument5",
+    "context": "As\nillustrated in Figure 2 (B), the Concept Transfor-\nmation Drafting stage retrieves relevant templates\nfrom the library to define transformations such as\nOBJECT→FIELD andEVENT→PROPORTION ,\nwhich are then composed into an ordered GeoFlow\nGraph"
+  },
+  {
+    "subject": "Llm",
+    "relation": "generates",
+    "object": "GeoFlowGraph",
+    "chunk": "completedocument5",
+    "context": "Given a question q, the LLM additionally gener-\nates the GeoFlow Graph guided by retrieved exam-\nplesE qfrom a question-graph store."
+  },
+  {
+    "subject": "Llm",
+    "relation": "guidedBy",
+    "object": "QuestionGraphStore",
+    "chunk": "completedocument5",
+    "context": "Given a question q, the LLM additionally gener-\nates the GeoFlow Graph guided by retrieved exam-\nplesE qfrom a question-graph store."
+  },
+  {
+    "subject": "SpatialAgent",
+    "relation": "operatesWith",
+    "object": "OffTheShelfLlm",
+    "chunk": "completedocument5",
+    "context": "While Spatial-Agent can operate with off-the-\nshelf LLMs via prompting, we optionally em-\nploy a two-stage fine-tuning strategy to further\nimprove performance."
+  },
+  {
+    "subject": "SupervisedFineTuning",
+    "relation": "utilizes",
+    "object": "QuestionConceptPair",
+    "chunk": "completedocument5",
+    "context": "In Stage 1, we apply Su-\npervised Fine-Tuning (SFT) on question-concept\npairs{(qi, Vi)}N\ni=1"
+  },
+  {
+    "subject": "DirectPreferenceOptimization",
+    "relation": "trains",
+    "object": "Llm",
+    "chunk": "completedocument5",
+    "context": "In Stage 2, we use Direct\nPreference Optimization (DPO) to train the LLM\nto generate well-formed GeoFlow Graphs."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "transformsTo",
+    "object": "FactorizedGraph",
+    "chunk": "completedocument5",
+    "context": "Given a well-formed GeoFlow Graph G, we first\ntransform it to the factorized graph G′and then ex-\necute transformation steps in topological order."
+  },
+  {
+    "subject": "SpatialAgent",
+    "relation": "evaluatedOn",
+    "object": "GeospatialReasoningBenchmark",
+    "chunk": "completedocument5",
+    "context": "We evaluate SpatialAgent on two com-\nprehensive geospatial reasoning benchmarks that\ncollectively cover diverse task types, geographic\nregions, and reasoning capabilities."
+  },
+  {
+    "subject": "MapEvalApi",
+    "relation": "requires",
+    "object": "Agent",
+    "chunk": "completedocument5",
+    "context": "MapEval-\nAPI(Dihan et al., 2024) is the API-based evalua-\ntion from the MapEval benchmark, which requires\nagents to invoke map tools for geospatial reasoning."
+  },
+  {
+    "subject": "MapEvalApi",
+    "relation": "comprisesTask",
+    "object": "PlaceInfo",
+    "chunk": "completedocument5",
+    "context": "The dataset comprises four task categories:Place\nInfo(retrieving place attributes),Nearby(finding\nnearby points of interest),Routing(computing di-\nrections and distances), andTrip(multi-stop travel\nplanning)."
+  },
+  {
+    "subject": "MapEvalApi",
+    "relation": "comprisesTask",
+    "object": "Nearby",
+    "chunk": "completedocument5",
+    "context": "The dataset comprises four task categories:Place\nInfo(retrieving place attributes),Nearby(finding\nnearby points of interest),Routing(computing di-\nrections and distances), andTrip(multi-stop travel\nplanning)."
+  },
+  {
+    "subject": "MapEvalApi",
+    "relation": "comprisesTask",
+    "object": "Routing",
+    "chunk": "completedocument5",
+    "context": "The dataset comprises four task categories:Place\nInfo(retrieving place attributes),Nearby(finding\nnearby points of interest),Routing(computing di-\nrections and distances), andTrip(multi-stop travel\nplanning)."
+  },
+  {
+    "subject": "MapEvalApi",
+    "relation": "comprisesTask",
+    "object": "Trip",
+    "chunk": "completedocument5",
+    "context": "The dataset comprises four task categories:Place\nInfo(retrieving place attributes),Nearby(finding\nnearby points of interest),Routing(computing di-\nrections and distances), andTrip(multi-stop travel\nplanning)."
+  },
+  {
+    "subject": "benchmark_MapQA",
+    "relation": "isA",
+    "object": "GeospatialDataset",
+    "chunk": "completedocument6",
+    "context": "MapQA(Li et al., 2025) is an open-domain geospatial QA dataset with 3,154 question-answer pairs spanning nine question types, constructed from OpenStreetMap data covering Southern California and Illinois."
+  },
+  {
+    "subject": "benchmark_MapQA",
+    "relation": "constructedFrom",
+    "object": "dataset_OpenStreetMap",
+    "chunk": "completedocument6",
+    "context": "MapQA(Li et al., 2025) is an open-domain geospatial QA dataset with 3,154 question-answer pairs spanning nine question types, constructed from OpenStreetMap data covering Southern California and Illinois."
+  },
+  {
+    "subject": "dataset_OpenStreetMap",
+    "relation": "coversRegion",
+    "object": "region_SouthernCalifornia",
+    "chunk": "completedocument6",
+    "context": "MapQA(Li et al., 2025) is an open-domain geospatial QA dataset with 3,154 question-answer pairs spanning nine question types, constructed from OpenStreetMap data covering Southern California and Illinois."
+  },
+  {
+    "subject": "dataset_OpenStreetMap",
+    "relation": "coversRegion",
+    "object": "region_Illinois",
+    "chunk": "completedocument6",
+    "context": "MapQA(Li et al., 2025) is an open-domain geospatial QA dataset with 3,154 question-answer pairs spanning nine question types, constructed from OpenStreetMap data covering Southern California and Illinois."
+  },
+  {
+    "subject": "City",
+    "relation": "locatedIn",
+    "object": "Country",
+    "chunk": "completedocument6",
+    "context": "The benchmark spans 180 cities across 54 countries, providing diverse geographic coverage for evaluating tool-augmented spatial reasoning."
+  },
+  {
+    "subject": "Benchmark",
+    "relation": "evaluatesCapability",
+    "object": "SpatialReasoning",
+    "chunk": "completedocument6",
+    "context": "The benchmark spans 180 cities across 54 countries, providing diverse geographic coverage for evaluating tool-augmented spatial reasoning."
+  },
+  {
+    "subject": "task_PlaceInfo",
+    "relation": "requiresCapability",
+    "object": "SpatialReasoning",
+    "chunk": "completedocument6",
+    "context": "The improvement is particularly pronounced on Place Info(+149.91%) and Nearby(+133.26%) tasks, where structured tool invocation and spatial reasoning are critical."
+  },
+  {
+    "subject": "task_Nearby",
+    "relation": "requiresCapability",
+    "object": "SpatialReasoning",
+    "chunk": "completedocument6",
+    "context": "The improvement is particularly pronounced on Place Info(+149.91%) and Nearby(+133.26%) tasks, where structured tool invocation and spatial reasoning are critical."
+  },
+  {
+    "subject": "task_Routing",
+    "relation": "requiresCapability",
+    "object": "MultiStepPlanning",
+    "chunk": "completedocument6",
+    "context": "When equipped with GPT-5, SpatialAgent reaches the best overall accuracy of 71.88%, with strong performance across all categories, especially on Routing(75.76%) and Trip (77.61%) tasks that require multi-step planning."
+  },
+  {
+    "subject": "task_Trip",
+    "relation": "requiresCapability",
+    "object": "MultiStepPlanning",
+    "chunk": "completedocument6",
+    "context": "When equipped with GPT-5, SpatialAgent reaches the best overall accuracy of 71.88%, with strong performance across all categories, especially on Routing(75.76%) and Trip (77.61%) tasks that require multi-step planning."
+  },
+  {
+    "subject": "questionType_AmenitiesAround",
+    "relation": "isInstanceOf",
+    "object": "LocationBasedQuery",
+    "chunk": "completedocument6",
+    "context": "The improvement is particularly notable on Amenities-Around and Amenities-Around-Specific tasks, demonstrating the effectiveness of our spatial reasoning framework for complex location-based queries."
+  },
+  {
+    "subject": "questionType_AmenitiesAroundSpecific",
+    "relation": "isInstanceOf",
+    "object": "LocationBasedQuery",
+    "chunk": "completedocument6",
+    "context": "The improvement is particularly notable on Amenities-Around and Amenities-Around-Specific tasks, demonstrating the effectiveness of our spatial reasoning framework for complex location-based queries."
+  }
+]

@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["ICUStay","AdministeredFluid","ChartEvent","ProcedureEvent","DemographicFile","StaticFeature","TimeSeriesFeature","SubjectId","Age","Sex","ObservationPeriod","TimeBucket","ImputationStrategy","ForwardFilling","MeanImputation","MedianImputation","DataGenerator","DynamicClinicalFeature","AdmissionTime","DemographicData","PredictingMode","ClusteringMode","CKDStageLabel","ICDCode","InICUMortalityLabel","BinaryLabel","CKDStage","EndStageRenalDisease","OtherCKD","UnspecifiedCKD","FullyConnectedLayer","FixedSizeRepresentation","InputSequence","CellState","HiddenState","EmbeddingRepresentation","PredictionVector","SigmoidActivation","ProbabilityValue","TargetOutcome"]
+
+Triples:
+[{"subject":"AttentionAugmentedLSTM","relation":"subclassOfApproach","object":"RecurrentArchitecture"},{"subject":"TimeAwareLSTM","relation":"subclassOfApproach","object":"RecurrentArchitecture"},{"subject":"AttentionAugmentedLSTM","relation":"addresses","object":"LongSequence"},{"subject":"TimeAwareLSTM","relation":"addresses","object":"IrregularSampling"},{"subject":"VanillaLSTM","relation":"comparedWith","object":"AttentionAugmentedLSTM"},{"subject":"VanillaLSTM","relation":"comparedWith","object":"TimeAwareLSTM"},{"subject":"AttentionAugmentedLSTM","relation":"comparedWith","object":"TimeAwareLSTM"},{"subject":"VanillaLSTM","relation":"trainedAs","object":"EmbeddingModel"},{"subject":"VanillaLSTM","relation":"trainedAs","object":"EndToEndPredictor"},{"subject":"AttentionAugmentedLSTM","relation":"trainedAs","object":"EmbeddingModel"},{"subject":"AttentionAugmentedLSTM","relation":"trainedAs","object":"EndToEndPredictor"},{"subject":"TimeAwareLSTM","relation":"trainedAs","object":"EmbeddingModel"},{"subject":"TimeAwareLSTM","relation":"trainedAs","object":"EndToEndPredictor"},{"subject":"EmbeddingModel","relation":"evaluatedBy","object":"CKDStageClustering"},{"subject":"EmbeddingModel","relation":"evaluatedBy","object":"InICUMortalityPrediction"},{"subject":"TimeAwareLSTM","relation":"produces","object":"StructuredEmbedding"},{"subject":"TimeAwareLSTM","relation":"hasDaviesBouldinIndex","object":"9.91"},{"subject":"TimeAwareLSTM","relation":"hasCKDStageClassificationAccuracy","object":"0.74"},{"subject":"VanillaLSTM","relation":"hasDaviesBouldinIndex","object":"15.85"},{"subject":"VanillaLSTM","relation":"hasCKDStageClassificationAccuracy","object":"0.63"},{"subject":"AttentionAugmentedLSTM","relation":"hasDaviesBouldinIndex","object":"20.72"},{"subject":"AttentionAugmentedLSTM","relation":"hasCKDStageClassificationAccuracy","object":"0.67"},{"subject":"EmbeddingModel","relation":"outperforms","object":"EndToEndPredictor"},{"subject":"EmbeddingModel","relation":"improvesAccuracyFrom","object":"0.72-0.75"},{"subject":"EmbeddingModel","relation":"improvesAccuracyTo","object":"0.82-0.83"},{"subject":"EmbeddingModel","relation":"moreEffectiveThan","object":"DirectEndToEndLearning"},{"subject":"ChronicKidneyDisease","relation":"studiedIn","object":"MIMICIVDataset"},{"subject":"CKDCohort","relation":"consistsOf","object":"3932Patient"},{"subject":"CKDCohort","relation":"hasAdmissionCaseCount","object":"10000AdmissionCase"},{"subject":"CKDCohort","relation":"composedOf","object":"Patient"},{"subject":"PatientAdmission","relation":"splitInto","object":"DemographicFile"},{"subject":"PatientAdmission","relation":"splitInto","object":"StaticFeature"},{"subject":"PatientAdmission","relation":"splitInto","object":"TimeSeriesFeature"},{"subject":"DemographicFile","relation":"contains","object":"SubjectId"},{"subject":"DemographicFile","relation":"contains","object":"Age"},{"subject":"DemographicFile","relation":"contains","object":"Sex"},{"subject":"TimeSeriesFeature","relation":"includes","object":"Medication"},{"subject":"TimeSeriesFeature","relation":"includes","object":"LabMeasurement"},{"subject":"TimeSeriesFeature","relation":"includes","object":"Procedure"},{"subject":"ObservationPeriod","relation":"hasDuration","object":"72Hour"}]

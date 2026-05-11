@@ -1,0 +1,142 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument13
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+To construct the combined ac-
+cretedandcentralratio,wethenassumethattheaccretedandcentral
+components contribute equal amounts of DM mass, corresponding
+to a scenario in which the cluster has doubled its mass through the
+accretion of satellites, while allowing the stellar mass contributions
+of the two components to differ.
+AsdiscussedinSection3.4,mergersneverdriveaverysignificant
+response from either the cluster halo or central galaxy in our simu-
+lations. As a result the variation due to the cluster response is small
+compared with the variation due to accreted material.
+Across the explored parameter space, variations in the character-
+isticmassscaleoftheinfallingsatellites(orangecontours)dominate
+the population-averaged offsets, while changes in orbital circularity
+(teal contours) play a secondary role. For material at𝑟 >100kpc,
+the dependence on the infalling satellite population is reduced. Cir-
+cularity has little influence on the energy ratio but induces a larger
+MNRAS000, 1–26 (2026)
+
+12G. Martin et al.
+spread in angular momentum, while variations in the stellar mass
+function can shift the energy ratio in the range∼0.8-0.95. Impor-
+tantly, no plausible infalling satellite stellar mass function or orbital
+circularity distribution yields population-averaged ratios consistent
+with⟨𝜀⟩★/⟨𝜀⟩ DM=1and⟨ℎ⟩ ★/⟨ℎ⟩ DM=1. Even at the extremes of
+the explored parameter space, stripped stars remain systematically
+more tightly bound and lower-angular momentum than the corre-
+sponding stripped DM and a scenario in which the ICL perfectly
+traces the cluster DM in phase-space is not realised.
+Thesensitivityoftheorbitalenergyandangularmomentumratios
+to the assumed infalling satellite population underscores that robust
+predictionslinkingICLpropertiestotheunderlyingDMrequirewell-
+constrained satellite stellar mass functions. Uncertainties in those
+inputs plausibly map onto a broad range of angular momentum and,
+particularly,energyoffsets.Importantly,changesintheorbitalenergy
+andangularmomentumoffsetsaredrivenprimarilybyintermediate-
+and high-mass satellites. Recomputing the ratios while imposing a
+minimumstellarmasscutshowsthattheseoffsetsremainstableuntil
+athresholdof∼1010.5M⊙overthefullrangeofcharacteristicmasses
+adopted. The energy differences are therefore driven almost entirely
+by massive satellites. We discuss this further in Appendix D.
+Links to an interactive version of Figure 9 are given in the figure
+caption, allowing readers to examine the full parameter space and
+explore how changing individual stellar mass function and orbital
+circularitydistributionparametersaffectstheresultingorbitalenergy
+and angular momentum ratios.
+5.3 Radial density profiles
+In an NFW-like potential, the time-averaged radius is jointly deter-
+mined by the specific energy and angular momentum of the orbit.
+Once𝜀andℎare fixed, the range of radii explored by the orbit and
+therelativeamountoftimespentateachradiusarefixedaswell.The
+radial density profiles of the DM and ICL are therefore established
+bytheirrespectivephase-spacedistributions.Orbitalenergyprimar-
+ily sets the apocentric scale, where the radial motion is slowest and
+the orbit contributes most strongly to the density, while differences
+in angular momentum control the orbit’s inward extent. The time-
+averagedradius⟨𝑟⟩isthussetbythecombinedeffectofenergyfixing
+the outer scale of the orbit and angular momentum determining the
+depth of the orbit.
+Mostinfallorbitsarefarfromcircular(onaverage,𝜂∼0.5:Wetzel
+2011)andclusterstypicallyhavelowconcentrationsandhencelarge
+scaleradii𝑟 𝑠,extendingtohundredsofkpc.Asaresult,muchofthe
+relevant orbital evolution occurs at radii𝑟≤𝑟 𝑠, where the potential
+deviates strongly from the Keplerian limit (the regime in which the
+enclosed mass is effectively constant and the gravitational potential
+approaches𝜙∝−1/𝑟). In this non-Keplerian regime, changes in
+angular momentum at fixed energy have a significant effect on the
+pericentricradius:loweringℎallowstheorbittoreachmuchsmaller
+radii, thereby reducing⟨𝑟⟩.
+In Figure 10, we present radial profiles of the stellar–to–DM den-
+sityratio,𝜌 ★/𝜌DM,forthesetofsampledinfallingsatellitepopulation
+parameter combinations. Each panel presents an envelope of mod-
+elledprofilesrenderedwithagradedcolourtoindicatethefamilyof
+parametercombinations.Theblackdottedanddot-dashedcurvesde-
+notethefiducialcontributionfrominfallingsatellitesandthecluster
+haloandcentralgalaxyrespectively,withthedashedcurvedenoting
+theradialprofilecombinedinthesamewayastheorbitalenergyand
+angular momentum in Section 5.2.
+Furtherfromthecentreofthecluster,thecontributionofthecen-
+tral galaxy declines significantly.

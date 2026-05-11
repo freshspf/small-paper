@@ -1,0 +1,167 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument9
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+INPUT TEXT CHUNK:
+Matusiewicz, and M. Olesi´ nska, Drug-
+induced myopathies: A comprehensive review and up-
+date, Biomedicines 12, 10.3390/biomedicines12050987
+(2024).
+[12] L. Janssen, N. A. E. Allard, C. G. J. Saris, J. Kei-
+jer, M. T. E. Hopman, and S. Timmers, Muscle toxicity
+of drugs: When drugs turn physiology into pathophys-
+iology, Physiological Reviews 100, 633 (2020), pMID:
+31751166, https://doi.org/10.1152/physrev.00002.2019 .
+[13] C. R. Dormuth, B. R. Hemmelgarn, J. M. Pa-
+terson, M. T. James, G. F. Teare, C. B. Ray-
+mond, J.-P. Lafrance, A. Levy, A. X. Garg, and
+P. Ernst, Use of high potency statins and rates
+of admission for acute kidney injury: multicen-
+ter, retrospective observational analysis of adminis-
+trative databases, BMJ 346, 10.1136/bmj.f880 (2013),
+https://www.bmj.com/content/346/bmj.f880.full.pdf.
+[14] D. Duarte and N. Vale, Evaluation of syn-
+ergism in drug combinations and reference
+models for future orientations in oncology,
+Current Research in Pharmacology and Drug Discovery 3, 100110 (2022).
+[15] S. K. Singh, A. Mohammed, O. A. Alghamdi, and
+S. M. Husain, Chapter 12 - new approaches for
+targeting drug resistance through drug combination,
+inCombination Therapy Against Multidrug Resistance ,
+edited by M. Y. Wani and A. Ahmad (Academic Press,
+2020) pp. 221–246.
+[16] Z. A. Shyr, Y.-S. Cheng, D. C. Lo, and W. Zheng,
+Drug combination therapy for emerging viral diseases,
+Drug Discovery Today 26, 2367 (2021).
+[17] L. Calzetta, C. Page, M. G. Matera, M. Cazzola,
+and P. Rogliani, Drug-drug interactions and synergy:
+From pharmacological models to clinical application,
+Pharmacological Reviews 76, 1159 (2024).
+[18] P. Vanessa, T. Nina, J. J. M., W. Brian, and
+K. F. C., Combinatorial approaches to the
+prevention and treatment of hiv-1 infection,
+Antimicrobial Agents and Chemotherapy 55, 1831 (2011).
+[19] R. B. Mokhtari, T. S. Homayouni, N. Baluch,
+E. Morgatskaya, S. Kumar, B. Das, and H. Yeger,
+Combination therapy in combating cancer,
+Oncotarget 8, 38022 (2017).
+[20] R. J. Worthington and C. Melander, Combination
+approaches to combat multidrug-resistant bacteria,
+Trends in Biotechnology 31, 177 (2013), special Issue:
+Celebrating 30 years of biotechnology.
+[21] S. Akinbolade, D. Coughlan, R. Fairbairn,
+G. McConkey, H. Powell, D. Ogunbayo, and
+D. Craig, Combination therapies for covid-19:
+An overview of the clinical trials landscape,
+British Journal of Clinical Pharmacology 88, 1590 (2022),
+https://bpspubs.onlinelibrary.wiley.com/doi/pdf/10. 1111/bcp.15089.[22] T. Bobrowski, L. Chen, R. T. Eastman, Z. Itkin,
+P. Shinn, C. Z. Chen, H. Guo, W. Zheng, S. Michael,
+A. Simeonov, M. D. Hall, A. V. Zakharov, and E. N.
+Muratov, Synergistic andantagonistic drugcombinations
+against sars-cov-2, Molecular Therapy 29, 873 (2021).
+[23] G. Li, R. Hilgenfeld, R. Whitley, and
+E. De Clercq, Therapeutic strategies for
+covid-19: progress and lessons learned,
+Nature Reviews Drug Discovery 22, 449 (2023).
+[24] Y. Wang, Z. Yang, and Q. Yao, Accurate
+and interpretable drug-drug interaction predic-
+tion enabled by knowledge subgraph learning,
+Communications Medicine 4, 59 (2024).
+[25] S. Wang, H. Yuan, Z. Hong, X.-g. Chen, and X. Yang,
+Path-based graph neural network for drug synergy pre-
+diction and interpretation, Journal of Chemical Informa-
+tion and Modeling 10.1021/acs.jcim.5c02569 (2025).
+[26] J. Y. Ryu, H. U. Kim, and S. Y.
+Lee, Deep learning improves prediction
+of drug–drug and drug–food interactions,
+Proceedings of the National Academy of Sciences 115, E4304 (2018),
+https://www.pnas.org/doi/pdf/10.1073/pnas.180329411 5.
+[27] L. Fillinger, S. Walter, M. Ley, K. Keska-Izworska, L. G .
+Dehkordi, K. Kratochwill, and P. Perco, Computational
+modeling approaches and regulatory pathways for drug
+combinations, Drug Discovery Today 30, 104345 (2025).
+[28] H. Luo, W. Yin, J. Wang, G. Zhang, W. Liang, J. Luo,
+and C. Yan, Drug-drug interactions prediction based
+on deep learning and knowledge graph: A review,
+iScience 27, 109148 (2024).
+[29] M. Zitnik, M. Agrawal, and J. Leskovec, Modeling
+polypharmacy side eﬀects with graph convolutional net-
+works, Bioinformatics 34, i457 (2018).
+[30] J. Chen, A. Lin, A. Jiang, C. Qi, Z. Liu, Q. Cheng,
+S. Yuan, and P. Luo, Computational frameworks trans-
+form antagonism to synergy in optimizing combination
+therapies, npj Digital Medicine 8, 44 (2025).
+[31] F. Glover, G. Kochenberger, and Y. Du,
+A tutorial on formulating and using qubo models
+(2019), arXiv:1811.11538 [cs.DS].
+[32] L. Bittel and M. Kliesch, Training vari-
+ational quantum algorithms is np-hard,
+Phys. Rev. Lett. 127, 120502 (2021).
+[33] E. Farhi, J. Goldstone, and S. Gutmann,
+A quantum approximate optimization algorithm (2014),
+arXiv:1411.4028 [quant-ph].
+[34] J. R. McClean, S. Boixo, V. N. Smelyanskiy,
+R. Babbush, and H. Neven, Barren plateaus
+in quantum neural network training landscapes,
+Nature Communications 9, 4812 (2018).
+[35] A. B. Magann, K. M. Rudinger, M. D. Grace, and
+M. Sarovar, Feedback-based quantum optimization,
+Phys. Rev. Lett.

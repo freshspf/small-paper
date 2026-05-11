@@ -1,0 +1,1296 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+VissimRL: A Multi-Agent Reinforcement Learning
+Framework for Trafﬁc Signal Control
+Based on Vissim
+Hsiao-Chuan Chang 1*, Sheng-Y ou Huang1*, Y en-Chi Chen2, and I-Chen Wu 1,2,3
+Abstract—Trafﬁc congestion remains a major challenge for
+urban transportation, leading to signiﬁcant economic and en-
+vironmental impacts. Trafﬁc Signal Control (TSC) is one of
+the key measures to mitigate congestion, and recent studies
+have increasingly applied Reinforcement Learning (RL) for its
+adaptive capabilities. With respect to SUMO and CityFlow, the
+simulator Vissim offers high-ﬁdelity driver behavior modeling
+and wide industrial adoption but remains underutilized in RL
+research due to its complex interface and lack of standardized
+frameworks. To address this gap, this paper proposes VissimRL,
+a modular RL framework for TSC that encapsulates Vissim’s
+COM interface through a high-level Python API, offering stan-
+dardized environments for both single- and multi-agent training.
+Experiments show that VissimRL signiﬁcantly reduces develop-
+ment effort while maintaining runtime efﬁciency, and supports
+consistent improvements in trafﬁc performance during training,
+as well as emergent coordination in multi-agent control. Overall,
+VissimRL demonstrates the feasibility of applying RL in high-
+ﬁdelity simulations and serves as a bridge between academic
+research and practical applications in intelligent trafﬁc signal
+control.
+Index Terms—Reinforcement Learning, Trafﬁc Signal Control,
+Vissim, Multi-Agent Coordination, Modular framework.
+I. I NTRODUCTION
+Trafﬁc congestion remains a critical challenge for modern
+cities, causing substantial economic and environmental im-
+pacts. The European Union estimated that congestion resulted
+in annual losses of about C270 billion [1], while in the United
+States, congestion in 2022 led to 8.5 billion hours of delay, 3.3
+billion gallons of excess fuel consumption, and approximately
+$224 billion in losses [2]. In London, congestion produced 2.2
+million metric tons of CO 2 in 2021, accounting for roughly
+15% of the city’s total emissions [3], underscoring the urgency
+of effective trafﬁc management. Trafﬁc Signal Control (TSC)
+offers a cost-effective and scalable solution, and Reinforce-
+ment Learning (RL) has shown great potential by enabling
+autonomous policy learning without explicit trafﬁc models
+[4]. Since the introduction of the Deep Q-Network (DQN) in
+2013 [5], Deep Reinforcement Learning (DRL) has become
+This work was supported in part by the National Science and Technology
+Council (NSTC) of Taiwan under Grant, NSTC 114-2221-E-A49-005, NSTC
+114-2221-E-A49-006.
+1Department of Computer Science, National Y ang Ming Chiao Tung
+University, Hsinchu, Taiwan.
+2Research Center for Information Technology Innovation, Academia Sinica,
+Taipei, Taiwan.
+3Correspondence (e-mail: icwu@cs.nycu.edu.tw)
+*Equal contribution.
+an important research direction, with proven effectiveness in
+both single-intersection [6], [7] and multi-intersection control
+[8], [9]. Nevertheless, real-world deployment of reinforcement
+learning for trafﬁc signal control (RL-TSC) requires highly
+realistic and reproducible simulation environments to support
+large-scale training and evaluation.
+Trafﬁc simulation tools are essential for developing and
+evaluating TSC methods, as real-world systems cannot be
+frequently adjusted or tested. Simulations provide a safer and
+more feasible alternative, operating dozens to over a hundred
+times faster than reality [10]. Commonly used platforms
+include SUMO [11], CityFlow [12], and Vissim [13]. SUMO
+is open-source and widely used in academia; CityFlow is de-
+signed for RL experiments with high efﬁciency and scalability;
+and Vissim, as a commercial-grade software, provides highly
+realistic modeling of driver behaviors and complex trafﬁc
+scenarios [14]. Owing to its superior accuracy, Vissim has
+been adopted in ofﬁcial guidelines by various U.S. state De-
+partments of Transportation [15]–[18] and also recommended
+by Transport for London [19].
+Research on RL-TSC has mostly employed open-source
+simulators such as SUMO and CityFlow [20], given their
+accessibility and scalability. However, their rule-based driver
+behavior models often oversimplify trafﬁc dynamics [21], and
+their relevance to industry and policy is limited. By contrast,
+the simulator Vissim offers industry-grade realism but is rarely
+used in RL research due to its complex Component Object
+Model (COM) programming interface [22] and the lack of
+RL frameworks for seamless integration.
+To address these gaps, this paper adopts Vissim as the
+primary simulation platform and develops an RL-compatible
+framework that leverages its modeling accuracy while enabling
+broader applicability in both academic research and practical
+deployment. In this context, SUMO-RL [23] has been a
+widely used open-source RL framework for SUMO, offering
+standardized interfaces for RL environments compatible with
+Gymnasium [24] for single-agent and PettingZoo [25] for
+multi-agent scenarios, and supporting ﬂexible customization
+of states and rewards. Its user-friendliness and extensibility
+have made it a foundational platform for RL-TSC research.
+This paper proposes VissimRL, an RL framework designed
+for TSC in the Vissim environment, which achieves the same
+user-friendliness and extensibility as SUMO-RL, while deliv-
+ering higher modeling ﬁdelity suitable for industrial applica-
+tions. The framework adopts a ﬂexible modular architecture to
+arXiv:2601.18284v1 [cs.MA] 26 Jan 2026
+support diverse TSC applications, thereby aiming to close the
+gap between academic research and real-world deployment.
+The architecture of VissimRL consists of two major compo-
+nents: (1) the Vissim Wrapper, a Python-based encapsulation
+of the Component Object Model (COM) interface that provides
+user-friendly APIs; and (2) the RL environment framework,
+which implements standardized Gymnasium and PettingZoo
+interfaces for single- and multi-agent scenarios. Compared
+with SUMO-RL, VissimRL introduces modular designs of
+states, actions, and rewards with standardized inheritance in-
+terfaces for easy customization. In addition, VissimRL extends
+SUMO-RL by supporting performance metrics from six to
+eleven and expanding one action type to three action types,
+as shown in Table I. To the best of our knowledge, VissimRL
+is the ﬁrst framework speciﬁcally designed for Vissim with
+multi-agent RL, enabling RL in Vissim’s high-ﬁdelity trafﬁc
+simulation environment. It seamlessly supports mainstream al-
+gorithms, e.g., DQN [5], PPO [26], MAPPO [27], without ad-
+ditional glue code, and provides a ﬂexible state–action–reward
+pipeline, substantially enhancing the applicability of Vissim in
+RL-TSC research.
+This paper is an extended version of the work pub-
+lished in [28]. The implementation is publicly available at
+https://github.com/CGI-LAB/VissimRL.
+TABLE I: Comparison of supported features between SUMO-
+RL and VissimRL (bold items indicate features additionally
+implemented in this work).
+State/Reward metrics Action types
+SUMO-RL
+supported
+Queue length, Phase state, Num-
+ber of vehicles, Density, Speed,
+Internal waiting time
+Choose next phase
+VissimRL
+supported
+Queue length, Phase state, Num-
+ber of vehicles, Density, Speed,
+Internal waiting time, Boundary
+waiting time, Elapsed time, De-
+lay, Throughput, Travel time
+Choose next phase
+Switch next or not
+Set phase duration
+II. R ELA TED WORK
+A. Trafﬁc Simulation Software
+SUMO [11], developed by the German Aerospace Center
+in 2002, is one of the most widely used microscopic trafﬁc
+simulators in academia [20]. As an open-source and cross-
+platform tool, SUMO provides a Python library (sumolib [29])
+for handling network and simulation data, along with a wide
+range of modular utilities for constructing networks and trafﬁc
+scenarios. For integration with RL, the open-source project
+SUMO-RL [23] provides a standardized RL environment that
+allows ﬂexible customization of states and rewards. These
+features have made SUMO-RL one of the representative and
+mature RL-TSC platforms.
+CityFlow [12], introduced by Zhang et al. in 2019, was
+speciﬁcally designed for large-scale urban trafﬁc scenarios
+and RL applications. It features high-performance simulation
+with multi-threading support and a native Python API that
+enables the rapid construction of training environments. Unlike
+SUMO, which beneﬁts from the SUMO-RL framework, to
+the best of our knowledge, CityFlow currently lacks a widely
+adopted uniﬁed RL framework. Nevertheless, its simple API
+design and RL-friendly characteristics allow researchers to
+build customized RL environments with relatively low inte-
+gration costs.
+Vissim [13] is a commercial high-resolution trafﬁc simu-
+lation platform capable of modeling multimodal trafﬁc with
+advanced driver behavior algorithms and 3D visualization. It
+has been widely adopted by transportation agencies [15]–[19]
+and provides a Component Object Model (COM) interface
+[22] for secondary development. Despite its high modeling
+accuracy, the integration of RL with Vissim remains chal-
+lenging, primarily due to the absence of standardized and
+open-source frameworks. Existing studies often rely on tightly
+coupled implementations, which hinder reproducibility and
+extensibility across diverse trafﬁc scenarios.
+B. Existing RL Framework – SUMO-RL
+SUMO-RL [23] is an RL environment framework speciﬁ-
+cally designed for TSC. It integrates the SUMO trafﬁc sim-
+ulator with RL algorithms by leveraging SUMO’s sumolib
+module [29] to process network data and enable simula-
+tion interaction. The framework provides standardized RL
+interfaces, supporting both the single-agent Gymnasium API
+[24] and the multi-agent PettingZoo API [25], and can be
+seamlessly combined with mainstream RL libraries such as
+Stable-Baselines3 [30] and RLlib [31]. SUMO-RL manages
+each intersection as an independent trafﬁc signal module and
+allows users to incorporate custom state and reward func-
+tions through conﬁguration ﬁles, thereby supporting diverse
+experimental requirements and enhancing the ﬂexibility of
+multi-agent system design. As a result, SUMO-RL effectively
+lowers the barrier to applying RL in the TSC domain and
+has accelerated the development of related algorithms and
+applications.
+C. RL settings for trafﬁc signal control
+In the context of RL, the decision-making process of an
+agent is primarily deﬁned by three core elements: states,
+rewards, and actions. According to a comprehensive survey of
+160 RL-TSC studies conducted by Noaeen et al. (2022) [32],
+the most frequently adopted trafﬁc performance metrics are
+predominantly utilized in the design of state and reward rep-
+resentations. Most existing studies on action design focus on
+controlling trafﬁc signal phases, typically by adjusting phase
+durations or switching between phases [33]. The following
+subsections describe the typical designs of states, rewards, and
+actions.
+1) States: States represent the observable trafﬁc features
+perceived by the agent and serve as the basis for decision-
+making. Commonly used state features include:
+• Queue Length : the number or total length of vehicles
+moving below a low-speed threshold (e.g., < 5 km/h);
+• Phase State : the current active signal phase at the inter-
+section;
+• Number of V ehicles : the total number of vehicles per
+lane, including both queued and moving vehicles;
+• Speed: the average vehicle speed per lane;
+• Elapsed Time : the time elapsed since the last phase
+transition.
+These features help the agent capture trafﬁc conditions and
+congestion levels, enabling the design of adaptive control
+strategies.
+2) Rewards: The reward function is the key mechanism
+that guides the agent’s behavior. In RL-TSC, commonly used
+reward indicators include:
+• Queue Length : a measure of congestion based on the
+number or length of vehicles traveling below a speed
+threshold (e.g., < 5 km/h);
+• Delay: the difference between actual travel time and the
+free-ﬂow travel time, reﬂecting trafﬁc efﬁciency loss;
+• Waiting Time : the total time vehicles spend idle or at
+low speeds;
+• Throughput: the number of vehicles passing through the
+intersection per unit of time;
+• Travel Time: the aggregate travel time of all vehicles in
+the road.
+Most studies employ a weighted combination of multiple
+indicators to form a composite reward [34]–[36], balancing
+different objectives and more comprehensively reﬂecting the
+effectiveness of the control system.
+3) Actions: Actions deﬁne how the agent controls trafﬁc
+signals at each decision step. At an intersection, a phase is a set
+of trafﬁc movements that can proceed simultaneously without
+conﬂict, and the essence of signal control lies in managing
+these phases [33]. Using a two-lane, four-phase intersection
+as an example (Figure 1), three representative action types
+are:
+Phase 1 Phase 2 Phase 3 Phase 4
+Fig. 1: Four typical signal phases at a two-lane intersection.
+• Choose Next Phase :
+At ﬁxed intervals (e.g., every n seconds), the agent
+selects the next active phase from all available options,
+directly determining the switching sequence (Figure 2).
+This design allows ﬂexible sequencing based on real-time
+trafﬁc conditions rather than ﬁxed cycles.
+Time
+Fig. 2: Illustration of the Choose Next Phase action design.
+• Switch Next or Not :
+At ﬁxed intervals, the agent decides whether to maintain
+the current phase or switch to the predeﬁned next phase
+(Figure 3). This design allows temporary extension of
+the current phase to accommodate heavy ﬂows in a given
+direction.
+Time
+Fig. 3: Illustration of the Switch Next or Not action design.
+• Set Phase Duration :
+Before each phase begins, the agent determines the green-
+light duration in advance (Figure 4). This design enables
+the direct allocation of green time to different trafﬁc
+ﬂows, reducing the need for frequent switching decisions.
+Time
+Fig. 4: Illustration of the Set Phase Duration action design.
+Together, these three types cover different aspects of signal
+control—phase selection, phase extension, and green-time
+allocation—providing diverse strategies for adaptive trafﬁc
+management.
+RL Agent
+VissimRL
+Gymnasium / PettingZoointerface
+Traffic signalsEnvironment Controller
+COM InterfaceVissim ActionStateReward
+ObservationActionReward
+Vissim Wrapper
+EvaluationSignal ControlBasic Simulation
+- Vissim Wrapper - - RL Environment Framework -
+Fig. 5: Architecture of the VissimRL framework.
+III. S YSTEM DESIGN OF VISSIM RL
+The proposed VissimRL framework consists of two core
+components, the Vissim Wrapper and the RL Environment
+Framework, as shown in Figure 5. The Vissim Wrapper
+interacts with Vissim through the COM interface, covering
+essential functions such as simulation control, signal operation,
+and performance evaluation. The RL Environment Framework
+translates the interactions between Vissim and RL agents into
+RL components, namely states, actions, and rewards, while
+providing standardized interfaces (Gymnasium / PettingZoo
+APIs) to ensure seamless integration with mainstream RL
+algorithms.
+A. Vissim Wrapper
+The Vissim Wrapper is built on top of Vissim COM
+interface to simplify simulator interactions and lower the
+development barrier for RL integration. While the COM in-
+terface provides direct access to internal objects and methods,
+its complexity is evident from the Vissim 2025 document
+[13], which lists 276 object types and 4,164 attributes. The
+hierarchical structure and intricate attribute-access mechanism
+often result in high development costs. To address this, the
+Vissim Wrapper encapsulates low-level COM calls into an
+intuitive Python API and supports conﬁguration-based setup of
+simulation environments, thereby reducing the complexity of
+implementation. It is also designed to be RL-friendly, enabling
+dynamic phase control and real-time access to trafﬁc states and
+performance indicators.
+The advantage of the Vissim Wrapper is not only in hiding
+the complexity of COM, but also in its reusability and main-
+tainability. It can be applied across projects, and only minor
+adjustments are required when Vissim updates to ensure stable
+operation. The architecture of this component comprises three
+modules, whose functional designs and main interfaces are
+introduced in the following subsections.
+1) Basic Simulation: The Basic Simulation module is re-
+sponsible for creating and controlling the overall simulation
+environment, enabling rapid initialization through simple con-
+ﬁguration. Users can specify the network and signal ﬁles,
+along with simulation parameters, which are automatically
+loaded and initialized by the Wrapper (see Appendix A-1
+for detailed conﬁguration parameters). During execution, this
+module provides intuitive time-control operations, ensuring
+both reproducibility and ﬂexibility. The simulation can be
+advanced according to the deﬁned simulation resolution (e.g.,
+10 steps per second), allowing precise control of the simulation
+process. Its main functions are summarized in Table II.
+TABLE II: Basic simulation functions and their descriptions.
+Function Description
+vissim.start() Start simulation
+vissim.stop() Stop simulation
+vissim.step() Advance the simulation by one resolu-
+tion step
+vissim.step_one_sec() Advance the simulation by one second
+vissim.run_until(t) Run the simulation till the speciﬁed
+time t
+Note. Use vissim = VissimWrapper( **config) to create a simu-
+lation environment.
+2) Signal control: The Signal Control module manages
+intersection signal systems and synchronizes with agent de-
+cisions in real time. It supports querying current phase states
+and issuing phase-switching commands, ensuring consistency
+between simulation status and RL agent control. Through a
+uniﬁed and user-friendly interface, users can modify signal
+logic without delving into Vissim’s low-level signal object
+structures. Key functions are listed in Table III.
+3) Evaluation: The Evaluation module provides real-time
+calculation of trafﬁc performance indicators, serving as quan-
+titative feedback for the RL environment. It supports both
+network-level and intersection-level metrics: network-level
+indicators include travel time, distance, and delay, while
+intersection-level indicators provide local information such as
+vehicle counts and queue lengths. The main functions are
+shown in Table IV. These performance measures are further
+transformed into standardized RL-TSC indicators, which serve
+as states or rewards for the agent (e.g., the change in delay
+between decision steps).
+TABLE III: Signal control functions and their descriptions.
+Function Description
+sc.set_ts_phase(ts_id, phase_state) Set the current phase_state1 of the speciﬁed intersection ts_id
+sc.get_ts_phase(ts_id) Retrieve the current phase state of the speciﬁed intersection ts_id in real time
+Note. Use vissim.sc for straightforward phase querying and control.
+1 The term phase_state refers to the signal status of all trafﬁc movements within a phase (e.g., "GRRR", where G denotes green and R denotes red).
+TABLE IV: Evaluation functions and their descriptions.
+Function Description
+eval.total_travel_time Total travel time of all vehicles in the network
+eval.total_travel_distance Total travel distance of all vehicles in the network
+eval.total_delay Total delay time for all vehicles in the network
+eval.total_iwaiting_time Total waiting time for all vehicles in the network (internal)
+eval.total_bwaiting_time Total waiting time for all vehicles at network entry points (boundary)
+eval.total_arrived Total number of vehicles that have arrived at their destinations and have left the network
+eval.get_num_vehicles(ts_id) Returns the current number of vehicles in each lane at the speciﬁed intersection ( ts_id)
+eval.get_queue_length(ts_id) Returns the current queue length in each lane at the speciﬁed intersection ( ts_id)
+Note. Use vissim.eval for accessing real-time trafﬁc performance metrics, which can be further processed into RL-TSC indicators.
+B. RL Environment Framework
+The proposed RL Environment Framework is speciﬁcally
+developed for TSC and is tightly integrated with the Vissim
+Wrapper. It supports the deﬁnition of states, actions, and re-
+wards required for RL, and implements standardized interfaces
+following the Gymnasium and PettingZoo APIs to ensure com-
+patibility with popular RL libraries such as Stable-Baselines3
+and RLlib. The framework adopts a modular design, providing
+built-in implementations of commonly used state, action, and
+reward functions in RL-TSC, while offering base classes
+for easy inheritance and extension, allowing researchers to
+customize components according to experimental needs.
+The operation ﬂow of the RL Environment Framework,
+aligned with standard RL APIs, is illustrated in Figure 6:
+1) Initialize: Before training, the environment loads conﬁg-
+uration ﬁles, builds the Vissim simulation, and initializes
+the control and evaluation modules.
+2) Reset: At the beginning of each episode, the simulation is
+reset, and the initial observation is converted into a state
+vector usable by the agent.
+3) Step: At each decision step, the agent selects an action
+based on the state vector. The framework maps the
+action into trafﬁc signal control commands applied to
+Vissim, advances the simulation to the next decision
+point, computes the corresponding reward, and returns
+it together with the updated state.
+The step process repeats until the end of the simulation
+horizon, after which the environment can be reset for the
+next training episode, forming a complete RL interaction
+loop. This design ensures synchronization between decisions
+and simulation states, supports both single- and multi-agent
+training, and allows existing RL algorithms to be directly
+applied to high-ﬁdelity trafﬁc control experiments.
+1) Environment Controller: In the RL Environment Frame-
+work, the Environment Controller serves as the central man-
+agement layer, responsible for scenario loading, parameter
+RL AgentVissim WrapperRL Environment FrameworkGymnasium / PettingZoointerfaceAction
+StateReward
+ObservationEvaluation
+StepResetInitialize
+Fig. 6: Operation ﬂow of the VissimRL environment frame-
+work with standard API interfaces.
+initialization, and simulation time progression. It connects
+the Vissim simulator with agent policies through standardized
+RL interfaces (Figure 6). At the beginning of each training
+episode, the environment executes the reset() function to
+reinitialize the simulator state and signal phases, followed
+by a warm-up procedure to ensure a stable trafﬁc distri-
+bution. During each decision step, the RL agent invokes
+the step(actions) function, which sends the actions to
+the corresponding Trafﬁc Signals modules within VissimRL,
+advancing the simulation to the next decision point, and
+then returns updated observations, rewards computed from
+performance measures, as well as termination, truncation, and
+auxiliary information. The core functionalities and interface
+deﬁnitions are summarized in Table V.
+In addition, the module provides a simple and standardized
+interface, allowing users to instantiate the RL environment
+with a single line of code:
+• For single-agent scenarios: gym.make(**config)
+• For multi-agent scenarios: parallel_env(**config)
+This design signiﬁcantly lowers the usage barrier and es-
+tablishes a highly reproducible experimental foundation for
+subsequent RL training (see Appendix A-2 for the complete
+list of conﬁguration parameters).
+2) Trafﬁc signals: The Trafﬁc Signals module assigns each
+intersection an independent controller to manage phase se-
+TABLE V: Environment controller functions and their descrip-
+tions.
+Function Description
+reset() Resets the network, initializes all trafﬁc signals,
+runs the warmup procedure, and returns the initial
+observation and info
+step(actions) Sends actions to the corresponding trafﬁc signal
+controllers, advances the simulation to the next
+decision point, and returns the next observations,
+rewards, terminations, truncations, and infos
+quences and performance indicators, ensuring that in multi-
+intersection scenarios, decisions can be made locally with
+corresponding observation, action, and reward functions. This
+architecture supports ﬂexible multi-agent designs where agents
+act based on their own trafﬁc conditions. To ensure safety
+and stability, the system automatically inserts yellow and all-
+red intervals during phase transitions and enforces minimum
+and maximum green durations to avoid excessive switching.
+These mechanisms provide a reliable environment for RL-
+based control strategies. The function to support the signal
+control is ts.set_next_phase(phase_id, duration) as
+in Table VI, where ts is an given intersection.
+TABLE VI: Trafﬁc signal functions and their descriptions.
+Function Description
+ts.set_next_phase(
+phase_id, duration)
+Set the next phase phase_id and its
+duration for the upcoming step.
+3) Three RL elements: The RL Elements consist of three
+pluggable modules: Observation, Action, and Reward, which
+form the core logic of the RL environment. In each module,
+a callable class is implemented to support inheritance and ex-
+tension, allowing researchers to ﬂexibly deﬁne functionalities
+for different trafﬁc scenarios and experimental requirements.
+The Observation module generates state vectors for RL
+agents and supports both local and global observations. The
+default local observation features include trafﬁc characteristics
+such as phase state, queue length, and trafﬁc density, while
+global observation aggregates multi-intersection information
+into a single input for coordinated multi-agent control. The
+detailed observation functions are listed in Table VII.
+The Action module deﬁnes the signal control strategies avail-
+able to RL agents. It currently provides three common RL-TSC
+actions in classes of ChooseNextPhase, SwitchNextOrNot,
+SetPhaseDuration, corresponding to those three actions
+described in Section II-C3. These actions are mapped through
+the Trafﬁc Signals module to Vissim’s control logic, ensuring
+that agent decisions are immediately reﬂected in the simula-
+tion environment. The functions and parameter settings are
+summarized in Table VIII.
+The Reward module computes trafﬁc performance during
+each decision step and supports multi-objective weighted
+combinations to balance indicators such as internal waiting
+time, boundary waiting time, travel time. The details of the
+reward functions are presented in Table IX.
+TABLE VII: Observation functions and their descriptions.
+Callable Class Description
+LocalObservationFunction1 Generates observation vectors for
+a single intersection
+- Phase state Current active signal phase
+- Min green Whether the current phase is
+within minimum green constraint
+- Density Ratio of vehicles on a lane to its
+maximum capacity
+- Queue length Number of vehicles waiting in
+queue
+- Elapsed time Time elapsed since the last signal
+change
+GlobalObservationFunction Aggregates local observations
+from all controlled intersections
+Note. Observation classes implement __call__() and
+observation_space() for compatibility with RL frameworks.
+1 The listed items are the internal features included in its observation vector.
+TABLE VIII: Action functions and their descriptions.
+Callable Class Description
+ChooseNextPhase Choose any phase as the next phase;
+args: delta_time (default: 5s)
+SwitchNextOrNot Decide whether to switch to the next phase;
+args: delta_time (default: 5s)
+SetPhaseDuration Set the duration of the new phase before acti-
+vation
+Note. Action classes implement __call__() and action_space() for
+compatibility with RL frameworks.
+With the help of a conﬁguration ﬁle, all modules are auto-
+matically instantiated for each Trafﬁc Signal upon environment
+initialization, ensuring high ﬂexibility and scalability in both
+single-agent and multi-agent training scenarios.
+IV . E XPERIMENTS
+The experimental design of this study aims to compre-
+hensively evaluate the effectiveness and applicability of the
+proposed VissimRL framework, divided into two complemen-
+tary levels according to the system architecture. First, in the
+assessment of the Vissim Wrapper, the focus is on quantifying
+its impact on development effort and runtime efﬁciency. By
+comparing the source lines of code (SLOC) required for
+equivalent control tasks using Raw COM versus the Vissim
+Wrapper, the study evaluates the practical beneﬁts of the high-
+level API in reducing development cost. In addition, per-step
+latency and simulation-step throughput are measured under
+different standardized workloads to examine the performance
+implications of the abstraction layer introduced for improved
+usability.
+Second, in the validation of the RL Environment Frame-
+work, the experiments are designed to examine the effec-
+tiveness and applicability of the proposed VissimRL frame-
+work under different TSC scenarios. The framework inte-
+grates Vissim with standardized RL interfaces to evaluate
+performance across three action designs ( ChooseNextPhase,
+SwitchNextOrNot, and SetPhaseDuration) in both single-
+and multi-agent settings. To further assess real-world applica-
+bility, a benchmark case with ﬁxed-time control is selected,
+TABLE IX: Reward functions and their descriptions.
+Callable Class Description
+DefaultRewardFunction Computes a weighted combination of
+multiple trafﬁc performance metrics
+- Internal waiting time Measures the time vehicles wait within
+the network
+- Boundary waiting time Measures the waiting time at network
+entry points
+- Travel time Computes the total travel time of vehi-
+cles
+- Throughput Counts the number of vehicles passing
+through intersections
+- Speed Calculates the average vehicle speed
+- Delay Quantiﬁes total delay compared to free-
+ﬂow conditions
+Note. Reward classes implement __call__() for real-time reward compu-
+tation and support conﬁgurable weights for multi-objective designs.
+enabling quantitative evaluation of RL-based improvements
+within the VissimRL framework under realistic trafﬁc con-
+ditions.
+A. Experimental Scenarios
+The experimental scenarios are divided into synthetic and
+real-world cases. The synthetic scenarios use artiﬁcially con-
+structed networks and synthetic trafﬁc demand, including a
+single-intersection network (for single-agent control) and a
+three-intersection arterial network (for multi-agent control).
+The real-world scenario is based on a network of ﬁve sig-
+nalized intersections near the Dayuan Interchange in Taoyuan,
+Taiwan, using one hour of peak-period trafﬁc data to validate
+the proposed method under realistic conditions.
+1) Synthetic scenario: In the synthetic experiments, two
+network structures are designed to correspond to single-agent
+and multi-agent RL control. The ﬁrst is the Single-Intersection
+network as in Figure 7a, where each boundary link is 150
+meters long, representing a symmetric and relatively simple
+trafﬁc environment. The second is the Arterial-3 network as
+in Figure 7b, consisting of three consecutive intersections
+connected by 300-meter links, used to evaluate coordination
+in multi-intersection scenarios.
+150 m
+(a)
+300 m (b)
+Fig. 7: Synthetic trafﬁc networks: (a) Single-Intersection and
+(b) Arterial-3, an arterial network with three intersections.
+The trafﬁc demand and signal settings are summarized
+in Table X. In the Single-Intersection network, directional
+imbalance is introduced by assigning higher east–west ﬂows
+compared to north–south ﬂows, with unequal turning ratios
+to reﬂect realistic directional differences. The signal plan
+includes four phases: east–west through (EW), east–west
+left (EW L), north–south through (NS), and north–south left
+(NS L). For the Arterial-3 network, the design focuses on
+progression and coordination along the east–west arterial,
+which also carries higher ﬂows than the side streets. The
+intersections are restricted to through movements only, with a
+simpliﬁed two-phase signal plan designed to highlight arterial
+coordination effects. The vehicle composition includes only
+cars, with a uniform desired speed of 50 km/h to ensure
+comparability and stable evaluation across networks.
+TABLE X: Conﬁgurations for trafﬁc data.
+Network Arrival rate
+(vehicles/h/road)
+Turn ratio
+(L : S : R) Phases
+Single-Intersection EW-ﬂow : 1200
+NS-ﬂow : 800 0.1 : 0.8 : 0.1 EW, EW L,
+NS, NS L
+Arterial-3 Arterial : 1200
+Side-street : 800 0 : 1 : 0 EW, NS
+Note. All networks use cars only, with a desired speed of 50 km/h.
+NS = North-South; EW = East-West; L = Left-turn phase.
+L:S:R = Left : Straight : Right turn ratio.
+2) Real-world scenario: For the real-world experiments,
+a network of ﬁve signalized intersections near the Dayuan
+Interchange in Taoyuan, Taiwan, is selected to evaluate the
+applicability and effectiveness of the VissimRL framework
+under realistic trafﬁc conditions. This area includes a major
+arterial and several side streets, featuring signiﬁcant ﬂow
+imbalances and complex intersection structures. The real-
+world network and its simulated counterpart are shown in
+Figure 8, where (a) depicts an aerial view of the study area
+and (b) illustrates the corresponding simulation network.
+Table XI details the inﬂows and signal phase settings of the
+ﬁve intersections. The simulation uses one hour of observed
+peak-period trafﬁc demand, with a vehicle composition of cars,
+buses, and motorcycles, and a desired speed of 50 km/h. Over-
+all, trafﬁc volumes on the arterial are signiﬁcantly higher than
+those on the side streets, reﬂecting the imbalanced conditions
+commonly observed in practice. This conﬁguration captures
+the complexity of real-world trafﬁc conditions and serves to
+examine VissimRL’s adaptability and optimization capability
+under varying demand pressures and signal complexities.
+TABLE XI: Conﬁgurations for real-world trafﬁc data.
+Network Arrival rate
+(vehicles/h)
+Phases
+(number)
+Dayuan
+(5-Intersections)
+Arterial : 3573
+Side-street : 2420 -
+- Intersection-1 Minsheng S Rd : 1623
+Zhongzheng E Rd : 869
+- Intersection-2 Minan Rd : 46 2
+- Intersection-3 Ping’ an Rd : 498 2
+- Intersection-4 Hengnan Rd : 396 3
+- Intersection-5 Zhongzheng E Rd : 1950
+Dayuan Interchange Ramp : 412
+Lane 444, Zhongzheng E Rd : 199
+Note. V ehicle composition includes cars, buses, and scooters (with a
+desired speed of 50 km/h).
+100 m
+Zhongzheng E Rd
+Minsheng S Rd
+Minan Rd
+Ping' an Rd
+Hengnan Rd
+Dayuan
+Interchange Ramp
+Lane 444,
+Zhongzheng E Rd
+(a) Aerial photograph of the Dayuan Interchange.
+(b) Corresponding simulation network in Vissim.
+Fig. 8: Real-world scenario of the Dayuan Interchange: (a)
+aerial photograph and (b) corresponding simulation network.
+B. Wrapper Evaluation
+This section evaluates the performance of the Vissim Wrap-
+per in terms of development effort and runtime efﬁciency.
+To ensure consistency and comparability, we deﬁne three
+standardized benchmark workloads. They represent progres-
+sively more complex levels of interaction, ranging from basic
+simulation advancement to the combination of signal control
+and performance evaluation.
+• W0 — Step-only
+Advances the simulation by time steps only. This work-
+load reﬂects the theoretical lower bound of simulation
+execution and is primarily used to measure the baseline
+overhead of advancing simulation steps.
+• W1 — Step + TS
+Extends W0 by adding trafﬁc signal read/write opera-
+tions. Every ﬁve seconds, the current phase is retrieved
+and switched to the next, representing a simpliﬁed signal
+control loop.
+• W2 — Step + TS + Eval
+Builds on W1 by incorporating trafﬁc state and perfor-
+mance queries. Queue length is used as the observation
+feature, and delay is adopted as the performance indicator,
+representing a simpliﬁed RL training loop.
+Among these, W0 serves as a performance baseline, while
+W1 and W2 represent increasingly realistic control and learn-
+ing interactions. The stepwise design of the workloads allows
+the impact of different task types on development effort and
+runtime efﬁciency to be distinguished, offering a structured
+way to assess the Vissim Wrapper’s performance.
+1) Runtime Micro-benchmark: To assess the runtime ef-
+ﬁciency of the Vissim Wrapper, its performance is com-
+pared with Raw COM across standardized workloads. The
+experiment was conducted on a Single-Intersection network
+with a simulation length of 3600 seconds and a resolution
+of 10 (36,000 simulation steps). Logging, visualization, and
+non-essential outputs were disabled to ensure that the mea-
+surements captured only the overhead of program calls. The
+evaluation considered two indicators: per-step latency, which
+measures the average execution time of each simulation step
+to reﬂect ﬁne-grained computational overhead, and simulation-
+step throughput, representing the overall simulation efﬁciency.
+The results are summarized in Tables XII and XIII. For the
+W0 workload, which involves only simulation stepping, the
+Wrapper showed only a 4% increase in per-step latency com-
+pared to Raw COM, indicating negligible overhead, while the
+simulation-step throughput was maintained at a comparable
+level.
+TABLE XII: Per-step latency comparison between Raw COM
+and Wrapper for benchmark workloads.
+Workload Raw COM
+(ms/step)
+Wrapper
+(ms/step) Overhead (%)
+W0 Step-only 0.787 ± 0.005 0.819 ± 0.006 +4 .041 %
+W1 Step+TS 0.889 ± 0.004 0.828 ± 0.005 → 6.842 %
+W2 Step+TS+Eval 0.967 ± 0.004 0.848 ± 0.005 → 12.267 %
+Note. V alues represent mean ± standard deviation across ﬁve runs. Lower
+latency indicates better performance.
+TABLE XIII: Simulation-step throughput comparison be-
+tween Raw COM and Wrapper for benchmark workloads.
+Workload Raw COM
+(steps/s)
+Wrapper
+(steps/s) Ratio
+W0 Step-only 1270.496 1220.949 0.961
+W1 Step+TS 1125.551 1208.045 1.073
+W2 Step+TS+Eval 1034.438 1179.033 1.140
+Note. V alues represent the mean over ﬁve runs. Higher throughput
+indicates better performance.
+Interestingly, in the more interactive W1 and W2 workloads,
+the Wrapper not only avoids performance degradation but
+also achieves lower per-step latency, reduced by 6.8% and
+12.3%, respectively, along with higher throughput (1.07x and
+1.14x). The major reason is that the Wrapper substantially
+reduces the number of calls by batching operations and
+caching repeated queries. This reduction in call frequency
+accounts for the improved runtime performance despite the
+additional abstraction layer. This outcome is also evident from
+the analysis of COM API calls shown in Table XIV. Overall,
+the Wrapper preserves a concise development interface while
+integrating performance-oriented mechanisms such as batch-
+ing and caching, offering both usability and efﬁciency, and
+providing a reliable foundation for building RL environments.
+TABLE XIV: API calls comparison between Raw COM
+and Wrapper for benchmark workloads.
+Workload Raw COM
+(API calls)
+Wrapper
+(API calls) Reduction (%)
+W0 Step-only 36000 36000 0%
+W1 Step+TS 41760 37442 10.340 %
+W2 Step+TS+Eval 51132 40322 21.141 %
+2) Development Effort Benchmark: To evaluate the beneﬁts
+of the Vissim Wrapper for development, this paper adopts
+source lines of code (SLOC) as a quantitative metric. SLOC
+counts only effective code containing logic, excluding com-
+ments and blank lines, thereby reﬂecting the development
+effort required to complete equivalent tasks.
+The benchmark task follows the W2 workload, which in-
+volves simulation stepping, signal control, and performance
+queries, representing the typical operations in an RL training
+process. The same task was implemented in two ways:
+• Raw COM implementation:
+win32com.client.Dispatch("Vissim.Vissim")
+• Wrapper implementation:
+VissimWrapper(**config)
+The ﬁrst approach required manual handling of initialization,
+control, and performance evaluation, whereas the wrapper
+version achieved the same functionality through a concise
+high-level API provided by VissimRL.
+Table XV summarizes the SLOC comparison between the
+two approaches based on the task for W2. From the table,
+using the Raw COM for the implementation of the task
+required 207 lines of code, while using the Wrapper for the
+same task required only 32, representing an 84.5% reduction.
+The W2 workload reﬂects a simpliﬁed example, yet even in
+this reduced setting, the Raw COM implementation involves
+complex object hierarchies and property conﬁgurations that
+impose considerable effort for development and maintenance.
+More importantly, the Wrapper also hides the details of
+caching and batching from users, as mentioned in the previous
+subsection. By abstracting these low-level operations, the
+Wrapper achieves more than an 80% reduction in code for
+the task, effectively minimizing redundant programming effort
+and enabling researchers to reproduce or adjust experiments
+through simple conﬁguration changes. This substantially im-
+proves development efﬁciency and iteration speed.
+TABLE XV: Comparison of SLOC between Raw
+COM and Wrapper implementations.
+Metric Raw COM Wrapper
+SLOC 207 32
+C. RL Environment Evaluation
+All experiments in this section are conducted using the
+simulation parameters listed in Table XVI, with a total duration
+of 4200 seconds including a 600-second warm-up period to
+stabilize trafﬁc ﬂow. Signal timing settings, such as green
+duration limits and safety intervals (yellow and all-red), follow
+realistic trafﬁc control requirements to ensure feasibility and
+safety.
+TABLE XVI: Experimental conﬁgurations for simulation.
+Parameter Value (s)
+Warmup 600
+Simulation time (incl. warmup) 4200
+Min green duration 5
+Max green duration 120
+Y ellow change interval 3
+All-red interval 2
+The RL algorithm is implemented using Proximal Pol-
+icy Optimization (PPO) provided by RLlib, chosen for its
+advantages in continuous control and stable policy updates.
+For the observation design, the single-agent setting utilizes
+the LocalObservationFunction, which considers local-
+ized trafﬁc states at the target intersection (as deﬁned in
+Table VII). In contrast, the multi-agent setting employs the
+GlobalObservationFunction, which integrates local ob-
+servation vectors from multiple intersections into a global
+trafﬁc state to support coordinated decision-making.
+The reward function is based on the
+DefaultRewardFunction (see Table IX) with a multi-
+objective weighted design to balance different trafﬁc
+performance indicators. Internal waiting time and boundary
+waiting time penalize congestion inside intersections and
+at network boundaries, respectively. Throughput encourages
+higher vehicle volumes within a unit of time, while speed
+promotes smooth trafﬁc ﬂow by discouraging low-speed
+conditions. This weighting scheme provides an example of
+balancing delay reduction, efﬁciency improvement, and trafﬁc
+smoothness. The detailed parameter settings are summarized
+in Appendix B.
+For performance evaluation, three commonly used RL-TSC
+metrics [32] are selected: delay, travel time, and waiting
+time. These indicators are used to examine the efﬁciency of
+different control strategies and to validate the applicability of
+the proposed system across various scenarios.
+1) Performance V alidation: In this experiment, train-
+ing was conducted under two scenarios: Single-Intersection
+and Arterial-3, using three action designs implemented in
+our framework: ChooseNextPhase, SwitchNextOrNot, and
+SetPhaseDuration. For all evaluation metrics, lower values
+indicate better control performance. To observe performance
+dynamics during learning, the variations of each metric over
+training steps were plotted, providing an intuitive view of
+the convergence trends across different action designs and
+scenarios.
+The experimental results (Figures 9 to 11) show that, regard-
+less of the action design, all three metrics decrease rapidly
+in the early stages of training, particularly within the ﬁrst
+several hundred thousand steps, reﬂecting the agent’s ability to
+quickly learn and adapt its signal control strategies. As training
+progresses, the rate of improvement gradually slows and
+eventually converges, indicating stable control performance.
+Comparing across scenarios, all three action designs exhibit
+consistent convergence in both the Single-Intersection case
+(Figures 9a, 10a, 11a) and the Arterial-3 case (Figures 9b, 10b,
+11b), demonstrating that the proposed framework effectively
+enhances signal control in both isolated and coordinated
+multi-intersection settings. Overall, these results conﬁrm the
+applicability and scalability of the VissimRL framework in
+diverse trafﬁc scenarios.
+
+
+
+ 
+
+ 
+
+
+
+"
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+!
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+(a) Single intersection
+
+
+
+
+ 
+ 
+
+ 
+!
+
+
+
+
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+
+
+
+
+ 
+   
+
+
+(b) Arterial-3
+Fig. 9: Training performance of ChooseNextPhase in differ-
+ent scenarios (top: Single; bottom: Arterial-3).
+
+
+
+ 
+
+ 
+
+
+
+#
+
+ " 
+
+
+
+ 
+
+ 
+
+
+
+
+
+!
+
+ " 
+
+
+
+ 
+
+
+
+ 
+
+ " 
+(a) Single intersection
+
+
+
+
+ 
+ 
+
+ 
+"
+
+! 
+
+
+
+
+ 
+ 
+
+
+ 
+ 
+
+! 
+
+
+
+
+ 
+   
+
+! 
+(b) Arterial-3
+Fig. 10: Training performance of SwitchNextOrNot in dif-
+ferent scenarios (top: Single; bottom: Arterial-3).
+2) Case Study: Green Wave Emergence: In the multi-
+agent experiments conducted on the three-intersection arterial
+network (Arterial-3), a clear Green Wave phenomenon was
+observed. A Green Wave refers to the coordinated timing
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+(a) Single intersection
+
+
+
+
+ 
+ 
+
+ !
+
+
+
+
+
+ 
+
+
+
+ 
+ 
+
+
+
+
+
+ 
+ 
+
+  
+
+(b) Arterial-3
+Fig. 11: Training performance of SetPhaseDuration in
+different scenarios (top: Single; bottom: Arterial-3).
+of trafﬁc signals that enables vehicles to pass through mul-
+tiple intersections without stopping, thereby improving arte-
+rial efﬁciency and reducing delays. In this case study, the
+SwitchNextOrNot action design was applied, allowing each
+agent to decide at every decision step whether to maintain
+or switch the current phase, thus facilitating potential signal
+coordination.
+To analyze this phenomenon, the results were visualized
+using a Green Wave Band diagram (Figure 12). In this dia-
+gram, the vertical axis represents the spatial position along the
+arterial, while the horizontal axis denotes time. The horizontal
+bands correspond to signal states at each intersection in
+the arterial direction, where green and red sections indicate
+green and red phases, respectively. Given the free-ﬂow speed
+of 50 km/h, the slope of the green bands represents the
+distance–time ratio, reﬂecting the spatiotemporal trajectory
+of vehicles traveling at free-ﬂow speed. When green phases
+appear continuous and aligned along this slope, it indicates
+effective signal coordination, enabling vehicles to travel along
+the arterial without stopping.
+15001550160016501700Time (s)150
+450
+750Position (m)
+Green Wave Band
+East
+WestOffset = 20 s23 s17 s(1595 s)
+Fig. 12: Green Wave Band visualization for the Arterial-3 case.
+In this case, the arterial demand was set to 1200 vehicles
+per hour and the side-street demand to 800 vehicles per hour,
+with an intersection spacing of 300 meters and no turning
+movements (Table X). Under these conditions, the optimal
+green split corresponds to the ﬂow ratio of 1200 : 800 (3 : 2) ,
+and the optimal offset is determined by the spacing–speed
+ratio, calculated as 300 m/(50 km/h) = 21 .6 s. The exper-
+imental results (Figure 12) show that at simulation time 1595
+seconds, the offset between the ﬁrst and second eastbound
+intersections was 20 seconds, with green and red phases last-
+ing 23 seconds and 17 seconds, respectively—values closely
+matching the theoretical optimum. Furthermore, the Green
+Wave Band analysis reveals that green phases along the arterial
+were continuously aligned in both directions on the time–space
+diagram, indicating that the agents successfully learned near-
+optimal coordination strategies. These results not only validate
+the effectiveness of the proposed VissimRL framework in
+multi-agent TSC but also demonstrate the potential of RL for
+coordinated signal optimization.
+3) Case Study: Dayuan Interchange: In the real-world case
+of the Dayuan Interchange, this study compares ﬁxed-time
+control with RL using the PPO algorithm under peak-hour traf-
+ﬁc conditions. Table XVII reports the average results over ﬁve
+random seeds. PPO-based control shows improvements across
+all evaluation metrics. Under the SwitchNextOrNot action
+design, the average delay decreased from 559.712 seconds
+with ﬁxed-time control to 208.962 seconds, representing a
+63% reduction. Average travel time and waiting time were also
+reduced by approximately 56% and 38%. Based on real trafﬁc
+demand and a multi-intersection network, this case study
+highlights the potential of RL-TSC and further demonstrates
+the feasibility of applying the VissimRL framework in real-
+world trafﬁc scenarios. Additional performance comparisons
+with alternative action designs are provided in Appendix C.
+TABLE XVII: Performance comparison at Dayuan Inter-
+change.
+TSC Method Delay Travel time Waiting time
+FixedTime 559.712 634.960 802.311
+PPO
+(w/ SwitchNextOrNot) 208.962 281.028 494.420
+Note. All performance metrics are lower-the-better and represent average
+per-vehicle values. Evaluation was conducted with ﬁve different random
+seeds.
+V. C ONCLUSIONS
+This paper introduced VissimRL, a modular and ﬂexible
+RL framework for TSC integrated with the high-ﬁdelity
+simulator Vissim. The framework effectively simpliﬁes the
+development process by encapsulating the COM interface
+through a high-level Python API, while maintaining runtime
+efﬁciency and providing standardized environments for both
+single- and multi-agent learning. Particularly, the framework
+supports batching and caching of these APIs to improve the
+runtime efﬁciency while hiding the details of implementation.
+Experimental results demonstrate that VissimRL facilitates
+consistent improvements in trafﬁc performance throughout the
+training process and enables emergent coordination among
+multiple agents. Its standardized architecture and integration
+with Vissim make it a practical bridge between academic RL
+research and industry-grade trafﬁc simulation. Future work
+will focus on extending the framework to more complex
+urban networks, exploring integration with existing trafﬁc
+control strategies, and moving toward real-world deployment
+to further support the development of intelligent transportation
+systems.
+REFERENCES
+[1] European Court of Auditors, Sustainable Urban Mobility in the EU: No
+Substantial Improvement Is Possible without Member States’ Commit-
+ment. Special Report No 06, 2020 . Publications Ofﬁce of the European
+Union, 2020.
+[2] D. Schrank, L. Albert, K. Jha, and B. Eisele, “2023 Urban Mobility
+Report,” Jun. 2024.
+[3] M. Beedham, “The True Environmental Cost of Inner-city Conges-
+tion,” https://www.tomtom.com/newsroom/explainers-and-insights/the-
+true-environmental-cost-of-inner-city-congestion/, 2022.
+[4] H. Zhao, C. Dong, J. Cao, and Q. Chen, “A survey on deep reinforcement
+learning approaches for trafﬁc signal control,” Engineering Applications
+of Artiﬁcial Intelligence , vol. 133, p. 108100, Jul. 2024.
+[5] V . Mnih, K. Kavukcuoglu, D. Silver, A. Graves, I. Antonoglou, D. Wier-
+stra, and M. Riedmiller, “Playing Atari with Deep Reinforcement
+Learning,” Dec. 2013.
+[6] F. I. Shashi, S. Md Sultan, A. Khatun, T. Sultana, and T. Alam, “A
+Study on Deep Reinforcement Learning Based Trafﬁc Signal Control for
+Mitigating Trafﬁc Congestion,” in 2021 IEEE 3rd Eurasia Conference
+on Biomedical Engineering, Healthcare and Sustainability (ECBIOS) ,
+May 2021, pp. 288–291.
+[7] A. Oroojlooy, M. Nazari, D. Hajinezhad, and J. Silva, “AttendLight:
+Universal Attention-Based Reinforcement Learning Model for Trafﬁc
+Signal Control,” in Advances in Neural Information Processing Systems ,
+vol. 33. Curran Associates, Inc., 2020, pp. 4079–4090.
+[8] H. Wei, C. Chen, G. Zheng, K. Wu, V . Gayah, K. Xu, and Z. Li,
+“PressLight: Learning Max Pressure Control to Coordinate Trafﬁc
+Signals in Arterial Network,” in Proceedings of the 25th ACM SIGKDD
+International Conference on Knowledge Discovery & Data Mining , ser.
+KDD ’19. New Y ork, NY , USA: Association for Computing Machinery,
+Jul. 2019, pp. 1290–1298.
+[9] H. Wei, N. Xu, H. Zhang, G. Zheng, X. Zang, C. Chen, W. Zhang,
+Y . Zhu, K. Xu, and Z. Li, “CoLight: Learning Network-level Coop-
+eration for Trafﬁc Signal Control,” in Proceedings of the 28th ACM
+International Conference on Information and Knowledge Management ,
+ser. CIKM ’19. New Y ork, NY , USA: Association for Computing
+Machinery, Nov. 2019, pp. 1913–1922.
+[10] M. Schrader, Q. Wang, and J. Bittle, “Extension and V alidation of
+NEMA-Style Dual-Ring Controller in SUMO,” SUMO Conference Pro-
+ceedings, vol. 3, pp. 1–13, Sep. 2022.
+[11] D. Krajzewicz, G. Hertkorn, C. R ¨ossel, and P . Wagner, “SUMO (Sim-
+ulation of Urban MObility) - an open-source trafﬁc simulation,” in
+Proceedings of the 4th Middle East Symposium on Simulation and
+Modelling (MESM20002) , A. Al-Akaidi, Ed., Sharjah (United Arab
+Emirates), 2002, pp. 183–187.
+[12] H. Zhang, S. Feng, C. Liu, Y . Ding, Y . Zhu, Z. Zhou, W. Zhang, Y . Y u,
+H. Jin, and Z. Li, “CityFlow: A Multi-Agent Reinforcement Learning
+Environment for Large Scale City Trafﬁc Scenario,” in The World Wide
+Web Conference, ser. WWW ’19. New Y ork, NY , USA: Association
+for Computing Machinery, May 2019, pp. 3620–3624.
+[13] M. Fellendorf and P . V ortisch, “Microscopic Trafﬁc Flow Simulator
+VISSIM,” in Fundamentals of Trafﬁc Simulation , J. Barcel ´o, Ed. New
+Y ork, NY: Springer, 2010, pp. 63–93.
+[14] M. L. Baggio, “Comparison of simulators SUMO and VISSIM for
+measuring trafﬁc ﬂow interactions and vehicle emissions: A case study
+in Joinville, Santa Catarina, Brazil,” 2023.
+[15] L. Schilperoort, D. McClanahan, R. Shank, and M. Bjordahl, “Protocol
+for VISSIM Simulation,” Washington State Department of Transporta-
+tion, Tech. Rep., Sep. 2014.
+[16] M. Hunter and Georgia Institute of Technology, “VISSIM Simulation
+Guidance,” Tech. Rep. FHW A-GA-21-1833, 18-33, Jun. 2021.
+[17] M. Hill, J. Pittenger, A. Ceifetz, and Inc. WSP Michigan, “Development
+of a Michigan-Speciﬁc VISSIM Protocol for Submissions of VISSIM
+Modeling,” Tech. Rep. SPR-1689, Aug. 2020.
+[18] Iowa Department of Transportation, “Iowa DOT Microsimulation Guid-
+ance,” Tech. Rep., Oct. 2017.

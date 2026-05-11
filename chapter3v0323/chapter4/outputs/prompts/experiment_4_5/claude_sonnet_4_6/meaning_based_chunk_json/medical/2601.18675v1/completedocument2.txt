@@ -1,0 +1,137 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+Nevertheless,arXiv:2601.18675v1  [cs.LG]  26 Jan 2026
+
+LSTM-based modelling approaches remain predominantly
+task-specific, i.e., trained end-to-end for a single supervised
+objective and evaluated solely on predictive performance for
+the task [27]. Consequently, LSTM-based approaches fall short
+of learning task-agnostic, clinically meaningful embeddings
+that can support the multi-objective reasoning required for
+MGM and digital patient modelling.
+To address the aforementioned gaps, this work investigates
+whether embedding models trained on longitudinal EHR data
+can produce clinically meaningful representations without sac-
+rificing predictive performance. We compared three recurrent
+architectures on a cohort of Chronic Kidney Disease (CKD)
+patients: a vanilla LSTM, an attention-augmented LSTM, and
+a T-LSTM (see Fig. 1).
+Fig. 1. Overview of the approach. (a) Longitudinal EHR data are extracted and
+preprocessed to construct patient-specific time series. (b) Clinical trajectories
+are represented as irregularly sampled multivariate sequences with explicit
+time intervals. (c) Temporal models, including vanilla LSTM, attention-
+augmented LSTM, and T-LSTM, are trained as embedding models and
+end-to-end predictors. (d) The embedding models generate compact latent
+patient representations. (e) Embeddings are evaluated using intrinsic clustering
+analyses and extrinsic downstream prediction tasks.
+All three models were trained in two configurations: as
+embedding models and as direct end-to-end predictor mod-
+els. The embedding models were trained to learn patient
+representations by differentiating between CKD stages. The
+learnt representations were subsequently used for downstream
+prediction of in-ICU mortality. The end-to-end predictor mod-
+els were trained directly to predict in-ICU mortality from
+longitudinal EHR data. We assessed the quality of learnt
+embeddings using two complementary evaluation strategies.
+First, clustering analysis to examine whether patients naturallygrouped according to CKD stages within the learnt embedding
+space. Second, downstream prediction to test whether the em-
+beddings retained sufficient information for in-ICU mortality
+prediction. The two-step evaluation separates the learning of
+patient representations from the outcome-specific classifier, to
+measure how well embeddings generalise beyond the training
+objective. Our work makes following contributions:
+1) We demonstrate that learning patient embeddings as an
+intermediate objective leads to better downstream pre-
+diction than direct end-to-end training across recurrent
+architectures.
+2) We demonstrate that explicit modelling of irregular time
+intervals (T-LSTM) is particularly effective at learn-
+ing structured and clinically meaningful representations
+from longitudinal EHR data.
+II. METHODS
+A. Dataset
+We used MIMIC-IV v2.2 [28] for our study. We focused on
+a cohort of CKD patients. We utilised the pipeline of Gupta
+et al. [29] to extract our cohort (referred as CKD cohort).
+The CKD cohort consisted of 3932 patients diagnosed with
+CKD, amounting to 10,000 admission cases. The MIMIC-IV
+dataset is divided into two domains: hospital and ICU. The
+hospital domain consists of tables including patient’s personal
+information, records of hospital admission, records of ICD-9
+and ICD-10 coded diagnoses, details on prescribed medicates,
+lab measurements. The ICU domain consist of tables including
+records of ICU stays, records of ICD-9 and ICD-10 coded
+diagnoses for each ICU stay, records of administered fluids
+and medications, chart events, procedure events.
+B. Data processing
+Each patient admission in the CKD cohort was split into
+three structured files: demographic file (consisting of demo-
+graphic details specific to the patient including subject id, age,
+sex), static features (consisting of all static features in one
+single hospital or ICU stay), and time-series features (e.g.,
+medications, lab events, procedures that change repeatedly
+over a stay). We converted the longitudinal data into fixed-
+length time-series representations. First, we defined a window
+of first 72 hours. The window defines the observation period
+for each patient’s admission. Then, we divided the selected
+time window into equally sized time buckets of 1 hour,
+which aggregated the raw events in a 72 hour window into
+72 time intervals. Within each bucket, we aggregated event
+data (using statistical operations including mean for continu-
+ous values and binary indicators for event occurrence) to form
+a compressed time-series representation. To ensure complete
+time-series representations, we applied a two-step imputation
+strategy consisting of forward filling followed by mean or
+median imputation based on patient-specific observations. A
+data generator then aligned dynamic clinical features with
+admission time, aggregated them into pre-defined time bins,
+applied imputation, and stored the resulting representations for
+each admission.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Simulation",
+  "evolvesFor",
+  "duration_10_Gyr",
+  "outputsSnapshotEvery",
+  "interval_100_Myrs",
+  "GravitationallyBoundParticle",
+  "boundTo",
+  "SatelliteGalaxy",
+  "GravitationalPotential",
+  "evaluatedUsing",
+  "BarnesHutTreeMethod",
+  "ClusterSatelliteSystem",
+  "hasSpatialProperty",
+  "CentreOfMassPosition",
+  "StrippedMaterial",
+  "hasSpatialDistribution",
+  "PhaseSpaceDistribution",
+  "Debris",
+  "evolvedWithin",
+  "LiveClusterPotential",
+  "Cluster",
+  "hasFormationRedshift",
+  "redshift_0_6",
+  "modelledAs",
+  "NfwLikeHalo",
+  "hasMass",
+  "mass_1014_2_solar_mass",
+  "hasConcentration",
+  "concentration_4_96",
+  "hasSpinParameter",
+  "spin_parameter_0_035",
+  "StellarComponent",
+  "mass_1012_2_solar_mass",
+  "hasHalfMassRadius",
+  "radius_12_5_kpc",
+  "ClusterHalo",
+  "generatedUsing",
+  "GalIc",
+  "CentralGalaxy",
+  "NBodySystem",
+  "comprises",
+  "StellarBulge",
+  "embeddedIn",
+  "DarkMatterHalo",
+  "representedBy",
+  "HernquistProfile",
+  "Satellite",
+  "embeddedWithin",
+  "IsotropicDarkMatterHalo",
+  "injectedAt",
+  "OrbitApocentre",
+  "fixedAt",
+  "ClusterRadius",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris",
+  "country_france",
+  "university_universityOfWesternAustralia",
+  "street_stirlingHighway",
+  "city_crawley",
+  "region_westernAustralia"
+]
+
+Triples:
+[
+  {
+    "subject": "Simulation",
+    "relation": "evolvesFor",
+    "object": "duration_10_Gyr",
+    "chunk": "completedocument3",
+    "context": "Each simulation is evolved for 10 Gyr with snapshots output every 100 Myrs."
+  },
+  {
+    "subject": "Simulation",
+    "relation": "outputsSnapshotEvery",
+    "object": "interval_100_Myrs",
+    "chunk": "completedocument3",
+    "context": "Each simulation is evolved for 10 Gyr with snapshots output every 100 Myrs."
+  },
+  {
+    "subject": "GravitationallyBoundParticle",
+    "relation": "boundTo",
+    "object": "SatelliteGalaxy",
+    "chunk": "completedocument3",
+    "context": "At each output snapshot, we iden- tify particles gravitationally bound to the satellite by evaluating the gravitational potential using a Barnes-Hut tree method2 applied to the previously identified bound set."
+  },
+  {
+    "subject": "GravitationalPotential",
+    "relation": "evaluatedUsing",
+    "object": "BarnesHutTreeMethod",
+    "chunk": "completedocument3",
+    "context": "At each output snapshot, we iden- tify particles gravitationally bound to the satellite by evaluating the gravitational potential using a Barnes-Hut tree method2 applied to the previously identified bound set."
+  },
+  {
+    "subject": "ClusterSatelliteSystem",
+    "relation": "hasSpatialProperty",
+    "object": "CentreOfMassPosition",
+    "chunk": "completedocument4",
+    "context": "wherex COMandv COMdenote the instantaneous centre-of-mass po- sition and velocity of the combined cluster-satellite system."
+  },
+  {
+    "subject": "StrippedMaterial",
+    "relation": "hasSpatialDistribution",
+    "object": "PhaseSpaceDistribution",
+    "chunk": "completedocument4",
+    "context": "Allquantitiesanalysedbelowrefertothephase-spacedistributions of stripped material measured at the end of the simulated evolution, after the debris has evolved within the live cluster potential."
+  },
+  {
+    "subject": "Debris",
+    "relation": "evolvedWithin",
+    "object": "LiveClusterPotential",
+    "chunk": "completedocument4",
+    "context": "Allquantitiesanalysedbelowrefertothephase-spacedistributions of stripped material measured at the end of the simulated evolution, after the debris has evolved within the live cluster potential."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "hasFormationRedshift",
+    "object": "redshift_0_6",
+    "chunk": "completedocument4",
+    "context": "The cluster is modelled at its expected formation redshift of𝑧 form= 0.6(Harker et al. 2006) as an NFW-like (Navarro et al. 1997) halo with a mass of𝑀 200=1014.2M⊙, a concentration of𝑐 200=4.96 followingrelationsfromPradaetal.(2012),andaspinparameterof 𝜆=0.035,followingBullocketal.(2001)."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "modelledAs",
+    "object": "NfwLikeHalo",
+    "chunk": "completedocument4",
+    "context": "The cluster is modelled at its expected formation redshift of𝑧 form= 0.6(Harker et al. 2006) as an NFW-like (Navarro et al. 1997) halo with a mass of𝑀 200=1014.2M⊙, a concentration of𝑐 200=4.96 followingrelationsfromPradaetal.(2012),andaspinparameterof 𝜆=0.035,followingBullocketal.(2001)."
+  },
+  {
+    "subject": "NfwLikeHalo",
+    "relation": "hasMass",
+    "object": "mass_1014_2_solar_mass",
+    "chunk": "completedocument4",
+    "context": "The cluster is modelled at its expected formation redshift of𝑧 form= 0.6(Harker et al. 2006) as an NFW-like (Navarro et al. 1997) halo with a mass of𝑀 200=1014.2M⊙, a concentration of𝑐 200=4.96 followingrelationsfromPradaetal.(2012),andaspinparameterof 𝜆=0.035,followingBullocketal.(2001)."
+  },
+  {
+    "subject": "NfwLikeHalo",
+    "relation": "hasConcentration",
+    "object": "concentration_4_96",
+    "chunk": "completedocument4",
+    "context": "The cluster is modelled at its expected formation redshift of𝑧 form= 0.6(Harker et al. 2006) as an NFW-like (Navarro et al. 1997) halo with a mass of𝑀 200=1014.2M⊙, a concentration of𝑐 200=4.96 followingrelationsfromPradaetal.(2012),andaspinparameterof 𝜆=0.035,followingBullocketal.(2001)."
+  },
+  {
+    "subject": "NfwLikeHalo",
+    "relation": "hasSpinParameter",
+    "object": "spin_parameter_0_035",
+    "chunk": "completedocument4",
+    "context": "The cluster is modelled at its expected formation redshift of𝑧 form= 0.6(Harker et al. 2006) as an NFW-like (Navarro et al. 1997) halo with a mass of𝑀 200=1014.2M⊙, a concentration of𝑐 200=4.96 followingrelationsfromPradaetal.(2012),andaspinparameterof 𝜆=0.035,followingBullocketal.(2001)."
+  },
+  {
+    "subject": "StellarComponent",
+    "relation": "hasMass",
+    "object": "mass_1012_2_solar_mass",
+    "chunk": "completedocument4",
+    "context": "Forthestellarcomponent, weadoptamassof𝑀 ★=1012.2M⊙basedonthestellar-to-halomass relationfromMosteretal.(2013),andahalf-massradiusof12.5kpc from the𝑧=1relation of Mowla et al. (2019)."
+  },
+  {
+    "subject": "StellarComponent",
+    "relation": "hasHalfMassRadius",
+    "object": "radius_12_5_kpc",
+    "chunk": "completedocument4",
+    "context": "Forthestellarcomponent, weadoptamassof𝑀 ★=1012.2M⊙basedonthestellar-to-halomass relationfromMosteretal.(2013),andahalf-massradiusof12.5kpc from the𝑧=1relation of Mowla et al. (2019)."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "generatedUsing",
+    "object": "GalIc",
+    "chunk": "completedocument4",
+    "context": "We generate the initial conditions of the cluster halo and central galaxy usingGalIC(Yurin & Springel 2014)."
+  },
+  {
+    "subject": "CentralGalaxy",
+    "relation": "generatedUsing",
+    "object": "GalIc",
+    "chunk": "completedocument4",
+    "context": "We generate the initial conditions of the cluster halo and central galaxy usingGalIC(Yurin & Springel 2014)."
+  },
+  {
+    "subject": "NBodySystem",
+    "relation": "comprises",
+    "object": "StellarBulge",
+    "chunk": "completedocument4",
+    "context": "We construct an𝑁- bodysystemcomprisingastellarbulgeembeddedinaDMhalousing theparametersdiscussedaboveandsummarisedinboldinTableB1."
+  },
+  {
+    "subject": "StellarBulge",
+    "relation": "embeddedIn",
+    "object": "DarkMatterHalo",
+    "chunk": "completedocument4",
+    "context": "We construct an𝑁- bodysystemcomprisingastellarbulgeembeddedinaDMhalousing theparametersdiscussedaboveandsummarisedinboldinTableB1."
+  },
+  {
+    "subject": "DarkMatterHalo",
+    "relation": "representedBy",
+    "object": "HernquistProfile",
+    "chunk": "completedocument4",
+    "context": "GalICrepresents the DM halo with a Hernquist (1990) profile;"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "generatedUsing",
+    "object": "GalIc",
+    "chunk": "completedocument4",
+    "context": "Initial conditions for each satellite are also generated usingGalIC."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "modelledAs",
+    "object": "StellarBulge",
+    "chunk": "completedocument4",
+    "context": "Each satellite is modelled as a stellar bulge embedded within an isotropicDMhalo,consistentwiththesetupusedfortheclusterhalo and central galaxy."
+  },
+  {
+    "subject": "StellarBulge",
+    "relation": "embeddedWithin",
+    "object": "IsotropicDarkMatterHalo",
+    "chunk": "completedocument4",
+    "context": "Each satellite is modelled as a stellar bulge embedded within an isotropicDMhalo,consistentwiththesetupusedfortheclusterhalo and central galaxy."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "hasSpinParameter",
+    "object": "spin_parameter_0_035",
+    "chunk": "completedocument4",
+    "context": "Weassignafixedspinparameterof𝜆=0.035 to each satellite, consistent with the cluster halo."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "injectedAt",
+    "object": "OrbitApocentre",
+    "chunk": "completedocument5",
+    "context": "Satellites are injected at the apocentre of their respective orbits, which are fixed at𝑅 200of the cluster."
+  },
+  {
+    "subject": "OrbitApocentre",
+    "relation": "fixedAt",
+    "object": "ClusterRadius",
+    "chunk": "completedocument5",
+    "context": "Satellites are injected at the apocentre of their respective orbits, which are fixed at𝑅 200of the cluster."
+  }
+]

@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["GroundBasedInteraction","ArtificialIntelligenceAlgorithm","OPS_SAT","OnboardProcessingCapability","EarthObservationSatellite","AtmosphericCondition","NoiseInterference","EuropeanSpaceAgency","PhiSat1Mission","DeepConvolutionalNetwork","CloudSegmentation","SmallSatellite","DataBandwidth","DataPreProcessing","HyperSpectralSmallSatelliteForOceanObservation","HYPSOMission","KMeansAlgorithm","Hardware","AccelerationTechnology","HYPSO1Mission","EarthObserving1Mission","Sea","Land","Cloud","ComplexScene","ComputationalResource","TerrestrialSetting","Processor","RemoteSensingDataset","SpaceborneImagingSpectrometer","GaussianNoise","PoissonNoise","ImpulseNoise","SaltAndPepperNoise","SensorOperatingFailure","ScanningUnitSaturation","SpectralBand","MachineLearningMethod","PixelMisalignment","ScanLineCorrector"]
+
+Triples:
+[{"subject":"continuous_spectral_information","relation":"extendsTo","object":"ShortWaveInfraredRange"},{"subject":"EarthObservationProduct","relation":"isProcuredFrom","object":"HyperspectralSatellite"},{"subject":"EarthObservationProduct","relation":"involvesStage","object":"data_transmission_onboard_satellite"},{"subject":"EarthObservationProduct","relation":"involvesStage","object":"offline_processing_on_terrestrial_system"},{"subject":"GroundBasedInteraction","relation":"exhibits","object":"response_delay"},{"subject":"response_delay","relation":"isCausedBy","object":"limit_of_transmission_speed"},{"subject":"DisasterMonitoring","relation":"isCriticalEmergencyScenario","object":"true"},{"subject":"EmergencyMapping","relation":"isCriticalEmergencyScenario","object":"true"},{"subject":"onboard_processing_of_acquired_hyperspectral_images","relation":"isImportantFor","object":"Satellite"},{"subject":"onboard_processing_of_acquired_hyperspectral_images","relation":"isResearchInterestOf","object":"research_community"},{"subject":"onboard_processing","relation":"integratesWith","object":"ArtificialIntelligenceAlgorithm"},{"subject":"ArtificialIntelligenceAlgorithm","relation":"integratesWith","object":"SatellitePlatform"},{"subject":"OPS_SAT","relation":"servesAs","object":"validation_platform"},{"subject":"OPS_SAT","relation":"assesses","object":"OnboardProcessingCapability"},{"subject":"simulation_experiments","relation":"investigateEffectOf","object":"modifying_image_data_quality"},{"subject":"simulation_experiments","relation":"analyzeFromPerspectiveOf","object":"AtmosphericCondition"},{"subject":"simulation_experiments","relation":"analyzeFromPerspectiveOf","object":"NoiseInterference"},{"subject":"PhiSat1Mission","relation":"isFrom","object":"EuropeanSpaceAgency"},{"subject":"PhiSat1Mission","relation":"illustratesUseOf","object":"ArtificialIntelligenceAlgorithm"},{"subject":"PhiSat1Mission","relation":"isFirstAttemptToDeploy","object":"DeepConvolutionalNetwork"},{"subject":"DeepConvolutionalNetwork","relation":"isDeployedOn","object":"Satellite"},{"subject":"DeepConvolutionalNetwork","relation":"isUsedFor","object":"CloudSegmentation"},{"subject":"SmallSatellite","relation":"isLimitedBy","object":"DataBandwidth"},{"subject":"DataPreProcessing","relation":"isPerformedOn","object":"Satellite"},{"subject":"DataPreProcessing","relation":"occursBefore","object":"transmission"},{"subject":"HyperSpectralSmallSatelliteForOceanObservation","relation":"hasAcronym","object":"HYPSO"},{"subject":"HYPSOMission","relation":"isMissionType","object":"HyperSpectralSmallSatelliteForOceanObservation"},{"subject":"KMeansAlgorithm","relation":"isUsedFor","object":"onboard_processing"},{"subject":"KMeansAlgorithm","relation":"achieves","object":"real_time_online_classification_of_hyperspectral_images"},{"subject":"Hardware","relation":"uses","object":"AccelerationTechnology"},{"subject":"AccelerationTechnology","relation":"aimsTo","object":"minimize_overhead"},{"subject":"AccelerationTechnology","relation":"aimsTo","object":"optimize_performance"},{"subject":"lightweight_deep_learning_model","relation":"isValidatedBy","object":"HYPSO1Mission"},{"subject":"lightweight_deep_learning_model","relation":"isValidatedBy","object":"EarthObserving1Mission"},{"subject":"HYPSO1Mission","relation":"segments","object":"Sea"},{"subject":"HYPSO1Mission","relation":"segments","object":"Land"},{"subject":"HYPSO1Mission","relation":"segments","object":"Cloud"},{"subject":"EarthObserving1Mission","relation":"segments","object":"Sea"},{"subject":"EarthObserving1Mission","relation":"segments","object":"Land"},{"subject":"EarthObserving1Mission","relation":"segments","object":"Cloud"}]

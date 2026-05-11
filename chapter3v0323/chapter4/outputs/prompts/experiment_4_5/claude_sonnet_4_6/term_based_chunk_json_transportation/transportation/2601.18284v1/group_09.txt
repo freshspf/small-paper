@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "DayuanInterchange",
+  "hasArrivalRate",
+  "3573 vehicles/h on arterial",
+  "242 vehicles/h on side-street",
+  "Intersection1",
+  "locatedOn",
+  "MinshengSRd",
+  "ZhongzhengERd",
+  "1623 vehicles/h on MinshengSRd",
+  "869 vehicles/h on ZhongzhengERd",
+  "hasSignalPhaseCount",
+  "2",
+  "Intersection2",
+  "MinanRd",
+  "46 vehicles/h on MinanRd",
+  "Intersection3",
+  "PingAnRd",
+  "498 vehicles/h on PingAnRd",
+  "Intersection4",
+  "HengnanRd",
+  "396 vehicles/h on HengnanRd",
+  "3",
+  "Intersection5",
+  "DayuanInterchangeRamp",
+  "Lane444",
+  "1950 vehicles/h on ZhongzhengERd",
+  "412 vehicles/h on DayuanInterchangeRamp",
+  "199 vehicles/h on Lane444",
+  "4",
+  "WorkloadW0",
+  "hasDescription",
+  "AdvancesSimulationByTimeStepsOnly",
+  "representsPerformanceBaseline",
+  "SimulationExecutionLowerBound",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework",
+  "framework_sumo_rl",
+  "RlEnvironment",
+  "library_gymnasium",
+  "library_pettingzoo",
+  "SingleAgentScenario",
+  "MultiAgentScenario",
+  "State",
+  "Reward",
+  "framework_vissim_rl",
+  "IndustrialApplication",
+  "ModularArchitecture",
+  "Action"
+]
+
+Triples:
+[
+  {
+    "subject": "DayuanInterchange",
+    "relation": "hasArrivalRate",
+    "object": "3573 vehicles/h on arterial",
+    "chunk": "experiments2",
+    "context": "Arterial : 3573"
+  },
+  {
+    "subject": "DayuanInterchange",
+    "relation": "hasArrivalRate",
+    "object": "242 vehicles/h on side-street",
+    "chunk": "experiments2",
+    "context": "Side-street : 242"
+  },
+  {
+    "subject": "Intersection1",
+    "relation": "locatedOn",
+    "object": "MinshengSRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-1 Minsheng S Rd : 1623 Zhongzheng E Rd : 869 2"
+  },
+  {
+    "subject": "Intersection1",
+    "relation": "locatedOn",
+    "object": "ZhongzhengERd",
+    "chunk": "experiments2",
+    "context": "- Intersection-1 Minsheng S Rd : 1623 Zhongzheng E Rd : 869 2"
+  },
+  {
+    "subject": "Intersection1",
+    "relation": "hasArrivalRate",
+    "object": "1623 vehicles/h on MinshengSRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-1 Minsheng S Rd : 1623 Zhongzheng E Rd : 869 2"
+  },
+  {
+    "subject": "Intersection1",
+    "relation": "hasArrivalRate",
+    "object": "869 vehicles/h on ZhongzhengERd",
+    "chunk": "experiments2",
+    "context": "- Intersection-1 Minsheng S Rd : 1623 Zhongzheng E Rd : 869 2"
+  },
+  {
+    "subject": "Intersection1",
+    "relation": "hasSignalPhaseCount",
+    "object": "2",
+    "chunk": "experiments2",
+    "context": "- Intersection-1 Minsheng S Rd : 1623 Zhongzheng E Rd : 869 2"
+  },
+  {
+    "subject": "Intersection2",
+    "relation": "locatedOn",
+    "object": "MinanRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-2 Minan Rd : 46 2"
+  },
+  {
+    "subject": "Intersection2",
+    "relation": "hasArrivalRate",
+    "object": "46 vehicles/h on MinanRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-2 Minan Rd : 46 2"
+  },
+  {
+    "subject": "Intersection2",
+    "relation": "hasSignalPhaseCount",
+    "object": "2",
+    "chunk": "experiments2",
+    "context": "- Intersection-2 Minan Rd : 46 2"
+  },
+  {
+    "subject": "Intersection3",
+    "relation": "locatedOn",
+    "object": "PingAnRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-3 Ping'an Rd : 498 2"
+  },
+  {
+    "subject": "Intersection3",
+    "relation": "hasArrivalRate",
+    "object": "498 vehicles/h on PingAnRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-3 Ping'an Rd : 498 2"
+  },
+  {
+    "subject": "Intersection3",
+    "relation": "hasSignalPhaseCount",
+    "object": "2",
+    "chunk": "experiments2",
+    "context": "- Intersection-3 Ping'an Rd : 498 2"
+  },
+  {
+    "subject": "Intersection4",
+    "relation": "locatedOn",
+    "object": "HengnanRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-4 Hengnan Rd : 396 3"
+  },
+  {
+    "subject": "Intersection4",
+    "relation": "hasArrivalRate",
+    "object": "396 vehicles/h on HengnanRd",
+    "chunk": "experiments2",
+    "context": "- Intersection-4 Hengnan Rd : 396 3"
+  },
+  {
+    "subject": "Intersection4",
+    "relation": "hasSignalPhaseCount",
+    "object": "3",
+    "chunk": "experiments2",
+    "context": "- Intersection-4 Hengnan Rd : 396 3"
+  },
+  {
+    "subject": "Intersection5",
+    "relation": "locatedOn",
+    "object": "ZhongzhengERd",
+    "chunk": "experiments2",
+    "context": "- Intersection-5 Zhongzheng E Rd : 1950 Dayuan Interchange Ramp : 412 Lane 444, Zhongzheng E Rd : 199 4"
+  },
+  {
+    "subject": "Intersection5",
+    "relation": "locatedOn",
+    "object": "DayuanInterchangeRamp",
+    "chunk": "experiments2",
+    "context": "- Intersection-5 Zhongzheng E Rd : 1950 Dayuan Interchange Ramp : 412 Lane 444, Zhongzheng E Rd : 199 4"
+  },
+  {
+    "subject": "Intersection5",
+    "relation": "locatedOn",
+    "object": "Lane444",
+    "chunk": "experiments2",
+    "context": "- Intersection-5 Zhongzheng E Rd : 1950 Dayuan Interchange Ramp : 412 Lane 444, Zhongzheng E Rd : 199 4"
+  },
+  {
+    "subject": "Intersection5",
+    "relation": "hasArrivalRate",
+    "object": "1950 vehicles/h on ZhongzhengERd",
+    "chunk": "experiments2",
+    "context": "- Intersection-5 Zhongzheng E Rd : 1950 Dayuan Interchange Ramp : 412 Lane 444, Zhongzheng E Rd : 199 4"
+  },
+  {
+    "subject": "Intersection5",
+    "relation": "hasArrivalRate",
+    "object": "412 vehicles/h on DayuanInterchangeRamp",
+    "chunk": "experiments2",
+    "context": "- Intersection-5 Zhongzheng E Rd : 1950 Dayuan Interchange Ramp : 412 Lane 444, Zhongzheng E Rd : 199 4"
+  },
+  {
+    "subject": "Intersection5",
+    "relation": "hasArrivalRate",
+    "object": "199 vehicles/h on Lane444",
+    "chunk": "experiments2",
+    "context": "- Intersection-5 Zhongzheng E Rd : 1950 Dayuan Interchange Ramp : 412 Lane 444, Zhongzheng E Rd : 199 4"
+  },
+  {
+    "subject": "Intersection5",
+    "relation": "hasSignalPhaseCount",
+    "object": "4",
+    "chunk": "experiments2",
+    "context": "- Intersection-5 Zhongzheng E Rd : 1950 Dayuan Interchange Ramp : 412 Lane 444, Zhongzheng E Rd : 199 4"
+  },
+  {
+    "subject": "WorkloadW0",
+    "relation": "hasDescription",
+    "object": "AdvancesSimulationByTimeStepsOnly",
+    "chunk": "experiments2",
+    "context": "W0 — Step-only Advances the simulation by time steps only."
+  },
+  {
+    "subject": "WorkloadW0",
+    "relation": "representsPerformanceBaseline",
+    "object": "SimulationExecutionLowerBound",
+    "chunk": "experiments2",
+    "context": "This workload reflects the theoretical lower bound of simulation execution and is primarily used to measure the baseline overhead of advancing simulation steps."
+  }
+]

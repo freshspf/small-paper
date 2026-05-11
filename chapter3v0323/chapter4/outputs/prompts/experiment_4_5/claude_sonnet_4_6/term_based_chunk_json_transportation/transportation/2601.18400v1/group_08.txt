@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "IptablesRule",
+  "matchesPacketsBy",
+  "SourceIPAddress",
+  "DestinationIPAddress",
+  "appliesTo",
+  "IncomingTraffic",
+  "OutgoingTraffic",
+  "MonitoringScript",
+  "periodicallyQueries",
+  "ByteCounter",
+  "resetsTo",
+  "Zero",
+  "MonitoringProcess",
+  "yields",
+  "TimeSeries",
+  "representsMetric",
+  "TransmissionRate",
+  "ReceptionRate",
+  "enablesAnalysisOf",
+  "NetworkBehavior",
+  "SmallScaleEvaluation",
+  "accuratelyReproduces",
+  "GeoDistributedPerformanceTrend",
+  "ExperimentalSetup",
+  "hasUniqueConfiguration",
+  "VMSpecification",
+  "Heatmap",
+  "representsProperty",
+  "BandwidthConsumption",
+  "HeatmapCell",
+  "BandwidthConsumedByNode",
+  "WarmColor",
+  "indicates",
+  "HigherBandwidthUsage",
+  "WhiteColor",
+  "ZeroOrNegligibleTraffic",
+  "Node_n1_to_n5",
+  "receivesTransactionFrom",
+  "Client",
+  "Node_n6_to_n20",
+  "receivesMessageFrom",
+  "Node",
+  "doesNotReceiveDirectly",
+  "ClientTransaction",
+  "Solana",
+  "hasMaximumBandwidthConsumption",
+  "17812KiB",
+  "consumesMoreBandwidthThan",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "hasRanking",
+  "SecondMostBandwidthConsumingBlockchain",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "Validator",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap"
+]
+
+Triples:
+[
+  {
+    "subject": "IptablesRule",
+    "relation": "matchesPacketsBy",
+    "object": "SourceIPAddress",
+    "chunk": "experimentalsettings",
+    "context": "Each rule is configured to match packets based on their source (for incoming traffic) or destination (for outgoing traffic) IP address."
+  },
+  {
+    "subject": "IptablesRule",
+    "relation": "matchesPacketsBy",
+    "object": "DestinationIPAddress",
+    "chunk": "experimentalsettings",
+    "context": "Each rule is configured to match packets based on their source (for incoming traffic) or destination (for outgoing traffic) IP address."
+  },
+  {
+    "subject": "SourceIPAddress",
+    "relation": "appliesTo",
+    "object": "IncomingTraffic",
+    "chunk": "experimentalsettings",
+    "context": "Each rule is configured to match packets based on their source (for incoming traffic) or destination (for outgoing traffic) IP address."
+  },
+  {
+    "subject": "DestinationIPAddress",
+    "relation": "appliesTo",
+    "object": "OutgoingTraffic",
+    "chunk": "experimentalsettings",
+    "context": "Each rule is configured to match packets based on their source (for incoming traffic) or destination (for outgoing traffic) IP address."
+  },
+  {
+    "subject": "MonitoringScript",
+    "relation": "periodicallyQueries",
+    "object": "ByteCounter",
+    "chunk": "experimentalsettings",
+    "context": "A monitoring script then periodically queries the byte counters associated with each of these per-peer rules and immediately resets them to zero."
+  },
+  {
+    "subject": "MonitoringScript",
+    "relation": "resetsTo",
+    "object": "Zero",
+    "chunk": "experimentalsettings",
+    "context": "A monitoring script then periodically queries the byte counters associated with each of these per-peer rules and immediately resets them to zero."
+  },
+  {
+    "subject": "MonitoringProcess",
+    "relation": "yields",
+    "object": "TimeSeries",
+    "chunk": "experimentalsettings",
+    "context": "This process yields a time series where each data point represents the average transmission (TX) and reception (RX) rate over the preceding interval, allowing us to precisely analyze network behavior."
+  },
+  {
+    "subject": "TimeSeries",
+    "relation": "representsMetric",
+    "object": "TransmissionRate",
+    "chunk": "experimentalsettings",
+    "context": "This process yields a time series where each data point represents the average transmission (TX) and reception (RX) rate over the preceding interval, allowing us to precisely analyze network behavior."
+  },
+  {
+    "subject": "TimeSeries",
+    "relation": "representsMetric",
+    "object": "ReceptionRate",
+    "chunk": "experimentalsettings",
+    "context": "This process yields a time series where each data point represents the average transmission (TX) and reception (RX) rate over the preceding interval, allowing us to precisely analyze network behavior."
+  },
+  {
+    "subject": "TimeSeries",
+    "relation": "enablesAnalysisOf",
+    "object": "NetworkBehavior",
+    "chunk": "experimentalsettings",
+    "context": "This process yields a time series where each data point represents the average transmission (TX) and reception (RX) rate over the preceding interval, allowing us to precisely analyze network behavior."
+  },
+  {
+    "subject": "SmallScaleEvaluation",
+    "relation": "accuratelyReproduces",
+    "object": "GeoDistributedPerformanceTrend",
+    "chunk": "experimentalsettings",
+    "context": "This 25-node setup is justified by recent studies [26] that confirmed that evaluations at small scale in controlled environments can accurately reproduce performance trends observed in geo-distributed settings."
+  },
+  {
+    "subject": "ExperimentalSetup",
+    "relation": "hasUniqueConfiguration",
+    "object": "VMSpecification",
+    "chunk": "experimentalsettings",
+    "context": "however, strict hardware requirements on remote nodes remain hard to enforce and a unique configuration is necessary for our comparison."
+  },
+  {
+    "subject": "Heatmap",
+    "relation": "representsProperty",
+    "object": "BandwidthConsumption",
+    "chunk": "varyingconsumption",
+    "context": "we present heatmaps with colors representing bandwidth usage."
+  },
+  {
+    "subject": "HeatmapCell",
+    "relation": "representsMetric",
+    "object": "BandwidthConsumedByNode",
+    "chunk": "varyingconsumption",
+    "context": "the color of cellM i,j represents the bandwidth consumed by node n i when sending to node n j."
+  },
+  {
+    "subject": "WarmColor",
+    "relation": "indicates",
+    "object": "HigherBandwidthUsage",
+    "chunk": "varyingconsumption",
+    "context": "A warmer color (e.g., yellow) thus represents a higher bandwidth usage than a colder color (e.g., dark blue)"
+  },
+  {
+    "subject": "WhiteColor",
+    "relation": "indicates",
+    "object": "ZeroOrNegligibleTraffic",
+    "chunk": "varyingconsumption",
+    "context": "while the white color indicates zero or negligible traffic."
+  },
+  {
+    "subject": "Node_n1_to_n5",
+    "relation": "receivesTransactionFrom",
+    "object": "Client",
+    "chunk": "varyingconsumption",
+    "context": "nodes n 1, . . . ,n 5 are the nodes receiving transaction requests from the clients"
+  },
+  {
+    "subject": "Node_n6_to_n20",
+    "relation": "receivesMessageFrom",
+    "object": "Node",
+    "chunk": "varyingconsumption",
+    "context": "nodes n 6, . . . ,n 20 may receive messages from other nodes but not transactions directly from clients."
+  },
+  {
+    "subject": "Node_n6_to_n20",
+    "relation": "doesNotReceiveDirectly",
+    "object": "ClientTransaction",
+    "chunk": "varyingconsumption",
+    "context": "nodes n 6, . . . ,n 20 may receive messages from other nodes but not transactions directly from clients."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasMaximumBandwidthConsumption",
+    "object": "17812KiB",
+    "chunk": "varyingconsumption",
+    "context": "With a maximum of 17,812 KiB, Solana consumes more bandwidth than the other tested blockchains"
+  },
+  {
+    "subject": "Solana",
+    "relation": "consumesMoreBandwidthThan",
+    "object": "Algorand",
+    "chunk": "varyingconsumption",
+    "context": "Solana consumes more bandwidth than the other tested blockchains, namely Algorand, Aptos, Avalanche and Redbelly."
+  },
+  {
+    "subject": "Solana",
+    "relation": "consumesMoreBandwidthThan",
+    "object": "Aptos",
+    "chunk": "varyingconsumption",
+    "context": "Solana consumes more bandwidth than the other tested blockchains, namely Algorand, Aptos, Avalanche and Redbelly."
+  },
+  {
+    "subject": "Solana",
+    "relation": "consumesMoreBandwidthThan",
+    "object": "Avalanche",
+    "chunk": "varyingconsumption",
+    "context": "Solana consumes more bandwidth than the other tested blockchains, namely Algorand, Aptos, Avalanche and Redbelly."
+  },
+  {
+    "subject": "Solana",
+    "relation": "consumesMoreBandwidthThan",
+    "object": "Redbelly",
+    "chunk": "varyingconsumption",
+    "context": "Solana consumes more bandwidth than the other tested blockchains, namely Algorand, Aptos, Avalanche and Redbelly."
+  },
+  {
+    "subject": "Algorand",
+    "relation": "hasRanking",
+    "object": "SecondMostBandwidthConsumingBlockchain",
+    "chunk": "varyingconsumption",
+    "context": "Algorand, the second most bandwidth consuming blockchain uses a maximum of 11,240 KiB."
+  }
+]

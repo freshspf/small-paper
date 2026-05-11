@@ -1,0 +1,123 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: methods3
+- section_title: Methods
+- page_start: 3
+- page_end: 7
+
+INPUT TEXT CHUNK:
+Throughquan-
+tum feature mapping, classical features can be embedded into exponentially expanded
+quantum state space, constructing more complex nonlinear decision boundaries. This
+work designs a lightweight quantum feature layer (QuantumFeatureLayer) with the fol-
+lowing core components:
+2.4.1 Amplitude Encoding
+Classical features need to be encoded into quantum states. This work adopts am-
+plitude encoding: mapping the 256-dimensional classical feature vectorf reduced ∈R256
+into the amplitude of an 8-qubit quantum state. Specifically, first normalize the feature
+vector:
+fnorm=freduced
+∥freduced∥2(7)
+Then map it to the quantum state:
+|ψin⟩=255X
+i=0f(i)
+norm|i⟩(8)
+where|i⟩is the computational basis state corresponding to the binary representation
+ofi. This encoding method has high information density but requires normalization to
+satisfy the quantum state normalization condition⟨ψ|ψ⟩= 1.
+6
+
+2.4.2 Parameterized Quantum Circuit
+After encoding, the quantum state passes through a parameterized quantum circuit
+(PQC) for feature transformation. This work adopts a 4-qubit, 2-layer circuit structure,
+where each layer includes:
+1.Rotation layer: ApplyR Y(θi)rotation gates to each qubit, whereθ iare trainable
+parameters:
+RY(θ) =cos(θ/2)−sin(θ/2)
+sin(θ/2) cos(θ/2)
+(9)
+2.Entanglement layer: Apply CNOT gates between adjacent qubits to construct
+quantum entanglement:
+CNOT i,i+1=|0⟩⟨0| ⊗I+|1⟩⟨1| ⊗X(10)
+Through two layers of rotation-entanglement operations, the quantum state under-
+goes complex nonlinear transformations:
+|ψout⟩=U 2(θ2)U1(θ1)|ψin⟩(11)
+whereU l(θl)represents the unitary operation of layerl, andθ lis the parameter set
+of that layer.
+2.4.3 Measurement and Classical Post-Processing
+After quantum circuit transformation, Pauli-Z measurement is performed on each
+qubit to obtain the expectation value:
+mi=⟨ψout|σ(i)
+z|ψout⟩, i= 0,1,2,3(12)
+whereσ(i)
+zis the Pauli-Z operator acting on thei-th qubit. These 4 measurement
+values constitute the quantum-enhanced feature vectorf quantum ∈R4. Finally, this is
+mapped to classification logits through a fully connected layer:
+z=W outfquantum +bout,z∈R2(13)
+whereW out∈R2×4andbout∈R2. The final classification probability is obtained
+through softmax:
+P(y=k|x) =exp(z k)P1
+j=0exp(z j), k∈ {0,1}(14)
+2.4.4 Parameter Efficiency Analysis
+The quantum layer parameters include: 4 qubits×2 layers×1 rotation parameter
+= 8 quantum parameters, plus fully connected layer parameters2×4 + 2 = 10classical
+parameters, totaling only 18 parameters. In contrast, if a classical fully connected layer
+is used to map 256-dimensional features to 2-dimensional output,256×2 + 2 = 514
+parameters would be required. The quantum layer reduces parameters by 96.5% while
+providing stronger nonlinear expressive power.
+7.

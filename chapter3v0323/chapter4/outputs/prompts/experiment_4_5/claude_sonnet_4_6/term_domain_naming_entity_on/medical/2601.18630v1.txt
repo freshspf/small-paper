@@ -1,0 +1,288 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LargeLanguageModel",
+  "MentalHealthCondition",
+  "HumanPeerSupport",
+  "TraditionalBaseline",
+  "model_gpt4o",
+  "model_gpt4oMini",
+  "model_claude35Haiku",
+  "model_gemini20Flash",
+  "model_llama31",
+  "model_qwen3",
+  "model_qwen25",
+  "model_deepseekLlama",
+  "model_deepseekQwen",
+  "dataset_mentalChat16k",
+  "dataset_emoCare",
+  "dataset_counselChat",
+  "framework_humanEvaluation",
+  "dimension_cognitiveSupport",
+  "dimension_affectiveResonance",
+  "attribute_guidance",
+  "attribute_informativeness",
+  "attribute_safety",
+  "attribute_empathy",
+  "attribute_helpfulness",
+  "attribute_interpretation",
+  "metric_bleu",
+  "metric_rouge",
+  "condition_depression",
+  "condition_suicideRisk",
+  "condition_anxiety",
+  "condition_trauma",
+  "condition_grief",
+  "condition_interpersonalStress",
+  "evaluator_psychiatricExpert",
+  "property_therapeuticQuality",
+  "property_cognitiveReliability"
+]
+
+Triples:
+[
+  {
+    "subject": "framework_humanEvaluation",
+    "relation": "usesDataset",
+    "object": "dataset_mentalChat16k"
+  },
+  {
+    "subject": "framework_humanEvaluation",
+    "relation": "usesDataset",
+    "object": "dataset_emoCare"
+  },
+  {
+    "subject": "framework_humanEvaluation",
+    "relation": "usesDataset",
+    "object": "dataset_counselChat"
+  },
+  {
+    "subject": "dimension_cognitiveSupport",
+    "relation": "includesAttribute",
+    "object": "attribute_guidance"
+  },
+  {
+    "subject": "dimension_cognitiveSupport",
+    "relation": "includesAttribute",
+    "object": "attribute_informativeness"
+  },
+  {
+    "subject": "dimension_cognitiveSupport",
+    "relation": "includesAttribute",
+    "object": "attribute_safety"
+  },
+  {
+    "subject": "dimension_affectiveResonance",
+    "relation": "includesAttribute",
+    "object": "attribute_empathy"
+  },
+  {
+    "subject": "dimension_affectiveResonance",
+    "relation": "includesAttribute",
+    "object": "attribute_helpfulness"
+  },
+  {
+    "subject": "dimension_affectiveResonance",
+    "relation": "includesAttribute",
+    "object": "attribute_interpretation"
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "evaluatedBy",
+    "object": "framework_humanEvaluation"
+  },
+  {
+    "subject": "model_claude35Haiku",
+    "relation": "evaluatedBy",
+    "object": "framework_humanEvaluation"
+  },
+  {
+    "subject": "model_gemini20Flash",
+    "relation": "evaluatedBy",
+    "object": "framework_humanEvaluation"
+  },
+  {
+    "subject": "model_llama31",
+    "relation": "evaluatedBy",
+    "object": "framework_humanEvaluation"
+  },
+  {
+    "subject": "evaluator_psychiatricExpert",
+    "relation": "evaluatesResponseOf",
+    "object": "LargeLanguageModel"
+  },
+  {
+    "subject": "metric_bleu",
+    "relation": "failsToMeasure",
+    "object": "property_therapeuticQuality"
+  },
+  {
+    "subject": "metric_rouge",
+    "relation": "failsToMeasure",
+    "object": "property_therapeuticQuality"
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "screensFor",
+    "object": "condition_depression"
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "screensFor",
+    "object": "condition_suicideRisk"
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "underestimatesRiskOf",
+    "object": "condition_suicideRisk"
+  },
+  {
+    "subject": "dataset_counselChat",
+    "relation": "coversTopic",
+    "object": "condition_anxiety"
+  },
+  {
+    "subject": "dataset_counselChat",
+    "relation": "coversTopic",
+    "object": "condition_trauma"
+  },
+  {
+    "subject": "dataset_counselChat",
+    "relation": "coversTopic",
+    "object": "condition_grief"
+  },
+  {
+    "subject": "dataset_counselChat",
+    "relation": "coversTopic",
+    "object": "condition_interpersonalStress"
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "outperforms",
+    "object": "model_gemini20Flash"
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "outperforms",
+    "object": "model_gpt4oMini"
+  },
+  {
+    "subject": "model_llama31",
+    "relation": "outperforms",
+    "object": "model_qwen3"
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "showsHigherEmpathyThan",
+    "object": "HumanPeerSupport"
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "outperforms",
+    "object": "TraditionalBaseline"
+  },
+  {
+    "subject": "model_qwen3",
+    "relation": "demonstratesWeaknessIn",
+    "object": "dimension_affectiveResonance"
+  },
+  {
+    "subject": "model_qwen3",
+    "relation": "demonstratesWeaknessIn",
+    "object": "dimension_cognitiveSupport"
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "demonstratesStrongScoreIn",
+    "object": "attribute_safety"
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "demonstratesStrongScoreIn",
+    "object": "attribute_interpretation"
+  }
+]

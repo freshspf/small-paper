@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Stakeholder",
+  "includes",
+  "Human",
+  "Hardware",
+  "Software",
+  "Infrastructure",
+  "influences",
+  "SystemLifecycle",
+  "DevelopmentPhase",
+  "OperationalPhase",
+  "MaintenancePhase",
+  "RetirementPhase",
+  "System",
+  "consistsOf",
+  "Resource",
+  "Material",
+  "Organisation",
+  "Data",
+  "brokenDownInto",
+  "Subsystem",
+  "Component",
+  "has",
+  "SystemPurpose",
+  "SystemElement",
+  "contributesTo",
+  "AuthorityPath",
+  "defines",
+  "StakeholderValue",
+  "OperationalRelationship",
+  "ControlStructure",
+  "captures",
+  "ControlAction",
+  "Feedback",
+  "decomposesInto",
+  "SystemBehaviour",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RetrospectiveCrashData",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour",
+  "RoadTrafficInjury",
+  "SafeDeployment",
+  "SafetyConstraintDefinition",
+  "SocialAcceptance",
+  "SystemDesign",
+  "SystemTheoreticAccidentModelAndProcesses",
+  "SystemTheoreticProcessAnalysis",
+  "SystemThinking",
+  "TraditionalAnalyticalMethod",
+  "TraditionalApproach",
+  "organization_departmentForTransport",
+  "organization_worldHealthOrganisation",
+  "SystemsApproach",
+  "RoadSafety",
+  "ComplexSocioTechnicalSystem",
+  "SystemComponent",
+  "RoadUser",
+  "Government",
+  "VehicleManufacturer",
+  "RoadSystemDesign"
+]
+
+Triples:
+[
+  {
+    "subject": "Stakeholder",
+    "relation": "includes",
+    "object": "Human",
+    "chunk": "methodology",
+    "context": "Stakeholders, which include organisational, Humans, hardware, software, and infras- tructure."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "includes",
+    "object": "Hardware",
+    "chunk": "methodology",
+    "context": "Stakeholders, which include organisational, Humans, hardware, software, and infras- tructure."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "includes",
+    "object": "Software",
+    "chunk": "methodology",
+    "context": "Stakeholders, which include organisational, Humans, hardware, software, and infras- tructure."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "includes",
+    "object": "Infrastructure",
+    "chunk": "methodology",
+    "context": "Stakeholders, which include organisational, Humans, hardware, software, and infras- tructure."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "influences",
+    "object": "SystemLifecycle",
+    "chunk": "methodology",
+    "context": "These stakeholders collectively contribute to or influ- ence the system lifecycle, including development, operational, maintenance, and retirement."
+  },
+  {
+    "subject": "SystemLifecycle",
+    "relation": "includes",
+    "object": "DevelopmentPhase",
+    "chunk": "methodology",
+    "context": "These stakeholders collectively contribute to or influ- ence the system lifecycle, including development, operational, maintenance, and retirement."
+  },
+  {
+    "subject": "SystemLifecycle",
+    "relation": "includes",
+    "object": "OperationalPhase",
+    "chunk": "methodology",
+    "context": "These stakeholders collectively contribute to or influ- ence the system lifecycle, including development, operational, maintenance, and retirement."
+  },
+  {
+    "subject": "SystemLifecycle",
+    "relation": "includes",
+    "object": "MaintenancePhase",
+    "chunk": "methodology",
+    "context": "These stakeholders collectively contribute to or influ- ence the system lifecycle, including development, operational, maintenance, and retirement."
+  },
+  {
+    "subject": "SystemLifecycle",
+    "relation": "includes",
+    "object": "RetirementPhase",
+    "chunk": "methodology",
+    "context": "These stakeholders collectively contribute to or influ- ence the system lifecycle, including development, operational, maintenance, and retirement."
+  },
+  {
+    "subject": "System",
+    "relation": "consistsOf",
+    "object": "Resource",
+    "chunk": "methodology",
+    "context": "1.Resource listing: A system consists of a complex combi- nation of resources, including human, materials, organisa- tions, and data."
+  },
+  {
+    "subject": "Resource",
+    "relation": "includes",
+    "object": "Human",
+    "chunk": "methodology",
+    "context": "1.Resource listing: A system consists of a complex combi- nation of resources, including human, materials, organisa- tions, and data."
+  },
+  {
+    "subject": "Resource",
+    "relation": "includes",
+    "object": "Material",
+    "chunk": "methodology",
+    "context": "1.Resource listing: A system consists of a complex combi- nation of resources, including human, materials, organisa- tions, and data."
+  },
+  {
+    "subject": "Resource",
+    "relation": "includes",
+    "object": "Organisation",
+    "chunk": "methodology",
+    "context": "1.Resource listing: A system consists of a complex combi- nation of resources, including human, materials, organisa- tions, and data."
+  },
+  {
+    "subject": "Resource",
+    "relation": "includes",
+    "object": "Data",
+    "chunk": "methodology",
+    "context": "1.Resource listing: A system consists of a complex combi- nation of resources, including human, materials, organisa- tions, and data."
+  },
+  {
+    "subject": "System",
+    "relation": "brokenDownInto",
+    "object": "Subsystem",
+    "chunk": "methodology",
+    "context": "2. Subsystem decomposition: Systems can be broken down into subsystems and components."
+  },
+  {
+    "subject": "System",
+    "relation": "brokenDownInto",
+    "object": "Component",
+    "chunk": "methodology",
+    "context": "2. Subsystem decomposition: Systems can be broken down into subsystems and components."
+  },
+  {
+    "subject": "System",
+    "relation": "has",
+    "object": "SystemPurpose",
+    "chunk": "methodology",
+    "context": "3.Purpose definition: a system must have a clearly defined purpose, and all included elements should contribute to fulfilling this purpose."
+  },
+  {
+    "subject": "SystemElement",
+    "relation": "contributesTo",
+    "object": "SystemPurpose",
+    "chunk": "methodology",
+    "context": "3.Purpose definition: a system must have a clearly defined purpose, and all included elements should contribute to fulfilling this purpose."
+  },
+  {
+    "subject": "AuthorityPath",
+    "relation": "defines",
+    "object": "StakeholderValue",
+    "chunk": "methodology",
+    "context": "This involves not only identifying authority paths but also operational relationships to define stakeholders’ value."
+  },
+  {
+    "subject": "OperationalRelationship",
+    "relation": "defines",
+    "object": "StakeholderValue",
+    "chunk": "methodology",
+    "context": "This involves not only identifying authority paths but also operational relationships to define stakeholders’ value."
+  },
+  {
+    "subject": "ControlStructure",
+    "relation": "captures",
+    "object": "ControlAction",
+    "chunk": "methodology",
+    "context": "The control structure must explicitly capture control actions and feedback, thereby forming a closed loop."
+  },
+  {
+    "subject": "ControlStructure",
+    "relation": "captures",
+    "object": "Feedback",
+    "chunk": "methodology",
+    "context": "The control structure must explicitly capture control actions and feedback, thereby forming a closed loop."
+  },
+  {
+    "subject": "ControlStructure",
+    "relation": "decomposesInto",
+    "object": "ControlAction",
+    "chunk": "methodology",
+    "context": "•Closed loop control structure:The control structure needed to form a closed loop decomposes into control action and feedback."
+  },
+  {
+    "subject": "ControlStructure",
+    "relation": "decomposesInto",
+    "object": "Feedback",
+    "chunk": "methodology",
+    "context": "•Closed loop control structure:The control structure needed to form a closed loop decomposes into control action and feedback."
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "influences",
+    "object": "SystemBehaviour",
+    "chunk": "casestudyandresults1",
+    "context": "As part of the first step of our methodology, stakeholders must be identified to capture all actors that influence or are impacted by system behaviour during its lifecycle."
+  }
+]

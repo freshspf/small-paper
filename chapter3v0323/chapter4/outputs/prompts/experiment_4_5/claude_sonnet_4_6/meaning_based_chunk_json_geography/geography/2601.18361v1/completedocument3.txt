@@ -1,0 +1,135 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+[9] provide a historical and technical survey of
+HAPS, detailing its evolution from concept to recent trials
+and its potential role as a super macro base station (SMBS).
+They analyze the implications for spectrum management, back-
+haul design, and large-scale deployment feasibility, including
+challenges related to outage probability and energy sourcing.
+Moreover, the work in [16] also mentions the use of HAPS as
+flying BS as a solution for IoT applications in remote regions.
+Several technical works in IoT scenarios focus on the role
+of HAPS as a relay to a backbone, either from terrestrial or
+UA V-mounted gateways [17], [18]. Works regarding HAPS as
+sole BSs are not as common. We can highlight [19], where
+the authors assume a moving HAPS hovering over a certain
+area. They propose a wake-up mechanism to the LoRaWAN
+protocol such that devices transmit whenever the HAPS is in
+coverage and sleep otherwise. Moreover, the authors in [20],
+[21] evaluate the performance of LoRa network considering a
+HAPS-mounted gateway, taking into account several aspects
+such as altitude, transmission power, and collisions between
+transmissions. However, important gaps persist in the literature.
+To the best of our knowledge, only a few studies address HAPS
+for direct IoT communication, and none provide comparative
+analyzes against LEO satellite and terrestrial IoT coverage.
+Furthermore, this is the first work to evaluate coverage in
+combined architectures while also addressing a cost evaluation
+on top of it.
+Low Earth Orbit (LEO) satellites are the most prominent
+component of modern NTNs in the context of IoT, offer-
+ing services from altitudes ranging between 500 and 1,500
+km [22]. Their close proximity to Earth enables round-trip
+latencies in the 25 to 50 ms range, making them suitable
+for a diverse range of IoT applications [6]. This positions
+LEO satellites as a viable alternative to traditional terrestrial
+networks in remote and underserved areas, where other tech-
+nologies are impractical due to higher costs. Different from
+HAPS, there is an extensive literature on LEO satellites for IoT
+scenarios, as well as several private initiatives with commercial
+products, showing it as a much more mature alternative. An
+example is Lacuna Space, which is expanding its satellite IoT
+connectivity with a constellation of sixteen LEOs under the
+agreement with Spire Global Data and Analytics [23]. Despite
+advances in satellite communications, several issues remain
+unresolved or require further investigation for massive IoT
+data collection. For example, due to the satellite speed, the
+Doppler phenomenon may work as a barrier, which compro-
+mises Direct-to-Satellite (DtS) system performance. In [24],
+the authors investigate and propose a novel Doppler solution by
+broadcasting a short Doppler beacon that allows IoT devices to
+estimate and compensate for the Doppler shift before initiating
+the uplink transmission phase. Although the results confirm
+the feasibility of mitigating Doppler effects, several challenges
+remain with regard to key parameters, such as optimal beacon
+design. Following the mobility perspective, temporal synchro-
+nization between IoT devices and satellites is also considered
+a major challenge in DtS-IoT networks [25]. The authors
+in [26] proposed new algorithms that allow IoT devices to
+
+3
+predict satellite visibility windows without relying on Internet
+connectivity, thus facilitating node-to-satellite synchronization.
+Based on the fact that IoT devices can be aware of satellite
+trajectories, the authors in [27] introduced advanced strategies
+for DtS-IoT using power domain Non-Orthogonal Multiple
+Access (NOMA) in the uplink, with fixed or adaptive transmit
+power. In addition, companies such as Lacuna Space employ
+predictive techniques to mitigate synchronization issues in
+various remote scenarios, including agriculture, environmental
+monitoring, utilities and metering, and maritime connectiv-
+ity [28]. The operational concept assumes that satellites broad-
+cast beacons or control messages to synchronize device timing
+during low-power modes [29]. Another important aspect is
+the design of satellite constellations. The architecture of LEO
+systems is inherently dependent on large-scale constellations
+composed of hundreds to thousands of satellites in coordinated
+orbits [30], [31].
+From an economic perspective, studies have been con-
+ducted to investigate the viability of using LEO satellites
+as a potential solution to connect remote areas. The authors
+in [32] conducted a technical and economic evaluation of these
+three constellations, estimating the cost of a single satellite at
+approximately US$ 0.6 million, US$ 5.6 million, and US$ 3
+million for Starlink, OneWeb, and Kuiper, respectively. It is
+also reasonable to consider that other technologies could be
+integrated into this scenario to provide better communication
+conditions.

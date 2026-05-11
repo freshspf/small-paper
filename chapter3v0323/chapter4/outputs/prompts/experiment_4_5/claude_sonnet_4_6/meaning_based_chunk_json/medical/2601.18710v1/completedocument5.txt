@@ -1,0 +1,144 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument5",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument5
+- section_title: Complete Document
+- page_start: 1
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+EP’s 86.4%
+performance sits between Dense NN (92%) and VQC (83%),
+demonstrating that alternative learning paradigms can bridge
+classical and quantum approaches.
+Backpropagation is fundamentally incompatible with quan-
+tum systems because gradient computation requires intermedi-
+ate measurements that collapse quantum states, destroying su-
+perposition and entanglement. EP’s performance without back-
+propagation validates the feasibility of quantum-compatible
+training methods. Additionally, EP’s 89.4s CPU-only training
+time and 0.13s inference make it suitable for edge deploy-
+ment. Projected deployment on neuromorphic chips (Intel
+Loihi) could reduce power consumption 250×(1W vs. 250W
+GPU), enabling battery-powered point-of-care diagnostics in
+resource-constrained settings [13].
+C. NISQ-Era Feasibility
+The VQC’s shallow 12-depth circuit fits within current
+NISQ device constraints: IBM Quantum systems support∼100
+qubits with 100µs coherence and 99.9% two-qubit gate fidelity.
+Our 4-qubit design enables near-term hardware validation,
+with simulation establishing upper-bound performance before
+noise effects.
+
+D. Limitations and Future Work
+Key limitations: (i) VQC uses ideal statevector simula-
+tion—real hardware would exhibit shot noise, gate errors,
+and decoherence degrading accuracy; (ii) feature engineering
+limits representational capacity versus end-to-end CNNs; (iii)
+binary classification (2 classes: AML vs. healthy) is simpler
+than multi-class hematology (5–10 cell types). Future work
+includes: shot-based sampling experiments, error mitigation
+strategies (zero-noise extrapolation), barren plateau analysis
+during training, hybrid quantum-classical architectures, and
+validation on diverse patient populations. In the future, quan-
+tum approaches may have the potential for better results in
+detecting fine features as they operate in a higher-dimensional
+system,2number of qubits, than a classical system of dimen-
+sion2×number of bits.
+VI. CONCLUSION
+We demonstrated that quantum machine learning methods
+achieve competitive performance on real-world medical imag-
+ing when evaluated under realistic constraints. Benchmarked
+on 18,365 clinical blood cell images for AML detection via
+binary classification (2 classes: AML vs. Healthy), Equilib-
+rium Propagation (quantum-inspired) achieved 86.4% accu-
+racy—only 12% below CNN—via energy-based learning that
+does not use backpropagation (fundamentally incompatible
+with quantum systems due to state-collapsing measurements).
+The 4-qubit Variational Quantum Circuit attained 83% accu-
+racy with consistent performance: maintaining 83% accuracy
+from 50 to 250 samples per class, demonstrating robust feature
+extraction from minimal training data.
+Classical CNNs achieve higher absolute accuracy (98.4%
+vs. 83%), demonstrating their current superiority for this clas-
+sification task. However, VQC reaches its performance level
+with 50 samples per class while CNN requires 250 samples to
+reach peak performance. This reduced data requirement may
+be relevant for rare disease research where expert annotation
+resources are limited. EP’s competitive 86.4% performance
+without backpropagation validates quantum-compatible train-
+ing methods. The shallow 12-depth circuit design fits current
+NISQ hardware constraints (IBM Quantum: 100 qubits, 100µs
+coherence), enabling near-term experimental validation. These
+results establish reproducible baselines for QML in healthcare
+and suggest that quantum methods may be viable when
+data—not model capacity—is the limiting resource.
+VII. DATA ANDCODEAVAILABILITY
+Dataset:The AML-Cytomorphology dataset is
+publicly available at The Cancer Imaging Archive:
+https://doi.org/10.7937/tcia.2019.36f5o9ld
+Code:All implementation code, trained mod-
+els, and experimental scripts are available at:
+https://github.com/azrabano23/quantum-blood-cell-
+classification
+This repository includes: (1) Equilibrium Propagation im-
+plementation (equilibrium propagation.py), (2) Variational
+Quantum Circuit classifier (vqc classifier.py), (3) Classicalbaselines (classical cnn.py, classical dense nn.py), (4) Fea-
+ture extraction utilities, and (5) Experiment reproduction
+scripts with detailed documentation.
+VIII. ACKNOWLEDGMENTS
+The authors thank Carsten Marr for providing helpful feed-
+back on the manuscript.
+REFERENCES
+[1] C. Matek, S. Schwarz, C. Marr, and K. Spiekermann, “A single-
+cell morphological dataset of leukocytes from AML patients
+and non-malignant controls,”The Cancer Imaging Archive, 2019,
+doi:10.7937/tcia.2019.36f5o9ld.
+[2] J. Schouten, C. Matek, L. Jacobs, M. Buck, D, Bo ˇsnaˇcki and Carsten
+Marr, ”Tens of images can suffice to train neural networks for malig-
+nant leukocyte detection,”Scientific Reportsvol. 11, p. 7995 (2021).
+https://doi.org/10.1038/s41598-021-86995-5.
+[3] Y . LeCun, Y . Bengio, and G. Hinton, “Deep learning,”Nature, vol. 521,
+no. 7553, pp. 436–444, 2015.
+[4] P. Wittek2019.

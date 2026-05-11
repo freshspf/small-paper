@@ -1,0 +1,132 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiments2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiments2
+- section_title: Experiments
+- page_start: 4
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+This is compared against the standard approach
+which utilizes the specific [CLS] token embedding (✓). As
+shown in Table II, this mean pooling variant results in a
+clear performance drop. Specifically, R@1 decreases to 14.27
+(text) and 10.52 (image). These results demonstrate that simple
+pooling is less effective at capturing global semantics, whereas
+the [CLS] token provides a more discriminative representation
+essential for accurate cross-modal alignment.TABLE III
+COMPARISON WITH DIFFERENT COMBINATIONS OF THEAttnANDGate
+COMPONENTS IN THEG2AADAPTER(THE BOTTLENECK PROJECTIONS
+ARE ALWAYS ENABLED). PARAMETERS ANDFLOPS FOR A SINGLE-LAYER
+ADAPTER ARE ALSO REPORTED. THE SYMBOL“✓”INDICATES THAT THE
+CORRESPONDING MODULE IS ENABLED.
+Modules Text Retrieval Image RetrievalmR Params FLOPsAttn Gate R@1 R@5 R@10 R@1 R@5 R@10
+× × 17.02 34.95 48.95 13.16 37.57 54.38 34.34 0.490.05
+✓× 17.29 37.15 48.67 13.23 37.11 54.09 34.59 0.51 0.05
+×✓ 17.47 36.23 49.31 13.98 37.99 54.93 34.99 0.490.05
+✓ ✓ 18.30 37.42 50.32 13.28 37.04 54.73 35.18 0.51 0.05
+TABLE IV
+ABLATION STUDY OF THEMULTI-PERSPECTIVEREPRESENTATION(MPR)
+MODULE. “✓”INDICATES THATMPRMODULE IS ENABLED.
+MPRText Retrieval Image RetrievalmRR@1 R@5 R@10 R@1 R@5 R@10
+× 17.38 35.41 48.95 13.36 37.15 54.78 34.50
+✓ 18.30 37.42 50.32 13.28 37.04 54.73 35.18
+2) Ablation on G2A Adapter Components:Table III eval-
+uated the contributions of Attn and Gate in the G2A adapter.
+Adding Attn improves mR from 34.34 to 34.59, confirming
+that global interaction in compressed space aids adaptation.
+Introducing Gate yields a larger gain (to 34.99), highlight-
+ing the importance of adaptive residual blending for pre-
+serving pretrained knowledge. Combining both achieves the
+best performance, demonstrating their complementarity: Attn
+enhances global dependency modeling while Gate stabilizes
+optimization, all with minimal parameter overhead.
+3) Ablation Study on MPR module:As shown in Table IV,
+incorporating MPR boosts overall performance, raising mR
+from 34.50 to 35.18. Notably, text retrieval sees significant
+gains (R@1: 17.38→18.30), indicating that MPR effectively
+aggregates keyword-guided sub-perspectives to reduce noise
+and enhance fine-grained alignment. While image retrieval
+shows slight fluctuations, we attribute this to MPR’s primary
+focus on refining text-driven local semantics, which benefits
+text-to-image matching more directly.
+
+TABLE V
+ABLATION STUDY RESULTS OF DIFFERENT LOSS COMBINATIONS.
+Losses Text Retrieval Image RetrievalmRLBaseLMPCLMPT R@1 R@5 R@10 R@1 R@5 R@10
+✓ 17.38 35.41 48.95 13.3637.15 54.78 34.50
+✓ ✓ 17.38 36.23 49.77 13.9237.05 53.56 34.65
+✓ ✓ 16.28 35.59 48.40 12.48 36.72 53.40 34.74
+✓ ✓ ✓ 18.30 37.42 50.32 13.28 37.04 54.73 35.18
+4) Analysis of Multi-Perspective Loss Functions:Table V
+shows that the baseline objective (L Base) achieves an mR of
+34.50. IncorporatingL MPCimproves mR to 34.65 by selecting
+maximum-response perspectives to reduce noise, whileL MPT
+reaches 34.74 by emphasizing text-consistent perspectives
+via adaptive reweighting. Combining both yields the best
+performance (mR 35.18), demonstrating that hard perspective
+selection and adaptive ranking supervision are complementary
+strategies for robust cross-modal alignment.
+CONCLUSIONS
+In this paper, we presented MPS-CLIP, a novel parameter-
+efficient framework designed to bridge the granularity gap
+in RSITR. To overcome the limitations of traditional coarse-
+grained global alignment, MPS-CLIP shifts the paradigm
+towards a semantic-driven, multi-perspective alignment strat-
+egy. By seamlessly integrating LLMs for keyword mining
+and SamGeo for region generation, our approach explicitly
+captures fine-grained local semantics and complex spatial
+relationships inherent in remote sensing imagery. Furthermore,
+the proposed G2A adapter and MPR module ensure robust
+feature fusion and efficient adaptation of the CLIP back-
+bone. Extensive experiments on the RSICD and RSITMD
+benchmarks demonstrate that MPS-CLIP achieves new SOTA
+performance, significantly outperforming existing competitive
+methods and full fine-tuning baselines. These results validate
+the efficacy of multi-perspective modeling in mitigating se-
+mantic ambiguity. In future work, we plan to extend this
+keyword-guided interaction paradigm to more dense prediction
+tasks, such as remote sensing visual grounding and captioning.
+
+.

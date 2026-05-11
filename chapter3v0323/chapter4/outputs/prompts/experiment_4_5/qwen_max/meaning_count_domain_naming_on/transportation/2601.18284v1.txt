@@ -1,0 +1,269 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+VissimRL: A Multi-Agent Reinforcement Learning
+Framework for Trafﬁc Signal Control
+Based on Vissim
+Hsiao-Chuan Chang 1*, Sheng-Y ou Huang1*, Y en-Chi Chen2, and I-Chen Wu 1,2,3
+Abstract—Trafﬁc congestion remains a major challenge for
+urban transportation, leading to signiﬁcant economic and en-
+vironmental impacts. Trafﬁc Signal Control (TSC) is one of
+the key measures to mitigate congestion, and recent studies
+have increasingly applied Reinforcement Learning (RL) for its
+adaptive capabilities. With respect to SUMO and CityFlow, the
+simulator Vissim offers high-ﬁdelity driver behavior modeling
+and wide industrial adoption but remains underutilized in RL
+research due to its complex interface and lack of standardized
+frameworks. To address this gap, this paper proposes VissimRL,
+a modular RL framework for TSC that encapsulates Vissim’s
+COM interface through a high-level Python API, offering stan-
+dardized environments for both single- and multi-agent training.
+Experiments show that VissimRL signiﬁcantly reduces develop-
+ment effort while maintaining runtime efﬁciency, and supports
+consistent improvements in trafﬁc performance during training,
+as well as emergent coordination in multi-agent control. Overall,
+VissimRL demonstrates the feasibility of applying RL in high-
+ﬁdelity simulations and serves as a bridge between academic
+research and practical applications in intelligent trafﬁc signal
+control.
+Index Terms—Reinforcement Learning, Trafﬁc Signal Control,
+Vissim, Multi-Agent Coordination, Modular framework.
+I. I NTRODUCTION
+Trafﬁc congestion remains a critical challenge for modern
+cities, causing substantial economic and environmental im-
+pacts. The European Union estimated that congestion resulted
+in annual losses of about C270 billion [1], while in the United
+States, congestion in 2022 led to 8.5 billion hours of delay, 3.3
+billion gallons of excess fuel consumption, and approximately
+$224 billion in losses [2]. In London, congestion produced 2.2
+million metric tons of CO 2 in 2021, accounting for roughly
+15% of the city’s total emissions [3], underscoring the urgency
+of effective trafﬁc management. Trafﬁc Signal Control (TSC)
+offers a cost-effective and scalable solution, and Reinforce-
+ment Learning (RL) has shown great potential by enabling
+autonomous policy learning without explicit trafﬁc models
+[4]. Since the introduction of the Deep Q-Network (DQN) in
+2013 [5], Deep Reinforcement Learning (DRL) has become
+This work was supported in part by the National Science and Technology
+Council (NSTC) of Taiwan under Grant, NSTC 114-2221-E-A49-005, NSTC
+114-2221-E-A49-006.
+1Department of Computer Science, National Y ang Ming Chiao Tung
+University, Hsinchu, Taiwan.
+2Research Center for Information Technology Innovation, Academia Sinica,
+Taipei, Taiwan.
+3Correspondence (e-mail: icwu@cs.nycu.edu.tw)
+*Equal contribution.
+an important research direction, with proven effectiveness in
+both single-intersection [6], [7] and multi-intersection control
+[8], [9]. Nevertheless, real-world deployment of reinforcement
+learning for trafﬁc signal control (RL-TSC) requires highly
+realistic and reproducible simulation environments to support
+large-scale training and evaluation.
+Trafﬁc simulation tools are essential for developing and
+evaluating TSC methods, as real-world systems cannot be
+frequently adjusted or tested. Simulations provide a safer and
+more feasible alternative, operating dozens to over a hundred
+times faster than reality [10]. Commonly used platforms
+include SUMO [11], CityFlow [12], and Vissim [13]. SUMO
+is open-source and widely used in academia; CityFlow is de-
+signed for RL experiments with high efﬁciency and scalability;
+and Vissim, as a commercial-grade software, provides highly
+realistic modeling of driver behaviors and complex trafﬁc
+scenarios [14]. Owing to its superior accuracy, Vissim has
+been adopted in ofﬁcial guidelines by various U.S. state De-
+partments of Transportation [15]–[18] and also recommended
+by Transport for London [19].
+Research on RL-TSC has mostly employed open-source
+simulators such as SUMO and CityFlow [20], given their
+accessibility and scalability. However, their rule-based driver
+behavior models often oversimplify trafﬁc dynamics [21], and
+their relevance to industry and policy is limited. By contrast,
+the simulator Vissim offers industry-grade realism but is rarely
+used in RL research due to its complex Component Object
+Model (COM) programming interface [22] and the lack of
+RL frameworks for seamless integration.
+To address these gaps, this paper adopts Vissim as the
+primary simulation platform and develops an RL-compatible
+framework that leverages its modeling accuracy while enabling
+broader applicability in both academic research and practical
+deployment. In this context, SUMO-RL [23] has been a
+widely used open-source RL framework for SUMO, offering
+standardized interfaces for RL environments compatible with
+Gymnasium [24] for single-agent and PettingZoo [25] for
+multi-agent scenarios, and supporting ﬂexible customization
+of states and rewards. Its user-friendliness and extensibility
+have made it a foundational platform for RL-TSC research.
+This paper proposes VissimRL, an RL framework designed
+for TSC in the Vissim environment, which achieves the same
+user-friendliness and extensibility as SUMO-RL, while deliv-
+ering higher modeling ﬁdelity suitable for industrial applica-
+tions. The framework adopts a ﬂexible modular architecture to
+arXiv:2601.18284v1 [cs.MA] 26 Jan 2026
+support diverse TSC applications, thereby aiming to close the
+gap between academic research and real-world deployment.
+The architecture of VissimRL consists of two major compo-
+nents: (1) the Vissim Wrapper, a Python-based encapsulation
+of the Component Object Model (COM) interface that provides
+user-friendly APIs; and (2) the RL environment framework,
+which implements standardized Gymnasium and PettingZoo
+interfaces for single- and multi-agent scenarios. Compared
+with SUMO-RL, VissimRL introduces modular designs of
+states, actions, and rewards with standardized inheritance in-
+terfaces for easy customization. In addition, VissimRL extends
+SUMO-RL by supporting performance metrics from six to
+eleven and expanding one action type to three action types,
+as shown in Table I. To the best of our knowledge, VissimRL
+is the ﬁrst framework speciﬁcally designed for Vissim with
+multi-agent RL, enabling RL in Vissim’s high-ﬁdelity trafﬁc
+simulation environment. It seamlessly supports mainstream al-
+gorithms, e.g., DQN [5], PPO [26], MAPPO [27], without ad-
+ditional glue code, and provides a ﬂexible state–action–reward
+pipeline, substantially enhancing the applicability of Vissim in
+RL-TSC research.
+This paper is an extended version of the work pub-
+lished in [28]. The implementation is publicly available at
+https://github.com/CGI-LAB/VissimRL.
+TABLE I: Comparison of supported features between SUMO-
+RL and VissimRL (bold items indicate features additionally
+implemented in this work).
+State/Reward metrics Action types
+SUMO-RL
+supported
+Queue length, Phase state, Num-
+ber of vehicles, Density, Speed,
+Internal waiting time
+Choose next phase
+VissimRL
+supported
+Queue length, Phase state, Num-
+ber of vehicles, Density, Speed,
+Internal waiting time, Boundary
+waiting time, Elapsed time, De-
+lay, Throughput, Travel time
+Choose next phase
+Switch next or not
+Set phase duration
+II. R ELA TED WORK
+A. Trafﬁc Simulation Software
+SUMO [11], developed by the German Aerospace Center
+in 2002, is one of the most widely used microscopic trafﬁc
+simulators in academia [20]. As an open-source and cross-
+platform tool, SUMO provides a Python library (sumolib [29])
+for handling network and simulation data, along with a wide
+range of modular utilities for constructing networks and trafﬁc
+scenarios. For integration with RL, the open-source project
+SUMO-RL [23] provides a standardized RL environment that
+allows ﬂexible customization of states and rewards. These
+features have made SUMO-RL one of the representative and
+mature RL-TSC platforms.
+CityFlow [12], introduced by Zhang et al. in 2019, was
+speciﬁcally designed for large-scale urban trafﬁc scenarios
+and RL applications. It features high-performance simulation
+with multi-threading support and a native Python API that
+enables the rapid construction of training environments. Unlike
+SUMO, which beneﬁts from the SUMO-RL framework, to
+the best of our knowledge, CityFlow currently lacks a widely
+adopted uniﬁed RL framework. Nevertheless, its simple API
+design and RL-friendly characteristics allow researchers to
+build customized RL environments with relatively low inte-
+gration costs.
+Vissim [13] is a commercial high-resolution trafﬁc simu-
+lation platform capable of modeling multimodal trafﬁc with
+advanced driver behavior algorithms and 3D visualization. It
+has been widely adopted by transportation agencies [15]–[19]
+and provides a Component Object Model (COM) interface
+[22] for secondary development. Despite its high modeling
+accuracy, the integration of RL with Vissim remains chal-
+lenging, primarily due to the absence of standardized and
+open-source frameworks. Existing studies often rely on tightly
+coupled implementations, which hinder reproducibility and
+extensibility across diverse trafﬁc scenarios.
+B. Existing RL Framework – SUMO-RL
+SUMO-RL [23] is an RL environment framework speciﬁ-
+cally designed for TSC. It integrates the SUMO trafﬁc sim-
+ulator with RL algorithms by leveraging SUMO’s sumolib
+module [29] to process network data and enable simula-
+tion interaction. The framework provides standardized RL
+interfaces, supporting both the single-agent Gymnasium API
+[24] and the multi-agent PettingZoo API [25], and can be
+seamlessly combined with mainstream RL libraries such as
+Stable-Baselines3 [30] and RLlib [31]. SUMO-RL manages
+each intersection as an independent trafﬁc signal module and
+allows users to incorporate custom state and reward func-
+tions through conﬁguration ﬁles, thereby supporting diverse
+experimental requirements and enhancing the ﬂexibility of
+multi-agent system design. As a result, SUMO-RL effectively
+lowers the barrier to applying RL in the TSC domain and
+has accelerated the development of related algorithms and
+applications.
+C. RL settings for trafﬁc signal control
+In the context of RL, the decision-making process of an
+agent is primarily deﬁned by three core elements: states,
+rewards, and actions. According to a comprehensive survey of
+160 RL-TSC studies conducted by Noaeen et al. (2022) [32],
+the most frequently adopted trafﬁc performance metrics are
+predominantly utilized in the design of state and reward rep-
+resentations. Most existing studies on action design focus on
+controlling trafﬁc signal phases, typically by adjusting phase
+durations or switching between phases [33]. The following
+subsections describe the typical designs of states, rewards, and
+actions.
+1) States: States represent the observable trafﬁc features
+perceived by the agent and serve as the basis for decision-
+making. Commonly used state features include:
+• Queue Length : the number or total length of vehicles
+moving below a low-speed threshold (e.g., < 5 km/h);
+• Phase State : the current active signal phase at the inter-
+section;
+• Number of V ehicles : the total number of vehicles per
+lane, including both queued and moving vehicles;
+• Speed: the average vehicle speed per lane;
+• Elapsed Time : the time elapsed since the last phase
+transition.
+These features help the agent capture trafﬁc conditions and
+congestion levels, enabling the design of adaptive control
+strategies.
+2) Rewards: The reward function is the key mechanism
+that guides the agent’s behavior. In RL-TSC, commonly used
+reward indicators include:
+• Queue Length : a measure of congestion based on the
+number or length of vehicles traveling below a speed
+threshold (e.g., < 5 km/h);
+• Delay: the difference between actual travel time and the
+free-ﬂow travel time, reﬂecting trafﬁc efﬁciency loss;

@@ -1,0 +1,245 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic relations.
+
+**DOMAIN CONTEXT:**
+The input belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships such as containment, adjacency, distribution, and location-based constraints.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use normalized terms from the input as your primary vocabulary.
+   - Prefer using input normalized terms directly.
+   - You may introduce a small number of additional high-confidence ontology elements only when they are strongly justified by the normalized terms and merged relations.
+   - Do not introduce external background knowledge that is unsupported by the input.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by the input.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf when a subclass relation is explicit or strongly implied.
+   - Moderate ontology completion is allowed if it is tightly grounded in the input and improves ontology coherence.
+   - Avoid vague or overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Use normalized terms and merged evidence-bearing relations as the primary basis.
+   - You may complete missing domain/range information when it is strongly implied by repeated evidence patterns.
+   - Avoid speculative assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication.
+   - Prefer coherent and reusable ontology structures.
+   - Keep results logically consistent.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. When the input strongly supports them, include multiple high-confidence classes, properties, hierarchies, domain axioms, and range axioms.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names. Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[]
+
+Merged Relations:
+[
+  {
+    "subject": "EvaluationResult",
+    "relation": "evaluatedOn",
+    "object": "dataset_levirCd"
+  },
+  {
+    "subject": "EvaluationResult",
+    "relation": "evaluatedOn",
+    "object": "dataset_whuCd"
+  },
+  {
+    "subject": "EvaluationResult",
+    "relation": "evaluatedOn",
+    "object": "dataset_clcd"
+  },
+  {
+    "subject": "ForegroundSemanticVocabulary",
+    "relation": "fedInto",
+    "object": "model_clipTextEncoder"
+  },
+  {
+    "subject": "BackgroundSemanticVocabulary",
+    "relation": "fedInto",
+    "object": "model_clipTextEncoder"
+  },
+  {
+    "subject": "model_clipTextEncoder",
+    "relation": "extracts",
+    "object": "SemanticFeatureVector"
+  },
+  {
+    "subject": "InstanceMask",
+    "relation": "fedInto",
+    "object": "model_clipImageEncoder"
+  },
+  {
+    "subject": "Model",
+    "relation": "calculates",
+    "object": "CosineSimilarityMetric"
+  },
+  {
+    "subject": "CosineSimilarityMetric",
+    "relation": "calculatedBetween",
+    "object": "InstanceMask"
+  },
+  {
+    "subject": "CosineSimilarityMetric",
+    "relation": "calculatedBetween",
+    "object": "SemanticCategory"
+  },
+  {
+    "subject": "Model",
+    "relation": "obtains",
+    "object": "ForegroundProbabilityScore"
+  },
+  {
+    "subject": "ForegroundProbabilityScore",
+    "relation": "mappedOver",
+    "object": "InstanceMask"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "evaluatesGeographicTask",
+    "object": "task_changeDetection"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "evaluatedOnDataset",
+    "object": "dataset_levirCd"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "evaluatedOnDataset",
+    "object": "dataset_whuCd"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "evaluatedOnDataset",
+    "object": "dataset_clcd"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "implementedOn",
+    "object": "framework_pytorch"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "trainedOn",
+    "object": "hardware_nvidiaGeforceRtx3090"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "usesOptimizer",
+    "object": "optimizer_adamw"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "evaluatedUsingMetric",
+    "object": "metric_f1Score"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "evaluatedUsingMetric",
+    "object": "metric_intersectionOverUnion"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "evaluatedUsingMetric",
+    "object": "metric_overallAccuracy"
+  },
+  {
+    "subject": "model_snunet",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_supervised"
+  },
+  {
+    "subject": "model_da2net",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_supervised"
+  },
+  {
+    "subject": "model_wcdnet",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_weaklySupervised"
+  },
+  {
+    "subject": "model_fcdGan",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_weaklySupervised"
+  },
+  {
+    "subject": "model_isfa",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_unsupervised"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "hasVersion",
+    "object": "model_unicdv1"
+  },
+  {
+    "subject": "model_unicd",
+    "relation": "hasVersion",
+    "object": "model_unicdv2"
+  },
+  {
+    "subject": "model_unicdv1",
+    "relation": "usesFeatureExtractor",
+    "object": "model_fastsam"
+  }
+]

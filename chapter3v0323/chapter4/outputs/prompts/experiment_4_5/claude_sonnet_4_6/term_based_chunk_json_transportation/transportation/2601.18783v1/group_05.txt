@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SpeedConstraint",
+  "introducesVariabilityIn",
+  "TravelTime",
+  "EnergyUsage",
+  "ParetoOptimalPolicy",
+  "experiences",
+  "Acceleration",
+  "Deceleration",
+  "LaneChange",
+  "OptimalConstantSpeed",
+  "yields",
+  "MinimumTotalCost",
+  "calculatedFor",
+  "Distance",
+  "MultiObjectiveReinforcementLearningFramework",
+  "developedFor",
+  "TacticalDecisionMaking",
+  "performedBy",
+  "AutonomousTruck",
+  "introduces",
+  "MultiObjectiveProximalPolicyOptimization",
+  "combinedWith",
+  "GeneralizedPolicyImprovementWithLinearSupport",
+  "Experiment",
+  "conductedIn",
+  "RealisticHighwayDrivingSimulator",
+  "ProposedApproach",
+  "approximates",
+  "ParetoFrontier",
+  "enablesControlOver",
+  "SafetyTradeOff",
+  "TimeTradeOff",
+  "EnergyTradeOff",
+  "demonstratesEffectivenessFor",
+  "HeavyDutyVehicleApplication",
+  "AdaptiveAutonomousDrivingPolicy",
+  "deployedIn",
+  "RealWorldLogisticsOperation",
+  "PreferenceAwareAutonomousDrivingPolicy",
+  "MotionPlanningTechnique",
+  "appliedTo",
+  "SelfDrivingUrbanVehicle",
+  "ControlTechnique",
+  "improvedBy",
+  "ReinforcementLearning",
+  "DeepReinforcementLearning",
+  "usedFor",
+  "MultiObjectiveReinforcementLearning",
+  "AdaptivePersonalizedAutonomousDriving",
+  "ConnectedAndAutonomousVehicle",
+  "operatesIn",
+  "ExclusiveLane",
+  "AutonomousDriving",
+  "RealTimeDecisionMaking",
+  "requires",
+  "HeavyDutyTruck",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "hasCharacteristic",
+  "TraditionalApproach",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "reliesOn",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "VehicleBehavior",
+  "governs",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "performs",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "ControlPolicy",
+  "learns",
+  "DeepRlAgent",
+  "LaneChanging"
+]
+
+Triples:
+[
+  {
+    "subject": "SpeedConstraint",
+    "relation": "introducesVariabilityIn",
+    "object": "TravelTime",
+    "chunk": "experimentalresults",
+    "context": "In contrast, when traffic is present, interactions with other vehicles impose state-dependent speed constraints that intro-duce variability in both travel time and energy usage."
+  },
+  {
+    "subject": "SpeedConstraint",
+    "relation": "introducesVariabilityIn",
+    "object": "EnergyUsage",
+    "chunk": "experimentalresults",
+    "context": "In contrast, when traffic is present, interactions with other vehicles impose state-dependent speed constraints that intro-duce variability in both travel time and energy usage."
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "experiences",
+    "object": "Acceleration",
+    "chunk": "experimentalresults",
+    "context": "Even policies with similar average speeds can experience differ-ent patterns of acceleration, deceleration, and lane changes, resulting in a wider range of achievable cost combinations."
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "experiences",
+    "object": "Deceleration",
+    "chunk": "experimentalresults",
+    "context": "Even policies with similar average speeds can experience differ-ent patterns of acceleration, deceleration, and lane changes, resulting in a wider range of achievable cost combinations."
+  },
+  {
+    "subject": "ParetoOptimalPolicy",
+    "relation": "experiences",
+    "object": "LaneChange",
+    "chunk": "experimentalresults",
+    "context": "Even policies with similar average speeds can experience differ-ent patterns of acceleration, deceleration, and lane changes, resulting in a wider range of achievable cost combinations."
+  },
+  {
+    "subject": "OptimalConstantSpeed",
+    "relation": "yields",
+    "object": "MinimumTotalCost",
+    "chunk": "experimentalresults",
+    "context": "The analysis indicates that the op-timal constant speed is 24.04 m/s, yielding a minimum total cost of 3.68 euros for a distance of 3000 meters (0.0012 eu-ros/m)."
+  },
+  {
+    "subject": "MinimumTotalCost",
+    "relation": "calculatedFor",
+    "object": "Distance",
+    "chunk": "experimentalresults",
+    "context": "The analysis indicates that the op-timal constant speed is 24.04 m/s, yielding a minimum total cost of 3.68 euros for a distance of 3000 meters (0.0012 eu-ros/m)."
+  },
+  {
+    "subject": "MultiObjectiveReinforcementLearningFramework",
+    "relation": "developedFor",
+    "object": "TacticalDecisionMaking",
+    "chunk": "conclusion",
+    "context": "We developed a multi-objective reinforcement learning framework for autonomous truck tactical decision making by introducing a multi-objective Proximal Policy Optimization (MOPPO) architecture combined with Generalized Policy Improvement with Linear Support (GPI-LS)."
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "performedBy",
+    "object": "AutonomousTruck",
+    "chunk": "conclusion",
+    "context": "We developed a multi-objective reinforcement learning framework for autonomous truck tactical decision making by introducing a multi-objective Proximal Policy Optimization (MOPPO) architecture combined with Generalized Policy Improvement with Linear Support (GPI-LS)."
+  },
+  {
+    "subject": "MultiObjectiveReinforcementLearningFramework",
+    "relation": "introduces",
+    "object": "MultiObjectiveProximalPolicyOptimization",
+    "chunk": "conclusion",
+    "context": "We developed a multi-objective reinforcement learning framework for autonomous truck tactical decision making by introducing a multi-objective Proximal Policy Optimization (MOPPO) architecture combined with Generalized Policy Improvement with Linear Support (GPI-LS)."
+  },
+  {
+    "subject": "MultiObjectiveProximalPolicyOptimization",
+    "relation": "combinedWith",
+    "object": "GeneralizedPolicyImprovementWithLinearSupport",
+    "chunk": "conclusion",
+    "context": "We developed a multi-objective reinforcement learning framework for autonomous truck tactical decision making by introducing a multi-objective Proximal Policy Optimization (MOPPO) architecture combined with Generalized Policy Improvement with Linear Support (GPI-LS)."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "conductedIn",
+    "object": "RealisticHighwayDrivingSimulator",
+    "chunk": "conclusion",
+    "context": "Experiments conducted in a realistic highway driving simulator show that the proposed approach efficiently approximates the Pareto frontier and enables flexible control over safety, time, and energy trade-offs."
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "approximates",
+    "object": "ParetoFrontier",
+    "chunk": "conclusion",
+    "context": "Experiments conducted in a realistic highway driving simulator show that the proposed approach efficiently approximates the Pareto frontier and enables flexible control over safety, time, and energy trade-offs."
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "enablesControlOver",
+    "object": "SafetyTradeOff",
+    "chunk": "conclusion",
+    "context": "Experiments conducted in a realistic highway driving simulator show that the proposed approach efficiently approximates the Pareto frontier and enables flexible control over safety, time, and energy trade-offs."
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "enablesControlOver",
+    "object": "TimeTradeOff",
+    "chunk": "conclusion",
+    "context": "Experiments conducted in a realistic highway driving simulator show that the proposed approach efficiently approximates the Pareto frontier and enables flexible control over safety, time, and energy trade-offs."
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "enablesControlOver",
+    "object": "EnergyTradeOff",
+    "chunk": "conclusion",
+    "context": "Experiments conducted in a realistic highway driving simulator show that the proposed approach efficiently approximates the Pareto frontier and enables flexible control over safety, time, and energy trade-offs."
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "demonstratesEffectivenessFor",
+    "object": "HeavyDutyVehicleApplication",
+    "chunk": "conclusion",
+    "context": "These results demonstrate the effectiveness of the method for heavy-duty vehicle applications and open up new possibilities for deploying adaptive, preference-aware autonomous driving policies in real-world logistics operations."
+  },
+  {
+    "subject": "AdaptiveAutonomousDrivingPolicy",
+    "relation": "deployedIn",
+    "object": "RealWorldLogisticsOperation",
+    "chunk": "conclusion",
+    "context": "These results demonstrate the effectiveness of the method for heavy-duty vehicle applications and open up new possibilities for deploying adaptive, preference-aware autonomous driving policies in real-world logistics operations."
+  },
+  {
+    "subject": "PreferenceAwareAutonomousDrivingPolicy",
+    "relation": "deployedIn",
+    "object": "RealWorldLogisticsOperation",
+    "chunk": "conclusion",
+    "context": "These results demonstrate the effectiveness of the method for heavy-duty vehicle applications and open up new possibilities for deploying adaptive, preference-aware autonomous driving policies in real-world logistics operations."
+  },
+  {
+    "subject": "MotionPlanningTechnique",
+    "relation": "appliedTo",
+    "object": "SelfDrivingUrbanVehicle",
+    "chunk": "conclusion",
+    "context": "A survey of motion planning and control techniques for self-driving urban vehicles."
+  },
+  {
+    "subject": "ControlTechnique",
+    "relation": "appliedTo",
+    "object": "SelfDrivingUrbanVehicle",
+    "chunk": "conclusion",
+    "context": "A survey of motion planning and control techniques for self-driving urban vehicles."
+  },
+  {
+    "subject": "TacticalDecisionMaking",
+    "relation": "improvedBy",
+    "object": "ReinforcementLearning",
+    "chunk": "conclusion",
+    "context": "Improved tactical decision making and control architecture for autonomous truck in sumo using reinforcement learning."
+  },
+  {
+    "subject": "DeepReinforcementLearning",
+    "relation": "usedFor",
+    "object": "TacticalDecisionMaking",
+    "chunk": "conclusion",
+    "context": "Tactical decision making for autonomous trucks by deep reinforcement learning with total cost of operation based reward."
+  },
+  {
+    "subject": "MultiObjectiveReinforcementLearning",
+    "relation": "appliedTo",
+    "object": "AdaptivePersonalizedAutonomousDriving",
+    "chunk": "conclusion",
+    "context": "Multi-objective reinforcement learning for adaptive personalized autonomous driving."
+  },
+  {
+    "subject": "ConnectedAndAutonomousVehicle",
+    "relation": "operatesIn",
+    "object": "ExclusiveLane",
+    "chunk": "conclusion",
+    "context": "Safety evaluation for connected and autonomous vehicles’ exclusive lanes considering penetrate ratios and impact of trucks using surrogate safety measures."
+  }
+]

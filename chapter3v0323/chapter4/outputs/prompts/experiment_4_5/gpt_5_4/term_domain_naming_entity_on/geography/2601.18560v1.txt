@@ -1,0 +1,1188 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "EarthObservationSystem",
+  "HyperspectralImagingSatellite",
+  "SpectralMeasurementCapability",
+  "PolicyFormulation",
+  "SatelliteDownlink",
+  "DisasterMonitoring",
+  "EmergencyMapping",
+  "SatelliteEdgeComputing",
+  "HyperspectralImageClassification",
+  "Satellite",
+  "AutonomousDecisionMaking",
+  "SatellitePlatform",
+  "FewShotLearningStrategy",
+  "OnboardProcessing",
+  "SensorFailure",
+  "ScanPatternError",
+  "ImageQualityDegradation",
+  "BadPixel",
+  "MisalignedPixel",
+  "MixedNoise",
+  "PixelWiseLabelPropagationScheme",
+  "IntrinsicSpectralFeature",
+  "SinglePixelLevel",
+  "SpatialStructuralInformation",
+  "DeepNeuralNetwork",
+  "InitialPixelLabel",
+  "AnchorLabel",
+  "AnchorPixelAffinityMatrix",
+  "TopKPrunedSparseGraph",
+  "PixelLevelSimilarity",
+  "ClosedFormSolution",
+  "IterativeComputation",
+  "RankConstraintBasedGraphClusteringAlgorithm",
+  "EarthObservationMission",
+  "GlobalEnvironmentalChange",
+  "HyperspectralSensor",
+  "VisibleRange",
+  "ShortWaveInfraredRange",
+  "EarthObservationProduct",
+  "TerrestrialSystem",
+  "GroundBasedInteraction",
+  "ArtificialIntelligenceAlgorithm",
+  "OPS_SAT",
+  "OnboardProcessingCapability",
+  "EarthObservationSatellite",
+  "AtmosphericCondition",
+  "NoiseInterference",
+  "EuropeanSpaceAgency",
+  "PhiSat1Mission",
+  "DeepConvolutionalNetwork",
+  "CloudSegmentation",
+  "SmallSatellite",
+  "DataBandwidth",
+  "DataPreProcessing",
+  "HyperSpectralSmallSatelliteForOceanObservation",
+  "HYPSOMission",
+  "KMeansAlgorithm",
+  "Hardware",
+  "AccelerationTechnology",
+  "HYPSO1Mission",
+  "EarthObserving1Mission",
+  "Sea",
+  "Land",
+  "Cloud",
+  "ComplexScene",
+  "ComputationalResource",
+  "TerrestrialSetting",
+  "Processor",
+  "RemoteSensingDataset",
+  "SpaceborneImagingSpectrometer",
+  "GaussianNoise",
+  "PoissonNoise",
+  "ImpulseNoise",
+  "SaltAndPepperNoise",
+  "SensorOperatingFailure",
+  "ScanningUnitSaturation",
+  "SpectralBand",
+  "MachineLearningMethod",
+  "PixelMisalignment",
+  "ScanLineCorrector",
+  "ETMPlusSensor",
+  "Landsat7",
+  "ForwardMotionOfSatellite",
+  "FunctionalScanLineCorrector",
+  "WedgeShapedGap",
+  "ImageNadir",
+  "ScenePeriphery",
+  "GapPixel",
+  "SpatialNeighborhoodContext",
+  "PatchBasedDeepLearning",
+  "SpatialSpectralMethod",
+  "LocalNeighborhood",
+  "LowPowerConsumptionSatellitePlatform",
+  "LowComputationalCapacitySatellitePlatform",
+  "UnlabeledPixel",
+  "KMeans",
+  "SparseGraph",
+  "GraphClusteringAlgorithm",
+  "AnchorAnchorGraph",
+  "LinearTimeComplexity",
+  "Robustness",
+  "HyperspectralImageDataset",
+  "IndianPines",
+  "AirborneVisualInfraredImagingSpectrometer",
+  "AVIRIS",
+  "WaterAbsorptionBand",
+  "LandCoverCategory",
+  "MixedPixel",
+  "Salinas",
+  "SalinasValley",
+  "California",
+  "PaviaUniversity",
+  "ReflectiveOpticsSystemImagingSpectrometer",
+  "ROSIS",
+  "Pavia",
+  "NorthernItaly",
+  "Xiamen",
+  "China",
+  "Wuhan",
+  "Beijing",
+  "StateKeyLaboratoryOfRegionalAndUrbanEcology",
+  "InstituteOfUrbanEnvironment",
+  "ChineseAcademyOfSciences",
+  "SchoolOfResourcesAndEnvironmentalSciences",
+  "WuhanUniversity",
+  "UniversityOfChineseAcademyOfSciences"
+]
+
+Triples:
+[
+  {
+    "subject": "HyperspectralImagingSatellite",
+    "relation": "isComponentOf",
+    "object": "EarthObservationSystem"
+  },
+  {
+    "subject": "HyperspectralImagingSatellite",
+    "relation": "provides",
+    "object": "high_fidelity_and_enriched_information"
+  },
+  {
+    "subject": "HyperspectralImagingSatellite",
+    "relation": "supports",
+    "object": "PolicyFormulation"
+  },
+  {
+    "subject": "HyperspectralImagingSatellite",
+    "relation": "hasCapability",
+    "object": "SpectralMeasurementCapability"
+  },
+  {
+    "subject": "SatelliteDownlink",
+    "relation": "hasLimitation",
+    "object": "transmission_speed_bottleneck"
+  },
+  {
+    "subject": "DisasterMonitoring",
+    "relation": "demands",
+    "object": "fast_response_ability"
+  },
+  {
+    "subject": "EmergencyMapping",
+    "relation": "demands",
+    "object": "fast_response_ability"
+  },
+  {
+    "subject": "SatelliteEdgeComputing",
+    "relation": "isUsedFor",
+    "object": "HyperspectralImageClassification"
+  },
+  {
+    "subject": "SatelliteEdgeComputing",
+    "relation": "facilitates",
+    "object": "AutonomousDecisionMaking"
+  },
+  {
+    "subject": "AutonomousDecisionMaking",
+    "relation": "occursOn",
+    "object": "Satellite"
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "adopts",
+    "object": "lightweight_non_deep_learning_framework"
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "integrates",
+    "object": "FewShotLearningStrategy"
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "accommodates",
+    "object": "resource_constraints_of_satellite_platform"
+  },
+  {
+    "subject": "OnboardProcessing",
+    "relation": "isPerformedOn",
+    "object": "Satellite"
+  },
+  {
+    "subject": "SensorFailure",
+    "relation": "causes",
+    "object": "ImageQualityDegradation"
+  },
+  {
+    "subject": "ScanPatternError",
+    "relation": "causes",
+    "object": "ImageQualityDegradation"
+  },
+  {
+    "subject": "ImageQualityDegradation",
+    "relation": "resultsIn",
+    "object": "BadPixel"
+  },
+  {
+    "subject": "ImageQualityDegradation",
+    "relation": "resultsIn",
+    "object": "MisalignedPixel"
+  },
+  {
+    "subject": "ImageQualityDegradation",
+    "relation": "resultsIn",
+    "object": "MixedNoise"
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "develops",
+    "object": "PixelWiseLabelPropagationScheme"
+  },
+  {
+    "subject": "PixelWiseLabelPropagationScheme",
+    "relation": "uses",
+    "object": "IntrinsicSpectralFeature"
+  },
+  {
+    "subject": "IntrinsicSpectralFeature",
+    "relation": "isAtLevel",
+    "object": "SinglePixelLevel"
+  },
+  {
+    "subject": "PixelWiseLabelPropagationScheme",
+    "relation": "doesNotRequire",
+    "object": "SpatialStructuralInformation"
+  },
+  {
+    "subject": "DeepNeuralNetwork",
+    "relation": "requires",
+    "object": "SpatialStructuralInformation"
+  },
+  {
+    "subject": "InitialPixelLabel",
+    "relation": "isObtainedByPropagating",
+    "object": "AnchorLabel"
+  },
+  {
+    "subject": "AnchorLabel",
+    "relation": "propagatesThrough",
+    "object": "AnchorPixelAffinityMatrix"
+  },
+  {
+    "subject": "TopKPrunedSparseGraph",
+    "relation": "isGeneratedBy",
+    "object": "computing_pixel_level_similarities"
+  },
+  {
+    "subject": "ClosedFormSolution",
+    "relation": "isDerivedFrom",
+    "object": "TopKPrunedSparseGraph"
+  },
+  {
+    "subject": "ClosedFormSolution",
+    "relation": "replaces",
+    "object": "IterativeComputation"
+  },
+  {
+    "subject": "RankConstraintBasedGraphClusteringAlgorithm",
+    "relation": "determines",
+    "object": "AnchorLabel"
+  },
+  {
+    "subject": "EarthObservationMission",
+    "relation": "isFundamentalFor",
+    "object": "long_term_monitoring"
+  },
+  {
+    "subject": "EarthObservationMission",
+    "relation": "isFundamentalFor",
+    "object": "research_on_global_environmental_change"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "isDeployedIn",
+    "object": "orbit"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "provides",
+    "object": "essential_information"
+  },
+  {
+    "subject": "essential_information",
+    "relation": "supports",
+    "object": "PolicyFormulation"
+  },
+  {
+    "subject": "essential_information",
+    "relation": "supports",
+    "object": "decision_making"
+  },
+  {
+    "subject": "HyperspectralSensor",
+    "relation": "hasResolutionType",
+    "object": "high_spatial_resolution"
+  },
+  {
+    "subject": "HyperspectralSensor",
+    "relation": "hasResolutionType",
+    "object": "high_radiometric_resolution"
+  },
+  {
+    "subject": "HyperspectralSensor",
+    "relation": "captures",
+    "object": "continuous_spectral_information"
+  },
+  {
+    "subject": "continuous_spectral_information",
+    "relation": "extendsFrom",
+    "object": "VisibleRange"
+  },
+  {
+    "subject": "continuous_spectral_information",
+    "relation": "extendsTo",
+    "object": "ShortWaveInfraredRange"
+  },
+  {
+    "subject": "EarthObservationProduct",
+    "relation": "isProcuredFrom",
+    "object": "HyperspectralSatellite"
+  },
+  {
+    "subject": "EarthObservationProduct",
+    "relation": "involvesStage",
+    "object": "data_transmission_onboard_satellite"
+  },
+  {
+    "subject": "EarthObservationProduct",
+    "relation": "involvesStage",
+    "object": "offline_processing_on_terrestrial_system"
+  },
+  {
+    "subject": "GroundBasedInteraction",
+    "relation": "exhibits",
+    "object": "response_delay"
+  },
+  {
+    "subject": "response_delay",
+    "relation": "isCausedBy",
+    "object": "limit_of_transmission_speed"
+  },
+  {
+    "subject": "DisasterMonitoring",
+    "relation": "isCriticalEmergencyScenario",
+    "object": "true"
+  },
+  {
+    "subject": "EmergencyMapping",
+    "relation": "isCriticalEmergencyScenario",
+    "object": "true"
+  },
+  {
+    "subject": "onboard_processing_of_acquired_hyperspectral_images",
+    "relation": "isImportantFor",
+    "object": "Satellite"
+  },
+  {
+    "subject": "onboard_processing_of_acquired_hyperspectral_images",
+    "relation": "isResearchInterestOf",
+    "object": "research_community"
+  },
+  {
+    "subject": "onboard_processing",
+    "relation": "integratesWith",
+    "object": "ArtificialIntelligenceAlgorithm"
+  },
+  {
+    "subject": "ArtificialIntelligenceAlgorithm",
+    "relation": "integratesWith",
+    "object": "SatellitePlatform"
+  },
+  {
+    "subject": "OPS_SAT",
+    "relation": "servesAs",
+    "object": "validation_platform"
+  },
+  {
+    "subject": "OPS_SAT",
+    "relation": "assesses",
+    "object": "OnboardProcessingCapability"
+  },
+  {
+    "subject": "simulation_experiments",
+    "relation": "investigateEffectOf",
+    "object": "modifying_image_data_quality"
+  },
+  {
+    "subject": "simulation_experiments",
+    "relation": "analyzeFromPerspectiveOf",
+    "object": "AtmosphericCondition"
+  },
+  {
+    "subject": "simulation_experiments",
+    "relation": "analyzeFromPerspectiveOf",
+    "object": "NoiseInterference"
+  },
+  {
+    "subject": "PhiSat1Mission",
+    "relation": "isFrom",
+    "object": "EuropeanSpaceAgency"
+  },
+  {
+    "subject": "PhiSat1Mission",
+    "relation": "illustratesUseOf",
+    "object": "ArtificialIntelligenceAlgorithm"
+  },
+  {
+    "subject": "PhiSat1Mission",
+    "relation": "isFirstAttemptToDeploy",
+    "object": "DeepConvolutionalNetwork"
+  },
+  {
+    "subject": "DeepConvolutionalNetwork",
+    "relation": "isDeployedOn",
+    "object": "Satellite"
+  },
+  {
+    "subject": "DeepConvolutionalNetwork",
+    "relation": "isUsedFor",
+    "object": "CloudSegmentation"
+  },
+  {
+    "subject": "SmallSatellite",
+    "relation": "isLimitedBy",
+    "object": "DataBandwidth"
+  },
+  {
+    "subject": "DataPreProcessing",
+    "relation": "isPerformedOn",
+    "object": "Satellite"
+  },
+  {
+    "subject": "DataPreProcessing",
+    "relation": "occursBefore",
+    "object": "transmission"
+  },
+  {
+    "subject": "HyperSpectralSmallSatelliteForOceanObservation",
+    "relation": "hasAcronym",
+    "object": "HYPSO"
+  },
+  {
+    "subject": "HYPSOMission",
+    "relation": "isMissionType",
+    "object": "HyperSpectralSmallSatelliteForOceanObservation"
+  },
+  {
+    "subject": "KMeansAlgorithm",
+    "relation": "isUsedFor",
+    "object": "onboard_processing"
+  },
+  {
+    "subject": "KMeansAlgorithm",
+    "relation": "achieves",
+    "object": "real_time_online_classification_of_hyperspectral_images"
+  },
+  {
+    "subject": "Hardware",
+    "relation": "uses",
+    "object": "AccelerationTechnology"
+  },
+  {
+    "subject": "AccelerationTechnology",
+    "relation": "aimsTo",
+    "object": "minimize_overhead"
+  },
+  {
+    "subject": "AccelerationTechnology",
+    "relation": "aimsTo",
+    "object": "optimize_performance"
+  },
+  {
+    "subject": "lightweight_deep_learning_model",
+    "relation": "isValidatedBy",
+    "object": "HYPSO1Mission"
+  },
+  {
+    "subject": "lightweight_deep_learning_model",
+    "relation": "isValidatedBy",
+    "object": "EarthObserving1Mission"
+  },
+  {
+    "subject": "HYPSO1Mission",
+    "relation": "segments",
+    "object": "Sea"
+  },
+  {
+    "subject": "HYPSO1Mission",
+    "relation": "segments",
+    "object": "Land"
+  },
+  {
+    "subject": "HYPSO1Mission",
+    "relation": "segments",
+    "object": "Cloud"
+  },
+  {
+    "subject": "EarthObserving1Mission",
+    "relation": "segments",
+    "object": "Sea"
+  },
+  {
+    "subject": "EarthObserving1Mission",
+    "relation": "segments",
+    "object": "Land"
+  },
+  {
+    "subject": "EarthObserving1Mission",
+    "relation": "segments",
+    "object": "Cloud"
+  },
+  {
+    "subject": "current_onboard_processing_for_hyperspectral_images",
+    "relation": "focusesOn",
+    "object": "CloudSegmentation"
+  },
+  {
+    "subject": "current_onboard_processing_for_hyperspectral_images",
+    "relation": "focusesOn",
+    "object": "basic_categorical_classification"
+  },
+  {
+    "subject": "current_onboard_processing_for_hyperspectral_images",
+    "relation": "isHardToApplyTo",
+    "object": "ComplexScene"
+  },
+  {
+    "subject": "onboard_processing_of_satellite_hyperspectral_images",
+    "relation": "isContrastedWith",
+    "object": "traditional_post_downlink_operations"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "hasLimited",
+    "object": "ComputationalResource"
+  },
+  {
+    "subject": "ComputationalResource",
+    "relation": "isMoreLimitedOn",
+    "object": "SmallSatellite"
+  },
+  {
+    "subject": "Processor",
+    "relation": "isUsedIn",
+    "object": "TerrestrialSetting"
+  },
+  {
+    "subject": "Processor",
+    "relation": "hasProperty",
+    "object": "high_power_and_high_performance"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "isLimitedBy",
+    "object": "size"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "isLimitedBy",
+    "object": "mass"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "isLimitedBy",
+    "object": "cost"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "isLimitedBy",
+    "object": "power"
+  },
+  {
+    "subject": "deep_learning_algorithm",
+    "relation": "requires",
+    "object": "high_performance_computing_platform"
+  },
+  {
+    "subject": "high_performance_computing_platform",
+    "relation": "conflictsWith",
+    "object": "limited_computational_resources_on_satellite_system"
+  },
+  {
+    "subject": "deep_learning_model",
+    "relation": "isChallengingToDeployOn",
+    "object": "Satellite"
+  },
+  {
+    "subject": "deep_learning_model",
+    "relation": "isLessDesirableOn",
+    "object": "Satellite"
+  },
+  {
+    "subject": "RemoteSensingDataset",
+    "relation": "isLackingAtScale",
+    "object": "large_scale"
+  },
+  {
+    "subject": "lack_of_large_scale_remote_sensing_datasets",
+    "relation": "resultsIn",
+    "object": "inadequate_foundation_for_deep_learning_models"
+  },
+  {
+    "subject": "SpaceborneImagingSpectrometer",
+    "relation": "encounters",
+    "object": "BadPixel"
+  },
+  {
+    "subject": "SpaceborneImagingSpectrometer",
+    "relation": "encounters",
+    "object": "MixedNoise"
+  },
+  {
+    "subject": "SpaceborneImagingSpectrometer",
+    "relation": "encounters",
+    "object": "MisalignedPixel"
+  },
+  {
+    "subject": "MixedNoise",
+    "relation": "includes",
+    "object": "GaussianNoise"
+  },
+  {
+    "subject": "MixedNoise",
+    "relation": "includes",
+    "object": "PoissonNoise"
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "isAlsoDenotedAs",
+    "object": "ImpulseNoise"
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "isAlsoDenotedAs",
+    "object": "SaltAndPepperNoise"
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "appearsAs",
+    "object": "random_white_or_black_pixel"
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "isCausedBy",
+    "object": "SensorOperatingFailure"
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "isCausedBy",
+    "object": "ScanningUnitSaturation"
+  },
+  {
+    "subject": "increase_in_operational_duration_and_frequency_of_device_activation_cycles",
+    "relation": "increases",
+    "object": "BadPixel"
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "corrupts",
+    "object": "SpectralBand"
+  },
+  {
+    "subject": "MixedNoise",
+    "relation": "corrupts",
+    "object": "SpectralBand"
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "degradesPerformanceOf",
+    "object": "MachineLearningMethod"
+  },
+  {
+    "subject": "MixedNoise",
+    "relation": "degradesPerformanceOf",
+    "object": "MachineLearningMethod"
+  },
+  {
+    "subject": "MachineLearningMethod",
+    "relation": "hasProperty",
+    "object": "limited_robustness"
+  },
+  {
+    "subject": "PixelMisalignment",
+    "relation": "isTypicalPhenomenonFor",
+    "object": "satellite_image_acquisition"
+  },
+  {
+    "subject": "ScanLineCorrector",
+    "relation": "isPartOf",
+    "object": "ETMPlusSensor"
+  },
+  {
+    "subject": "ETMPlusSensor",
+    "relation": "isOnboard",
+    "object": "Landsat7"
+  },
+  {
+    "subject": "ScanLineCorrector",
+    "relation": "compensatesFor",
+    "object": "ForwardMotionOfSatellite"
+  },
+  {
+    "subject": "ScanLineCorrector",
+    "relation": "failedOn",
+    "object": "Landsat7"
+  },
+  {
+    "subject": "absence_of_functional_scan_line_corrector",
+    "relation": "causes",
+    "object": "WedgeShapedGap"
+  },
+  {
+    "subject": "WedgeShapedGap",
+    "relation": "variesFrom",
+    "object": "single_pixel_at_image_nadir"
+  },
+  {
+    "subject": "WedgeShapedGap",
+    "relation": "variesTo",
+    "object": "approximately_12_pixels_towards_scene_peripheries"
+  },
+  {
+    "subject": "GapPixel",
+    "relation": "comprisesApproximately",
+    "object": "22_percent_of_all_pixels"
+  },
+  {
+    "subject": "PatchBasedDeepLearning",
+    "relation": "reliesOn",
+    "object": "SpatialNeighborhoodContext"
+  },
+  {
+    "subject": "SpatialSpectralMethod",
+    "relation": "reliesOn",
+    "object": "SpatialNeighborhoodContext"
+  },
+  {
+    "subject": "misaligned_scan_lines_and_pixels",
+    "relation": "cause",
+    "object": "wrong_spatial_structural_information"
+  },
+  {
+    "subject": "wrong_spatial_structural_information",
+    "relation": "misleads",
+    "object": "classification_model"
+  },
+  {
+    "subject": "onboard_satellite_processing",
+    "relation": "requires",
+    "object": "high_efficiency_lightweight_model_structure"
+  },
+  {
+    "subject": "onboard_satellite_processing",
+    "relation": "requires",
+    "object": "robustness_to_bad_pixels"
+  },
+  {
+    "subject": "onboard_satellite_processing",
+    "relation": "requires",
+    "object": "robustness_to_mixed_noise"
+  },
+  {
+    "subject": "onboard_satellite_processing",
+    "relation": "requires",
+    "object": "robustness_to_pixel_misalignment"
+  },
+  {
+    "subject": "hyperspectral_image_classification_algorithm",
+    "relation": "isBasedOn",
+    "object": "non_deep_learning"
+  },
+  {
+    "subject": "hyperspectral_image_classification_algorithm",
+    "relation": "isDesignedForDeploymentOn",
+    "object": "LowPowerConsumptionSatellitePlatform"
+  },
+  {
+    "subject": "hyperspectral_image_classification_algorithm",
+    "relation": "isDesignedForDeploymentOn",
+    "object": "LowComputationalCapacitySatellitePlatform"
+  },
+  {
+    "subject": "two_stage_pixel_wise_label_propagation_algorithm",
+    "relation": "disseminates",
+    "object": "labels_of_selected_anchors"
+  },
+  {
+    "subject": "labels_of_selected_anchors",
+    "relation": "propagateTo",
+    "object": "UnlabeledPixel"
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "usesOnly",
+    "object": "single_pixel_level_intrinsic_spectral_features"
+  },
+  {
+    "subject": "single_pixel_level_intrinsic_spectral_features",
+    "relation": "avoid",
+    "object": "poor_or_bad_pixels_in_local_neighborhood"
+  },
+  {
+    "subject": "single_pixel_level_intrinsic_spectral_features",
+    "relation": "avoid",
+    "object": "inaccurate_spatial_structural_information"
+  },
+  {
+    "subject": "AnchorLabel",
+    "relation": "isSelectedBy",
+    "object": "KMeans"
+  },
+  {
+    "subject": "AnchorLabel",
+    "relation": "isPropagatedThrough",
+    "object": "anchor_graph"
+  },
+  {
+    "subject": "InitialPixelLabel",
+    "relation": "isAssociatedWith",
+    "object": "affinity_matrix"
+  },
+  {
+    "subject": "affinity_matrix",
+    "relation": "isPrunedToForm",
+    "object": "SparseGraph"
+  },
+  {
+    "subject": "SparseGraph",
+    "relation": "has",
+    "object": "refined_similarity_between_pixels"
+  },
+  {
+    "subject": "second_stage_of_label_propagation",
+    "relation": "updates",
+    "object": "InitialPixelLabel"
+  },
+  {
+    "subject": "InitialPixelLabel",
+    "relation": "isUpdatedBy",
+    "object": "ClosedFormSolution"
+  },
+  {
+    "subject": "ClosedFormSolution",
+    "relation": "isBasedOn",
+    "object": "SparseGraph"
+  },
+  {
+    "subject": "ClosedFormSolution",
+    "relation": "achieves",
+    "object": "more_precise_classification_result"
+  },
+  {
+    "subject": "RankConstraintBasedGraphClusteringAlgorithm",
+    "relation": "annotates",
+    "object": "AnchorLabel"
+  },
+  {
+    "subject": "RankConstraintBasedGraphClusteringAlgorithm",
+    "relation": "replaces",
+    "object": "manual_intervention"
+  },
+  {
+    "subject": "proposed_algorithm",
+    "relation": "reorganizes",
+    "object": "AnchorAnchorGraph"
+  },
+  {
+    "subject": "proposed_algorithm",
+    "relation": "showsAdaptabilityTo",
+    "object": "various_complex_scenes"
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "hasComplexity",
+    "object": "LinearTimeComplexity"
+  },
+  {
+    "subject": "proposed_method",
+    "relation": "has",
+    "object": "better_robustness"
+  },
+  {
+    "subject": "experiments",
+    "relation": "areConductedOn",
+    "object": "three_widely_used_hyperspectral_image_datasets"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "isA",
+    "object": "HyperspectralImageDataset"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "isCapturedBy",
+    "object": "AVIRIS"
+  },
+  {
+    "subject": "AVIRIS",
+    "relation": "expandsTo",
+    "object": "AirborneVisualInfraredImagingSpectrometer"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "wasCapturedIn",
+    "object": "1992"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "hasSize",
+    "object": "145x145"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "hasSpectralBandCount",
+    "object": "220"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "retainsBandCount",
+    "object": "200"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "excludes",
+    "object": "20_water_absorption_bands"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "hasSpatialResolution",
+    "object": "approximately_20_meters"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "includes",
+    "object": "16_land_cover_categories"
+  },
+  {
+    "subject": "IndianPines",
+    "relation": "increasesProbabilityOf",
+    "object": "MixedPixel"
+  },
+  {
+    "subject": "MixedPixel",
+    "relation": "complicates",
+    "object": "classification_process"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "isA",
+    "object": "HyperspectralImageDataset"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "isAcquiredBy",
+    "object": "AVIRIS"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "isLocatedIn",
+    "object": "SalinasValley"
+  },
+  {
+    "subject": "SalinasValley",
+    "relation": "isLocatedIn",
+    "object": "California"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "hasResolution",
+    "object": "512x217"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "hasSpectralBandCount",
+    "object": "224"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "includes",
+    "object": "20_water_absorption_bands"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "retainsBandCount",
+    "object": "204"
+  },
+  {
+    "subject": "Salinas",
+    "relation": "has",
+    "object": "16_land_cover_categories"
+  },
+  {
+    "subject": "PaviaUniversity",
+    "relation": "isA",
+    "object": "HyperspectralImageDataset"
+  },
+  {
+    "subject": "PaviaUniversity",
+    "relation": "isObtainedUsing",
+    "object": "ROSIS"
+  },
+  {
+    "subject": "ROSIS",
+    "relation": "expandsTo",
+    "object": "ReflectiveOpticsSystemImagingSpectrometer"
+  },
+  {
+    "subject": "PaviaUniversity",
+    "relation": "isLocatedInRegion",
+    "object": "Pavia"
+  },
+  {
+    "subject": "Pavia",
+    "relation": "isLocatedIn",
+    "object": "NorthernItaly"
+  },
+  {
+    "subject": "PaviaUniversity",
+    "relation": "hasSpatialResolution",
+    "object": "610x340_pixels"
+  },
+  {
+    "subject": "PaviaUniversity",
+    "relation": "hasSpectralBandCount",
+    "object": "103"
+  },
+  {
+    "subject": "PaviaUniversity",
+    "relation": "hasClassCount",
+    "object": "9"
+  },
+  {
+    "subject": "PaviaUniversity",
+    "relation": "hasAnnotatedSampleCount",
+    "object": "42776"
+  },
+  {
+    "subject": "StateKeyLaboratoryOfRegionalAndUrbanEcology",
+    "relation": "isPartOf",
+    "object": "InstituteOfUrbanEnvironment"
+  },
+  {
+    "subject": "InstituteOfUrbanEnvironment",
+    "relation": "isPartOf",
+    "object": "ChineseAcademyOfSciences"
+  },
+  {
+    "subject": "InstituteOfUrbanEnvironment",
+    "relation": "isLocatedIn",
+    "object": "Xiamen"
+  },
+  {
+    "subject": "Xiamen",
+    "relation": "isLocatedIn",
+    "object": "China"
+  },
+  {
+    "subject": "SchoolOfResourcesAndEnvironmentalSciences",
+    "relation": "isPartOf",
+    "object": "WuhanUniversity"
+  },
+  {
+    "subject": "WuhanUniversity",
+    "relation": "isLocatedIn",
+    "object": "Wuhan"
+  },
+  {
+    "subject": "Wuhan",
+    "relation": "isLocatedIn",
+    "object": "China"
+  },
+  {
+    "subject": "UniversityOfChineseAcademyOfSciences",
+    "relation": "isLocatedIn",
+    "object": "Beijing"
+  },
+  {
+    "subject": "Beijing",
+    "relation": "isLocatedIn",
+    "object": "China"
+  }
+]

@@ -1,0 +1,100 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: conclusionfuturework
+- section_title: Conclusion & Future Work
+- page_start: 6
+- page_end: 8
+
+INPUT TEXT CHUNK:
+Our study focuses on patients with FAI, whose diagnosis and management, including surgical planning, depend on an
+accurate two-dimensional and volumetric assessment of the impingement. By demonstrating that automated landmark
+detection on MRI achieves accuracy equivalent to that on X-rays, we establish that geometric measures of FAI can be
+extracted reliably from routine MRI scans. This represents an important first step towards supporting MRI as a suitable
+modality for automated FAI assessment.
+Although AP X-rays remain the first-line tool for clinical screening due to their speed, low cost, and accessibility, they
+are not ideal for surgical planning. Our findings highlight the potential of MRI for quantitative geometric assessment in
+musculoskeletal analysis. Beyond the demonstrated equivalence, the volumetric nature of MRI offers opportunities
+for refined development of screening angles, particularly in patients with asymmetries or pelvic rotations, where
+measurements must be made relative to local axes.
+Current limitations relate to analysing a single MRI slice, which underutilises volumetric information and disregards
+inter-slice coherence. The moderate α-angle reliability is due to the cam-point ambiguity and the modest size of the
+cohort.
+6
+
+SSLPRE-TRAINING WITH DIFFUSION MODEL FOR LANDMARK
+Table 3: Ablation study of architecture–encoder combinations and test-time augmentation (TTA) on MRI performance,
+reporting mean radial error (MRE, mm), success detection rate at 2 mm (SDR@2 mm), and cam-type diagnostic
+accuracy (Cam Acc.).
+Model TTA MRE (mm)↓SDR@2mm (%)↑Cam Acc. (%)↑
+UNet++ (ResNet18)✗3.02±0.28 56.46±5.87 82.33±3.79
+UNet++ (ResNet18)✓2.98±0.23 58.44±4.86 84.75±2.77
+UNet++ (VGG16)✗3.33±0.03 56.25±0.89 80.00±7.07
+UNet++ (VGG16)✓3.29±0.36 57.09±1.93 80.17±4.41
+UNet (MiT-B1)✗4.11±0.84 54.79±1.44 66.67±12.58
+UNet (MiT-B1)✓3.98±0.54 57.33±0.91 69.83±6.85
+DPT (ResNet18)✗4.49±0.54 48.34±3.79 67.50±2.50
+DPT (ResNet18)✓4.44±0.19 50.21±3.02 70.17±6.56
+DPT (MaxViT-Base)✗3.91±0.87 55.50±0.71 73.75±8.84
+DPT (MaxViT-Base)✓3.63±0.99 55.94±1.33 77.50±10.61
+Future work will extend the approach towards volumetric metrics averaged across slices or computed directly from 3D
+MRI volumes, exploring adjacent-slice training for data augmentation and incorporating uncertainty quantification to
+identify unreliable predictions.
+This research was conducted retrospectively using human subject data from the FAIT study [ 13], which received ethical
+approval. The authors have no conflicts of interest to declare.
+
+SSLPRE-TRAINING WITH DIFFUSION MODEL FOR LANDMARK

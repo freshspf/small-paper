@@ -1,0 +1,138 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument6",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument6
+- section_title: Complete Document
+- page_start: 1
+- page_end: 8
+
+**INPUT TEXT CHUNK:**
+In this
+measurement, the slit width was set to 100µm to ensure
+a moderate energy resolution while gaining a larger pho-
+ton beam flux, since the 3G line is expected to be much
+weaker than the 3C due to the oscillator strength of 3G be-
+ing∼1/20 of 3C in theoretical calculations [37]. These
+scans were repeated 10 times, which was as many scans as
+we could perform during the beam-time, in attempt to ob-
+tain sufficient statistics in the photon counts. As with the
+3C analysis, we estimated the upper limit of the 3G pho-
+ton count rate by fitting the data with Gaussian and linear
+functions. The centrid energy of the Gaussian is fixed at
+the expected 726.90 eV , and FWHM is fixed at 0.33 eV ,
+which is estimated by scaling the 3C value by the energy
+and slit width ratio. A 95% upper limit of the area of the
+Gaussian is determined to be 0.378 Counts s−1eV .
+4 Discussions
+4.1 centroid energy shift
+The centroid energies, FWHMs and photon count rates of
+the measured lines are obtained by fitting the spectra with
+a simple model function. The wavelengths and oscillator
+strengths of characteristic X-rays can be constrained us-
+ing these parameters. The experimentally obtained line
+centroid energies directly correspond to the centroid en-
+ergies of the observed X-ray line spectra, hence precise
+experimental values can work as benchmarks for the ac-
+curate line identification and velocity measurement using
+Doppler shifts. In this experiment, the centroid energy of
+the Ne-like Fe16+3C line is constrained to 825.658±0.003
+eV , with a relative precision of∆E/E∼4×10−6, which is
+significantly better than that of XRISM (∆E/E∼8×10−4).
+However, we find∼0.17 eV shifts from the theoretical val-
+ues for both the Fe 3C line and the O Heαw line that can be
+interpreted as due to systematic errors in our experimental
+system, making it difficult to precisely determine the abso-
+lute transition energies. There can be several factors that
+cause the shift, one of them being the uncertainty in the
+energy calibration of the synchrotron radiation. Therefore,
+it is necessary to calibrate the beamline monochrometer
+with external references. One accurate calibration method
+is to use lines with well-known transition energies, emit-ted from HCIs inside the EBIT, such as Heα, Heβ, Lyα,
+and Lyβlines of various elements. State-of-the-art atomic
+structure codes are capable of calculating these transitions
+with an uncertainty of∆E/E∼10−6or less, providing suf-
+ficient precision [16].
+4.2 oscillator strength ratio constraint
+The Gaussian area ratio of 3G to 3C is directly proportional
+to the oscillator strength ratio. By correcting the ratio of
+the measured photon count rates (obtained as the Gaus-
+sian areas) for the ratio of the incident photon beam flux
+and detector efficiency, a 95% upper limit of 0.322 is ob-
+tained for the oscillator strength ratiof 3G/f3C. Considering
+the theoretical value off 3G/f3C, it is possible to detect 3G
+resonance events and constrain the Gaussian area with the
+same level of accuracy as 3C, by increasing the signal 20
+times or reducing the noise by an order of magnitude.
+The noise that is prominent in our measurement is
+likely to be the photons of other nearby lines, such as 3C
+and M2, blended due to the low spectral resolution of the
+currently used SDD detector (∆E/E∼0.02), and continua,
+that can be emitted from the recombining processes of the
+HCIs interacting with the electron beam during the prob-
+ing phases. The noise resulting from the blended lines
+can be reduced by using a detector with sufficient spec-
+tral resolution to separate those lines, for instance, TES
+microcalorimeters (∆E/E<5×10−4; e.g., [52]). Using
+time coincidence between photoexcitation events and the
+pulsed-photon train of synchrotron radiation during data
+acquisition also helps suppress noise caused by the inter-
+action between the HCIs and the electron beam in general
+[53]. The synchrotron radiation at the SPring-8 beamlines
+is generated in the form of pulses of photons with a period
+of tens to hundreds of nanoseconds and a width of a few pi-
+coseconds, depending on the operation mode. Therefore,
+by reading out the detector events only when photons ar-
+rive, noise unrelated to photon irradiation can be reduced.
+Combining these approaches may reduce the noise by an
+order of magnitude or more.
+Another approach is to increase the signals of pho-
+toexcitation events 20 times the current level, as men-
+tioned above, and a simple solution is to use a 20 times
+brighter light source to irradiate the HCIs. The beam flux
+of the synchrotron radiation used in this experiment, esti-
+mated from the photocurrent measured by the Au foil flux
+monitor and the quantum efficiency of the Au foil, was
+∼7.0×1010photons s−1, therefore incident photon beam
+flux of more than 1.4×1012photons s−1is required for
+a successful detection of 3G.

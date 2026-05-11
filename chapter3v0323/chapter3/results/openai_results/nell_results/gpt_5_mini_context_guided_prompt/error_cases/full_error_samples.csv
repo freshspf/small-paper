@@ -1,0 +1,389 @@
+﻿id,axiom_type,axiom_text,context_info,label,model_name,temperature,max_tokens,base_url,model_output,model_label,is_correct,error
+sample_0064,subPropertyOf,inverseofautomobilemakerchiefexecutiveceo ⊑p ceoof,"背景知识：
+条目1：
+- 名称：inverseofautomobilemakerchiefexecutiveceo
+- 类型：Class
+- 简介：inverseofautomobilemakerchiefexecutiveceo is a class in the NELL knowledge base.
+- 补充信息：generalizations: ceoof | domain: ceo | range: automobilemaker
+
+条目2：
+- 名称：ceoof
+- 类型：Class
+- 简介：{%%s is the %s %%s, CEO of}
+- 补充信息：generalizations: topmemberoforganization | domain: ceo | range: company",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景中 inverseofautomobilemakerchiefexecutiveceo 与 ceoof 都被标注为类（generalizations 指示的是类的父类/子类关系），而公理使用“⊑p”（子属性关系）仅适用于属性，类型不匹配且与背景中暗含的子类关系冲突。",0,0.0,
+sample_0065,subPropertyOf,sportusesstadium ⊑p relatedto,"背景知识：
+条目1：
+- 名称：sportusesstadium
+- 类型：Class
+- 简介：{%%s is a sport %s the venue %%s, played in}
+- 补充信息：generalizations: relatedto | domain: sport | range: stadiumoreventvenue
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景中sportusesstadium和relatedto均被标注为Class而非属性，rdfs:subPropertyOf（⊑p）只能用于属性，故该公理在类型上不匹配而不合理；即便把它们当作属性处理，其domain和range也没有给出满足从属（包含）关系的证据。",0,0.0,
+sample_0068,subPropertyOf,companyalsoknownas ⊑p organizationalsoknownas,"背景知识：
+条目1：
+- 名称：companyalsoknownas
+- 类型：Class
+- 简介：{%%s is a company %s %%s, also known as}
+- 补充信息：generalizations: organizationalsoknownas | domain: company | range: company
+
+条目2：
+- 名称：organizationalsoknownas
+- 类型：Class
+- 简介：{%%s is an organization %s %%s, also known as}
+- 补充信息：generalizations: synonymfor | domain: organization | range: organization",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识将 companyalsoknownas 与 organizationalsoknownas 声明为 Class 而非属性，而 ⊑p 表示 subPropertyOf 仅适用于属性，因而此公理与背景类型声明和 RDFS 语义规则冲突。",0,0.0,
+sample_0070,subPropertyOf,mlauthorofsoftware ⊑p agentcreated,"背景知识：
+条目1：
+- 名称：mlauthorofsoftware
+- 类型：Class
+- 简介：{%%s is a machine-learning author who %s the software %%s, wrote}
+- 补充信息：generalizations: agentcreated, agentinvolvedwithitem | domain: mlauthor | range: mlsoftware
+
+条目2：
+- 名称：agentcreated
+- 类型：Class
+- 简介：{%%s %s %%s, created}
+- 补充信息：generalizations: relatedto | domain: agent | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景中 mlauthorofsoftware 与 agentcreated 均为类且 mlauthorofsoftware 的 generalizations 包含 agentcreated（表示类的上位类关系），而符号 ⊑p 表示“子属性”关系仅适用于属性，故将两个类用 ⊑p 关联在语义上是类型不匹配且不正确。",0,0.0,
+sample_0071,subPropertyOf,inverseofplantgrowinginplant ⊑p relatedto,"背景知识：
+条目1：
+- 名称：inverseofplantgrowinginplant
+- 类型：Class
+- 简介：inverseofplantgrowinginplant is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: plant | range: plant
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识中两者被标注为Class，且inverseofplantgrowinginplant的补充信息显示generalizations: relatedto，表明它们是类的从属关系（应为subClassOf），而“⊑p”表示属性层面的subPropertyOf只适用于属性，语义类别不匹配因此错误。",0,0.0,
+sample_0076,subPropertyOf,mlsoftwareauthor ⊑p createdbyagent,"背景知识：
+条目1：
+- 名称：mlsoftwareauthor
+- 类型：Class
+- 简介：mlsoftwareauthor is a class in the NELL knowledge base.
+- 补充信息：generalizations: iteminvolvedwithagent, createdbyagent | domain: mlsoftware | range: mlauthor
+
+条目2：
+- 名称：createdbyagent
+- 类型：Class
+- 简介：createdbyagent is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: agent",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[背景知识表明mlsoftwareauthor和createdbyagent都是类且createdbyagent是mlsoftwareauthor的generalization，因此应为子类关系（⊑），而⊑p表示子属性关系只适用于属性，类型不匹配故公理不合理。]",0,0.0,
+sample_0078,subPropertyOf,buildingbelongstoorganization ⊑p locationactedinbyorganization,"背景知识：
+条目1：
+- 名称：buildingbelongstoorganization
+- 类型：Class
+- 简介：{%%s %s %%s, is a building belonging to}
+- 补充信息：generalizations: locationactedinbyorganization | domain: building | range: organization
+
+条目2：
+- 名称：locationactedinbyorganization
+- 类型：Class
+- 简介：locationactedinbyorganization is a class in the NELL knowledge base.
+- 补充信息：generalizations: locationactedinbyagent | domain: location | range: organization",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识中两者被标注为类且 buildingbelongstoorganization 的 generalizations 指向 locationactedinbyorganization，应为子类关系（subClassOf），而⊑p 表示子属性关系（subPropertyOf），类型不符且与 RDFS 语义规则冲突。",0,0.0,
+sample_0085,subPropertyOf,statehaslake ⊑p locationcontainslocation,"背景知识：
+条目1：
+- 名称：statehaslake
+- 类型：Class
+- 简介：statehaslake is a class in the NELL knowledge base.
+- 补充信息：generalizations: locationcontainslocation | domain: stateorprovince | range: lake
+
+条目2：
+- 名称：locationcontainslocation
+- 类型：Class
+- 简介：locationcontainslocation is a class in the NELL knowledge base.
+- 补充信息：generalizations: superpartof, locatedat | domain: location | range: location",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识中statehaslake和locationcontainslocation均为类，且statehaslake对locationcontainslocation是一般化/子类关系，应使用subClassOf而非⊑p（subPropertyOf），而RDFS的⊑p仅适用于属性，故该公理不合理。",0,0.0,
+sample_0086,subPropertyOf,inverseofmammalsuchasmammal ⊑p specializationof,"背景知识：
+条目1：
+- 名称：inverseofmammalsuchasmammal
+- 类型：Class
+- 简介：inverseofmammalsuchasmammal is a class in the NELL knowledge base.
+- 补充信息：generalizations: specializationof | domain: mammal | range: mammal
+
+条目2：
+- 名称：specializationof
+- 类型：Class
+- 简介：{%%s is a %s %%s, kind of}
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识中 inverseofmammalsuchasmammal 和 specializationof 都被标注为 Class，而公理用的是属性包含（⊑p/subPropertyOf），RDFS 要求子属性关系只能适用于属性，类型不匹配故不合理。",0,0.0,
+sample_0088,subPropertyOf,citysportsteams ⊑p proxyfor,"背景知识：
+条目1：
+- 名称：citysportsteams
+- 类型：Class
+- 简介：citysportsteams is a class in the NELL knowledge base.
+- 补充信息：generalizations: proxyfor, locationactedinbyorganization | domain: city | range: sportsteam
+
+条目2：
+- 名称：proxyfor
+- 类型：Class
+- 简介：{%%s is a %s for %%s, proxy}
+- 补充信息：generalizations: mutualproxyfor | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：⊑p 表示属性的子属性关系，但背景中 citysportsteams 与 proxyfor 均被标注为 Class（且 citysportsteams 的 generalizations 包含 proxyfor，表明它是 proxyfor 的子类），因此将两者写为 subPropertyOf 不符合 RDFS 语义；如意图为子类关系应使用 subClassOf（而该子类关系本身是合理的）。",0,0.0,
+sample_0091,subPropertyOf,languageschoolincity ⊑p relatedto,"背景知识：
+条目1：
+- 名称：languageschoolincity
+- 类型：Class
+- 简介：{%%s is a language %s the city %%s, taught in language schools in}
+- 补充信息：generalizations: relatedto | domain: language | range: city
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景中languageschoolincity和relatedto均被标注为Class，languageschoolincity对relatedto的generalizations表示类的子类关系，而符号⊑p表示属性之间的包含（subPropertyOf），将类用于属性层次与RDFS语义冲突，因此该公理不合理。",0,0.0,
+sample_0092,subPropertyOf,istallerthan ⊑p relatedto,"背景知识：
+条目1：
+- 名称：istallerthan
+- 类型：Class
+- 简介：{%%s is %s %%s, taller than}
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识中istallerthan和relatedto均被声明为Class，而公理使用的是属性子关系（⊑p）应当适用于属性，故与背景知识和RDFS语义规则不符（若意图为类继承应使用subClassOf）。",0,0.0,
+sample_0094,subPropertyOf,countryofpersondeath ⊑p locationofpersondeath,"背景知识：
+条目1：
+- 名称：countryofpersondeath
+- 类型：Class
+- 简介：countryofpersondeath is a class in the NELL knowledge base.
+- 补充信息：generalizations: locationofpersondeath | domain: country | range: person
+
+条目2：
+- 名称：locationofpersondeath
+- 类型：Class
+- 简介：locationofpersondeath is a class in the NELL knowledge base.
+- 补充信息：generalizations: locationactedinbyagent | domain: location | range: person",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：countryofpersondeath和locationofpersondeath在背景知识中均为类，⊑p表示子属性（属性之间的包含关系），因此用属性包含关系连接两个类与RDFS语义不符（若意为子类关系则与背景中generalizations: locationofpersondeath一致）。",0,0.0,
+sample_0101,subPropertyOf,timeofprotest ⊑p relatedto,"背景知识：
+条目1：
+- 名称：timeofprotest
+- 类型：Class
+- 简介：{%%s is the %s the event %%s, time of}
+- 补充信息：generalizations: relatedto | domain: time | range: protestevent
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[错误，因为在背景知识中timeofprotest和relatedto均被声明为Class而非属性，而⊑p（subPropertyOf）语义规则仅适用于属性之间，存在类型不匹配。]",0,0.0,
+sample_0103,subPropertyOf,invertebratehascolor ⊑p relatedto,"背景知识：
+条目1：
+- 名称：invertebratehascolor
+- 类型：Class
+- 简介：{%%s %s %%s, is related to}
+- 补充信息：generalizations: relatedto | domain: invertebrate | range: color
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识中 invertebratehascolor 与 relatedto 被标注为类（Class），而符号 ⊑p 表示属性间的包含（subPropertyOf），RDFS 语义要求参与者为属性，存在类型不匹配，故该公理不合理。",0,0.0,
+sample_0106,subPropertyOf,agenthierarchicallyaboveagent ⊑p agentcollaborateswithagent,"背景知识：
+条目1：
+- 名称：agenthierarchicallyaboveagent
+- 类型：Class
+- 简介：{%%s is hierarchically %s %%s, above}
+- 补充信息：generalizations: agentcontrols, agentcollaborateswithagent | domain: agent | range: agent
+
+条目2：
+- 名称：agentcollaborateswithagent
+- 类型：Class
+- 简介：{%%s %s with %%s, collaborates}
+- 补充信息：generalizations: agentinteractswithagent | domain: agent | range: agent",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：agenthierarchicallyaboveagent和agentcollaborateswithagent在背景知识中均为Class，而符号⊑p表示子属性（subPropertyOf）关系仅适用于属性，因此该公理语义不匹配，如意图为类继承应使用subClassOf。",0,0.0,
+sample_0107,subPropertyOf,animalssuchasmammals ⊑p generalizationof,"背景知识：
+条目1：
+- 名称：animalssuchasmammals
+- 类型：Class
+- 简介：{%%s %s %%s, is a generalization of}
+- 补充信息：generalizations: generalizationof | domain: animal | range: mammal
+
+条目2：
+- 名称：generalizationof
+- 类型：Class
+- 简介：generalizationof is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：公理使用了子属性关系（⊑p），但背景知识中animalssuchasmammals和generalizationof均被标注为类（Class），而RDFS语义规则要求subPropertyOf作用于属性（rdf:Property），存在类型不匹配。",0,0.0,
+sample_0110,subPropertyOf,hobbiessuchashobbies ⊑p generalizationof,"背景知识：
+条目1：
+- 名称：hobbiessuchashobbies
+- 类型：Class
+- 简介：{%%s %s %%s, is a generalization of}
+- 补充信息：generalizations: generalizationof | domain: hobby | range: hobby
+
+条目2：
+- 名称：generalizationof
+- 类型：Class
+- 简介：generalizationof is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[根据背景知识，hobbiessuchashobbies和generalizationof均为Class，而⊑p表示subPropertyOf仅适用于属性（property），将类用于子属性关系违反RDFS语义规则，因此公理不合理。]",0,0.0,
+sample_0113,subPropertyOf,agenthierarchicallyaboveagent ⊑p agentcontrols,"背景知识：
+条目1：
+- 名称：agenthierarchicallyaboveagent
+- 类型：Class
+- 简介：{%%s is hierarchically %s %%s, above}
+- 补充信息：generalizations: agentcontrols, agentcollaborateswithagent | domain: agent | range: agent
+
+条目2：
+- 名称：agentcontrols
+- 类型：Class
+- 简介：{%%s %s %%s, controls}
+- 补充信息：generalizations: relatedto | domain: agent | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[两者在背景中均被声明为 Class，且 background 表示 agenthierarchicallyaboveagent 的 generalizations 指向 agentcontrols 应为子类关系，而 ⊑p 表示子属性关系（subPropertyOf）仅适用于属性，因此该公理语义不合规。]",0,0.0,
+sample_0116,subPropertyOf,inverseofprofessionactsatthesameareaofpoliticissue ⊑p relatedto,"背景知识：
+条目1：
+- 名称：inverseofprofessionactsatthesameareaofpoliticissue
+- 类型：Class
+- 简介：inverseofprofessionactsatthesameareaofpoliticissue is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: profession | range: politicsissue
+
+条目2：
+- 名称：relatedto
+- 类型：Class
+- 简介：{%%s is somehow %s %%s, related to}
+- 补充信息：generalizations: slot | domain: everypromotedthing | range: everypromotedthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[背景中两者均被标注为Class，且条目1的“generalizations: relatedto”表示子类关系，应为subClassOf；而⊑p表示subPropertyOf只适用于属性（Property），因此该公理在语义类型上不一致，属于错误。]",0,0.0,
+sample_0120,subPropertyOf,museumincity ⊑p attractionofcity,"背景知识：
+条目1：
+- 名称：museumincity
+- 类型：Class
+- 简介：{%%s is a museum %s %%s, in the city}
+- 补充信息：generalizations: attractionofcity, buildinglocatedincity | domain: museum | range: city
+
+条目2：
+- 名称：attractionofcity
+- 类型：Class
+- 简介：{%%s is a tourist attraction %s %%s, in the city}
+- 补充信息：generalizations: locationlocatedwithinlocation | domain: attraction | range: city",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景中 museumincity 与 attractionofcity 被标注为 Class 且 museumincity 的 generalizations 包含 attractionofcity，表明它们是类的子类关系而非属性，而 RDFS 的 subPropertyOf（⊑p）只适用于属性，类型不匹配因此公理不合理。",0,0.0,
+sample_0131,domain,domain(superpartof) = everypromotedthing,"背景知识：
+条目1：
+- 名称：superpartof
+- 类型：Class
+- 简介：superpartof is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: everypromotedthing | range: everypromotedthing
+
+条目2：
+- 名称：everypromotedthing
+- 类型：Class
+- 简介：{%%s is %s, something}",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[背景中将superpartof声明为Class，但rdfs:domain是对属性（Property）施加的约束，将domain赋给一个被声明为类的资源与RDFS语义规则不一致，因此不合理。]",0,0.0,
+sample_0142,domain,domain(numberofcasualtiesinroadaccident) = nonneginteger,"背景知识：
+条目1：
+- 名称：numberofcasualtiesinroadaccident
+- 类型：Class
+- 简介：{%%s is the number of people that %s the event %%s, died in}
+- 补充信息：generalizations: relatedto | domain: nonneginteger | range: roadaccidentevent
+
+条目2：
+- 名称：nonneginteger
+- 类型：Class
+- 简介：{%%s is a %s, non-negative integer}
+- 补充信息：generalizations: abstractthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景中numberofcasualtiesinroadaccident被标注为Class，而RDFS的domain只能用于属性（predicate），将domain应用于一个类不合法；且从常识（事件的“伤亡人数”应以事件为主语、整数为客体）看，主类应为roadaccidentevent而非nonneginteger。",0,0.0,
+sample_0168,domain,domain(inverseofbankboughtbank) = bank,"背景知识：
+条目1：
+- 名称：inverseofbankboughtbank
+- 类型：Class
+- 简介：inverseofbankboughtbank is a class in the NELL knowledge base.
+- 补充信息：generalizations: acquiredby | domain: bank | range: bank
+
+条目2：
+- 名称：bank
+- 类型：Class
+- 简介：{%%s is a %s, bank}
+- 补充信息：generalizations: company",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[背景中 inverseofbankboughtbank 被声明为 Class，但 RDFS 中的 domain 只能用于属性（rdf:Property），因此对一个类声明 domain 与 RDFS 语义规则冲突（尽管补充信息列出 domain: bank，但这与其 Class 类型不一致）。]",0,0.0,
+sample_0172,domain,domain(inverseofsoftwareprogrammedinprogramminglanguage) = programminglanguage,"背景知识：
+条目1：
+- 名称：inverseofsoftwareprogrammedinprogramminglanguage
+- 类型：Class
+- 简介：inverseofsoftwareprogrammedinprogramminglanguage is a class in the NELL knowledge base.
+- 补充信息：generalizations: relatedto | domain: programminglanguage | range: software
+
+条目2：
+- 名称：programminglanguage
+- 类型：Class
+- 简介：{%%s is a %s, programming language}
+- 补充信息：generalizations: abstractthing",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[rdfs:domain 应用于属性而非类；背景知识将 inverseofsoftwareprogrammedinprogramminglanguage 标注为 Class，因此在该实体上断言 domain 不符合 RDFS 的语义约束（若该实体实际是属性，则 domain=programminglanguage 与补充信息一致）。]",0,0.0,
+sample_0226,range,range(arteriessuchasarteries) = artery,"背景知识：
+条目1：
+- 名称：arteriessuchasarteries
+- 类型：Class
+- 简介：{%%s %s %%s, is a generalization of}
+- 补充信息：generalizations: generalizationof | domain: artery | range: artery
+
+条目2：
+- 名称：artery
+- 类型：Class
+- 简介：{%%s is an %s, artery}
+- 补充信息：generalizations: bodypart",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景知识将arteriessuchasarteries标为Class，而rdfs:range是用于属性以约束其客体属于某一类（即对属性声明range），因此将range赋予一个被定义为类的实体与RDFS语义规则不符。",0,0.0,
+sample_0230,range,range(latitudelongitudeof) = everypromotedthing,"背景知识：
+条目1：
+- 名称：latitudelongitudeof
+- 类型：Unknown
+- 简介：the latitude and longitude of this location, or the latitude and longitude typically associated with this thing
+- 补充信息：generalizations: relatedto | domain: llcoordinate | range: everypromotedthing
+
+条目2：
+- 名称：everypromotedthing
+- 类型：Unknown
+- 简介：every promoted category instance in KB",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：错误
+解释：背景补充虽然列出 range: everypromotedthing，但根据属性定义“the latitude and longitude…”，以及 RDFS 中 range 的语义（若 latitudelongitudeof(s,o) 则 o 应是 range 的实例），客体理应为 llcoordinate，故将 range 设为 everypromotedthing 与常识语义不符。",0,0.0,
+sample_0237,range,range(comediancanbethesameasmale) = male,"背景知识：
+条目1：
+- 名称：comediancanbethesameasmale
+- 类型：Class
+- 简介：{%%s %s %%s, is related to}
+- 补充信息：generalizations: canbethesameas | domain: comedian | range: male
+
+条目2：
+- 名称：male
+- 类型：Class
+- 简介：{%%s is a %s, male}
+- 补充信息：generalizations: person",1,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：[错误]
+解释：[rdfs:range只能用于属性而非类，而背景知识将comediancanbethesameasmale声明为Class（尽管补充信息提到range: male），因此将range应用于该实体在语义上不正确。]",0,0.0,
+sample_0451,range,range(countryhascitizen) = athlete,"背景知识：
+条目1：
+- 名称：countryhascitizen
+- 类型：Class
+- 简介：countryhascitizen is a class in the NELL knowledge base.
+- 补充信息：generalizations: locationrelatedtoagent | domain: country | range: person
+
+条目2：
+- 名称：athlete
+- 类型：Unknown
+- 简介：An athlete is a person who plays a sport competitively.
+- 补充信息：generalizations: person",0,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：正确
+解释：背景中 countryhascitizen 已知的 range 为 person，而 athlete 是 person 的子类，因此将 range 设为 athlete 是与背景知识与 RDFS 语义一致的更具体约束。",1,0.0,
+sample_0469,range,range(dateatwhichexistslocation) = city,"背景知识：
+条目1：
+- 名称：dateatwhichexistslocation
+- 类型：Class
+- 简介：dateatwhichexistslocation is a class in the NELL knowledge base.
+- 补充信息：generalizations: dateof | domain: date | range: location
+
+条目2：
+- 名称：city
+- 类型：Unknown
+- 简介：City/town/village refers to all named inhabited places at the most locally recognized level, but above the level of neighborhood. It is the most local region where there is a form of government or self-organization. Cities/towns/villages ar...
+- 补充信息：generalizations: geopoliticallocation, geopoliticalorganization, geolocatablething",0,gpt-5-mini,0.0,8192,https://api2.aigcbest.top/v1,"判断结果：正确
+解释：背景知识中 dateatwhichexistslocation 的 range 被标为 location，而 city 是一种地理位置（归属 geopoliticallocation 等），将 range 细化为 city 相当于用 location 的子类作为 range，符合 RDFS 范围语义且不冲突。",1,0.0,

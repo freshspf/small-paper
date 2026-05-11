@@ -1,0 +1,129 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: inverseproblempredictinghs2
+- section_title: Inverse Problem: Predicting hs
+- page_start: 4
+- page_end: 6
+
+INPUT TEXT CHUNK:
+Since albedo is critical
+to the ice-albedo feedback loop and is measured reliably by remote sensing, it serves as
+a robust and practical stand-in for the difficult-to-measure physical depthh sin large-scale
+sea ice models.
+4.2 MODELARCHITECTURE
+The PhysE-Inv framework is a recurrent sequence modeling architecture designed to address the
+ill-posed nature of physical inverse problems under data scarcity. As depicted in Figure1, our
+methodology achieves this by integrating three novel conceptual components: Surjective Inverse
+Mapping, Physics Encoding, and Physics-Guided Contrastive Learning, which together guide the
+model toward physically consistent solutions.
+Sequence Latent Representation (z n):The foundational step is the transformation of the input
+time seriesX= [x 0, x1, . . . , x n−1, xn](wheren= 9, resulting inN= 10total observations) into
+a robust, contextually aware latent statez n. This latent vector serves as a compressed representation
+of the entire input history for all subsequent inverse operations.
+Encoder-Decoder Architecture:We employ a standard LSTM encoder-decoder structure, lever-
+aging the LSTM’s efficiency in modeling the long-range temporal dependencies crucial for climate
+memory effects. The encoder sequentially processes the inputXoverN=n+ 1time steps. For
+each stept∈ {0, . . . , n}, the LSTM updates its internal states:
+henc
+t, cenc
+t=LSTMenc(xt, henc
+t−1, cenc
+t−1)
+wherehenc
+nandcenc
+nsummarize the total historical information.
+5
+
+Published as a conference paper at ICLR 2026
+Figure 1: The Physics-Encoded Inverse (PhysE-Inv) framework outlines the fusion of physical con-
+straints, representation learning, and a surjective inverse mapping approach based on the hydrostatic
+balance proxy.Trepresents the final observation time in the input sequence.
+Multi-Head Self-Attention:A multi-head self-attention mechanism refines the encoder outputs,
+specializing in identifying and weighing non-local temporal dependencies. For each time stept∈
+{0, . . . , n}, the attention-enhanced representationa tis computed as:
+at=Attention(q t, K, V) =nX
+j=0αtjvj
+where the attention weightsα tjare defined by:
+αtj=exp
+qtk⊤
+j√dk
+Pn
+l=0expqtk⊤
+l√dk
+The decoder LSTM processes this refined sequence, yielding the final hidden statez n=hdec
+n, which
+serves as the definitive input to the inverse module.
+Surjective Inverse Mapping and Physics Encoding:The retrieval of sea ice parameters from
+uncertain satellite data is an ill-posed inverse problem. To address inherent non-uniqueness, we
+define a surjective inverse mapping that links the model’s latent state to the final physical parameters,
+ensuring dynamic enforcement of physical constraints.
+We implement this mapping using an MLP-based operator that estimates the hidden sea ice param-
+etersΘ n= [α n,βn,γn]from the compressed history. Specifically, the final decoder latent statez n
+is passed through a fully connected layer to produce raw predictions:
+Θraw=MLP(z n)(6)
+These raw outputs are then transformed to adhere to their respective physical domains:
+αn= 2·σ(α raw)−1∈[−1,1](7)
+βn= exp(β raw)∈(0,∞)(8)
+γn= 10·tanh(γ raw)∈[−10,10](9)
+whereσ(·)denotes the sigmoid function. This procedure recovers dynamically varying parame-
+ters while naturally realizing a surjective mapping from the observation-driven latent space to the
+constrained physical variable space.
+Physics Encoding and Reconstruction Proxy:The estimated parametersΘ tare used to enforce
+hydrostatic balance via a physics encoding layer. The final physics-constrained prediction, ˆhest
+s,t, is
+6.

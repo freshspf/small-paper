@@ -1,0 +1,148 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "casestudyandresults2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: casestudyandresults2
+- section_title: Case Study and Results
+- page_start: 5
+- page_end: 12
+
+**INPUT TEXT CHUNK:**
+Table 8 summarises the monitoring
+for the illustrative assumptions extracted from the control loop.
+The current EU road safety policy as define by the Euro-
+pean Commission focuses mainly on eight Key Performance
+Indicators ( KPIs ) for monitoring and benchmarking: speed,
+safety belt use, protective equipment, alcohol, distraction, vehi-
+cle safety Infrastructure, and post crash care. These KPIs are
+widely recognised and essential, but not sufficient for opera-
+tional safety assurance [ 30]. Analsyisng the control structure,
+we mapped the control actions (CAs) and feedback (FB) to
+the existing categories, as presented in Table 6. Additionally,
+new categories were created for the CAs and FB that did not
+correspond to any of the existing categories, as shown in Table 7.
+6
+
+Table 1: Road Safety Stakeholders Categorised by Safe System Elements
+Safe System Ele-
+mentStakeholders Functional Role
+Safe Roads and
+RoadsidesDepartment for Transport (DfT) National road safety strategy, funding,
+STATS19 ownership
+National Highways Design, construction and operation of the
+Strategic Road Network
+Local Highway Authorities Local road management, speed limits, engi-
+neering and maintenance
+ORR – Office of Rail & Road Safety and performance regulator of National
+Highways
+Research & Standards bodies (RoSPA,
+BSI, TRL, academia)Evidence generation, standards and guidance
+for infrastructure safety
+Research bodies Evaluation of measures and publication of
+safety evidence
+Safe SpeedsHome Office/NPCC Roads-Policing
+LeadNational roads-policing strategy and enforce-
+ment capability
+UK Police Forces – RPUs Speed and traffic-law enforcement, collision
+investigation
+Fleet Operations Centre (FOC) Telematics monitoring, speed compliance, in-
+cident alerts
+Freight & Logistics Companies Operational speed management policies
+Insurance Risk event data, behavioural feedback, incen-
+tive mechanisms
+Safe VehiclesVehicle Certification Agency (VCA) Type approval of vehicles and components
+DVSA MOT regulation, recalls oversight, vehicle
+standards
+Vehicle Manufacturers Vehicle design, production, safety systems,
+recalls
+Vehicle Dealers Recall execution, servicing, safety updates
+MOT Test Stations Statutory roadworthiness inspections
+Maintenance Operations Centre
+(MOC)Preventive maintenance, compliance and re-
+pair coordination
+Safe Road UsersDVLA Driver licensing, medical fitness, driver
+database
+Driving Schools/Training Providers Driver training and competency development
+Road Users Vehicle operation and behavioural compli-
+ance
+UK Police Forces – RPUs Behavioural enforcement and investigation
+Freight & Logistics Companies Driver-hours control, safety policies
+Fleet Operations Centre (FOC) Monitoring driver behaviour and fatigue
+Insurance Behavioural risk profiling and feedback
+Post-Crash
+Response&
+LearningNHS Ambulance Trusts Pre-hospital emergency response
+Major Trauma Centres/NHS Trauma treatment and survival audit
+Air Ambulance Services Rapid medical evacuation
+Fire & Rescue Services Extrication and scene safety
+RSIB – Road Safety Investigation
+BranchIndependent investigation and systemic
+safety recommendations
+Insurance Crash data analysis and loss information
+7
+
+Figure 4: Control Structure of Road Safety Ecosystem
+8
+
+Figure 5: Variable Speed Limit
+Table 2: Assumptions about eCall MSD Delivery
+Assumption_ID From→To (stakeholders) Category Stakeholder assumes that . . .
+[A−1.1] ADS Vehicle/OEM telematics →
+PSAP (999)Availability The eCall function is available and can be invoked when-
+ever a qualifying collision occurs.
+[A−1.2] ADS Vehicle/OEM telematics →
+PSAP (999)Timing The Minimum Set of Data (MSD) is received in time to
+initiate an emergency response.
+[A−1.3] ADS Vehicle/OEM telematics →
+PSAP (999)Accuracy The MSD content is complete and correct and inter-
+pretable by PSAP systems.
+[A−1.4] ADS Vehicle/OEM telematics →
+PSAP (999)Authority eCall call setup and routing occur only through authorised
+999 PSAP channels.
+[A−1.5] ADS Vehicle/OEM telematics →
+PSAP (999)Boundary eCall operation is valid within national 999 service cover-
+age and supported communication technologies.
+9
+
+Table 3: Assumptions about Destination compliance
+Assumption_ID From→To (stakeholders) Category Stakeholder assumes that . .

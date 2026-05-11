@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ligase_crbn",
+  "hasBindingSite",
+  "BindingSiteResidue",
+  "ligase_vhl",
+  "ligase_mdm2",
+  "model_lc_jt_vae",
+  "generates",
+  "LigaseSpecificMolecularGlue",
+  "model_protbert",
+  "pretrainedOn",
+  "dataset_uniref100",
+  "HighDimensionalEmbedding",
+  "refinedBy",
+  "model_bilstm",
+  "models",
+  "SequentialDependency",
+  "hasEncoder",
+  "MolecularGraphEncoder",
+  "ProteinSequenceEncoder",
+  "comprises",
+  "MessagePassingNeuralNetwork",
+  "JunctionTreeMessagePassingNetwork",
+  "JtnnDecoder",
+  "reconstructs",
+  "JunctionTreeScaffold",
+  "MolecularGraph",
+  "ConformationalFlexibility",
+  "crucialFor",
+  "ProteinLigandInteraction",
+  "TreeDecoder",
+  "GraphDecoder",
+  "rebuilds",
+  "trainedUsing",
+  "BetaVaeLossFunction",
+  "consistsOf",
+  "ReconstructionLoss",
+  "KlDivergenceTerm",
+  "regularizes",
+  "LatentSpace",
+  "MachineLearningTraining",
+  "performedUsing",
+  "AdamOptimizer",
+  "ExponentialLrScheduler",
+  "applies",
+  "ExponentialDecay",
+  "TreeStructuredMoleculeLoader",
+  "MiniBatch",
+  "MachineLearningModel",
+  "computes",
+  "TotalLoss",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "UbiquitinProteasomeSystem",
+  "E3Ligase",
+  "Crbn",
+  "Vhl",
+  "Mdm2",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability"
+]
+
+Triples:
+[
+  {
+    "subject": "ligase_crbn",
+    "relation": "hasBindingSite",
+    "object": "BindingSiteResidue",
+    "chunk": "completedocument4",
+    "context": "Second, we integrated sequence embeddings derived from the bindi ng site residues of CRBN, VHL, and MDM2 directly into the molecular latent space, enabling the model to generate ligase -specific molecular glues."
+  },
+  {
+    "subject": "ligase_vhl",
+    "relation": "hasBindingSite",
+    "object": "BindingSiteResidue",
+    "chunk": "completedocument4",
+    "context": "Second, we integrated sequence embeddings derived from the bindi ng site residues of CRBN, VHL, and MDM2 directly into the molecular latent space, enabling the model to generate ligase -specific molecular glues."
+  },
+  {
+    "subject": "ligase_mdm2",
+    "relation": "hasBindingSite",
+    "object": "BindingSiteResidue",
+    "chunk": "completedocument4",
+    "context": "Second, we integrated sequence embeddings derived from the bindi ng site residues of CRBN, VHL, and MDM2 directly into the molecular latent space, enabling the model to generate ligase -specific molecular glues."
+  },
+  {
+    "subject": "model_lc_jt_vae",
+    "relation": "generates",
+    "object": "LigaseSpecificMolecularGlue",
+    "chunk": "completedocument4",
+    "context": "Second, we integrated sequence embeddings derived from the bindi ng site residues of CRBN, VHL, and MDM2 directly into the molecular latent space, enabling the model to generate ligase -specific molecular glues."
+  },
+  {
+    "subject": "model_protbert",
+    "relation": "pretrainedOn",
+    "object": "dataset_uniref100",
+    "chunk": "completedocument4",
+    "context": "For more advanced , context -aware representations, ProtBERT -a transformer model pretrained on UniRef100 -was utilized to generate high -dimensional embeddings [51]."
+  },
+  {
+    "subject": "model_protbert",
+    "relation": "generates",
+    "object": "HighDimensionalEmbedding",
+    "chunk": "completedocument4",
+    "context": "For more advanced , context -aware representations, ProtBERT -a transformer model pretrained on UniRef100 -was utilized to generate high -dimensional embeddings [51]."
+  },
+  {
+    "subject": "HighDimensionalEmbedding",
+    "relation": "refinedBy",
+    "object": "model_bilstm",
+    "chunk": "completedocument4",
+    "context": "These embeddings were further refined using bidirectional long short -term memory (BiLSTM) networks [52] to mode l sequential dependencies, and then projected to fixed -length vectors (e.g., 128D or 512D) for compatibility with the molecular latent space, thus enabling protein -conditioned molecule generation."
+  },
+  {
+    "subject": "model_bilstm",
+    "relation": "models",
+    "object": "SequentialDependency",
+    "chunk": "completedocument4",
+    "context": "These embeddings were further refined using bidirectional long short -term memory (BiLSTM) networks [52] to mode l sequential dependencies, and then projected to fixed -length vectors (e.g., 128D or 512D) for compatibility with the molecular latent space, thus enabling protein -conditioned molecule generation."
+  },
+  {
+    "subject": "model_lc_jt_vae",
+    "relation": "hasEncoder",
+    "object": "MolecularGraphEncoder",
+    "chunk": "completedocument4",
+    "context": "The LC -JT-VAE architecture consists of two parallel encoders: a molecular graph encoder, comprising a message -passing neural network (MPN) and a junction tree message -passing network (JTMPN), and a protein sequence encoder for E3 ligase binding site embedd ings."
+  },
+  {
+    "subject": "model_lc_jt_vae",
+    "relation": "hasEncoder",
+    "object": "ProteinSequenceEncoder",
+    "chunk": "completedocument4",
+    "context": "The LC -JT-VAE architecture consists of two parallel encoders: a molecular graph encoder, comprising a message -passing neural network (MPN) and a junction tree message -passing network (JTMPN), and a protein sequence encoder for E3 ligase binding site embedd ings."
+  },
+  {
+    "subject": "MolecularGraphEncoder",
+    "relation": "comprises",
+    "object": "MessagePassingNeuralNetwork",
+    "chunk": "completedocument4",
+    "context": "The LC -JT-VAE architecture consists of two parallel encoders: a molecular graph encoder, comprising a message -passing neural network (MPN) and a junction tree message -passing network (JTMPN), and a protein sequence encoder for E3 ligase binding site embedd ings."
+  },
+  {
+    "subject": "MolecularGraphEncoder",
+    "relation": "comprises",
+    "object": "JunctionTreeMessagePassingNetwork",
+    "chunk": "completedocument4",
+    "context": "The LC -JT-VAE architecture consists of two parallel encoders: a molecular graph encoder, comprising a message -passing neural network (MPN) and a junction tree message -passing network (JTMPN), and a protein sequence encoder for E3 ligase binding site embedd ings."
+  },
+  {
+    "subject": "JtnnDecoder",
+    "relation": "reconstructs",
+    "object": "JunctionTreeScaffold",
+    "chunk": "completedocument4",
+    "context": "The fused latent vector was passed to a  conditional Junction Tree Neural Network (JTNN) decoder, which reconstructed the junction tree scaffold and molecular graph conditioned on the ligase binding context ( Figure 2 )."
+  },
+  {
+    "subject": "JtnnDecoder",
+    "relation": "reconstructs",
+    "object": "MolecularGraph",
+    "chunk": "completedocument4",
+    "context": "The fused latent vector was passed to a  conditional Junction Tree Neural Network (JTNN) decoder, which reconstructed the junction tree scaffold and molecular graph conditioned on the ligase binding context ( Figure 2 )."
+  },
+  {
+    "subject": "ConformationalFlexibility",
+    "relation": "crucialFor",
+    "object": "ProteinLigandInteraction",
+    "chunk": "completedocument4",
+    "context": "Bond features were enhanced by incorporating torsional angles computed via RDKit, improving the model's ability to capture conformational flexibility crucial for protein -ligand interactions."
+  },
+  {
+    "subject": "TreeDecoder",
+    "relation": "reconstructs",
+    "object": "JunctionTreeScaffold",
+    "chunk": "completedocument4",
+    "context": "Tree Decoder : Reconstructs the junction tree scaffold."
+  },
+  {
+    "subject": "GraphDecoder",
+    "relation": "rebuilds",
+    "object": "MolecularGraph",
+    "chunk": "completedocument4",
+    "context": "Graph Decoder : Rebuilds the full molecular graph conditioned on the fused latent vector."
+  },
+  {
+    "subject": "model_lc_jt_vae",
+    "relation": "trainedUsing",
+    "object": "BetaVaeLossFunction",
+    "chunk": "completedocument4",
+    "context": "The Ligase -Conditioned Junction Tree Variational Autoencoder (LC -JT-VAE) was trained using a β-VAE loss function, consisting of a reconstruction loss and a Kullback -Leibler (KL) divergence term to regularize the latent space [53,54]."
+  },
+  {
+    "subject": "BetaVaeLossFunction",
+    "relation": "consistsOf",
+    "object": "ReconstructionLoss",
+    "chunk": "completedocument4",
+    "context": "The Ligase -Conditioned Junction Tree Variational Autoencoder (LC -JT-VAE) was trained using a β-VAE loss function, consisting of a reconstruction loss and a Kullback -Leibler (KL) divergence term to regularize the latent space [53,54]."
+  },
+  {
+    "subject": "BetaVaeLossFunction",
+    "relation": "consistsOf",
+    "object": "KlDivergenceTerm",
+    "chunk": "completedocument4",
+    "context": "The Ligase -Conditioned Junction Tree Variational Autoencoder (LC -JT-VAE) was trained using a β-VAE loss function, consisting of a reconstruction loss and a Kullback -Leibler (KL) divergence term to regularize the latent space [53,54]."
+  },
+  {
+    "subject": "KlDivergenceTerm",
+    "relation": "regularizes",
+    "object": "LatentSpace",
+    "chunk": "completedocument4",
+    "context": "The Ligase -Conditioned Junction Tree Variational Autoencoder (LC -JT-VAE) was trained using a β-VAE loss function, consisting of a reconstruction loss and a Kullback -Leibler (KL) divergence term to regularize the latent space [53,54]."
+  },
+  {
+    "subject": "MachineLearningTraining",
+    "relation": "performedUsing",
+    "object": "AdamOptimizer",
+    "chunk": "completedocument5",
+    "context": "Training was performed over 2000 epochs using the Adam optimizer (learning rate = 1×10⁻³¹), with exponential decay (factor = 0.9 per ste p) applied through an Exponential LR scheduler."
+  },
+  {
+    "subject": "ExponentialLrScheduler",
+    "relation": "applies",
+    "object": "ExponentialDecay",
+    "chunk": "completedocument5",
+    "context": "Training was performed over 2000 epochs using the Adam optimizer (learning rate = 1×10⁻³¹), with exponential decay (factor = 0.9 per ste p) applied through an Exponential LR scheduler."
+  },
+  {
+    "subject": "TreeStructuredMoleculeLoader",
+    "relation": "generates",
+    "object": "MiniBatch",
+    "chunk": "completedocument5",
+    "context": "Mini -batches were generat ed using a custom tree-structured molecule loader."
+  },
+  {
+    "subject": "MachineLearningModel",
+    "relation": "computes",
+    "object": "TotalLoss",
+    "chunk": "completedocument5",
+    "context": "For each batch, the model computed the total loss, KL divergence, and three reconstruction metrics: word accuracy (wacc), topology accuracy (tacc), and stereochemistry accuracy (sacc), which were monitored across epochs for convergence evaluation."
+  }
+]

@@ -1,0 +1,67 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "conclusions3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: conclusions3
+- section_title: Conclusions
+- page_start: 11
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+However, because agents make independent phase-selection decisions, coordination across intersections
+becomes more challenging compared to theSwitchNextOrNotdesign, leading to congestion at the network boundaries and
+less pronounced improvement in average travel time.
+TheSetPhaseDurationaction enables agents to determine the exact duration for each phase. This design reduces the
+frequency of decisions and enables agents to perform more detailed control. However, asynchronous phase adjustments
+across intersections still hinder network-level coordination, ultimately leading to degraded overall performance. Future work
+could explore incorporating temporal models such as recurrent neural networks (RNNs) or multi-agent learning schemes like
+centralized training with decentralized execution (CTDE) to improve coordination and temporal stability across agents.
+TABLE XXI: Performance comparison among three action designs at
+Dayuan Interchange.
+TSC Method Delay Travel time Waiting time
+FixedTime 559.712 634.960 802.311
+PPO (w/SwitchNextOrNotaction) 208.962 281.028 494.420
+PPO (w/ChooseNextPhaseaction) 157.016 227.907 543.741
+PPO (w/SetPhaseDurationaction) 842.715 910.755 1,234.939
+Note.All performance metrics are lower-the-better and represent average per-vehicle
+values. Evaluation was conducted with five different random seeds..

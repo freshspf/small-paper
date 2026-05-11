@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "entity_icl",
+  "coDistributedWith",
+  "entity_dm21",
+  "publication_goulard1992",
+  "publishedIn",
+  "journal_mathematicalGeology",
+  "Cluster",
+  "includes",
+  "DMHalo",
+  "CentralGalaxy",
+  "Satellite",
+  "produces",
+  "StrippedMaterial",
+  "contains",
+  "StellarComponent",
+  "DMComponent",
+  "ClusterHalo",
+  "hasProperty",
+  "DensityProfile",
+  "Simulation",
+  "remainsStableOutside",
+  "CentralKpc",
+  "Deviation",
+  "confinedWithin",
+  "StellarEffectiveRadius",
+  "belongsTo",
+  "InnermostRegion",
+  "LowestEnergyMaterial",
+  "remainsAt",
+  "LargeRadius",
+  "MassFraction",
+  "depositedInto",
+  "Material",
+  "locatedIn",
+  "LowMassSystem",
+  "DmCumulativeRadialMassProfile",
+  "describesSpatialDistributionOf",
+  "StellarCumulativeRadialMassProfile",
+  "measuredOutTo",
+  "R200",
+  "mergesWith",
+  "StrippedStellarMaterial",
+  "mergesInto",
+  "CentralObject",
+  "StellarMaterial",
+  "strippedFrom",
+  "DarkMatterMaterial",
+  "StellarMass",
+  "reaches",
+  "IntraclusterLight",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris",
+  "country_france",
+  "university_universityOfWesternAustralia",
+  "street_stirlingHighway",
+  "city_crawley",
+  "region_westernAustralia",
+  "country_australia",
+  "DarkMatterHalo",
+  "MatterContent"
+]
+
+Triples:
+[
+  {
+    "subject": "entity_icl",
+    "relation": "coDistributedWith",
+    "object": "entity_dm21",
+    "chunk": "completedocument24",
+    "context": "The phase-space distribution of ICL and DM21"
+  },
+  {
+    "subject": "publication_goulard1992",
+    "relation": "publishedIn",
+    "object": "journal_mathematicalGeology",
+    "chunk": "completedocument24",
+    "context": "Goulard M., Voltz M., 1992, Mathematical Geology, 24, 269"
+  },
+  {
+    "subject": "Cluster",
+    "relation": "includes",
+    "object": "DMHalo",
+    "chunk": "completedocument25",
+    "context": "Similarly,thecluster—includingboththeDMhaloandthecentral galaxy—must be modelled at the same numerical resolution as the satellites to prevent spurious numerical effects."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "includes",
+    "object": "CentralGalaxy",
+    "chunk": "completedocument25",
+    "context": "Similarly,thecluster—includingboththeDMhaloandthecentral galaxy—must be modelled at the same numerical resolution as the satellites to prevent spurious numerical effects."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "produces",
+    "object": "StrippedMaterial",
+    "chunk": "completedocument25",
+    "context": "Resolution is a critical factor in accurately modelling the dynamical evolutionofsatellitesandthefateoftheirstrippedmaterial(e.g.van den Bosch & Ogiya 2018; Martin et al. 2024)."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "contains",
+    "object": "StellarComponent",
+    "chunk": "completedocument25",
+    "context": "Figure A1 shows the cumulativeradialmassprofilesofthestellarandDMcomponents of the cluster."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "contains",
+    "object": "DMComponent",
+    "chunk": "completedocument25",
+    "context": "Figure A1 shows the cumulativeradialmassprofilesofthestellarandDMcomponents of the cluster."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "hasProperty",
+    "object": "DensityProfile",
+    "chunk": "completedocument25",
+    "context": "Given that the most radial satellite orbits reach pericentres of ∼4kpc, we additionally verify via isolated simulations that the density profiles of the cluster halo and central galaxy remain stable atallradiibeyondthisscaleatallresolutionlevels."
+  },
+  {
+    "subject": "CentralGalaxy",
+    "relation": "hasProperty",
+    "object": "DensityProfile",
+    "chunk": "completedocument25",
+    "context": "Given that the most radial satellite orbits reach pericentres of ∼4kpc, we additionally verify via isolated simulations that the density profiles of the cluster halo and central galaxy remain stable atallradiibeyondthisscaleatallresolutionlevels."
+  },
+  {
+    "subject": "Simulation",
+    "relation": "remainsStableOutside",
+    "object": "CentralKpc",
+    "chunk": "completedocument26",
+    "context": "Even at this resolution, the simulation remains stable outside the central kpc where we find no significant deviation from the initial profile."
+  },
+  {
+    "subject": "Deviation",
+    "relation": "confinedWithin",
+    "object": "StellarEffectiveRadius",
+    "chunk": "completedocument26",
+    "context": "No significant deviations from the initial conditions are found, with any deviations confined to well within the stellar effective radius of the satellite."
+  },
+  {
+    "subject": "StellarEffectiveRadius",
+    "relation": "belongsTo",
+    "object": "Satellite",
+    "chunk": "completedocument26",
+    "context": "No significant deviations from the initial conditions are found, with any deviations confined to well within the stellar effective radius of the satellite."
+  },
+  {
+    "subject": "InnermostRegion",
+    "relation": "contains",
+    "object": "LowestEnergyMaterial",
+    "chunk": "completedocument26",
+    "context": "The difference between the all particles and when only particles at r > 100 kpc are included is smaller, since excluding the innermost region removes the lowest-energy material."
+  },
+  {
+    "subject": "StrippedMaterial",
+    "relation": "remainsAt",
+    "object": "LargeRadius",
+    "chunk": "completedocument26",
+    "context": "At more unequal mass ratios the two selections agree much more closely, due to the fact that most stripped material remains at large radii in these cases."
+  },
+  {
+    "subject": "MassFraction",
+    "relation": "depositedInto",
+    "object": "ClusterHalo",
+    "chunk": "completedocument26",
+    "context": "To quantify the contribution of each satellite to the phase-space properties of ICL and the cluster’s DM halo, it is also necessary to measure the fraction of mass that is actually deposited into cluster the halo."
+  },
+  {
+    "subject": "Material",
+    "relation": "locatedIn",
+    "object": "LowMassSystem",
+    "chunk": "completedocument26",
+    "context": "Stripping efficiency increases as satellites lose orbital energy, but the material in low-mass systems is also more weakly bound resulting in an increase in stripping efficiency."
+  },
+  {
+    "subject": "DmCumulativeRadialMassProfile",
+    "relation": "describesSpatialDistributionOf",
+    "object": "ClusterHalo",
+    "chunk": "completedocument26",
+    "context": "Figure A1. The DM and stellar cumulative radial mass profiles of the cluster halo and central galaxy measured out to R200."
+  },
+  {
+    "subject": "StellarCumulativeRadialMassProfile",
+    "relation": "describesSpatialDistributionOf",
+    "object": "CentralGalaxy",
+    "chunk": "completedocument26",
+    "context": "Figure A1. The DM and stellar cumulative radial mass profiles of the cluster halo and central galaxy measured out to R200."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "measuredOutTo",
+    "object": "R200",
+    "chunk": "completedocument26",
+    "context": "Figure A1. The DM and stellar cumulative radial mass profiles of the cluster halo and central galaxy measured out to R200."
+  },
+  {
+    "subject": "CentralGalaxy",
+    "relation": "measuredOutTo",
+    "object": "R200",
+    "chunk": "completedocument26",
+    "context": "Figure A1. The DM and stellar cumulative radial mass profiles of the cluster halo and central galaxy measured out to R200."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "mergesWith",
+    "object": "CentralGalaxy",
+    "chunk": "completedocument27",
+    "context": "Additionally, for the most equal-mass mergers, the satellite merges rapidly with the central galaxy, so a substantial proportion of the stripped stellar material merges into the central object rather than the ICL component."
+  },
+  {
+    "subject": "StrippedStellarMaterial",
+    "relation": "mergesInto",
+    "object": "CentralObject",
+    "chunk": "completedocument27",
+    "context": "Additionally, for the most equal-mass mergers, the satellite merges rapidly with the central galaxy, so a substantial proportion of the stripped stellar material merges into the central object rather than the ICL component."
+  },
+  {
+    "subject": "StellarMaterial",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument27",
+    "context": "For major mergers, essentially all stellar and DM material is stripped from the satellite."
+  },
+  {
+    "subject": "DarkMatterMaterial",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument27",
+    "context": "For major mergers, essentially all stellar and DM material is stripped from the satellite."
+  },
+  {
+    "subject": "StellarMass",
+    "relation": "reaches",
+    "object": "IntraclusterLight",
+    "chunk": "completedocument27",
+    "context": "However, only a small fraction of the stellar mass reaches the ICL, whereas the majority of the DM (around 90 per cent) is deposited beyond 100 kpc."
+  }
+]

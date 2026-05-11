@@ -1,0 +1,129 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+However, the technology remains
+at an early stage of maturity, with limited large-scale deploy-
+ments and cost structures that are still difficult to estimate.
+In addition, multiple platforms may be required to provide
+coverage in very sparse or geographically dispersed regions.
+In this work, we conduct a comparative evaluation of HAPS
+and LEO satellite systems for IoT connectivity in remote re-
+gions. We also analyze their performance when integrated with
+existing terrestrial infrastructure. Furthermore, both solutions
+are compared to terrestrial networks in sparse and moderately
+deployed gateway scenarios. The main contributions of this
+work are as follows.
+•A simulation framework for comparing HAPS, LEO
+satellites, and terrestrial networks in remote areas, each
+with its own spatial deployment and channel model.
+•An analysis of the success probability for IoT devices
+communicating directly with HAPS and LEO satellites.
+•An evaluation of hybrid scenarios in which a sparse
+terrestrial network is complemented by either a HAPSarXiv:2601.18361v1  [cs.NI]  26 Jan 2026
+
+2
+or a LEO satellite.
+•A cost assessment comparing the deployment of HAPS
+and the utilization of commercial LEO constellation
+services.
+The remainder of this paper is organized as follows. In
+Section II, we present the state of the art literature on HAPS
+and LEO satellite as solutions for remote IoT connectivity. In
+Section III, we present all the aspects and considerations of the
+system model used in this work, while in Section IV, we ana-
+lyze and discuss the simulations and numerical results. Finally,
+we aggregate our thoughts and conclusions in Section V.
+II. LITERATURE ONHAPSANDLEOSATELLITES FOR
+IOT
+HAPS are quasi-stationary aerial communication platforms
+that operate in the stratosphere, typically between 8 and 50
+km in altitude. They provide wide-area wireless coverage
+by hosting cellular BS as transmitters or relays, the first
+of which is particularly interesting for direct-to-device com-
+munication. Moreover, HAPS platforms are either aerostatic
+(e.g., balloons) or aerodynamic (e.g., solar-powered fixed-wing
+aircraft). Real-world trials and commercial initiatives include
+SoftBank (previously by HAPSMobile) [10], Aalto (previously
+by Airbus) [11] and World Mobile (previously by Stratospheric
+Platforms Limited) [12], both of which have demonstrated
+long-endurance flights and high-bandwidth communications.
+For example, SoftBanks Sunglider achieved a multi-week
+stratospheric flight while supporting LTE connectivity. World
+Mobile has demonstrated direct-to-device 5G capability using a
+hydrogen-powered platform. Aalto for example holds a record
+of 67 days flight with its Zephyr platform. These platforms
+are designed for long missions (weeks to months) and integrate
+with terrestrial and satellite networks as part of a multi-layered
+NTN architecture. In terms of deployment, HAPS have been
+studied and proposed for coverage restoration during disasters
+(e.g., Germany floods, Japan earthquake), rural broadband
+in regions like Hokkaido (Japan), and offshore applications
+including cruise ship coverage and remote oil platforms [13].
+The literature on HAPS systems has grown significantly,
+particularly in the context of 6G and NTN integration. The
+authors in [14] provide a comprehensive overview of HAPS as
+a key enabler of vertical heterogeneous networks, emphasizing
+its ability to provide high-capacity, low-latency coverage over
+large areas. The paper outlines how HAPS can serve in
+access and backhaul roles, interacting with both terrestrial and
+satellite layers, and identifies use cases such as emergency
+response, rural broadband, and intelligent transportation. The
+work in [15] focuses on the architectural roles of HAPS in
+the NTN nexus, presenting quantitative analyzes of routing
+latency, coverage probability, and energy efficiency in HAPS-
+assisted ad hoc and cell-free architectures. Their results show
+significant performance improvements when HAPS are used as
+relays or as coordination centers in UA V networks. The HAPS
+Alliance has released a detailed white paper comparing HAPS,
+LEO, and GEO satellite capabilities in terms of link capacity,
+latency, beam coverage, and integration models. It highlights
+that HAPS can offer 550 Gbps throughput at low latency (<10ms) and serve over 100 active beams, enabling efficient support
+for large-scale IoT and mobile broadband deployments [13].
+Kurt et al.

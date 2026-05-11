@@ -1,0 +1,85 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiments",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiments
+- section_title: Experiments
+- page_start: 3
+- page_end: 3
+
+**INPUT TEXT CHUNK:**
+3.1 Dataset and Training Setup
+We use a paired dataset of 89 patients who underwent AP pelvic X-ray and multiple hip MRI for FAI evaluation,
+collected at Oxford University as part of the FAIT trial [ 13]. This pathological cohort includes subjects with clinical
+and imaging evidence of FAI but without significant osteoarthritis or hip dysplasia. Data were acquired using the same
+protocol, across multiple UK sites, with some patients contributing multiple time points. Since acquiring such a rich
+dataset, with multiple imaging modalities, longitudinally for the same patient is logistically and clinically challenging,
+the resulting paired dataset remains relatively small.
+For MRI, we only used T1-weighted coronal acquisitions consisting of 20 slices with 3.3 mm spacing. All images are
+resized/padded to 512×512 and min–max normalised to [0,1] . All annotations are standardised to the middle slice (index
+10), identified through pilot analysis of 20 subjects as the mid-acetabular coronal plane where all four landmarks (FHC,
+NA, LAE, LCP) are concurrently visible with maximal clarity. Future work will investigate automatic slice selection to
+eliminate manual standardisation. Example paired X-ray and MRI images with annotated landmarks are shown in Fig. 2.
+During training, stochastic augmentations include affine transforms (scale 0.95–1.05, translation ±5% , rotation ±10◦,
+shear±5◦) and intensity jitter (brightness/contrast ±15–20%, gamma 0.85–1.15). The training:validation:test datasplit
+is65:10:25 balanced across α-angle distributions given by Kolmogorov–Smirnov testing. This yields 105:17:40 images
+(57:8:24 patients).
+We train a UNet++ with a ResNet18 encoder (ImageNet-initialised) independently on the MRI and X-ray datasets.
+Optimisation uses AdamW (learning rate 1×10−4, weight decay 1×10−5). Training uses the NLL loss with an
+ExponentialLR scheduler (γ= 0.95), a batch size of 4, and early stopping.
+3.2 Evaluation Metrics
+We evaluate performance across three hierarchical levels, and all metrics are computed independently for X-ray and
+MRI test sets. Experiment values are reported as mean ± standard deviation across three independent training runs with
+different random seeds.
+Landmark localisation.We report (1)Mean Radial Error(MRE): the average Euclidean distance between predicted
+and ground-truth landmarks (mm); (2)per-landmark MREfor each keypoint [ 14]; and (3)Success Detection Rateat
+radiusr(SDR@r): the percentage of landmarks localised withinrmm.
+Clinical angle assessment.We measure (1) Mean Absolute Error (MAE) between predicted and ground-truth angles;
+(2) the Intraclass Correlation Coefficient (ICC(2,1)), a two-way random effects model quantifying absolute agreement
+by partitioning variance into between-subject variability, between-rater systematic bias, and residual error through
+ANOV A decomposition of the paired measurements (model vs. clinician). ICC ranges from 0 (no agreement) to 1
+(perfect agreement), with values <0.40 indicating poor, 0.40-0.59 fair,0.60-0.74 good, and >0.75 excellent clinical
+reliability [ 15]. (3) the median absolute difference as a robust summary; and (4) Bland–Altman analysis [ 16] to
+decompose disagreement into systematic bias, proportional bias, and random error. For each subject, we compute
+the difference and mean between predicted and ground-truth angles, reporting: (i) mean bias (systematic over- or
+3

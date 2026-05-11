@@ -1,0 +1,171 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument7
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+The
+CDF is then formally defined as:
+fc(p,q) = min
+q′∈Z(p)∥q′−q∥.(3)
+For a given pointp, CDF measures the minimum radial
+distance from the current configuration to any configuration
+that results in contact withp.
+Remark 1.CDF effectively bridges task space and configura-
+tion space while preserving several advantageous properties:
+it maintains the implicit structure and Boolean operations of
+SDF , and more significantly, it preserves the uniform gradient
+property with Euclidean distance in configuration space. These
+characteristics collectively make CDF an ideal candidate
+for integration with gradient-based numerical optimization
+algorithms, enabling simultaneous safety guarantees and task
+achievement. Moreover, the efficient data collection and net-
+work training proposed in [43] provides a practical pipeline
+
+6
+for neural network-encoded CDF function that enables fast
+batch-parallel computation of both distance values and gra-
+dients during online operation.
+B. Configuration Space Distance Field for Mobile Manipula-
+tor
+1) Generalized CDF:Originally, when training the CDF
+function, only rotational joints are considered since the pla-
+nar translation motion (i.e.,qt) would make the workspace
+unbounded, and there are inherently different scales between
+translational and rotational movements.
+Theoretically, the shift caused by base translation can be
+mitigated by transforming obstacle points to the mobile base
+frame, and the gradients with respect to translational degrees
+of freedom can be obtained through the chain rule by utilizing
+the gradients of obstacle point positions. However, in prac-
+tical training scenarios, fixing the mobile base significantly
+constrains the actual workspace and confines the reachable
+space. This leads to insufficient and non-general zero-level-
+set data, resulting in obstacle gradients that lack physical
+intuition. Therefore, in our training process, we redefine the
+CDF to incorporate translational degrees of freedom while
+introducing appropriate scaling factors to balance translational
+distances and rotational angles. Similar to (3), we introduce
+the definition of the generalized CDF with translational Dofs:
+Definition 1(Generalized CDF).For a robot configu-
+rationq∈Rncomprising a translational component
+qtand a rotational componentqr, and an environmen-
+tal pointp∈R3, the generalized configuration space
+distance field (GCDF)fg
+c(p,q) :Rn×R3→Ris:
+fg
+c(p,q) =±min
+q′∈Z(p)∥q′−q∥ M,(4)
+whereZ(p)denotes the zero level set manifold of
+configurations satisfying the contact condition at point
+p, andM∈Sn
++is a positive semidefinite diago-
+nal weighting matrix that induces the weighted norm
+∥·∥M. The positive and negative signs indicate whether
+plies outside or inside the robot surfaceΩ(q).
+Remark 2.The introduction of the weighting matrixM
+in this generalized formulation serves two crucial purposes.
+First, it controls the relative influence of translational and
+rotational distances on the CDF value. Second, it shapes
+the characteristics of the nearest configuration by influencing
+the gradient direction and consequently the robot’s motion
+tendency in proximity to objects.
+A key theoretical foundation of the original CDF is its
+satisfaction of theeikonal equationin configuration space,
+which ensures unit gradient norms and enables single-step
+projections to the zero level set. This property theoretically
+guarantees closed-form whole-body inverse kinematic solu-
+tions without numerical iterations. To maintain this valuable
+property during training, gradient norm and projection error
+regularization terms are incorporated into the loss function.
+However, when extending CDF to the full configuration spacewith weighted norms, a critical issue emerges: following the
+gradient direction no longer guarantees reaching the zero level
+set surface, and the optimal step size becomes undetermined.
+This challenges both the theoretical properties and their cor-
+responding training objectives. Following the spirit of the
+original CDF framework, we extend its theoretical properties
+to the weighted configuration space through the following
+theorem:
+Theorem 1(Properties of GCDF).For any configura-
+tionqand environmental pointspwherefg
+c(p,q)is
+differentiable with respect toq, the following properties
+hold:
+1) (Weighted Eikonal Equation). The partial deriva-
+tive offg
+cwith respect toqsatisfies the weighted
+eikonal equation:
+∥∇qfg
+c(p,q)∥ M−1= 1
+2) (Single-Step Projection). For any initial configu-
+rationq 0, its closest configurationq z∈ Z(p)can
+be reached through a single-step projection:
+qz=q 0−λd,
+whereλ=fg
+c(p,q 0)denotes the step length
+andd=M−1∇qfg
+c(p,q 0)defines the projection
+direction.
+Proof.See Appendix A.
+While Theorem 1 provides theoretical guidance for training
+effective GCDF and enables finding the nearest configurations
+on the zero-level set through biased gradient projection, prac-
+tical considerations necessitate the signed formulation in Defi-
+nition 1.

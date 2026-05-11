@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "OptimalPolicy",
+  "estimatedBasedOn",
+  "ScalarizedActionLogit",
+  "derivedFrom",
+  "PpoPolicyNetwork",
+  "Policy",
+  "updatedUsing",
+  "CornerWeight",
+  "maximizes",
+  "ScalarizedReturn",
+  "PpoBasedFramework",
+  "optimizes",
+  "algorithm_2",
+  "extends",
+  "ProximalPolicyOptimization",
+  "incorporates",
+  "WeightConditionedActorNetwork",
+  "modifies",
+  "PolicyEstimation",
+  "ValueFunctionEstimation",
+  "ObservationFeature",
+  "encodedUsing",
+  "MultiLayerPerceptron",
+  "PreferenceVector",
+  "ConditioningMechanism",
+  "modulates",
+  "StateRepresentation",
+  "activates",
+  "FeatureSubspace",
+  "MultiObjectiveActor",
+  "outputs",
+  "ActionLogit",
+  "employs",
+  "ActionMaskingMechanism",
+  "prevents",
+  "InvalidDecision",
+  "limitsExplorationTo",
+  "FeasibleAction",
+  "stabilizes",
+  "Training",
+  "improves",
+  "SampleEfficiency",
+  "EgoVehicle",
+  "performs",
+  "LaneChange",
+  "RuleBasedSafetyFilter",
+  "basedOn",
+  "TimeGapConstraint",
+  "BrakingFeasibilityConstraint",
+  "LaneChangeAction",
+  "originatesFrom",
+  "CurrentLane",
+  "targets",
+  "TargetLane",
+  "requires",
+  "LongitudinalGap",
+  "AutonomousDriving",
+  "RealTimeDecisionMaking",
+  "HeavyDutyTruck",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "hasCharacteristic",
+  "TraditionalApproach",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "reliesOn",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "VehicleBehavior",
+  "governs",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "appliedTo",
+  "ReinforcementLearning"
+]
+
+Triples:
+[
+  {
+    "subject": "OptimalPolicy",
+    "relation": "estimatedBasedOn",
+    "object": "ScalarizedActionLogit",
+    "chunk": "methodology1",
+    "context": "Therefore, instead of estimating optimal policy based on scalarized action-values, we estimate it based on scalarized action logits derived from the PPO policy networks as given below:"
+  },
+  {
+    "subject": "ScalarizedActionLogit",
+    "relation": "derivedFrom",
+    "object": "PpoPolicyNetwork",
+    "chunk": "methodology1",
+    "context": "Therefore, instead of estimating optimal policy based on scalarized action-values, we estimate it based on scalarized action logits derived from the PPO policy networks as given below:"
+  },
+  {
+    "subject": "Policy",
+    "relation": "updatedUsing",
+    "object": "CornerWeight",
+    "chunk": "methodology1",
+    "context": "Then, the policy is updated using thiswto maximize the scalarized return."
+  },
+  {
+    "subject": "Policy",
+    "relation": "maximizes",
+    "object": "ScalarizedReturn",
+    "chunk": "methodology1",
+    "context": "Then, the policy is updated using thiswto maximize the scalarized return."
+  },
+  {
+    "subject": "PpoBasedFramework",
+    "relation": "optimizes",
+    "object": "Policy",
+    "chunk": "methodology1",
+    "context": "We choose PPO-based framework to optimize the policy πwat every iteration as described in the following section."
+  },
+  {
+    "subject": "algorithm_2",
+    "relation": "extends",
+    "object": "ProximalPolicyOptimization",
+    "chunk": "methodology1",
+    "context": "In Algorithm 2, we extend the PPO [Schulmanet al., 2017 ] to handle multi-objective learning by incorporating weight-conditioned actor and critic networks."
+  },
+  {
+    "subject": "algorithm_2",
+    "relation": "incorporates",
+    "object": "WeightConditionedActorNetwork",
+    "chunk": "methodology1",
+    "context": "In Algorithm 2, we extend the PPO [Schulmanet al., 2017 ] to handle multi-objective learning by incorporating weight-conditioned actor and critic networks."
+  },
+  {
+    "subject": "algorithm_2",
+    "relation": "modifies",
+    "object": "PolicyEstimation",
+    "chunk": "methodology1",
+    "context": "Our algorithm follows the standard clipped PPO update, but modifies the policy and value function estimation to support multi-dimensional rewards and scalarization using weight vectors."
+  },
+  {
+    "subject": "algorithm_2",
+    "relation": "modifies",
+    "object": "ValueFunctionEstimation",
+    "chunk": "methodology1",
+    "context": "Our algorithm follows the standard clipped PPO update, but modifies the policy and value function estimation to support multi-dimensional rewards and scalarization using weight vectors."
+  },
+  {
+    "subject": "ObservationFeature",
+    "relation": "encodedUsing",
+    "object": "MultiLayerPerceptron",
+    "chunk": "methodology1",
+    "context": "The observation features and the user-specified preference vector w∈Rd are independently encoded using multi-layer perceptrons (MLPs), and their resulting feature representations are combined element-wise."
+  },
+  {
+    "subject": "PreferenceVector",
+    "relation": "encodedUsing",
+    "object": "MultiLayerPerceptron",
+    "chunk": "methodology1",
+    "context": "The observation features and the user-specified preference vector w∈Rd are independently encoded using multi-layer perceptrons (MLPs), and their resulting feature representations are combined element-wise."
+  },
+  {
+    "subject": "ConditioningMechanism",
+    "relation": "modulates",
+    "object": "StateRepresentation",
+    "chunk": "methodology1",
+    "context": "This conditioning mechanism modulates the state representation according to the preference vector, activating different feature subspaces and allowing the policy network to adapt its behavior to the specified trade-off weights."
+  },
+  {
+    "subject": "ConditioningMechanism",
+    "relation": "activates",
+    "object": "FeatureSubspace",
+    "chunk": "methodology1",
+    "context": "This conditioning mechanism modulates the state representation according to the preference vector, activating different feature subspaces and allowing the policy network to adapt its behavior to the specified trade-off weights."
+  },
+  {
+    "subject": "MultiObjectiveActor",
+    "relation": "outputs",
+    "object": "ActionLogit",
+    "chunk": "methodology1",
+    "context": "The actor outputs a set of action logitsZ(a|s)∈R|A|×d, one per reward dimension."
+  },
+  {
+    "subject": "Policy",
+    "relation": "employs",
+    "object": "ActionMaskingMechanism",
+    "chunk": "methodology1",
+    "context": "The policy employs an action-masking mechanism conditioned on the current state to prevent invalid decisions and limit exploration to feasible actions."
+  },
+  {
+    "subject": "ActionMaskingMechanism",
+    "relation": "prevents",
+    "object": "InvalidDecision",
+    "chunk": "methodology1",
+    "context": "The policy employs an action-masking mechanism conditioned on the current state to prevent invalid decisions and limit exploration to feasible actions."
+  },
+  {
+    "subject": "ActionMaskingMechanism",
+    "relation": "limitsExplorationTo",
+    "object": "FeasibleAction",
+    "chunk": "methodology1",
+    "context": "The policy employs an action-masking mechanism conditioned on the current state to prevent invalid decisions and limit exploration to feasible actions."
+  },
+  {
+    "subject": "ActionMaskingMechanism",
+    "relation": "stabilizes",
+    "object": "Training",
+    "chunk": "methodology1",
+    "context": "This approach helps stabilize training and improves sample efficiency."
+  },
+  {
+    "subject": "ActionMaskingMechanism",
+    "relation": "improves",
+    "object": "SampleEfficiency",
+    "chunk": "methodology1",
+    "context": "This approach helps stabilize training and improves sample efficiency."
+  },
+  {
+    "subject": "EgoVehicle",
+    "relation": "performs",
+    "object": "LaneChange",
+    "chunk": "methodology2",
+    "context": "To ensure that the ego vehicle performs lane changes only when it is safe to do so, we propose a rule-based safety filter based on time-gap and braking-feasibility constraints."
+  },
+  {
+    "subject": "RuleBasedSafetyFilter",
+    "relation": "basedOn",
+    "object": "TimeGapConstraint",
+    "chunk": "methodology2",
+    "context": "To ensure that the ego vehicle performs lane changes only when it is safe to do so, we propose a rule-based safety filter based on time-gap and braking-feasibility constraints."
+  },
+  {
+    "subject": "RuleBasedSafetyFilter",
+    "relation": "basedOn",
+    "object": "BrakingFeasibilityConstraint",
+    "chunk": "methodology2",
+    "context": "To ensure that the ego vehicle performs lane changes only when it is safe to do so, we propose a rule-based safety filter based on time-gap and braking-feasibility constraints."
+  },
+  {
+    "subject": "LaneChangeAction",
+    "relation": "originatesFrom",
+    "object": "CurrentLane",
+    "chunk": "methodology2",
+    "context": "A lane change action from the ego’s current laneℓ egoto a tar-get laneℓ target is permitted only if sufficient longitudinal gaps exist both ahead of and behind the ego vehicle in target lane."
+  },
+  {
+    "subject": "LaneChangeAction",
+    "relation": "targets",
+    "object": "TargetLane",
+    "chunk": "methodology2",
+    "context": "A lane change action from the ego’s current laneℓ egoto a tar-get laneℓ target is permitted only if sufficient longitudinal gaps exist both ahead of and behind the ego vehicle in target lane."
+  },
+  {
+    "subject": "LaneChangeAction",
+    "relation": "requires",
+    "object": "LongitudinalGap",
+    "chunk": "methodology2",
+    "context": "A lane change action from the ego’s current laneℓ egoto a tar-get laneℓ target is permitted only if sufficient longitudinal gaps exist both ahead of and behind the ego vehicle in target lane."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "algorithm_proposedClustering",
+  "requiresAdjustmentOf",
+  "parameter_h",
+  "dataset_salinas",
+  "configuredWithBetaValue",
+  "value_35",
+  "dataset_paviaUniversity",
+  "value_25",
+  "configuredWithHValue",
+  "value_110",
+  "algorithm_knn",
+  "isInstanceOf",
+  "MachineLearningAlgorithm",
+  "algorithm_kmeans",
+  "algorithm_svm",
+  "algorithm_rf",
+  "platform_groundProcessing",
+  "utilizesHardware",
+  "hardware_intelCoreI7_9700",
+  "satellite_hypso1",
+  "chosenAs",
+  "model_reference",
+  "SmallHyperspectralImagingSatellite",
+  "employsHardware",
+  "hardware_dualCoreCortexA9",
+  "InOrbitHyperspectralImageClassification",
+  "differsFrom",
+  "GroundBasedOfflineProcessing",
+  "InOrbitEnvironment",
+  "unableToSupport",
+  "ComplexDeepNeuralNetworkInference",
+  "ClassificationModel",
+  "mustAdopt",
+  "LightweightArchitecture",
+  "InOrbitClassification",
+  "executedIn",
+  "RealTime",
+  "SatelliteBorneHyperspectralSensor",
+  "susceptibleTo",
+  "BandNoise",
+  "DeadPixel",
+  "SpectralDrift",
+  "arisesFrom",
+  "SpaceRadiation",
+  "ThermalFluctuation",
+  "DomainShift",
+  "occursAcross",
+  "Orbit",
+  "Season",
+  "SurfaceType",
+  "EarthObservationMission",
+  "GlobalEnvironmentalChange",
+  "Satellite",
+  "HyperspectralSensor",
+  "ContinuousSpectralInformation",
+  "HyperspectralSatellite",
+  "EarthObservationProduct",
+  "OfflineProcessing",
+  "TerrestrialSystem",
+  "DataTransmission",
+  "EmergencyScenario",
+  "DisasterMonitoring",
+  "EmergencyMapping",
+  "SatelliteOnboardProcessing",
+  "ArtificialIntelligenceAlgorithm",
+  "ValidationPlatform",
+  "platform_opsSat",
+  "mission_phiSat1",
+  "org_esa",
+  "DeepConvolutionalNetwork",
+  "CloudSegmentation",
+  "mission_hypso",
+  "OceanObservation",
+  "KMeansAlgorithm",
+  "mission_eo1",
+  "Sea",
+  "Land",
+  "Cloud",
+  "SmallSatellite",
+  "ComputationalResource"
+]
+
+Triples:
+[
+  {
+    "subject": "algorithm_proposedClustering",
+    "relation": "requiresAdjustmentOf",
+    "object": "parameter_h",
+    "chunk": "result6",
+    "context": "In the proposed clustering algorithm, there exist two pivotal parameters that require man- ual adjustment: the first isβ, and the second is the number of nonzero termsh."
+  },
+  {
+    "subject": "dataset_salinas",
+    "relation": "configuredWithBetaValue",
+    "object": "value_35",
+    "chunk": "result6",
+    "context": "The values for the first parameter are set to 35 for the Salinas dataset and 25 for the Pavia University dataset, respectively."
+  },
+  {
+    "subject": "dataset_paviaUniversity",
+    "relation": "configuredWithBetaValue",
+    "object": "value_25",
+    "chunk": "result6",
+    "context": "The values for the first parameter are set to 35 for the Salinas dataset and 25 for the Pavia University dataset, respectively."
+  },
+  {
+    "subject": "dataset_salinas",
+    "relation": "configuredWithHValue",
+    "object": "value_25",
+    "chunk": "result6",
+    "context": "Finally, we set thehvalues for theSalinas and Pavia University dataset at 25 and 110, respectively."
+  },
+  {
+    "subject": "dataset_paviaUniversity",
+    "relation": "configuredWithHValue",
+    "object": "value_110",
+    "chunk": "result6",
+    "context": "Finally, we set thehvalues for theSalinas and Pavia University dataset at 25 and 110, respectively."
+  },
+  {
+    "subject": "algorithm_knn",
+    "relation": "isInstanceOf",
+    "object": "MachineLearningAlgorithm",
+    "chunk": "result6",
+    "context": "To evaluate the time efficiency of the pro- posed method and its applicability for onboard deployment, we conducted a time analysis between the proposed method and other machine learning algorithms including K-Nearest Neigh- bors (KNN),k-means, Support Vector Machine (SVM), Random Forest (RF), and Fuzzy C-Means (FCM)."
+  },
+  {
+    "subject": "algorithm_kmeans",
+    "relation": "isInstanceOf",
+    "object": "MachineLearningAlgorithm",
+    "chunk": "result6",
+    "context": "To evaluate the time efficiency of the pro- posed method and its applicability for onboard deployment, we conducted a time analysis between the proposed method and other machine learning algorithms including K-Nearest Neigh- bors (KNN),k-means, Support Vector Machine (SVM), Random Forest (RF), and Fuzzy C-Means (FCM)."
+  },
+  {
+    "subject": "algorithm_svm",
+    "relation": "isInstanceOf",
+    "object": "MachineLearningAlgorithm",
+    "chunk": "result6",
+    "context": "To evaluate the time efficiency of the pro- posed method and its applicability for onboard deployment, we conducted a time analysis between the proposed method and other machine learning algorithms including K-Nearest Neigh- bors (KNN),k-means, Support Vector Machine (SVM), Random Forest (RF), and Fuzzy C-Means (FCM)."
+  },
+  {
+    "subject": "algorithm_rf",
+    "relation": "isInstanceOf",
+    "object": "MachineLearningAlgorithm",
+    "chunk": "result6",
+    "context": "To evaluate the time efficiency of the pro- posed method and its applicability for onboard deployment, we conducted a time analysis between the proposed method and other machine learning algorithms including K-Nearest Neigh- bors (KNN),k-means, Support Vector Machine (SVM), Random Forest (RF), and Fuzzy C-Means (FCM)."
+  },
+  {
+    "subject": "platform_groundProcessing",
+    "relation": "utilizesHardware",
+    "object": "hardware_intelCoreI7_9700",
+    "chunk": "result6",
+    "context": "The ground processing platform utilizes an Intel Core i7 9700 CPU."
+  },
+  {
+    "subject": "satellite_hypso1",
+    "relation": "chosenAs",
+    "object": "model_reference",
+    "chunk": "result6",
+    "context": "HYPSO-1 [7] is chosen as the reference model."
+  },
+  {
+    "subject": "satellite_hypso1",
+    "relation": "isInstanceOf",
+    "object": "SmallHyperspectralImagingSatellite",
+    "chunk": "result6",
+    "context": "This small hyperspectral imaging satellite employs a dual-core Cortex-A9 CPU to construct 10."
+  },
+  {
+    "subject": "satellite_hypso1",
+    "relation": "employsHardware",
+    "object": "hardware_dualCoreCortexA9",
+    "chunk": "result6",
+    "context": "This small hyperspectral imaging satellite employs a dual-core Cortex-A9 CPU to construct 10."
+  },
+  {
+    "subject": "InOrbitHyperspectralImageClassification",
+    "relation": "differsFrom",
+    "object": "GroundBasedOfflineProcessing",
+    "chunk": "discussion",
+    "context": "In-orbit hyperspectral image classification fundamentally differs from conventional ground-based offline processing."
+  },
+  {
+    "subject": "InOrbitEnvironment",
+    "relation": "unableToSupport",
+    "object": "ComplexDeepNeuralNetworkInference",
+    "chunk": "discussion",
+    "context": "Due to the stringent constraints imposed by the low-power and limited computational capacity of satellite onboard processors, the in-orbit environment is generally unable to support complex deep neural network inference."
+  },
+  {
+    "subject": "ClassificationModel",
+    "relation": "mustAdopt",
+    "object": "LightweightArchitecture",
+    "chunk": "discussion",
+    "context": "Consequently, classification models must adopt lightweight architectures with low computational complexity and high deployability on resource-limited hardware platforms."
+  },
+  {
+    "subject": "InOrbitClassification",
+    "relation": "executedIn",
+    "object": "RealTime",
+    "chunk": "discussion",
+    "context": "Moreover, restricted onboard storage and downlink bandwidth require that in-orbit classification be executed in real time during data acquisition to prevent data accumulation and ensure the timeliness of subsequent observation tasks or autonomous control operations."
+  },
+  {
+    "subject": "SatelliteBorneHyperspectralSensor",
+    "relation": "susceptibleTo",
+    "object": "BandNoise",
+    "chunk": "discussion",
+    "context": "In addition, satellite-borne hyperspectral sensors are susceptible to band noise, dead pixels, and spectral drift arising from long-term exposure to space radiation, thermal fluctuations, and attitude disturbances."
+  },
+  {
+    "subject": "SatelliteBorneHyperspectralSensor",
+    "relation": "susceptibleTo",
+    "object": "DeadPixel",
+    "chunk": "discussion",
+    "context": "In addition, satellite-borne hyperspectral sensors are susceptible to band noise, dead pixels, and spectral drift arising from long-term exposure to space radiation, thermal fluctuations, and attitude disturbances."
+  },
+  {
+    "subject": "SatelliteBorneHyperspectralSensor",
+    "relation": "susceptibleTo",
+    "object": "SpectralDrift",
+    "chunk": "discussion",
+    "context": "In addition, satellite-borne hyperspectral sensors are susceptible to band noise, dead pixels, and spectral drift arising from long-term exposure to space radiation, thermal fluctuations, and attitude disturbances."
+  },
+  {
+    "subject": "SpectralDrift",
+    "relation": "arisesFrom",
+    "object": "SpaceRadiation",
+    "chunk": "discussion",
+    "context": "In addition, satellite-borne hyperspectral sensors are susceptible to band noise, dead pixels, and spectral drift arising from long-term exposure to space radiation, thermal fluctuations, and attitude disturbances."
+  },
+  {
+    "subject": "SpectralDrift",
+    "relation": "arisesFrom",
+    "object": "ThermalFluctuation",
+    "chunk": "discussion",
+    "context": "In addition, satellite-borne hyperspectral sensors are susceptible to band noise, dead pixels, and spectral drift arising from long-term exposure to space radiation, thermal fluctuations, and attitude disturbances."
+  },
+  {
+    "subject": "DomainShift",
+    "relation": "occursAcross",
+    "object": "Orbit",
+    "chunk": "discussion",
+    "context": "Furthermore, collecting high-quality and spatially extensive annotated data is inherently challenging, and frequent domain shifts occur across different orbits, seasons, and surface types."
+  },
+  {
+    "subject": "DomainShift",
+    "relation": "occursAcross",
+    "object": "Season",
+    "chunk": "discussion",
+    "context": "Furthermore, collecting high-quality and spatially extensive annotated data is inherently challenging, and frequent domain shifts occur across different orbits, seasons, and surface types."
+  },
+  {
+    "subject": "DomainShift",
+    "relation": "occursAcross",
+    "object": "SurfaceType",
+    "chunk": "discussion",
+    "context": "Furthermore, collecting high-quality and spatially extensive annotated data is inherently challenging, and frequent domain shifts occur across different orbits, seasons, and surface types."
+  }
+]

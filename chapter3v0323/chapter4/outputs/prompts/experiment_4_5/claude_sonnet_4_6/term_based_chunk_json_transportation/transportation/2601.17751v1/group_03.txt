@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PassiveElement",
+  "cannotAmplify",
+  "Signal",
+  "ActiveRis",
+  "solves",
+  "MultiplicativeFadingProblem",
+  "ActiveAmplificationCircuit",
+  "implementedInto",
+  "AerialRis",
+  "DynamicNoise",
+  "inducedBy",
+  "ActiveRisElementAmplification",
+  "HardwarePowerConsumption",
+  "comprises",
+  "ControlAndPhaseShiftSwitchingPower",
+  "DirectCurrentBiasingPower",
+  "BackhaulBandwidth",
+  "assignedTo",
+  "UavBs",
+  "DynamicNoiseEffect",
+  "weakensWithLarger",
+  "RisToUavBsDistance",
+  "AerialActiveRis",
+  "placedCloseTo",
+  "Source",
+  "steersBeamTowards",
+  "locatedWithin",
+  "HalfPowerBeamwidth",
+  "supports",
+  "providesBackhaulRateFor",
+  "AerialPlatform",
+  "carries",
+  "usesPower",
+  "HardwareDissipatedPower",
+  "GroundBackhaulSource",
+  "TransmitAmplifier",
+  "operatesWithin",
+  "LinearRegion",
+  "CircuitPowerConsumption",
+  "independentOf",
+  "CommunicationRate",
+  "WholeSystem",
+  "consumesPower",
+  "TotalPowerConsumption",
+  "hasLocation",
+  "TwoDimensionalLocation",
+  "FullArrayRisArchitecture",
+  "maximizes",
+  "MinimumSnr",
+  "reduces",
+  "TotalTransmitPower",
+  "operatesIn",
+  "HoveringState",
+  "ConsumedPower",
+  "actsAsFunctionOf",
+  "Velocity",
+  "AerialBackhaulArchitecture",
+  "Full3dCoverage",
+  "HighAltitudeAerialPlatform",
+  "LineOfSightLink",
+  "MultiplicativeFading",
+  "TrafficSurge",
+  "UrbanArea",
+  "BackhaulSignal",
+  "Blockage",
+  "AerialBaseStation",
+  "NetworkCoverage",
+  "HighTrafficScenario",
+  "HighAltitudeOperation",
+  "Obstacle",
+  "DirectBackhaulLink",
+  "ReconfigurableIntelligentSurface",
+  "WirelessCoverage",
+  "PassiveReflectingElement",
+  "IncidentSignal",
+  "ConventionalRis",
+  "PassiveReflectionElement",
+  "ReflectionTypeAmplifier",
+  "SignalAmplification",
+  "ConventionalPassiveRis"
+]
+
+Triples:
+[
+  {
+    "subject": "PassiveElement",
+    "relation": "cannotAmplify",
+    "object": "Signal",
+    "chunk": "completedocument4",
+    "context": "Since conventional RIS consists of passive elements which cannot amplify the signal, the reflected signal has to suffer from “multiplicative fading” induced by the multiplication of the path loss of source-to-RIS and RIS-to-UA V-BS links [27]"
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "solves",
+    "object": "MultiplicativeFadingProblem",
+    "chunk": "completedocument4",
+    "context": "Recently, by accompanying the active-RIS [28], [31], [32], [54], we can solve the aforementioned “multiplicative fading” problem by compensating signal power at the active-RIS component."
+  },
+  {
+    "subject": "ActiveAmplificationCircuit",
+    "relation": "implementedInto",
+    "object": "AerialRis",
+    "chunk": "completedocument4",
+    "context": "We assume that, as illustrated in Fig. 1(b), the active am- plification circuit with amplification factor{α n}N n=1 and the element-wise hardware power consumptionP Eis implemented into theN-element aerial-RIS."
+  },
+  {
+    "subject": "DynamicNoise",
+    "relation": "inducedBy",
+    "object": "ActiveRisElementAmplification",
+    "chunk": "completedocument4",
+    "context": "na∼ CN 0N, σ2 aIN is the dynamic noise induced by the amplification of the active-RIS elements, andn sis the static additive Gaussian noise uncorrelated toAandn a[27], [31]."
+  },
+  {
+    "subject": "HardwarePowerConsumption",
+    "relation": "comprises",
+    "object": "ControlAndPhaseShiftSwitchingPower",
+    "chunk": "completedocument4",
+    "context": "whereP Edenotes the per-element hardware power consumption comprising the control and phase-shift switching powerP SWand the direct current (DC) biasing powerP DCrequired for the amplifier in each active-RIS element [17]."
+  },
+  {
+    "subject": "HardwarePowerConsumption",
+    "relation": "comprises",
+    "object": "DirectCurrentBiasingPower",
+    "chunk": "completedocument4",
+    "context": "whereP Edenotes the per-element hardware power consumption comprising the control and phase-shift switching powerP SWand the direct current (DC) biasing powerP DCrequired for the amplifier in each active-RIS element [17]."
+  },
+  {
+    "subject": "BackhaulBandwidth",
+    "relation": "assignedTo",
+    "object": "UavBs",
+    "chunk": "completedocument4",
+    "context": "whereB bdenotes the backhaul bandwidth, which is equally partitioned intoM 0sub-bands assigned to each UA V-BS, and γmis the received SNR of UA V-BSm."
+  },
+  {
+    "subject": "DynamicNoiseEffect",
+    "relation": "weakensWithLarger",
+    "object": "RisToUavBsDistance",
+    "chunk": "completedocument4",
+    "context": "Moreover, sinceh∗(q,ρρρm)contains β(q,ρ ρρm)≜β0 ||ρρρRIS−ρρρm||2 2, the effect of the dynamic noise gets weaker when the RIS-to-UA V-BS distance gets larger."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "placedCloseTo",
+    "object": "Source",
+    "chunk": "completedocument5",
+    "context": "In our deployment, the aerial-active-RIS is placed close to the source and the beam is steered towards\n¯ρchosen to represent the Pareto-optimal directions of the\nUA V-BSs; consequently,∆ϕ m(¯ρ)stays within the main-lobe\nvicinity and the variation of the denominator term is minor."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "steersBeamTowards",
+    "object": "UavBs",
+    "chunk": "completedocument5",
+    "context": "In our deployment, the aerial-active-RIS is placed close to the source and the beam is steered towards\n¯ρchosen to represent the Pareto-optimal directions of the\nUA V-BSs; consequently,∆ϕ m(¯ρ)stays within the main-lobe\nvicinity and the variation of the denominator term is minor."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "locatedWithin",
+    "object": "HalfPowerBeamwidth",
+    "chunk": "completedocument5",
+    "context": "Thus, it is necessary to\nfine-tune¯ρ ¯ρ¯ρand determine the maximum value of ¯Nto\nlocate every UA V-BS within the HPBW, thereby maximizing\n{g(∆ϕ m(¯ρ¯ρ¯ρ))}m∈M."
+  },
+  {
+    "subject": "Source",
+    "relation": "supports",
+    "object": "UavBs",
+    "chunk": "completedocument5",
+    "context": "To reliably support the UA V-BSs, the backhaul rate\n{Rm}m∈M provided by the source should be balanced with\nthe throughput{C m}m∈M of the fronthaul link:R m=\nCm(∀m∈M), where the balance between fronthaul and\nbackhaul capacities is critical for optimal network perfor-\nmance with avoidance of bottleneck in B5G/6G wireless\nnetwork [43], [57]."
+  },
+  {
+    "subject": "Source",
+    "relation": "providesBackhaulRateFor",
+    "object": "UavBs",
+    "chunk": "completedocument5",
+    "context": "To reliably support the UA V-BSs, the backhaul rate\n{Rm}m∈M provided by the source should be balanced with\nthe throughput{C m}m∈M of the fronthaul link:R m=\nCm(∀m∈M), where the balance between fronthaul and\nbackhaul capacities is critical for optimal network perfor-\nmance with avoidance of bottleneck in B5G/6G wireless\nnetwork [43], [57]."
+  },
+  {
+    "subject": "AerialPlatform",
+    "relation": "carries",
+    "object": "ActiveRis",
+    "chunk": "completedocument6",
+    "context": "and P AP, PgBS and P m∈M PUAV-BS,m are the hardware-dissipated power used by the aerial platform that carries active-RIS, ground backhaul source and the UA V-BSm, respectively."
+  },
+  {
+    "subject": "AerialPlatform",
+    "relation": "usesPower",
+    "object": "HardwareDissipatedPower",
+    "chunk": "completedocument6",
+    "context": "and P AP, PgBS and P m∈M PUAV-BS,m are the hardware-dissipated power used by the aerial platform that carries active-RIS, ground backhaul source and the UA V-BSm, respectively."
+  },
+  {
+    "subject": "GroundBackhaulSource",
+    "relation": "usesPower",
+    "object": "HardwareDissipatedPower",
+    "chunk": "completedocument6",
+    "context": "and P AP, PgBS and P m∈M PUAV-BS,m are the hardware-dissipated power used by the aerial platform that carries active-RIS, ground backhaul source and the UA V-BSm, respectively."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "usesPower",
+    "object": "HardwareDissipatedPower",
+    "chunk": "completedocument6",
+    "context": "and P AP, PgBS and P m∈M PUAV-BS,m are the hardware-dissipated power used by the aerial platform that carries active-RIS, ground backhaul source and the UA V-BSm, respectively."
+  },
+  {
+    "subject": "TransmitAmplifier",
+    "relation": "operatesWithin",
+    "object": "LinearRegion",
+    "chunk": "completedocument6",
+    "context": "In this paper, we adopt two key assumptions: (i) the transmit amplifiers operate within their linear region, and (ii) the circuit power consumption is independent of the communication rate [58]–[60]."
+  },
+  {
+    "subject": "CircuitPowerConsumption",
+    "relation": "independentOf",
+    "object": "CommunicationRate",
+    "chunk": "completedocument6",
+    "context": "In this paper, we adopt two key assumptions: (i) the transmit amplifiers operate within their linear region, and (ii) the circuit power consumption is independent of the communication rate [58]–[60]."
+  },
+  {
+    "subject": "WholeSystem",
+    "relation": "consumesPower",
+    "object": "TotalPowerConsumption",
+    "chunk": "completedocument6",
+    "context": "the minimization of P 0, the total power consumption of the whole system."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "hasLocation",
+    "object": "TwoDimensionalLocation",
+    "chunk": "completedocument6",
+    "context": "Thereafter, by letting q m the 2D location of the aerial-active-RIS considering only UA V-BSm"
+  },
+  {
+    "subject": "FullArrayRisArchitecture",
+    "relation": "maximizes",
+    "object": "MinimumSnr",
+    "chunk": "completedocument6",
+    "context": "Positioning q m with fixed H close to the source ensures that the full-array RIS architecture ( ¯N=N) is almost certainly utilized, which maximizes the minimum SNR [46] and consequently reduces the total transmit power"
+  },
+  {
+    "subject": "FullArrayRisArchitecture",
+    "relation": "reduces",
+    "object": "TotalTransmitPower",
+    "chunk": "completedocument6",
+    "context": "Positioning q m with fixed H close to the source ensures that the full-array RIS architecture ( ¯N=N) is almost certainly utilized, which maximizes the minimum SNR [46] and consequently reduces the total transmit power"
+  },
+  {
+    "subject": "AerialPlatform",
+    "relation": "operatesIn",
+    "object": "HoveringState",
+    "chunk": "completedocument6",
+    "context": "Since we assumed that aerial platform is fixed (hovering), the consumed power, which is in general a function of velocity, becomes constant [61]."
+  },
+  {
+    "subject": "ConsumedPower",
+    "relation": "actsAsFunctionOf",
+    "object": "Velocity",
+    "chunk": "completedocument6",
+    "context": "Since we assumed that aerial platform is fixed (hovering), the consumed power, which is in general a function of velocity, becomes constant [61]."
+  }
+]

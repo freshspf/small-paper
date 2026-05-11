@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_densenet121",
+  "hasAuc",
+  "0.9506",
+  "model_mobilenetv2",
+  "hasInsufficient",
+  "Sensitivity",
+  "isUnsuitableFor",
+  "ClinicalDecisionMakingApplication",
+  "model_vgg16",
+  "0.8119",
+  "approximates",
+  "RandomClassifier",
+  "MedicalImageDiagnosisTask",
+  "requiresConsiderationOf",
+  "MultipleDimensionalMetric",
+  "model_sda_qec",
+  "hasAccuracy",
+  "0.9833",
+  "0.9878",
+  "hasF1Score",
+  "model_resnet18",
+  "0.95",
+  "0.9499",
+  "0.8417",
+  "0.8083",
+  "0.8044",
+  "hasDifficultyBalancing",
+  "PrecisionAndRecall",
+  "0.6083",
+  "0.5374",
+  "achievesPerformance",
+  "ComprehensiveExcellentPerformance",
+  "showsWeaknessIn",
+  "concept_negativeSampleExclusion",
+  "showsDeficiencyIn",
+  "concept_truePatientDetection",
+  "exhibitsCharacteristic",
+  "concept_classBias",
+  "utilizesTechnique",
+  "technique_diffusionAugmentation",
+  "balances",
+  "concept_dataDistribution",
+  "technique_quantumEnhancement",
+  "ArtificialIntelligence",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "Pneumonia",
+  "ChestXRay",
+  "CtImage",
+  "BreastCancer",
+  "DeepLearningModel",
+  "Image",
+  "Classification",
+  "MedicalData",
+  "ClassImbalance",
+  "dataset_covid19Pneumonia",
+  "LowRecallRate",
+  "DiagnosticAccuracy",
+  "ClinicalMisdiagnosis",
+  "PatientRisk",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "Noise",
+  "PathologicalFeature",
+  "GenerativeAdversarialNetwork",
+  "Sample",
+  "TrainingInstability",
+  "ModeCollapse",
+  "DiffusionModel",
+  "DiverseSample",
+  "NoiseAddition",
+  "DenoisingProcess",
+  "Simplification",
+  "QuantumMachineLearning",
+  "QuantumEntanglement",
+  "QuantumSuperposition",
+  "FeatureExtraction",
+  "ModelPerformance",
+  "ConvolutionalNeuralNetwork"
+]
+
+Triples:
+[
+  {
+    "subject": "model_densenet121",
+    "relation": "hasAuc",
+    "object": "0.9506",
+    "chunk": "results3",
+    "context": "MobileNetV2 and DenseNet121’s ROC curves occupy middle positions with AUCs of 0.9272 and 0.9506 respectively, with further expanded confidence intervals."
+  },
+  {
+    "subject": "model_mobilenetv2",
+    "relation": "hasInsufficient",
+    "object": "Sensitivity",
+    "chunk": "results3",
+    "context": "MobileNetV2’s curve is relatively smooth in the middle threshold region (around FPR=0.2) but rises slowly in the low FPR region, indicating insufficient sensitivity under high specificity requirements."
+  },
+  {
+    "subject": "model_mobilenetv2",
+    "relation": "isUnsuitableFor",
+    "object": "ClinicalDecisionMakingApplication",
+    "chunk": "results3",
+    "context": "Wide confidence intervals for both suggest substantial performance fluctuation under different test set partitions or data perturbations, making them unsuitable for direct clinical decision-making application."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "isUnsuitableFor",
+    "object": "ClinicalDecisionMakingApplication",
+    "chunk": "results3",
+    "context": "Wide confidence intervals for both suggest substantial performance fluctuation under different test set partitions or data perturbations, making them unsuitable for direct clinical decision-making application."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "hasAuc",
+    "object": "0.8119",
+    "chunk": "results3",
+    "context": "VGG16’s ROC curve most closely approximates a random classifier (diagonal dashed line) with AUC of only 0.8119 and an extremely wide confidence interval covering the range from 0.75 to 0.87."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "approximates",
+    "object": "RandomClassifier",
+    "chunk": "results3",
+    "context": "VGG16’s ROC curve most closely approximates a random classifier (diagonal dashed line) with AUC of only 0.8119 and an extremely wide confidence interval covering the range from 0.75 to 0.87."
+  },
+  {
+    "subject": "MedicalImageDiagnosisTask",
+    "relation": "requiresConsiderationOf",
+    "object": "MultipleDimensionalMetric",
+    "chunk": "results3",
+    "context": "Medical image diagnosis task performance evaluation requires comprehensive consideration of multiple dimensional metrics; a single metric (such as accuracy) often cannot fully reflect a model’s clinical applicability."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "hasAccuracy",
+    "object": "0.9833",
+    "chunk": "results3",
+    "context": "SDA-QEC is located in the upper-right-rear of the space, with all three coordinate values approaching 1.0 (accuracy 0.9833, AUC 0.9878, F1 0.9833), and the smallest sphere, indicating not only top-level achievement across three core metrics but also extremely stable performance."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "hasAuc",
+    "object": "0.9878",
+    "chunk": "results3",
+    "context": "SDA-QEC is located in the upper-right-rear of the space, with all three coordinate values approaching 1.0 (accuracy 0.9833, AUC 0.9878, F1 0.9833), and the smallest sphere, indicating not only top-level achievement across three core metrics but also extremely stable performance."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "hasF1Score",
+    "object": "0.9833",
+    "chunk": "results3",
+    "context": "SDA-QEC is located in the upper-right-rear of the space, with all three coordinate values approaching 1.0 (accuracy 0.9833, AUC 0.9878, F1 0.9833), and the smallest sphere, indicating not only top-level achievement across three core metrics but also extremely stable performance."
+  },
+  {
+    "subject": "model_resnet18",
+    "relation": "hasAccuracy",
+    "object": "0.95",
+    "chunk": "results3",
+    "context": "ResNet18 is positioned near but slightly below SDA-QEC, with coordinate values of 0.95, 0.9844, and 0.9499 respectively, and a slightly larger sphere."
+  },
+  {
+    "subject": "model_resnet18",
+    "relation": "hasF1Score",
+    "object": "0.9499",
+    "chunk": "results3",
+    "context": "ResNet18 is positioned near but slightly below SDA-QEC, with coordinate values of 0.95, 0.9844, and 0.9499 respectively, and a slightly larger sphere."
+  },
+  {
+    "subject": "model_mobilenetv2",
+    "relation": "hasAccuracy",
+    "object": "0.8417",
+    "chunk": "results3",
+    "context": "MobileNetV2 and DenseNet121 occupy the middle region of the space, with accuracies of 0.8417 and 0.8083 respectively, and significantly enlarged spheres."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "hasAccuracy",
+    "object": "0.8083",
+    "chunk": "results3",
+    "context": "MobileNetV2 and DenseNet121 occupy the middle region of the space, with accuracies of 0.8417 and 0.8083 respectively, and significantly enlarged spheres."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "hasF1Score",
+    "object": "0.8044",
+    "chunk": "results3",
+    "context": "DenseNet121’s sphere notably sinks in the F1 dimension (F1=0.8044), reflecting its difficulty in balancing precision and recall."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "hasDifficultyBalancing",
+    "object": "PrecisionAndRecall",
+    "chunk": "results3",
+    "context": "DenseNet121’s sphere notably sinks in the F1 dimension (F1=0.8044), reflecting its difficulty in balancing precision and recall."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "hasAccuracy",
+    "object": "0.6083",
+    "chunk": "results3",
+    "context": "VGG16 is located in the lower-left-front of the space, with coordinate values of 0.6083, 0.8119, and 0.5374 respectively, and the largest, elongated ellipsoidal sphere."
+  },
+  {
+    "subject": "model_vgg16",
+    "relation": "hasF1Score",
+    "object": "0.5374",
+    "chunk": "results3",
+    "context": "VGG16 is located in the lower-left-front of the space, with coordinate values of 0.6083, 0.8119, and 0.5374 respectively, and the largest, elongated ellipsoidal sphere."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "achievesPerformance",
+    "object": "ComprehensiveExcellentPerformance",
+    "chunk": "results4",
+    "context": "This highly symmetric shape indicates SDA-QECachievesconsistenthighlevelsacrossallevaluationdimensionswithoutobvious weaknesses, realizing truly comprehensive excellent performance."
+  },
+  {
+    "subject": "model_resnet18",
+    "relation": "showsWeaknessIn",
+    "object": "concept_negativeSampleExclusion",
+    "chunk": "results4",
+    "context": "ResNet18’s polygon is slightly smaller with a slight indentation on the specificity axis (0.9167), indicating slightly weaker negative sample exclusion compared to other metrics."
+  },
+  {
+    "subject": "model_mobilenetv2",
+    "relation": "showsDeficiencyIn",
+    "object": "concept_truePatientDetection",
+    "chunk": "results4",
+    "context": "MobileNetV2’s polygon further shrinks, especially with obvious indentation on the sensitivity axis (0.8000), indicating significant deficiency in detecting true patients."
+  },
+  {
+    "subject": "model_densenet121",
+    "relation": "exhibitsCharacteristic",
+    "object": "concept_classBias",
+    "chunk": "results4",
+    "context": "This shape intuitively reflects the model’s serious class bias."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "utilizesTechnique",
+    "object": "technique_diffusionAugmentation",
+    "chunk": "results4",
+    "context": "SDA-QEC balances data distribution through diffusion augmentation, simultaneously improving precision and recall (both reaching 0.9833), thus achieving a tremendous F1-score leap."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "balances",
+    "object": "concept_dataDistribution",
+    "chunk": "results4",
+    "context": "SDA-QEC balances data distribution through diffusion augmentation, simultaneously improving precision and recall (both reaching 0.9833), thus achieving a tremendous F1-score leap."
+  },
+  {
+    "subject": "model_sda_qec",
+    "relation": "utilizesTechnique",
+    "object": "technique_quantumEnhancement",
+    "chunk": "results4",
+    "context": "Notably, SDA-QEC’s improvement magnitude significantly exceeds ResNet18 which also uses pre-trained weights (5.4 percentage points more), indicating that contributions from diffusion augmentation and quantum enhancement surpass differences in network architecture itself."
+  }
+]

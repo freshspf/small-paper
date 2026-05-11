@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PromptTemplate",
+  "usedFor",
+  "SymmetricAugmentation",
+  "targets",
+  "SexConceptActivationVector",
+  "PubMedSearchString",
+  "searchesFor",
+  "ChildSingleAgeGroupClinicalTrial",
+  "excludesTerm",
+  "GrowthDisorder",
+  "NeurodevelopmentalDisorder",
+  "AgedSingleAgeGroupClinicalTrial",
+  "Dementia",
+  "Polypharmacy",
+  "AgeConceptActivationVector",
+  "CognitiveBehavioralIntervention",
+  "improves",
+  "MedicationAdherence",
+  "DepressionOutcome",
+  "Patient",
+  "hasDisease",
+  "Hypertension",
+  "CognitiveBehavioralGroup",
+  "reduces",
+  "MajorDepressiveDisorder",
+  "BibliotherapyPrevention",
+  "DepressiveSymptom",
+  "Adolescent",
+  "hasSymptom",
+  "PharmacistManagement",
+  "treats",
+  "IrritableBowelSyndrome",
+  "SelectiveSerotoninReuptakeInhibitor",
+  "Melatonin",
+  "regulates",
+  "GastrointestinalMotility",
+  "BowelSymptom",
+  "SleepDisturbance",
+  "hasBeneficialEffectOn",
+  "AbdominalPain",
+  "ctelm",
+  "ClinicalTrialEmbedding",
+  "ClinicalTrial",
+  "LargeLanguageModel",
+  "EmbeddingLanguageModel",
+  "ConceptVector",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "TextEmbedding",
+  "ClinicalTrialAbstract",
+  "vec2text",
+  "ConceptActivationVector",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "Corrector",
+  "HypothesisText",
+  "Text",
+  "ContextualEmbedding",
+  "EmbeddingSpace",
+  "BaseChatModel",
+  "TransformerLayer",
+  "TargetModel",
+  "AdapterModule",
+  "MultilayerPerceptron",
+  "Dataset",
+  "StructuredAbstractSection",
+  "RandomizedControlledTrial",
+  "UnstructuredClinicalTrialAbstract"
+]
+
+Triples:
+[
+  {
+    "subject": "PromptTemplate",
+    "relation": "usedFor",
+    "object": "SymmetricAugmentation",
+    "chunk": "completedocument16",
+    "context": "Figure 16: The prompt template for symmetric augmentation of abstracts for the sex Concept Activation Vector."
+  },
+  {
+    "subject": "SymmetricAugmentation",
+    "relation": "targets",
+    "object": "SexConceptActivationVector",
+    "chunk": "completedocument16",
+    "context": "Figure 16: The prompt template for symmetric augmentation of abstracts for the sex Concept Activation Vector."
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "searchesFor",
+    "object": "ChildSingleAgeGroupClinicalTrial",
+    "chunk": "completedocument16",
+    "context": "Figure 17: The PubMed search string for child single-age-group clinical trials."
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "GrowthDisorder",
+    "chunk": "completedocument16",
+    "context": "NOT ( Growth Disorders [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "NeurodevelopmentalDisorder",
+    "chunk": "completedocument16",
+    "context": "NOT ( Neurodevelopmental Disorders [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "searchesFor",
+    "object": "AgedSingleAgeGroupClinicalTrial",
+    "chunk": "completedocument16",
+    "context": "Figure 18: The PubMed search string for aged single-age-group clinical trials."
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "Dementia",
+    "chunk": "completedocument16",
+    "context": "NOT ( Dementia [ MeSH Terms ])"
+  },
+  {
+    "subject": "PubMedSearchString",
+    "relation": "excludesTerm",
+    "object": "Polypharmacy",
+    "chunk": "completedocument16",
+    "context": "NOT ( Polypharmacy [ MeSH Terms ])"
+  },
+  {
+    "subject": "PromptTemplate",
+    "relation": "targets",
+    "object": "AgeConceptActivationVector",
+    "chunk": "completedocument16",
+    "context": "Figure 19: The prompt template for symmetric augmentation of abstracts for the age Concept Activation Vector."
+  },
+  {
+    "subject": "CognitiveBehavioralIntervention",
+    "relation": "improves",
+    "object": "MedicationAdherence",
+    "chunk": "completedocument17",
+    "context": "This paper presents baseline data from a randomized clinical trial examining the effectiveness of acognitive behavioral intervention (CBI)for improving medication adherence and depression outcomes amongpatients with poorly controlled hypertension."
+  },
+  {
+    "subject": "CognitiveBehavioralIntervention",
+    "relation": "improves",
+    "object": "DepressionOutcome",
+    "chunk": "completedocument17",
+    "context": "This paper presents baseline data from a randomized clinical trial examining the effectiveness of acognitive behavioral intervention (CBI)for improving medication adherence and depression outcomes amongpatients with poorly controlled hypertension."
+  },
+  {
+    "subject": "Patient",
+    "relation": "hasDisease",
+    "object": "Hypertension",
+    "chunk": "completedocument17",
+    "context": "This paper presents baseline data from a randomized clinical trial examining the effectiveness of acognitive behavioral intervention (CBI)for improving medication adherence and depression outcomes amongpatients with poorly controlled hypertension."
+  },
+  {
+    "subject": "CognitiveBehavioralGroup",
+    "relation": "reduces",
+    "object": "MajorDepressiveDisorder",
+    "chunk": "completedocument17",
+    "context": "We tested whether a brief cognitive behavioral (CB) group and bibliotherapy prevention reduce major depressive disorder (MDD) onset, depressive symptoms, and secondary outcomes relative to brochure controls in adolescents with self-reported depressive symptoms when school personnel recruit participants and deliver the intervention."
+  },
+  {
+    "subject": "BibliotherapyPrevention",
+    "relation": "reduces",
+    "object": "MajorDepressiveDisorder",
+    "chunk": "completedocument17",
+    "context": "We tested whether a brief cognitive behavioral (CB) group and bibliotherapy prevention reduce major depressive disorder (MDD) onset, depressive symptoms, and secondary outcomes relative to brochure controls in adolescents with self-reported depressive symptoms when school personnel recruit participants and deliver the intervention."
+  },
+  {
+    "subject": "CognitiveBehavioralGroup",
+    "relation": "reduces",
+    "object": "DepressiveSymptom",
+    "chunk": "completedocument17",
+    "context": "We tested whether a brief cognitive behavioral (CB) group and bibliotherapy prevention reduce major depressive disorder (MDD) onset, depressive symptoms, and secondary outcomes relative to brochure controls in adolescents with self-reported depressive symptoms when school personnel recruit participants and deliver the intervention."
+  },
+  {
+    "subject": "Adolescent",
+    "relation": "hasSymptom",
+    "object": "DepressiveSymptom",
+    "chunk": "completedocument17",
+    "context": "We tested whether a brief cognitive behavioral (CB) group and bibliotherapy prevention reduce major depressive disorder (MDD) onset, depressive symptoms, and secondary outcomes relative to brochure controls in adolescents with self-reported depressive symptoms when school personnel recruit participants and deliver the intervention."
+  },
+  {
+    "subject": "PharmacistManagement",
+    "relation": "treats",
+    "object": "Hypertension",
+    "chunk": "completedocument17",
+    "context": "[Objective] To examine potential threats to internal and external study validity caused by differential patient withdrawal from a randomized controlled trial evaluating pharmacist management of hypertension, to compare the characteristics of patients who withdrew with those of patients who completed the study, and to identify characteristics that predispose patients to withdraw from hypertension management."
+  },
+  {
+    "subject": "Patient",
+    "relation": "hasDisease",
+    "object": "IrritableBowelSyndrome",
+    "chunk": "completedocument17",
+    "context": "A study was conducted to determine if irritable bowel syndrome (IBS) patients with depressive symptoms have a better response to a selective serotonin reuptake inhibitor (SSRI) than those without depressive symptoms."
+  },
+  {
+    "subject": "IrritableBowelSyndrome",
+    "relation": "hasSymptom",
+    "object": "DepressiveSymptom",
+    "chunk": "completedocument17",
+    "context": "A study was conducted to determine if irritable bowel syndrome (IBS) patients with depressive symptoms have a better response to a selective serotonin reuptake inhibitor (SSRI) than those without depressive symptoms."
+  },
+  {
+    "subject": "SelectiveSerotoninReuptakeInhibitor",
+    "relation": "treats",
+    "object": "IrritableBowelSyndrome",
+    "chunk": "completedocument17",
+    "context": "A study was conducted to determine if irritable bowel syndrome (IBS) patients with depressive symptoms have a better response to a selective serotonin reuptake inhibitor (SSRI) than those without depressive symptoms."
+  },
+  {
+    "subject": "Melatonin",
+    "relation": "regulates",
+    "object": "GastrointestinalMotility",
+    "chunk": "completedocument17",
+    "context": "Melatonin, a sleep promoting agent, is involved in the regulation of gastrointestinal motility and sensation."
+  },
+  {
+    "subject": "Melatonin",
+    "relation": "improves",
+    "object": "BowelSymptom",
+    "chunk": "completedocument17",
+    "context": "We aimed to determine if melatonin was effective in improving bowel symptoms and sleep disturbances in irritable bowel syndrome (IBS) patients with sleep disturbance."
+  },
+  {
+    "subject": "Melatonin",
+    "relation": "improves",
+    "object": "SleepDisturbance",
+    "chunk": "completedocument17",
+    "context": "We aimed to determine if melatonin was effective in improving bowel symptoms and sleep disturbances in irritable bowel syndrome (IBS) patients with sleep disturbance."
+  },
+  {
+    "subject": "IrritableBowelSyndrome",
+    "relation": "hasSymptom",
+    "object": "SleepDisturbance",
+    "chunk": "completedocument17",
+    "context": "We aimed to determine if melatonin was effective in improving bowel symptoms and sleep disturbances in irritable bowel syndrome (IBS) patients with sleep disturbance."
+  },
+  {
+    "subject": "Melatonin",
+    "relation": "hasBeneficialEffectOn",
+    "object": "AbdominalPain",
+    "chunk": "completedocument18",
+    "context": "The findings suggest that the beneficial effects of melatonin on abdominal pain in IBS patients with sleep disturbances are independent of its action on sleep disturbances or psychological profiles.”"
+  }
+]

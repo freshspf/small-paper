@@ -1,0 +1,110 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "methods3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: methods3
+- section_title: Methods
+- page_start: 3
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+Throughquan-
+tum feature mapping, classical features can be embedded into exponentially expanded
+quantum state space, constructing more complex nonlinear decision boundaries. This
+work designs a lightweight quantum feature layer (QuantumFeatureLayer) with the fol-
+lowing core components:
+2.4.1 Amplitude Encoding
+Classical features need to be encoded into quantum states. This work adopts am-
+plitude encoding: mapping the 256-dimensional classical feature vectorf reduced ∈R256
+into the amplitude of an 8-qubit quantum state. Specifically, first normalize the feature
+vector:
+fnorm=freduced
+∥freduced∥2(7)
+Then map it to the quantum state:
+|ψin⟩=255X
+i=0f(i)
+norm|i⟩(8)
+where|i⟩is the computational basis state corresponding to the binary representation
+ofi. This encoding method has high information density but requires normalization to
+satisfy the quantum state normalization condition⟨ψ|ψ⟩= 1.
+6
+
+2.4.2 Parameterized Quantum Circuit
+After encoding, the quantum state passes through a parameterized quantum circuit
+(PQC) for feature transformation. This work adopts a 4-qubit, 2-layer circuit structure,
+where each layer includes:
+1.Rotation layer: ApplyR Y(θi)rotation gates to each qubit, whereθ iare trainable
+parameters:
+RY(θ) =cos(θ/2)−sin(θ/2)
+sin(θ/2) cos(θ/2)
+(9)
+2.Entanglement layer: Apply CNOT gates between adjacent qubits to construct
+quantum entanglement:
+CNOT i,i+1=|0⟩⟨0| ⊗I+|1⟩⟨1| ⊗X(10)
+Through two layers of rotation-entanglement operations, the quantum state under-
+goes complex nonlinear transformations:
+|ψout⟩=U 2(θ2)U1(θ1)|ψin⟩(11)
+whereU l(θl)represents the unitary operation of layerl, andθ lis the parameter set
+of that layer.
+2.4.3 Measurement and Classical Post-Processing
+After quantum circuit transformation, Pauli-Z measurement is performed on each
+qubit to obtain the expectation value:
+mi=⟨ψout|σ(i)
+z|ψout⟩, i= 0,1,2,3(12)
+whereσ(i)
+zis the Pauli-Z operator acting on thei-th qubit. These 4 measurement
+values constitute the quantum-enhanced feature vectorf quantum ∈R4. Finally, this is
+mapped to classification logits through a fully connected layer:
+z=W outfquantum +bout,z∈R2(13)
+whereW out∈R2×4andbout∈R2. The final classification probability is obtained
+through softmax:
+P(y=k|x) =exp(z k)P1
+j=0exp(z j), k∈ {0,1}(14)
+2.4.4 Parameter Efficiency Analysis
+The quantum layer parameters include: 4 qubits×2 layers×1 rotation parameter
+= 8 quantum parameters, plus fully connected layer parameters2×4 + 2 = 10classical
+parameters, totaling only 18 parameters. In contrast, if a classical fully connected layer
+is used to map 256-dimensional features to 2-dimensional output,256×2 + 2 = 514
+parameters would be required. The quantum layer reduces parameters by 96.5% while
+providing stronger nonlinear expressive power.
+7.

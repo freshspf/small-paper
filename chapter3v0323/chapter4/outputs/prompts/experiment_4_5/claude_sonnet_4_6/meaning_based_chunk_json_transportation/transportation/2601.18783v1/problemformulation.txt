@@ -1,0 +1,99 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "problemformulation",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: problemformulation
+- section_title: Problem Formulation
+- page_start: 2
+- page_end: 2
+
+**INPUT TEXT CHUNK:**
+2.1 Decision Making in Traffic Environment
+We study the problem of tactical decision making for a heavy-
+duty truck in a stochastic highway environment, with multi-
+ple conflicting objectives. Tactical decisions include adaptive
+cruise control and lane changes, and with the objectives to
+balance safety, time efficiency, and energy efficiency.
+The environment is implemented using the open-source
+traffic simulator SUMO (Simulation of Urban MObility),
+which provides realistic microscopic vehicle dynamics. The
+simulation consists of a three-lane highway segment popu-
+lated by mixed traffic, including passenger cars and trucks.
+The ego vehicle is modeled as a tractor–semitrailer combina-
+tion with realistic dynamics. To maintain a stationary traf-
+fic distribution around the ego vehicle, a moving window is
+used, with vehicles dynamically re-spawned at the bound-
+aries. Traffic density is varied across experiments to assess
+robustness under different congestion levels. Additional de-
+tails of traffic modeling with parameters and illustrations are
+provided in Appendix B.
+2.2 Multi-Objective Reinforcement Learning
+The tactical decision-making problem is inherently multi-
+objective: strategies that improve travel time often increase
+energy consumption or safety risk, while conservative driv-
+ing may degrade operational efficiency. To explicitly capture
+these trade-offs, we formulate the problem within a multi-
+objective reinforcement learning (MORL) framework.
+The environment is modeled as a Multi-Objective Markov
+Decision Process (MOMDP), defined by the tupleM=
+(S,A, p, γ,r)whereSandAdenote the state and action
+spaces, respectively, andp(·|s, a)is the transition probabil-
+ity distribution over next states given the current state–action
+pair(s, a). The reward functionr:S × A × S →Rdis
+vector-valued, withdcomponents corresponding to distinct
+objectives. The agent’s experience thus consists of transitions
+(st, at, st+1,rt+1), wherer t= (r(1)
+t, . . . , r(d)
+t)quantifies the
+instantaneous contributions to each objective.γ∈[0,1)is a
+discount factor.
+A policyπ:S → Adefines the agent’s decision rule,
+mapping states to actions, and value function of the policy is
+defined as,
+Vπ(s) =E π"∞X
+t=0γtrt+1|st=s#
+.(1)
+where the value functionVπ(s)∈Rdis vector valued.
+Optimality is defined in terms of Pareto dominance: a pol-
+icyπ′dominatesπif it performs at least as well in all ob-
+jectives and strictly better in at least one. The set of non-

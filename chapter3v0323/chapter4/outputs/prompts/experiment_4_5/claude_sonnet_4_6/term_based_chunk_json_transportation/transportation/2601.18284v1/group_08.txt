@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "travel_time",
+  "computes",
+  "TotalTravelTime",
+  "throughput",
+  "counts",
+  "VehicleCount",
+  "speed",
+  "calculates",
+  "AverageVehicleSpeed",
+  "delay",
+  "quantifies",
+  "TotalDelay",
+  "ExperimentalScenario",
+  "dividedInto",
+  "SyntheticScenario",
+  "RealWorldScenario",
+  "includes",
+  "single_intersection_network",
+  "three_intersection_arterial_network",
+  "arterial_3_network",
+  "consistsOf",
+  "three_consecutive_intersections",
+  "basedOn",
+  "five_signalized_intersections",
+  "SignalPlan",
+  "east_west_through_phase",
+  "east_west_left_phase",
+  "north_south_through_phase",
+  "north_south_left_phase",
+  "VehicleComposition",
+  "Car",
+  "hasDesiredSpeed",
+  "speed_50_kmh",
+  "DayuanInterchange",
+  "hasRoadType",
+  "Arterial",
+  "SideStreet",
+  "hasIntersectionCount",
+  "5",
+  "SimulationNetwork",
+  "usesDemandDuration",
+  "OneHourObservedPeakPeriod",
+  "hasVehicleComposition",
+  "Bus",
+  "Motorcycle",
+  "50 km/h",
+  "hasHigherTrafficVolumeThan",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface"
+]
+
+Triples:
+[
+  {
+    "subject": "travel_time",
+    "relation": "computes",
+    "object": "TotalTravelTime",
+    "chunk": "experiments1",
+    "context": "- Travel time Computes the total travel time of vehi- cles"
+  },
+  {
+    "subject": "throughput",
+    "relation": "counts",
+    "object": "VehicleCount",
+    "chunk": "experiments1",
+    "context": "- Throughput Counts the number of vehicles passing through intersections"
+  },
+  {
+    "subject": "speed",
+    "relation": "calculates",
+    "object": "AverageVehicleSpeed",
+    "chunk": "experiments1",
+    "context": "- Speed Calculates the average vehicle speed"
+  },
+  {
+    "subject": "delay",
+    "relation": "quantifies",
+    "object": "TotalDelay",
+    "chunk": "experiments1",
+    "context": "- Delay Quantifies total delay compared to free- flow conditions"
+  },
+  {
+    "subject": "ExperimentalScenario",
+    "relation": "dividedInto",
+    "object": "SyntheticScenario",
+    "chunk": "experiments1",
+    "context": "The experimental scenarios are divided into synthetic and real-world cases."
+  },
+  {
+    "subject": "ExperimentalScenario",
+    "relation": "dividedInto",
+    "object": "RealWorldScenario",
+    "chunk": "experiments1",
+    "context": "The experimental scenarios are divided into synthetic and real-world cases."
+  },
+  {
+    "subject": "SyntheticScenario",
+    "relation": "includes",
+    "object": "single_intersection_network",
+    "chunk": "experiments1",
+    "context": "The synthetic scenarios use artificially con- structed networks and synthetic traffic demand, including a single-intersection network (for single-agent control) and a three-intersection arterial network (for multi-agent control)."
+  },
+  {
+    "subject": "SyntheticScenario",
+    "relation": "includes",
+    "object": "three_intersection_arterial_network",
+    "chunk": "experiments1",
+    "context": "The synthetic scenarios use artificially con- structed networks and synthetic traffic demand, including a single-intersection network (for single-agent control) and a three-intersection arterial network (for multi-agent control)."
+  },
+  {
+    "subject": "arterial_3_network",
+    "relation": "consistsOf",
+    "object": "three_consecutive_intersections",
+    "chunk": "experiments1",
+    "context": "The second is the Arterial-3 network as in Figure 7b, consisting of three consecutive intersections connected by 300-meter links, used to evaluate coordination in multi-intersection scenarios."
+  },
+  {
+    "subject": "RealWorldScenario",
+    "relation": "basedOn",
+    "object": "five_signalized_intersections",
+    "chunk": "experiments1",
+    "context": "The real-world scenario is based on a network of five sig- nalized intersections near the Dayuan Interchange in Taoyuan, Taiwan, using one hour of peak-period traffic data to validate the proposed method under realistic conditions."
+  },
+  {
+    "subject": "SignalPlan",
+    "relation": "includes",
+    "object": "east_west_through_phase",
+    "chunk": "experiments1",
+    "context": "The signal plan includes four phases: east–west through (EW), east–westleft (EW L), north–south through (NS), and north–south left (NS L)."
+  },
+  {
+    "subject": "SignalPlan",
+    "relation": "includes",
+    "object": "east_west_left_phase",
+    "chunk": "experiments1",
+    "context": "The signal plan includes four phases: east–west through (EW), east–westleft (EW L), north–south through (NS), and north–south left (NS L)."
+  },
+  {
+    "subject": "SignalPlan",
+    "relation": "includes",
+    "object": "north_south_through_phase",
+    "chunk": "experiments1",
+    "context": "The signal plan includes four phases: east–west through (EW), east–westleft (EW L), north–south through (NS), and north–south left (NS L)."
+  },
+  {
+    "subject": "SignalPlan",
+    "relation": "includes",
+    "object": "north_south_left_phase",
+    "chunk": "experiments1",
+    "context": "The signal plan includes four phases: east–west through (EW), east–westleft (EW L), north–south through (NS), and north–south left (NS L)."
+  },
+  {
+    "subject": "VehicleComposition",
+    "relation": "includes",
+    "object": "Car",
+    "chunk": "experiments1",
+    "context": "The vehicle composition includes only cars, with a uniform desired speed of 50 km/h to ensure comparability and stable evaluation across networks."
+  },
+  {
+    "subject": "Car",
+    "relation": "hasDesiredSpeed",
+    "object": "speed_50_kmh",
+    "chunk": "experiments1",
+    "context": "The vehicle composition includes only cars, with a uniform desired speed of 50 km/h to ensure comparability and stable evaluation across networks."
+  },
+  {
+    "subject": "DayuanInterchange",
+    "relation": "hasRoadType",
+    "object": "Arterial",
+    "chunk": "experiments2",
+    "context": "This area includes a major arterial and several side streets, featuring significant flow imbalances and complex intersection structures."
+  },
+  {
+    "subject": "DayuanInterchange",
+    "relation": "hasRoadType",
+    "object": "SideStreet",
+    "chunk": "experiments2",
+    "context": "This area includes a major arterial and several side streets, featuring significant flow imbalances and complex intersection structures."
+  },
+  {
+    "subject": "DayuanInterchange",
+    "relation": "hasIntersectionCount",
+    "object": "5",
+    "chunk": "experiments2",
+    "context": "Table XI details the inflows and signal phase settings of the five intersections."
+  },
+  {
+    "subject": "SimulationNetwork",
+    "relation": "usesDemandDuration",
+    "object": "OneHourObservedPeakPeriod",
+    "chunk": "experiments2",
+    "context": "The simulation uses one hour of observed peak-period traffic demand, with a vehicle composition of cars, buses, and motorcycles, and a desired speed of 50 km/h."
+  },
+  {
+    "subject": "SimulationNetwork",
+    "relation": "hasVehicleComposition",
+    "object": "Car",
+    "chunk": "experiments2",
+    "context": "The simulation uses one hour of observed peak-period traffic demand, with a vehicle composition of cars, buses, and motorcycles, and a desired speed of 50 km/h."
+  },
+  {
+    "subject": "SimulationNetwork",
+    "relation": "hasVehicleComposition",
+    "object": "Bus",
+    "chunk": "experiments2",
+    "context": "The simulation uses one hour of observed peak-period traffic demand, with a vehicle composition of cars, buses, and motorcycles, and a desired speed of 50 km/h."
+  },
+  {
+    "subject": "SimulationNetwork",
+    "relation": "hasVehicleComposition",
+    "object": "Motorcycle",
+    "chunk": "experiments2",
+    "context": "The simulation uses one hour of observed peak-period traffic demand, with a vehicle composition of cars, buses, and motorcycles, and a desired speed of 50 km/h."
+  },
+  {
+    "subject": "SimulationNetwork",
+    "relation": "hasDesiredSpeed",
+    "object": "50 km/h",
+    "chunk": "experiments2",
+    "context": "The simulation uses one hour of observed peak-period traffic demand, with a vehicle composition of cars, buses, and motorcycles, and a desired speed of 50 km/h."
+  },
+  {
+    "subject": "Arterial",
+    "relation": "hasHigherTrafficVolumeThan",
+    "object": "SideStreet",
+    "chunk": "experiments2",
+    "context": "Overall, traffic volumes on the arterial are significantly higher than those on the side streets, reflecting the imbalanced conditions commonly observed in practice."
+  }
+]

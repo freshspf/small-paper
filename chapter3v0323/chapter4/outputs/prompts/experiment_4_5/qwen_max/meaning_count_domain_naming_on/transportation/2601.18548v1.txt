@@ -1,0 +1,246 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Fast and Safe Trajectory Optimization for Mobile
+Manipulators With Neural Conﬁguration Space
+Distance Field
+Y ulin Li1,2, Zhiyuan Song 1, Yiming Li 3, Zhicheng Song 1, Kai Chen 1, Chunxin Zheng 1,
+Zhihai Bi 1, Jiahang Cao 4, Sylvain Calinon 3, Fan Shi 2, and Jun Ma 1
+Abstract—Mobile manipulators promise agile, long-horizon
+behavior by coordinating base and arm motion, yet whole-
+body trajectory optimization in cluttered, conﬁned spaces re-
+mains difﬁcult due to high-dimensional nonconvexity and the
+need for fast, accurate collision reasoning. Conﬁguration Space
+Distance Fields (CDF) enable ﬁxed-base manipulators to model
+collisions directly in conﬁguration space via smooth, implicit
+distances. This representation holds strong potential to bypass
+the nonlinear conﬁguration-to-workspace mapping while preserv-
+ing accurate whole-body geometry and providing optimization-
+friendly collision costs. Y et, extending this capability to mobile
+manipulators is hindered by unbounded workspaces and tighter
+base–arm coupling. We lift this promise to mobile manipulation
+with Generalized Conﬁguration Space Distance Fields (GCDF),
+extending CDF to robots with both translational and rotational
+joints in unbounded workspaces with tighter base–arm coupling.
+We prove that GCDF preserves Euclidean-like local distance
+structure and accurately encodes whole-body geometry in con-
+ﬁguration space, and develop a data generation and training
+pipeline that yields continuous neural GCDFs with accurate
+values and gradients, supporting efﬁcient GPU-batched queries.
+Building on this representation, we develop a high-performance
+sequential convex optimization framework centered on GCDF-
+based collision reasoning. The solver scales to large numbers
+of implicit constraints through (i) online speciﬁcation of neural
+constraints, (ii) sparsity-aware active-set detection with parallel
+batched evaluation across thousands of constraints, and (iii)
+incremental constraint management for rapid replanning under
+scene changes. Extensive randomized high-density benchmarks
+and real-robot experiments demonstrate consistently superior
+success rates, trajectory quality, and solve times compared to
+strong baselines, enabling fast, safe, and reliable whole-body
+planning with minimal initialization effort. Source code is avail-
+able at the project website *.
+I. I NTRODUCTION
+Mobile manipulators have emerged as essential tools for
+real-world robotic applications, combining mobility, dexterity,
+and workspace coverage to enable complex, contact-rich, and
+long-horizon tasks across both structured and unstructured
+environments [ 1], [ 2], [ 3], [ 4]. To accomplish these tasks,
+mobile manipulators must leverage their multiple degrees of
+1Robotics and Autonomous Systems Thrust, The Hong Kong University of
+Science and Technology (Guangzhou), Guangzhou, China.
+2Department of Electrical and Computer Engineering, National University
+of Singapore, Singapore.
+3Idiap Research Institute, Martigny, Switzerland and EPFL, Lausanne,
+Switzerland.
+4Institute of Data Science, The University of Hong Kong, Hong Kong SAR,
+China.
+*https://yulinli0.github.io/GCDF/
+(a)
+(b)
+Fig. 1: Trajectory generation in complex environments for
+mobile manipulators using the proposed numerical optimiza-
+tion algorithm with neural Generalized Conﬁguration Space
+Distance Fields. Starting from a trivial initial guess (the mobile
+base linearly interpolated between start and goal while the
+manipulator joints are all zeros, i.e., kept upright), the solver
+generates collision-free trajectories from scratch, exhibiting
+smooth and agile maneuvers that leverage whole-body coordi-
+nation for safe obstacle avoidance. (a) Simulation results are
+shown from front and top views. (b) Real-world experiments
+in a similarly cluttered setup.
+freedom to coordinate arm and base motion, continuously re-
+conﬁguring whole-body posture to adapt to complex, cluttered
+environments while maintaining agility and ensuring safety.
+However, this synergy of mobility and manipulation introduces
+a fundamental planning challenge: planners must make rapid,
+reliable decisions in high-dimensional conﬁguration spaces
+while respecting collision constraints derived from accurate
+geometric models of both the robot and the scene, which
+arXiv:2601.18548v1 [cs.RO] 26 Jan 2026
+are essential for achieving agile, non-conservative perfor-
+mance [5], [6], [7], [8]. Despite recent advances in perception,
+whole-body planning, and optimization-based control for mo-
+bile manipulation [ 9], [ 10], [ 11], [ 12], [ 13], fast and reliable
+trajectory generation in cluttered, conﬁned remains an open
+challenge.
+Background. Traditional hierarchical “move-and-act”
+schemes [ 14], [ 15] decompose mobile manipulation into
+separate planning subproblems for the base and the arm,
+offering simplicity but constraining coordinated whole-body
+behaviors. This decoupling neglects the interdependence
+between base and manipulator, precluding whole-body
+reconﬁguration to expand reachability in conﬁned
+environments and leading to conservative or infeasible
+behavior [ 16], [ 17], [ 18]. To overcome these limitations,
+recent work has shifted toward whole-body planning,
+typically grouped into three families: sampling-based
+methods, reinforcement learning (RL), and optimization-
+based planning.
+Sampling-based methods such as PRM/RRT and their vari-
+ants [19], [20], [21], [22] explore feasible connectivity through
+random sampling and collision checking, offering theoretical
+guarantees and broad applicability. Recent works extend these
+to mobile manipulation by unifying base and arm in high-
+dimensional conﬁguration space [ 23], [ 24]. However, in clut-
+tered environments with narrow passages requiring tight base-
+arm coordination, uniform or heuristic sampling becomes com-
+putationally burdensome and prone to connectivity failures. A
+couple of frameworks mitigate this by predeﬁning constrained
+sampling regions or heuristic guidance [ 10], [ 17], but such
+strategies reintroduce scenario-dependent tuning and reduce
+planner generality. RL-based approaches learn control policies
+end-to-end, directly from state or sensor inputs to actions,
+typically by interacting with a simulator [ 25], [ 26], [ 27], [ 28].
+Such methods typically demand substantial simulation training
+for each new scenario, often requiring millions of timesteps
+and extensive hyperparameter tuning to achieve strong perfor-
+mance [29]. While effective in structured settings, the resulting
+policies often generalize poorly to novel layouts and dynamics
+and are sensitive to distribution shift and partial observability.
+Moreover, discrepancies in perception, dynamics, and actu-
+ation create a sim-to-real gap that can signiﬁcantly degrade
+real-world performance [ 30], necessitating careful engineering
+for reliable transfer.
+In contrast, optimization-based methods offer a compelling
+alternative and serve as the focus of our work. By formulating
+whole-body mobile manipulation as a constrained optimization
+problem, they seek feasible, collision-free trajectories while
+optimizing task-relevant objectives such as smoothness, en-
+ergy efﬁciency, or execution time [ 31], [ 32]. A key merit
+of this paradigm is its robustness and generalizability: once
+the environment is represented in a uniﬁed geometric [ 33]
+or distance-ﬁeld form [ 34], the same optimization framework
+can be applied across diverse scenarios without scenario-
+speciﬁc retraining, enabling rapid adaptation to novel layouts
+and dynamic changes. Moreover, the kinematic and actuation
+redundancy inherent in mobile manipulators naturally lends it-
+self to optimization techniques, allowing the system to exploit
+its full conﬁguration space to generate agile, safe maneuvers
+that reach targets while simultaneously satisfying task-space
+collision avoidance and other operational constraints.
+Challenges. Unlike ﬁxed-base manipulators, mobile manip-
+ulators operate in unbounded workspaces and must navigate
+complex, cluttered obstacle layouts. Current state-of-the-art
+methods adopt a two-stage pipeline with front-end path search
+followed by back-end trajectory optimization [ 10], [ 35]. In
+practice, the front end carries the primary burden through
+elaborate, multi-layer search strategies aimed at reducing sam-
+pling difﬁculty over the combined translational and rotational
+motion space. A common approach decouples the problem
+by ﬁrst planning a base trajectory and then searching for
+arm conﬁgurations along this ﬁxed base path. The back-end
+optimizer is consequently reduced to a post-processing module
+that smooths and slightly reﬁnes the front-end solution locally,
+often converging within only a few iterations.
+Despite its computational efﬁciency, this paradigm suffers
+from fundamental limitations in both stages. On the front-
+end side, decoupling the base and arm search undermines
+holistic whole-body coordination. In complex environments
+where simultaneous coordination is required amid intricate
+obstacle layouts, the front-end search can fail; this would cause
+the entire pipeline to collapse since the back-end optimizer is
+constrained to local reﬁnements near the front-end solution.
+Once the front end produces a poor-quality trajectory, the
+optimizer cannot recover, despite its potential exploration
+capability. On the back-end side, these methods typically rely
+on the environment Euclidean signed distance ﬁeld (ESDF)
+and approximate the robot with collision spheres. While this
+reduces collision constraints complexity, it creates a funda-
+mental mismatch: collision costs are deﬁned in workspace as
+the sum of ESDF penalties over spheres, whereas the position
+of each sphere is coupled through highly nonlinear forward
+kinematics. Moreover, a sparse set of spheres can inaccurately
+represent the true collision geometry, leading to overly con-
+servative or unsafe clearance estimates. From the optimization
+perspective, the nonlinear coupling yields a strongly non-
+convex landscape; with imperfect initial trajectories, gradient-
+based solvers easily become trapped in poor local minima
+as workspace gradients induce misleading conﬁguration-space
+updates.
+Overall, the difﬁculty stems from three root causes: ( i)
+the nonlinear mapping between conﬁguration-space variables
+and workspace-based collision constraints; ( ii) the inherent
+computational intractability of enforcing whole-body collision
+avoidance with precise link geometries [ 36], [ 37], which
+necessitates simpliﬁed proxies (e.g., spheres or point sets [ 38],
+[39]) that compromise geometric ﬁdelity; ( iii) the unbounded
+workspace and intricate obstacle layouts, which make the opti-
+mizer highly sensitive to initialization yet render high-quality
+initial guesses non-trivial to obtain. It leaves an interesting
+question: Can we enforce collision avoidance directly in con-
+ﬁguration space to circumvent the intricate nonlinear mapping
+between conﬁguration variables and workspace constraints
+while preserving accurate robot geometries?
+Recently, inspired by the robot-centric signed distance ﬁeld
+(SDF) [40], [41], [42], which measures the Euclidean distance
+between a robot surface and environment points, the concept
+of the Conﬁguration Space Distance Field (CDF) has been
+proposed to measure the minimum distance from a current
+robot conﬁguration to environment points using conﬁguration
+metrics for robot manipulators [ 43]. Speciﬁcally, for an ob-
+stacle point p, CDF measures the minimum conﬁguration
+space distance between the current conﬁguration and the
+zero-level conﬁguration set, where the latter comprises all
+conﬁgurations that result in contact between any point on
+the robot’s surface and p. Thus, CDF naturally incorporates
+whole-body geometries without conservative approximation,
+while simultaneously embedding the inverse kinematic prob-
+lem within its formulation to maintain Euclidean distance
+properties in the high-dimensional conﬁguration space despite

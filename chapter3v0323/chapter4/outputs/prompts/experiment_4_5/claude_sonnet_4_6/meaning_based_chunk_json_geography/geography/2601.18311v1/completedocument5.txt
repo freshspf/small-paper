@@ -1,0 +1,138 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument5",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument5
+- section_title: Complete Document
+- page_start: 1
+- page_end: 8
+
+**INPUT TEXT CHUNK:**
+We find a resonant enhancement of X-ray
+counts when the incident synchrotron photon energy coin-
+cides with the expected resonance energy of O Heαw line.
+Note that the pulse heights (≈1200 ch.) of the detected
+resonant events are consistent with that of the collision-
+ally excited O Heαphotons we measured using the same
+pulse-height analyzer configuration prior to the beamline
+experiment. X-ray events detected within the given region
+of interest (see Figure 5 top panel) are extracted and pro-
+jected onto the monochromator energy axis. The pulse-
+height range for the event selection is optimized to max-
+imize the signal-to-noise ratio. The resulting spectrum is
+shown in the bottom panel of Figure 5, where we success-
+fully detect resonance events of the Heαw line with a slit
+width of 50µm. This line was measured for the purpose
+of aligning the EBIT and beamline, thus a scan with nar-
+rower slit width was not performed. The spectrum is well
+reproduced with a Gaussian+linear function model. The
+fit parameters are summarized in Table 1.
+3.2 Iron data
+3.2.1 3C line
+Figure 6 top-left panel shows the results of the scans
+around the resonance energy of the Ne-like Fe16+3C line.
+A synchrotron photon energy range of 825.4–825.9 was
+scanned in 101 steps, changing the energies 5 meV per
+step. At each energy step, the photoexcitation signals were
+integrated for 30 s. These scans were repeated 9 times to
+obtain sufficient statistics in the photon counts. In this mea-
+surement, we successfully obtained the 3C signals with a
+slit width of 50µm. We also attempted measurements with
+a slit width of 25µm, but were unable to find a signal.
+We perform the same event selection for the iron 3C data
+as described above for the oxygen data, with the region
+of interest determined from the collisional-excitation mea-
+surement of Fe Lα(see Figure 6 top panels). As a result,
+we obtain the projected spectrum shown in the bottom left
+panel of Figure 6, where we successfully detect resonance
+events of the 3C line. The spectrum is well reproduced
+with a Gaussian+linear function model, where we could
+not find the Lorentz wing reported in previous studies (e.g.,
+[29]) due to the insufficient signal-to-noise ratio and lim-
+ited energy resolution of the synchrotron radiation, which
+Fig. 5 (top) Heat map of photon counts in each pulse-height
+channel, obtained by scanning the input synchrotron pho-
+ton energy around the expected centroid energy of O Heα
+w line. The dotted horizontal lines indicate the lower and
+upper limits of the region of interest for the O Heαpho-
+tons. Events registered to this region are selected to plot
+the projected spectrum shown in the bottom panel. (bot-
+tom) Count rate of the detected photons for O Heαw line
+in the above-selected region, shown as a function of the
+input synchrotron photon energy. 3C line is detected and
+fitted with a Gaussian+linear model. The fit result is
+shown in a solid red line.
+is deteriorated by the slit width not being narrow enough.
+The signal-to-noise ratio of the obtained spectrum is 0.31,
+calculated as the ratio of the count rates given by the Gaus-
+sian component and the linear-function background com-
+ponent, within the±1 sigma range around the central en-
+ergy of the Gaussian distribution. The fit parameters are
+summarized in Table 1. The area of the Gaussian is de-
+termined to be 1.06±0.06 Counts s−1eV within 6% pre-
+cision; a sufficient accuracy is achieved to constrain the
+oscillator strength ratio within 10%.
+3.2.2 3G line
+The results of the scans around the Ne-like Fe16+3G res-
+onance energy and the projected spectrum, extracted from
+the same region of interest as the 3C data, are shown in the
+right panels of Figure 6, where we were unable to detect
+significant resonance events of 3G due to the low signal-
+to-noise ratio. The measured resonance energies of both O
+Heαw and Ne-like Fe16+Lα3C deviate from the literature
+values (573.94 eV [46] and 825.83 eV [37] in AtomDB
+3.1.3, respectively) by∼0.17 eV . Since the central ener-
+B-13-04
+
+gies of these lines are well known, this shift can be inter-
+preted as being due to the systematic errors in our experi-
+mental system, for instance, the uncertainty in the energy
+calibration of the synchrotron radiation. The actual reso-
+nance energy of 3G in our experimental system is expected
+to be around 726.90 eV , which is 0.17 eV offthe current ex-
+perimental value of 727.07 eV [51]. Therefore, we scanned
+a synchrotron photon energy range of±1 eV around the
+expected centroid energy 726.9 eV . To be specific, a range
+of 725.95–727.95 eV was scanned in 41 steps, changing
+the energies 50 meV per step. The photoexcitation sig-
+nals were integrated for 30 s at each energy step.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "method_spvsoap3d",
+  "consistsOf",
+  "method_soap",
+  "method_pointnetpgap_slc",
+  "extractsFeaturesFrom",
+  "PointCloud",
+  "leveragesMethod",
+  "method_pointnet",
+  "LidarTechnology",
+  "provides",
+  "InvarianceToLightningChanges",
+  "method_pointnetvlad",
+  "isInstanceOf",
+  "LprDeepLearningAlgorithm",
+  "combinesArchitecture",
+  "PointnetArchitecture",
+  "method_lpd_net",
+  "incorporates",
+  "ContextualInformation",
+  "method_minkloc3d",
+  "basedOn",
+  "MinkowskiConvolution",
+  "operatesOn",
+  "SparseTensor",
+  "minkunext",
+  "isA",
+  "DeepNetwork",
+  "performsTask",
+  "LprTask",
+  "utilizesComponent",
+  "TransposedMinkowskiConvolution",
+  "scan_context",
+  "createsDescriptor",
+  "GlobalDescriptor",
+  "dividesInto",
+  "Sector",
+  "Voxel",
+  "processesData",
+  "fusion_scan_context",
+  "measuresProperty",
+  "BinDensity",
+  "BinIntensity",
+  "semantic_scan_context",
+  "appliesTechnique",
+  "SemanticSegmentation",
+  "RawPointCloud",
+  "stable_triangle_descriptor",
+  "PlaceRecognitionDescriptor",
+  "hasStructure",
+  "SixDimensionalVector",
+  "omni_point_method",
+  "calculatesMetric",
+  "FeaturePointDistance",
+  "MobileRobot",
+  "PlaceRecognitionTask",
+  "MinkunextVine",
+  "DeepLearningMethod",
+  "VineyardEnvironment",
+  "RoboticSystem",
+  "Environment",
+  "GpsDeniedEnvironment",
+  "AutonomousNavigationSystem",
+  "Vineyard",
+  "AgriculturalEnvironment",
+  "AgriculturalVehicle",
+  "AutonomousNavigation",
+  "AgriculturalRobotics",
+  "LprNetwork",
+  "MrlApproach",
+  "LprMethod",
+  "LidarSensor",
+  "LowCost",
+  "LowResolution",
+  "CrossSeasonScenario",
+  "VineyardDataset",
+  "DenseFoliage",
+  "RobotFieldOfVision",
+  "PathDetectionFramework",
+  "Traversability",
+  "RgbDImageSource"
+]
+
+Triples:
+[
+  {
+    "subject": "method_spvsoap3d",
+    "relation": "consistsOf",
+    "object": "method_soap",
+    "chunk": "completedocument2",
+    "context": "The methodology in SPVSoAP3D [20] consists of a voxel-based feature extraction module (SPV), followed by a feature extraction module that combines second-order pooling, log-Euclidean projection, and power normalization (SoAP)."
+  },
+  {
+    "subject": "method_pointnetpgap_slc",
+    "relation": "extractsFeaturesFrom",
+    "object": "PointCloud",
+    "chunk": "completedocument2",
+    "context": "In a similar vein, PointNetPGAP-SLC [21] proposed by Barros et al. presents a methodology for the extraction of features from point clouds by leveraging the capabilities of PointNet [22]."
+  },
+  {
+    "subject": "method_pointnetpgap_slc",
+    "relation": "leveragesMethod",
+    "object": "method_pointnet",
+    "chunk": "completedocument2",
+    "context": "In a similar vein, PointNetPGAP-SLC [21] proposed by Barros et al. presents a methodology for the extraction of features from point clouds by leveraging the capabilities of PointNet [22]."
+  },
+  {
+    "subject": "LidarTechnology",
+    "relation": "provides",
+    "object": "InvarianceToLightningChanges",
+    "chunk": "completedocument2",
+    "context": "The use of LiDAR technology instead of a traditional 2D vision system provides invariance to lightning changes."
+  },
+  {
+    "subject": "method_pointnetvlad",
+    "relation": "isInstanceOf",
+    "object": "LprDeepLearningAlgorithm",
+    "chunk": "completedocument2",
+    "context": "The grounding work for the development of LPR deep learning algorithms is PointNetVLAD [4]."
+  },
+  {
+    "subject": "method_pointnetvlad",
+    "relation": "combinesArchitecture",
+    "object": "PointnetArchitecture",
+    "chunk": "completedocument2",
+    "context": "This method combines the use of the PointNet architecture [22] to extract higher dimensional local features from the point clouds and pass them to a NetVLAD [19] aggregation module."
+  },
+  {
+    "subject": "PointnetArchitecture",
+    "relation": "extractsFeaturesFrom",
+    "object": "PointCloud",
+    "chunk": "completedocument2",
+    "context": "This method combines the use of the PointNet architecture [22] to extract higher dimensional local features from the point clouds and pass them to a NetVLAD [19] aggregation module."
+  },
+  {
+    "subject": "method_lpd_net",
+    "relation": "incorporates",
+    "object": "ContextualInformation",
+    "chunk": "completedocument2",
+    "context": "In LPD-Net [23], the network incorporates additional contextual information regarding the neighborhood of each point."
+  },
+  {
+    "subject": "method_minkloc3d",
+    "relation": "basedOn",
+    "object": "MinkowskiConvolution",
+    "chunk": "completedocument2",
+    "context": "In MinkLoc3D [5], the authors propose a method based on Minkowski convolutions [24], which operates on sparse tensors of unordered 3D coordinates."
+  },
+  {
+    "subject": "MinkowskiConvolution",
+    "relation": "operatesOn",
+    "object": "SparseTensor",
+    "chunk": "completedocument2",
+    "context": "In MinkLoc3D [5], the authors propose a method based on Minkowski convolutions [24], which operates on sparse tensors of unordered 3D coordinates."
+  },
+  {
+    "subject": "minkunext",
+    "relation": "isA",
+    "object": "DeepNetwork",
+    "chunk": "completedocument3",
+    "context": "On the same note, MinkUNeXt [13] is a deep network that achieves exceptional recall results on the LPR tasks, using only Minkowski convolutions and transposed Minkowski convolutions without additional complex mechanisms such as transformers or attention modules."
+  },
+  {
+    "subject": "minkunext",
+    "relation": "performsTask",
+    "object": "LprTask",
+    "chunk": "completedocument3",
+    "context": "On the same note, MinkUNeXt [13] is a deep network that achieves exceptional recall results on the LPR tasks, using only Minkowski convolutions and transposed Minkowski convolutions without additional complex mechanisms such as transformers or attention modules."
+  },
+  {
+    "subject": "minkunext",
+    "relation": "utilizesComponent",
+    "object": "MinkowskiConvolution",
+    "chunk": "completedocument3",
+    "context": "On the same note, MinkUNeXt [13] is a deep network that achieves exceptional recall results on the LPR tasks, using only Minkowski convolutions and transposed Minkowski convolutions without additional complex mechanisms such as transformers or attention modules."
+  },
+  {
+    "subject": "minkunext",
+    "relation": "utilizesComponent",
+    "object": "TransposedMinkowskiConvolution",
+    "chunk": "completedocument3",
+    "context": "On the same note, MinkUNeXt [13] is a deep network that achieves exceptional recall results on the LPR tasks, using only Minkowski convolutions and transposed Minkowski convolutions without additional complex mechanisms such as transformers or attention modules."
+  },
+  {
+    "subject": "scan_context",
+    "relation": "createsDescriptor",
+    "object": "GlobalDescriptor",
+    "chunk": "completedocument3",
+    "context": "It creates a global descriptor by dividing the original point cloud into sectors and voxels."
+  },
+  {
+    "subject": "scan_context",
+    "relation": "dividesInto",
+    "object": "Sector",
+    "chunk": "completedocument3",
+    "context": "It creates a global descriptor by dividing the original point cloud into sectors and voxels."
+  },
+  {
+    "subject": "scan_context",
+    "relation": "dividesInto",
+    "object": "Voxel",
+    "chunk": "completedocument3",
+    "context": "It creates a global descriptor by dividing the original point cloud into sectors and voxels."
+  },
+  {
+    "subject": "scan_context",
+    "relation": "processesData",
+    "object": "PointCloud",
+    "chunk": "completedocument3",
+    "context": "It creates a global descriptor by dividing the original point cloud into sectors and voxels."
+  },
+  {
+    "subject": "fusion_scan_context",
+    "relation": "measuresProperty",
+    "object": "BinDensity",
+    "chunk": "completedocument3",
+    "context": "Other methods such as Fusion Scan Context [26] also take into account the density of each bin (how many points are present in each of them) and the intensity of each bin."
+  },
+  {
+    "subject": "fusion_scan_context",
+    "relation": "measuresProperty",
+    "object": "BinIntensity",
+    "chunk": "completedocument3",
+    "context": "Other methods such as Fusion Scan Context [26] also take into account the density of each bin (how many points are present in each of them) and the intensity of each bin."
+  },
+  {
+    "subject": "semantic_scan_context",
+    "relation": "appliesTechnique",
+    "object": "SemanticSegmentation",
+    "chunk": "completedocument3",
+    "context": "In Semantic Scan Context [27] is augmented by the application of semantic segmentation to the raw point cloud, with the resultant information projected onto the plane."
+  },
+  {
+    "subject": "semantic_scan_context",
+    "relation": "processesData",
+    "object": "RawPointCloud",
+    "chunk": "completedocument3",
+    "context": "In Semantic Scan Context [27] is augmented by the application of semantic segmentation to the raw point cloud, with the resultant information projected onto the plane."
+  },
+  {
+    "subject": "stable_triangle_descriptor",
+    "relation": "isA",
+    "object": "PlaceRecognitionDescriptor",
+    "chunk": "completedocument3",
+    "context": "A distinct handcrafted place recognition descriptor is the Stable Triangle Descriptor (STD) [28]."
+  },
+  {
+    "subject": "stable_triangle_descriptor",
+    "relation": "hasStructure",
+    "object": "SixDimensionalVector",
+    "chunk": "completedocument3",
+    "context": "The STD is a six-dimensional vector formed by the length of the three triangle sides and the three normal vectors corresponding to each of the three vertices of the triangle."
+  },
+  {
+    "subject": "omni_point_method",
+    "relation": "calculatesMetric",
+    "object": "FeaturePointDistance",
+    "chunk": "completedocument3",
+    "context": "The recent Omni Point method [29], as outlined in the study, builds a descriptor from the distance between the feature points present in the point cloud, following a histogram of distances approach."
+  }
+]

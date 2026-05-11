@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AssumptionBasedLeadingIndicator",
+  "monitors",
+  "KeyAssumption",
+  "ewasap",
+  "extends",
+  "stpa",
+  "builtAround",
+  "PerceivableSign",
+  "identifies",
+  "ObservableEarlyWarningSign",
+  "supports",
+  "Sensor",
+  "AwarenessAction",
+  "Sign",
+  "indicates",
+  "Violation",
+  "perceives",
+  "emphasises",
+  "NonPerceivableAssumption",
+  "requires",
+  "ComplementaryAssuranceMechanism",
+  "SystemsThinking",
+  "integratedWith",
+  "SystemsEngineering",
+  "enables",
+  "ContinuousSafetyAssurance",
+  "introduces",
+  "LifecycleGovernance",
+  "ConfigurationManagement",
+  "VerificationAndValidation",
+  "Traceability",
+  "SystemEngineeringPrinciple",
+  "SystemBehaviour",
+  "validates",
+  "SystemAssumption",
+  "ProposedApproach",
+  "StructuredFramework",
+  "PerceivableAssumption",
+  "observedThrough",
+  "OperationalIndicator",
+  "measuredThrough",
+  "includesExample",
+  "calibration_range",
+  "sensor_accuracy",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RetrospectiveCrashData",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour",
+  "RoadTrafficInjury",
+  "SafeDeployment",
+  "SafetyConstraintDefinition",
+  "SocialAcceptance",
+  "SystemDesign",
+  "SystemTheoreticAccidentModelAndProcesses",
+  "SystemTheoreticProcessAnalysis",
+  "SystemThinking",
+  "TraditionalAnalyticalMethod",
+  "TraditionalApproach",
+  "organization_departmentForTransport"
+]
+
+Triples:
+[
+  {
+    "subject": "AssumptionBasedLeadingIndicator",
+    "relation": "monitors",
+    "object": "KeyAssumption",
+    "chunk": "introduction2",
+    "context": "As Leveson notes [ 25], the concept of assumption-based leading indicators provides guid- ance to identify and monitor key assumptions across the entire lifecycle."
+  },
+  {
+    "subject": "ewasap",
+    "relation": "extends",
+    "object": "stpa",
+    "chunk": "introduction2",
+    "context": "[ 26] addresses this gap by proposing Early Warning Sign Analysis based on the STPA (EWaSAP), an extension to STPA that is built around perceiv- able signs."
+  },
+  {
+    "subject": "ewasap",
+    "relation": "builtAround",
+    "object": "PerceivableSign",
+    "chunk": "introduction2",
+    "context": "[ 26] addresses this gap by proposing Early Warning Sign Analysis based on the STPA (EWaSAP), an extension to STPA that is built around perceiv- able signs."
+  },
+  {
+    "subject": "ewasap",
+    "relation": "identifies",
+    "object": "ObservableEarlyWarningSign",
+    "chunk": "introduction2",
+    "context": "EWaSAP helps analysts identify observable early warning signs and supports the configuration of sensors and awareness actions so that such signals are transmitted and moni- tored effectively."
+  },
+  {
+    "subject": "ewasap",
+    "relation": "supports",
+    "object": "Sensor",
+    "chunk": "introduction2",
+    "context": "EWaSAP helps analysts identify observable early warning signs and supports the configuration of sensors and awareness actions so that such signals are transmitted and moni- tored effectively."
+  },
+  {
+    "subject": "ewasap",
+    "relation": "supports",
+    "object": "AwarenessAction",
+    "chunk": "introduction2",
+    "context": "EWaSAP helps analysts identify observable early warning signs and supports the configuration of sensors and awareness actions so that such signals are transmitted and moni- tored effectively."
+  },
+  {
+    "subject": "Sign",
+    "relation": "indicates",
+    "object": "Violation",
+    "chunk": "introduction2",
+    "context": "In their case study at a drinking water treatment works, EWaSAP started from an established STPA, first identi- fying signs indicating violations, next identifying systems with sensors capable of perceiving those signs, and finally stakehold- ers."
+  },
+  {
+    "subject": "Sensor",
+    "relation": "perceives",
+    "object": "Sign",
+    "chunk": "introduction2",
+    "context": "In their case study at a drinking water treatment works, EWaSAP started from an established STPA, first identi- fying signs indicating violations, next identifying systems with sensors capable of perceiving those signs, and finally stakehold- ers."
+  },
+  {
+    "subject": "ewasap",
+    "relation": "emphasises",
+    "object": "PerceivableSign",
+    "chunk": "introduction2",
+    "context": "EWaSAP as an important extension to STPA that emphasises perceivable signs, non-perceivable assumptions may require complementary assurance mechanisms(e.g., audit, pass/fail rate) to keep the monitoring burden tractable."
+  },
+  {
+    "subject": "NonPerceivableAssumption",
+    "relation": "requires",
+    "object": "ComplementaryAssuranceMechanism",
+    "chunk": "introduction2",
+    "context": "EWaSAP as an important extension to STPA that emphasises perceivable signs, non-perceivable assumptions may require complementary assurance mechanisms(e.g., audit, pass/fail rate) to keep the monitoring burden tractable."
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "integratedWith",
+    "object": "SystemsEngineering",
+    "chunk": "introduction2",
+    "context": "To address these limitations, this paper proposes the inte- gration of systems thinking with systems engineering to enable continuous safety assurance across the entire lifecycle."
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "enables",
+    "object": "ContinuousSafetyAssurance",
+    "chunk": "introduction2",
+    "context": "To address these limitations, this paper proposes the inte- gration of systems thinking with systems engineering to enable continuous safety assurance across the entire lifecycle."
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "LifecycleGovernance",
+    "chunk": "introduction2",
+    "context": "Sys- tems engineering introduces lifecycle governance, configuration management, verification and validation and traceability from hazards identification to deployment and operation [ 17]."
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "ConfigurationManagement",
+    "chunk": "introduction2",
+    "context": "Sys- tems engineering introduces lifecycle governance, configuration management, verification and validation and traceability from hazards identification to deployment and operation [ 17]."
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "VerificationAndValidation",
+    "chunk": "introduction2",
+    "context": "Sys- tems engineering introduces lifecycle governance, configuration management, verification and validation and traceability from hazards identification to deployment and operation [ 17]."
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "Traceability",
+    "chunk": "introduction2",
+    "context": "Sys- tems engineering introduces lifecycle governance, configuration management, verification and validation and traceability from hazards identification to deployment and operation [ 17]."
+  },
+  {
+    "subject": "SystemEngineeringPrinciple",
+    "relation": "monitors",
+    "object": "SystemBehaviour",
+    "chunk": "introduction2",
+    "context": "Unlike traditional safety analysis, system engineering principles provide robust mechanisms to monitor system behaviour and continu- ously validate the assumptions on which systems, policies, and safety decisions are based, ensuring they remain valid as tech- nologies, regulations, and user behaviour evolve."
+  },
+  {
+    "subject": "SystemEngineeringPrinciple",
+    "relation": "validates",
+    "object": "SystemAssumption",
+    "chunk": "introduction2",
+    "context": "Unlike traditional safety analysis, system engineering principles provide robust mechanisms to monitor system behaviour and continu- ously validate the assumptions on which systems, policies, and safety decisions are based, ensuring they remain valid as tech- nologies, regulations, and user behaviour evolve."
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "introduces",
+    "object": "StructuredFramework",
+    "chunk": "introduction3",
+    "context": "The novelty of the proposed approach is a structured framework to monitor both perceivable assumptions which can be directly observed or measure through operational indicators"
+  },
+  {
+    "subject": "StructuredFramework",
+    "relation": "monitors",
+    "object": "PerceivableAssumption",
+    "chunk": "introduction3",
+    "context": "a structured framework to monitor both perceivable assumptions which can be directly observed"
+  },
+  {
+    "subject": "StructuredFramework",
+    "relation": "monitors",
+    "object": "NonPerceivableAssumption",
+    "chunk": "introduction3",
+    "context": "a structured framework to monitor both perceivable assumptions... and non-perceivable assumptions"
+  },
+  {
+    "subject": "PerceivableAssumption",
+    "relation": "observedThrough",
+    "object": "OperationalIndicator",
+    "chunk": "introduction3",
+    "context": "perceivable assumptions which can be directly observed or measure through operational indicators"
+  },
+  {
+    "subject": "PerceivableAssumption",
+    "relation": "measuredThrough",
+    "object": "OperationalIndicator",
+    "chunk": "introduction3",
+    "context": "perceivable assumptions which can be directly observed or measure through operational indicators"
+  },
+  {
+    "subject": "OperationalIndicator",
+    "relation": "includesExample",
+    "object": "calibration_range",
+    "chunk": "introduction3",
+    "context": "operational indicators (e.g., calibration range, sensor accuracy...)"
+  },
+  {
+    "subject": "OperationalIndicator",
+    "relation": "includesExample",
+    "object": "sensor_accuracy",
+    "chunk": "introduction3",
+    "context": "operational indicators (e.g., calibration range, sensor accuracy...)"
+  }
+]

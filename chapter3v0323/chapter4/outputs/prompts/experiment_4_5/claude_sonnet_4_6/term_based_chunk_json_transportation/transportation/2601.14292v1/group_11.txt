@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Vulnerability",
+  "locatedIn",
+  "ControlLoop",
+  "InvalidAssumption",
+  "reduces",
+  "SafetyEffectiveness",
+  "EuropeanCommission",
+  "establishes",
+  "RoadSafetyKpi",
+  "designedFor",
+  "PolicyBenchmarking",
+  "provides",
+  "Indicator",
+  "improves",
+  "RoadSafety",
+  "TraditionalApproach",
+  "reliantOn",
+  "RetrospectiveCrashData",
+  "focusedOn",
+  "DriverBehaviour",
+  "recognisedAs",
+  "ComplexSocioTechnicalSystem",
+  "shapedBy",
+  "Interaction",
+  "ProactiveSystemsBasedSafetyApproach",
+  "integrates",
+  "SystemsThinking",
+  "RoadSafetyControlStructure",
+  "identifies",
+  "CriticalAssumption",
+  "monitors",
+  "embeddedWithin",
+  "SystemDesign",
+  "DecisionMakingProcess",
+  "ContinuousMonitoring",
+  "essentialFor",
+  "SafeOperation",
+  "prevents",
+  "HazardousState",
+  "advances",
+  "RoadSafetyPractice",
+  "distributedAcross",
+  "Stakeholder",
+  "SurvivalOutcome",
+  "dependentOn",
+  "Paramedic",
+  "AccurateEmergencyDispatch",
+  "SafeRoadAccessDesign",
+  "TrafficManagementSupport",
+  "occursAfter",
+  "Collision",
+  "SpeedCompliance",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour",
+  "RoadTrafficInjury",
+  "SafeDeployment",
+  "SafetyConstraintDefinition",
+  "SocialAcceptance",
+  "SystemTheoreticAccidentModelAndProcesses"
+]
+
+Triples:
+[
+  {
+    "subject": "Vulnerability",
+    "relation": "locatedIn",
+    "object": "ControlLoop",
+    "chunk": "discussion2",
+    "context": "Identifying vulnerabilities in the control loop where an invalid assumption reduces safety effectiveness."
+  },
+  {
+    "subject": "InvalidAssumption",
+    "relation": "reduces",
+    "object": "SafetyEffectiveness",
+    "chunk": "discussion2",
+    "context": "Identifying vulnerabilities in the control loop where an invalid assumption reduces safety effectiveness."
+  },
+  {
+    "subject": "EuropeanCommission",
+    "relation": "establishes",
+    "object": "RoadSafetyKpi",
+    "chunk": "discussion2",
+    "context": "The European Commission established eight road safety KPIs [ 30], designed for policy benchmarking during 2021–2023."
+  },
+  {
+    "subject": "RoadSafetyKpi",
+    "relation": "designedFor",
+    "object": "PolicyBenchmarking",
+    "chunk": "discussion2",
+    "context": "The European Commission established eight road safety KPIs [ 30], designed for policy benchmarking during 2021–2023."
+  },
+  {
+    "subject": "RoadSafetyKpi",
+    "relation": "provides",
+    "object": "Indicator",
+    "chunk": "discussion2",
+    "context": "These KPIs provide indicators on critical risk factors and aim to improve road safety."
+  },
+  {
+    "subject": "RoadSafetyKpi",
+    "relation": "improves",
+    "object": "RoadSafety",
+    "chunk": "discussion2",
+    "context": "These KPIs provide indicators on critical risk factors and aim to improve road safety."
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "reliantOn",
+    "object": "RetrospectiveCrashData",
+    "chunk": "conclusion",
+    "context": "In conclusion, this study demonstrates that traditional approaches to road safety largely reliant on retrospective crash data and focused on driver behaviour are insufficient to address the persistent stagnation in safety performance."
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "focusedOn",
+    "object": "DriverBehaviour",
+    "chunk": "conclusion",
+    "context": "In conclusion, this study demonstrates that traditional approaches to road safety largely reliant on retrospective crash data and focused on driver behaviour are insufficient to address the persistent stagnation in safety performance."
+  },
+  {
+    "subject": "RoadSafety",
+    "relation": "recognisedAs",
+    "object": "ComplexSocioTechnicalSystem",
+    "chunk": "conclusion",
+    "context": "Road safety must instead be recognised as a complex socio-technical system, shaped by interactions across multiple organisational levels, policies, regulatory."
+  },
+  {
+    "subject": "ComplexSocioTechnicalSystem",
+    "relation": "shapedBy",
+    "object": "Interaction",
+    "chunk": "conclusion",
+    "context": "Road safety must instead be recognised as a complex socio-technical system, shaped by interactions across multiple organisational levels, policies, regulatory."
+  },
+  {
+    "subject": "ProactiveSystemsBasedSafetyApproach",
+    "relation": "integrates",
+    "object": "SystemsThinking",
+    "chunk": "conclusion",
+    "context": "By integrating systems thinking with systems engineering principles, this paper introduces a proactive systems-based safety approach that extends beyond reductionist analysis."
+  },
+  {
+    "subject": "RoadSafetyControlStructure",
+    "relation": "identifies",
+    "object": "CriticalAssumption",
+    "chunk": "conclusion",
+    "context": "Using a systems-theoretic model, a road safety control structure for England was developed and applied to identify and monitor critical assumptions embedded within system design and decision-making processes."
+  },
+  {
+    "subject": "RoadSafetyControlStructure",
+    "relation": "monitors",
+    "object": "CriticalAssumption",
+    "chunk": "conclusion",
+    "context": "Using a systems-theoretic model, a road safety control structure for England was developed and applied to identify and monitor critical assumptions embedded within system design and decision-making processes."
+  },
+  {
+    "subject": "CriticalAssumption",
+    "relation": "embeddedWithin",
+    "object": "SystemDesign",
+    "chunk": "conclusion",
+    "context": "Using a systems-theoretic model, a road safety control structure for England was developed and applied to identify and monitor critical assumptions embedded within system design and decision-making processes."
+  },
+  {
+    "subject": "CriticalAssumption",
+    "relation": "embeddedWithin",
+    "object": "DecisionMakingProcess",
+    "chunk": "conclusion",
+    "context": "Using a systems-theoretic model, a road safety control structure for England was developed and applied to identify and monitor critical assumptions embedded within system design and decision-making processes."
+  },
+  {
+    "subject": "ContinuousMonitoring",
+    "relation": "essentialFor",
+    "object": "SafeOperation",
+    "chunk": "conclusion",
+    "context": "The results show that continuous monitoring of these assumptions is essential for maintaining safe operation and preventing system drift into hazardous states."
+  },
+  {
+    "subject": "ContinuousMonitoring",
+    "relation": "prevents",
+    "object": "HazardousState",
+    "chunk": "conclusion",
+    "context": "The results show that continuous monitoring of these assumptions is essential for maintaining safe operation and preventing system drift into hazardous states."
+  },
+  {
+    "subject": "ProactiveSystemsBasedSafetyApproach",
+    "relation": "advances",
+    "object": "RoadSafetyPractice",
+    "chunk": "conclusion",
+    "context": "This approach advances road safety practice by shifting the focus from reactive analysis to continuous safety assurance."
+  },
+  {
+    "subject": "RoadSafety",
+    "relation": "distributedAcross",
+    "object": "Stakeholder",
+    "chunk": "conclusion",
+    "context": "The results shows that road safety is a shared responsibility distributed across all stakeholders."
+  },
+  {
+    "subject": "SurvivalOutcome",
+    "relation": "dependentOn",
+    "object": "Paramedic",
+    "chunk": "conclusion",
+    "context": "survival outcomes after collision, for example, depend not only on paramedics but also on accurate emergency dispatch, safe road access design, and traffic management support."
+  },
+  {
+    "subject": "SurvivalOutcome",
+    "relation": "dependentOn",
+    "object": "AccurateEmergencyDispatch",
+    "chunk": "conclusion",
+    "context": "survival outcomes after collision, for example, depend not only on paramedics but also on accurate emergency dispatch, safe road access design, and traffic management support."
+  },
+  {
+    "subject": "SurvivalOutcome",
+    "relation": "dependentOn",
+    "object": "SafeRoadAccessDesign",
+    "chunk": "conclusion",
+    "context": "survival outcomes after collision, for example, depend not only on paramedics but also on accurate emergency dispatch, safe road access design, and traffic management support."
+  },
+  {
+    "subject": "SurvivalOutcome",
+    "relation": "dependentOn",
+    "object": "TrafficManagementSupport",
+    "chunk": "conclusion",
+    "context": "survival outcomes after collision, for example, depend not only on paramedics but also on accurate emergency dispatch, safe road access design, and traffic management support."
+  },
+  {
+    "subject": "SurvivalOutcome",
+    "relation": "occursAfter",
+    "object": "Collision",
+    "chunk": "conclusion",
+    "context": "survival outcomes after collision, for example, depend not only on paramedics but also on accurate emergency dispatch, safe road access design, and traffic management support."
+  },
+  {
+    "subject": "SpeedCompliance",
+    "relation": "shapedBy",
+    "object": "DriverBehaviour",
+    "chunk": "conclusion",
+    "context": "Likewise, speed compliance is shaped not solely by driver behaviour but by the entire road ecosystem’s clarity and reliability of roadside systems."
+  }
+]

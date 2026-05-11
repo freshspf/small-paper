@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "network_six_drug_network",
+  "containsDrug",
+  "drug_everolimus",
+  "drug_cabazitaxel",
+  "drug_metformin",
+  "drug_erlotinib",
+  "drug_topotecan",
+  "study_covid19_case_study",
+  "involves",
+  "concept_nine_drug_candidates",
+  "data_ddi_data",
+  "encodedIn",
+  "model_weighted_graph",
+  "model_graph_vertices",
+  "represent",
+  "concept_drugs",
+  "model_graph_edges",
+  "concept_harmful_interaction",
+  "concept_synergistic_interaction",
+  "model_graph_nodes",
+  "indicate",
+  "concept_pairwise_interactions",
+  "drug_ritonavir",
+  "hasHarmfulInteractionWith",
+  "hasSynergisticInteractionWith",
+  "model_maximumSafeSubset",
+  "eliminates",
+  "harmful_drug_pairs",
+  "model_synergyConstrainedOptimization",
+  "balances",
+  "outcome_efficacy",
+  "outcome_toxicity",
+  "DrugDrugInteraction",
+  "CombinationTherapy",
+  "HarmfulSideEffect",
+  "TreatmentFailure",
+  "HospitalAdmission",
+  "Patient",
+  "MultipleDrugs",
+  "CancerTherapy",
+  "ChronicDisease",
+  "InfectiousDisease",
+  "SevereBleeding",
+  "BloodThinnerCombination",
+  "MuscleDamage",
+  "KidneyFailure",
+  "CholesterolLoweringDrug",
+  "Antibiotic",
+  "HivTreatment",
+  "CancerChemotherapy",
+  "AntibioticRegimen",
+  "Effectiveness",
+  "Resistance",
+  "TreatmentStrategy",
+  "AntiviralDrug",
+  "AntiInflammatoryDrug",
+  "SupportiveDrug",
+  "algorithm_falqon",
+  "algorithm_ite_falqon",
+  "optimization_ddi_aware_drug_combination",
+  "problem_maximum_safe_subset",
+  "problem_synergy_constrained_optimization",
+  "concept_efficacy",
+  "concept_toxicity",
+  "concept_regimen_size",
+  "data_interaction_data",
+  "database_drugs_com",
+  "database_synergxdb",
+  "Drug",
+  "ComputationalModel",
+  "TherapeuticOutcome",
+  "synergistic_drug_pairs",
+  "hamiltonian_hmss",
+  "hamiltonian_hsco",
+  "ProblemHamiltonian",
+  "PharmacologicalInformation",
+  "GroundState",
+  "OptimalDrugCombination",
+  "UnsafeDrugCombination",
+  "DrugInteractionNetwork"
+]
+
+Triples:
+[
+  {
+    "subject": "network_six_drug_network",
+    "relation": "containsDrug",
+    "object": "drug_everolimus",
+    "chunk": "completedocument2",
+    "context": "We demonstrate our approach on a six-drug network consisting of Ritonavir, Everolimus, Cabazitaxel, Met-formin, Erlotinib, and Topotecan."
+  },
+  {
+    "subject": "network_six_drug_network",
+    "relation": "containsDrug",
+    "object": "drug_cabazitaxel",
+    "chunk": "completedocument2",
+    "context": "We demonstrate our approach on a six-drug network consisting of Ritonavir, Everolimus, Cabazitaxel, Met-formin, Erlotinib, and Topotecan."
+  },
+  {
+    "subject": "network_six_drug_network",
+    "relation": "containsDrug",
+    "object": "drug_metformin",
+    "chunk": "completedocument2",
+    "context": "We demonstrate our approach on a six-drug network consisting of Ritonavir, Everolimus, Cabazitaxel, Met-formin, Erlotinib, and Topotecan."
+  },
+  {
+    "subject": "network_six_drug_network",
+    "relation": "containsDrug",
+    "object": "drug_erlotinib",
+    "chunk": "completedocument2",
+    "context": "We demonstrate our approach on a six-drug network consisting of Ritonavir, Everolimus, Cabazitaxel, Met-formin, Erlotinib, and Topotecan."
+  },
+  {
+    "subject": "network_six_drug_network",
+    "relation": "containsDrug",
+    "object": "drug_topotecan",
+    "chunk": "completedocument2",
+    "context": "We demonstrate our approach on a six-drug network consisting of Ritonavir, Everolimus, Cabazitaxel, Met-formin, Erlotinib, and Topotecan."
+  },
+  {
+    "subject": "study_covid19_case_study",
+    "relation": "involves",
+    "object": "concept_nine_drug_candidates",
+    "chunk": "completedocument2",
+    "context": "We further apply the method to a COVID-19 case study involving nine drug candidates."
+  },
+  {
+    "subject": "data_ddi_data",
+    "relation": "encodedIn",
+    "object": "model_weighted_graph",
+    "chunk": "completedocument2",
+    "context": "The DDI data are encoded in a weighted graph G= (D,Eharm∪Esyn), (2) where vertices represent drugs and edges denote either harmful (belong to a subset Eharm) or synergistic (belong to a subset Esyn) interactions."
+  },
+  {
+    "subject": "model_graph_vertices",
+    "relation": "represent",
+    "object": "concept_drugs",
+    "chunk": "completedocument2",
+    "context": "The DDI data are encoded in a weighted graph G= (D,Eharm∪Esyn), (2) where vertices represent drugs and edges denote either harmful (belong to a subset Eharm) or synergistic (belong to a subset Esyn) interactions."
+  },
+  {
+    "subject": "model_graph_edges",
+    "relation": "represent",
+    "object": "concept_harmful_interaction",
+    "chunk": "completedocument2",
+    "context": "The DDI data are encoded in a weighted graph G= (D,Eharm∪Esyn), (2) where vertices represent drugs and edges denote either harmful (belong to a subset Eharm) or synergistic (belong to a subset Esyn) interactions."
+  },
+  {
+    "subject": "model_graph_edges",
+    "relation": "represent",
+    "object": "concept_synergistic_interaction",
+    "chunk": "completedocument2",
+    "context": "The DDI data are encoded in a weighted graph G= (D,Eharm∪Esyn), (2) where vertices represent drugs and edges denote either harmful (belong to a subset Eharm) or synergistic (belong to a subset Esyn) interactions."
+  },
+  {
+    "subject": "model_graph_nodes",
+    "relation": "represent",
+    "object": "concept_drugs",
+    "chunk": "completedocument2",
+    "context": "Nodes represent individual drugs, while edges indicate pairwise in-teractions."
+  },
+  {
+    "subject": "model_graph_edges",
+    "relation": "indicate",
+    "object": "concept_pairwise_interactions",
+    "chunk": "completedocument2",
+    "context": "Nodes represent individual drugs, while edges indicate pairwise in-teractions."
+  },
+  {
+    "subject": "drug_ritonavir",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_everolimus",
+    "chunk": "completedocument3",
+    "context": "Ritonavir Everolimus harm 0.95"
+  },
+  {
+    "subject": "drug_ritonavir",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_cabazitaxel",
+    "chunk": "completedocument3",
+    "context": "Ritonavir Cabazitaxel harm 0.90"
+  },
+  {
+    "subject": "drug_metformin",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_ritonavir",
+    "chunk": "completedocument3",
+    "context": "Metformin Ritonavir harm 0.65"
+  },
+  {
+    "subject": "drug_metformin",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_everolimus",
+    "chunk": "completedocument3",
+    "context": "Metformin Everolimus harm 0.55"
+  },
+  {
+    "subject": "drug_ritonavir",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_erlotinib",
+    "chunk": "completedocument3",
+    "context": "Ritonavir Erlotinib harm 0.80"
+  },
+  {
+    "subject": "drug_topotecan",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_cabazitaxel",
+    "chunk": "completedocument3",
+    "context": "Topotecan Cabazitaxel harm 0.75"
+  },
+  {
+    "subject": "drug_erlotinib",
+    "relation": "hasHarmfulInteractionWith",
+    "object": "drug_cabazitaxel",
+    "chunk": "completedocument3",
+    "context": "Erlotinib Cabazitaxel harm 0.70"
+  },
+  {
+    "subject": "drug_everolimus",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_cabazitaxel",
+    "chunk": "completedocument3",
+    "context": "Everolimus Cabazitaxel synergy 0.60"
+  },
+  {
+    "subject": "drug_everolimus",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_topotecan",
+    "chunk": "completedocument3",
+    "context": "Everolimus Topotecan synergy 0.58"
+  },
+  {
+    "subject": "drug_erlotinib",
+    "relation": "hasSynergisticInteractionWith",
+    "object": "drug_metformin",
+    "chunk": "completedocument3",
+    "context": "Erlotinib Metformin synergy 0.39"
+  },
+  {
+    "subject": "model_maximumSafeSubset",
+    "relation": "eliminates",
+    "object": "harmful_drug_pairs",
+    "chunk": "completedocument3",
+    "context": "While the MSS formulation focuses exclusively on safetybyeliminatingharmfuldrugpairs,manytherapeu- tic applicationsdemand amorenuancedbalancebetweeneﬃcacy and toxicity [37]."
+  },
+  {
+    "subject": "model_synergyConstrainedOptimization",
+    "relation": "balances",
+    "object": "outcome_efficacy",
+    "chunk": "completedocument3",
+    "context": "Consequently, the ground state of HSCOencodes the optimal clinically constrained drug set, simultaneously balancing eﬃcacy, safety, and size."
+  },
+  {
+    "subject": "model_synergyConstrainedOptimization",
+    "relation": "balances",
+    "object": "outcome_toxicity",
+    "chunk": "completedocument3",
+    "context": "In SCO, the objective function contains three contri- butions. First, synergistic interactions decrease the loss, favoring the co-selection of pharmacologically compati- ble drug pairs. Second, harmful interactions increase the loss through a toxicity penalty"
+  }
+]

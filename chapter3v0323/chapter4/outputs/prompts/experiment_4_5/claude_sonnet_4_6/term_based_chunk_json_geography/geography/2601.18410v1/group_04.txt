@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "link_bsCu",
+  "correspondsTo",
+  "node_baseStation",
+  "scheme_powerControl",
+  "implementedIn",
+  "space_subcarrier",
+  "cluster_coarseLink",
+  "contains",
+  "cluster_fineLink",
+  "serves",
+  "node_cellularUser",
+  "algorithm_1",
+  "generates",
+  "cluster_suSatelliteLink",
+  "satellite_network",
+  "deployedAtAltitude",
+  "altitude_500km",
+  "coverageArea_baseStation",
+  "hasRadius",
+  "radius_1km",
+  "user_cellular",
+  "distributedWithin",
+  "user_secondary",
+  "circularArea_A",
+  "movesAlong",
+  "path_straight",
+  "centeredAt",
+  "coordinate_116E_40N",
+  "location_subSatellitePoint1",
+  "locatedAt",
+  "coordinate_107E_40N",
+  "location_subSatellitePoint2",
+  "location_subSatellitePoint3",
+  "coordinate_125E_40N",
+  "antennaArray_SU",
+  "hasDiameter",
+  "length_0point5m",
+  "hasLobeWidth",
+  "angle_61point2Degrees",
+  "CompositeChannelModel",
+  "consistsOf",
+  "LargeScaleFading",
+  "SmallScaleFading",
+  "composedOf",
+  "PathLoss",
+  "Shadowing",
+  "followsDistribution",
+  "LogNormalDistribution",
+  "modeledBy",
+  "FreeSpaceReferenceDistanceModel",
+  "dependsOn",
+  "TransmissionDistance",
+  "ReferenceDistance",
+  "HybridSatelliteTerrestrialNetwork",
+  "SatelliteNetwork",
+  "TerrestrialNetwork",
+  "university_minzuUniversityOfChina",
+  "city_beijing",
+  "country_china",
+  "university_tsinghua",
+  "university_durham",
+  "city_durham",
+  "country_uk",
+  "university_southeast",
+  "laboratory_purpleMountainLaboratories",
+  "city_nanjing",
+  "User",
+  "SpatialDistribution",
+  "HybridSatelliteUavTerrestrialMaritimeNetwork",
+  "MaritimeNetwork",
+  "SatelliteLink",
+  "TerrestrialLink",
+  "Satellite",
+  "SatelliteComponent",
+  "BaseStation",
+  "TerrestrialComponent",
+  "Uav",
+  "AerialStation",
+  "TerrestrialBaseStation",
+  "SmartVehicle"
+]
+
+Triples:
+[
+  {
+    "subject": "link_bsCu",
+    "relation": "correspondsTo",
+    "object": "node_baseStation",
+    "chunk": "completedocument9",
+    "context": "the BS-CU links corresponding to each BS can be scheduled\nindependently."
+  },
+  {
+    "subject": "scheme_powerControl",
+    "relation": "implementedIn",
+    "object": "space_subcarrier",
+    "chunk": "completedocument9",
+    "context": "Lastly, power control for the SUs is implemented in each\nsubcarrierk∈Kbased on (21)"
+  },
+  {
+    "subject": "cluster_coarseLink",
+    "relation": "contains",
+    "object": "cluster_fineLink",
+    "chunk": "completedocument9",
+    "context": "fine link clustering for each coarse link cluster."
+  },
+  {
+    "subject": "node_baseStation",
+    "relation": "serves",
+    "object": "node_cellularUser",
+    "chunk": "completedocument9",
+    "context": "link scheduling for the CUs served by all\nM=I clFBSs"
+  },
+  {
+    "subject": "algorithm_1",
+    "relation": "generates",
+    "object": "cluster_suSatelliteLink",
+    "chunk": "completedocument9",
+    "context": "Firstly,KSU-satellite link clusters, i.e.,U k,k= 1, ..., K,\nand a group of satellite selection indicators for the SUs,\nˆζ∗\nu,j,u∈N s,j= 1, ..., J′\nu, are obtained via Algorithm 1."
+  },
+  {
+    "subject": "satellite_network",
+    "relation": "deployedAtAltitude",
+    "object": "altitude_500km",
+    "chunk": "completedocument10",
+    "context": "The satellites are deployed in orbits at the altitude ofH sat= 500km."
+  },
+  {
+    "subject": "coverageArea_baseStation",
+    "relation": "hasRadius",
+    "object": "radius_1km",
+    "chunk": "completedocument10",
+    "context": "The radius for the coverage area of each BS is set as1km."
+  },
+  {
+    "subject": "user_cellular",
+    "relation": "distributedWithin",
+    "object": "coverageArea_baseStation",
+    "chunk": "completedocument10",
+    "context": "It is assumed that the CUs are randomly distributed within the coverage area of each BS, and the SUs are randomly distributed in a circular areaAslightly larger than total coverage area of all the BSs."
+  },
+  {
+    "subject": "user_secondary",
+    "relation": "distributedWithin",
+    "object": "circularArea_A",
+    "chunk": "completedocument10",
+    "context": "It is assumed that the CUs are randomly distributed within the coverage area of each BS, and the SUs are randomly distributed in a circular areaAslightly larger than total coverage area of all the BSs."
+  },
+  {
+    "subject": "user_cellular",
+    "relation": "movesAlong",
+    "object": "path_straight",
+    "chunk": "completedocument10",
+    "context": "Besides, the CUs(i, r, v)and SUsuare supposed to move along randomly-generated straight paths at random speeds ofν(cu,bs) i,r,v ∈[0,2]m/s andν(su) u∈[0,10]m/s, respectively."
+  },
+  {
+    "subject": "user_secondary",
+    "relation": "movesAlong",
+    "object": "path_straight",
+    "chunk": "completedocument10",
+    "context": "Besides, the CUs(i, r, v)and SUsuare supposed to move along randomly-generated straight paths at random speeds ofν(cu,bs) i,r,v ∈[0,2]m/s andν(su) u∈[0,10]m/s, respectively."
+  },
+  {
+    "subject": "circularArea_A",
+    "relation": "centeredAt",
+    "object": "coordinate_116E_40N",
+    "chunk": "completedocument10",
+    "context": "The center of the circular areaAis supposed to be located at(116◦E,40◦N), and the sub-satellite points of the sampled locations for the satellites are at(107◦E,40◦N), (116◦E,40◦N), and(125◦E,40◦N), respectively."
+  },
+  {
+    "subject": "location_subSatellitePoint1",
+    "relation": "locatedAt",
+    "object": "coordinate_107E_40N",
+    "chunk": "completedocument10",
+    "context": "The center of the circular areaAis supposed to be located at(116◦E,40◦N), and the sub-satellite points of the sampled locations for the satellites are at(107◦E,40◦N), (116◦E,40◦N), and(125◦E,40◦N), respectively."
+  },
+  {
+    "subject": "location_subSatellitePoint2",
+    "relation": "locatedAt",
+    "object": "coordinate_116E_40N",
+    "chunk": "completedocument10",
+    "context": "The center of the circular areaAis supposed to be located at(116◦E,40◦N), and the sub-satellite points of the sampled locations for the satellites are at(107◦E,40◦N), (116◦E,40◦N), and(125◦E,40◦N), respectively."
+  },
+  {
+    "subject": "location_subSatellitePoint3",
+    "relation": "locatedAt",
+    "object": "coordinate_125E_40N",
+    "chunk": "completedocument10",
+    "context": "The center of the circular areaAis supposed to be located at(116◦E,40◦N), and the sub-satellite points of the sampled locations for the satellites are at(107◦E,40◦N), (116◦E,40◦N), and(125◦E,40◦N), respectively."
+  },
+  {
+    "subject": "antennaArray_SU",
+    "relation": "hasDiameter",
+    "object": "length_0point5m",
+    "chunk": "completedocument10",
+    "context": "The pattern of the transmit antenna array equipped at each SU is supposed to follow the ITU-R recommendation S.465 with a diameter of0.5m and main lobe width of 61.2◦[8], [30]."
+  },
+  {
+    "subject": "antennaArray_SU",
+    "relation": "hasLobeWidth",
+    "object": "angle_61point2Degrees",
+    "chunk": "completedocument10",
+    "context": "The pattern of the transmit antenna array equipped at each SU is supposed to follow the ITU-R recommendation S.465 with a diameter of0.5m and main lobe width of 61.2◦[8], [30]."
+  },
+  {
+    "subject": "CompositeChannelModel",
+    "relation": "consistsOf",
+    "object": "LargeScaleFading",
+    "chunk": "completedocument11",
+    "context": "A general composite channel model consisting of large-scale and small-scale fading, i.e.,h=√β·w, is adopted for all the BS-CU, SU-satellite, and SU-CU interference links [5], [8], whereβdenotes the large-scale fading, andwis the small- scale fading."
+  },
+  {
+    "subject": "CompositeChannelModel",
+    "relation": "consistsOf",
+    "object": "SmallScaleFading",
+    "chunk": "completedocument11",
+    "context": "A general composite channel model consisting of large-scale and small-scale fading, i.e.,h=√β·w, is adopted for all the BS-CU, SU-satellite, and SU-CU interference links [5], [8], whereβdenotes the large-scale fading, andwis the small- scale fading."
+  },
+  {
+    "subject": "LargeScaleFading",
+    "relation": "composedOf",
+    "object": "PathLoss",
+    "chunk": "completedocument11",
+    "context": "βis composed of path loss and shadowing, i.e., β=l·s, wherelis the path loss andsrepresents the log-normal-distributed shadowing."
+  },
+  {
+    "subject": "LargeScaleFading",
+    "relation": "composedOf",
+    "object": "Shadowing",
+    "chunk": "completedocument11",
+    "context": "βis composed of path loss and shadowing, i.e., β=l·s, wherelis the path loss andsrepresents the log-normal-distributed shadowing."
+  },
+  {
+    "subject": "Shadowing",
+    "relation": "followsDistribution",
+    "object": "LogNormalDistribution",
+    "chunk": "completedocument11",
+    "context": "βis composed of path loss and shadowing, i.e., β=l·s, wherelis the path loss andsrepresents the log-normal-distributed shadowing."
+  },
+  {
+    "subject": "PathLoss",
+    "relation": "modeledBy",
+    "object": "FreeSpaceReferenceDistanceModel",
+    "chunk": "completedocument11",
+    "context": "Based on the close-in (CI) free-space reference distance model [22], the path losslis expressed asl[dB] =b+ 10alog10(d/¯d0)+ 20 log10(fc), whereddenotes transmission distance, ¯d0= 1m is the reference distance,bis the path loss at¯d0, andais the path loss exponent."
+  },
+  {
+    "subject": "PathLoss",
+    "relation": "dependsOn",
+    "object": "TransmissionDistance",
+    "chunk": "completedocument11",
+    "context": "Based on the close-in (CI) free-space reference distance model [22], the path losslis expressed asl[dB] =b+ 10alog10(d/¯d0)+ 20 log10(fc), whereddenotes transmission distance, ¯d0= 1m is the reference distance,bis the path loss at¯d0, andais the path loss exponent."
+  },
+  {
+    "subject": "PathLoss",
+    "relation": "dependsOn",
+    "object": "ReferenceDistance",
+    "chunk": "completedocument11",
+    "context": "Based on the close-in (CI) free-space reference distance model [22], the path losslis expressed asl[dB] =b+ 10alog10(d/¯d0)+ 20 log10(fc), whereddenotes transmission distance, ¯d0= 1m is the reference distance,bis the path loss at¯d0, andais the path loss exponent."
+  }
+]

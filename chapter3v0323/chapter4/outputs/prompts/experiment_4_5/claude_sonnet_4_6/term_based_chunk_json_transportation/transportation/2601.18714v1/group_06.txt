@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TSAP",
+  "actsAsSurrogateFor",
+  "AveragePrecision",
+  "optimizes",
+  "GlobalRanking",
+  "TripletLoss",
+  "focusesOn",
+  "LocalPairwiseConstraint",
+  "reliesOn",
+  "HardNegativeMiningStrategy",
+  "considers",
+  "BatchDistribution",
+  "PerceptualAliasing",
+  "inherentTo",
+  "SemiStructuredEnvironment",
+  "causesFailureOf",
+  "TripletBasedApproach",
+  "MinkUNeXtVINE",
+  "employs",
+  "TsapApproach",
+  "MrlApproach",
+  "improves",
+  "RecallAt1Metric",
+  "usedIn",
+  "PlaceRecognition",
+  "MrlMultiLossApproach",
+  "LprAlgorithm",
+  "ConfigurationId9",
+  "proposedAs",
+  "SeasonalChange",
+  "impacts",
+  "LprTask",
+  "QuantitativeEvaluation",
+  "uses",
+  "MinkUNeXtBackbone",
+  "TempoVineDataset",
+  "operatesIn",
+  "VineyardSetting",
+  "contains",
+  "VineyardEnvironment",
+  "WinterSeason",
+  "hasFeature",
+  "BareVine",
+  "SummerSeason",
+  "AbundantVegetation",
+  "SelectedCampaign",
+  "belongsTo",
+  "Season",
+  "represents",
+  "CropStage",
+  "CropStatus",
+  "Performance",
+  "TallGrass",
+  "obstructsFieldOfViewOf",
+  "LivoxSensor",
+  "isMountedOn",
+  "HuskyUgvBase",
+  "EnvironmentalOcclusion",
+  "increasesDifficultyOf",
+  "PlaceRecognitionTask",
+  "MobileRobot",
+  "MinkunextVine",
+  "DeepLearningMethod",
+  "RoboticSystem",
+  "Environment",
+  "GpsDeniedEnvironment",
+  "AutonomousNavigationSystem",
+  "Vineyard",
+  "AgriculturalEnvironment",
+  "AgriculturalVehicle",
+  "AutonomousNavigation",
+  "AgriculturalRobotics",
+  "LprNetwork",
+  "LprMethod",
+  "LidarSensor",
+  "LowCost",
+  "LowResolution",
+  "CrossSeasonScenario",
+  "VineyardDataset",
+  "DenseFoliage"
+]
+
+Triples:
+[
+  {
+    "subject": "TSAP",
+    "relation": "actsAsSurrogateFor",
+    "object": "AveragePrecision",
+    "chunk": "completedocument7",
+    "context": "This superiority is due to the fact that TSAP acts as a direct, differentiable surrogate for the evaluation metric itself (Average Precision), optimizing the global ranking of the retrieved candidates."
+  },
+  {
+    "subject": "TSAP",
+    "relation": "optimizes",
+    "object": "GlobalRanking",
+    "chunk": "completedocument7",
+    "context": "This superiority is due to the fact that TSAP acts as a direct, differentiable surrogate for the evaluation metric itself (Average Precision), optimizing the global ranking of the retrieved candidates."
+  },
+  {
+    "subject": "TripletLoss",
+    "relation": "focusesOn",
+    "object": "LocalPairwiseConstraint",
+    "chunk": "completedocument7",
+    "context": "While Triplet Loss focuses on local pairwise constraints—pushing negatives away from positives by a fixed margin—it relies heavily on complex hard-negative mining strategies to be effective."
+  },
+  {
+    "subject": "TripletLoss",
+    "relation": "reliesOn",
+    "object": "HardNegativeMiningStrategy",
+    "chunk": "completedocument7",
+    "context": "While Triplet Loss focuses on local pairwise constraints—pushing negatives away from positives by a fixed margin—it relies heavily on complex hard-negative mining strategies to be effective."
+  },
+  {
+    "subject": "TSAP",
+    "relation": "considers",
+    "object": "BatchDistribution",
+    "chunk": "completedocument7",
+    "context": "Conversely, TSAP considers the entire batch distribution simultaneously, enforcing a global ordering where positive matches are prioritized over negatives, thereby learning a more robust and structured embedding space without the instability associated with triplet selection."
+  },
+  {
+    "subject": "PerceptualAliasing",
+    "relation": "inherentTo",
+    "object": "SemiStructuredEnvironment",
+    "chunk": "completedocument7",
+    "context": "The high degree of perceptual aliasing inherent to these semi-structured environments often causes triplet-based approaches to fail by enforcing separation between distinct locations that are visually indistinguishable, leading to poor convergence."
+  },
+  {
+    "subject": "PerceptualAliasing",
+    "relation": "causesFailureOf",
+    "object": "TripletBasedApproach",
+    "chunk": "completedocument7",
+    "context": "The high degree of perceptual aliasing inherent to these semi-structured environments often causes triplet-based approaches to fail by enforcing separation between distinct locations that are visually indistinguishable, leading to poor convergence."
+  },
+  {
+    "subject": "MinkUNeXtVINE",
+    "relation": "employs",
+    "object": "TsapApproach",
+    "chunk": "completedocument8",
+    "context": "Therefore, the loss function employed by our MinkUNeXt-VINE is the original TSAP approach."
+  },
+  {
+    "subject": "MrlApproach",
+    "relation": "improves",
+    "object": "RecallAt1Metric",
+    "chunk": "completedocument8",
+    "context": "Using MRL represents a +5% improvement in the Recall@1 metric."
+  },
+  {
+    "subject": "RecallAt1Metric",
+    "relation": "usedIn",
+    "object": "PlaceRecognition",
+    "chunk": "completedocument8",
+    "context": "Recall@1 is the most important metric in place recognition because it represents the success of retrieving the first candidate."
+  },
+  {
+    "subject": "MrlMultiLossApproach",
+    "relation": "improves",
+    "object": "LprAlgorithm",
+    "chunk": "completedocument8",
+    "context": "These experiments demonstrate that the MRL multi-loss approach provides better performance in our LPR algorithm, despite being simpler and more computationally efficient because it does not require the full descriptor to be used multiple times."
+  },
+  {
+    "subject": "ConfigurationId9",
+    "relation": "proposedAs",
+    "object": "MinkUNeXtVINE",
+    "chunk": "completedocument8",
+    "context": "Therefore, the configuration used in the experiment with ID 9 was the final proposal for our MinkUNeXt-VINE method because it produced better results."
+  },
+  {
+    "subject": "SeasonalChange",
+    "relation": "impacts",
+    "object": "LprTask",
+    "chunk": "completedocument8",
+    "context": "For the quantitative evaluation of the impact of seasonal changes in agricultural environments on LPR tasks, we used the MinkUNeXt backbone [13] and the TEMPO-VINE dataset [38]."
+  },
+  {
+    "subject": "QuantitativeEvaluation",
+    "relation": "uses",
+    "object": "MinkUNeXtBackbone",
+    "chunk": "completedocument8",
+    "context": "For the quantitative evaluation of the impact of seasonal changes in agricultural environments on LPR tasks, we used the MinkUNeXt backbone [13] and the TEMPO-VINE dataset [38]."
+  },
+  {
+    "subject": "QuantitativeEvaluation",
+    "relation": "uses",
+    "object": "TempoVineDataset",
+    "chunk": "completedocument8",
+    "context": "For the quantitative evaluation of the impact of seasonal changes in agricultural environments on LPR tasks, we used the MinkUNeXt backbone [13] and the TEMPO-VINE dataset [38]."
+  },
+  {
+    "subject": "PlaceRecognition",
+    "relation": "operatesIn",
+    "object": "VineyardSetting",
+    "chunk": "completedocument8",
+    "context": "Figure 6 represents the challenge of obtaining an accurate place recognition solution in vineyard settings."
+  },
+  {
+    "subject": "TempoVineDataset",
+    "relation": "contains",
+    "object": "VineyardEnvironment",
+    "chunk": "completedocument8",
+    "context": "Figure 6: Example of seasonal changes from a same location in a vineyard environment extracted from the TEMPO-VINE dataset."
+  },
+  {
+    "subject": "WinterSeason",
+    "relation": "hasFeature",
+    "object": "BareVine",
+    "chunk": "completedocument8",
+    "context": "Left: Winter season with bare vines."
+  },
+  {
+    "subject": "SummerSeason",
+    "relation": "hasFeature",
+    "object": "AbundantVegetation",
+    "chunk": "completedocument8",
+    "context": "Right: Summer season with abundant vegetation and the grown crop."
+  },
+  {
+    "subject": "SelectedCampaign",
+    "relation": "belongsTo",
+    "object": "Season",
+    "chunk": "completedocument8",
+    "context": "Each of the selected campaigns belongs to a different season and represents a different crop stage, making them distinctly different from each other."
+  },
+  {
+    "subject": "SelectedCampaign",
+    "relation": "represents",
+    "object": "CropStage",
+    "chunk": "completedocument8",
+    "context": "Each of the selected campaigns belongs to a different season and represents a different crop stage, making them distinctly different from each other."
+  },
+  {
+    "subject": "CropStatus",
+    "relation": "impacts",
+    "object": "Performance",
+    "chunk": "completedocument8",
+    "context": "As evidenced by the five validation tables, performance remains consistent across months where the crop status is stable."
+  },
+  {
+    "subject": "TallGrass",
+    "relation": "obstructsFieldOfViewOf",
+    "object": "LivoxSensor",
+    "chunk": "completedocument9",
+    "context": "As reported in the TEMPO-VINE dataset article [38], this period is characterized by tall grass which obstructs the field of view of the Livox sensor, given its low mounting position on the Husky UGV base."
+  },
+  {
+    "subject": "LivoxSensor",
+    "relation": "isMountedOn",
+    "object": "HuskyUgvBase",
+    "chunk": "completedocument9",
+    "context": "As reported in the TEMPO-VINE dataset article [38], this period is characterized by tall grass which obstructs the field of view of the Livox sensor, given its low mounting position on the Husky UGV base."
+  },
+  {
+    "subject": "EnvironmentalOcclusion",
+    "relation": "increasesDifficultyOf",
+    "object": "PlaceRecognitionTask",
+    "chunk": "completedocument9",
+    "context": "It is also notable that in months with fully developed canopies, such as June and September, environmental occlusions significantly increase the difficulty of the place recognition task."
+  }
+]

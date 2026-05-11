@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["ArcticSnowDepth","SnowDepth","ArcticSeaIceThickness","SeaIceThickness","SeaIce","Arctic","SeaIceParameter","SnowDensity","HydrostaticBalanceEquation","HydrostaticBalanceForwardModel","HydrostaticBalance","SeaIceThermodynamics","PhysEInv","PhysicsEncodedNeuralNetwork","PeNN","LSTMEncoderDecoder","MultiHeadAttention","PhysicsGuidedContrastiveLearning","PhysicsGuidedInference","SurjectiveInversionMapping","SurjectivePhysicsConstrainedInversionMethodology","ReconstructionPhysicsRegularization","LatentSpace","TimeSeriesInput","NoisyObservationalData","SparseData","InputNoise","HiddenPhysicalParameter","TimeVaryingParameter","InverseModeling","ForwardModel","EmpiricalMethod","ReanalysisProduct","ERA5","DirectMeasurement","Observation","GroundTruth","ArcticSeaIce","SnowVariable","SeaIceVariable"]
+
+Triples:
+[{"subject":"ArcticSnowDepth","relation":"isA","object":"SnowDepth"},{"subject":"SnowDepth","relation":"locatedIn","object":"Arctic"},{"subject":"SnowDepth","relation":"exertsFirstOrderControlOn","object":"ArcticSeaIceThickness"},{"subject":"ERA5","relation":"isA","object":"ReanalysisProduct"},{"subject":"ERA5","relation":"doesNotProvide","object":"DirectMeasurement"},{"subject":"DirectMeasurement","relation":"measures","object":"SnowDepth"},{"subject":"SnowDepth","relation":"influences","object":"SeaIceThermodynamics"},{"subject":"SnowDensity","relation":"isA","object":"Observation"},{"subject":"SnowDensity","relation":"hasQuality","object":"InputNoise"},{"subject":"SnowDensity","relation":"hasAvailability","object":"SparseData"},{"subject":"PhysEInv","relation":"isA","object":"InverseModeling"},{"subject":"PhysEInv","relation":"isA","object":"PhysicsEncodedNeuralNetwork"},{"subject":"PhysEInv","relation":"integrates","object":"LSTMEncoderDecoder"},{"subject":"PhysEInv","relation":"integrates","object":"MultiHeadAttention"},{"subject":"PhysEInv","relation":"integrates","object":"PhysicsGuidedContrastiveLearning"},{"subject":"PhysEInv","relation":"integrates","object":"PhysicsGuidedInference"},{"subject":"PhysEInv","relation":"uses","object":"SurjectiveInversionMapping"},{"subject":"PhysEInv","relation":"uses","object":"HydrostaticBalanceEquation"},{"subject":"PhysEInv","relation":"embedsConstraintFrom","object":"ArcticSeaIceThicknessEquation"},{"subject":"PhysEInv","relation":"predicts","object":"SnowDepth"},{"subject":"PhysEInv","relation":"predictsFrom","object":"NoisyObservationalData"},{"subject":"PhysEInv","relation":"improves","object":"PredictionPerformance"},{"subject":"PhysEInv","relation":"improves","object":"PhysicalConsistency"},{"subject":"PhysEInv","relation":"isResilientTo","object":"DataSparsity"},{"subject":"PhysEInv","relation":"appliesTo","object":"GeospatialDomain"},{"subject":"PhysEInv","relation":"appliesTo","object":"CryosphericDomain"},{"subject":"SurjectivePhysicsConstrainedInversionMethodology","relation":"uses","object":"HydrostaticBalanceForwardModel"},{"subject":"HydrostaticBalanceForwardModel","relation":"actsAs","object":"TargetFormulationProxy"},{"subject":"TargetFormulationProxy","relation":"enablesLearningWithout","object":"GroundTruth"},{"subject":"GroundTruth","relation":"describes","object":"SnowDepth"},{"subject":"SurjectivePhysicsConstrainedInversionMethodology","relation":"uses","object":"ReconstructionPhysicsRegularization"},{"subject":"ReconstructionPhysicsRegularization","relation":"operatesOver","object":"LatentSpace"},{"subject":"ReconstructionPhysicsRegularization","relation":"discovers","object":"HiddenPhysicalParameter"},{"subject":"ReconstructionPhysicsRegularization","relation":"usesInput","object":"TimeSeriesInput"},{"subject":"TimeSeriesInput","relation":"hasQuality","object":"InputNoise"},{"subject":"TimeSeriesInput","relation":"hasCompleteness","object":"SparseData"},{"subject":"InverseModeling","relation":"infers","object":"HiddenPhysicalParameter"},{"subject":"InverseModeling","relation":"uncovers","object":"HiddenCharacteristic"},{"subject":"InverseModeling","relation":"extractsInsightsFrom","object":"ObservableGeospatialPhenomenon"},{"subject":"ForwardModel","relation":"isSensitiveTo","object":"InputNoise"}]

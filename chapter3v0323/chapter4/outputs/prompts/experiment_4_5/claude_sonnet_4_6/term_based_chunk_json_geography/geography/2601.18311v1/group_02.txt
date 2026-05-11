@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "equipment_ebits",
+  "operatedAt",
+  "facility_llnl",
+  "facility_nist",
+  "facility_mpik",
+  "ebit_jaxaEbit",
+  "isInstalledAt",
+  "facility_isasJaxa",
+  "spectralFeature_feLComplex",
+  "isObservedIn",
+  "GalaxyCluster",
+  "SupernovaRemnant",
+  "beamline_bl17su",
+  "isLocatedAt",
+  "facility_spring8",
+  "isBroughtTo",
+  "apparatus_xps",
+  "isLocatedDownstreamOf",
+  "mirror_kbSystem",
+  "refocusesAt",
+  "region_jaxaEbitTrap",
+  "isConnectedTo",
+  "beamlineBranch_bl17suA",
+  "instrument_siliconDriftDetector",
+  "mountedOn",
+  "region_centralTrapRegion",
+  "facility_jaxaEbit",
+  "connectedTo",
+  "beamline_bl17suBeamline",
+  "locatedIn",
+  "mountedPerpendicularTo",
+  "axis_beamAxis",
+  "instrument_auFoilPhotoelectronMeter",
+  "insertedOnto",
+  "locatedUpstreamOf",
+  "entity_ionCloud",
+  "trappedIn",
+  "facility_ebit",
+  "instrument_yagScreen",
+  "installedAt",
+  "region_downstreamEnd",
+  "partOf",
+  "chamber_ebitVacuumChamber",
+  "beam_synchrotronPhotonBeam",
+  "locatedOn",
+  "gas_neutralIron",
+  "injectedInto",
+  "region_ebitTrapRegion",
+  "gas_neutralOxygen",
+  "presentIn",
+  "chamber_ebitChamber",
+  "radiation_synchrotronRadiation",
+  "introducedThrough",
+  "tube_ebitDriftTube",
+  "ExitSlit",
+  "Monochromator",
+  "facility_universityOfTokyo",
+  "location_hongo",
+  "ward_bunkyoKu",
+  "city_tokyo",
+  "country_japan",
+  "facility_isas",
+  "ward_chuoKu",
+  "city_sagamihara",
+  "facility_rikenPioneeringResearchInstitute",
+  "city_wako",
+  "facility_maxPlanckInstitut",
+  "city_heidelberg",
+  "country_germany",
+  "facility_europeanXfel",
+  "city_schenefeld",
+  "facility_nationalInstituteForFusionScience",
+  "city_toki",
+  "facility_instituteForLaserScience",
+  "city_chofu",
+  "facility_rikkyoUniversity",
+  "ward_toshimaKu",
+  "facility_universityOfMiyazaki",
+  "city_miyazaki",
+  "facility_rikenSpring8Center"
+]
+
+Triples:
+[
+  {
+    "subject": "equipment_ebits",
+    "relation": "operatedAt",
+    "object": "facility_llnl",
+    "chunk": "completedocument1",
+    "context": "Since the development of the EBIT at Lawrence Liv-\nermore National Laboratory (LLNL) in the 1980s, vari-\nous experiments to measure atomic data have been car-\nried out through spectroscopic observations of EBIT plas-\nmas using different types of EBITs operated at, for exam-\nple, LLNL, National Institute of Standards and Technology\n(NIST), and Max-Planck-Institut f ¨ur Kernphysik (MPIK)."
+  },
+  {
+    "subject": "equipment_ebits",
+    "relation": "operatedAt",
+    "object": "facility_nist",
+    "chunk": "completedocument1",
+    "context": "Since the development of the EBIT at Lawrence Liv-\nermore National Laboratory (LLNL) in the 1980s, vari-\nous experiments to measure atomic data have been car-\nried out through spectroscopic observations of EBIT plas-\nmas using different types of EBITs operated at, for exam-\nple, LLNL, National Institute of Standards and Technology\n(NIST), and Max-Planck-Institut f ¨ur Kernphysik (MPIK)."
+  },
+  {
+    "subject": "equipment_ebits",
+    "relation": "operatedAt",
+    "object": "facility_mpik",
+    "chunk": "completedocument1",
+    "context": "Since the development of the EBIT at Lawrence Liv-\nermore National Laboratory (LLNL) in the 1980s, vari-\nous experiments to measure atomic data have been car-\nried out through spectroscopic observations of EBIT plas-\nmas using different types of EBITs operated at, for exam-\nple, LLNL, National Institute of Standards and Technology\n(NIST), and Max-Planck-Institut f ¨ur Kernphysik (MPIK)."
+  },
+  {
+    "subject": "ebit_jaxaEbit",
+    "relation": "isInstalledAt",
+    "object": "facility_isasJaxa",
+    "chunk": "completedocument2",
+    "context": "This device, hereafter the JAXA-EBIT, was completed and installed at ISAS/JAXA in 2022."
+  },
+  {
+    "subject": "spectralFeature_feLComplex",
+    "relation": "isObservedIn",
+    "object": "GalaxyCluster",
+    "chunk": "completedocument2",
+    "context": "The lines in the Fe-L complex are frequently highlighted in observational studies of galaxy clusters (e.g., [31, 32]) and supernova remnants (e.g., [33, 34])."
+  },
+  {
+    "subject": "spectralFeature_feLComplex",
+    "relation": "isObservedIn",
+    "object": "SupernovaRemnant",
+    "chunk": "completedocument2",
+    "context": "The lines in the Fe-L complex are frequently highlighted in observational studies of galaxy clusters (e.g., [31, 32]) and supernova remnants (e.g., [33, 34])."
+  },
+  {
+    "subject": "beamline_bl17su",
+    "relation": "isLocatedAt",
+    "object": "facility_spring8",
+    "chunk": "completedocument2",
+    "context": "Therefore, we brought the JAXA-EBIT to the soft X-ray beamline BL17SU [38] at the synchrotron radiation facility SPring-8 [39] and conducted a six-day beam-time experiment to perform active spectroscopy on the resonant photoexcitation processes of EBIT plasma."
+  },
+  {
+    "subject": "ebit_jaxaEbit",
+    "relation": "isBroughtTo",
+    "object": "beamline_bl17su",
+    "chunk": "completedocument2",
+    "context": "Therefore, we brought the JAXA-EBIT to the soft X-ray beamline BL17SU [38] at the synchrotron radiation facility SPring-8 [39] and conducted a six-day beam-time experiment to perform active spectroscopy on the resonant photoexcitation processes of EBIT plasma."
+  },
+  {
+    "subject": "apparatus_xps",
+    "relation": "isLocatedDownstreamOf",
+    "object": "ebit_jaxaEbit",
+    "chunk": "completedocument2",
+    "context": "The incident photon energy was calibrated prior to the beam-time by conducting X-ray photoemission spectroscopy (XPS) measurement of 4felectrons from the thin Au foil using an XPS apparatus, which was located downstream of our EBIT."
+  },
+  {
+    "subject": "mirror_kbSystem",
+    "relation": "refocusesAt",
+    "object": "region_jaxaEbitTrap",
+    "chunk": "completedocument2",
+    "context": "A Kirkpatrick Baez (KB) mirror [42] system refocuses the photon beam at the position of the JAXA-EBIT trap region a few meters downstream."
+  },
+  {
+    "subject": "ebit_jaxaEbit",
+    "relation": "isConnectedTo",
+    "object": "beamlineBranch_bl17suA",
+    "chunk": "completedocument2",
+    "context": "We connected the JAXA-EBIT to BL17SU branch-a through a differential pumping system."
+  },
+  {
+    "subject": "instrument_siliconDriftDetector",
+    "relation": "mountedOn",
+    "object": "region_centralTrapRegion",
+    "chunk": "completedocument3",
+    "context": "These photons were detected by a silicon drift detector (SDD), equipped with a 500 nm thin aluminum filter, mounted on the side of the central trap region."
+  },
+  {
+    "subject": "facility_jaxaEbit",
+    "relation": "connectedTo",
+    "object": "beamline_bl17suBeamline",
+    "chunk": "completedocument3",
+    "context": "Fig. 2 Photograph of the JAXA-EBIT connected to BL17SU, SPring-8, with key components in our experimental setup."
+  },
+  {
+    "subject": "beamline_bl17suBeamline",
+    "relation": "locatedIn",
+    "object": "facility_spring8",
+    "chunk": "completedocument3",
+    "context": "Fig. 2 Photograph of the JAXA-EBIT connected to BL17SU, SPring-8, with key components in our experimental setup."
+  },
+  {
+    "subject": "instrument_siliconDriftDetector",
+    "relation": "mountedPerpendicularTo",
+    "object": "axis_beamAxis",
+    "chunk": "completedocument3",
+    "context": "To efficiently detect the X-ray photons emitted by resonant photoexcitation processes, the SDD was mounted perpendicular to the beam axis and the polarization direction of the incident photon beam; in this experiment we only used the vertically polarized photon beam."
+  },
+  {
+    "subject": "instrument_auFoilPhotoelectronMeter",
+    "relation": "insertedOnto",
+    "object": "axis_beamAxis",
+    "chunk": "completedocument3",
+    "context": "We also installed an Au foil photoelectron meter that can be inserted onto the beam axis when needed upstream of the JAXA-EBIT to monitor the incident photon beam flux."
+  },
+  {
+    "subject": "instrument_auFoilPhotoelectronMeter",
+    "relation": "locatedUpstreamOf",
+    "object": "facility_jaxaEbit",
+    "chunk": "completedocument3",
+    "context": "We also installed an Au foil photoelectron meter that can be inserted onto the beam axis when needed upstream of the JAXA-EBIT to monitor the incident photon beam flux."
+  },
+  {
+    "subject": "entity_ionCloud",
+    "relation": "trappedIn",
+    "object": "facility_ebit",
+    "chunk": "completedocument3",
+    "context": "In the first step of our experiment, we carefully aligned the JAXA-EBIT to overlap the incident photon beam with the ion cloud trapped in the EBIT."
+  },
+  {
+    "subject": "instrument_yagScreen",
+    "relation": "installedAt",
+    "object": "region_downstreamEnd",
+    "chunk": "completedocument3",
+    "context": "First, we roughly adjusted the position of the EBIT by visually checking the position of the synchrotron photon beam on the YAG screen installed at the downstream end of the EBIT vacuum chamber (far right in Fig. 2)."
+  },
+  {
+    "subject": "region_downstreamEnd",
+    "relation": "partOf",
+    "object": "chamber_ebitVacuumChamber",
+    "chunk": "completedocument3",
+    "context": "First, we roughly adjusted the position of the EBIT by visually checking the position of the synchrotron photon beam on the YAG screen installed at the downstream end of the EBIT vacuum chamber (far right in Fig. 2)."
+  },
+  {
+    "subject": "beam_synchrotronPhotonBeam",
+    "relation": "locatedOn",
+    "object": "instrument_yagScreen",
+    "chunk": "completedocument3",
+    "context": "First, we roughly adjusted the position of the EBIT by visually checking the position of the synchrotron photon beam on the YAG screen installed at the downstream end of the EBIT vacuum chamber (far right in Fig. 2)."
+  },
+  {
+    "subject": "gas_neutralIron",
+    "relation": "injectedInto",
+    "object": "region_ebitTrapRegion",
+    "chunk": "completedocument3",
+    "context": "In our experimental setup, neutral iron was injected into the trap region as a molecular gas of ferrocene (Fe(C 5H5)2), while neutral oxygen was inherently present in the EBIT chamber as residual gas including H 2O, O 2, and CO 2."
+  },
+  {
+    "subject": "gas_neutralOxygen",
+    "relation": "presentIn",
+    "object": "chamber_ebitChamber",
+    "chunk": "completedocument3",
+    "context": "In our experimental setup, neutral iron was injected into the trap region as a molecular gas of ferrocene (Fe(C 5H5)2), while neutral oxygen was inherently present in the EBIT chamber as residual gas including H 2O, O 2, and CO 2."
+  },
+  {
+    "subject": "radiation_synchrotronRadiation",
+    "relation": "introducedThrough",
+    "object": "tube_ebitDriftTube",
+    "chunk": "completedocument3",
+    "context": "Fig. 1 Schematic diagram showing the mechanism of HCI production and trapping inside the JAXA-EBIT, as well as the detection of the photons emitted from the resonant photoexcitation processes of HCIs irradiated with the monochromatic X-ray photons of the synchrotron radiation, which is introduced coaxially through the EBIT drift tube."
+  },
+  {
+    "subject": "ExitSlit",
+    "relation": "locatedIn",
+    "object": "Monochromator",
+    "chunk": "completedocument4",
+    "context": "The energy resolution of the synchrotron radiation beam is determined by the exit-slit width of the monochromator; the energy resolution is increased when the slit width is decreased."
+  }
+]

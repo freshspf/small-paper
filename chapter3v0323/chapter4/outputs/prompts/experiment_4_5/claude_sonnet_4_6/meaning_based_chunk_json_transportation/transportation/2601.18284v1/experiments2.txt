@@ -1,0 +1,162 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiments2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiments2
+- section_title: Experiments
+- page_start: 6
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+This area includes a major
+arterial and several side streets, featuring significant flow
+imbalances and complex intersection structures. The real-
+world network and its simulated counterpart are shown in
+Figure 8, where (a) depicts an aerial view of the study area
+and (b) illustrates the corresponding simulation network.
+Table XI details the inflows and signal phase settings of the
+five intersections. The simulation uses one hour of observed
+peak-period traffic demand, with a vehicle composition of cars,
+buses, and motorcycles, and a desired speed of 50 km/h. Over-
+all, traffic volumes on the arterial are significantly higher than
+those on the side streets, reflecting the imbalanced conditions
+commonly observed in practice. This configuration captures
+the complexity of real-world traffic conditions and serves to
+examine VissimRL’s adaptability and optimization capability
+under varying demand pressures and signal complexities.
+TABLE XI: Configurations for real-world traffic data.
+NetworkArrival rate
+(vehicles/h)Phases
+(number)
+Dayuan
+(5-Intersections)Arterial : 3573
+Side-street : 2420-
+- Intersection-1Minsheng S Rd : 1623
+Zhongzheng E Rd : 8692
+- Intersection-2Minan Rd : 46 2
+- Intersection-3Ping’ an Rd : 498 2
+- Intersection-4Hengnan Rd : 396 3
+- Intersection-5Zhongzheng E Rd : 1950
+Dayuan Interchange Ramp : 412
+Lane 444, Zhongzheng E Rd : 1994
+Note.Vehicle composition includes cars, buses, and scooters (with a
+desired speed of 50 km/h).
+
+100 m
+Zhongzheng E Rd
+Minsheng S Rd
+Minan Rd
+Ping' an Rd
+Hengnan Rd
+Dayuan 
+Interchange Ramp
+Lane 444, 
+Zhongzheng E Rd(a) Aerial photograph of the Dayuan Interchange.
+(b) Corresponding simulation network in Vissim.
+Fig. 8: Real-world scenario of the Dayuan Interchange: (a)
+aerial photograph and (b) corresponding simulation network.
+B. Wrapper Evaluation
+This section evaluates the performance of the Vissim Wrap-
+per in terms of development effort and runtime efficiency.
+To ensure consistency and comparability, we define three
+standardized benchmark workloads. They represent progres-
+sively more complex levels of interaction, ranging from basic
+simulation advancement to the combination of signal control
+and performance evaluation.
+•W0 — Step-only
+Advances the simulation by time steps only. This work-
+load reflects the theoretical lower bound of simulation
+execution and is primarily used to measure the baseline
+overhead of advancing simulation steps.
+•W1 — Step + TS
+Extends W0 by adding traffic signal read/write opera-
+tions. Every five seconds, the current phase is retrieved
+and switched to the next, representing a simplified signal
+control loop.
+•W2 — Step + TS + Eval
+Builds on W1 by incorporating traffic state and perfor-
+mance queries. Queue length is used as the observation
+feature, and delay is adopted as the performance indicator,
+representing a simplified RL training loop.
+Among these, W0 serves as a performance baseline, whileW1 and W2 represent increasingly realistic control and learn-
+ing interactions. The stepwise design of the workloads allows
+the impact of different task types on development effort and
+runtime efficiency to be distinguished, offering a structured
+way to assess the Vissim Wrapper’s performance.
+1) Runtime Micro-benchmark:To assess the runtime ef-
+ficiency of the Vissim Wrapper, its performance is com-
+pared with Raw COM across standardized workloads. The
+experiment was conducted on a Single-Intersection network
+with a simulation length of 3600 seconds and a resolution
+of 10 (36,000 simulation steps). Logging, visualization, and
+non-essential outputs were disabled to ensure that the mea-
+surements captured only the overhead of program calls. The
+evaluation considered two indicators: per-step latency, which
+measures the average execution time of each simulation step
+to reflect fine-grained computational overhead, and simulation-
+step throughput, representing the overall simulation efficiency.
+The results are summarized in Tables XII and XIII. For the
+W0 workload, which involves only simulation stepping, the
+Wrapper showed only a 4% increase in per-step latency com-
+pared to Raw COM, indicating negligible overhead, while the
+simulation-step throughput was maintained at a comparable
+level.
+TABLE XII: Per-step latency comparison between Raw COM
+and Wrapper for benchmark workloads.
+WorkloadRaw COM
+(ms/step)Wrapper
+(ms/step)Overhead (%)
+W0 Step-only 0.787±0.0050.819±0.006+ 4.041%
+W1 Step+TS 0.889±0.0040.828±0.005−6.842%
+W2 Step+TS+Eval 0.967±0.0040.848±0.005−12.267%
+Note.Values represent mean±standard deviation across five runs. Lower
+latency indicates better performance.
+TABLE XIII: Simulation-step throughput comparison be-
+tween Raw COM and Wrapper for benchmark workloads.
+WorkloadRaw COM
+(steps/s)Wrapper
+(steps/s)Ratio
+W0 Step-only 1270.496 1220.949 0.961
+W1 Step+TS 1125.551 1208.045 1.073
+W2 Step+TS+Eval 1034.438 1179.033 1.140
+Note.Values represent the mean over five runs.

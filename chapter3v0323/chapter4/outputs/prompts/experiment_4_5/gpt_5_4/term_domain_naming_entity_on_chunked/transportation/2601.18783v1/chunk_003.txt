@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["MicroscopicTrafficSimulator","ConvexCoverageSet","PreferenceAwarePolicySelection","OpenSource","DecisionMakingInTrafficEnvironment","StochasticHighwayEnvironment","SUMO","SimulationOfUrbanMObility","VehicleDynamics","ThreeLaneHighwaySegment","MixedTraffic","PassengerCar","EgoVehicle","TractorSemitrailerCombination","MovingWindow","Boundary","TrafficDensity","CongestionLevel","TrafficModeling","MultiObjectiveMarkovDecisionProcess","Tuple","StateSpace","ActionSpace","TransitionProbabilityDistribution","Reward","DiscountFactor","StateActionPair","ValueFunction","ParetoDominance","NonDominatedValueVector","ScalarizationFunction","UtilityFunction","UserPreference"]
+
+Triples:
+[{"subject":"RewardFunction","relation":"incorporates","object":"OperationalCost"},{"subject":"LowLevelControl","relation":"managedBy","object":"PhysicsBasedModel"},{"subject":"SingleScalarReward","relation":"makesChallenging","object":"OptimalPerformance"},{"subject":"Agent","relation":"learns","object":"StableBehavior"},{"subject":"StableBehavior","relation":"associatedWith","object":"SafetyFocusedReward"},{"subject":"Agent","relation":"strugglesWith","object":"JointReward"},{"subject":"JointReward","relation":"captures","object":"Safety"},{"subject":"JointReward","relation":"captures","object":"Efficiency"},{"subject":"JointReward","relation":"captures","object":"OperationalCost"},{"subject":"CompetingObjective","relation":"difficultToBalanceWithin","object":"SingleRewardSignal"},{"subject":"SingleRewardSignal","relation":"leadsTo","object":"PoorGeneralization"},{"subject":"MultiObjectiveReinforcementLearning","relation":"optimizes","object":"MultipleObjective"},{"subject":"MultiObjectiveReinforcementLearning","relation":"avoidsCollapsingInto","object":"SingleScalar"},{"subject":"ActorCriticMORL","relation":"supports","object":"PreferenceConditionedDecisionMaking"},{"subject":"PreferenceConditionedDecisionMaking","relation":"tradesOff","object":"EnergyConsumption"},{"subject":"PreferenceConditionedDecisionMaking","relation":"tradesOff","object":"TravelEfficiency"},{"subject":"MORL","relation":"proposedFor","object":"HighwayDecisionMaking"},{"subject":"AdaptiveMORLPolicy","relation":"adjustsTo","object":"UserPreference"},{"subject":"MORLStudy","relation":"focusesOn","object":"PassengerVehicle"},{"subject":"MORLStudy","relation":"overlooks","object":"HeavyDutyTruckChallenge"},{"subject":"HeavyDutyTruckChallenge","relation":"becomesSignificantWhenUsing","object":"TotalCostOfOperation"},{"subject":"Framework","relation":"tailoredFor","object":"HeavyDutyVehicle"},{"subject":"Framework","relation":"buildsOn","object":"GeneralizedPolicyImprovementWithLinearSupport"},{"subject":"GeneralizedPolicyImprovementWithLinearSupport","relation":"formulates","object":"PreferencePrioritization"},{"subject":"PreferencePrioritization","relation":"as","object":"OptimizationProblem"},{"subject":"GeneralizedPolicyImprovementWithLinearSupport","relation":"achieves","object":"FasterConvergence"},{"subject":"GeneralizedPolicyImprovementWithLinearSupport","relation":"achieves","object":"HigherUtility"},{"subject":"HigherUtility","relation":"spans","object":"MultipleObjective"},{"subject":"Framework","relation":"extendsTo","object":"PolicyGradientApproach"},{"subject":"PolicyGradientApproach","relation":"appliedTo","object":"TacticalDecisionMaking"},{"subject":"TacticalDecisionMaking","relation":"forVehicleType","object":"Truck"},{"subject":"ProximalPolicyOptimization","relation":"usedAs","object":"RLAlgorithm"},{"subject":"ProximalPolicyOptimization","relation":"hasProvenPerformanceIn","object":"TacticalDrivingTask"},{"subject":"Framework","relation":"develops","object":"MultiObjectivePPO"},{"subject":"MultiObjectivePPO","relation":"hasComponent","object":"VectorValuedCritic"},{"subject":"MultiObjectivePPO","relation":"hasComponent","object":"ActionLogit"},{"subject":"ActionLogit","relation":"assignedPer","object":"Objective"},{"subject":"MultiObjectivePPO","relation":"appliesScalarizationAt","object":"LossLevel"},{"subject":"Design","relation":"preserves","object":"ObjectiveStructure"},{"subject":"Design","relation":"facilitates","object":"PolicyImprovement"}]

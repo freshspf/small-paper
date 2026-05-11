@@ -1,0 +1,142 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument15",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument15
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Best performance for each task is marked in bold.
+Embedding modelemb2abs emb2sec emb2pls emb2com emb2dif
+bge-large-en-v1.50.86±0.05 0.76±0.07 0.80±0.05 0.88±0.040.88±0.04
+gte-large-en-v1.50.83±0.060.76±0.080.76±0.06 0.85±0.040.89±0.03
+pubmedbert-base-embeddings0.81±0.09 0.65±0.14 0.69±0.10 0.82±0.07 0.83±0.07
+Regex Registry
+ACTRN[0-9]+Australian New Zealand Clinical Trials Registry
+ChiCTR[A-Z0-9-]+Chinese Clinical Trials Register
+CTIS[0-9-]+European Union Clinical Trials Information System
+CTRI[0-9/]+Clinical Trials Registry - India
+DRKS[0-9]+German Clinical Trials Register
+EUCTR[0-9a-zA-Z-]+European Clinical Trials Register
+IRCT[0-9]+N[0-9]+Iranian Registry of Clinical Trials
+ISRCTN[0-9]+UK Clinical Study Register
+ITMCTR[0-9]+International Traditional Medicine Clinical Trial Registry
+JPRN-[a-zA-Z0-9]+Japan Primary Registries Network
+KCT[0-9]{7}Korean Clinical Research Information Service
+LBCTR[0-9]+Lebanese Clinical Trials Registry
+NCT[0-9]{8}US National Clinical Trial
+NL-OMON[0-9]+Overview of Medical Research in the Netherlands
+PACTR[0-9]+Pan African Clinical Trials Registry
+RBR-[a-z0-9]+Brazilian Clinical Trials Registry
+RPCEC[0-9]{4}Cuban Registry of Clinical Trials
+SLCTR/\d+/\d+Sri Lanka Clinical Trials Registry
+TCTR[0-9]+Thai Clinical Trials Registry
+Table 10: Regular Expressions for identifying Clinical Trial Registry identifiers.
+these groups in the trial. We thus searched PubMed
+for randomized controlled trials with only one of
+the top-level MeSH age groups ‘Child’ (defined in
+MeSH as ages 6-12) and ‘Aged’ (defined as age 65
+and above), further excluding the other top-level
+groups (‘Infant’, ‘Child, Preschool’, ‘Adolescent’,
+‘Adult’, and ‘Middle Aged’). To find studies appli-
+cable across ages, we also excluded age-specific
+study elements, such as ‘Schools’ for child stud-ies or ‘Dementia’ for aged studies. The complete
+PubMed search strings are provided in Figs. 17 and
+18. Again, search results were sorted using the
+‘Best Match’ option, and, for each age group, the
+first 25 were collected that satisfied two manually
+verified criteria: (1) subject age was mentioned in
+the abstract, and (2) there were no implied partici-
+pants of other ages. We again augmented the data
+to ensure semantically symmetrical pairs by using
+18
+
+Table 11: Win Rate of abstracts generated from original or modified embedding vectors when presented to an LLM
+discriminator along with a real abstract. For ctELM , the 1P-1E training procedure is used with the 5-task 1.2M
+dataset, and all CA Vs are applied with|α|= 0.5.
+Win rate by embedding type
+Method Base model Orig. Interp. CA V-sex CA V-age
+Vec2Text - 0.00±0.00 - - -
+Vec2Text-ft - 0.01±0.00 - - -
+Vec2Text-sect - 0.00±0.00 - - -
+Vec2Text-sect-ft - 0.01±0.00 - - -
+ctELMgemma-3-1b-it0.12±0.02 0.13±0.05 - -
+ctELMgemma-3-4b-it0.31±0.07 0.29±0.06 - -
+ctELMmedgemma-4b-it0.22±0.05 0.16±0.02 - -
+ctELMLlama-3.1-8B-Instruct0.39±0.06 0.40±0.06 0.38±0.07 0.40±0.08
+gpt-4o-2024-11-20 to reverse the age of study
+participants in these initial 50 abstracts, using the
+prompt in Fig. 19. This created a total of 100 ab-
+stracts describing clinical trials: 25 real child, 25
+real aged, 25 synthetic child, and 25 synthetic aged.
+All synthetic samples were manually reviewed for
+successful change of subject age and consistency
+of other study details.
+K Extraction of Subject Demographics
+To evaluate responsiveness of ctELM to CA Vs,
+we employed an extraction agent comprising
+gpt-4o-2024-11-20 with the system messages de-
+picted in Figures 20 and 21 for sex and age, respec-
+tively. For both, the user prompt template was
+“Now process the following abstract: {abstract}".
+L Generated Examples of Interpolated
+Embedding
+To illustrate the generative capabilities of ctELM
+on interpolated embeddings, we present three ex-
+amples of generated texts (background, objective,
+and result) derived from the average of two distinct
+abstract embeddings. As shown in Fig. 22, Fig. 23,
+and Fig. 24, ctELM successfully synthesizes se-
+mantically coherent sentences that reflect thematic
+overlaps between the paired source abstracts. This
+demonstrates the model’s capacity to interpolate
+meaningfully between known research areas. Im-
+portantly, this capability suggests a promising av-
+enue for exploratory scientific hypothesis genera-
+tion. For instance, by sampling embeddings from
+underrepresented or “empty” regions of the seman-
+tic space (i.e., areas not directly covered by existing
+training data), ctELM could be prompted to gener-
+ate novel study hypotheses, bridging previouslyunconnected biomedical concepts.

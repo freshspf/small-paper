@@ -1,0 +1,133 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+**INPUT TEXT CHUNK:**
+Feedback-Based Quantum Control for Safe and Synergistic Dr ug Combination Design
+Mai Nguyen Phuong Nhi,1,2Lan Nguyen Tran,1,2and Le Bin Ho3,4
+1University of Science, Vietnam National University, Ho Chi Minh City 700000, Vietnam
+2Vietnam National University, Ho Chi Minh City 700000, Vietn am
+3Frontier Research Institute for Interdisciplinary Scienc es, Tohoku University, Sendai 980-8578, Japan
+4Department of Applied Physics, Graduate School of Engineer ing, Tohoku University, Sendai 980-8579, Japan
+(Dated: January 27, 2026)
+Drug-drug interactions (DDIs) strongly aﬀect the safety an d eﬃcacy of combination therapies.
+Despite the availability of large DDI databases, selecting optimal multi-drug combinations that bal-
+ance safety, therapeutic beneﬁt, and regimen size remains a challenging combinatorial optimization
+problem. Here, we present a quantum-control-based framewo rk for DDI-aware drug combination
+optimization, in which known harmful and synergistic inter actions are encoded into Ising Hamiltoni-
+ans as penalties and rewards, respectively. The optimizati on is performed using the feedback-based
+quantum algorithm FALQON, a gradient-free variational app roach. We study two clinically moti-
+vated tasks: the Maximum Safe Subset problem and the Synergy -Constrained Optimization prob-
+lem. Numerical simulations using interaction data from Dru gs.com and SYNERGxDB demonstrate
+eﬃcient convergence and high-quality solutions for clinic ally relevant drug sets, including COVID-19
+case studies.
+I. INTRODUCTION
+Drug-drug interactions (DDIs) are a common cause of
+harmful side eﬀects, treatment failure, and hospital ad-
+mission in modern medicine [1–4]. These problems be-
+come more serious as patients are increasingly treated
+with multiple drugs (polypharmacy) at the same time,
+for example in cancer therapy, long-term treatment of
+chronic diseases, or infectious diseases [5–8]. As more
+drugs are combined, the number of possible interactions
+grows very quickly, and even one dangerous combina-
+tion can put a patient at serious risk [5, 7]. Well-
+known examples include severe bleeding caused by cer-
+tain combinations of blood thinners [9, 10], muscle dam-
+age [11, 12], and kidney failure [13] that can occur when
+some cholesterol-lowering drugs are taken together with
+speciﬁc antibiotics.
+On the other hand, many eﬀective treatments in-
+tentionally rely on positive drug interactions [14–17].
+Combination therapies are widely used in HIV treat-
+ment [16, 18], cancer chemotherapy [15, 19], and antibi-
+otic regimens [20], where multiple drugs work together
+to improve eﬀectiveness or prevent resistance. During
+the COVID-19 pandemic, several treatment strategies
+explored combinations of antiviral, anti-inﬂammatory,
+and supportive drugs, where both beneﬁcial synergy
+and harmful interactions had to be carefully considered
+[16, 21–23].
+While substantial eﬀort has been devoted to predict-
+ing DDIs and curating interaction databases [24–26], an
+equally important downstream challenge remains: select-
+ing safe and eﬀective multi-drug regimens given existing
+DDI knowledge . In clinical practice, interaction data are
+typically treated as ﬁxed input, and the main diﬃculty
+lies in exploring the rapidly growing space of possible
+drug combinations while simultaneously avoiding harm-
+ful interactions and leveraging therapeutic synergy. This
+combinatorial complexity, together with the high cost ofexperimental and clinical validation, motivates the de-
+velopment of advanced optimization approaches, includ-
+ingquantum-assistedandquantum-inspiredmethods, for
+systematic drug combination design.
+From a computational perspective, selecting an op-
+timal subset of drugs from a library of size ncan be
+naturally formulated as a graph problem, where nodes
+represent drugs and edges encode harmful or synergis-
+tic interactions [24–30]. Finding the largest harm-free
+combination corresponds to a maximum independent-set
+problem on the harmful subgraph, while identifying a
+high-synergy, size-constrained combination with toxicity
+penalties leads to more general quadratic unconstrained
+binary optimization (QUBO) formulations [31]. These
+problemsareNP-hardandquicklybecomeintractablefor
+classical exhaustive search as ngrows, even when heuris-
+tic or approximate methods are employed [32].
+Quantum optimization algorithms provide a potential
+route to addressing such combinatorial explosions. The
+quantum approximate optimization algorithm (QAOA)
+has emerged as a widely studied framework for en-
+coding discrete optimization problems into parameter-
+ized quantum circuits [33]. However, QAOA suﬀers
+from several limitations that are particularly severe on
+noisy intermediate-scale quantum (NISQ) devices: cir-
+cuit depth grows with the number of layers, classical
+parameter optimization can be slow and prone to bar-
+ren plateaus [34], and constrained problems often require
+delicate tuning of penalty terms.

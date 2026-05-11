@@ -1,0 +1,122 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument10
+- section_title: Complete Document
+- page_start: 1
+- page_end: 10
+
+INPUT TEXT CHUNK:
+Cspedes,
+“Satellite visibility prediction for constrained devices in direct-to-
+satellite IoT systems,”IEEE Sensors Journal, vol. 24, no. 16, pp.
+26 630–26 644, 2024.
+[27] F. A. Tondo, J. M. d. S. Sant’Ana, S. Montejo-Snchez, O. L. A.
+Lpez, S. Cspedes, and R. D. Souza, “Non-orthogonal multiple-access
+strategies for direct-to-satellite IoT networks,”IEEE Transactions on
+Aerospace and Electronic Systems, pp. 1–13, 2025.
+[28] Lacuna Space. (2025, August) Lacuna space leads global adoption
+of open IoT standards, delivering on UKs satellite communication
+strategy. Accessed: 2025-10-29. [Online]. Available: https://lacuna-spa
+ce.com/lacuna-space-leads-global-adoption-of-open-iot-standards-del
+ivering-on-uks-satellite-communication-strategy/
+[29] LoRa Alliance. (2025, August) LoRa Alliance white paper: Regulation
+for LoRaWAN satellite. Accessed: 2025-10-29. [Online]. Available:
+https://resources.lora-alliance.org/home/lora-alliance-white-paper-regul
+ation-for-lorawan-satellite-august2025[30] Z. Qu, G. Zhang, H. Cao, and J. Xie, “LEO satellite constellation for
+internet of things,”IEEE Access, vol. 5, pp. 18 391–18 401, 2017.
+[31] G. M. Capez, S. Henn, J. A. Fraire, and R. Garello, “Sparse satellite con-
+stellation design for global and regional direct-to-satellite IoT services,”
+IEEE Transactions on Aerospace and Electronic Systems, vol. 58, no. 5,
+pp. 3786–3801, 2022.
+[32] O. B. Osoro and E. J. Oughton, “A techno-economic framework for
+satellite networks applied to low earth orbit constellations: Assessing
+starlink, oneweb and kuiper,”IEEE Access, vol. 9, pp. 141 611–141 625,
+2021.
+[33] L. Toka, M. Konrad, A. Pekar, and G. Biczk, “Integrating the skies
+for 6G: Techno-economic considerations of LEO, HAPS, and UA V
+technologies,”IEEE Communications Magazine, vol. 62, no. 11, pp.
+44–51, 2024.
+[34] Y . Seyedi and S. M. Safavi, “On the analysis of random coverage time in
+mobile LEO satellite communications,”IEEE Communications Letters,
+vol. 16, no. 5, pp. 612–615, 2012.
+[35] J. Petajajarvi, K. Mikhaylov, A. Roivainen, T. Hanninen, and M. Pet-
+tissalo, “On the coverage of LPWANs: range evaluation and channel
+attenuation model for LoRa technology,” in2015 14th International
+Conference on ITS Telecommunications (ITST), 2015, pp. 55–59.
+[36] A. Abdi, W. Lau, M.-S. Alouini, and M. Kaveh, “A new simple model
+for land mobile satellite channels: first- and second-order statistics,”
+IEEE Transactions on Wireless Communications, vol. 2, no. 3, pp. 519–
+528, 2003.
+[37] A. Talgat, M. A. Kishk, and M.-S. Alouini, “Stochastic geometry-based
+uplink performance analysis of IoT over LEO satellite communication,”
+IEEE Transactions on Aerospace and Electronic Systems, vol. 60, no. 4,
+pp. 4198–4213, 2024.
+[38] J. M. S. SantAna, A. Hoeller, H. Alves, and R. D. Souza, “LR-FHSS-
+Sim: A discrete-event simulator for LR-FHSS networks,” in2024 Joint
+European Conference on Networks and Communications & 6G Summit
+(EuCNC/6G Summit), 2024, pp. 700–705.
+[39] Wyld Networks. Wyld Networks and KWS: Enhancing agricultural
+precision with advanced IoT solutions. Accessed: Aug. 14, 2025.
+[Online]. Available: https://wyldnetworks.com/directus/assets/b010e05
+1-5c96-4b50-ad69-e9cce6765e01
+[40] Myriota. What Low-Cost Satellite IoT Means For Global Connectivity.
+Accessed: Aug. 14, 2025. [Online]. Available: https://myriota.com/pt
+-br/what-low-cost-satellite-iot-means-for-global-connectivity/
+[41] Steel In The Air. Cell Tower Lease Consultants. Accessed: Oct. 12,
+2025. [Online]. Available: https://www.steelintheair.com/cell-tower-lea
+se-rates/.

@@ -1,0 +1,127 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument5",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument5
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+**INPUT TEXT CHUNK:**
+The sensor mounting in-
+cludes two Zed2i stereo RGB-D cameras, a SICK MRS1000 2D LiDAR, a FPS
+9
+
+BX992 GPS-RTK system, a RSK-UM7 inertial measurement unit (IMU) sen-
+sor and an Ouster OS1-16 3D LiDAR. For the LPR task, the Ouster OS1-16
+provides high quality point clouds of the environment, as it is able to capture
+more than 300k points per second with a range of more than 100 meters with
+its 16 simultaneous beams.
+Figure 2 depicts the two vineyards that comprise the BLT dataset with
+their corresponding extension.
+Figure 2: Extension of each of the vineyard considered within the BLT datasets [37]. a)
+Ktima Gerovassiliou (Greece). b) Riseholme (United Kingdom).
+4.2. TEMPO-VINE dataset
+The TEMPO-VINE dataset [38] was collected in northern Italy (Agli` e)
+in two distinct vineyard settings: pergola and trellis. The campaigns con-
+ducted at this dataset are a total of eleven, starting in February and finishing
+in October, which results in a total coverage of all seasons and crop stages.
+For each campaign, two runs are collected in the pergola setting and two
+runs are collected in the trellis setting. Although the two runs recorded
+in the pergola cover the same path, there is a discrepancy between the two
+runs captured in the trellis environment. Specifically, ”run1” encompasses 10
+rows, while ”run2” encompasses 8 rows. The first four rows of ”run2” align
+with the first four rows of ”run1,” while the subsequent four rows traverse in
+the opposite direction. Furthermore, from the latter campaigns conducted
+in June onward, a third row was collected in the trellis environment, en-
+compassing revisits to the first three rows of the trellis in reverse. Taking
+10
+
+this into account, the total number of trajectories available of this dataset is
+twenty-four.
+Each row in both the pergola and trellis settings is 110 meters long. This
+dataset’s distinctive features are its captions of the diverse growth stages of
+grass in a field and the fact that the dataset was recorded at a linear speed
+of one meter per second. These attributes introduce an additional layer
+of complexity to the place recognition problem, making it more difficult to
+identify the exact location within the field.
+Regarding the robotic setup of this dataset, a Husky UGV platform from
+Clearpath Robotics was used. The sensors collected include a RGB-D Intel
+Realsense D435 camera, a Swift Navigation Duro GPS-RTK system and a
+MicroStrain 3DM-GX5 IMU. The dataset was collected using two different
+LiDARs: a Velodyne VLP-16 and a Livox MID360. The two sources un-
+der consideration yield point clouds of varying characteristics. The Livox
+employs a non-repetitive scanning pattern, whereby the point clouds are
+constructed from the exposure time. In contrast, the Velodyne adheres to
+a conventional time-of-flight (TOF) pattern. Consequently, the Livox sen-
+sors generate considerably less detailed point clouds, a common feature in
+lower cost sensors. Figure 3 illustrates the point clouds generated by both
+sensors captured simultaneously, highlighting the FoV characteristics of each
+device. Notably, the point cloud obtained with the Velodyne sensor contains
+approximately 10,000 more points per frame than its Livox counterpart.
+Figure 4 displays the field corresponding to the TEMPO-VINE dataset.
+The pergola rows are situated in the left portion of the field, while the rows
+corresponding to the trellis are located in the central and right parts of the
+image. It is important to note that, due to the curvature of the field, the
+extension values are approximate (the rows on the left side are longer than
+those on the right side). In the pergola scenario, the rows are wider (3.5
+meters), while in the trellis, the rows have a width of 2 meters. The pergola
+section measures 15 meters in width, with a length of 110 meters that aligns
+with the westernmost section of the trellis.
+5. Experimental setup
+In order to assess the efficacy of the proposed MinkUNeXt-VINE, a series
+of experiments were conducted on two distinct datasets, as outlined in Section
+4. In Section 7, the division of the query into a training set and a testing
+set is executed in accordance with the methodology outlined by Uy et al.
+11
+
+Figure 3: Comparison between the two LiDAR sensors used in the TEMPO-VINE dataset
+collection. Left: Point cloud captured with the Livox. Right: Point cloud captured with
+the Velodyne. The vertical FoV is annotated next to each sensor, while the horizontal
+FoV is 360◦for both.
+in their PointNetVLAD contribution [4]. The trajectory of the vehicle is
+subdivided into a series of zones, defined by a predetermined set of points.
+These points are determined by the robot’s GPS position and a radius in
+meters, which is used to delineate the area of interest. A subset of zones
+within this trajectory is reserved for testing only, while the remainder is
+incorporated into the training set.

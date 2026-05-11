@@ -1,0 +1,69 @@
+You are an ontology axiom extraction system. Your task is to identify and extract formal RDFS ontology axioms from the given scientific or technical text.
+
+
+
+**CORE INSTRUCTIONS:**
+1. Extract ontology axioms including but not limited to:
+   - Subclass relationships (`rdfs:subClassOf`)
+   - Sub-objectproperty relationships (`owl:subObjectPropertyOf`)
+   - Sub-dataproperty relationships (`owl:subDataPropertyOf`)
+   - Domain restrictions (`rdfs:domain`)
+   - Range restrictions (`rdfs:range`)
+   - Disjointness axioms (`owl:disjointWith`)
+
+2. Each axiom must represent a single atomic ontological assertion and describe the knowledge in the given field.
+
+3. Every axiom MUST be directly supported by an exact quote from the provided text OR logically inferred from explicit statements about class/property relationships.
+
+
+
+
+
+
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following exact structure:
+{
+  "axioms": [
+    {
+      "subject": "string (the ontological entity)",
+      "relation": "string (the ontological predicate)",
+      "object": "string (the target entity or value)",
+      "chunk": "string (from which section)",
+      "evidence": "string (exact text segment supporting this axiom)"
+    }
+  ]
+}
+
+**EXAMPLES OF EXPECTED EXTRACTION:**
+Input text: "Aquifer microbes are a subclass of microbial functional guilds. They are found in aquifers."
+
+Extracted axioms:
+1. {
+  "subject": "AquiferMicrobes",
+  "relation": "rdfs:subClassOf",
+  "object": "MicrobialFunctionalGuild",
+  "chunk": "ABSTRACT",
+  "evidence": "Aquifer microbes are a subclass of microbial functional guilds."
+}
+2. {
+  "subject": "foundIn",
+  "relation": "rdfs:domain",
+  "object": "AquiferMicrobes",
+  "chunk": "Introduction",
+  "evidence": "They are found in aquifers."
+}
+3. {
+  "subject": "foundIn",
+  "relation": "rdfs:range",
+  "object": "Aquifer",
+  "chunk": "Experiments",
+  "evidence": "They are found in aquifers."
+}
+
+**INPUT TEXT:**
+Introducing a Novel Systems Thinking approach inspired by STPA: Road Safety Intervention design case study
+
+ABSTRACT
+According to the latest provisional statistics released by the UK Department for Transport, Great Britain recorded 1,633 road deaths in 2024, representing a slight increase from 2023 and raising concerns about safety progress, which indicates that preventable fatalities remain a challenge. The deployment of advanced mobility systems, even certified and safety-assessed, is not sufficient to deliver improved safety outcomes, and existing road infrastructure is not sufficiently equipped to prevent severe collisions.
+Successful application of the “Safe System” approach demands systems thinking in an integrated and holistic manner, encompassing all aspects of road safety. This paper argues that road safety must be managed as a complex socio-technical system where risk evolves dynamically and must be continuously monitored. To address these safety gaps, we propose a systems thinking approach that identifies factors contributing to fatal outcomes and mitigates them. The framework consists of four steps: 1) List stakeholders who influence road safety, 2) Model the interactions between these stakeholders, 3) List assumptions that might be identified as factors for fatalities, and 4) Monitor these assumptions throughout the system lifecycle. The approach is applied to the United Kingdom (UK) road network to demonstrate feasibility. The study provides actionable guidance and new KPIs categories for stakeholders to implement road safety monitoring and eliminate any unreasonable road safety risks.

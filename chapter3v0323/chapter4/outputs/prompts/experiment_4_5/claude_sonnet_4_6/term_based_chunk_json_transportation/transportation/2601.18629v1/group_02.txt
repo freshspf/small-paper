@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MaskAdapter",
+  "injectsInformationInto",
+  "Policy",
+  "SimulationPolicy",
+  "failsToGeneralizeTo",
+  "RealWorld",
+  "R2S2RPipeline",
+  "reconstructs",
+  "DigitalTwin",
+  "leverages",
+  "3DGaussianSplatting",
+  "NeuralRadianceField",
+  "offers",
+  "PointBasedRepresentation",
+  "actsAs",
+  "WorldModel",
+  "supports",
+  "Navigation",
+  "ExoGS",
+  "addressesGapIn",
+  "R2S2RFramework",
+  "DemonstrationData",
+  "ImitationLearning",
+  "DemonstrationCollection",
+  "uses",
+  "Exoskeleton",
+  "VrArSystem",
+  "HumanOperatedDevice",
+  "lacks",
+  "TrajectoryAccuracy",
+  "EnvironmentDiversity",
+  "employs",
+  "AirExo3",
+  "captures",
+  "RobotManipulationDemonstration",
+  "replays",
+  "DemonstratedInteraction",
+  "facilitates",
+  "SimToRealTransfer",
+  "improves",
+  "KinematicAccuracy",
+  "SimplifiedMechanicalDesign",
+  "enables",
+  "StraightforwardInstallation",
+  "achieves",
+  "MotionTracking",
+  "RotaryEncoder",
+  "enforces",
+  "KinematicConstraint",
+  "ContactRichManipulation",
+  "LightweightDesign",
+  "ProlongedUse",
+  "Robot",
+  "ComplexManipulationSkill",
+  "Demonstration",
+  "TrainingData",
+  "SimulationBasedDataSynthesis",
+  "Scalability",
+  "SimToRealGap",
+  "GeometricRepresentation",
+  "VisualAppearance",
+  "PhysicalInteraction",
+  "RgbBasedPolicy",
+  "RealToSimToRealPipeline",
+  "NeuralSceneRepresentation",
+  "VisualGap",
+  "PhotorealisticRendering",
+  "StaticSceneReconstruction",
+  "ReinforcementLearning",
+  "ManipulationData",
+  "RoboticHardware",
+  "exo_gs",
+  "R2s2rFramework",
+  "4dSequence",
+  "3dEnvironment",
+  "RobotInteraction",
+  "Object",
+  "CustomPassiveExoskeleton",
+  "3dgsBasedDataGenerationPipeline",
+  "air_exo_3"
+]
+
+Triples:
+[
+  {
+    "subject": "MaskAdapter",
+    "relation": "injectsInformationInto",
+    "object": "Policy",
+    "chunk": "relatedworks",
+    "context": "A Mask Adapter that injects semantic mask information into the policy to steer attention toward interaction-relevant regions, thereby enhancing robustness."
+  },
+  {
+    "subject": "SimulationPolicy",
+    "relation": "failsToGeneralizeTo",
+    "object": "RealWorld",
+    "chunk": "relatedworks",
+    "context": "Due to persistent discrepancies in appearance, geometry, and contact dynamics, policies trained in simulation often fail to generalize to the real world, motivating Real-to-Sim-to-Real (R2S2R) pipelines."
+  },
+  {
+    "subject": "R2S2RPipeline",
+    "relation": "reconstructs",
+    "object": "DigitalTwin",
+    "chunk": "relatedworks",
+    "context": "R2S2R pipelines reconstruct photorealistic digital twins from real scenes and perform data generation and policy learning in reconstructed environments, leveraging neural radiance fields or 3D Gaussian Splatting for high-fidelity rendering and novel view synthesis [3], [4]."
+  },
+  {
+    "subject": "R2S2RPipeline",
+    "relation": "leverages",
+    "object": "3DGaussianSplatting",
+    "chunk": "relatedworks",
+    "context": "R2S2R pipelines reconstruct photorealistic digital twins from real scenes and perform data generation and policy learning in reconstructed environments, leveraging neural radiance fields or 3D Gaussian Splatting for high-fidelity rendering and novel view synthesis [3], [4]."
+  },
+  {
+    "subject": "R2S2RPipeline",
+    "relation": "leverages",
+    "object": "NeuralRadianceField",
+    "chunk": "relatedworks",
+    "context": "R2S2R pipelines reconstruct photorealistic digital twins from real scenes and perform data generation and policy learning in reconstructed environments, leveraging neural radiance fields or 3D Gaussian Splatting for high-fidelity rendering and novel view synthesis [3], [4]."
+  },
+  {
+    "subject": "3DGaussianSplatting",
+    "relation": "offers",
+    "object": "PointBasedRepresentation",
+    "chunk": "relatedworks",
+    "context": "Compared with NeRF [1], 3DGS [2] offers an explicit, point-based representation with fast optimization and real-time rendering, making it suitable for robotics."
+  },
+  {
+    "subject": "3DGaussianSplatting",
+    "relation": "actsAs",
+    "object": "WorldModel",
+    "chunk": "relatedworks",
+    "context": "With recent extensions incorporating dynamics and physical priors [10], [11], 3DGS has emerged as an editable, geometry-aware world model for manipulation and navigation [6], [12]–[15], enabling geometry-consistent edits beyond 2D augmentation [16]."
+  },
+  {
+    "subject": "WorldModel",
+    "relation": "supports",
+    "object": "Navigation",
+    "chunk": "relatedworks",
+    "context": "With recent extensions incorporating dynamics and physical priors [10], [11], 3DGS has emerged as an editable, geometry-aware world model for manipulation and navigation [6], [12]–[15], enabling geometry-consistent edits beyond 2D augmentation [16]."
+  },
+  {
+    "subject": "ExoGS",
+    "relation": "addressesGapIn",
+    "object": "R2S2RFramework",
+    "chunk": "relatedworks",
+    "context": "Therefore, a Real-to-Sim-to-Real framework that tightly couples real-world demonstration acquisition, accurate pose modeling, and geometry-consistent 3DGS replay is still needed to support scalable, contact-rich manipulation learning with high visual fidelity, a gap that ExoGS addresses."
+  },
+  {
+    "subject": "DemonstrationData",
+    "relation": "supports",
+    "object": "ImitationLearning",
+    "chunk": "relatedworks",
+    "context": "Demonstration data is fundamental to scalable and generalizable imitation learning in robotic manipulation [17]–[21]."
+  },
+  {
+    "subject": "DemonstrationCollection",
+    "relation": "uses",
+    "object": "Exoskeleton",
+    "chunk": "relatedworks",
+    "context": "To reduce these limitations, an alternative direction focuses on in-the-wild demonstration collection using human-operated devices such as handheld grippers, VR/AR systems, motion-capture gloves, and exoskeletons [22]–[27]."
+  },
+  {
+    "subject": "DemonstrationCollection",
+    "relation": "uses",
+    "object": "VrArSystem",
+    "chunk": "relatedworks",
+    "context": "To reduce these limitations, an alternative direction focuses on in-the-wild demonstration collection using human-operated devices such as handheld grippers, VR/AR systems, motion-capture gloves, and exoskeletons [22]–[27]."
+  },
+  {
+    "subject": "HumanOperatedDevice",
+    "relation": "lacks",
+    "object": "TrajectoryAccuracy",
+    "chunk": "relatedworks",
+    "context": "These systems reduce deployment cost and enable more natural demonstrations, but often suffer from limited kinematic fidelity, trajectory accuracy, or environment diversity."
+  },
+  {
+    "subject": "HumanOperatedDevice",
+    "relation": "lacks",
+    "object": "EnvironmentDiversity",
+    "chunk": "relatedworks",
+    "context": "These systems reduce deployment cost and enable more natural demonstrations, but often suffer from limited kinematic fidelity, trajectory accuracy, or environment diversity."
+  },
+  {
+    "subject": "ExoGS",
+    "relation": "employs",
+    "object": "AirExo3",
+    "chunk": "method1",
+    "context": "ExoGS first employs AirExo-3, a low-cost exoskeleton (detailed in Sec. III-A), to capture accurate robot manipulation demonstrations without needing a real robot (detailed in Sec. III-B (1))."
+  },
+  {
+    "subject": "AirExo3",
+    "relation": "captures",
+    "object": "RobotManipulationDemonstration",
+    "chunk": "method1",
+    "context": "ExoGS first employs AirExo-3, a low-cost exoskeleton (detailed in Sec. III-A), to capture accurate robot manipulation demonstrations without needing a real robot (detailed in Sec. III-B (1))."
+  },
+  {
+    "subject": "3DGaussianSplatting",
+    "relation": "replays",
+    "object": "DemonstratedInteraction",
+    "chunk": "method1",
+    "context": "Based on these demonstrations, 3D Gaussian Splatting is utilized to replay and augment the demonstrated interactions (detailed in Sec. III-B (2)-(4))."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "facilitates",
+    "object": "SimToRealTransfer",
+    "chunk": "method1",
+    "context": "Building upon this real-to-sim dataset, we further propose a novel plug-in module, Mask Adapter, to facilitate more effective sim-to-real transfer of visuomotor policies (detailed in Sec. III-C)."
+  },
+  {
+    "subject": "AirExo3",
+    "relation": "improves",
+    "object": "KinematicAccuracy",
+    "chunk": "method1",
+    "context": "AirExo-3 extends prior low-cost exoskeleton-based demonstration systems [22], [23] by improving kinematic accuracy and ease of deployment."
+  },
+  {
+    "subject": "SimplifiedMechanicalDesign",
+    "relation": "enables",
+    "object": "StraightforwardInstallation",
+    "chunk": "method1",
+    "context": "AirExo-3 supports accurate zero-position calibration and straightforward installation without specialized tools, enabled by a simplified mechanical design."
+  },
+  {
+    "subject": "AirExo3",
+    "relation": "achieves",
+    "object": "MotionTracking",
+    "chunk": "method1",
+    "context": "Unlike handheld devices such as UMI [24], AirExo-3 achieves robust and accurate motion tracking with millimeter-level accuracy via forward kinematics using high-precision rotary encoders, remaining insensitive to visual conditions while enforcing robot-consistent kinematic constraints."
+  },
+  {
+    "subject": "AirExo3",
+    "relation": "uses",
+    "object": "RotaryEncoder",
+    "chunk": "method1",
+    "context": "Unlike handheld devices such as UMI [24], AirExo-3 achieves robust and accurate motion tracking with millimeter-level accuracy via forward kinematics using high-precision rotary encoders, remaining insensitive to visual conditions while enforcing robot-consistent kinematic constraints."
+  },
+  {
+    "subject": "AirExo3",
+    "relation": "enforces",
+    "object": "KinematicConstraint",
+    "chunk": "method1",
+    "context": "Unlike handheld devices such as UMI [24], AirExo-3 achieves robust and accurate motion tracking with millimeter-level accuracy via forward kinematics using high-precision rotary encoders, remaining insensitive to visual conditions while enforcing robot-consistent kinematic constraints."
+  },
+  {
+    "subject": "AirExo3",
+    "relation": "enables",
+    "object": "ContactRichManipulation",
+    "chunk": "method1",
+    "context": "AirExo-3 enables intuitive, contact-rich manipulation through direct gripper interaction, while its lightweight design supports prolonged use with minimal operator fatigue."
+  },
+  {
+    "subject": "LightweightDesign",
+    "relation": "supports",
+    "object": "ProlongedUse",
+    "chunk": "method1",
+    "context": "AirExo-3 enables intuitive, contact-rich manipulation through direct gripper interaction, while its lightweight design supports prolonged use with minimal operator fatigue."
+  }
+]

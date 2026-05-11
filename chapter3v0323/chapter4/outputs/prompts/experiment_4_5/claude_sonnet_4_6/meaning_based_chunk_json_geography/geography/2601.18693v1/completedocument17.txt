@@ -1,0 +1,137 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument17",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument17
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+This ensures that the relative contributions of the
+central and accreted stellar components reflect the stellar mass bud-
+gets realised in each simulation, while preserving the radial shapes
+predicted by the model for each component.
+The resulting stellar–to–DM ratio profile is therefore given by
+𝜌★(𝑟)
+𝜌DM(𝑟)=𝑀sim
+★,cen ˆ𝜌★,cen(𝑟)+𝑀sim
+★,acc ˆ𝜌★,acc(𝑟)
+𝑀sim
+DM,cenˆ𝜌DM,cen(𝑟)+𝑀sim
+DM,accˆ𝜌DM,acc(𝑟),(12)
+where the DM components satisfy𝑀 DM,cen=𝑀 DM,acc.
+Afurthercorrectionisappliedtoaccountforthefractionofstellar
+andDMmassexcludedbytheparticleselectioncriteriaofButleretal.
+(2025).Foreachsimulation,wemeasurethefractionofstarsandDM
+within𝑅 200thatareexcludedfromthecalculationandre-weightthe
+corresponding central and accreted components accordingly.
+6.3.2 Radial density profiles
+Figure12comparestheresultingradialprofilesofthestellar–to–DM
+density ratio,𝜌 ★/𝜌DM, measured in the cosmological simulations,
+with the corresponding model predictions from Section 5.3, after
+applying the normalization and masking corrections described in
+Section 6.3.1 above.
+The average stellar–to–DM density ratio profiles measured for
+eachsimulationareshowninthefirstpanelofFigure12,withshaded
+regionsindicatingthe1𝜎cluster–to–clusterscatter.Themiddlepanel
+shows the corresponding model predictions from Section 5, after
+re-weighting to match the infalling satellite populations and stellar
+mass budgets of each simulation suite. The hatched regions indicate
+the envelope of model responses obtained by varying the maximum
+satellite–to–host merger mass ratio, while the dashed lines show the
+fiducialmodelcorrespondingtoamaximuminfallingsatellitestellar
+mass of𝑀 ★,max=1011.5M⊙. Increasing the contribution of more
+massive satellites only slightly steepens the inner profile.
+The right-hand panel compares the simulation profiles directlywith the fiducial model predictions. For all simulation suites, the
+model reproduces the overall shape and radial trend of𝜌 ★/𝜌DM
+across most of the halo. The inset shows the logarithmic residual
+between the each simulation and model.
+Thereissubstantialscatterinthestellar–to–DMdensityratiopro-
+files across the different simulation suites, withHorizon-AGNin
+particulardeviatingsignificantlyfromtheothers.Individualsimula-
+tion studies have shown that the intracluster stellar density profile is
+steeper and more centrally concentrated than the DM profile, such
+thattheratio𝜌 ★/𝜌DMfollowsanapproximatepowerlaw(e.g.Alonso
+Asensio et al. 2020; Reina-Campos et al. 2023; Contreras-Santos
+et al. 2024; Butler et al. 2025; Jeon et al. 2025), with similar trends
+seenobservationally(e.g.Diegoetal.2023).Herewefindthat,even
+whenmeasuredconsistentlyacrossthefoursimulationsuites,thenor-
+malisationandslopeofthestackedstellar–to–DMdensityratiodiffer
+systematicallybetweensimulations.Muchofthisvariationlikelyre-
+flects differences in the infalling satellite stellar mass function and
+satellite survival efficiency, both of which depend sensitively on the
+specific subgrid physics and numerical resolution implemented in
+each simulation.
+Despite the simplifying assumptions of our model, including a
+static, spherically symmetric halo potential and idealised satellite
+structure, the predicted stellar–to–DM density ratio profiles repro-
+duce the simulation results to within<0.2dex over 2 orders of
+magnitude in radius, once differences in star-formation efficiency
+and central galaxy structure are accounted for. At most radii, this
+levelofagreementisnotablybetterthantheintrinsicscatterbetween
+differentsimulationsuitesindicatedasagreyfilledregionintheinset
+plot of Figure 12. This suggests that the properties of the infalling
+satellite population alone are sufficient to capture the dominant fea-
+turesoftheICLspatialdistribution.Residualdiscrepanciesmayarise
+fromseveralsourcesnotaccountedforinourmodel,includingdiffer-
+encesininnerhalostructureduetobaryonicback-reactionandforce
+softening, variations in the stellar–halo mass relation, resolution-
+dependent satellite survival times, and the non-adiabatic evolution
+of cosmological haloes during mergers and rapid accretion.
+7 DISCUSSION
+7.1 Physical mechanisms driving the stellar–DM phase-space
+separation
+In this work we have sought to isolate the physical origin of the
+systematicphase-spaceandradialoffsetsobservedbetweenICLand
+DM.Wehaveshownthatmanyoftheobservedfeaturesofthestellar–
+to–DMphase-spacerelationshiparisenaturallyfromthemassdistri-
+bution and orbital evolution of infalling satellites, without invoking
+additional physics.
+Acentralresultisthattheseparationbetweenthephase-spacedis-
+tributions of stripped stars and stripped DM is driven primarily by
+satelliteswiththemostsimilarsatellite–to–hostmassratios.Thisfol-
+lowsfromthecombinationoftworelatedeffects.First,theextended
+DM haloes of satellites are stripped early, while the more tightly
+bound stellar components survive to later stages of the orbit and are
+deposited only after further orbital decay.

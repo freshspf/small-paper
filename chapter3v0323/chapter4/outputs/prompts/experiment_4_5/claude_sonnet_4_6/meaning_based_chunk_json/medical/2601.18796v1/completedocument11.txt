@@ -1,0 +1,167 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument11",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument11
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Your goal is to translate
+complex scientific abstracts into
+simple , concise summaries
+understandable by a general audience .
+Provide only the plain language
+summary , without any additional words ,
+instructions , or formatting .
+Translate the following PubMed article
+abstract into a plain language summary :
+"{ abstract }"
+Figure 4: The prompt template for generating plain
+language summary.
+8 10 12 14 16 18 20
+Score from Physician 268101214161820Score from Physician 1
+r = 0.52, p-value = 0.0000
+Figure 5: The scatter plot between two physicians’ an-
+notated scores with Pearson correlation coefficient ( r)
+results.
+the following hyperparameters: n_neighbors=15,
+n_components=5, and min_dist=0.1. Third, HDB-
+SCAN is employed to identify topic clusters
+within the reduced space. To determine the
+optimal number of clusters, we search for the
+min_cluster_size value that yields the highest topic
+quality, measured using the criteria proposed in Di-
+eng et al. (2020). As shown in Fig. 9, we select
+min_cluster_size=250, resulting in 121 topic clus-
+ters with the best topic quality. Using these clus-
+ters, we sample abstract pairs either from within the
+same topic or across different topics. Table 4 sum-
+marizes the pair distribution used for the emb2com
+andemb2dif tasks across training, validation, and
+testing datasets.
+C Training Hyperparameters & Details
+For the first phase of two-phase training procedure,
+we freeze all model parameters except for embed-
+gpt-4o-mini human-written summary poor summary7.510.012.515.017.520.022.5Score
+p = 0.538p = 0.001Score Distribution by Summary SourceFigure 6: The boxplot for scores by different sources
+with Wilcoxon rank-sum test results.
+You are an expert in biomedical
+literature analysis .
+You are asked to compare two PubMed
+abstracts and identify their
+commonalities . Please use concise
+language . Please directly list five
+commonalities between two abstracts .
+Here are two abstracts :
+1. "{ abstract1 }"
+2. "{ abstract2 }"
+Figure 7: The prompt template for listing five common-
+alities for a abstract pair.
+ding adapter A. We then use SFTTrainer in the
+trl package to optimize the adapter. In the SFT-
+Config, we set the learning rate as 1e-3, batch size
+as 4, gradient accumulation steps as 8, and max
+sequence length as 2,048. With this settings, we
+train the adapter using AdamW optimizer (default
+parameters), linear scheduler with a warmup phase,
+mixed precision (i.e., bfloat16) for one epoch.
+As for the second phase of two-phase training
+procedure and one-phase training procedure, we
+use SFTTrainer with LoraConfig from peft pack-
+age. We set the learning rate as 5e-5, batch size
+as 4, gradient accumulation steps as 8, max grad
+norm as 1, and max sequence length as 2,048. On
+the other hand, we set ras 16, lora alpha as 32,
+lora dropout as 0.05, and bias as none. We only
+optimze q_proj and k_proj in Mbaseand set Aas
+the module to save. We train the adapter as well
+as LoRA parameters using AdamW optimizer (de-
+fault parameters), linear scheduler with a warmup
+phase, mixed precision (i.e., bfloat16) for one or
+two epoch(s).
+12
+
+You are an expert in biomedical
+literature analysis .
+You are asked to compare two PubMed
+abstracts and identify their
+differences . Please use concise
+language . Please directly list five
+differences between two abstracts .
+Here are two abstracts :
+1. "{ abstract1 }"
+2. "{ abstract2 }"
+Figure 8: The prompt template for listing five differ-
+ences for a abstract pair.
+Number of TopicsTopic Quality
+0.10.120.140.16
+625 293 192 153 121 104 90 70 56 57
+Figure 9: The line plot for helping identify the best
+number of topics.
+We train the model with the above settings on
+one Nvidia H100 GPU. The training time for ctELM
+on 1.2M data using one-phase training procedure
+for one epoch (1P-1E) takes around 13 hours. On
+the other hand, the training time for ctELM on 1.2M
+data using two-phase training procedure for one
+epoch (2P-1E) takes around 26 hours.
+D Interpolation Semantic Consistency
+We construct an interpolated testing set by aver-
+aging embeddings from randomly selected pairs
+of test abstracts. This simulates new abstract em-
+beddings that lie between known examples in the
+semantic space. Across all configurations, ctELM
+maintains the same observations, such as a repeti-
+tion penalty of 1.2 leading to better performance
+than penalty of 1.0 in emb2abs , and model perfor-
+mance benefiting from more training data. When
+we compare to the performance with real abstracts
+(Table 2), although slightly lower, with a drop of
+roughly 0.02–0.04 points (e.g., 0.87→0.83 on
+emb2abs ,0.81→0.77 on emb2pls), the scores
+remain stable and consistent, demonstrating theTable 4: Distribution of abstract pairs used for the
+emb2comandemb2diftasks across training, validation,
+and testing datasets. Pairs are constructed based on topic
+assignment using BERTopic.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "dataset_tempoVine",
+  "recordedWith",
+  "sensor_livox",
+  "tempo_vine_dataset",
+  "includesSensor",
+  "velodyne_sensor",
+  "livox_sensor",
+  "collectedAt",
+  "HigherVelocity",
+  "LidarSensor",
+  "provides",
+  "3dCoordinate",
+  "DeepLearningArchitecture",
+  "produces",
+  "GlobalDescriptor",
+  "usedFor",
+  "PlaceRecognitionTask",
+  "Network",
+  "Embedding",
+  "Descriptor",
+  "usedIn",
+  "LocalizationTask",
+  "MappingTask",
+  "performedIn",
+  "AgriculturalEnvironment",
+  "MultiModalSensorFusionStrategy",
+  "exploits",
+  "CameraData",
+  "LidarData",
+  "Dataset",
+  "contains",
+  "UnmannedAgriculturalVehicle",
+  "enhances",
+  "HillFarmingEfficiency",
+  "algorithm_minkunext",
+  "performs",
+  "LargeScalePlaceRecognition",
+  "uses",
+  "3dSparseConvolution",
+  "VineyardNavigationSolution",
+  "AutomaticAnnotation",
+  "LocalMotionPlanner",
+  "enables",
+  "AutonomousNavigation",
+  "operatesIn",
+  "Vineyard",
+  "utilizes",
+  "RgbDCameraBasedAlgorithm",
+  "algorithm_trilocNetvlad",
+  "LongTermPlaceRecognition",
+  "occursIn",
+  "Orchard",
+  "MobileRobot",
+  "MinkunextVine",
+  "DeepLearningMethod",
+  "VineyardEnvironment",
+  "RoboticSystem",
+  "Environment",
+  "GpsDeniedEnvironment",
+  "AutonomousNavigationSystem",
+  "AgriculturalVehicle",
+  "AgriculturalRobotics",
+  "LprNetwork",
+  "MrlApproach",
+  "LprMethod",
+  "LowCost",
+  "LowResolution",
+  "CrossSeasonScenario",
+  "VineyardDataset",
+  "DenseFoliage",
+  "RobotFieldOfVision",
+  "PathDetectionFramework",
+  "Traversability",
+  "RgbDImageSource",
+  "LocalizationSolution",
+  "DepthMap",
+  "ModifiedMobileNet",
+  "ObjectClassification",
+  "LprSolution",
+  "SpatialContextDescriptor"
+]
+
+Triples:
+[
+  {
+    "subject": "dataset_tempoVine",
+    "relation": "recordedWith",
+    "object": "sensor_livox",
+    "chunk": "completedocument11",
+    "context": "The long-term results demonstrate the resilience of the proposed architecture against sparsity and low resolution inherent to non-repetitive scanning patterns provided by low-cost sensors, such as the Livox in the TEMPO-VINE dataset."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "includesSensor",
+    "object": "velodyne_sensor",
+    "chunk": "completedocument12",
+    "context": "It also remains resilient in the presence of noisy input, such as data collected in an open field at higher velocities with varying grass heights, as seen in the TEMPO-VINE dataset with both Velodyne and Livox sensors."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "includesSensor",
+    "object": "livox_sensor",
+    "chunk": "completedocument12",
+    "context": "It also remains resilient in the presence of noisy input, such as data collected in an open field at higher velocities with varying grass heights, as seen in the TEMPO-VINE dataset with both Velodyne and Livox sensors."
+  },
+  {
+    "subject": "tempo_vine_dataset",
+    "relation": "collectedAt",
+    "object": "HigherVelocity",
+    "chunk": "completedocument12",
+    "context": "It also remains resilient in the presence of noisy input, such as data collected in an open field at higher velocities with varying grass heights, as seen in the TEMPO-VINE dataset with both Velodyne and Livox sensors."
+  },
+  {
+    "subject": "LidarSensor",
+    "relation": "provides",
+    "object": "3dCoordinate",
+    "chunk": "completedocument12",
+    "context": "Among our contributions, we emphasize on the importance of a correct processing of the 3D coordinates provided by the LiDAR sensor."
+  },
+  {
+    "subject": "DeepLearningArchitecture",
+    "relation": "produces",
+    "object": "GlobalDescriptor",
+    "chunk": "completedocument12",
+    "context": "Furthermore, we justify the use of simpler deep learning architectures that produce lower-dimensional global descriptors to encode repetitive settings for place recognition tasks."
+  },
+  {
+    "subject": "GlobalDescriptor",
+    "relation": "usedFor",
+    "object": "PlaceRecognitionTask",
+    "chunk": "completedocument12",
+    "context": "Furthermore, we justify the use of simpler deep learning architectures that produce lower-dimensional global descriptors to encode repetitive settings for place recognition tasks."
+  },
+  {
+    "subject": "Network",
+    "relation": "produces",
+    "object": "Embedding",
+    "chunk": "completedocument12",
+    "context": "Additionally, the necessity of complementing the original embedding produced by the network with a lower-dimensionality embedding derived from intermediate features via a MRL multi-loss function was conducted."
+  },
+  {
+    "subject": "Descriptor",
+    "relation": "usedIn",
+    "object": "LocalizationTask",
+    "chunk": "completedocument12",
+    "context": "This is due to the critical importance of enhancing the discriminativeness of descriptors in localization and mapping tasks within agricultural environments."
+  },
+  {
+    "subject": "Descriptor",
+    "relation": "usedIn",
+    "object": "MappingTask",
+    "chunk": "completedocument12",
+    "context": "This is due to the critical importance of enhancing the discriminativeness of descriptors in localization and mapping tasks within agricultural environments."
+  },
+  {
+    "subject": "LocalizationTask",
+    "relation": "performedIn",
+    "object": "AgriculturalEnvironment",
+    "chunk": "completedocument12",
+    "context": "This is due to the critical importance of enhancing the discriminativeness of descriptors in localization and mapping tasks within agricultural environments."
+  },
+  {
+    "subject": "MappingTask",
+    "relation": "performedIn",
+    "object": "AgriculturalEnvironment",
+    "chunk": "completedocument12",
+    "context": "This is due to the critical importance of enhancing the discriminativeness of descriptors in localization and mapping tasks within agricultural environments."
+  },
+  {
+    "subject": "MultiModalSensorFusionStrategy",
+    "relation": "exploits",
+    "object": "CameraData",
+    "chunk": "completedocument12",
+    "context": "As future work, we intend to investigate multi-modal sensor fusion strategies, exploiting the availability of camera and LiDAR data in the datasets to further improve robustness."
+  },
+  {
+    "subject": "MultiModalSensorFusionStrategy",
+    "relation": "exploits",
+    "object": "LidarData",
+    "chunk": "completedocument12",
+    "context": "As future work, we intend to investigate multi-modal sensor fusion strategies, exploiting the availability of camera and LiDAR data in the datasets to further improve robustness."
+  },
+  {
+    "subject": "Dataset",
+    "relation": "contains",
+    "object": "CameraData",
+    "chunk": "completedocument12",
+    "context": "As future work, we intend to investigate multi-modal sensor fusion strategies, exploiting the availability of camera and LiDAR data in the datasets to further improve robustness."
+  },
+  {
+    "subject": "Dataset",
+    "relation": "contains",
+    "object": "LidarData",
+    "chunk": "completedocument12",
+    "context": "As future work, we intend to investigate multi-modal sensor fusion strategies, exploiting the availability of camera and LiDAR data in the datasets to further improve robustness."
+  },
+  {
+    "subject": "UnmannedAgriculturalVehicle",
+    "relation": "enhances",
+    "object": "HillFarmingEfficiency",
+    "chunk": "completedocument13",
+    "context": "[12] M. Padhiary, L. N. Sethi, A. Kumar, Enhancing hill farming efficiency using unmanned agricultural vehicles: a comprehensive review, Transactions of the Indian National Academy of Engineering 9 (2) (2024) 253–268."
+  },
+  {
+    "subject": "algorithm_minkunext",
+    "relation": "performs",
+    "object": "LargeScalePlaceRecognition",
+    "chunk": "completedocument13",
+    "context": "[13] J. J. Cabrera, A. Santo, A. Gil, C. Viegas, L. Pay´ a, MinkUNeXt: Point cloud-based large-scale place recognition using 3D sparse convolutions, Array 28 (2025) 100569."
+  },
+  {
+    "subject": "algorithm_minkunext",
+    "relation": "uses",
+    "object": "3dSparseConvolution",
+    "chunk": "completedocument13",
+    "context": "[13] J. J. Cabrera, A. Santo, A. Gil, C. Viegas, L. Pay´ a, MinkUNeXt: Point cloud-based large-scale place recognition using 3D sparse convolutions, Array 28 (2025) 100569."
+  },
+  {
+    "subject": "VineyardNavigationSolution",
+    "relation": "uses",
+    "object": "AutomaticAnnotation",
+    "chunk": "completedocument13",
+    "context": "[15] E. Liu, J. Monica, K. Gold, L. Cadle-Davidson, D. Combs, Y. Jiang, Vision-based vineyard navigation solution with automatic annotation, in: 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), IEEE, 2023, pp. 4234–4241."
+  },
+  {
+    "subject": "LocalMotionPlanner",
+    "relation": "enables",
+    "object": "AutonomousNavigation",
+    "chunk": "completedocument13",
+    "context": "[16] D. Aghi, V. Mazzia, M. Chiaberge, Local motion planner for autonomous navigation in vineyards with a RGB-D camera-based algorithm and deep learning synergy, Machines 8 (2) (2020) 27."
+  },
+  {
+    "subject": "AutonomousNavigation",
+    "relation": "operatesIn",
+    "object": "Vineyard",
+    "chunk": "completedocument13",
+    "context": "[16] D. Aghi, V. Mazzia, M. Chiaberge, Local motion planner for autonomous navigation in vineyards with a RGB-D camera-based algorithm and deep learning synergy, Machines 8 (2) (2020) 27."
+  },
+  {
+    "subject": "LocalMotionPlanner",
+    "relation": "utilizes",
+    "object": "RgbDCameraBasedAlgorithm",
+    "chunk": "completedocument13",
+    "context": "[16] D. Aghi, V. Mazzia, M. Chiaberge, Local motion planner for autonomous navigation in vineyards with a RGB-D camera-based algorithm and deep learning synergy, Machines 8 (2) (2020) 27."
+  },
+  {
+    "subject": "algorithm_trilocNetvlad",
+    "relation": "enhances",
+    "object": "LongTermPlaceRecognition",
+    "chunk": "completedocument13",
+    "context": "[18] N. Sun, Z. Fan, Q. Qiu, T. Li, Q. Feng, C. Ji, C. Zhao, TriLoc-NetVLAD: Enhancing Long-term Place Recognition in Orchards with a Novel LiDAR-Based Approach, in: 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), IEEE, 2024, pp. 16–22."
+  },
+  {
+    "subject": "LongTermPlaceRecognition",
+    "relation": "occursIn",
+    "object": "Orchard",
+    "chunk": "completedocument13",
+    "context": "[18] N. Sun, Z. Fan, Q. Qiu, T. Li, Q. Feng, C. Ji, C. Zhao, TriLoc-NetVLAD: Enhancing Long-term Place Recognition in Orchards with a Novel LiDAR-Based Approach, in: 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), IEEE, 2024, pp. 16–22."
+  }
+]

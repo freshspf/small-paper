@@ -1,0 +1,298 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "line_fe16_3c",
+  "hasCentroidEnergy",
+  "value_825_658eV",
+  "instrument_xrism",
+  "hasRelativePrecision",
+  "value_8x10_minus4",
+  "line_fe_3c",
+  "hasEnergyShift",
+  "value_0_17eV",
+  "line_o_he_alpha_w",
+  "hci_particles",
+  "locatedInside",
+  "device_ebit",
+  "detector_sdd",
+  "hasSpectralResolution",
+  "value_0_02",
+  "detector_tes_microcalorimeter",
+  "value_less_than_5x10_minus4",
+  "radiation_synchrotron",
+  "locatedAt",
+  "facility_spring8_beamlines",
+  "monitor_flux",
+  "madeOf",
+  "material_au_foil",
+  "instrument_jaxa_ebit",
+  "beamline_spring8_soft_xray",
+  "beamline_bl17su",
+  "partOf",
+  "facility_spring8",
+  "experiment_synchrotron_radiation",
+  "conductedAt",
+  "organization_riken_spring8_center",
+  "colocatedWith",
+  "organization_spie",
+  "locatedIn",
+  "region_washington",
+  "organization_astronomical_society_of_the_pacific",
+  "region_california",
+  "organization_crcPress",
+  "location_florida",
+  "organization_nationalInstituteOfStandardsAndTechnology",
+  "location_maryland",
+  "organization_lawrenceBerkeleyNationalLaboratory",
+  "location_california",
+  "organization_univOfCaliforniaBerkeley",
+  "facility_universityOfTokyo",
+  "location_hongo",
+  "ward_bunkyoKu",
+  "city_tokyo",
+  "country_japan",
+  "facility_isas",
+  "ward_chuoKu",
+  "city_sagamihara",
+  "facility_rikenPioneeringResearchInstitute",
+  "city_wako",
+  "facility_maxPlanckInstitut",
+  "city_heidelberg",
+  "country_germany",
+  "facility_europeanXfel",
+  "city_schenefeld",
+  "facility_nationalInstituteForFusionScience",
+  "city_toki",
+  "facility_instituteForLaserScience",
+  "city_chofu",
+  "facility_rikkyoUniversity",
+  "ward_toshimaKu",
+  "facility_universityOfMiyazaki",
+  "city_miyazaki",
+  "facility_rikenSpring8Center",
+  "city_sayo",
+  "prefecture_hyogo",
+  "equipment_ebit",
+  "facility_isasJaxa",
+  "equipment_jaxaEbit",
+  "facility_lawrenceLivermoreNationalLaboratory",
+  "equipment_ebits",
+  "facility_llnl",
+  "facility_nist",
+  "facility_mpik",
+  "ebit_jaxaEbit"
+]
+
+Triples:
+[
+  {
+    "subject": "line_fe16_3c",
+    "relation": "hasCentroidEnergy",
+    "object": "value_825_658eV",
+    "chunk": "completedocument6",
+    "context": "In this experiment, the centroid energy of\nthe Ne-like Fe16+3C line is constrained to 825.658±0.003\neV , with a relative precision of∆E/E∼4×10−6, which is\nsignificantly better than that of XRISM (∆E/E∼8×10−4)."
+  },
+  {
+    "subject": "instrument_xrism",
+    "relation": "hasRelativePrecision",
+    "object": "value_8x10_minus4",
+    "chunk": "completedocument6",
+    "context": "In this experiment, the centroid energy of\nthe Ne-like Fe16+3C line is constrained to 825.658±0.003\neV , with a relative precision of∆E/E∼4×10−6, which is\nsignificantly better than that of XRISM (∆E/E∼8×10−4)."
+  },
+  {
+    "subject": "line_fe_3c",
+    "relation": "hasEnergyShift",
+    "object": "value_0_17eV",
+    "chunk": "completedocument6",
+    "context": "However, we find∼0.17 eV shifts from the theoretical val-\nues for both the Fe 3C line and the O Heαw line that can be\ninterpreted as due to systematic errors in our experimental\nsystem, making it difficult to precisely determine the abso-\nlute transition energies."
+  },
+  {
+    "subject": "line_o_he_alpha_w",
+    "relation": "hasEnergyShift",
+    "object": "value_0_17eV",
+    "chunk": "completedocument6",
+    "context": "However, we find∼0.17 eV shifts from the theoretical val-\nues for both the Fe 3C line and the O Heαw line that can be\ninterpreted as due to systematic errors in our experimental\nsystem, making it difficult to precisely determine the abso-\nlute transition energies."
+  },
+  {
+    "subject": "hci_particles",
+    "relation": "locatedInside",
+    "object": "device_ebit",
+    "chunk": "completedocument6",
+    "context": "One accurate calibration method\nis to use lines with well-known transition energies, emit-ted from HCIs inside the EBIT, such as Heα, Heβ, Lyα,\nand Lyβlines of various elements."
+  },
+  {
+    "subject": "detector_sdd",
+    "relation": "hasSpectralResolution",
+    "object": "value_0_02",
+    "chunk": "completedocument6",
+    "context": "The noise that is prominent in our measurement is\nlikely to be the photons of other nearby lines, such as 3C\nand M2, blended due to the low spectral resolution of the\ncurrently used SDD detector (∆E/E∼0.02), and continua,\nthat can be emitted from the recombining processes of the\nHCIs interacting with the electron beam during the prob-\ning phases."
+  },
+  {
+    "subject": "detector_tes_microcalorimeter",
+    "relation": "hasSpectralResolution",
+    "object": "value_less_than_5x10_minus4",
+    "chunk": "completedocument6",
+    "context": "The noise resulting from the blended lines\ncan be reduced by using a detector with sufficient spec-\ntral resolution to separate those lines, for instance, TES\nmicrocalorimeters (∆E/E<5×10−4; e.g., [52])."
+  },
+  {
+    "subject": "radiation_synchrotron",
+    "relation": "locatedAt",
+    "object": "facility_spring8_beamlines",
+    "chunk": "completedocument6",
+    "context": "The synchrotron radiation at the SPring-8 beamlines\nis generated in the form of pulses of photons with a period\nof tens to hundreds of nanoseconds and a width of a few pi-\ncoseconds, depending on the operation mode."
+  },
+  {
+    "subject": "monitor_flux",
+    "relation": "madeOf",
+    "object": "material_au_foil",
+    "chunk": "completedocument6",
+    "context": "The beam flux\nof the synchrotron radiation used in this experiment, esti-\nmated from the photocurrent measured by the Au foil flux\nmonitor and the quantum efficiency of the Au foil, was\n∼7.0×1010photons s−1, therefore incident photon beam\nflux of more than 1.4×1012photons s−1is required for\na successful detection of 3G."
+  },
+  {
+    "subject": "instrument_jaxa_ebit",
+    "relation": "locatedAt",
+    "object": "beamline_spring8_soft_xray",
+    "chunk": "completedocument7",
+    "context": "We performed photoexcitation spectroscopy using the\nJAXA-EBIT at the SPring-8 soft X-ray beamline, to pre-\ncisely measure atomic data of the astronomically important\nNe-like Fe16+Lαtransitions."
+  },
+  {
+    "subject": "beamline_bl17su",
+    "relation": "partOf",
+    "object": "facility_spring8",
+    "chunk": "completedocument7",
+    "context": "The presented synchrotron radiation exper-\niment was performed at beamline BL17SU of SPring-8\nwith the approval of the RIKEN SPring-8 Center (pro-\nposal No. 20240064)."
+  },
+  {
+    "subject": "experiment_synchrotron_radiation",
+    "relation": "conductedAt",
+    "object": "beamline_bl17su",
+    "chunk": "completedocument7",
+    "context": "The presented synchrotron radiation exper-\niment was performed at beamline BL17SU of SPring-8\nwith the approval of the RIKEN SPring-8 Center (pro-\nposal No. 20240064)."
+  },
+  {
+    "subject": "organization_riken_spring8_center",
+    "relation": "colocatedWith",
+    "object": "facility_spring8",
+    "chunk": "completedocument7",
+    "context": "The presented synchrotron radiation exper-\niment was performed at beamline BL17SU of SPring-8\nwith the approval of the RIKEN SPring-8 Center (pro-\nposal No. 20240064)."
+  },
+  {
+    "subject": "organization_spie",
+    "relation": "locatedIn",
+    "object": "region_washington",
+    "chunk": "completedocument7",
+    "context": "[2] M. Tashiro et al.,Space Telescopes and Instrumentation\n2018: Ultraviolet to Gamma Ray, Proc. Vol. 10699, J. A.\nden Herder et al. (SPIE, Washington, 2018) p. 1069922-1"
+  },
+  {
+    "subject": "organization_astronomical_society_of_the_pacific",
+    "relation": "locatedIn",
+    "object": "region_california",
+    "chunk": "completedocument7",
+    "context": "[11] J. de Plaa et al.,Astronomical Data Analysis Software and\nSystems XXIX, ASP Conf. Ser. Vol.527, R. Pizzo et al. (As-\ntronomical Society of the Pacific, California, 2020) p. 725"
+  },
+  {
+    "subject": "organization_crcPress",
+    "relation": "locatedIn",
+    "object": "location_florida",
+    "chunk": "completedocument8",
+    "context": "[45]CRC Handbook of Chemistry and Physics (84th edition), D. R. Lide (CRC Press, Florida, 2004) pp.10-178, 180"
+  },
+  {
+    "subject": "organization_nationalInstituteOfStandardsAndTechnology",
+    "relation": "locatedIn",
+    "object": "location_maryland",
+    "chunk": "completedocument8",
+    "context": "[46] A. Kramida et al.,NIST Atomic Spectra Database ver. 5.3 (National Institute of Standards and Technology, Maryland, 2024)"
+  },
+  {
+    "subject": "organization_lawrenceBerkeleyNationalLaboratory",
+    "relation": "locatedIn",
+    "object": "location_california",
+    "chunk": "completedocument8",
+    "context": "[48] A. C. Thompson et al.,X-ray data booklet, volume 8.\n(Lawrence Berkeley National Laboratory, Univ. of Califor- nia Berkeley, California, 2001) Tab. 1-4"
+  },
+  {
+    "subject": "organization_univOfCaliforniaBerkeley",
+    "relation": "locatedIn",
+    "object": "location_california",
+    "chunk": "completedocument8",
+    "context": "[48] A. C. Thompson et al.,X-ray data booklet, volume 8.\n(Lawrence Berkeley National Laboratory, Univ. of Califor- nia Berkeley, California, 2001) Tab. 1-4"
+  }
+]

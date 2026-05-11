@@ -1,0 +1,133 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument1
+- section_title: Complete Document
+- page_start: 1
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+Analyzing Images of Blood Cells with Quantum
+Machine Learning Methods: Equilibrium
+Propagation and Variational Quantum Circuits to
+Detect Acute Myeloid Leukemia
+Azra Bano
+Electrical and Computer Engineering
+Rutgers University
+Piscataway, NJ, USA
+ab2895@scarletmail.rutgers.eduLarry S. Liebovitch*
+AC4 in the Climate School
+Columbia University
+New York, NY , USA
+lsl2140@columbia.edu
+Abstract—This paper presents a feasibility study demonstrat-
+ing that quantum machine learning (QML) algorithms achieve
+competitive performance on real-world medical imaging despite
+operating under severe constraints. We evaluate Equilibrium
+Propagation (EP)—an energy-based learning method that does
+not use backpropagation (incompatible with quantum systems
+due to state-collapsing measurements)—and Variational Quan-
+tum Circuits (VQCs) for automated detection of Acute Myeloid
+Leukemia (AML) from blood cell microscopy images using binary
+classification (2 classes: AML vs. Healthy).
+Key Result: Using limited subsets (50–250 samples per class)
+of the AML-Cytomorphology dataset (18,365 expert-annotated
+images), quantum methods achieve performance only 12–15%
+below classical CNNs despite reduced image resolution (64×64
+pixels), engineered features (20D), and classical simulation via
+Qiskit. EP reaches 86.4% accuracy (only 12% below CNN)
+without backpropagation, while the 4-qubit VQC attains 83.0%
+accuracy with consistent data efficiency: VQC maintains stable
+83% performance with only 50 samples per class, whereas CNN
+requires 250 samples (5×more data) to reach 98%. These
+results establish reproducible baselines for QML in healthcare,
+validating NISQ-era feasibility.
+Index Terms—Quantum Machine Learning, Equilibrium Prop-
+agation, Variational Quantum Circuits, Quantum Neural Net-
+works, Quantum Benchmarks, Medical Image Analysis
+I. INTRODUCTION
+Automated microscopy-based analysis can support clinical
+workflows by reducing the time and variability associated
+with manual blood smear review. Deep convolutional networks
+have demonstrated highly accurate differentiation of blood
+cell morphologies [1], [2], with performance often surpassing
+human-level accuracy [3]. Our study focuses on blood smear
+analysis, which offers a less invasive diagnostic approach
+compared to bone marrow aspiration. However, these clas-
+sical methods typically rely on backpropagation and require
+substantial computational resources, motivating exploration of
+alternative learning paradigms better aligned with emerging
+hardware architectures.
+*Corresponding author: L. S. Liebovitch email:LSL2140@columbia.edu.Quantum machine learning (QML) has gained significant
+momentum with the development of Noisy Intermediate-Scale
+Quantum (NISQ) devices. Introductions to these methods are
+available on YouTube [4], [5] and detailed presentations are
+available from these references [6], [7]. QML encompasses
+different approaches including Variational Quantum Circuits
+(VQCs) and quantum-inspired methods such as Equilibrium
+Propagation (EP).
+In Variational Quantum Circuits (VQCs), circuits encode
+classical data into quantum states via feature maps and op-
+timize circuit parameters through classical optimization rou-
+tines. While many QML demonstrations utilize toy datasets
+(MNIST, synthetic data), evaluating these methods on real
+clinical data with inherent variability and complexity remains
+critical for understanding practical applicability.
+In parallel, Equilibrium Propagation (EP) [8] offers a
+quantum-inspired energy-based learning algorithm that trains
+networks by computing updates from differences between
+equilibrium states under free and nudged dynamics. Crucially,
+EP does not use backpropagation—an essential feature since
+backpropagation is fundamentally incompatible with quantum
+systems: gradient computation in quantum circuits requires in-
+termediate measurements that collapse quantum states, thereby
+destroying superposition and entanglement, which defeats the
+computational advantages of quantum parallelism. This in-
+compatibility makes EP particularly attractive for quantum-
+inspired neuromorphic hardware and physical relaxation-based
+systems.
+In this paper we evaluate EP and VQC models on image
+analysis to detect Acute Myeloid Leukemia (AML) from blood
+cell microscopy images using the AML-Cytomorphology
+dataset [1].

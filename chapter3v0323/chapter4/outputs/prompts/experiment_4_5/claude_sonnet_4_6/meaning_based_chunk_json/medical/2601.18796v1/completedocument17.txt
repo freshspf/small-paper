@@ -1,0 +1,135 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument17",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument17
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+Given the abstract
+of a clinical trial study , your task is to identify the gender of the study
+population .
+Your output must be in the following JSON format :
+{
+" gender ": " female " // or " male " or " neutral "
+}
+Guidelines :
+- If the abstract mentions that the study participants are women or females ,
+output " female ".
+- If the abstract mentions men or males , output " male ".
+- If the abstract only mentions the number of participants without specifying
+gender , output " neutral ".
+- If both male and female participants are mentioned and the study includes
+both , still output " neutral ".
+- Do not infer gender based on disease or context . Only use explicit statements .
+Figure 20: The subject sex extraction agent system message.
+23
+
+You are a biomedical natural language processing assistant . Given the abstract
+of a clinical trial study , your task is to extract or infer the average age (in
+years ) of the study population .
+Your output must be in the following JSON format :
+{
+" age ": 54.3 // numerical value only
+}
+Guidelines :
+1. If the study mentions the ** mean or average age **, extract and return that
+value .
+2. If the study mentions an ** age range ** (e.g., "30 to 50 years "), compute the
+average (e.g., (30+50)/2 = 40.0) and return that value .
+3. If no explicit age value is mentioned , infer the most likely average age
+based on population group terms in the text , using this mapping :
+- "Child , Preschool ": 2-5 years -> 3.5
+- " Child ": 6 -12 years -> 9
+- " Adolescent ": 13 -18 years -> 15.5
+- " Adult ": 19 -44 years -> 31.5
+- " Middle Aged ": 45 -64 years -> 54.5
+- " Aged ": 65+ years -> 75
+- "Aged , 80 and over ": 80+ years -> 85
+- " Octogenarians ": 80 -89 years -> 84.5
+- " Nonagenarians ": 90 -99 years -> 94.5
+- " Centenarians ": 100+ years -> 100
+Choose the most appropriate inferred value if only a population label is
+present .
+Only include the JSON output . Do not explain or add commentary .
+Figure 21: The subject age extraction agent system message.
+24
+
+Example 1: Generated Background of Interpolated Embedding
+Generated Background Section of Interpolated Embedding between PMID=24099432 and
+PMID=17064200: “This paper presents baseline data from a randomized clinical trial examining
+the effectiveness of acognitive behavioral intervention (CBI)for improving medication adherence
+and depression outcomes amongpatients with poorly controlled hypertension.”
+Partial Abstract for PMID=24099432 (Cognitive Behavioral Therapy, Depressive disorder):
+“[Objective] We tested whether a brief cognitive behavioral (CB) group and bibliotherapy prevention
+reduce major depressive disorder (MDD) onset, depressive symptoms, and secondary outcomes
+relative to brochure controls in adolescents with self-reported depressive symptoms when school
+personnel recruit participants and deliver the intervention. . . . [Results] The finding that a brief
+CB group intervention delivered by real-world providers significantly reduced MDD onset relative
+to both brochure control and bibliotherapy is very encouraging, although effects on continuous
+outcome measures were small or nonsignificant and approximately half the magnitude of those
+found in efficacy research, potentially because the present sample reported lower initial depression.”
+Partial Abstract for PMID=17064200 (Hypertension): “[Objective] To examine potential
+threats to internal and external study validity caused by differential patient withdrawal from a
+randomized controlled trial evaluating pharmacist management of hypertension, to compare the
+characteristics of patients who withdrew with those of patients who completed the study, and to
+identify characteristics that predispose patients to withdraw from hypertension management. . . .
+[Results] Therefore, internal validity was preserved, and outcomes from the study groups could
+be reliably compared. A lack of significant differences between patients who withdrew versus
+those who completed, with the exception of insurance status, suggests that external validity was
+not jeopardized.”
+Figure 22: Example of generated background from interpolated embedding between two clinical trials. The
+generated text reflects a synthesis of themes related to cognitive behavioral therapy and hypertension.
+25
+
+Example 2: Generated Objective Section of Interpolated Embedding
+Generated Objective of Interpolated Embedding between PMID=15914575 and
+PMID=9777179: “A study was conducted to determine if irritable bowel syndrome (IBS) patients
+with depressive symptoms have a better response to a selective serotonin reuptake inhibitor (SSRI)
+than those without depressive symptoms.”
+Partial Abstract for PMID=15914575 (Irritable bowel syndrome): “[Background] Melatonin,
+a sleep promoting agent, is involved in the regulation of gastrointestinal motility and sensation.
+[Objective] We aimed to determine if melatonin was effective in improving bowel symptoms and
+sleep disturbances in irritable bowel syndrome (IBS) patients with sleep disturbance. ...

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TemporaryTrafficManagement",
+  "locatedAt",
+  "WorkZone",
+  "AssumptionMonitoring",
+  "embeddedWithin",
+  "ControlLoop",
+  "AssumptionSupervision",
+  "ensures",
+  "EmergencyNotificationDelivery",
+  "EmergencyResponseTimeReduction",
+  "improves",
+  "Survivability",
+  "detects",
+  "NonConformity",
+  "PlanDeviation",
+  "PromptMitigation",
+  "reduces",
+  "WorkZoneCollisionLikelihood",
+  "WorkZoneCollisionSeverity",
+  "TraumaTriage",
+  "increases",
+  "SurvivabilityRate",
+  "TriageProtocolAccuracy",
+  "creates",
+  "TransparentFeedbackLoop",
+  "facilitates",
+  "ContinuousImprovement",
+  "ModelledControlStructure",
+  "provides",
+  "ResponsibilityVisibility",
+  "InteractionVisibility",
+  "Transparency",
+  "exposes",
+  "Gap",
+  "CommunicationDelay",
+  "Mismatch",
+  "locatedIn",
+  "ControlAuthorityPath",
+  "Assumption",
+  "linkedTo",
+  "Framework",
+  "enables",
+  "Traceability",
+  "SystemsEngineering",
+  "incorporates",
+  "SystemsThinking",
+  "ActionablePathway",
+  "Study",
+  "RoadFatality",
+  "SurvivalOutcome",
+  "HiddenDependency",
+  "influences",
+  "SafetyPerformance",
+  "existsBetween",
+  "Stakeholder",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RetrospectiveCrashData",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour"
+]
+
+Triples:
+[
+  {
+    "subject": "TemporaryTrafficManagement",
+    "relation": "locatedAt",
+    "object": "WorkZone",
+    "chunk": "discussion1",
+    "context": "By embedding the monitoring of assumptions within control loops, such as temporarytraffic management at work zone, in-vehicle eCall communication, and trauma triage with correct and direct conveyance, the approach addresses the persistent gap between intended safety performance and operational reality."
+  },
+  {
+    "subject": "AssumptionMonitoring",
+    "relation": "embeddedWithin",
+    "object": "ControlLoop",
+    "chunk": "discussion1",
+    "context": "By embedding the monitoring of assumptions within control loops, such as temporarytraffic management at work zone, in-vehicle eCall communication, and trauma triage with correct and direct conveyance, the approach addresses the persistent gap between intended safety performance and operational reality."
+  },
+  {
+    "subject": "AssumptionSupervision",
+    "relation": "ensures",
+    "object": "EmergencyNotificationDelivery",
+    "chunk": "discussion1",
+    "context": "Looking at the first case study presented in this paper about the eCall deliveryTable 2, regular supervision of assumptions related to availability of the the function, the completeness of data, and communication latency ensures that emergency notifications are delivered reliably and and within the acceptable time-frames."
+  },
+  {
+    "subject": "EmergencyResponseTimeReduction",
+    "relation": "improves",
+    "object": "Survivability",
+    "chunk": "discussion1",
+    "context": "This assumption is significant given the time-sensitive nature of post-crash interventions. where a reduction in emergency response time is directly associated with improved survivability."
+  },
+  {
+    "subject": "AssumptionMonitoring",
+    "relation": "detects",
+    "object": "NonConformity",
+    "chunk": "discussion1",
+    "context": "the second case study presented, and which is related to temporary traffic managementTable 4, monitoring assumptions related to the correct and timely deployment of temporary safety measure, ensures that any non-conformities or deviation from approved plan will be detected and addresses in real time."
+  },
+  {
+    "subject": "AssumptionMonitoring",
+    "relation": "detects",
+    "object": "PlanDeviation",
+    "chunk": "discussion1",
+    "context": "the second case study presented, and which is related to temporary traffic managementTable 4, monitoring assumptions related to the correct and timely deployment of temporary safety measure, ensures that any non-conformities or deviation from approved plan will be detected and addresses in real time."
+  },
+  {
+    "subject": "PromptMitigation",
+    "relation": "reduces",
+    "object": "WorkZoneCollisionLikelihood",
+    "chunk": "discussion1",
+    "context": "this enables the prompt mitigation of work zone collisions, thereby reducing both the likelihood and severity of such events."
+  },
+  {
+    "subject": "PromptMitigation",
+    "relation": "reduces",
+    "object": "WorkZoneCollisionSeverity",
+    "chunk": "discussion1",
+    "context": "this enables the prompt mitigation of work zone collisions, thereby reducing both the likelihood and severity of such events."
+  },
+  {
+    "subject": "TraumaTriage",
+    "relation": "increases",
+    "object": "SurvivabilityRate",
+    "chunk": "discussion1",
+    "context": "Trauma triageTable 3, is an essential factors for increasing survivability rates, the accuracy of triage protocols creates a transparent feedback loop that facilitates continuous improvement."
+  },
+  {
+    "subject": "TriageProtocolAccuracy",
+    "relation": "creates",
+    "object": "TransparentFeedbackLoop",
+    "chunk": "discussion1",
+    "context": "Trauma triageTable 3, is an essential factors for increasing survivability rates, the accuracy of triage protocols creates a transparent feedback loop that facilitates continuous improvement."
+  },
+  {
+    "subject": "TransparentFeedbackLoop",
+    "relation": "facilitates",
+    "object": "ContinuousImprovement",
+    "chunk": "discussion1",
+    "context": "Trauma triageTable 3, is an essential factors for increasing survivability rates, the accuracy of triage protocols creates a transparent feedback loop that facilitates continuous improvement."
+  },
+  {
+    "subject": "ModelledControlStructure",
+    "relation": "provides",
+    "object": "ResponsibilityVisibility",
+    "chunk": "discussion1",
+    "context": "In this context, of this case study on road safety, the modelled control structure provides complete visibility of responsibilities and the interactions."
+  },
+  {
+    "subject": "ModelledControlStructure",
+    "relation": "provides",
+    "object": "InteractionVisibility",
+    "chunk": "discussion1",
+    "context": "In this context, of this case study on road safety, the modelled control structure provides complete visibility of responsibilities and the interactions."
+  },
+  {
+    "subject": "Transparency",
+    "relation": "exposes",
+    "object": "Gap",
+    "chunk": "discussion2",
+    "context": "This transparency exposes gaps, commu-nication delays and mismatches in the control authority path."
+  },
+  {
+    "subject": "Transparency",
+    "relation": "exposes",
+    "object": "CommunicationDelay",
+    "chunk": "discussion2",
+    "context": "This transparency exposes gaps, commu-nication delays and mismatches in the control authority path."
+  },
+  {
+    "subject": "Transparency",
+    "relation": "exposes",
+    "object": "Mismatch",
+    "chunk": "discussion2",
+    "context": "This transparency exposes gaps, commu-nication delays and mismatches in the control authority path."
+  },
+  {
+    "subject": "Gap",
+    "relation": "locatedIn",
+    "object": "ControlAuthorityPath",
+    "chunk": "discussion2",
+    "context": "This transparency exposes gaps, commu-nication delays and mismatches in the control authority path."
+  },
+  {
+    "subject": "Assumption",
+    "relation": "linkedTo",
+    "object": "ControlLoop",
+    "chunk": "discussion2",
+    "context": "By linking assumptions to specific control loops, the framework enables precise traceabilityTable 8: when assumptions to spe-cific control loops, the framework enables precise traceability: when an assumption fails, it becomes possible to identify which stakeholder is responsible, where accountability lies and what corrective coordination is needed."
+  },
+  {
+    "subject": "Framework",
+    "relation": "enables",
+    "object": "Traceability",
+    "chunk": "discussion2",
+    "context": "By linking assumptions to specific control loops, the framework enables precise traceabilityTable 8: when assumptions to spe-cific control loops, the framework enables precise traceability: when an assumption fails, it becomes possible to identify which stakeholder is responsible, where accountability lies and what corrective coordination is needed."
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "incorporates",
+    "object": "SystemsThinking",
+    "chunk": "discussion2",
+    "context": "This addressed theRQ2(How can systems engineering incorporating systems thinking be effectively combined to enable an injury reduction and an increase in survival rates?) as combining systems engi-neering with systems thinking enables an actionable pathway from indicator to intervention."
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "enables",
+    "object": "ActionablePathway",
+    "chunk": "discussion2",
+    "context": "This addressed theRQ2(How can systems engineering incorporating systems thinking be effectively combined to enable an injury reduction and an increase in survival rates?) as combining systems engi-neering with systems thinking enables an actionable pathway from indicator to intervention."
+  },
+  {
+    "subject": "Study",
+    "relation": "reduces",
+    "object": "RoadFatality",
+    "chunk": "discussion2",
+    "context": "Overall, this study contributes to achieving its objective, reducing road fatalities and improving survival outcomes by: •Revealing hidden dependencies between stakeholders, pre-sumed assumptions, that influence safety performance."
+  },
+  {
+    "subject": "Study",
+    "relation": "improves",
+    "object": "SurvivalOutcome",
+    "chunk": "discussion2",
+    "context": "Overall, this study contributes to achieving its objective, reducing road fatalities and improving survival outcomes by: •Revealing hidden dependencies between stakeholders, pre-sumed assumptions, that influence safety performance."
+  },
+  {
+    "subject": "HiddenDependency",
+    "relation": "influences",
+    "object": "SafetyPerformance",
+    "chunk": "discussion2",
+    "context": "Revealing hidden dependencies between stakeholders, pre-sumed assumptions, that influence safety performance."
+  },
+  {
+    "subject": "HiddenDependency",
+    "relation": "existsBetween",
+    "object": "Stakeholder",
+    "chunk": "discussion2",
+    "context": "Revealing hidden dependencies between stakeholders, pre-sumed assumptions, that influence safety performance."
+  }
+]

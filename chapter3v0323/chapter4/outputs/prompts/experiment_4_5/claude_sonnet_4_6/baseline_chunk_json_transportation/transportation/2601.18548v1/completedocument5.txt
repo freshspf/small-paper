@@ -1,0 +1,145 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument5
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+De-
+pending on the geometric representation, such as points [59],
+[64], polytopes [65], [66], or semialgebraic sets [36], dif-
+ferent containment constraints can be formulated within the
+optimization framework. This paradigm has been extended to
+manipulators and mobile manipulators by allocating separate
+convex regions to each link [66], [33], [38], enabling coordi-
+nated whole-body planning.
+2) Safety Margins Between Collision Pairs:The second
+category focuses on explicitly modeling the geometric re-
+lationship between robot and obstacles to enforce positive
+distance margins. Compared to convex decomposition meth-
+ods, which face combinatorial challenges in selecting which
+free region the robot should occupy at each time step [64],
+[67] and ensuring safe transitions between regions [36] (as
+overlapping quality between adjacent regions is often difficult
+to guarantee), distance-based methods provide a more direct
+and complete solution:safety can be absolutely guaranteed
+by enforcing minimum distance thresholds between the robot
+and all obstacles.The most straightforward approach ex-
+plicitly constructs distance functions between robot-obstacle
+collision pairs and enforces safety thresholds [6], [7], [68],
+[69]. However, distance functions for general geometries in
+complex configuration spaces are inherently difficult to obtain,
+typically leading to oversimplified collision representations
+such as points or spheres. Some indirect methods have been
+developed to handle more general shapes for single rigid
+bodies: control barrier functions (CBFs) based on the dual
+formulation of minimum distance between polytopes [70],
+and bi-level optimization that enforces scaling factors on geo-
+metric primitives to ensure collision-free configurations [37].Another approach computes separating hyperplanes between
+the robot and obstacle convex hulls [71], [72]. In principle,
+these methods jointly optimize both the trajectory variables
+and the hyperplane parameters at each time step, ensuring
+that a separating plane can be found between the robot and
+obstacles throughout the motion.
+However, for multi-link robotic systems such as manipula-
+tors and mobile manipulators, these direct approaches remain
+difficult to generalize due to kinematic coupling between links
+and the high dimensionality of the configuration space. As an
+alternative, distance fields have been widely adopted. The prin-
+ciple behind this approach is to build an implicit representation
+that encodes the minimum distance between environmental
+points and their nearest robot surface points [73], [42], [74] or
+nearest obstacle points [75], [76], [77]. This implicit structure
+allows querying minimum distance values and their gradients
+with respect to robot configurations, which can be utilized
+to detect collisions and generate repulsive forces that push
+the robot away from obstacles [43], [78]. These methods have
+great potential for application to robotic systems with complex
+configurations and are the focus of this paper. We provide a
+comprehensive review of distance fields and their evolution
+toward configuration-space representations in Section II-B.
+B. Distance Fields and their Applications
+Distance fields, and in particular SDFs, encode at every
+point the signed distance to the closest surface. This scalar
+field captures three essential aspects of safety in a unified
+way: the zero level set indicates whether a point is in collision,
+the distance value measures how much clearance it has, and
+the gradient specifies in which direction clearance increases.
+In robotics, this makes SDFs a natural choice for linking
+perception and motion generation. V oxel-based TSDF/ESDF
+maps support dense 3D reconstruction and local planning
+for mobile robots and MA Vs [75], [34], while continuous
+and neural SDFs [77], [79], [73] provide compact scene
+representations with efficient distance and gradient queries.
+These environment-centric distance fields are routinely used
+as smooth collision costs or repulsive potentials in trajectory
+optimization [6] and MPC-based planners [80], giving motion-
+generation algorithms a continuous “safety landscape” instead
+of a binary collision oracle.
+More recently, there has been a shift from environment-
+centric to robot-centric distance fields, in which therobotitself
+is represented as a distance field. This removes the need to
+update a global scene SDF online as the environment changes,
+enabling more efficient distance queries and improving respon-
+siveness in dynamic scenarios [40], [42]. Moreover, a robot
+SDF provides derivatives with respect to joint angles, encoding
+both proximity to collision and directions in joint space that
+increase clearance, which aligns well with gradient-based
+motion optimization. A central challenge is how to couple the
+distance representation with the robot joint configuration.

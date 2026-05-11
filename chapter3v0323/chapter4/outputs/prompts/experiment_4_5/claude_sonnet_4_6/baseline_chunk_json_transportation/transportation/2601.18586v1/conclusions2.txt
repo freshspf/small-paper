@@ -1,0 +1,130 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: conclusions2
+- section_title: Conclusions
+- page_start: 6
+- page_end: 9
+
+INPUT TEXT CHUNK:
+Tackling
+climate change with machine learning.ACM Computing
+Surveys (CSUR), 55(2):1–96, 2022.
+[SCALGO, 2024 ]SCALGO. SCALGO Live, 2024. Ac-
+cessed: 2024-06-07.
+[Schulmanet al., 2017 ]John Schulman, Filip Wolski, Pra-
+fulla Dhariwal, Alec Radford, and Oleg Klimov. Prox-
+imal policy optimization algorithms.arXiv preprint
+arXiv:1707.06347, 2017.
+[Shahdaniet al., 2022 ]Fereshteh Jafari Shahdani, M ´onica
+Santamaria-Ariza, H ´elder S. Sousa, M ´ario Coelho, and
+Jos´e C. Matos. Assessing Flood Indirect Impacts on Road
+Transport Networks Applying Mesoscopic Traffic Mod-
+elling: The Case Study of Santar ´em, Portugal.Applied
+Sciences, 12(6), 2022.
+[Shinet al., 2026 ]Yen Shin, Changyoon Lee, Eunsu Kim,
+Junho Myung, Kiwoong Park, Jiheun Ha, Min-Young
+Choi, Bomi Kim, Hyun W. Ka, Jung-Hun Woo, Alice Oh,
+and Haewon McJeon. Ml-iam v1.0: Emulating integrated
+assessment models with machine learning.EGUsphere,
+2026. Preprint (under review for Geoscientific Model De-
+velopment).
+[Tianet al., 2023 ]Wenchong Tian, Kunlun Xin, Zhiyu
+Zhang, Muhan Zhao, Zhenliang Liao, and Tao Tao. Flood-
+ing mitigation through safe & trustworthy reinforcement
+learning.Journal of Hydrology, 620:129435, 2023.
+[Towerset al., 2023 ]Mark Towers, Jordan K. Terry, Ariel
+Kwiatkowski, John U. Balis, Gianluca de Cola, Tristan
+Deleu, Manuel Goul ˜ao, Andreas Kallinteris, Arjun KG,
+Markus Krimmel, Rodrigo Perez-Vicente, Andrea Pierr ´e,
+Sander Schulhoff, Jun Jet Tai, Andrew Tan Jin Shen, and
+Omar G. Younis. Gymnasium, March 2023.
+
+[Transportministeriet, 2022 ]Transportministeriet.
+Transportøkonomiske enhedspriser, version 2.0.
+https://www.man.dtu.dk/myndighedsbetjening/
+teresa-og-transportoekonomiske-enhedspriser, 2022.
+[Tyleret al., 2023 ]Chris Tyler, KL Akerlof, Alessandro Al-
+legra, Zachary Arnold, Henriette Canino, Marius A Door-
+nenbal, Josh A Goldstein, David Budtz Pedersen, and
+William J Sutherland. Ai tools as science policy advisers?
+the potential and the pitfalls.Nature, 622(7981):27–30,
+2023.
+[van Ginkelet al., 2021 ]K. C. H. van Ginkel, F. Dottori,
+L. Alfieri, L. Feyen, and E. E. Koks. Flood risk assess-
+ment of the european road network.Natural Hazards and
+Earth System Sciences, 21(3):1011–1027, 2021.
+[Van Vuurenet al., 2011 ]Detlef P Van Vuuren, Jae Ed-
+monds, Mikiko Kainuma, Keywan Riahi, Allison Thom-
+son, Kathy Hibbard, George C Hurtt, Tom Kram, V olker
+Krey, Jean-Francois Lamarque, et al. The representative
+concentration pathways: an overview.Climatic Change,
+109:5–31, 2011.
+[Vejdirektoratet, 2022 ]Vejdirektoratet. Grøn mo-
+bilitetsmodel (gmm). https://www.vejdirektoratet.
+dk/segment/groen-mobilitetsmodel, 2022. Accessed:
+2024-06-06.
+[Wanget al., 2020 ]Tianni Wang, Zhuohua Qu, Zaili Yang,
+Timothy Nichol, Geoff Clarke, and Ying-En Ge. Climate
+change research on transportation systems: Climate risks,
+adaptation and planning.Transportation Research Part D:
+Transport and Environment, 88:102553, 2020.
+[Xionget al., 2025 ]Weiwei Xiong, Katsumasa Tanaka,
+Philippe Ciais, Daniel J. A. Johansson, and Mariliis
+Lehtveer. emiam v1.0: an emulator for integrated assess-
+ment models using marginal abatement cost curves.Geo-
+scientific Model Development, 18:1575–1612, 2025..

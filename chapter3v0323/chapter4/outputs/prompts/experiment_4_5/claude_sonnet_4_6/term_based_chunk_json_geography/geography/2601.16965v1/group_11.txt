@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TravelMode",
+  "includes",
+  "transit",
+  "RouteData",
+  "Leg",
+  "Step",
+  "Distance",
+  "Duration",
+  "DistanceMatrixOperator",
+  "computes",
+  "DistanceMatrix",
+  "connectsOrigin",
+  "OriginSet",
+  "connectsDestination",
+  "DestinationSet",
+  "Earth",
+  "hasAttribute",
+  "radius_6371km",
+  "BearingOperator",
+  "InitialBearing",
+  "relativeTo",
+  "true_north",
+  "Metric",
+  "haversine",
+  "travel_time",
+  "Candidate",
+  "locatedWithin",
+  "Radius",
+  "measuredFrom",
+  "CenterPoint",
+  "LocationPair",
+  "MaximumMutualDistance",
+  "determines",
+  "SpatialExtent",
+  "OpenAtTimeOperator",
+  "OpenStatus",
+  "TimezoneInformation",
+  "TimezoneId",
+  "UtcOffset",
+  "MultiStopItinerary",
+  "FinishTime",
+  "visits",
+  "Location",
+  "TspTwOperator",
+  "solves",
+  "TravelingSalesmanProblem",
+  "NavigationStatistics",
+  "TurnCount",
+  "RoundaboutExitCount",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "SpatialConcept",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "FunctionalRole",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Routing",
+  "Aggregation",
+  "GisTool",
+  "postgis",
+  "arcgis",
+  "qgis"
+]
+
+Triples:
+[
+  {
+    "subject": "TravelMode",
+    "relation": "includes",
+    "object": "transit",
+    "chunk": "completedocument11",
+    "context": "directions( o,d,m,W)Computes a route from origin oto destination dusing travel mode m∈ {driving,walking,transit,bicycling} ."
+  },
+  {
+    "subject": "RouteData",
+    "relation": "includes",
+    "object": "Leg",
+    "chunk": "completedocument11",
+    "context": "Returns structured route data including legs, steps, distance, and duration."
+  },
+  {
+    "subject": "RouteData",
+    "relation": "includes",
+    "object": "Step",
+    "chunk": "completedocument11",
+    "context": "Returns structured route data including legs, steps, distance, and duration."
+  },
+  {
+    "subject": "RouteData",
+    "relation": "includes",
+    "object": "Distance",
+    "chunk": "completedocument11",
+    "context": "Returns structured route data including legs, steps, distance, and duration."
+  },
+  {
+    "subject": "RouteData",
+    "relation": "includes",
+    "object": "Duration",
+    "chunk": "completedocument11",
+    "context": "Returns structured route data including legs, steps, distance, and duration."
+  },
+  {
+    "subject": "DistanceMatrixOperator",
+    "relation": "computes",
+    "object": "DistanceMatrix",
+    "chunk": "completedocument11",
+    "context": "distance_matrix( O,D,m)Computes a |O| × |D|matrix of travel distances and durations between origin set Oand destination set Dusing travel modem."
+  },
+  {
+    "subject": "DistanceMatrix",
+    "relation": "connectsOrigin",
+    "object": "OriginSet",
+    "chunk": "completedocument11",
+    "context": "distance_matrix( O,D,m)Computes a |O| × |D|matrix of travel distances and durations between origin set Oand destination set Dusing travel modem."
+  },
+  {
+    "subject": "DistanceMatrix",
+    "relation": "connectsDestination",
+    "object": "DestinationSet",
+    "chunk": "completedocument11",
+    "context": "distance_matrix( O,D,m)Computes a |O| × |D|matrix of travel distances and durations between origin set Oand destination set Dusing travel modem."
+  },
+  {
+    "subject": "Earth",
+    "relation": "hasAttribute",
+    "object": "radius_6371km",
+    "chunk": "completedocument11",
+    "context": "where a= sin2 ∆ϕ 2 + cos(ϕ 1) cos(ϕ 2) sin2 ∆λ 2 and R= 6371 km is Earth’s mean radius."
+  },
+  {
+    "subject": "BearingOperator",
+    "relation": "computes",
+    "object": "InitialBearing",
+    "chunk": "completedocument11",
+    "context": "bearing( ϕ1,λ1,ϕ2,λ2)Computes the initial bearing (forward azimuth) from point 1 to point 2, returned as degrees clockwise from true north (0◦–360◦)."
+  },
+  {
+    "subject": "InitialBearing",
+    "relation": "relativeTo",
+    "object": "true_north",
+    "chunk": "completedocument11",
+    "context": "bearing( ϕ1,λ1,ϕ2,λ2)Computes the initial bearing (forward azimuth) from point 1 to point 2, returned as degrees clockwise from true north (0◦–360◦)."
+  },
+  {
+    "subject": "Metric",
+    "relation": "includes",
+    "object": "haversine",
+    "chunk": "completedocument11",
+    "context": "The metric µcan be haversine (geodesic distance) or travel_time(network-based)."
+  },
+  {
+    "subject": "Metric",
+    "relation": "includes",
+    "object": "travel_time",
+    "chunk": "completedocument11",
+    "context": "The metric µcan be haversine (geodesic distance) or travel_time(network-based)."
+  },
+  {
+    "subject": "Candidate",
+    "relation": "locatedWithin",
+    "object": "Radius",
+    "chunk": "completedocument11",
+    "context": "within_radius( c,ρ,C)Filters candidates Cto return only those within radius ρmeters of center pointc."
+  },
+  {
+    "subject": "Radius",
+    "relation": "measuredFrom",
+    "object": "CenterPoint",
+    "chunk": "completedocument11",
+    "context": "within_radius( c,ρ,C)Filters candidates Cto return only those within radius ρmeters of center pointc."
+  },
+  {
+    "subject": "LocationPair",
+    "relation": "hasAttribute",
+    "object": "MaximumMutualDistance",
+    "chunk": "completedocument11",
+    "context": "pairwise_extremes( L)Identifies the pair of locations (li, lj)∈L×L with maximum mutual distance, useful for determining spatial extent."
+  },
+  {
+    "subject": "MaximumMutualDistance",
+    "relation": "determines",
+    "object": "SpatialExtent",
+    "chunk": "completedocument11",
+    "context": "pairwise_extremes( L)Identifies the pair of locations (li, lj)∈L×L with maximum mutual distance, useful for determining spatial extent."
+  },
+  {
+    "subject": "OpenAtTimeOperator",
+    "relation": "determines",
+    "object": "OpenStatus",
+    "chunk": "completedocument11",
+    "context": "open_at_time(p,t)Determines whether placep is open at local datetime tby parsing structured opening hours."
+  },
+  {
+    "subject": "TimezoneInformation",
+    "relation": "includes",
+    "object": "TimezoneId",
+    "chunk": "completedocument11",
+    "context": "timezone( ϕ,λ,τ)Retrieves timezone information for coordinates (ϕ, λ) at Unix timestamp τ, returning timezone ID, name, and UTC offset."
+  },
+  {
+    "subject": "TimezoneInformation",
+    "relation": "includes",
+    "object": "UtcOffset",
+    "chunk": "completedocument11",
+    "context": "timezone( ϕ,λ,τ)Retrieves timezone information for coordinates (ϕ, λ) at Unix timestamp τ, returning timezone ID, name, and UTC offset."
+  },
+  {
+    "subject": "MultiStopItinerary",
+    "relation": "hasAttribute",
+    "object": "FinishTime",
+    "chunk": "completedocument11",
+    "context": "calculate_finish_time( t0,L,S,m)Computes the finish time of a multi-stop itinerary starting at timet0, visiting locations Lwith stay durations S using travel mode m."
+  },
+  {
+    "subject": "MultiStopItinerary",
+    "relation": "visits",
+    "object": "Location",
+    "chunk": "completedocument11",
+    "context": "calculate_finish_time( t0,L,S,m)Computes the finish time of a multi-stop itinerary starting at timet0, visiting locations Lwith stay durations S using travel mode m."
+  },
+  {
+    "subject": "TspTwOperator",
+    "relation": "solves",
+    "object": "TravelingSalesmanProblem",
+    "chunk": "completedocument11",
+    "context": "tsp_tw( D,L,S,W,t0,T)Solves the Traveling Salesman Problem with Time Windows (TSP-TW) using Google OR-Tools."
+  },
+  {
+    "subject": "NavigationStatistics",
+    "relation": "includes",
+    "object": "TurnCount",
+    "chunk": "completedocument11",
+    "context": "steps_analysis(r,ℓ)Analyzes route instructions to extract navigation statistics: counts of left/right turns, roundabout exits, and optionally the instruction immediately following a specified landmark ℓ."
+  },
+  {
+    "subject": "NavigationStatistics",
+    "relation": "includes",
+    "object": "RoundaboutExitCount",
+    "chunk": "completedocument11",
+    "context": "steps_analysis(r,ℓ)Analyzes route instructions to extract navigation statistics: counts of left/right turns, roundabout exits, and optionally the instruction immediately following a specified landmark ℓ."
+  }
+]

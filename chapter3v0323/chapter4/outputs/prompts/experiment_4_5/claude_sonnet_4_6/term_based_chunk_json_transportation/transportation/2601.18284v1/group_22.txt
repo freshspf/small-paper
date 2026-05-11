@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PerformanceValidationExperiment",
+  "usesNumberOfSeeds",
+  "5",
+  "VissimRLFramework",
+  "evaluatesActionDesign",
+  "SwitchNextOrNot",
+  "ChooseNextPhase",
+  "SetPhaseDuration",
+  "isBaselineDesignFor",
+  "ReinforcementLearningControl",
+  "allowsAgentTo",
+  "SwitchToNextPhaseOrKeepCurrent",
+  "constrainsControlTo",
+  "PredefinedPhaseSequence",
+  "simplifiesProcess",
+  "IntersectionCoordination",
+  "achieves",
+  "StablePerformance",
+  "SelectAnySubsequentPhase",
+  "extendsFlexibilityOf",
+  "isUnconstrainedBy",
+  "FixedPhaseSequence",
+  "improvesAdaptabilityTo",
+  "LocalTrafficVariation",
+  "resultsIn",
+  "LowerAverageDelay",
+  "LowerTravelTime",
+  "RLAgent",
+  "controlsIntersection",
+  "Intersection",
+  "DefaultRewardFunction",
+  "implementsDesign",
+  "MultiObjectiveRewardDesign",
+  "combinesMetric",
+  "InternalWaitingTime",
+  "BoundaryWaitingTime",
+  "Throughput",
+  "AverageSpeed",
+  "coversScenario",
+  "SingleAgentTraining",
+  "MultiAgentTraining",
+  "enablesComparabilityOf",
+  "PerformanceMetric",
+  "RLEnvironment",
+  "hasConfigurationParameter",
+  "use_gui",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "PerformanceValidationExperiment",
+    "relation": "usesNumberOfSeeds",
+    "object": "5",
+    "chunk": "conclusions2",
+    "context": "the reported results are averaged over five random seeds for statistical consistency."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "evaluatesActionDesign",
+    "object": "SwitchNextOrNot",
+    "chunk": "conclusions2",
+    "context": "Table XXI presents a supplementary comparison of three action designs implemented within the proposed VissimRL framework."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "evaluatesActionDesign",
+    "object": "ChooseNextPhase",
+    "chunk": "conclusions2",
+    "context": "two additional action designs—ChooseNextPhaseandSetPhaseDuration—were evaluated to provide a more comprehensive understanding of the framework's behavior under different control paradigms."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "evaluatesActionDesign",
+    "object": "SetPhaseDuration",
+    "chunk": "conclusions2",
+    "context": "two additional action designs—ChooseNextPhaseandSetPhaseDuration—were evaluated to provide a more comprehensive understanding of the framework's behavior under different control paradigms."
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "isBaselineDesignFor",
+    "object": "ReinforcementLearningControl",
+    "chunk": "conclusions2",
+    "context": "TheSwitchNextOrNotaction serves as the baseline reinforcement learning design"
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "allowsAgentTo",
+    "object": "SwitchToNextPhaseOrKeepCurrent",
+    "chunk": "conclusions2",
+    "context": "agents decide whether to switch to the next predefined phase or keep the current one."
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "constrainsControlTo",
+    "object": "PredefinedPhaseSequence",
+    "chunk": "conclusions2",
+    "context": "agents decide whether to switch to the next predefined phase or keep the current one."
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "simplifiesProcess",
+    "object": "IntersectionCoordination",
+    "chunk": "conclusions2",
+    "context": "This constraint simplifies the coordination process among intersections and yields stable performance across all evaluated metrics."
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "achieves",
+    "object": "StablePerformance",
+    "chunk": "conclusions2",
+    "context": "yields stable performance across all evaluated metrics."
+  },
+  {
+    "subject": "ChooseNextPhase",
+    "relation": "allowsAgentTo",
+    "object": "SelectAnySubsequentPhase",
+    "chunk": "conclusions2",
+    "context": "allowing agents to directly select any subsequent phase, unconstrained by a fixed sequence."
+  },
+  {
+    "subject": "ChooseNextPhase",
+    "relation": "extendsFlexibilityOf",
+    "object": "SwitchNextOrNot",
+    "chunk": "conclusions2",
+    "context": "TheChooseNextPhaseaction extends flexibility by allowing agents to directly select any subsequent phase"
+  },
+  {
+    "subject": "ChooseNextPhase",
+    "relation": "isUnconstrainedBy",
+    "object": "FixedPhaseSequence",
+    "chunk": "conclusions2",
+    "context": "allowing agents to directly select any subsequent phase, unconstrained by a fixed sequence."
+  },
+  {
+    "subject": "ChooseNextPhase",
+    "relation": "improvesAdaptabilityTo",
+    "object": "LocalTrafficVariation",
+    "chunk": "conclusions2",
+    "context": "This design improves responsiveness and adaptability to local traffic variations"
+  },
+  {
+    "subject": "ChooseNextPhase",
+    "relation": "resultsIn",
+    "object": "LowerAverageDelay",
+    "chunk": "conclusions2",
+    "context": "resulting in lower average delay and travel time."
+  },
+  {
+    "subject": "ChooseNextPhase",
+    "relation": "resultsIn",
+    "object": "LowerTravelTime",
+    "chunk": "conclusions2",
+    "context": "resulting in lower average delay and travel time."
+  },
+  {
+    "subject": "RLAgent",
+    "relation": "controlsIntersection",
+    "object": "Intersection",
+    "chunk": "conclusions2",
+    "context": "ctrl_intersections list/str \"all\"Controlled intersections (list of IDs or 'all')"
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "implementsDesign",
+    "object": "MultiObjectiveRewardDesign",
+    "chunk": "conclusions2",
+    "context": "the reward function followed a unified multi-objective design that combines internal and boundary waiting times, throughput, and average speed with their respective weights."
+  },
+  {
+    "subject": "MultiObjectiveRewardDesign",
+    "relation": "combinesMetric",
+    "object": "InternalWaitingTime",
+    "chunk": "conclusions2",
+    "context": "a unified multi-objective design that combines internal and boundary waiting times, throughput, and average speed with their respective weights."
+  },
+  {
+    "subject": "MultiObjectiveRewardDesign",
+    "relation": "combinesMetric",
+    "object": "BoundaryWaitingTime",
+    "chunk": "conclusions2",
+    "context": "a unified multi-objective design that combines internal and boundary waiting times, throughput, and average speed with their respective weights."
+  },
+  {
+    "subject": "MultiObjectiveRewardDesign",
+    "relation": "combinesMetric",
+    "object": "Throughput",
+    "chunk": "conclusions2",
+    "context": "a unified multi-objective design that combines internal and boundary waiting times, throughput, and average speed with their respective weights."
+  },
+  {
+    "subject": "MultiObjectiveRewardDesign",
+    "relation": "combinesMetric",
+    "object": "AverageSpeed",
+    "chunk": "conclusions2",
+    "context": "a unified multi-objective design that combines internal and boundary waiting times, throughput, and average speed with their respective weights."
+  },
+  {
+    "subject": "PerformanceValidationExperiment",
+    "relation": "coversScenario",
+    "object": "SingleAgentTraining",
+    "chunk": "conclusions2",
+    "context": "These settings were used to train the RL agents under consistent conditions across both single-agent and multi-agent scenarios."
+  },
+  {
+    "subject": "PerformanceValidationExperiment",
+    "relation": "coversScenario",
+    "object": "MultiAgentTraining",
+    "chunk": "conclusions2",
+    "context": "These settings were used to train the RL agents under consistent conditions across both single-agent and multi-agent scenarios."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "enablesComparabilityOf",
+    "object": "PerformanceMetric",
+    "chunk": "conclusions2",
+    "context": "This configuration ensured comparability of performance metrics across experimental settings."
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "hasConfigurationParameter",
+    "object": "use_gui",
+    "chunk": "conclusions2",
+    "context": "use_gui bool FalseRun simulation with graphical user interface"
+  }
+]

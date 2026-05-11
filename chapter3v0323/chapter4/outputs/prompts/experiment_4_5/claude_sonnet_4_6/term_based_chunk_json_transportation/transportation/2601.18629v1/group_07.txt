@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "OperatorProficiency",
+  "causes",
+  "SuboptimalDemonstrationQuality",
+  "limitsBenefitsOf",
+  "DataAugmentation",
+  "DataAugmentationStrategy",
+  "contributesTo",
+  "PolicyGeneralization",
+  "ColorJitter",
+  "affects",
+  "BackgroundAppearance",
+  "Model",
+  "trainedUsing",
+  "Container",
+  "GreenBlock",
+  "achieves",
+  "RobustSegmentation",
+  "demonstrates",
+  "GeneralizationCapability",
+  "Demonstration",
+  "renderedFrom",
+  "CameraViewpoint",
+  "renderedUsing",
+  "ThreeDGS",
+  "appliedTo",
+  "GaussianModel",
+  "RandomPerturbation",
+  "ObjectPose",
+  "UnscrewBottleCapTask",
+  "constrainedBy",
+  "PhysicalConstraint",
+  "AblationStudy",
+  "conductedOn",
+  "PickPlaceCloseTask",
+  "improves",
+  "Generalization",
+  "ViewpointVariation",
+  "expands",
+  "TrainingDomain",
+  "yields",
+  "PerformanceGain",
+  "PoseAugmentation",
+  "provides",
+  "MarginalBenefit",
+  "PosePerturbation",
+  "doesNotAddress",
+  "VisualDomainGap",
+  "MaskAdapter",
+  "enhances",
+  "mitigates",
+  "SimToRealGap",
+  "ConventionalAugmentation",
+  "reliesOn",
+  "SyntheticDataset",
+  "incurs",
+  "StorageOverhead",
+  "operatesOn",
+  "OriginalData",
+  "ImitationLearning",
+  "Robot",
+  "ComplexManipulationSkill",
+  "TrainingData",
+  "SimulationBasedDataSynthesis",
+  "Scalability",
+  "GeometricRepresentation",
+  "VisualAppearance",
+  "PhysicalInteraction",
+  "RgbBasedPolicy",
+  "RealToSimToRealPipeline",
+  "NeuralSceneRepresentation",
+  "VisualGap",
+  "PhotorealisticRendering",
+  "StaticSceneReconstruction",
+  "ReinforcementLearning",
+  "ManipulationData",
+  "RoboticHardware",
+  "exo_gs",
+  "R2s2rFramework",
+  "4dSequence",
+  "3dEnvironment"
+]
+
+Triples:
+[
+  {
+    "subject": "OperatorProficiency",
+    "relation": "causes",
+    "object": "SuboptimalDemonstrationQuality",
+    "chunk": "experiments2",
+    "context": "These issues mainly arise from suboptimal demonstration quality due to operator proficiency, inherently limiting the benefits of data augmentation."
+  },
+  {
+    "subject": "SuboptimalDemonstrationQuality",
+    "relation": "limitsBenefitsOf",
+    "object": "DataAugmentation",
+    "chunk": "experiments2",
+    "context": "These issues mainly arise from suboptimal demonstration quality due to operator proficiency, inherently limiting the benefits of data augmentation."
+  },
+  {
+    "subject": "DataAugmentationStrategy",
+    "relation": "contributesTo",
+    "object": "PolicyGeneralization",
+    "chunk": "experiments2",
+    "context": "To evaluate the individual contributions of different data augmentation strategies to policy generalization, we construct three augmented datasets for ablation studies."
+  },
+  {
+    "subject": "ColorJitter",
+    "relation": "affects",
+    "object": "BackgroundAppearance",
+    "chunk": "experiments2",
+    "context": "Since color jitter inherently affects background appearance, it is not considered separately from background replacement."
+  },
+  {
+    "subject": "Model",
+    "relation": "trainedUsing",
+    "object": "Container",
+    "chunk": "experiments3",
+    "context": "The model is trained using only containers and green blocks, yet achieves robust segmentation when tested on novel objects and backgrounds, demonstrating strong generalization capability."
+  },
+  {
+    "subject": "Model",
+    "relation": "trainedUsing",
+    "object": "GreenBlock",
+    "chunk": "experiments3",
+    "context": "The model is trained using only containers and green blocks, yet achieves robust segmentation when tested on novel objects and backgrounds, demonstrating strong generalization capability."
+  },
+  {
+    "subject": "Model",
+    "relation": "achieves",
+    "object": "RobustSegmentation",
+    "chunk": "experiments3",
+    "context": "The model is trained using only containers and green blocks, yet achieves robust segmentation when tested on novel objects and backgrounds, demonstrating strong generalization capability."
+  },
+  {
+    "subject": "Model",
+    "relation": "demonstrates",
+    "object": "GeneralizationCapability",
+    "chunk": "experiments3",
+    "context": "The model is trained using only containers and green blocks, yet achieves robust segmentation when tested on novel objects and backgrounds, demonstrating strong generalization capability."
+  },
+  {
+    "subject": "Demonstration",
+    "relation": "renderedFrom",
+    "object": "CameraViewpoint",
+    "chunk": "experiments3",
+    "context": "•Dataset A (Viewpoint): Each demonstration is rendered from ten novel camera viewpoints using 3DGS, resulting in a dataset ten times the size of the original one."
+  },
+  {
+    "subject": "Demonstration",
+    "relation": "renderedUsing",
+    "object": "ThreeDGS",
+    "chunk": "experiments3",
+    "context": "•Dataset A (Viewpoint): Each demonstration is rendered from ten novel camera viewpoints using 3DGS, resulting in a dataset ten times the size of the original one."
+  },
+  {
+    "subject": "ColorJitter",
+    "relation": "appliedTo",
+    "object": "GaussianModel",
+    "chunk": "experiments3",
+    "context": "•Dataset B (Appearance): Background textures and light-ing conditions are randomized, and large-range color jitter is applied to all Gaussian models, producing a dataset ten times the size of the original one."
+  },
+  {
+    "subject": "RandomPerturbation",
+    "relation": "appliedTo",
+    "object": "ObjectPose",
+    "chunk": "experiments3",
+    "context": "•Dataset C (Object Pose): Additional demonstrations are generated by applying random perturbations to the poses of the manipulated objects, yielding a dataset ten times the size of the original one."
+  },
+  {
+    "subject": "UnscrewBottleCapTask",
+    "relation": "constrainedBy",
+    "object": "PhysicalConstraint",
+    "chunk": "experiments3",
+    "context": "Since the performance bottleneck of theUnscrew Bottle Cap task mainly arises from physical constraints rather than visual representation, we conduct the ablation study on thePick Place Closetask."
+  },
+  {
+    "subject": "AblationStudy",
+    "relation": "conductedOn",
+    "object": "PickPlaceCloseTask",
+    "chunk": "experiments3",
+    "context": "Since the performance bottleneck of theUnscrew Bottle Cap task mainly arises from physical constraints rather than visual representation, we conduct the ablation study on thePick Place Closetask."
+  },
+  {
+    "subject": "DataAugmentation",
+    "relation": "improves",
+    "object": "Generalization",
+    "chunk": "experiments3",
+    "context": "As shown in Fig. 8 (b), the generalization improvementsfrom data augmentation largely align with intuition."
+  },
+  {
+    "subject": "ViewpointVariation",
+    "relation": "expands",
+    "object": "TrainingDomain",
+    "chunk": "experiments3",
+    "context": "Viewpoint variation and color jitter most effectively expand the training domain and thus contribute the largest performance gains, with color jitter yielding the strongest overall improvement due to persistent color and illumination discrepancies between synthetic and real data."
+  },
+  {
+    "subject": "ColorJitter",
+    "relation": "expands",
+    "object": "TrainingDomain",
+    "chunk": "experiments3",
+    "context": "Viewpoint variation and color jitter most effectively expand the training domain and thus contribute the largest performance gains, with color jitter yielding the strongest overall improvement due to persistent color and illumination discrepancies between synthetic and real data."
+  },
+  {
+    "subject": "ColorJitter",
+    "relation": "yields",
+    "object": "PerformanceGain",
+    "chunk": "experiments3",
+    "context": "Viewpoint variation and color jitter most effectively expand the training domain and thus contribute the largest performance gains, with color jitter yielding the strongest overall improvement due to persistent color and illumination discrepancies between synthetic and real data."
+  },
+  {
+    "subject": "PoseAugmentation",
+    "relation": "provides",
+    "object": "MarginalBenefit",
+    "chunk": "experiments3",
+    "context": "In contrast, pose augmentation provides only marginal bene-fits, as object poses are already sufficiently diverse during data collection and pose perturbations do not address the primary visual domain gap, resulting in limited performance gains."
+  },
+  {
+    "subject": "PosePerturbation",
+    "relation": "doesNotAddress",
+    "object": "VisualDomainGap",
+    "chunk": "experiments3",
+    "context": "In contrast, pose augmentation provides only marginal bene-fits, as object poses are already sufficiently diverse during data collection and pose perturbations do not address the primary visual domain gap, resulting in limited performance gains."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "enhances",
+    "object": "PolicyGeneralization",
+    "chunk": "experiments3",
+    "context": "Mask Adapter is a lightweight module designed to enhance policy generalization by guiding attention toward interaction-centric features and facilitating the modeling of interaction-relevant relationships, thereby mitigating the sim-to-real gap."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "mitigates",
+    "object": "SimToRealGap",
+    "chunk": "experiments3",
+    "context": "Mask Adapter is a lightweight module designed to enhance policy generalization by guiding attention toward interaction-centric features and facilitating the modeling of interaction-relevant relationships, thereby mitigating the sim-to-real gap."
+  },
+  {
+    "subject": "ConventionalAugmentation",
+    "relation": "reliesOn",
+    "object": "SyntheticDataset",
+    "chunk": "experiments3",
+    "context": "While sharing a similar goal with data augmentation, con-ventional augmentation relies on substantially enlarged syn-thetic datasets, incurring notable storage and computational overhead."
+  },
+  {
+    "subject": "ConventionalAugmentation",
+    "relation": "incurs",
+    "object": "StorageOverhead",
+    "chunk": "experiments3",
+    "context": "While sharing a similar goal with data augmentation, con-ventional augmentation relies on substantially enlarged syn-thetic datasets, incurring notable storage and computational overhead."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "operatesOn",
+    "object": "OriginalData",
+    "chunk": "experiments3",
+    "context": "In contrast, Mask Adapter operates directly on the original data and remains fully compatible with augmented data, offering a more efficient alternative."
+  }
+]

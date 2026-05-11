@@ -1,0 +1,133 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument10",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument10
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+**INPUT TEXT CHUNK:**
+These prioritized 
+compounds were subsequently used to train a target -specific generative model  that 
+integrates both the structural features of ligase binding sites and the 3D conformational 
+dynamics of small molecules, incorporating torsional angles as an additional feature to 
+enhance chemical realism.  
+Our results demonstrate that the generative model effectively captured ligase -
+specific chemical preferences , producing valid, novel, and structurally diverse
+
+Biomolecules 2025 , 15, 849 15 of 31  
+compounds optimized for each E3 ligase ( Figure 9 and 10 ). Performance evaluation 
+showed consistently high chemical validity and target selectivity across generated 
+compound sets ( Figure 10 and 12 ). Dimensionality reduction analysis confirmed that the 
+model generated molecules covering both novel and known chemical spaces, while 
+detailed compound visualizations revealed diversity and preservation of critical 
+pharmacophores associated with ligase en gagement ( Figure 11 ). These outcomes 
+highlight the model’s po tential utility for designing degrader compounds against 
+structurally challenging targets  such as Aβ42.  
+The comprehensive docking analysis  further underscores the effectiveness of our 
+LC-JT-VAE generative framework  in designing compounds with targeted binding 
+specificity . By docking all generated compounds across multiple E3 ligases, we 
+demonstrated that the molecules preferentially bind to their intended ligase targets rather 
+than interacting nonspecifically across ligases. This specificity is crucial for the success of 
+molecular glue -mediated ternary complex formation.  
+The top-ranked compounds , presented in Figure S4 , provide illustrative examples 
+of how our designed molecules establish favorable interaction networks  within the ligase 
+binding pockets, engaging critical residues through hydrogen bonding, hydrophobic 
+contacts, and π -π interactions -key mechanisms for stabilizing ternary complexes.  
+Moreover, the cross -target docking heatmap  (Figure 12 ) quantitatively supports this 
+finding, showing that compounds exhibit significantly stronger binding  (i.e., more 
+negative docking scores) to their respective intended E3 ligases compared to off -target 
+ligases. These results collectively validate the robustness of our AI -driven design 
+platform, confirming its ability to generate chemically valid, structur ally optimized, and 
+functionally targeted therapeutic candidates.  
+Together, these findings position our integrated predictive and generative pipeline 
+as a powerful strategy  for early intervention  in age -related diseases such as Alzheimer's 
+disease, and offer a generalizable framework  for therapeutic discovery against other 
+undruggable targets.  
+ 
+5. CONCLUSION  
+This study presents an AI -driven framework for the rational design of E3 
+ligase -specific molecular glues targeting Aβ42, a key pathogenic peptide in 
+Alzheimer’s disease. By integrating ligand - and structure -based screening with 
+advanced generative modeling, we demonstrate that the Ligase -Conditioned JT -
+VAE (LC -JT-VAE) can generate nov el, drug -like compounds tailored for CRBN, 
+VHL, and MDM2 ligases. These compounds exhibit strong potential to facilitate 
+ternary complex formation and promote targeted degradat ion of intracellular 
+Aβ42. The integration of protein sequence embeddings and torsional flexibility 
+into the generative model significantly improves target specificity and chemical 
+realism. Our approach sets the stage for AI -enabled discovery of therapeuti c 
+degraders against aggregation -prone proteins, offering new avenues in the 
+treatment of Alzheimer’s and other neurodegenerative disorders.  
+ 
+Supplementary Materials  
+The following supporting information can be downloaded at:  
+https://github.com/thom -DEC/LCJTVAE -SupplementalData . Supplementary 
+Data S1  is available.  
+ 
+Author Contributions
+
+Biomolecules 2025 , 15, 849 16 of 31  
+Conceptualization, N.N.I. and T.R.C.; methodology, N.N.I. and T.R.C.; 
+software, N.N.I. and T.R.C.; validation, N.N.I. and T.R.C.; formal analysis, N.N.I. 
+and T.R.C.; investigation, N.N.I. and T.R.C.; resources, N.N.I. and T.R.C.; data 
+curation, N.N.I. and T.R.C.; writing -N.N.I. and T.R.C.; visualization, N.N.I.; 
+supervision, T.R.C.; project administration, T.R.C.; funding acquisition, T.R.C. All 
+authors have read and agreed to the published version of the manuscript.  
+ 
+Funding  
+T.R.C. was supported in part by the Center for Individualized Medicine 
+(CIM) and the Florida Department of Health -Ed and Ethel Moore Alzheimer’s 
+Disease Research Program [24A19].  
+ 
+Institutional Review Board Statement   
+Not applicable.  
+ 
+Informed Consent Statement  
+Not applicable.  
+ 
+Data Availability Statement  
+Data and models will be made available upon request.  
+ 
+Conflicts of Interest  
+N.N.I and T.R.C. declare they have no competing interests.

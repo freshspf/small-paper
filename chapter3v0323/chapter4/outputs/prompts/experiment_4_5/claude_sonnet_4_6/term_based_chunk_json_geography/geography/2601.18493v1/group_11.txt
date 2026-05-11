@@ -1,0 +1,242 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "StructuredReportGeneration",
+  "alignedWith",
+  "HumanitarianGuideline",
+  "disaster_insight",
+  "captures",
+  "OperationalWorkflow",
+  "GeneralPurposeVisionLanguageModel",
+  "strugglesWith",
+  "FunctionAwareReasoning",
+  "StructuredNarrativeGeneration",
+  "di_chat_framework",
+  "improves",
+  "DamageAssessment",
+  "DisasterTypeRecognition",
+  "BuildingCounting",
+  "BuildingFunctionClassification",
+  "isA",
+  "OpenProblem",
+  "advances",
+  "MultimodalAI",
+  "usedFor",
+  "DisasterAssessment",
+  "SatelliteImagery",
+  "DisasterResponse",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "BuildingLevelAssessment",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "FEMA",
+  "PhysicalDamage",
+  "DamagedBuilding",
+  "Hospital",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "BuildingFunction",
+  "BuildingUse",
+  "LargeScaleHazard",
+  "LinköpingUniversity",
+  "Vantor",
+  "ComputerVisionLaboratory",
+  "RemoteSensing",
+  "Dataset",
+  "DamageMapping",
+  "ChangeAnalysis",
+  "xBD",
+  "BRIGHT",
+  "FloodNet",
+  "PreEventImagery",
+  "PostEventImagery",
+  "DamageAnnotation",
+  "Hazard",
+  "Building",
+  "SceneLevelLabel",
+  "FunctionAwareEvaluation",
+  "InstanceLevelEvaluation",
+  "StructuredReporting",
+  "HumanitarianAssessment",
+  "agency_FEMA",
+  "agency_INSARAG",
+  "PostDisasterAssessment",
+  "benchmark_DisasterInsight",
+  "dataset_xBD",
+  "SatelliteImage",
+  "HighSpatialResolutionSensor",
+  "DisasterEvent",
+  "BuildingCenteredInstance",
+  "PreDisasterImagePatch",
+  "PostDisasterImagePatch",
+  "BoundingBoxCoordinate",
+  "DamageLevel"
+]
+
+Triples:
+[
+  {
+    "subject": "StructuredReportGeneration",
+    "relation": "alignedWith",
+    "object": "HumanitarianGuideline",
+    "chunk": "conclusion",
+    "context": "By integrating instance-level building-function classification, damage\nand hazard reasoning, building counting, and structured report generation aligned with human-\nitarian guidelines, DisasterInsight captures key components of real-world operational workflows."
+  },
+  {
+    "subject": "disaster_insight",
+    "relation": "captures",
+    "object": "OperationalWorkflow",
+    "chunk": "conclusion",
+    "context": "By integrating instance-level building-function classification, damage\nand hazard reasoning, building counting, and structured report generation aligned with human-\nitarian guidelines, DisasterInsight captures key components of real-world operational workflows."
+  },
+  {
+    "subject": "GeneralPurposeVisionLanguageModel",
+    "relation": "strugglesWith",
+    "object": "FunctionAwareReasoning",
+    "chunk": "conclusion",
+    "context": "Our experiments show that general-purpose vision–language models struggle with function-\naware reasoning and structured narrative generation, highlighting a gap between current model\ncapabilitiesandpracticaldisaster-responseneeds."
+  },
+  {
+    "subject": "GeneralPurposeVisionLanguageModel",
+    "relation": "strugglesWith",
+    "object": "StructuredNarrativeGeneration",
+    "chunk": "conclusion",
+    "context": "Our experiments show that general-purpose vision–language models struggle with function-\naware reasoning and structured narrative generation, highlighting a gap between current model\ncapabilitiesandpracticaldisaster-responseneeds."
+  },
+  {
+    "subject": "di_chat_framework",
+    "relation": "improves",
+    "object": "DamageAssessment",
+    "chunk": "conclusion",
+    "context": "Incontrast,domain-specificinstructiontuning\nwith the DI-Chat framework yields substantial improvements in damage assessment, disaster-\ntype recognition, building counting, and structured report generation, while building-function\nclassification remains a challenging open problem."
+  },
+  {
+    "subject": "di_chat_framework",
+    "relation": "improves",
+    "object": "DisasterTypeRecognition",
+    "chunk": "conclusion",
+    "context": "Incontrast,domain-specificinstructiontuning\nwith the DI-Chat framework yields substantial improvements in damage assessment, disaster-\ntype recognition, building counting, and structured report generation, while building-function\nclassification remains a challenging open problem."
+  },
+  {
+    "subject": "di_chat_framework",
+    "relation": "improves",
+    "object": "BuildingCounting",
+    "chunk": "conclusion",
+    "context": "Incontrast,domain-specificinstructiontuning\nwith the DI-Chat framework yields substantial improvements in damage assessment, disaster-\ntype recognition, building counting, and structured report generation, while building-function\nclassification remains a challenging open problem."
+  },
+  {
+    "subject": "di_chat_framework",
+    "relation": "improves",
+    "object": "StructuredReportGeneration",
+    "chunk": "conclusion",
+    "context": "Incontrast,domain-specificinstructiontuning\nwith the DI-Chat framework yields substantial improvements in damage assessment, disaster-\ntype recognition, building counting, and structured report generation, while building-function\nclassification remains a challenging open problem."
+  },
+  {
+    "subject": "BuildingFunctionClassification",
+    "relation": "isA",
+    "object": "OpenProblem",
+    "chunk": "conclusion",
+    "context": "Incontrast,domain-specificinstructiontuning\nwith the DI-Chat framework yields substantial improvements in damage assessment, disaster-\ntype recognition, building counting, and structured report generation, while building-function\nclassification remains a challenging open problem."
+  },
+  {
+    "subject": "disaster_insight",
+    "relation": "advances",
+    "object": "MultimodalAI",
+    "chunk": "conclusion",
+    "context": "Overall, DisasterInsight provides an oper-\nationally grounded benchmark to advance more accurate and trustworthy multimodal AI for\ndisaster assessment."
+  },
+  {
+    "subject": "MultimodalAI",
+    "relation": "usedFor",
+    "object": "DisasterAssessment",
+    "chunk": "conclusion",
+    "context": "Overall, DisasterInsight provides an oper-\nationally grounded benchmark to advance more accurate and trustworthy multimodal AI for\ndisaster assessment."
+  }
+]

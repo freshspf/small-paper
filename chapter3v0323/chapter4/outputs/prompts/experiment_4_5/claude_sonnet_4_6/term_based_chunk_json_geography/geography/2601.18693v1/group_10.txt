@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "DynamicalFriction",
+  "leadsTo",
+  "RapidOrbitalDecay",
+  "MassiveProgenitor",
+  "causes",
+  "LargestStellarToDmPhaseSpaceOffset",
+  "OrbitalEnergy",
+  "transferredInto",
+  "ClusterHalo",
+  "sets",
+  "OuterScaleOfOrbit",
+  "AngularMomentum",
+  "determines",
+  "RadialDistributionOfStrippedMaterial",
+  "StrippedMaterial",
+  "locatedIn",
+  "Cluster",
+  "isA",
+  "VectorQuantity",
+  "StellarMass",
+  "removedNear",
+  "Pericentre",
+  "IntraclusterLight",
+  "dominatedBy",
+  "CharacteristicMassScale",
+  "controls",
+  "PopulationAveragedOffset",
+  "SatelliteMassFunction",
+  "alters",
+  "StellarToDmEnergyRatio",
+  "HigherSatelliteMass",
+  "OrbitalEnergyLoss",
+  "PhaseSpaceOffset",
+  "creates",
+  "SteeperRadialDensityProfile",
+  "StrippedStar",
+  "depositedAt",
+  "SmallerRadius",
+  "HigherConcentration",
+  "InfallingSatellitePopulation",
+  "produces",
+  "CentrallyConcentratedIclDistribution",
+  "HighMassSatellite",
+  "dominates",
+  "IclMassBudget",
+  "PhaseSpaceStructure",
+  "sensitiveTo",
+  "StochasticAccretionEvent",
+  "traces",
+  "ClusterPotential",
+  "records",
+  "DynamicallyImportantMerger",
+  "StellarComponentExtent",
+  "influences",
+  "StellarStrippingEfficiency",
+  "PhysicalProcess",
+  "StarDistribution",
+  "undergoes",
+  "AdiabaticEvolution",
+  "drivenBy",
+  "SatelliteToHostMassRatio",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh"
+]
+
+Triples:
+[
+  {
+    "subject": "DynamicalFriction",
+    "relation": "leadsTo",
+    "object": "RapidOrbitalDecay",
+    "chunk": "completedocument18",
+    "context": "For near equal mass ratios, dynamical friction and torques operate on short timescales, leading to rapid orbital decay prior to stellar stripping."
+  },
+  {
+    "subject": "MassiveProgenitor",
+    "relation": "causes",
+    "object": "LargestStellarToDmPhaseSpaceOffset",
+    "chunk": "completedocument18",
+    "context": "Crucially, these same massive progenitors are also responsible for the largest stellar–to–DM phase-space offsets."
+  },
+  {
+    "subject": "OrbitalEnergy",
+    "relation": "transferredInto",
+    "object": "ClusterHalo",
+    "chunk": "completedocument18",
+    "context": "Even for near equal-mass mergers, where the interaction is most violent and the orbital decay is most rapid, the net transfer of orbital energy into the cluster halo itself remains small."
+  },
+  {
+    "subject": "OrbitalEnergy",
+    "relation": "sets",
+    "object": "OuterScaleOfOrbit",
+    "chunk": "completedocument18",
+    "context": "While orbital energy primarily sets the outer scale of an orbit, angular momentum also plays a crucial role in determining the radial distribution of stripped material within the cluster."
+  },
+  {
+    "subject": "AngularMomentum",
+    "relation": "determines",
+    "object": "RadialDistributionOfStrippedMaterial",
+    "chunk": "completedocument18",
+    "context": "While orbital energy primarily sets the outer scale of an orbit, angular momentum also plays a crucial role in determining the radial distribution of stripped material within the cluster."
+  },
+  {
+    "subject": "StrippedMaterial",
+    "relation": "locatedIn",
+    "object": "Cluster",
+    "chunk": "completedocument18",
+    "context": "While orbital energy primarily sets the outer scale of an orbit, angular momentum also plays a crucial role in determining the radial distribution of stripped material within the cluster."
+  },
+  {
+    "subject": "AngularMomentum",
+    "relation": "isA",
+    "object": "VectorQuantity",
+    "chunk": "completedocument18",
+    "context": "Because angular momentum is a vector quantity, even modest deflections of particle trajectories can produce substantial changes in h=r×v, while energy changes depend only on the component of force parallel to the satellite’s velocity."
+  },
+  {
+    "subject": "StellarMass",
+    "relation": "removedNear",
+    "object": "Pericentre",
+    "chunk": "completedocument18",
+    "context": "The bulk of stellar mass is removed near pericentre, where tidal forces are the strongest, leading to substantial reductions in angular momentum with comparatively modest changes in orbital energy."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "dominatedBy",
+    "object": "MassiveProgenitor",
+    "chunk": "completedocument18",
+    "context": "An important implication of our results, given previous findings that the ICL is likely dominated by a relatively small number of massive progenitors (e.g. Murante et al. 2007; Montes & Trujillo 2018; DeMaio et al. 2018; Montes et al. 2021; Brown et al."
+  },
+  {
+    "subject": "CharacteristicMassScale",
+    "relation": "controls",
+    "object": "PopulationAveragedOffset",
+    "chunk": "completedocument19",
+    "context": "Contreras-Santosetal.2024),isthatthecharacteristicmassscaleof the infalling satellite stellar mass function emerges as the dominant parameter controlling the population-averaged offsets between the ICLandDM."
+  },
+  {
+    "subject": "SatelliteMassFunction",
+    "relation": "alters",
+    "object": "StellarToDmEnergyRatio",
+    "chunk": "completedocument19",
+    "context": "Variationsinthesatellitemassfunctionproducelarge changesinthepredictedstellar–to–DMenergyandangularmomen- tum ratios (Figure 9), while variations in the orbital satellite infall circularity distribution have a comparatively weak effect."
+  },
+  {
+    "subject": "HigherSatelliteMass",
+    "relation": "causes",
+    "object": "OrbitalEnergyLoss",
+    "chunk": "completedocument19",
+    "context": "This sensitivity arises because higher satellite masses lead to greaterlossesinbothorbitalenergyandangularmomentumpriorto stellarstripping."
+  },
+  {
+    "subject": "PhaseSpaceOffset",
+    "relation": "creates",
+    "object": "SteeperRadialDensityProfile",
+    "chunk": "completedocument19",
+    "context": "These enhanced phase-space offsets di- rectlytranslateintosteeperradialdensityprofiles:starsstrippedfrom moremassivesatellitesaredepositedatsmallerradiiandhighercon- centrationsrelativetotheDM,producingasteeperlogarithmicslope in the𝜌★/𝜌DMprofile."
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "depositedAt",
+    "object": "SmallerRadius",
+    "chunk": "completedocument19",
+    "context": "These enhanced phase-space offsets di- rectlytranslateintosteeperradialdensityprofiles:starsstrippedfrom moremassivesatellitesaredepositedatsmallerradiiandhighercon- centrationsrelativetotheDM,producingasteeperlogarithmicslope in the𝜌★/𝜌DMprofile."
+  },
+  {
+    "subject": "StrippedStar",
+    "relation": "depositedAt",
+    "object": "HigherConcentration",
+    "chunk": "completedocument19",
+    "context": "These enhanced phase-space offsets di- rectlytranslateintosteeperradialdensityprofiles:starsstrippedfrom moremassivesatellitesaredepositedatsmallerradiiandhighercon- centrationsrelativetotheDM,producingasteeperlogarithmicslope in the𝜌★/𝜌DMprofile."
+  },
+  {
+    "subject": "InfallingSatellitePopulation",
+    "relation": "produces",
+    "object": "CentrallyConcentratedIclDistribution",
+    "chunk": "completedocument19",
+    "context": "Consequently, infalling satellite populations withhighercharacteristicmassesnaturallyproduceICLdistributions that are more centrally concentrated relative to the underlying DM halo."
+  },
+  {
+    "subject": "HighMassSatellite",
+    "relation": "dominates",
+    "object": "IclMassBudget",
+    "chunk": "completedocument19",
+    "context": "Importantly, the uncertainty is driven primarily by the abundance of intermediate- and high-mass satellites, which consistently domi- nate the ICL mass budget and the population-averaged phase-space offsets regardless of our chosen characteristic mass scale."
+  },
+  {
+    "subject": "PhaseSpaceStructure",
+    "relation": "sensitiveTo",
+    "object": "StochasticAccretionEvent",
+    "chunk": "completedocument19",
+    "context": "The phase-space structure of the ICL is therefore inherently sen- sitivetostochasticaccretionevents,reflectingthedynamicalimprint of a few satellites that undergo substantial orbital decay before dis- ruption."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "traces",
+    "object": "ClusterPotential",
+    "chunk": "completedocument19",
+    "context": "In this sense, the ICL should be viewed both as a tracer of the cluster potential, and also as an accumulated record of a limited numberofdynamicallyimportantmergers."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "records",
+    "object": "DynamicallyImportantMerger",
+    "chunk": "completedocument19",
+    "context": "In this sense, the ICL should be viewed both as a tracer of the cluster potential, and also as an accumulated record of a limited numberofdynamicallyimportantmergers."
+  },
+  {
+    "subject": "StellarComponentExtent",
+    "relation": "influences",
+    "object": "StellarStrippingEfficiency",
+    "chunk": "completedocument19",
+    "context": "Martin et al. (2024) shows that the efficiency of stellar strippingvariessignificantlydependingontheextentofthesatellite’s stellar component relative to its halo’s scale radius, while Figure 1 illustrates that halo concentrations evolve systematically between 𝑧=1and𝑧=0,implyingthatsatellitesstarsspanarangeofbinding energies across cosmic time."
+  },
+  {
+    "subject": "PhysicalProcess",
+    "relation": "alters",
+    "object": "StarDistribution",
+    "chunk": "completedocument19",
+    "context": "In more realistic models, such as the four cosmological simulations used in this study, the specific implementation of dif- ferent physical processes such as feedback, ISM and star-formation physicsaltersthedistributionandstructureofstarsandthereforethe efficiencyofstellarstripping(Watkinsetal.2025;Martinetal.2025)."
+  },
+  {
+    "subject": "PhysicalProcess",
+    "relation": "alters",
+    "object": "StellarStrippingEfficiency",
+    "chunk": "completedocument19",
+    "context": "In more realistic models, such as the four cosmological simulations used in this study, the specific implementation of dif- ferent physical processes such as feedback, ISM and star-formation physicsaltersthedistributionandstructureofstarsandthereforethe efficiencyofstellarstripping(Watkinsetal.2025;Martinetal.2025)."
+  },
+  {
+    "subject": "ClusterPotential",
+    "relation": "undergoes",
+    "object": "AdiabaticEvolution",
+    "chunk": "completedocument19",
+    "context": "We assume that the cluster potential evolves adiabatically and that ⟨𝜀⟩★/⟨𝜀⟩ DMand⟨ℎ⟩★/⟨ℎ⟩ DMwouldthereforeremaineffectivelycon- stant as the cluster evolves."
+  },
+  {
+    "subject": "StellarToDmEnergyRatio",
+    "relation": "drivenBy",
+    "object": "SatelliteToHostMassRatio",
+    "chunk": "completedocument20",
+    "context": "This is particularly relevant because the largest deviations in the stellar–to–DM energy and angular momentum ratios in our model are driven by the closest satellite–to–host mass ratios, the same events that most strongly violate adiabatic growth."
+  }
+]

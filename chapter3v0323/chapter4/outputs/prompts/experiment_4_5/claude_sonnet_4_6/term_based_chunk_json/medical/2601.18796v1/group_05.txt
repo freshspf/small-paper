@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "paper_scikitLearn",
+  "hasAuthor",
+  "author_fabianPedregosa",
+  "isUsedFor",
+  "concept_machineLearningInPython",
+  "paper_attentionIsAllYouNeed",
+  "author_ashishVaswani",
+  "paper_conceptBottleneckLargeLanguageModels",
+  "author_chungEnSun",
+  "paper_gemma3TechnicalReport",
+  "author_gemmaTeam",
+  "model_gpt4omini",
+  "generates",
+  "PlainLanguageSummary",
+  "Physician",
+  "reviews",
+  "AnnotationGuideline",
+  "measures",
+  "metric_simplicity",
+  "metric_accuracy",
+  "metric_completeness",
+  "metric_relevance",
+  "Metric",
+  "measuredUsing",
+  "LikertScale",
+  "derivedFrom",
+  "task_plaba",
+  "adapts",
+  "BiomedicalAbstract",
+  "trains",
+  "model_ctelm",
+  "MedicalWritingAssistant",
+  "creates",
+  "hasExpertiseIn",
+  "ScientificResearch",
+  "template_promptTemplate",
+  "document_plainLanguageSummary",
+  "document_pubMedAbstract",
+  "translatedInto",
+  "algorithm_hdbscan",
+  "identifies",
+  "concept_topicCluster",
+  "hyperparameter_minClusterSize",
+  "determines",
+  "concept_abstractPair",
+  "sampledFrom",
+  "tool_sftTrainer",
+  "optimizes",
+  "component_embeddingAdapterA",
+  "trainedUsing",
+  "algorithm_adamW",
+  "configuredWith",
+  "config_loraConfig",
+  "ctelm",
+  "ClinicalTrialEmbedding",
+  "ClinicalTrial",
+  "LargeLanguageModel",
+  "EmbeddingLanguageModel",
+  "ConceptVector",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "TextEmbedding",
+  "ClinicalTrialAbstract",
+  "vec2text",
+  "ConceptActivationVector",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "Corrector"
+]
+
+Triples:
+[
+  {
+    "subject": "paper_scikitLearn",
+    "relation": "hasAuthor",
+    "object": "author_fabianPedregosa",
+    "chunk": "completedocument9",
+    "context": "Fabian Pedregosa, Gaël Varoquaux, Alexandre Gram- fort, Vincent Michel, Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron Weiss, Vin- cent Dubourg, and 1 others. 2011. Scikit-learn: Ma- chine learning in python."
+  },
+  {
+    "subject": "paper_scikitLearn",
+    "relation": "isUsedFor",
+    "object": "concept_machineLearningInPython",
+    "chunk": "completedocument9",
+    "context": "Scikit-learn: Ma- chine learning in python."
+  },
+  {
+    "subject": "paper_attentionIsAllYouNeed",
+    "relation": "hasAuthor",
+    "object": "author_ashishVaswani",
+    "chunk": "completedocument9",
+    "context": "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need."
+  },
+  {
+    "subject": "paper_conceptBottleneckLargeLanguageModels",
+    "relation": "hasAuthor",
+    "object": "author_chungEnSun",
+    "chunk": "completedocument9",
+    "context": "Chung-En Sun, Tuomas P. Oikarinen, Berk Ustun, and Tsui-Wei Weng. 2025. Concept bottleneck large lan- guage models."
+  },
+  {
+    "subject": "paper_gemma3TechnicalReport",
+    "relation": "hasAuthor",
+    "object": "author_gemmaTeam",
+    "chunk": "completedocument9",
+    "context": "Gemma Team, Aishwarya Kamath, Johan Ferret, Shreya Pathak, Nino Vieillard, Ramona Merhej, Sarah Perrin, Tatiana Matejovicova, Alexandre Ramé, Morgane Rivière, and 1 others. 2025. Gemma 3 technical report."
+  },
+  {
+    "subject": "model_gpt4omini",
+    "relation": "generates",
+    "object": "PlainLanguageSummary",
+    "chunk": "completedocument10",
+    "context": "We generate the plain language summary for each abstract using gpt-4o-mini with the prompt shown in Fig. 4."
+  },
+  {
+    "subject": "Physician",
+    "relation": "reviews",
+    "object": "PlainLanguageSummary",
+    "chunk": "completedocument10",
+    "context": "To measure the quality of the generated summaries, we had two physicians (both women) review 20 sampled summaries generated from gpt-4o-mini ."
+  },
+  {
+    "subject": "AnnotationGuideline",
+    "relation": "measures",
+    "object": "metric_simplicity",
+    "chunk": "completedocument10",
+    "context": "We discussed with the physicians the goals of the project and role of their evaluations, and defined annotation guidelines (see the attached supplementary file) measuring four aspects: simplicity, accuracy, completeness, and relevance."
+  },
+  {
+    "subject": "AnnotationGuideline",
+    "relation": "measures",
+    "object": "metric_accuracy",
+    "chunk": "completedocument10",
+    "context": "We discussed with the physicians the goals of the project and role of their evaluations, and defined annotation guidelines (see the attached supplementary file) measuring four aspects: simplicity, accuracy, completeness, and relevance."
+  },
+  {
+    "subject": "AnnotationGuideline",
+    "relation": "measures",
+    "object": "metric_completeness",
+    "chunk": "completedocument10",
+    "context": "We discussed with the physicians the goals of the project and role of their evaluations, and defined annotation guidelines (see the attached supplementary file) measuring four aspects: simplicity, accuracy, completeness, and relevance."
+  },
+  {
+    "subject": "AnnotationGuideline",
+    "relation": "measures",
+    "object": "metric_relevance",
+    "chunk": "completedocument10",
+    "context": "We discussed with the physicians the goals of the project and role of their evaluations, and defined annotation guidelines (see the attached supplementary file) measuring four aspects: simplicity, accuracy, completeness, and relevance."
+  },
+  {
+    "subject": "Metric",
+    "relation": "measuredUsing",
+    "object": "LikertScale",
+    "chunk": "completedocument10",
+    "context": "Each metric is measured using a 5-point Likert scale (1=Poor, and 5=Excel-lent)."
+  },
+  {
+    "subject": "PlainLanguageSummary",
+    "relation": "derivedFrom",
+    "object": "task_plaba",
+    "chunk": "completedocument10",
+    "context": "Expert and poor-quality summaries were derived from the TREC Plain Language Adaptation of Biomedical Abstracts (PLABA) task (data obtained upon re-quest to organizers)."
+  },
+  {
+    "subject": "task_plaba",
+    "relation": "adapts",
+    "object": "BiomedicalAbstract",
+    "chunk": "completedocument10",
+    "context": "Expert and poor-quality summaries were derived from the TREC Plain Language Adaptation of Biomedical Abstracts (PLABA) task (data obtained upon re-quest to organizers)."
+  },
+  {
+    "subject": "PlainLanguageSummary",
+    "relation": "trains",
+    "object": "model_ctelm",
+    "chunk": "completedocument10",
+    "context": "These results suggest the plain language summaries generated by gpt-4o-mini are of sufficient quality for trainingctELM."
+  },
+  {
+    "subject": "MedicalWritingAssistant",
+    "relation": "creates",
+    "object": "PlainLanguageSummary",
+    "chunk": "completedocument10",
+    "context": "You are a medical writing assistant with expertise in creating plain language summaries of scientific research ."
+  },
+  {
+    "subject": "MedicalWritingAssistant",
+    "relation": "hasExpertiseIn",
+    "object": "ScientificResearch",
+    "chunk": "completedocument10",
+    "context": "You are a medical writing assistant with expertise in creating plain language summaries of scientific research ."
+  },
+  {
+    "subject": "template_promptTemplate",
+    "relation": "generates",
+    "object": "document_plainLanguageSummary",
+    "chunk": "completedocument11",
+    "context": "Figure 4: The prompt template for generating plain language summary."
+  },
+  {
+    "subject": "document_pubMedAbstract",
+    "relation": "translatedInto",
+    "object": "document_plainLanguageSummary",
+    "chunk": "completedocument11",
+    "context": "Translate the following PubMed article abstract into a plain language summary :"
+  },
+  {
+    "subject": "algorithm_hdbscan",
+    "relation": "identifies",
+    "object": "concept_topicCluster",
+    "chunk": "completedocument11",
+    "context": "Third, HDBSCAN is employed to identify topic clusters within the reduced space."
+  },
+  {
+    "subject": "hyperparameter_minClusterSize",
+    "relation": "determines",
+    "object": "concept_topicCluster",
+    "chunk": "completedocument11",
+    "context": "To determine the optimal number of clusters, we search for the min_cluster_size value that yields the highest topic quality, measured using the criteria proposed in Dieng et al. (2020)."
+  },
+  {
+    "subject": "concept_abstractPair",
+    "relation": "sampledFrom",
+    "object": "concept_topicCluster",
+    "chunk": "completedocument11",
+    "context": "Using these clusters, we sample abstract pairs either from within the same topic or across different topics."
+  },
+  {
+    "subject": "tool_sftTrainer",
+    "relation": "optimizes",
+    "object": "component_embeddingAdapterA",
+    "chunk": "completedocument11",
+    "context": "We then use SFTTrainer in the trl package to optimize the adapter."
+  },
+  {
+    "subject": "component_embeddingAdapterA",
+    "relation": "trainedUsing",
+    "object": "algorithm_adamW",
+    "chunk": "completedocument11",
+    "context": "With this settings, we train the adapter using AdamW optimizer (default parameters), linear scheduler with a warmup phase, mixed precision (i.e., bfloat16) for one epoch."
+  },
+  {
+    "subject": "tool_sftTrainer",
+    "relation": "configuredWith",
+    "object": "config_loraConfig",
+    "chunk": "completedocument11",
+    "context": "As for the second phase of two-phase training procedure and one-phase training procedure, we use SFTTrainer with LoraConfig from peft package."
+  }
+]

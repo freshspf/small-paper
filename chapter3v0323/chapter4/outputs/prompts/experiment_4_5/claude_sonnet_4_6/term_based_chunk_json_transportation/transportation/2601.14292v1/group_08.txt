@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MinimumSetOfData",
+  "initiates",
+  "EmergencyResponse",
+  "PsapSystems",
+  "interprets",
+  "ECall",
+  "routesThrough",
+  "Authorised999PsapChannels",
+  "MajorTraumaCentre",
+  "receives",
+  "Patient",
+  "conveyedTo",
+  "TraumaUnit",
+  "DestinationDecision",
+  "compliesWith",
+  "MajorTraumaNetworkPolicy",
+  "TemporarySign",
+  "locatedIn",
+  "WorkZone",
+  "VariableMessageSign",
+  "deployedBefore",
+  "RoadWork",
+  "Message",
+  "conformsTo",
+  "TemporaryTrafficManagementPlan",
+  "LayoutChange",
+  "approvedBy",
+  "TemporaryTrafficManagementAuthority",
+  "SafetyManagementProcedure",
+  "defines",
+  "TargetDeadline",
+  "Governance",
+  "operatesWithin",
+  "SafetyManagementRequirement",
+  "SpeedCamera",
+  "enforces",
+  "SpeedKpi",
+  "DrinkDrivingEnforcement",
+  "measures",
+  "AlcoholKpi",
+  "SeatbeltCampaign",
+  "supports",
+  "SafetyBeltKpi",
+  "NationalHighway",
+  "manages",
+  "InfrastructureKpi",
+  "LifecycleGovernance",
+  "tracks",
+  "SafetyAction",
+  "DataIntegrityAssurance",
+  "validates",
+  "AccidentReport",
+  "CybersecurityAssurance",
+  "ensuresSafetyOf",
+  "ConnectedSystem",
+  "EmergencyResponseChainAssurance",
+  "covers",
+  "Triage",
+  "ECallArrival",
+  "InfrastructureOperations",
+  "TransientRisk",
+  "FleetOperations",
+  "monitors",
+  "OperationalVehicleCondition",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality"
+]
+
+Triples:
+[
+  {
+    "subject": "MinimumSetOfData",
+    "relation": "initiates",
+    "object": "EmergencyResponse",
+    "chunk": "casestudyandresults2",
+    "context": "The Minimum Set of Data (MSD) is received in time to initiate an emergency response."
+  },
+  {
+    "subject": "PsapSystems",
+    "relation": "interprets",
+    "object": "MinimumSetOfData",
+    "chunk": "casestudyandresults2",
+    "context": "The MSD content is complete and correct and interpretable by PSAP systems."
+  },
+  {
+    "subject": "ECall",
+    "relation": "routesThrough",
+    "object": "Authorised999PsapChannels",
+    "chunk": "casestudyandresults2",
+    "context": "eCall call setup and routing occur only through authorised 999 PSAP channels."
+  },
+  {
+    "subject": "MajorTraumaCentre",
+    "relation": "receives",
+    "object": "Patient",
+    "chunk": "casestudyandresults3",
+    "context": "MTCs within the network are available to receive eligible patients."
+  },
+  {
+    "subject": "Patient",
+    "relation": "conveyedTo",
+    "object": "MajorTraumaCentre",
+    "chunk": "casestudyandresults3",
+    "context": "Patients meeting criteria are conveyed directly to an MTC within the required time window, unless immediate stabilisation at a TU is necessary."
+  },
+  {
+    "subject": "Patient",
+    "relation": "conveyedTo",
+    "object": "TraumaUnit",
+    "chunk": "casestudyandresults3",
+    "context": "Patients meeting criteria are conveyed directly to an MTC within the required time window, unless immediate stabilisation at a TU is necessary."
+  },
+  {
+    "subject": "DestinationDecision",
+    "relation": "compliesWith",
+    "object": "MajorTraumaNetworkPolicy",
+    "chunk": "casestudyandresults3",
+    "context": "Decisions comply with regional Major Trauma Network policies (e.g., drive-time thresholds, exclusion criteria)."
+  },
+  {
+    "subject": "TemporarySign",
+    "relation": "locatedIn",
+    "object": "WorkZone",
+    "chunk": "casestudyandresults3",
+    "context": "Temporary signs and VMS are in place and functional whenever the work-zone is active."
+  },
+  {
+    "subject": "VariableMessageSign",
+    "relation": "locatedIn",
+    "object": "WorkZone",
+    "chunk": "casestudyandresults3",
+    "context": "Temporary signs and VMS are in place and functional whenever the work-zone is active."
+  },
+  {
+    "subject": "VariableMessageSign",
+    "relation": "deployedBefore",
+    "object": "RoadWork",
+    "chunk": "casestudyandresults3",
+    "context": "Signs/VMS are deployed before works commence and updated promptly when layouts change."
+  },
+  {
+    "subject": "Message",
+    "relation": "conformsTo",
+    "object": "TemporaryTrafficManagementPlan",
+    "chunk": "casestudyandresults3",
+    "context": "Messages and layouts conform to the approved TTM plan and are legible and correct (Traffic Signs Manual)."
+  },
+  {
+    "subject": "LayoutChange",
+    "relation": "approvedBy",
+    "object": "TemporaryTrafficManagementAuthority",
+    "chunk": "casestudyandresults3",
+    "context": "Any setup or change to the layout/message is approved by the designated TTM authority."
+  },
+  {
+    "subject": "SafetyManagementProcedure",
+    "relation": "defines",
+    "object": "TargetDeadline",
+    "chunk": "casestudyandresults3",
+    "context": "Findings are tracked and closed within target deadlines defined by the safety-management procedure."
+  },
+  {
+    "subject": "Governance",
+    "relation": "operatesWithin",
+    "object": "SafetyManagementRequirement",
+    "chunk": "casestudyandresults3",
+    "context": "Governance operates within the applicable road-infrastructure safety-management requirements."
+  },
+  {
+    "subject": "SpeedCamera",
+    "relation": "enforces",
+    "object": "SpeedKpi",
+    "chunk": "casestudyandresults3",
+    "context": "Speed (KPI1) Speed_Cameras, Variable_Speed_Limit, Enforcement_StrategyPolice→RoadUsers→DfT Vehicle speed compliance, enforcement coverage"
+  },
+  {
+    "subject": "DrinkDrivingEnforcement",
+    "relation": "measures",
+    "object": "AlcoholKpi",
+    "chunk": "casestudyandresults3",
+    "context": "Alcohol (KPI4) DrinkDriving_Enforcement, BAC_Test_ResultsPolice→DfT/Courts Share of drivers within BAC limit"
+  },
+  {
+    "subject": "SeatbeltCampaign",
+    "relation": "supports",
+    "object": "SafetyBeltKpi",
+    "chunk": "casestudyandresults3",
+    "context": "Safety belt & Protective equipment (KPIs 2–3)Seatbelt_Campaigns, Protective_Equipment_CampaignsDfT/Police→Public Seatbelt or helmet use monitoring"
+  },
+  {
+    "subject": "NationalHighway",
+    "relation": "manages",
+    "object": "InfrastructureKpi",
+    "chunk": "casestudyandresults3",
+    "context": "Infrastructure (KPI7) Infrastructure_Rating, Winter_Service, Traffic_Management_ControlNational Highways/Local AuthoritiesShare of road length meeting iRAP rating"
+  },
+  {
+    "subject": "LifecycleGovernance",
+    "relation": "tracks",
+    "object": "SafetyAction",
+    "chunk": "casestudyandresults3",
+    "context": "1. Lifecycle Governance Audit_Action_Closure Monitor_Compliance Governance_Feedback Funding_AllocationTracks whether safety actions, audits, and policy decisions are completed and verified throughout lifecycle"
+  },
+  {
+    "subject": "DataIntegrityAssurance",
+    "relation": "validates",
+    "object": "AccidentReport",
+    "chunk": "casestudyandresults3",
+    "context": "3. Data Integrity & Reporting Chain AssuranceSTATS19_Data Accident_Reports KSI_Dataset Data_Exchange_PolicyValidates reliability, timeliness, and completeness of data underpinning KPIs"
+  },
+  {
+    "subject": "CybersecurityAssurance",
+    "relation": "ensuresSafetyOf",
+    "object": "ConnectedSystem",
+    "chunk": "casestudyandresults3",
+    "context": "4. Digital Safety & Cybersecurity AssuranceOverTheAirSwUpdates Cyber_Patch_ManagementEnsures in-use software and connected systems remain safe and secure"
+  },
+  {
+    "subject": "EmergencyResponseChainAssurance",
+    "relation": "covers",
+    "object": "Triage",
+    "chunk": "casestudyandresults4",
+    "context": "Emergency Response Chain AssurancePostCrash_Response AirAmbulance_Dispatch OnScene_Care Handover_ProtocolCovers triage, destination, and quality of 999/eCall arrival"
+  },
+  {
+    "subject": "EmergencyResponseChainAssurance",
+    "relation": "covers",
+    "object": "ECallArrival",
+    "chunk": "casestudyandresults4",
+    "context": "Emergency Response Chain AssurancePostCrash_Response AirAmbulance_Dispatch OnScene_Care Handover_ProtocolCovers triage, destination, and quality of 999/eCall arrival"
+  },
+  {
+    "subject": "InfrastructureOperations",
+    "relation": "manages",
+    "object": "TransientRisk",
+    "chunk": "casestudyandresults4",
+    "context": "6. Infrastructure Operations & Work-Zone SafetyWinter_Service Traffic_Management_Control Temporary_Orders VMS_WarningsManages transient risk from road works and maintenance"
+  },
+  {
+    "subject": "FleetOperations",
+    "relation": "monitors",
+    "object": "OperationalVehicleCondition",
+    "chunk": "casestudyandresults4",
+    "context": "7. Fleet Operations & Com- pliancePreventive_Maintenance MOT_Compliance Telematics_Monitoring Enforcement_PrioritiesMonitors operational vehicle condition and operator compli- ance"
+  }
+]

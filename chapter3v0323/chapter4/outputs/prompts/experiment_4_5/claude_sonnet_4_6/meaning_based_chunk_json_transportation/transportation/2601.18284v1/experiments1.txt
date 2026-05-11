@@ -1,0 +1,149 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiments1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiments1
+- section_title: Experiments
+- page_start: 6
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+The experimental design of this study aims to compre-
+hensively evaluate the effectiveness and applicability of the
+proposed VissimRL framework, divided into two complemen-
+tary levels according to the system architecture. First, in the
+assessment of the Vissim Wrapper, the focus is on quantifying
+its impact on development effort and runtime efficiency. By
+comparing the source lines of code (SLOC) required for
+equivalent control tasks using Raw COM versus the Vissim
+Wrapper, the study evaluates the practical benefits of the high-
+level API in reducing development cost. In addition, per-step
+latency and simulation-step throughput are measured under
+different standardized workloads to examine the performance
+implications of the abstraction layer introduced for improved
+usability.
+Second, in the validation of the RL Environment Frame-
+work, the experiments are designed to examine the effec-
+tiveness and applicability of the proposed VissimRL frame-
+work under different TSC scenarios. The framework inte-
+grates Vissim with standardized RL interfaces to evaluate
+performance across three action designs (ChooseNextPhase,
+SwitchNextOrNot, andSetPhaseDuration) in both single-
+and multi-agent settings. To further assess real-world applica-
+bility, a benchmark case with fixed-time control is selected,
+
+TABLE IX: Reward functions and their descriptions.
+Callable Class Description
+DefaultRewardFunctionComputes a weighted combination of
+multiple traffic performance metrics
+- Internal waiting time Measures the time vehicles wait within
+the network
+- Boundary waiting time Measures the waiting time at network
+entry points
+- Travel time Computes the total travel time of vehi-
+cles
+- Throughput Counts the number of vehicles passing
+through intersections
+- Speed Calculates the average vehicle speed
+- Delay Quantifies total delay compared to free-
+flow conditions
+Note.Reward classes implement__call__()for real-time reward compu-
+tation and support configurable weights for multi-objective designs.
+enabling quantitative evaluation of RL-based improvements
+within the VissimRL framework under realistic traffic con-
+ditions.
+A. Experimental Scenarios
+The experimental scenarios are divided into synthetic and
+real-world cases. The synthetic scenarios use artificially con-
+structed networks and synthetic traffic demand, including a
+single-intersection network (for single-agent control) and a
+three-intersection arterial network (for multi-agent control).
+The real-world scenario is based on a network of five sig-
+nalized intersections near the Dayuan Interchange in Taoyuan,
+Taiwan, using one hour of peak-period traffic data to validate
+the proposed method under realistic conditions.
+1) Synthetic scenario:In the synthetic experiments, two
+network structures are designed to correspond to single-agent
+and multi-agent RL control. The first is the Single-Intersection
+network as in Figure 7a, where each boundary link is 150
+meters long, representing a symmetric and relatively simple
+traffic environment. The second is the Arterial-3 network as
+in Figure 7b, consisting of three consecutive intersections
+connected by 300-meter links, used to evaluate coordination
+in multi-intersection scenarios.
+150 m
+(a)
+300 m (b)
+Fig. 7: Synthetic traffic networks: (a) Single-Intersection and
+(b) Arterial-3, an arterial network with three intersections.
+The traffic demand and signal settings are summarized
+in Table X. In the Single-Intersection network, directional
+imbalance is introduced by assigning higher east–west flows
+compared to north–south flows, with unequal turning ratios
+to reflect realistic directional differences. The signal plan
+includes four phases: east–west through (EW), east–westleft (EW L), north–south through (NS), and north–south left
+(NS L). For the Arterial-3 network, the design focuses on
+progression and coordination along the east–west arterial,
+which also carries higher flows than the side streets. The
+intersections are restricted to through movements only, with a
+simplified two-phase signal plan designed to highlight arterial
+coordination effects. The vehicle composition includes only
+cars, with a uniform desired speed of 50 km/h to ensure
+comparability and stable evaluation across networks.
+TABLE X: Configurations for traffic data.
+NetworkArrival rate
+(vehicles/h/road)Turn ratio
+(L : S : R)Phases
+Single-IntersectionEW-flow : 1200
+NS-flow : 8000.1 : 0.8 : 0.1EW, EW L,
+NS, NS L
+Arterial-3Arterial : 1200
+Side-street : 8000 : 1 : 0 EW, NS
+Note.All networks use cars only, with a desired speed of 50 km/h.
+NS = North-South; EW = East-West; L = Left-turn phase.
+L:S:R = Left : Straight : Right turn ratio.
+2) Real-world scenario:For the real-world experiments,
+a network of five signalized intersections near the Dayuan
+Interchange in Taoyuan, Taiwan, is selected to evaluate the
+applicability and effectiveness of the VissimRL framework
+under realistic traffic conditions.

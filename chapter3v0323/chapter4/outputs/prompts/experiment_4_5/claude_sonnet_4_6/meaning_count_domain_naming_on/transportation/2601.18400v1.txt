@@ -1,0 +1,904 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+On the Bandwidth Consumption of Blockchains
+Andrei Lebedev1 and Vincent Gramoli1,2
+1The University of Sydney
+2Redbelly Network
+Abstract
+With the advent of blockchain technology , the number of
+proposals has boomed. The network trafﬁc imposed by
+these blockchain proposals increases the cost of hosting
+nodes. Unfortunately , as of today , we are not aware of
+any comparative study of the bandwidth consumption of
+blockchains.
+In this paper, we propose the ﬁrst empirical compari-
+son of blockchain bandwidth consumption. To this end,
+we measure the network trafﬁc of blockchain network
+nodes of ﬁve blockchain protocols: Algorand, Aptos,
+Avalanche, Redbelly and Solana. We study the variation
+over time, differentiate the receiving and sending trafﬁc
+and analyze how this trafﬁc varies with the number of
+nodes and validators.
+We conclude that the transport protocol is the main fac-
+tor impacting the network trafﬁc, segregating node roles
+helps reduce trafﬁc and different blockchains are differ-
+ently impacted by the network size.
+1 Introduction
+With the advent of blockchain technology , the number of
+proposals has boomed over the past decade. There exist
+various layer-1 blockchains offering different guarantees
+and performing differently at large scale. Recent stud-
+ies [19, 20] have shown that the performance and robust-
+ness of some blockchains is quite far from the promises
+claimed by their designers. The problem stems mainly
+from a misunderstanding of these blockchains’ under-
+lying networking protocols. The impact of these mis-
+understandings is so important that Avalanche [31] and
+Solana [37] were even shown to stop globally when some
+network messages get delayed [20].
+The misunderstanding of these networking proto-
+cols also presents economic drawbacks. Modern high-
+throughput architectures have shifted validator eco-
+nomics from static capital expenditures to variable op-
+erational burdens, where egress consumption acts as a
+primary cost driver. For instance, the prohibitively high
+egress tariffs of standard cloud providers can render
+high-performance nodes economically non-viable, poten-
+tially incurring monthly costs exceeding US$8,000 for a
+single validator due to misaligned billing models [21].
+This structural inefﬁciency necessitates a strategic pivot
+toward bare-metal providers with unmetered allowances
+to avoid the “hyperscaler egress trap” [36].
+As of today , there are no studies comparing the net-
+work trafﬁc of blockchains. Even though it is well known
+that some blockchains (e.g., Solana [37]) favor redun-
+dancy (e.g., through erasure coding) to cope with packet
+losses while others (e.g., Redbelly [12]) adopt differ-
+ent communication patterns between validator and non
+validator nodes, the bandwidth consumption of these
+blockchains remain unclear. Understanding the network
+trafﬁc is, however, crucial to improve performance and
+robustness of layer-1 blockchains by reducing the net-
+work congestion to make them scale or to replicate the
+data that are key to their robustness.
+In this paper, we propose the ﬁrst empirical compari-
+son of blockchain bandwidth consumption. To this end,
+we build upon the series of work around the Diablo
+performance benchmark [19] and the S TABL fault toler-
+ance benchmark [20] to measure the network trafﬁc of
+blockchain network nodes in various situations: (i) while
+receiving and sending messages; (ii) before, during and
+after the network receives transactions and (iii) as the net-
+work size grows both in terms of nodes but also validator
+nodes.
+Using this black-box approach, we deploy ﬁve dif-
+ferent blockchain protocols, namely Algorand [18], Ap-
+tos [3], Avalanche [31], Redbelly [12], and Solana [37]. We
+make the following observations:
+1. The dominant factors of network trafﬁc are the trans-
+port protocol (polling vs WebSockets) and the block
+propagation strategy (full block download vs. hash
+comparison) more than the transaction size.
+2. Segregating roles between different types of nodes
+helps reduce the network trafﬁc by reducing net-
+work trafﬁc between nodes of different types.
+3. Solana network trafﬁc depends on the network size,
+Algorand and Redbelly network trafﬁc increases
+with the validator sets and Aptos and Avalanche net-
+work trafﬁc increases with both the number of nodes
+and validators.
+The paper is organized as follows. In Section 2, we
+present the background. In Section 3, we present the ex-
+arXiv:2601.18400v1 [cs.DC] 26 Jan 2026
+perimental settings and our methodology . In Section 4,
+we present the variety of bandwidth consumption of the
+ﬁve blockchain protocols. In Section 5, we study the dis-
+tribution of network trafﬁc over different pairs of nodes.
+In Section 6, we compare the bandwidth consumption be-
+fore, during and after reception of transactions. In Sec-
+tion 7, we study the impact of the number of nodes and
+validators on the bandwidth consumption. In Section 8,
+we study the impact of the sending rate on the bandwidth
+consumption. We present the related work in Section 9
+and we conclude in Section 10.
+2 Background and Blockchain Net-
+works
+In this section, we list the characteristics of each tested
+blockchain network protocol.
+2.1 The Algorand network
+Algorand [18] is a blockchain protocol that shufﬂes par-
+ticipants via cryptographic sortition to enhance secu-
+rity . More precisely , it uses V eriﬁable Random Functions
+(VRFs) to randomly select participants for speciﬁc roles
+in the consensus execution. In Algorand, nodes commu-
+nicate with a gossip-based protocol where each node vali-
+dates each message before relaying it and sends it at most
+once to each other node [9]. To this end, each node main-
+tains one TCP connection per node in its neighborhood,
+which offers WebSockets over HTTP .
+2.2 The Avalanche network
+Avalanche, based on the Snowﬂake consensus proto-
+col [31], is a probabilistic blockchain that requires, by de-
+fault, a proportion of the nodes that collectively own at
+least 80% of the total stake to be online. In Avalanche,
+nodes communicate over TCP and exploit throttling to
+limit their resource usage. More speciﬁcally , messages
+and connections are rate-limited [4] to cap the amount of
+CPU, disk, bandwidth, and message handling that other
+nodes consume. Avalanche uses a dynamic proposer se-
+lection algorithm to manage network load and block pro-
+duction. After each parent block, it pseudo-randomly se-
+lects an ordered list of potential proposers for the next
+block height, weighted by stake and using a seed derived
+from the parent block’s height and chain ID. Each pro-
+poser is assigned a minimum delay based on their posi-
+tion in the list before they can propose a block. If no pro-
+poser acts within the cumulative delay period, any active
+validator may propose. Blocks within the assigned win-
+dows must include valid signatures from the designated
+proposer.
+2.3 The Aptos network
+Aptos [3] is a leader-based blockchain that uses TCP
+and builds upon a variant of the Practical Byzantine
+Fault T olerant (PBFT) consensus protocol [5] featuring a
+view-change mechanism with a quadratic communica-
+tion complexity and inherits its cubic communication
+complexity reached when the leader is faulty or the net-
+work is unstable.
+It is well-known that leaders act as bottlenecks in
+leader-based consensus protocols [34], like AptosBFT,
+and that classic blockchains suffer from redundant dis-
+semination of the same transactions ﬁrst outside and then
+within blocks [32, 33]. To cope with these limitations,
+Aptos features the Quorum Store optimization of Nar-
+whal [13] to decouple metadata ordering from payload
+dissemination. In addition, Quorum Store is designed
+for parallel execution by all validators. As outlined in
+the documentation [7], validators repeat the following
+steps in parallel: (1) Pull transactions from the mempool;
+(2) Arrange transactions into batches based on gas price
+and select an expiration time for each batch; (3) Broad-
+cast batches to all other validators; (4) Persist received
+batches, sign their digests, and send back signatures; and
+(5) Collect signatures from more than 2n/3 nodes to form
+a proof-of-store. It allows validators to asynchronously
+broadcast transactions, ofﬂoading the leader’s network
+interface during the consensus protocol execution [8].
+2.4 The Redbelly network
+Redbelly Blockchain [12] is a scalable blockchain built on
+the Democratic Byzantine Fault Tolerant (DBFT) consen-
+sus algorithm [11] that is leaderless (i.e., non leader-based)
+and deterministic, and works in a partially synchronous
+environment. To enhance scalability further, Redbelly
+uses a collaborative approach, appending a superblock
+with as many valid proposed blocks as possible. This
+way the number of transactions per appended block can
+grow linearly with the number of nodes [12].
+Redbelly’s nodes communicate using TCP and features
+a Scalable variant of the EVM, called SEVM. It was shown
+to perform well under realistic dApps particularly in
+a large geo-distributed environment when compared to
+other modern blockchains [33].
+2.5 The Solana network
+Solana [37] is a leader-based blockchain that may fork.
+In order to determine whether a transaction is commit-
+ted, Solana requires 30 additional blocks to be appended
+after the transaction’s block. Nodes communicate over
+the Q UIC network protocol [23] to exchange transactions.
+Nodes split blocks into chunks that they disseminate in a
+hierarchical structure, called Turbine [1], through UDP .
+3 Experimental Settings
+In this section, we explain how we deploy blockchain
+protocols and measure their bandwidth consumption.
+3.1 Distributed system setup
+Our experimental setup consists of a distributed sys-
+tem of 25 VMs running Ubuntu 24.04.1 LTS on top of
+a Proxmox cluster of physical servers, each equipped
+with 4x AMD Opteron 6378 16-core CPUs running at
+2.40 GHz, 256 GB of RAM, and 10 GbE NICs. Each ex-
+periment runs a blockchain protocol with 5 client VMs
+and 20 blockchain node VMs. For the blockchain proto-
+cols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche
+C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave
+v2.0.20.
+This 25-node setup is justiﬁed by recent studies [26]
+that conﬁrmed that evaluations at small scale in con-
+trolled environments can accurately reproduce perfor-
+mance trends observed in geo-distributed settings. We
+deﬁne N as the total number of blockchain nodes in the
+network, and V as the size of the subset of validators par-
+ticipating in consensus such that N, V →{ 5, 10, 15, 20},
+V ↑ N.
+All experiments follow a ﬁxed timeline: a 100 s “Setup”
+phase with no transactions, a 100 s “Workload” phase
+where transactions are sent, and a 100 s “Cooldown”
+phase with no transactions, allowing remaining transac-
+tions to commit. During the Workload phase, the 5 clients
+send transactions to the ﬁrst 5 validators. The target load
+is distributed equally among clients (e.g., 40 TPS each
+for a total of 200 TPS). Each transaction is sent to a sin-
+gle node, which is then queried for ﬁnality using block
+streaming or polling.
+The resources of each VM mimics intentionally the re-
+sources of a commodity computer run by an individ-
+ual in a blockchain network. Note that this speciﬁca-
+tion is lower than what some blockchains typically rec-
+ommend, including Aptos [2], Avalanche [27] or Red-
+belly [30], however, strict hardware requirements on re-
+mote nodes remain hard to enforce and a unique conﬁg-
+uration is necessary for our comparison.
+3.2 Measuring peer-to-peer bandwidth
+We implemented a ﬁne-grained bandwidth monitoring
+system to capture trafﬁc usage between blockchain nodes
+and clients. Our approach provides pairwise measure-
+ments of the trafﬁc exchanged between each node in the
+network. The system utilizes S TABL observer processes
+running on blockchain VMs and relies on the Linux
+iptables ﬁrewall infrastructure to perform non-intrusive
+packet accounting.
+For each node under observation, we programmati-
+cally install a set of iptables rules. These rules create cus-
+tom accounting chains that contain a speciﬁc rule for ev-
+ery other peer in the experiment. Each rule is conﬁgured
+to match packets based on their source (for incoming traf-
+ﬁc) or destination (for outgoing trafﬁc) IP address.
+A monitoring script then periodically queries the byte
+counters associated with each of these per-peer rules and
+immediately resets them to zero. This process yields a
+time series where each data point represents the average
+transmission (TX) and reception (RX) rate over the pre-
+ceding interval, allowing us to precisely analyze network
+behavior.
+4 V arying Consumption
+In order to illustrate how blockchains consume band-
+width, we present heatmaps with colors representing
+bandwidth usage. We then compare the transaction size
+produced by each blockchain.
+4.1 Bandwidth consumptions as heatmaps
+Figure 1 depicts one heatmap per blockchain protocol
+for nodes that all act as validators where the color of
+cell Mi,j represents the bandwidth consumed by node ni
+when sending to node nj. A warmer color (e.g., yellow)
+thus represents a higher bandwidth usage than a colder
+color (e.g., dark blue) while the white color indicates
+zero or negligible trafﬁc. Note that nodes n1,..., n5 are
+the nodes receiving transaction requests from the clients,
+while nodes n6,..., n20 may receive messages from other
+nodes but not transactions directly from clients. With a
+maximum of 17,812 KiB, Solana consumes more band-
+width than the other tested blockchains, namely Algo-
+rand, Aptos, Avalanche and Redbelly . In particular, Algo-
+rand, the second most bandwidth consuming blockchain
+uses a maximum of 11,240 KiB. This 58% increase com-
+pared to Algorand can be due to several factors: more
+metadata sent per transaction or higher duplication of the
+same information.
+The reason is probably that Solana exploits erasure
+coding in order to maximize dissemination of informa-
+tion despite failures [6]. Its lack of fault tolerance, al-
+ready previously observed [20], probably motivated this
+design decision. Erasure coding relies on sending addi-
+tional data in order to reconstruct the relevant informa-
+tion in case of partial loss. The other blockchains do not
+consume as much trafﬁc likely because they do not use
+erasure coding.
+4.2 T ransaction sizes
+In order to exclude other factors that could have invali-
+dated our hypothesis that Solana uses more bandwidth
+due to erasure coding, we measured empirically the size
+of transactions sent by each blockchain. After all, it was
+previously noted that distributed ledger technologies like
+Corda send transactions as large as 8 KiB, which is an
+overkill [22].
+1 6 11 16
+Source node
+Algorand
+1 6 11 16
+Aptos
+1 6 11 16
+Avalanche
+1 6 11 16
+Redbelly
+1 6 11 16
+Solana
+7746
+8910
+10075
+11240
+1259
+1822
+2385
+2948
+794
+1086
+1379
+1671
+2294
+2809
+3324
+3839
+10390
+12864
+15338
+17812
+Destination node
+Figure 1: Heatmaps Mi,j of the bandwidth used in KiB between sending node ni and receiving node nj for each
+blockchain, 20 nodes, 20 validators.
+0 50 100 150 200 250 300
+Transaction size (bytes)
+Aptos
+Algorand
+Solana
+Avalanche
+Redbelly
+Figure 2: Transaction size per blockchain.
+Fig. 2 compares the transaction sizes of the different
+blockchains. It shows in particular that, even though
+Solana uses more bandwidth as discussed above in Sec-
+tion 4, it does not use the largest transactions. Actu-
+ally , Aptos’ transaction size is 310 B compared to Solana’s
+transaction size of 215 B, Aptos’ transactions are 44%
+larger than Solana’s. Finally , note that even Algorand’s
+transactions, with a size of 250 B, are larger than Solana’s
+transactions as well. As a result, the bandwidth usage
+of Solana is not a consequence of generating excessively
+large transactions.
+5 Consumption Skewness over
+Routes
+A high bandwidth usage does not necessarily in-
+duce a detrimental performance, especially when the
+bandwidth consumption is well-balanced over multiple
+routes. In fact, previous works have shown that balanc-
+ing an amount of information that is quadratic in the
+number of network nodes over a quadratic number of
+routes of this network could be more efﬁcient than reduc-
+ing this amount of information to a linear factor but sent
+across the same routes [35]. It is thus important to under-
+stand how a blockchain protocol balances its bandwidth
+consumption over a network.
+5.1 Some nodes exchange more data than
+others
+In the Aptos heatmap of Fig. 1, we can see that some
+nodes of the Aptos network seem to consume more band-
+width than other nodes of the same network, and trafﬁc
+is heavily unbalanced across nodes. Five nodes, the ones
+that receive the transactions sent by the clients, send more
+messages than all the other nodes as indicated by the top
+ﬁve rows in light colors. They also send more messages
+to themselves than to the rest of the nodes, as indicated
+by the yellow 5-by-5 sub-matrix of the top left corner of
+the heatmap. This is due to its Quorum Store optimiza-
+tion [7] that puts more load on the receivers of transac-
+tions than on the rest of the network by requiring them to
+collect signatures. More precisely , these validator nodes
+have to sign transaction batch digests and collect the pro-
+duced signatures from a quorum of blockchain nodes to
+form a “proof-of-store”. This signature collection puts in-
+evitably more bandwidth pressure on the nodes respon-
+sible for signing.
+In the Solana heatmap of Fig. 1, the color shows that
+there is no clear per-node distinction as no column or
+row stands out. As a result, the bandwidth consump-
+tion of Solana appears generally more balanced than the
+one of Aptos. It is interesting to note that Solana, which
+consumes a lot of bandwidth as we showed in Section 4,
+manages to balance the load pretty well.
+Finally , the Algorand heatmap of Fig. 1 shows some
+imbalance in that the second half of the nodes n11,..., n20
+receive and send more messages than others.
+5.2 Some nodes send more than they receive
+in Avalanche and Redbelly
+Another interesting dimension to consider is the level of
+unbalance between sending and receiving trafﬁc. The
+nodes receiving transactions could either consume more
+bandwidth by propagating the information or, instead,
+they could consume less than the nodes agreeing on
+which block to append. For example, the Avalanche
+heatmap of Fig. 1 shows that the nodes of Avalanche that
+receive transactions generate more trafﬁc than what they
+receive.
+The Avalanche heatmap of Fig. 1 shows the ﬁve top
+rows in lighter color than the ﬁve left columns. This indi-
+cates that the ﬁve Avalanche nodes that receive transac-
+tions send more data than they receive. By contrast with
+Aptos, they do not need to send more data to themselves
+than to the rest of the network. This is explained by the
+TXRX
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+Bandwidth (KiB)
+ 104
+Algorand
+TXRX
+ 105
+Aptos
+TXRX
+ 104
+Avalanche
+TXRX
+ 104
+Redbelly
+TXRX
+0.0
+0.5
+1.0
+1.5
+2.0
+ 104
+Solana
+Setup Submission Cooldown
+Figure 3: Client-side network trafﬁc (TX and RX) stacked
+by experimental phase. Y-axis scales differ across sub-
+plots to accommodate variations in magnitude.
+fact that they have to propagate the transactions they re-
+ceive to the rest of the network without needing to collect
+signatures from each other.
+The Redbelly heatmap of Fig. 1 shows one particular
+node sending more messages than others. This is ex-
+plained by having a weak coordinator that sends a par-
+ticular message in the ﬁrst round of the DBFT binary con-
+sensus protocol [11]. Note that this coordinator is weaker
+than a leader in that the consensus terminates even when
+it is faulty . Generally , the ﬁrst ﬁve nodes send more mes-
+sages than others because they forward the transactions
+that this experiment sends them. Finally , the remaining
+differences could be due to the node placement and the
+reordering of messages, requiring some nodes to request
+the batch of proposed transactions from other nodes.
+5.3 The dissemination reliability of Solana
+requires more trafﬁc
+Bandwidth consumption can have some advantages,
+for example, when redundant information copes with
+packet losses. The trade-off between bandwidth efﬁ-
+ciency and dissemination reliability is particularly ap-
+parent in Solana. Previous research has highlighted
+Solana’s ability to tolerate packet losses better than other
+blockchains [20]. Our experiments quantify the cost of
+this dissemination reliability .
+The Solana heatmap of Fig. 1 shows the bandwidth
+consumption is well balanced and very high. Un-
+like other protocols that attempt to minimize redundant
+transmissions (resulting in the dark blue or empty re-
+gions seen in Algorand or Redbelly), Solana appears to
+utilize a “ﬂood” or highly redundant propagation mech-
+anism, likely related to its Turbine block propagation pro-
+tocol and erasure coding schemes. While this results in
+signiﬁcantly higher total bandwidth consumption, it en-
+sures that data is recoverable and available to all nodes,
+even in the presence of network failures.
+6 Consumption Skewness over Time
+In order to better understand the bandwidth usage, we
+measured the bandwidth consumed at the three differ-
+ent stages of our experiments (Setup, Submission, and
+Cooldown) as deﬁned in Section 3.
+Fig. 3 differentiates the Transmitted (TX) data, which
+are sent from nodes to clients, from the Received (RX)
+data, which are sent from clients to nodes, when 5 clients
+submit 19,995 transactions (3,999 each) to 5 nodes.
+6.1 Impact of communication protocols on
+idle trafﬁc
+A distinct disparity is visible in the overhead trafﬁc dur-
+ing the non-submission phases (Setup and Cooldown).
+Aptos exhibits signiﬁcantly higher bandwidth consump-
+tion during these idle periods compared to other
+blockchains. For instance, during Phase 0 (Setup),
+Aptos nodes transmitted 218,856 KiB of data, whereas
+Avalanche and Redbelly transmitted only 298 KiB and
+11 KiB, respectively .
+This massive overhead in Aptos is attributed to its
+client communication architecture. While Avalanche,
+Redbelly , and Solana utilize WebSocket streaming to
+push updates to clients efﬁciently , Aptos clients rely on
+polling. Consequently , Aptos clients repeatedly request
+data even when blocks are empty , resulting in substantial
+bandwidth usage ( ↓227,000 KiB in Phase 2) despite the
+absence of new transaction submissions.
+6.2 Block veriﬁcation and data efﬁciency
+During the Submission phase (Phase 1), a clear diver-
+gence in data efﬁciency emerges between Solana and the
+chains compatible with the Ethereum Web3 WebSocket
+API (Avalanche, Redbelly) that use the same methods to
+send and listen to blocks as Ethereum.
+Full block transmission These protocols exhibit a high
+ratio of TX to RX trafﬁc. For example, Redbelly re-
+ceived 7,314 KiB of transaction data (RX) but transmitted
+66,511 KiB (TX) back to the clients. This ampliﬁcation oc-
+curs because these protocols require the node to broad-
+cast the entire block (containing transaction bodies and
+metadata) to every client for veriﬁcation. Even though a
+client only needs transaction hashes to conﬁrm their ﬁ-
+nality , it must download the full block payload.
+Signature-based veriﬁcation Solana demonstrates a
+more balanced trafﬁc proﬁle during submission (RX:
+13,099 KiB vs. TX: 16,325 KiB). Despite Solana having a
+relatively large raw transaction size (215 B) compared to
+Redbelly (105 B) or Avalanche (117 B), its outgoing trafﬁc
+is signiﬁcantly lower. This efﬁciency stems from Solana’s
+veriﬁcation mechanism; clients requesting block conﬁr-
+mation do not need to download the full block body . In-
+stead, they request only the hashes or signatures of com-
+mitted transactions and compare them against their lo-
+cally stored payloads. This selective data retrieval sig-
+niﬁcantly reduces the egress bandwidth required by the
+nodes.
+In summary , while the raw transaction sizes (ranging
+from 105 B on Redbelly to 310 B on Aptos, as displayed in
+Fig. 2) play a role in bandwidth usage, the dominant fac-
+tors inﬂuencing network trafﬁc are the choice of transport
+protocol (polling vs. WebSockets) and the block veriﬁca-
+tion strategy (full block download vs. hash comparison).
+7 Consumption Skewness over Scale
+In this section, we analyze the scalability of the band-
+width consumption, denoted as S, as a function of the
+number N of nodes and the number V of validators
+across the different blockchains. Interestingly , we iden-
+tify that the bandwidth of Aptos, Avalanche and Solana
+increases with N and the bandwidth of Algorand, Aptos,
+Avalanche and Redbelly increases with V.
+7.1 Large consumption variations depending
+on network scale
+Fig. 4 depicts a comprehensive grid of heatmaps for every
+blockchain across different combinations of number N of
+nodes and number V of validators. In each heatmap, the
+bandwidth consumed by node ni sending to node nj is
+represented by the color in cell Mi,j.
+The raw data reveals signiﬁcant disparities in the mag-
+nitude of data exchange across the different protocols. In
+a fully interconnected small network (5 nodes, all val-
+idators), the difference in per-link bandwidth is striking:
+while Redbelly and Avalanche maintain a lean footprint
+with approximately 1,700 KiB and 2,800 KiB transmitted
+per pair respectively , Algorand consumes considerably
+more, averaging around 6,500 KiB per link. Solana, how-
+ever, operates at a completely different order of magni-
+tude, with cells in the 5-node conﬁguration consistently
+showing over 42,000 KiB of trafﬁc—nearly 25 times the
+bandwidth usage of Redbelly for the same workload.
+Furthermore, the data highlights a clear hierarchy of
+network load based on node roles. In mixed conﬁgura-
+tions (e.g., 20 nodes with 5 validators), the bandwidth
+intensity within the validator group (the top-left 5 ↔ 5
+sub-matrix) is drastically higher than the trafﬁc involv-
+ing non-validator nodes. For instance, in the 10-5 setup,
+for Aptos and Algorand, the trafﬁc between two valida-
+tors remains in the thousands of KiB (e.g., ↓3,600 KiB
+for Aptos), whereas trafﬁc originating from non-validator
+nodes often drops to the low hundreds (e.g., ↓200 KiB),
+illustrating a highly centralized bandwidth burden on the
+consensus committee.
+7.2 V alidators communicate more with them-
+selves
+A distinct segmentation of the network topology is visi-
+ble in most protocols. For Algorand, Aptos, Avalanche,
+and Redbelly , the top-left V ↔ V sub-matrix is consis-
+tently dense and bright, conﬁrming that validators com-
+municate heavily among themselves to achieve consen-
+sus. However, the behavior regarding non-validator
+nodes varies signiﬁcantly .
+As observed, Solana is the unique outlier. It is the only
+blockchain where the non-validator nodes communicate
+directly with other non-validator nodes (the bottom-right
+quadrant of the heatmaps). For instance, in the 10-5 con-
+ﬁguration, the heatmap is uniformly populated, indicat-
+ing a full mesh topology where every node, regardless of
+its role, exchanges data with every other node.
+In contrast, blockchains like Redbelly and Avalanche
+show a clear separation. While validators send data
+to non-validators (top-right quadrant) and receive data
+from them (bottom-left quadrant), non-validator nodes
+do not communicate with each other. This is evident in
+the 10-5 matrices for Avalanche and Redbelly , where the
+bottom-right 5 ↔ 5 sub-matrix is largely empty .
+Finally , Algorand and Aptos exhibit the strictest sep-
+aration in certain conﬁgurations. Non-validator nodes
+act almost exclusively as passive receivers or pull-based
+clients. In Algorand’s 10-5 conﬁguration, while valida-
+tors send data to non-validators (rows 0-4 to columns
+5-9), the trafﬁc from non-validators back to validators
+is negligible, and trafﬁc between non-validators is non-
+existent.
+7.3 Aptos pattern change with the number of
+validators
+Fig. 4 reveals a dynamic dissemination strategy in Aptos
+that depends on the ratio of validators to the total net-
+work size. In conﬁgurations where the number of val-
+idators is small relative to the network size, validators
+appear to broadcast to all non-validators. For example,
+in the 10-5 conﬁguration and 20-5 conﬁguration, the top-
+right quadrants are dense, showing that the 5 validators
+are sending data to all 5 (or 15) non-validator nodes.
+However, as the number of validators increases, Ap-
+tos shifts strategy to reduce bandwidth overhead. In the
+15-node, 10-validator conﬁguration, the top-right quad-
+rant becomes sparse. Speciﬁc validators only communi-
+cate with speciﬁc non-validator nodes rather than broad-
+casting to the entire set. This suggests a sharding or ran-
+domized gossip approach to dissemination when the val-
+idator set is large, likely to prevent bandwidth saturation
+on individual nodes.
+5 Nodes
+5 V alidators
+Algorand
+Aptos
+Avalanche
+Redbelly
+Solana
+10 Nodes
+5 V alidators
+10 Nodes
+10 V alidators
+15 Nodes
+5 V alidators
+15 Nodes
+10 V alidators
+15 Nodes
+15 V alidators
+20 Nodes
+5 V alidators
+20 Nodes
+10 V alidators
+20 Nodes
+15 V alidators
+20 Nodes
+20 V alidators
+1729
+46702
+45843
+1217
+27453
+43063
+24853
+953
+19574
+44265
+24574
+18758
+794
+17812
+Figure 4: Heatmaps Mi,j of the bandwidth used in KiB between sending node ni and receiving node nj for each
+blockchain.
+5 10 15 20
+ 106 Algorand
+5V a l
+10 V al
+15 V al
+20 V al
+5 10 15 20
+ 105 Aptos
+5 10 15 20
+Nodes
+ 105Avalanche
+5 10 15 20
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+ 106 Redbelly
+5 10 15 20
+ 106 Solana
+5 10 15 20
+ 106
+5 Node
+10 Node
+15 Node
+20 Node
+5 10 15 20
+ 105
+5 10 15 20
+V alidators
+ 105
+5 10 15 20
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+ 106
+5 10 15 20
+ 106
+Bandwidth (KiB)
+Figure 5: Total bandwidth consumption (KiB) for blockchains under test. The top row plots bandwidth against
+the number of nodes (grouped by validator count), while the bottom row plots bandwidth against the number of
+validators (grouped by node count).
+7.4 Blockchains vary with regards to band-
+width scalability
+Fig. 5 depicts the trends of bandwidth consumption de-
+pending on the scale, where each ﬁgure provides: line
+plots showing S as a function of the total number N of
+nodes, and line plots showing S as a function of the num-
+ber V of validators. Here, S represents the total sum of
+bandwidth measured in KiB during the experiment du-
+ration.
+We can clearly see from Fig. 5 that SSolana bandwidth
+consumption increases primarily with the number of
+nodes, regardless of the number of validators. For in-
+stance, with 5 validators, increasing the total node count
+from 5 to 20 causes bandwidth to surge from 879,268 KiB
+to 4,604,375 KiB—a ﬁve-fold increase. However, keeping
+the node count ﬁxed at 20 and increasing validators from
+5 to 20 results in a negligible increase from 4,604,375 KiB
+to 4,891,524 KiB. This conﬁrms that Solana requires all
+nodes to communicate with each other, creating a high-
+bandwidth mesh topology dependent on the network
+size rather than the validator set size.
+In contrast, blockchains b →{ Algorand , Redbelly } the
+bandwidth Sb depend almost entirely on the number of
+validators. Adding non-validator nodes adds very lit-
+tle overhead. For Algorand, with 5 validators, increasing
+nodes from 10 to 20 only increases usage from 182,790 KiB
+to 287,032 KiB. However, increasing validators has a
+massive impact: with 20 nodes, moving from 5 to 20
+validators causes usage to skyrocket from 287,032 KiB
+to 3,681,191 KiB—an increase of over 12 times. Red-
+belly exhibits an even more drastic ratio, jumping from
+72,098 KiB (20 nodes, 5 validators) to 1,084,185 KiB (20
+nodes, 20 validators).
+Finally , in two blockchains, Aptos and Avalanche, the
+bandwidth consumption grows with both the number of
+validators and the number of nodes. Note that the band-
+width increase appears superlinear with the number of
+validators in Aptos but sublinear in Avalanche. In Ap-
+tos, with 20 nodes, the bandwidth grows moderately be-
+tween 5 and 15 validators (343,968 KiB to 490,237 KiB) but
+jumps sharply when reaching 20 validators (684,649 KiB).
+Conversely , Avalanche shows diminishing returns in
+bandwidth growth as validators are added to a 20-
+node network, rising from 205,154 KiB (5 validators) to
+418,852 KiB (20 validators), indicating a more consistent
+propagation overhead.
+Based on these trends, we can classify blockchains in
+three categories:
+1. Node-dependent (Solana) Bandwidth consumption
+increases with the total network size ( N), indicating
+a topology where all nodes propagate data heavily .
+2. V alidator-dependent (Algorand and Redbelly)
+Bandwidth consumption increases primarily with
+the size of the consensus committee ( V). Non-
+validator nodes are passive consumers.
+3. Hybrid (Avalanche and Aptos) Bandwidth con-
+sumption increases with both N and V, suggesting
+a topology where non-validator nodes participate in
+propagation.
+8 Consumption V ariation with TPS
+The bandwidth consumption could simply be a conse-
+quence of the rate at which our experiments send transac-
+tions. Below, we vary this sending rate to observe how it
+impacts bandwidth consumption. To this end, we con-
+ducted a set of experiments where the total workload
+size was kept constant at approximately 20,000 transac-
+tions. We varied the target TPS from 100 to 500, in-
+versely adjusting the experiment duration (from 200 s
+down to 40 s) to maintain the ﬁxed transaction count
+(TPS ↔ Duration ↓ Constant). Fig. 6 presents these re-
+sults from the perspective of total absolute bandwidth.
+100 150 200 250 300 350 400 450 500
+Target TPS
+Bandwidth (KiB)
+ 106
+Algorand
+Aptos
+Avalanche
+Redbelly
+Solana
+Figure 6: Total bandwidth consumption (KiB) vs. Target
+TPS for blockchains under test under varying load rates.
+The workload was ﬁxed at 20,000 total transactions per
+run, with experiment duration scaling inversely to TPS
+(200 s down to 40 s).
+Fig. 6 plots the total absolute bandwidth consumed
+by each blockchain. A consistent trend is visible across
+all protocols: total bandwidth consumption decreases as
+TPS increases. Since the number of transactions is ﬁxed,
+this decrease indicates that a signiﬁcant portion of band-
+width usage is time-dependent rather than transaction-
+dependent. At lower TPS (longer duration), “back-
+ground” trafﬁc, such as heartbeats, empty block propos-
+als, and consensus maintenance, accumulates, inﬂating
+the total footprint.
+Solana consistently consumes the highest abso-
+lute bandwidth, ranging from approximately 4.7 GiB
+(4,905,820 KiB) at 100 TPS down to 2.3 GiB (2,387,814 KiB)
+at 500 TPS. Algorand follows as the second most
+bandwidth-intensive chain (3.6 GiB to 1.3 GiB), while
+Avalanche and Aptos remain the most efﬁcient, with
+Aptos consuming as little as 283 MiB (289,834 KiB) at
+500 TPS. Notably , in terms of absolute bandwidth, Algo-
+rand consistently consumes more than Redbelly across
+all data points (e.g., at 100 TPS: Algorand ↓3.6 GiB vs.
+Redbelly ↓2.1 GiB).
+9 Related Work
+Blockchain benchmarking Existing frameworks like
+Blockbench [17] and Hyperledger Caliper [24] standard-
+ize the evaluation of throughput, latency , and fault toler-
+ance. Gromit [28] further addresses ad-hoc testing limi-
+tations. However, these frameworks prioritize execution
+capacity (TPS) and treat the network layer as secondary .
+Our work builds upon Diablo [19] and S TABL [20] to rig-
+orously isolate bandwidth consumption, a critical metric
+overlooked by execution-focused benchmarks.
+Network trafﬁc and block propagation Early studies
+analyzed propagation delays in Bitcoin [14], leading to
+bandwidth optimization protocols like Graphene [29],
+Compact Blocks [10], and the BloXroute [25] Layer-0
+CDN. While these works propose techniques to minimize
+trafﬁc, our paper provides a comparative measurement
+of modern Layer-1 protocols. We reveal that contempo-
+rary systems like Solana often prioritize data redundancy
+over the bandwidth efﬁciency emphasized in earlier Bit-
+coin and Ethereum research.
+Communication complexity vs. empirical reality
+While theoretical literature favors linear communica-
+tion complexity ( O(n)) protocols like HotStuff [38] over
+quadratic BFT implementations [5], theoretical bounds
+often fail to predict real-world behavior. By con-
+trast, V oron and Gramoli [35] showed empirically that
+quadratic complexity can achieve signiﬁcantly better per-
+formance when well balanced across a quadratic num-
+ber of routes of a WAN. Di Perna et al. [15] showed that
+dense network topologies improve performance under
+load, a ﬁnding correlated with higher energy usage [16].
+Our empirical results conﬁrm this divergence between
+redundancy-heavy architectures like Solana and the lean
+trafﬁc proﬁles of Redbelly .
+10 Conclusion
+This paper compares the bandwidth consumption of
+blockchains for the ﬁrst time. To this end, we measured
+empirically the trafﬁc of ﬁve major layer-1 blockchains
+Algorand, Aptos, Avalanche, Redbelly , and Solana.
+Our results show that transport protocols (polling vs.
+WebSockets) and block propagation strategies impact
+bandwidth more than transaction size. Solana consumes
+up to 58% more bandwidth than Algorand due to redun-
+dancy , while Aptos suffers from high idle overhead. Cru-
+cially , Solana scales with network size, whereas Algorand
+and Redbelly scale with validator count.
+Acknowledment
+This research is supported under Australian Research
+Council Discovery Project funding scheme (project num-
+ber 250101739) entitled “Fair Ordering of Decentralised
+Access to Resources”.

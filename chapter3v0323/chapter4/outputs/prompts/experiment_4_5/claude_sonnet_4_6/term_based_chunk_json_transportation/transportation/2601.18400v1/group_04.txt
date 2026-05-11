@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Validator",
+  "mayProposeIf",
+  "Block",
+  "requiresSignatureFrom",
+  "Proposer",
+  "AptosNetwork",
+  "isA",
+  "BlockchainProtocol",
+  "isLeaderBased",
+  "Leader",
+  "usesProtocol",
+  "TCPConnection",
+  "basedOn",
+  "PracticalByzantineFaultTolerant",
+  "hasFeature",
+  "ViewChangeMechanism",
+  "hasComplexity",
+  "QuadraticCommunicationComplexity",
+  "hasComplexityWhenFaulty",
+  "CubicCommunicationComplexity",
+  "actsAsBottleneckIn",
+  "ConsensusProtocol",
+  "usesOptimization",
+  "QuorumStore",
+  "decouples",
+  "Transaction",
+  "designedFor",
+  "pullsFrom",
+  "Mempool",
+  "arrangesInto",
+  "BatchTransaction",
+  "broadcastsTo",
+  "signsAndSendsBack",
+  "Signature",
+  "collectsSignaturesToForm",
+  "ProofOfStore",
+  "offloads",
+  "RedbellyNetwork",
+  "DemocraticByzantineFaultTolerant",
+  "isLeaderless",
+  "worksIn",
+  "PartiallySynchronousEnvironment",
+  "usesApproach",
+  "Superblock",
+  "scalesWith",
+  "Node",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "BandwidthConsumption",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap",
+  "RedundancyStrategy",
+  "CommunicationPattern",
+  "PollingProtocol"
+]
+
+Triples:
+[
+  {
+    "subject": "Validator",
+    "relation": "mayProposeIf",
+    "object": "Block",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "If no proposer acts within the cumulative delay period, any active validator may propose."
+  },
+  {
+    "subject": "Block",
+    "relation": "requiresSignatureFrom",
+    "object": "Proposer",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Blocks within the assigned windows must include valid signatures from the designated proposer."
+  },
+  {
+    "subject": "AptosNetwork",
+    "relation": "isA",
+    "object": "BlockchainProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Aptos [3] is a leader-based blockchain that uses TCP and builds upon a variant of the Practical Byzantine Fault Tolerant (PBFT) consensus protocol [5]."
+  },
+  {
+    "subject": "AptosNetwork",
+    "relation": "isLeaderBased",
+    "object": "Leader",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Aptos [3] is a leader-based blockchain that uses TCP and builds upon a variant of the Practical Byzantine Fault Tolerant (PBFT) consensus protocol [5]."
+  },
+  {
+    "subject": "AptosNetwork",
+    "relation": "usesProtocol",
+    "object": "TCPConnection",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Aptos [3] is a leader-based blockchain that uses TCP and builds upon a variant of the Practical Byzantine Fault Tolerant (PBFT) consensus protocol [5]."
+  },
+  {
+    "subject": "AptosNetwork",
+    "relation": "basedOn",
+    "object": "PracticalByzantineFaultTolerant",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Aptos [3] is a leader-based blockchain that uses TCP and builds upon a variant of the Practical Byzantine Fault Tolerant (PBFT) consensus protocol [5]."
+  },
+  {
+    "subject": "PracticalByzantineFaultTolerant",
+    "relation": "hasFeature",
+    "object": "ViewChangeMechanism",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Aptos [3] is a leader-based blockchain that uses TCP and builds upon a variant of the Practical Byzantine Fault Tolerant (PBFT) consensus protocol [5] featuring a view-change mechanism with a quadratic communication complexity."
+  },
+  {
+    "subject": "PracticalByzantineFaultTolerant",
+    "relation": "hasComplexity",
+    "object": "QuadraticCommunicationComplexity",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "featuring a view-change mechanism with a quadratic communication complexity and inherits its cubic communication complexity reached when the leader is faulty or the network is unstable."
+  },
+  {
+    "subject": "AptosNetwork",
+    "relation": "hasComplexityWhenFaulty",
+    "object": "CubicCommunicationComplexity",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "and inherits its cubic communication complexity reached when the leader is faulty or the network is unstable."
+  },
+  {
+    "subject": "Leader",
+    "relation": "actsAsBottleneckIn",
+    "object": "ConsensusProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "It is well-known that leaders act as bottlenecks in leader-based consensus protocols [34], like AptosBFT."
+  },
+  {
+    "subject": "AptosNetwork",
+    "relation": "usesOptimization",
+    "object": "QuorumStore",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Aptos features the Quorum Store optimization of Narwhal [13] to decouple metadata ordering from payload dissemination."
+  },
+  {
+    "subject": "QuorumStore",
+    "relation": "decouples",
+    "object": "Transaction",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Aptos features the Quorum Store optimization of Narwhal [13] to decouple metadata ordering from payload dissemination."
+  },
+  {
+    "subject": "QuorumStore",
+    "relation": "designedFor",
+    "object": "Validator",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "In addition, Quorum Store is designed for parallel execution by all validators."
+  },
+  {
+    "subject": "Validator",
+    "relation": "pullsFrom",
+    "object": "Mempool",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "validators repeat the following steps in parallel:(1)Pull transactions from the mempool."
+  },
+  {
+    "subject": "Validator",
+    "relation": "arrangesInto",
+    "object": "BatchTransaction",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "(2)Arrange transactions into batches based on gas price and select an expiration time for each batch."
+  },
+  {
+    "subject": "Validator",
+    "relation": "broadcastsTo",
+    "object": "Validator",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "(3)Broadcast batches to all other validators."
+  },
+  {
+    "subject": "Validator",
+    "relation": "signsAndSendsBack",
+    "object": "Signature",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "(4)Persist received batches, sign their digests, and send back signatures."
+  },
+  {
+    "subject": "Validator",
+    "relation": "collectsSignaturesToForm",
+    "object": "ProofOfStore",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "(5)Collect signatures from more than 2n/3 nodes to form a proof-of-store."
+  },
+  {
+    "subject": "QuorumStore",
+    "relation": "offloads",
+    "object": "Leader",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "It allows validators to asynchronously broadcast transactions, offloading the leader's network interface during the consensus protocol execution [8]."
+  },
+  {
+    "subject": "RedbellyNetwork",
+    "relation": "isA",
+    "object": "BlockchainProtocol",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Redbelly Blockchain [12] is a scalable blockchain built on the Democratic Byzantine Fault Tolerant (DBFT) consensus algorithm [11]."
+  },
+  {
+    "subject": "RedbellyNetwork",
+    "relation": "basedOn",
+    "object": "DemocraticByzantineFaultTolerant",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "Redbelly Blockchain [12] is a scalable blockchain built on the Democratic Byzantine Fault Tolerant (DBFT) consensus algorithm [11] that is leaderless (i.e., non leader-based) and deterministic."
+  },
+  {
+    "subject": "DemocraticByzantineFaultTolerant",
+    "relation": "isLeaderless",
+    "object": "Leader",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "that is leaderless (i.e., non leader-based) and deterministic, and works in a partially synchronous environment."
+  },
+  {
+    "subject": "DemocraticByzantineFaultTolerant",
+    "relation": "worksIn",
+    "object": "PartiallySynchronousEnvironment",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "that is leaderless (i.e., non leader-based) and deterministic, and works in a partially synchronous environment."
+  },
+  {
+    "subject": "RedbellyNetwork",
+    "relation": "usesApproach",
+    "object": "Superblock",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "To enhance scalability further, Redbelly uses a collaborative approach, appending a superblock with as many valid proposed blocks as possible."
+  },
+  {
+    "subject": "Superblock",
+    "relation": "scalesWith",
+    "object": "Node",
+    "chunk": "backgroundandblockchainnetworks",
+    "context": "This way the number of transactions per appended block can grow linearly with the number of nodes [12]."
+  }
+]

@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["LomegaResonanceTransition","KomegaResonanceTransition","Transition3C","Transition3G","FeLComplex","OscillatorStrengthRatio","AstrophysicalPlasma","BeamlineFacility"]
+
+Triples:
+[{"subject":"AstrophysicalObject","relation":"contains","object":"XRayEmittingHotPlasma"},{"subject":"XRayEmittingHotPlasma","relation":"instanceOf","object":"HotPlasma"},{"subject":"XRISM","relation":"hasInstrument","object":"Resolve"},{"subject":"Resolve","relation":"instanceOf","object":"Spectrometer"},{"subject":"Resolve","relation":"resolves","object":"IronKShellEmissionLineStructure"},{"subject":"AtomDB_APEC","relation":"instanceOf","object":"PlasmaModelingFramework"},{"subject":"SPEX","relation":"instanceOf","object":"PlasmaModelingFramework"},{"subject":"CHIANTI","relation":"instanceOf","object":"PlasmaModelingFramework"},{"subject":"ObservedSpectrum","relation":"analysedByComparingWith","object":"SynthesizedSpectrum"},{"subject":"SynthesizedSpectrum","relation":"generatedBy","object":"PlasmaModelingFramework"},{"subject":"PlasmaModelingFramework","relation":"uses","object":"AtomicData"},{"subject":"AtomicData","relation":"crucialFor","object":"ReliablePlasmaDiagnostics"},{"subject":"CurrentAtomicData","relation":"reliesOn","object":"TheoreticalCalculation"},{"subject":"LaboratoryMeasurement","relation":"necessaryFor","object":"PreciseAtomicData"},{"subject":"LawrenceLivermoreNationalLaboratory","relation":"developed","object":"ElectronBeamIonTrap"},{"subject":"ElectronBeamIonTrap","relation":"developedIn","object":"1980s"},{"subject":"LawrenceLivermoreNationalLaboratory","relation":"locatedIn","object":"UnitedStates"},{"subject":"NationalInstituteOfStandardsAndTechnology","relation":"operates","object":"ElectronBeamIonTrap"},{"subject":"MaxPlanckInstitutFurKernphysik","relation":"operates","object":"ElectronBeamIonTrap"},{"subject":"Experiment","relation":"targetsElement","object":"Oxygen"},{"subject":"Experiment","relation":"targetsElement","object":"Silicon"},{"subject":"Experiment","relation":"targetsElement","object":"Sulfur"},{"subject":"Experiment","relation":"targetsElement","object":"Argon"},{"subject":"Experiment","relation":"targetsElement","object":"Iron"},{"subject":"FeLComplex","relation":"associatedWith","object":"HighlyChargedIronIon"},{"subject":"FeLComplex","relation":"highlightedInStudyOf","object":"GalaxyCluster"},{"subject":"FeLComplex","relation":"highlightedInStudyOf","object":"SupernovaRemnant"},{"subject":"Transition3C","relation":"occursIn","object":"NeLikeFe16PlusIon"},{"subject":"Transition3G","relation":"occursIn","object":"NeLikeFe16PlusIon"},{"subject":"Transition3C","relation":"partOf","object":"FeLComplex"},{"subject":"Transition3G","relation":"partOf","object":"FeLComplex"},{"subject":"Transition3C","relation":"isProminentFeatureOf","object":"FeLComplex"},{"subject":"Transition3G","relation":"isProminentFeatureOf","object":"FeLComplex"},{"subject":"Transition3C","relation":"usefulForMeasuring","object":"AstrophysicalProperty"},{"subject":"Transition3G","relation":"usefulForMeasuring","object":"AstrophysicalProperty"},{"subject":"JAXAEBIT","relation":"usedToMeasure","object":"Transition3C"},{"subject":"JAXAEBIT","relation":"usedToMeasure","object":"Transition3G"},{"subject":"Experiment","relation":"obtainedSpectrumOf","object":"Transition3C"},{"subject":"Transition3C","relation":"instanceOf","object":"LomegaResonanceTransition"},{"subject":"LomegaResonanceTransition","relation":"occursIn","object":"NeLikeFe16PlusIon"}]

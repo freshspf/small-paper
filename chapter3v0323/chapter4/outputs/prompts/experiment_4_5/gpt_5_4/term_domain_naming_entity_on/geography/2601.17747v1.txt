@@ -1,0 +1,1221 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ChangeDetection",
+  "RemoteSensingImagery",
+  "SurfaceChange",
+  "LandCoverChange",
+  "MultiTemporalRemoteSensingImage",
+  "PixelLevelChangeLabel",
+  "UnifiedChangeDetectionFramework",
+  "UniCD",
+  "SupervisedTask",
+  "WeaklySupervisedTask",
+  "UnsupervisedTask",
+  "CoupledArchitecture",
+  "SharedEncoder",
+  "MultiBranchCollaborativeLearningMechanism",
+  "SupervisionSpecificBranch",
+  "SupervisionBranch",
+  "WeaklySupervisedBranch",
+  "UnsupervisedBranch",
+  "SpatialTemporalAwarenessModule",
+  "STAM",
+  "ChangeRepresentationRegularization",
+  "CRR",
+  "SemanticPriorDrivenChangeInference",
+  "SPCI",
+  "BiTemporalFeature",
+  "CoarseGrainedActivation",
+  "CoherentChangeModeling",
+  "SeparableChangeModeling",
+  "WeaklySupervisedPathOptimization",
+  "MainstreamDataset",
+  "LEVIR_CD",
+  "LandResourceMonitoring",
+  "UrbanExpansionAnalysis",
+  "DisasterAssessment",
+  "AgriculturalMonitoring",
+  "RemoteSensingPlatform",
+  "MultiTemporalObservationData",
+  "SurfaceDynamics",
+  "TimeSeriesComparison",
+  "TimeVaryingFeature",
+  "LandCoverEvolution",
+  "IlluminationChange",
+  "SeasonalEffect",
+  "RealChange",
+  "PseudoChange",
+  "ConvolutionalNeuralNetwork",
+  "Transformer",
+  "Mamba",
+  "VisualFoundationModel",
+  "VFM",
+  "SAM",
+  "ExplicitSupervisionSignal",
+  "BackgroundVariation",
+  "SupervisedLearningParadigm",
+  "WeaklySupervisedLearningParadigm",
+  "UnsupervisedLearningParadigm",
+  "SpuriousChange",
+  "StructuralIntegrity",
+  "LightingVariation",
+  "SeasonalVariation",
+  "SpatialTemporalDifference",
+  "AnnotationAvailability",
+  "DynamicScenario",
+  "SpatialCorrelation",
+  "TemporalEvolution",
+  "ChangeArea",
+  "SpatialConsistencyRegularization",
+  "SCR",
+  "ContrastFeatureRegularization",
+  "CFR",
+  "GeometricInvarianceConstraint",
+  "SemanticFeatureAlignment",
+  "DiscriminativeChangeDecisionBoundary",
+  "CLIP",
+  "CrossModalSemanticAlignmentCapability",
+  "PseudoAnnotation",
+  "PixelLevelChangeAnnotation",
+  "ImageLevelAnnotation",
+  "RegionLevelAnnotation",
+  "ChangeBoundary",
+  "DSAMNet",
+  "DeepSupervision",
+  "AttentionBasedMetricLearning",
+  "BIT",
+  "SelfAttention",
+  "LongRangeSpatialTemporalDependency",
+  "SAM_CD",
+  "Backbone",
+  "LargeScalePretrainingPrior",
+  "Robustness",
+  "ComplexScene",
+  "CS_WSCD",
+  "ClassActivationMap",
+  "CAM",
+  "ClassificationNetwork",
+  "PotentialChangeRegion",
+  "DSFA",
+  "LatentSpace",
+  "AnyChange",
+  "BiTemporalLatentMatching",
+  "FixedSupervisionAssumption",
+  "PracticalApplication",
+  "ComputerVision",
+  "ImageSegmentationTask",
+  "Omni_RES",
+  "ReferentialSegmentationLearning",
+  "TeacherStudentFramework",
+  "SingleModelArchitecture",
+  "WeakLabel",
+  "ObjectDetectionTask",
+  "Omni_DETR",
+  "SharedFeatureRepresentation",
+  "DifferentiatedOptimizationStrategy",
+  "FCD_GAN",
+  "Segmenter",
+  "Generator",
+  "Discriminator",
+  "AdversarialLearningProcess",
+  "ChangeDistribution",
+  "GenerativeModeling",
+  "DistributionConstraint",
+  "StructuralStability",
+  "SemanticDiscriminability",
+  "GANBasedOptimizationProcess",
+  "TrainingInstability",
+  "ChangePerception",
+  "FrozenFastSAM",
+  "FeatureEncoder",
+  "Adapter",
+  "BiTemporalImagePair",
+  "MultiScaleFeatureRepresentation",
+  "PredictionMap",
+  "Decoder",
+  "PixelLevelLabel",
+  "BatchBalancedContrastiveLoss",
+  "ChangedRegion",
+  "GeometricConsistency",
+  "ViewPerturbation",
+  "InvariantFeature",
+  "SemanticAnchor",
+  "UnchangedFeature",
+  "SemanticPrior",
+  "FoundationModel",
+  "FeatureResponse",
+  "PseudoLabel",
+  "WuhanUniversity",
+  "Wuhan",
+  "China",
+  "StateKeyLaboratoryOfInformationEngineeringInSurveyingMappingAndRemoteSensing"
+]
+
+Triples:
+[
+  {
+    "subject": "ChangeDetection",
+    "relation": "aimsToIdentify",
+    "object": "SurfaceChange"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "uses",
+    "object": "MultiTemporalRemoteSensingImage"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "identifies",
+    "object": "LandCoverChange"
+  },
+  {
+    "subject": "PixelLevelChangeLabel",
+    "relation": "isExpensiveToAcquireFor",
+    "object": "ChangeDetection"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "isA",
+    "object": "UnifiedChangeDetectionFramework"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "handles",
+    "object": "SupervisedTask"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "handles",
+    "object": "WeaklySupervisedTask"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "handles",
+    "object": "UnsupervisedTask"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "uses",
+    "object": "CoupledArchitecture"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "uses",
+    "object": "SharedEncoder"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "uses",
+    "object": "MultiBranchCollaborativeLearningMechanism"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "achieves",
+    "object": "DeepCouplingOfHeterogeneousSupervisionSignals"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "consistsOf",
+    "object": "SupervisionSpecificBranch"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "consistsOf",
+    "object": "SupervisionBranch"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "consistsOf",
+    "object": "WeaklySupervisedBranch"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "consistsOf",
+    "object": "UnsupervisedBranch"
+  },
+  {
+    "subject": "SupervisionBranch",
+    "relation": "introduces",
+    "object": "STAM"
+  },
+  {
+    "subject": "STAM",
+    "relation": "isA",
+    "object": "SpatialTemporalAwarenessModule"
+  },
+  {
+    "subject": "STAM",
+    "relation": "achieves",
+    "object": "SynergisticFusionOfBiTemporalFeatures"
+  },
+  {
+    "subject": "STAM",
+    "relation": "fuses",
+    "object": "BiTemporalFeature"
+  },
+  {
+    "subject": "WeaklySupervisedBranch",
+    "relation": "constructs",
+    "object": "CRR"
+  },
+  {
+    "subject": "CRR",
+    "relation": "isA",
+    "object": "ChangeRepresentationRegularization"
+  },
+  {
+    "subject": "CRR",
+    "relation": "steers",
+    "object": "ModelConvergence"
+  },
+  {
+    "subject": "CRR",
+    "relation": "startsFrom",
+    "object": "CoarseGrainedActivation"
+  },
+  {
+    "subject": "CRR",
+    "relation": "promotes",
+    "object": "CoherentChangeModeling"
+  },
+  {
+    "subject": "CRR",
+    "relation": "promotes",
+    "object": "SeparableChangeModeling"
+  },
+  {
+    "subject": "UnsupervisedBranch",
+    "relation": "proposes",
+    "object": "SPCI"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "isA",
+    "object": "SemanticPriorDrivenChangeInference"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "transforms",
+    "object": "UnsupervisedTask"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "transformsInto",
+    "object": "WeaklySupervisedPathOptimization"
+  },
+  {
+    "subject": "Experiment",
+    "relation": "uses",
+    "object": "MainstreamDataset"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "achievesOptimalPerformanceAcross",
+    "object": "ThreeTasks"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "surpassesOn",
+    "object": "LEVIR_CD"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "playsRoleIn",
+    "object": "LandResourceMonitoring"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "playsRoleIn",
+    "object": "UrbanExpansionAnalysis"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "playsRoleIn",
+    "object": "DisasterAssessment"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "playsRoleIn",
+    "object": "AgriculturalMonitoring"
+  },
+  {
+    "subject": "RemoteSensingPlatform",
+    "relation": "enablesAccessTo",
+    "object": "MultiTemporalObservationData"
+  },
+  {
+    "subject": "MultiTemporalObservationData",
+    "relation": "enablesCharacterizationOf",
+    "object": "SurfaceDynamics"
+  },
+  {
+    "subject": "SurfaceDynamics",
+    "relation": "isCharacterizedThrough",
+    "object": "TimeSeriesComparison"
+  },
+  {
+    "subject": "MultiTemporalRemoteSensingImage",
+    "relation": "exhibits",
+    "object": "TimeVaryingFeature"
+  },
+  {
+    "subject": "TimeVaryingFeature",
+    "relation": "isDrivenBy",
+    "object": "LandCoverEvolution"
+  },
+  {
+    "subject": "TimeVaryingFeature",
+    "relation": "isDrivenBy",
+    "object": "IlluminationChange"
+  },
+  {
+    "subject": "TimeVaryingFeature",
+    "relation": "isDrivenBy",
+    "object": "SeasonalEffect"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "mustDistinguish",
+    "object": "RealChange"
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "mustDistinguishFrom",
+    "object": "PseudoChange"
+  },
+  {
+    "subject": "EarlyChangeDetectionResearch",
+    "relation": "focusedOn",
+    "object": "NetworkArchitecture"
+  },
+  {
+    "subject": "EarlyChangeDetectionResearch",
+    "relation": "evolvedFrom",
+    "object": "ConvolutionalNeuralNetwork"
+  },
+  {
+    "subject": "EarlyChangeDetectionResearch",
+    "relation": "evolvedTo",
+    "object": "Transformer"
+  },
+  {
+    "subject": "EarlyChangeDetectionResearch",
+    "relation": "evolvedTo",
+    "object": "Mamba"
+  },
+  {
+    "subject": "Researcher",
+    "relation": "leverages",
+    "object": "SemanticPrior"
+  },
+  {
+    "subject": "SemanticPrior",
+    "relation": "comesFrom",
+    "object": "LargeScalePretraining"
+  },
+  {
+    "subject": "VisualFoundationModel",
+    "relation": "demonstrates",
+    "object": "GeneralizationCapability"
+  },
+  {
+    "subject": "GeneralizationCapability",
+    "relation": "appliesAcross",
+    "object": "VisionTask"
+  },
+  {
+    "subject": "SAM",
+    "relation": "isA",
+    "object": "VisualFoundationModel"
+  },
+  {
+    "subject": "VisualFoundationModel",
+    "relation": "requires",
+    "object": "ExplicitSupervisionSignal"
+  },
+  {
+    "subject": "VisualFoundationModel",
+    "relation": "isAppliedTo",
+    "object": "RemoteSensingChangeDetection"
+  },
+  {
+    "subject": "VisualFoundationModel",
+    "relation": "distinguishes",
+    "object": "TemporalChange"
+  },
+  {
+    "subject": "VisualFoundationModel",
+    "relation": "distinguishesFrom",
+    "object": "BackgroundVariation"
+  },
+  {
+    "subject": "MostExistingChangeDetectionMethod",
+    "relation": "isConstrainedBy",
+    "object": "SupervisedLearningParadigm"
+  },
+  {
+    "subject": "SomeWork",
+    "relation": "explores",
+    "object": "WeaklySupervisedLearningParadigm"
+  },
+  {
+    "subject": "SomeWork",
+    "relation": "explores",
+    "object": "UnsupervisedLearningParadigm"
+  },
+  {
+    "subject": "WeaklySupervisedMethod",
+    "relation": "reduces",
+    "object": "AnnotationRequirement"
+  },
+  {
+    "subject": "WeaklySupervisedMethod",
+    "relation": "strugglesToSuppress",
+    "object": "SpuriousChange"
+  },
+  {
+    "subject": "WeaklySupervisedMethod",
+    "relation": "strugglesToPreserve",
+    "object": "StructuralIntegrity"
+  },
+  {
+    "subject": "UnsupervisedMethod",
+    "relation": "isSusceptibleTo",
+    "object": "PseudoChange"
+  },
+  {
+    "subject": "PseudoChange",
+    "relation": "includes",
+    "object": "LightingVariation"
+  },
+  {
+    "subject": "PseudoChange",
+    "relation": "includes",
+    "object": "SeasonalVariation"
+  },
+  {
+    "subject": "UnsupervisedMethod",
+    "relation": "lacksModelingOf",
+    "object": "SpatialTemporalDifference"
+  },
+  {
+    "subject": "ChangeDetectionMethod",
+    "relation": "isModeledIndependentlyAcross",
+    "object": "SupervisionTask"
+  },
+  {
+    "subject": "IndependentModeling",
+    "relation": "restricts",
+    "object": "Flexibility"
+  },
+  {
+    "subject": "Flexibility",
+    "relation": "affectsAdaptationTo",
+    "object": "AnnotationAvailability"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "accommodates",
+    "object": "ThreeSupervisionParadigms"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "uses",
+    "object": "LatentDrivenStrategy"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "supports",
+    "object": "SupervisedLearningParadigm"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "supports",
+    "object": "WeaklySupervisedLearningParadigm"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "supports",
+    "object": "UnsupervisedLearningParadigm"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "isAdaptiveTo",
+    "object": "Supervision"
+  },
+  {
+    "subject": "STAM",
+    "relation": "processes",
+    "object": "SpatialCorrelation"
+  },
+  {
+    "subject": "STAM",
+    "relation": "processes",
+    "object": "TemporalEvolution"
+  },
+  {
+    "subject": "STAM",
+    "relation": "reconstructs",
+    "object": "ChangeArea"
+  },
+  {
+    "subject": "CRR",
+    "relation": "integrates",
+    "object": "SCR"
+  },
+  {
+    "subject": "CRR",
+    "relation": "integrates",
+    "object": "CFR"
+  },
+  {
+    "subject": "SCR",
+    "relation": "isA",
+    "object": "SpatialConsistencyRegularization"
+  },
+  {
+    "subject": "CFR",
+    "relation": "isA",
+    "object": "ContrastFeatureRegularization"
+  },
+  {
+    "subject": "CRR",
+    "relation": "imposes",
+    "object": "GeometricInvarianceConstraint"
+  },
+  {
+    "subject": "CRR",
+    "relation": "drives",
+    "object": "SemanticFeatureAlignment"
+  },
+  {
+    "subject": "CRR",
+    "relation": "forms",
+    "object": "DiscriminativeChangeDecisionBoundary"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "leverages",
+    "object": "CLIP"
+  },
+  {
+    "subject": "CLIP",
+    "relation": "hasCapability",
+    "object": "CrossModalSemanticAlignmentCapability"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "generates",
+    "object": "PseudoAnnotation"
+  },
+  {
+    "subject": "PseudoAnnotation",
+    "relation": "isGeneratedUnder",
+    "object": "UnlabeledCondition"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "bridgesGapBetween",
+    "object": "UnsupervisedLearningParadigm"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "bridgesGapTo",
+    "object": "WeaklySupervisedLearningParadigm"
+  },
+  {
+    "subject": "RemoteSensingChangeDetectionTask",
+    "relation": "isDividedInto",
+    "object": "SupervisedLearningParadigm"
+  },
+  {
+    "subject": "RemoteSensingChangeDetectionTask",
+    "relation": "isDividedInto",
+    "object": "WeaklySupervisedLearningParadigm"
+  },
+  {
+    "subject": "RemoteSensingChangeDetectionTask",
+    "relation": "isDividedInto",
+    "object": "UnsupervisedLearningParadigm"
+  },
+  {
+    "subject": "SupervisedLearningParadigm",
+    "relation": "reliesOn",
+    "object": "PixelLevelChangeAnnotation"
+  },
+  {
+    "subject": "SupervisedLearningParadigm",
+    "relation": "enablesLearningOf",
+    "object": "ChangeBoundary"
+  },
+  {
+    "subject": "DSAMNet",
+    "relation": "integrates",
+    "object": "DeepSupervision"
+  },
+  {
+    "subject": "DSAMNet",
+    "relation": "integrates",
+    "object": "AttentionBasedMetricLearning"
+  },
+  {
+    "subject": "DSAMNet",
+    "relation": "models",
+    "object": "BiTemporalDifference"
+  },
+  {
+    "subject": "BIT",
+    "relation": "uses",
+    "object": "SelfAttention"
+  },
+  {
+    "subject": "BIT",
+    "relation": "captures",
+    "object": "LongRangeSpatialTemporalDependency"
+  },
+  {
+    "subject": "SAM_CD",
+    "relation": "incorporates",
+    "object": "VisualFoundationModel"
+  },
+  {
+    "subject": "VisualFoundationModel",
+    "relation": "servesAs",
+    "object": "Backbone"
+  },
+  {
+    "subject": "SAM_CD",
+    "relation": "leverages",
+    "object": "LargeScalePretrainingPrior"
+  },
+  {
+    "subject": "SAM_CD",
+    "relation": "improves",
+    "object": "Robustness"
+  },
+  {
+    "subject": "Robustness",
+    "relation": "appliesIn",
+    "object": "ComplexScene"
+  },
+  {
+    "subject": "SupervisedChangeDetectionMethod",
+    "relation": "reliesOn",
+    "object": "PixelLevelChangeAnnotation"
+  },
+  {
+    "subject": "PixelLevelChangeAnnotation",
+    "relation": "isCostlyToObtain",
+    "object": "True"
+  },
+  {
+    "subject": "PixelLevelChangeAnnotation",
+    "relation": "isDifficultToScaleTo",
+    "object": "LargeMultiRegionLongTermApplicationScenario"
+  },
+  {
+    "subject": "WeaklySupervisedChangeDetection",
+    "relation": "reliesOn",
+    "object": "ImageLevelAnnotation"
+  },
+  {
+    "subject": "WeaklySupervisedChangeDetection",
+    "relation": "reliesOn",
+    "object": "RegionLevelAnnotation"
+  },
+  {
+    "subject": "WeaklySupervisedChangeDetection",
+    "relation": "attemptsToLocate",
+    "object": "ChangeArea"
+  },
+  {
+    "subject": "WeaklySupervisedChangeDetection",
+    "relation": "uses",
+    "object": "IndirectSupervisionSignal"
+  },
+  {
+    "subject": "CS_WSCD",
+    "relation": "leverages",
+    "object": "ClassActivationMap"
+  },
+  {
+    "subject": "ClassActivationMap",
+    "relation": "isA",
+    "object": "CAM"
+  },
+  {
+    "subject": "CS_WSCD",
+    "relation": "extracts",
+    "object": "SpatialResponse"
+  },
+  {
+    "subject": "SpatialResponse",
+    "relation": "comesFrom",
+    "object": "ClassificationNetwork"
+  },
+  {
+    "subject": "CS_WSCD",
+    "relation": "delineates",
+    "object": "PotentialChangeRegion"
+  },
+  {
+    "subject": "Researcher",
+    "relation": "turnsAttentionTo",
+    "object": "UnsupervisedChangeDetection"
+  },
+  {
+    "subject": "UnsupervisedChangeDetection",
+    "relation": "operatesWithout",
+    "object": "ChangeLabel"
+  },
+  {
+    "subject": "DSFA",
+    "relation": "characterizes",
+    "object": "PotentialChangeRegion"
+  },
+  {
+    "subject": "DSFA",
+    "relation": "measuresDifferenceBetween",
+    "object": "BiTemporalImage"
+  },
+  {
+    "subject": "DifferenceMeasurement",
+    "relation": "occursIn",
+    "object": "LatentSpace"
+  },
+  {
+    "subject": "AnyChange",
+    "relation": "introduces",
+    "object": "SAM"
+  },
+  {
+    "subject": "AnyChange",
+    "relation": "identifies",
+    "object": "Change"
+  },
+  {
+    "subject": "AnyChange",
+    "relation": "uses",
+    "object": "BiTemporalLatentMatching"
+  },
+  {
+    "subject": "ExistingRemoteSensingChangeDetectionMethod",
+    "relation": "isDevelopedUnder",
+    "object": "FixedSupervisionAssumption"
+  },
+  {
+    "subject": "FixedSupervisionAssumption",
+    "relation": "limits",
+    "object": "Flexibility"
+  },
+  {
+    "subject": "Flexibility",
+    "relation": "mattersIn",
+    "object": "PracticalApplication"
+  },
+  {
+    "subject": "Researcher",
+    "relation": "explores",
+    "object": "UnifiedModelFramework"
+  },
+  {
+    "subject": "UnifiedModelFramework",
+    "relation": "adapts",
+    "object": "SupervisedLearningParadigm"
+  },
+  {
+    "subject": "UnifiedModelFramework",
+    "relation": "adapts",
+    "object": "WeaklySupervisedLearningParadigm"
+  },
+  {
+    "subject": "UnifiedModelFramework",
+    "relation": "adapts",
+    "object": "UnsupervisedLearningParadigm"
+  },
+  {
+    "subject": "UnifiedModelFramework",
+    "relation": "addresses",
+    "object": "LabelHeterogeneity"
+  },
+  {
+    "subject": "UnifiedModelFramework",
+    "relation": "enhances",
+    "object": "ModelApplicability"
+  },
+  {
+    "subject": "ModelApplicability",
+    "relation": "appliesUnder",
+    "object": "DiverseAnnotationCondition"
+  },
+  {
+    "subject": "Omni_RES",
+    "relation": "proposes",
+    "object": "UnifiedModelingParadigm"
+  },
+  {
+    "subject": "UnifiedModelingParadigm",
+    "relation": "appliesTo",
+    "object": "ReferentialSegmentationLearning"
+  },
+  {
+    "subject": "Omni_RES",
+    "relation": "uses",
+    "object": "TeacherStudentFramework"
+  },
+  {
+    "subject": "TeacherStudentFramework",
+    "relation": "existsWithin",
+    "object": "SingleModelArchitecture"
+  },
+  {
+    "subject": "Omni_RES",
+    "relation": "adaptsTo",
+    "object": "DifferentSupervisionSetting"
+  },
+  {
+    "subject": "Omni_RES",
+    "relation": "leverages",
+    "object": "PixelLevelLabel"
+  },
+  {
+    "subject": "Omni_RES",
+    "relation": "leverages",
+    "object": "WeakLabel"
+  },
+  {
+    "subject": "Omni_RES",
+    "relation": "leverages",
+    "object": "UnlabeledData"
+  },
+  {
+    "subject": "Omni_DETR",
+    "relation": "employs",
+    "object": "SharedFeatureRepresentation"
+  },
+  {
+    "subject": "Omni_DETR",
+    "relation": "adopts",
+    "object": "DifferentiatedOptimizationStrategy"
+  },
+  {
+    "subject": "DifferentiatedOptimizationStrategy",
+    "relation": "appliesTo",
+    "object": "DifferentSupervisionCondition"
+  },
+  {
+    "subject": "Omni_DETR",
+    "relation": "avoids",
+    "object": "SeparateModelDesign"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "proposes",
+    "object": "SimultaneousModelingAcrossThreeSupervisionParadigms"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "models",
+    "object": "ChangeDistribution"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "uses",
+    "object": "AdversarialLearningProcess"
+  },
+  {
+    "subject": "AdversarialLearningProcess",
+    "relation": "occursBetween",
+    "object": "Segmenter"
+  },
+  {
+    "subject": "AdversarialLearningProcess",
+    "relation": "occursBetween",
+    "object": "Generator"
+  },
+  {
+    "subject": "AdversarialLearningProcess",
+    "relation": "occursBetween",
+    "object": "Discriminator"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "optimizesUsing",
+    "object": "PixelLevelAnnotation"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "characterizes",
+    "object": "ChangedRegion"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "uses",
+    "object": "GenerativeModeling"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "uses",
+    "object": "DistributionConstraint"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "lacksConstraintOn",
+    "object": "StructuralStability"
+  },
+  {
+    "subject": "FCD_GAN",
+    "relation": "lacksConstraintOn",
+    "object": "SemanticDiscriminability"
+  },
+  {
+    "subject": "GANBasedOptimizationProcess",
+    "relation": "suffersFrom",
+    "object": "TrainingInstability"
+  },
+  {
+    "subject": "TrainingInstability",
+    "relation": "limits",
+    "object": "PerformanceAcrossDifferentSupervisionParadigms"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "enables",
+    "object": "StableChangePerception"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "enables",
+    "object": "DiscriminativeChangePerception"
+  },
+  {
+    "subject": "StableChangePerception",
+    "relation": "appliesAcross",
+    "object": "MultipleSupervisionParadigms"
+  },
+  {
+    "subject": "FrozenFastSAM",
+    "relation": "servesAs",
+    "object": "FeatureEncoder"
+  },
+  {
+    "subject": "FeatureEncoder",
+    "relation": "isFineTunedWith",
+    "object": "Adapter"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "employs",
+    "object": "FrozenFastSAM"
+  },
+  {
+    "subject": "UniCD",
+    "relation": "takesInput",
+    "object": "BiTemporalImagePair"
+  },
+  {
+    "subject": "FeatureEncoder",
+    "relation": "produces",
+    "object": "MultiScaleFeatureRepresentation"
+  },
+  {
+    "subject": "SupervisedBranch",
+    "relation": "fuses",
+    "object": "MultiScaleFeatureRepresentation"
+  },
+  {
+    "subject": "STAM",
+    "relation": "models",
+    "object": "SpatialStructure"
+  },
+  {
+    "subject": "STAM",
+    "relation": "models",
+    "object": "TemporalVariation"
+  },
+  {
+    "subject": "Decoder",
+    "relation": "generates",
+    "object": "PredictionMap"
+  },
+  {
+    "subject": "PredictionMap",
+    "relation": "isSupervisedBy",
+    "object": "PixelLevelLabel"
+  },
+  {
+    "subject": "SupervisedComponent",
+    "relation": "isOptimizedUsing",
+    "object": "BatchBalancedContrastiveLoss"
+  },
+  {
+    "subject": "WeaklySupervisedBranch",
+    "relation": "learns",
+    "object": "SpatialDistributionOfChangedRegions"
+  },
+  {
+    "subject": "SCR",
+    "relation": "enforces",
+    "object": "GeometricConsistency"
+  },
+  {
+    "subject": "GeometricConsistency",
+    "relation": "holdsUnder",
+    "object": "ViewPerturbation"
+  },
+  {
+    "subject": "SCR",
+    "relation": "learns",
+    "object": "InvariantFeature"
+  },
+  {
+    "subject": "CFR",
+    "relation": "uses",
+    "object": "CAM"
+  },
+  {
+    "subject": "CAM",
+    "relation": "servesAs",
+    "object": "SemanticAnchor"
+  },
+  {
+    "subject": "CFR",
+    "relation": "aligns",
+    "object": "UnchangedFeature"
+  },
+  {
+    "subject": "CFR",
+    "relation": "separates",
+    "object": "ChangedFeature"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "leverages",
+    "object": "SemanticPrior"
+  },
+  {
+    "subject": "SemanticPrior",
+    "relation": "comesFrom",
+    "object": "FoundationModel"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "integrates",
+    "object": "FeatureResponse"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "extracts",
+    "object": "PseudoLabel"
+  },
+  {
+    "subject": "SPCI",
+    "relation": "transformsInto",
+    "object": "CRRConstrainedOptimization"
+  },
+  {
+    "subject": "CRRConstrainedOptimization",
+    "relation": "occursWithin",
+    "object": "WeaklySupervisedBranch"
+  },
+  {
+    "subject": "StateKeyLaboratoryOfInformationEngineeringInSurveyingMappingAndRemoteSensing",
+    "relation": "locatedIn",
+    "object": "WuhanUniversity"
+  },
+  {
+    "subject": "WuhanUniversity",
+    "relation": "locatedIn",
+    "object": "Wuhan"
+  },
+  {
+    "subject": "Wuhan",
+    "relation": "locatedIn",
+    "object": "China"
+  }
+]

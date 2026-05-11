@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[]
+
+Triples:
+[{"subject":"DetectionAndScreeningStudy","relation":"targets","object":"GeneralMentalHealthCondition"},{"subject":"LargeLanguageModel","relation":"outperforms","object":"TraditionalNeuralNetworkBaseline"},{"subject":"LargeLanguageModel","relation":"isEnhancedBy","object":"EmotionEnhancedPrompting"},{"subject":"LargeLanguageModel","relation":"isEnhancedBy","object":"FineTuningApproach"},{"subject":"ChatGPT","relation":"achievesSuperiorPerformanceAmong","object":"ExaminedLLMs"},{"subject":"ChatGPT","relation":"underperformsComparedTo","object":"AdvancedSupervisedMethod"},{"subject":"AdvancedSupervisedMethod","relation":"isDesignedFor","object":"MentalHealthTask"},{"subject":"ChatGPT","relation":"improves","object":"FScore"},{"subject":"ChatGPT","relation":"improves","object":"CorrelationCoefficient"},{"subject":"ChatGPT","relation":"isUsedIn","object":"RedditPostAnalysis"},{"subject":"GPT3","relation":"achievesAccuracyFor","object":"MentalHealthDisorderClassification"},{"subject":"ConversationalAgentStudy","relation":"examines","object":"ConversationApplication"},{"subject":"ConversationalAgentStudy","relation":"examines","object":"InterventionApplication"},{"subject":"GPT4","relation":"demonstratesSuperiorEmpathyComparedTo","object":"HumanPeerSupport"},{"subject":"GPT4","relation":"isBetterAtEncouraging","object":"PositiveBehaviorChange"},{"subject":"DemographicBias","relation":"affects","object":"BlackPoster"},{"subject":"ResponseToBlackPoster","relation":"showsLowerEmpathyThan","object":"ControlGroup"},{"subject":"GPT4Turbo","relation":"performsMostSimilarlyTo","object":"VerifiedTherapist"},{"subject":"Performance","relation":"variesBy","object":"Topic"},{"subject":"NoModel","relation":"achievesStatisticallySignificantCorrelationIn","object":"AnxietyRelatedConversation"},{"subject":"SocialMediaPlatform","relation":"servesAsPrimaryDataSourceFor","object":"MultipleStudy"},{"subject":"SocialMediaPlatform","relation":"includes","object":"Twitter"},{"subject":"SocialMediaPlatform","relation":"includes","object":"Weibo"},{"subject":"ClinicalData","relation":"remains","object":"Underutilized"},{"subject":"ClinicalNote","relation":"isFrom","object":"UniversityOfIllinois"},{"subject":"EvaluationApproach","relation":"combines","object":"HumanExpertAssessment"},{"subject":"EvaluationApproach","relation":"combines","object":"AutomaticMetric"},{"subject":"FrequentlyEmployedMeasure","relation":"includes","object":"F1Score"},{"subject":"FrequentlyEmployedMeasure","relation":"includes","object":"BLEU"},{"subject":"FrequentlyEmployedMeasure","relation":"includes","object":"ROUGE"},{"subject":"GPT4o","relation":"achievesOptimalPerformanceWith","object":"JaccardSimilarity"},{"subject":"GPT4o","relation":"achievesOptimalPerformanceWith","object":"Precision"},{"subject":"GPT4o","relation":"achievesOptimalPerformanceWith","object":"Recall"},{"subject":"GPT4o","relation":"achievesOptimalPerformanceWith","object":"F1Score"},{"subject":"Literature","relation":"identifiesConcernAbout","object":"Hallucination"},{"subject":"Literature","relation":"identifiesConcernAbout","object":"Inconsistency"},{"subject":"Literature","relation":"identifiesConcernAbout","object":"LackOfClinicalJudgment"},{"subject":"OmarEtAl2024","relation":"notes","object":"UnderestimationOfSuicideRisk"},{"subject":"UnderestimationOfSuicideRisk","relation":"is","object":"CriticalSafetyConcern"}]

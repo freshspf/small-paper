@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ClimateChange",
+  "increasesIntensityOf",
+  "ExtremePrecipitation",
+  "raisesRiskOf",
+  "PluvialFlooding",
+  "UrbanTransportNetwork",
+  "exposedTo",
+  "reduces",
+  "Speed",
+  "triggers",
+  "Rerouting",
+  "forces",
+  "RoadClosure",
+  "RailClosure",
+  "affects",
+  "Accessibility",
+  "EconomicActivity",
+  "cloudburst_copenhagen2011",
+  "causes",
+  "Disruption",
+  "DamageCost",
+  "ClimateAdaptationStrategy",
+  "involves",
+  "InfrastructureDecision",
+  "ReinforcementLearningFramework",
+  "couplesWith",
+  "TransportationSystemSimulation",
+  "enablesLearningOf",
+  "AdaptivePolicy",
+  "evaluates",
+  "AdaptationIntervention",
+  "ClimateAdaptationPlanning",
+  "requires",
+  "InterventionSequence",
+  "Impact",
+  "propagatesThrough",
+  "UrbanSystem",
+  "Transport",
+  "isA",
+  "ArtificialIntelligence",
+  "actsAs",
+  "DecisionSupportTool",
+  "optimizes",
+  "Policy",
+  "disrupts",
+  "UrbanTransport",
+  "damages",
+  "Infrastructure",
+  "ReducedSpeed",
+  "OperationalEffect",
+  "Closure",
+  "City",
+  "municipality_copenhagen",
+  "ClimateScenario",
+  "TransportImpactQuantification",
+  "AdaptationOption",
+  "ReinforcementLearning",
+  "ReactiveControl",
+  "EmergencyRouting",
+  "AdaptationPathway",
+  "HazardEvolution",
+  "IntegratedAssessmentModel",
+  "ClimateSystem",
+  "MachineLearning",
+  "IntegratedAssessmentModelAccessibility",
+  "Emulator",
+  "IntegratedAssessmentModelBehavior",
+  "ClosedLoopDecisionSupport",
+  "DecisionMaker",
+  "Intervention",
+  "InfrastructureSystemPerformanceSimulation",
+  "MultiModalTransport",
+  "TransportRelatedAdaptationPolicy",
+  "Agent",
+  "State",
+  "Action",
+  "Reward",
+  "Graph",
+  "Node",
+  "TrafficAssignmentZone"
+]
+
+Triples:
+[
+  {
+    "subject": "ClimateChange",
+    "relation": "increasesIntensityOf",
+    "object": "ExtremePrecipitation",
+    "chunk": "introduction",
+    "context": "Climate change is increasing the intensity and frequency of extreme precipitation, raising the risk of pluvial flooding in many cities [IPCC, 2023; Danmarks Meteorologiske Insti- tut, 2011 ]."
+  },
+  {
+    "subject": "ExtremePrecipitation",
+    "relation": "raisesRiskOf",
+    "object": "PluvialFlooding",
+    "chunk": "introduction",
+    "context": "Climate change is increasing the intensity and frequency of extreme precipitation, raising the risk of pluvial flooding in many cities [IPCC, 2023; Danmarks Meteorologiske Insti- tut, 2011 ]."
+  },
+  {
+    "subject": "UrbanTransportNetwork",
+    "relation": "exposedTo",
+    "object": "PluvialFlooding",
+    "chunk": "introduction",
+    "context": "Urban transport networks are particularly ex- posed: flooding can reduce speeds, trigger rerouting, and force road and rail closures, with cascading effects on ac- cessibility and economic activity [Pregnolatoet al., 2017a;Wanget al., 2020 ]."
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "reduces",
+    "object": "Speed",
+    "chunk": "introduction",
+    "context": "Urban transport networks are particularly ex- posed: flooding can reduce speeds, trigger rerouting, and force road and rail closures, with cascading effects on ac- cessibility and economic activity [Pregnolatoet al., 2017a;Wanget al., 2020 ]."
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "triggers",
+    "object": "Rerouting",
+    "chunk": "introduction",
+    "context": "Urban transport networks are particularly ex- posed: flooding can reduce speeds, trigger rerouting, and force road and rail closures, with cascading effects on ac- cessibility and economic activity [Pregnolatoet al., 2017a;Wanget al., 2020 ]."
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "forces",
+    "object": "RoadClosure",
+    "chunk": "introduction",
+    "context": "Urban transport networks are particularly ex- posed: flooding can reduce speeds, trigger rerouting, and force road and rail closures, with cascading effects on ac- cessibility and economic activity [Pregnolatoet al., 2017a;Wanget al., 2020 ]."
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "forces",
+    "object": "RailClosure",
+    "chunk": "introduction",
+    "context": "Urban transport networks are particularly ex- posed: flooding can reduce speeds, trigger rerouting, and force road and rail closures, with cascading effects on ac- cessibility and economic activity [Pregnolatoet al., 2017a;Wanget al., 2020 ]."
+  },
+  {
+    "subject": "RoadClosure",
+    "relation": "affects",
+    "object": "Accessibility",
+    "chunk": "introduction",
+    "context": "Urban transport networks are particularly ex- posed: flooding can reduce speeds, trigger rerouting, and force road and rail closures, with cascading effects on ac- cessibility and economic activity [Pregnolatoet al., 2017a;Wanget al., 2020 ]."
+  },
+  {
+    "subject": "RailClosure",
+    "relation": "affects",
+    "object": "EconomicActivity",
+    "chunk": "introduction",
+    "context": "Urban transport networks are particularly ex- posed: flooding can reduce speeds, trigger rerouting, and force road and rail closures, with cascading effects on ac- cessibility and economic activity [Pregnolatoet al., 2017a;Wanget al., 2020 ]."
+  },
+  {
+    "subject": "cloudburst_copenhagen2011",
+    "relation": "causes",
+    "object": "Disruption",
+    "chunk": "introduction",
+    "context": "A salient example is Copenhagen’s 2011 cloudburst, which caused widespread disruption in and around the Danish capital and substantial damages with an estimated 805 million Euros (6 billion Danish kroner, DKK) damage cost [Hvass and Ørsborg Johansen, 2011; Gerdes, 2012 ]."
+  },
+  {
+    "subject": "cloudburst_copenhagen2011",
+    "relation": "causes",
+    "object": "DamageCost",
+    "chunk": "introduction",
+    "context": "A salient example is Copenhagen’s 2011 cloudburst, which caused widespread disruption in and around the Danish capital and substantial damages with an estimated 805 million Euros (6 billion Danish kroner, DKK) damage cost [Hvass and Ørsborg Johansen, 2011; Gerdes, 2012 ]."
+  },
+  {
+    "subject": "ClimateAdaptationStrategy",
+    "relation": "involves",
+    "object": "InfrastructureDecision",
+    "chunk": "introduction",
+    "context": "Designing climate adaptation strategies is difficult because effective measures are (i)sequentialand long-lived infras- tructure decisions, (ii) evaluated underdeep uncertaintyabout future climate conditions, and (iii) embedded in coupled sys- tems where hazard dynamics, network performance, and im- pacts interact."
+  },
+  {
+    "subject": "ReinforcementLearningFramework",
+    "relation": "couplesWith",
+    "object": "TransportationSystemSimulation",
+    "chunk": "introduction",
+    "context": "We address this gap by proposing a reinforcement learn- ing (RL) decision-support framework that couples long-term climate projections with hazard modeling, infrastructure and transportation systems simulation, and impact quantification, enabling the learning of adaptive policies over multi-decade horizons."
+  },
+  {
+    "subject": "ReinforcementLearningFramework",
+    "relation": "enablesLearningOf",
+    "object": "AdaptivePolicy",
+    "chunk": "introduction",
+    "context": "We address this gap by proposing a reinforcement learn- ing (RL) decision-support framework that couples long-term climate projections with hazard modeling, infrastructure and transportation systems simulation, and impact quantification, enabling the learning of adaptive policies over multi-decade horizons."
+  },
+  {
+    "subject": "ReinforcementLearningFramework",
+    "relation": "evaluates",
+    "object": "AdaptationIntervention",
+    "chunk": "introduction",
+    "context": "In collaboration with Copenhagen Municipality, we instantiate the framework for an urban case study and evalu- ate candidate measures (adaptation interventions) across mul- tiple climate scenarios."
+  },
+  {
+    "subject": "ClimateAdaptationPlanning",
+    "relation": "requires",
+    "object": "InterventionSequence",
+    "chunk": "background",
+    "context": "Climate adaptation planning requires selecting sequences of interventions under deep uncertainty1, where impacts emerge over long horizons and propagate through coupled urban systems (e.g., water, transport, energy, communications)."
+  },
+  {
+    "subject": "Impact",
+    "relation": "propagatesThrough",
+    "object": "UrbanSystem",
+    "chunk": "background",
+    "context": "Climate adaptation planning requires selecting sequences of interventions under deep uncertainty1, where impacts emerge over long horizons and propagate through coupled urban systems (e.g., water, transport, energy, communications)."
+  },
+  {
+    "subject": "Transport",
+    "relation": "isA",
+    "object": "UrbanSystem",
+    "chunk": "background",
+    "context": "Climate adaptation planning requires selecting sequences of interventions under deep uncertainty1, where impacts emerge over long horizons and propagate through coupled urban systems (e.g., water, transport, energy, communications)."
+  },
+  {
+    "subject": "ArtificialIntelligence",
+    "relation": "actsAs",
+    "object": "DecisionSupportTool",
+    "chunk": "background",
+    "context": "Artificial Intelligence (AI) methods are increasingly proposed as decision-support tools for this setting because they can integrate heterogeneous models, capture nonlinear interactions, and optimize policies under uncertainty and long horizons [Rolnicket al., 2022; Cheonget al., 2022; Tyler et al., 2023 ]."
+  },
+  {
+    "subject": "ArtificialIntelligence",
+    "relation": "optimizes",
+    "object": "Policy",
+    "chunk": "background",
+    "context": "Artificial Intelligence (AI) methods are increasingly proposed as decision-support tools for this setting because they can integrate heterogeneous models, capture nonlinear interactions, and optimize policies under uncertainty and long horizons [Rolnicket al., 2022; Cheonget al., 2022; Tyler et al., 2023 ]."
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "disrupts",
+    "object": "UrbanTransport",
+    "chunk": "background",
+    "context": "In our instantiation, we focus on pluvial flooding and urban transport: flooding disrupts transport through direct damage to infrastructure and operational effects such as reduced speeds, rerouting, and closures, with downstream accessibility and economic impacts [Markolfet al., 2019; Luet al., 2022; Wanget al., 2020 ]."
+  },
+  {
+    "subject": "PluvialFlooding",
+    "relation": "damages",
+    "object": "Infrastructure",
+    "chunk": "background",
+    "context": "In our instantiation, we focus on pluvial flooding and urban transport: flooding disrupts transport through direct damage to infrastructure and operational effects such as reduced speeds, rerouting, and closures, with downstream accessibility and economic impacts [Markolfet al., 2019; Luet al., 2022; Wanget al., 2020 ]."
+  },
+  {
+    "subject": "ReducedSpeed",
+    "relation": "isA",
+    "object": "OperationalEffect",
+    "chunk": "background",
+    "context": "In our instantiation, we focus on pluvial flooding and urban transport: flooding disrupts transport through direct damage to infrastructure and operational effects such as reduced speeds, rerouting, and closures, with downstream accessibility and economic impacts [Markolfet al., 2019; Luet al., 2022; Wanget al., 2020 ]."
+  },
+  {
+    "subject": "Rerouting",
+    "relation": "isA",
+    "object": "OperationalEffect",
+    "chunk": "background",
+    "context": "In our instantiation, we focus on pluvial flooding and urban transport: flooding disrupts transport through direct damage to infrastructure and operational effects such as reduced speeds, rerouting, and closures, with downstream accessibility and economic impacts [Markolfet al., 2019; Luet al., 2022; Wanget al., 2020 ]."
+  },
+  {
+    "subject": "Closure",
+    "relation": "isA",
+    "object": "OperationalEffect",
+    "chunk": "background",
+    "context": "In our instantiation, we focus on pluvial flooding and urban transport: flooding disrupts transport through direct damage to infrastructure and operational effects such as reduced speeds, rerouting, and closures, with downstream accessibility and economic impacts [Markolfet al., 2019; Luet al., 2022; Wanget al., 2020 ]."
+  }
+]

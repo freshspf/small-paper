@@ -1,0 +1,87 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "conclusionfuturework",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: conclusionfuturework
+- section_title: Conclusion & Future Work
+- page_start: 6
+- page_end: 8
+
+**INPUT TEXT CHUNK:**
+Our study focuses on patients with FAI, whose diagnosis and management, including surgical planning, depend on an
+accurate two-dimensional and volumetric assessment of the impingement. By demonstrating that automated landmark
+detection on MRI achieves accuracy equivalent to that on X-rays, we establish that geometric measures of FAI can be
+extracted reliably from routine MRI scans. This represents an important first step towards supporting MRI as a suitable
+modality for automated FAI assessment.
+Although AP X-rays remain the first-line tool for clinical screening due to their speed, low cost, and accessibility, they
+are not ideal for surgical planning. Our findings highlight the potential of MRI for quantitative geometric assessment in
+musculoskeletal analysis. Beyond the demonstrated equivalence, the volumetric nature of MRI offers opportunities
+for refined development of screening angles, particularly in patients with asymmetries or pelvic rotations, where
+measurements must be made relative to local axes.
+Current limitations relate to analysing a single MRI slice, which underutilises volumetric information and disregards
+inter-slice coherence. The moderate α-angle reliability is due to the cam-point ambiguity and the modest size of the
+cohort.
+6
+
+SSLPRE-TRAINING WITH DIFFUSION MODEL FOR LANDMARK
+Table 3: Ablation study of architecture–encoder combinations and test-time augmentation (TTA) on MRI performance,
+reporting mean radial error (MRE, mm), success detection rate at 2 mm (SDR@2 mm), and cam-type diagnostic
+accuracy (Cam Acc.).
+Model TTA MRE (mm)↓SDR@2mm (%)↑Cam Acc. (%)↑
+UNet++ (ResNet18)✗3.02±0.28 56.46±5.87 82.33±3.79
+UNet++ (ResNet18)✓2.98±0.23 58.44±4.86 84.75±2.77
+UNet++ (VGG16)✗3.33±0.03 56.25±0.89 80.00±7.07
+UNet++ (VGG16)✓3.29±0.36 57.09±1.93 80.17±4.41
+UNet (MiT-B1)✗4.11±0.84 54.79±1.44 66.67±12.58
+UNet (MiT-B1)✓3.98±0.54 57.33±0.91 69.83±6.85
+DPT (ResNet18)✗4.49±0.54 48.34±3.79 67.50±2.50
+DPT (ResNet18)✓4.44±0.19 50.21±3.02 70.17±6.56
+DPT (MaxViT-Base)✗3.91±0.87 55.50±0.71 73.75±8.84
+DPT (MaxViT-Base)✓3.63±0.99 55.94±1.33 77.50±10.61
+Future work will extend the approach towards volumetric metrics averaged across slices or computed directly from 3D
+MRI volumes, exploring adjacent-slice training for data augmentation and incorporating uncertainty quantification to
+identify unreliable predictions.
+This research was conducted retrospectively using human subject data from the FAIT study [ 13], which received ethical
+approval. The authors have no conflicts of interest to declare.
+
+SSLPRE-TRAINING WITH DIFFUSION MODEL FOR LANDMARK

@@ -1,0 +1,141 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument8",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument8
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+Specifically, the unsigned nature of the original CDF
+definition in (3) would cause numerical issues for gradient-
+based optimization when the robot is currently intersecting
+with obstacles. To illustrate this, consider the one-dimensional
+case shown in Fig. 3. If the configurationqto be optimized
+initially lies between two points on the zero-level set, gradient-
+based numerical methods theoretically cannot escape the local
+maximum atq 0(i.e.,, pushing the obstacle away from the
+robot). Therefore, the signed GCDF formulation resolves this
+by reversing the sign for penetrating configurations, ensuring
+gradients consistently point toward collision-free space.
+C. Neural GCDF
+Having established the definition and properties of GCDF,
+we now present the training methodology for neural GCDF
+representations mapping from workspace-configuration pairs
+to their corresponding GCDF values, which ensure high-
+quality distance fields suitable for numerical optimization. Our
+pipeline generally follows the procedure proposed in [43]:
+(i)Robot SDF Construction.We obtain the SDF represen-
+tation of the mobile manipulator, i.e.,f s(p,q), using the
+method in [42], enabling efficient distance queries and
+gradient computation.
+
+7
+Fig. 3: Illustration of GCDF values for a 1-DoF planar arm.
+The obstacle induces two symmetric contact configurations
+on the zero-level set, denoted byq 1andq 2. For theun-
+signedGCDF, the distance function exhibits a spurious local
+maximum atq 0, where the obstacle is equally distant from
+both arm sides, which can mislead gradient-based numerical
+solvers. Introducing the sign based on penetration removes this
+pathology, yielding smooth and consistent gradient directions
+toward the contact set.
+(ii)Zero-Level Set Approximation.We collect a workspace
+point setP ⊂R3. For eachp∈ P, we approximate the
+zero-level setZ(p)by performing gradient descent on
+the robot SDF, starting from configurationsqsampled
+from a configuration setQ ⊂Rn.
+(iii)Dataset Preparation.For each newly sampled
+workspace-configuration pair(p,q), we compute
+the ground-truth GCDF value according to Definition 1
+by finding the minimum distance fromqto the
+approximated zero level setZ(p).
+(iv)Neural Network Training.We design the network archi-
+tecture and loss functions, then train the neural implicit
+function to regress GCDF values across the configuration
+space.
+However, extending this pipeline to mobile manipulators in-
+troduces several critical challenges that must be addressed.
+The first challenge stems from the exponential growth of
+zero-level sets. Unlike fixed-base manipulators with bounded
+workspaces, mobile manipulators operate in unbounded trans-
+lational spaces. For a given workspace pointp, the correspond-
+ing zero-level setZ(p)contains exponentially more config-
+urations due to the infinite reachability from different base
+positions. This leads to two major issues: (i) the computational
+cost of approximatingZ(p)can take days to complete, and (ii)
+gradient descent from slightly different base positions often
+converges to nearly identical arm configurations, resulting
+in massive redundancy. Consequently, the standard approach
+of sampling a fixed number of configurations becomes in-
+sufficient to construct informative zero-level sets, leading to
+significant bias when querying GCDF values during training.
+The second challenge involves balancing model complex-
+ity and efficiency. To ensure compatibility with downstream
+numerical optimization, we must carefully balance inference
+efficiency against model accuracy. This requires joint consid-
+eration of network architecture complexity and data density.
+Extract all 풑풊for 풑
+풑풊:풑풊,풛=풑풛
+풑
+……Reconstruction of  퓩풑from 퓩￿풑풊 with all 풑풊
+퓩￿(풑풊) 퓩￿(풑풊)Collect퓩￿풑 (a) (b)
+(c)
+퓩￿(풑풊)Query풑풛Fig. 4: Construction of zero-level set for mobile manipulators.
+(a) For each workspace pointpon the grid centered at the
+robot origin, we construct a representative subset ˜Z(p)⊂
+Z(p)by fixing the base translation and solving for contact
+configurations over the arm joints and base rotations. (b)
+For a new query pointpwith heightp z, we gather all grid
+pointsp ion the same horizontal slice (p i,z=p z) in a
+neighborhood aroundp. (c) We reconstruct the full zero-level
+setZ(p)by taking the union of the precomputed subsets
+on that slice and compensating for their horizontal offsets,
+effectively translating the base while reusing the same arm
+contact configurations.
+Indeed, overly complex networks or dense sampling dramat-
+ically increase training costs, while insufficient capacity or
+sparse data compromise the smoothness and accuracy of the
+learned GCDF, degrading optimization performance.
+The third challenge concerns loss function design.

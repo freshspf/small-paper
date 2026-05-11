@@ -1,0 +1,128 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "background",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: background
+- section_title: Background
+- page_start: 2
+- page_end: 2
+
+**INPUT TEXT CHUNK:**
+2.1 AI for climate adaptation
+Climate adaptation planning requires selecting sequences of
+interventions under deep uncertainty1, where impacts emerge
+over long horizons and propagate through coupled urban sys-
+tems (e.g., water, transport, energy, communications). Eval-
+uating candidate strategies therefore demands models that (i)
+translate climate drivers into hazard likelihoods and intensi-
+ties, (ii) propagate hazards into systems’ performance and in-
+frastructure and service disruption, and (iii) value direct and
+indirect consequences in a way that supports comparison of
+trade-offs.
+Artificial Intelligence (AI) methods are increasingly pro-
+posed as decision-support tools for this setting because they
+can integrate heterogeneous models, capture nonlinear inter-
+actions, and optimize policies under uncertainty and long
+horizons [Rolnicket al., 2022; Cheonget al., 2022; Tyler
+et al., 2023 ]. Reinforcement learning is particularly relevant
+when decisions are sequential and outcomes are delayed, en-
+abling policies that balance short- and long-term objectives
+[Matsuoet al., 2022; Gilbertet al., 2022 ].
+In our instantiation, we focus on pluvial flooding and ur-
+ban transport: flooding disrupts transport through direct dam-
+age to infrastructure and operational effects such as reduced
+speeds, rerouting, and closures, with downstream accessibil-
+ity and economic impacts [Markolfet al., 2019; Luet al.,
+2022; Wanget al., 2020 ]. Quantifying both direct and indi-
+rect transport impacts is therefore central for evaluating adap-
+tation options and conducting cost-benefit analyses [Chang
+et al., 2010; Shahdaniet al., 2022; Ding and Wu, 2023 ].
+In flood-related settings, RL has been used mainly for reac-
+tive control and response (e.g., drainage/stormwater control,
+emergency routing) [Tianet al., 2023; Boweset al., 2021;
+Liet al., 2024; Fanet al., 2021 ]. Work onproactive, multi-
+decadeflood-risk planning with RL remains limited; for in-
+stance, [Fenget al., 2025 ]studies coastal flood risk manage-
+ment over 2000–2100 but with coarse decision intervals (e.g.,
+decisions every decade), which constrains adaptation flexibil-
+ity. We target the complementary problem of learning long-
+horizon, fine-grainedadaptation pathwaysthat couple hazard
+evolution with infrastructure-system impacts.
+2.2 Integrated assessment models
+Integrated assessment models (IAMs) couple representations
+of the climate system with human and technological sys-
+tems (e.g., energy, land use, macroeconomy) to explore
+long-run consequences of alternative assumptions and policy
+choices. They have been widely used to produce internally
+consistent scenario ensembles and to inform Intergovernmen-
+tal Panel on Climate Change (IPCC) assessments, but their
+scale and structural complexity often make them computa-
+tionally intensive and difficult to embed in iterative decision-
+optimization workflows [Xionget al., 2025 ].
+1We refer todeep uncertaintyas situations where analysts do
+not know, or stakeholders cannot agree on, the appropriate models
+linking actions to consequences, the probability distributions for key
+uncertainties, and/or how to value and trade off outcomes [Marchau
+et al., 2019 ].A growing literature therefore uses AI and machine learn-
+ing (ML) to increase the accessibility and decision-relevance
+of IAMs. One line of work buildsemulators(surrogates)
+that approximate IAM behavior at a fraction of the compu-
+tational cost, enabling rapid exploration of scenario spaces
+and sensitivity analyses. Recent examples include emulator
+frameworks based on marginal abatement cost curve repre-
+sentations of multiple IAMs [Xionget al., 2025 ]and ML-
+based emulation trained on large scenario databases to re-
+produce IAM outputs across model families [Shinet al.,
+2026 ]. In parallel, macro-climate modeling reviews empha-
+size that advances in modern numerical methods and deep
+learning are increasingly used to solve and analyze richer dy-
+namic stochastic IAMs that would otherwise be intractable
+[Fern ´andez-Villaverdeet al., 2024 ].
+Beyond acceleration, AI methods support (i) calibration
+and uncertainty analysis of high-dimensional model com-
+ponents, and (ii) closed-loop decision support, where poli-
+cies are optimized against long-horizon, uncertain dynamics.
+Taken together, these developments motivate IAM-based en-
+vironments that remain modular—so domain models can be
+swapped or refined—while being computationally amenable
+to learning and optimization methods.

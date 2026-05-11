@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "FineTuningApproach",
+  "requires",
+  "AnnotatedData",
+  "Evaluation",
+  "focusesOn",
+  "EnglishLanguageUrbanEnvironment",
+  "LlmAgent",
+  "usedFor",
+  "AutomaticGeospatialDataAnalysis",
+  "JointSpatioTextualReasoning",
+  "answers",
+  "TourismQuestion",
+  "evaluation_mapeval",
+  "evaluates",
+  "GeoSpatialReasoning",
+  "graph_knowwheregraph",
+  "isA",
+  "CrossDomainKnowledgeGraph",
+  "GeoEnrichmentServiceStack",
+  "system_geoqa2",
+  "QuestionAnsweringSystem",
+  "GisWorkflow",
+  "programmedWith",
+  "GeoAnalyticalConcept",
+  "system_mapqa",
+  "performs",
+  "GeospatialQuestionAnswering",
+  "AutonomousGis",
+  "AiPoweredGis",
+  "model_sekge",
+  "LocationAwareKnowledgeGraphEmbeddingModel",
+  "GeographicQuestionAnswering",
+  "SpatialSemanticLifting",
+  "UrbanGrowth",
+  "locatedIn",
+  "region_Detroit",
+  "TemplateBasedQuestionAnswering",
+  "operatesOver",
+  "LinkedGeospatialData",
+  "OntologyOfCoreConceptDataTypes",
+  "GeoAnalyticalQuestion",
+  "GeoAnalyticalQuestionAnswering",
+  "uses",
+  "Gis",
+  "LargeLanguageModel",
+  "exhibits",
+  "GeospatialKnowledgeHallucination",
+  "Grammar",
+  "interprets",
+  "transformedTo",
+  "ConceptTransformation",
+  "hasLimitationRegarding",
+  "SpatialInformation",
+  "framework_SpatialRag",
+  "SpatialReasoningQuestion",
+  "benchmark_Geoanalystbench",
+  "assesses",
+  "GeospatialLargeLanguageModel",
+  "trainedWith",
+  "SimulatedEnvironment",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "SpatialConcept",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "FunctionalRole",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField"
+]
+
+Triples:
+[
+  {
+    "subject": "FineTuningApproach",
+    "relation": "requires",
+    "object": "AnnotatedData",
+    "chunk": "completedocument8",
+    "context": "Third, the fine-tuning approach requires an-notated data that demands significant effort to scale to new domains."
+  },
+  {
+    "subject": "Evaluation",
+    "relation": "focusesOn",
+    "object": "EnglishLanguageUrbanEnvironment",
+    "chunk": "completedocument8",
+    "context": "Finally, our evaluation focuses on English-language urban environments; perfor-mance on specialized geographic domains remains unexplored."
+  },
+  {
+    "subject": "LlmAgent",
+    "relation": "usedFor",
+    "object": "AutomaticGeospatialDataAnalysis",
+    "chunk": "completedocument8",
+    "context": "An llm agent for automatic geospatial data analysis."
+  },
+  {
+    "subject": "JointSpatioTextualReasoning",
+    "relation": "answers",
+    "object": "TourismQuestion",
+    "chunk": "completedocument8",
+    "context": "Joint spatio-textual reasoning for an-swering tourism questions."
+  },
+  {
+    "subject": "evaluation_mapeval",
+    "relation": "evaluates",
+    "object": "GeoSpatialReasoning",
+    "chunk": "completedocument8",
+    "context": "Mapeval: A map-based evaluation of geo-spatial reasoning in founda-tion models."
+  },
+  {
+    "subject": "graph_knowwheregraph",
+    "relation": "isA",
+    "object": "CrossDomainKnowledgeGraph",
+    "chunk": "completedocument8",
+    "context": "Know, know where, knowwhere-graph: A densely connected, cross-domain knowl-edge graph and geo-enrichment service stack for ap-plications in environmental intelligence."
+  },
+  {
+    "subject": "graph_knowwheregraph",
+    "relation": "isA",
+    "object": "GeoEnrichmentServiceStack",
+    "chunk": "completedocument8",
+    "context": "Know, know where, knowwhere-graph: A densely connected, cross-domain knowl-edge graph and geo-enrichment service stack for ap-plications in environmental intelligence."
+  },
+  {
+    "subject": "system_geoqa2",
+    "relation": "isA",
+    "object": "QuestionAnsweringSystem",
+    "chunk": "completedocument8",
+    "context": "The question answering system geoqa2 and a new benchmark for its evaluation."
+  },
+  {
+    "subject": "GisWorkflow",
+    "relation": "programmedWith",
+    "object": "GeoAnalyticalConcept",
+    "chunk": "completedocument8",
+    "context": "Loose programming of gis workflows with geo-analytical concepts."
+  },
+  {
+    "subject": "system_mapqa",
+    "relation": "performs",
+    "object": "GeospatialQuestionAnswering",
+    "chunk": "completedocument8",
+    "context": "Mapqa: Open-domain geospatial question answering on map data."
+  },
+  {
+    "subject": "AutonomousGis",
+    "relation": "isA",
+    "object": "AiPoweredGis",
+    "chunk": "completedocument8",
+    "context": "Autonomous gis: the next-generation ai-powered gis."
+  },
+  {
+    "subject": "model_sekge",
+    "relation": "isA",
+    "object": "LocationAwareKnowledgeGraphEmbeddingModel",
+    "chunk": "completedocument8",
+    "context": "Se-kge: A location-aware knowledge graph embedding model for geographic question answer-ing and spatial semantic lifting."
+  },
+  {
+    "subject": "model_sekge",
+    "relation": "performs",
+    "object": "GeographicQuestionAnswering",
+    "chunk": "completedocument8",
+    "context": "Se-kge: A location-aware knowledge graph embedding model for geographic question answer-ing and spatial semantic lifting."
+  },
+  {
+    "subject": "model_sekge",
+    "relation": "performs",
+    "object": "SpatialSemanticLifting",
+    "chunk": "completedocument8",
+    "context": "Se-kge: A location-aware knowledge graph embedding model for geographic question answer-ing and spatial semantic lifting."
+  },
+  {
+    "subject": "UrbanGrowth",
+    "relation": "locatedIn",
+    "object": "region_Detroit",
+    "chunk": "completedocument9",
+    "context": "A computer movie simulating urban growth in the detroit region."
+  },
+  {
+    "subject": "TemplateBasedQuestionAnswering",
+    "relation": "operatesOver",
+    "object": "LinkedGeospatialData",
+    "chunk": "completedocument9",
+    "context": "Template-based question answering over linked geospatial data."
+  },
+  {
+    "subject": "OntologyOfCoreConceptDataTypes",
+    "relation": "answers",
+    "object": "GeoAnalyticalQuestion",
+    "chunk": "completedocument9",
+    "context": "Ontology of core concept data types for answering geo-analytical questions."
+  },
+  {
+    "subject": "GeoAnalyticalQuestionAnswering",
+    "relation": "uses",
+    "object": "Gis",
+    "chunk": "completedocument9",
+    "context": "Geo-analytical question-answering with gis."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "exhibits",
+    "object": "GeospatialKnowledgeHallucination",
+    "chunk": "completedocument9",
+    "context": "Mitigating geospatial knowledge hallucination in large language models"
+  },
+  {
+    "subject": "Grammar",
+    "relation": "interprets",
+    "object": "GeoAnalyticalQuestion",
+    "chunk": "completedocument9",
+    "context": "A grammar for interpreting geo-analytical questions as concept transformations."
+  },
+  {
+    "subject": "GeoAnalyticalQuestion",
+    "relation": "transformedTo",
+    "object": "ConceptTransformation",
+    "chunk": "completedocument9",
+    "context": "A grammar for interpreting geo-analytical questions as concept transformations."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "hasLimitationRegarding",
+    "object": "SpatialInformation",
+    "chunk": "completedocument9",
+    "context": "Inherent limitations of llms regarding spatial information."
+  },
+  {
+    "subject": "framework_SpatialRag",
+    "relation": "answers",
+    "object": "SpatialReasoningQuestion",
+    "chunk": "completedocument9",
+    "context": "Spatial-rag: Spatial retrieval augmented generation for real-world spatial reasoning questions."
+  },
+  {
+    "subject": "benchmark_Geoanalystbench",
+    "relation": "assesses",
+    "object": "LargeLanguageModel",
+    "chunk": "completedocument9",
+    "context": "Geoanalystbench: A geoai benchmark for assessing large language models for spatial analysis workflow and code generation."
+  },
+  {
+    "subject": "GeospatialLargeLanguageModel",
+    "relation": "trainedWith",
+    "object": "SimulatedEnvironment",
+    "chunk": "completedocument9",
+    "context": "Geospatial large language model trained with a simulated environment for generating tool-use chains autonomously."
+  }
+]

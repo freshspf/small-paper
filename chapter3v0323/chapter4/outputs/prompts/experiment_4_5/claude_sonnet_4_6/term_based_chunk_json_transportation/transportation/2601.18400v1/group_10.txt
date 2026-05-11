@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "NetworkNode",
+  "receives",
+  "Transaction",
+  "Client",
+  "sends",
+  "Message",
+  "ValidatorNode",
+  "signs",
+  "TransactionBatchDigest",
+  "collects",
+  "Signature",
+  "forms",
+  "ProofOfStore",
+  "solana_network",
+  "moreBalancedThan",
+  "aptos_network",
+  "avalanche_node",
+  "generates",
+  "Traffic",
+  "ExperimentStage",
+  "hasStage",
+  "SetupPhase",
+  "SubmissionPhase",
+  "CooldownPhase",
+  "TransmittedData",
+  "isSentFrom",
+  "Node",
+  "isSentTo",
+  "ReceivedData",
+  "Aptos",
+  "exhibitsHigherBandwidthConsumption",
+  "IdleTraffic",
+  "transmittedDataVolume",
+  "218856KiB",
+  "Avalanche",
+  "298KiB",
+  "Redbelly",
+  "11KiB",
+  "usesClientCommunicationMechanism",
+  "PollingMechanism",
+  "WebSocketStreaming",
+  "Solana",
+  "AptosClient",
+  "repeatedlyRequestsData",
+  "EmptyBlock",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "BandwidthConsumption",
+  "Validator",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap",
+  "RedundancyStrategy",
+  "CommunicationPattern",
+  "PollingProtocol",
+  "WebSocketProtocol",
+  "FullBlockDownload",
+  "HashComparison",
+  "RoleSegregation",
+  "NetworkRobustness"
+]
+
+Triples:
+[
+  {
+    "subject": "NetworkNode",
+    "relation": "receives",
+    "object": "Transaction",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "Five nodes, the ones that receive the transactions sent by the clients, send more messages than all the other nodes as indicated by the top five rows in light colors."
+  },
+  {
+    "subject": "Client",
+    "relation": "sends",
+    "object": "Transaction",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "Five nodes, the ones that receive the transactions sent by the clients, send more messages than all the other nodes as indicated by the top five rows in light colors."
+  },
+  {
+    "subject": "NetworkNode",
+    "relation": "sends",
+    "object": "Message",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "Five nodes, the ones that receive the transactions sent by the clients, send more messages than all the other nodes as indicated by the top five rows in light colors."
+  },
+  {
+    "subject": "ValidatorNode",
+    "relation": "signs",
+    "object": "TransactionBatchDigest",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "More precisely, these validator nodes have to sign transaction batch digests and collect the pro-duced signatures from a quorum of blockchain nodes to form a “proof-of-store”."
+  },
+  {
+    "subject": "ValidatorNode",
+    "relation": "collects",
+    "object": "Signature",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "More precisely, these validator nodes have to sign transaction batch digests and collect the pro-duced signatures from a quorum of blockchain nodes to form a “proof-of-store”."
+  },
+  {
+    "subject": "ValidatorNode",
+    "relation": "forms",
+    "object": "ProofOfStore",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "More precisely, these validator nodes have to sign transaction batch digests and collect the pro-duced signatures from a quorum of blockchain nodes to form a “proof-of-store”."
+  },
+  {
+    "subject": "solana_network",
+    "relation": "moreBalancedThan",
+    "object": "aptos_network",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "As a result, the bandwidth consump-tion of Solana appears generally more balanced than the one of Aptos."
+  },
+  {
+    "subject": "avalanche_node",
+    "relation": "receives",
+    "object": "Transaction",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "For example, the Avalanche heatmap of Fig. 1 shows that the nodes of Avalanche that receive transactions generate more traffic than what they receive."
+  },
+  {
+    "subject": "avalanche_node",
+    "relation": "generates",
+    "object": "Traffic",
+    "chunk": "consumptionskewnessoverroutes",
+    "context": "For example, the Avalanche heatmap of Fig. 1 shows that the nodes of Avalanche that receive transactions generate more traffic than what they receive."
+  },
+  {
+    "subject": "ExperimentStage",
+    "relation": "hasStage",
+    "object": "SetupPhase",
+    "chunk": "consumptionskewnessovertime",
+    "context": "we measured the bandwidth consumed at the three different stages of our experiments (Setup, Submission, and Cooldown) as defined in Section 3."
+  },
+  {
+    "subject": "ExperimentStage",
+    "relation": "hasStage",
+    "object": "SubmissionPhase",
+    "chunk": "consumptionskewnessovertime",
+    "context": "we measured the bandwidth consumed at the three different stages of our experiments (Setup, Submission, and Cooldown) as defined in Section 3."
+  },
+  {
+    "subject": "ExperimentStage",
+    "relation": "hasStage",
+    "object": "CooldownPhase",
+    "chunk": "consumptionskewnessovertime",
+    "context": "we measured the bandwidth consumed at the three different stages of our experiments (Setup, Submission, and Cooldown) as defined in Section 3."
+  },
+  {
+    "subject": "TransmittedData",
+    "relation": "isSentFrom",
+    "object": "Node",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Fig. 3 differentiates the Transmitted (TX) data, which are sent from nodes to clients, from the Received (RX) data, which are sent from clients to nodes."
+  },
+  {
+    "subject": "TransmittedData",
+    "relation": "isSentTo",
+    "object": "Client",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Fig. 3 differentiates the Transmitted (TX) data, which are sent from nodes to clients, from the Received (RX) data, which are sent from clients to nodes."
+  },
+  {
+    "subject": "ReceivedData",
+    "relation": "isSentFrom",
+    "object": "Client",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Fig. 3 differentiates the Transmitted (TX) data, which are sent from nodes to clients, from the Received (RX) data, which are sent from clients to nodes."
+  },
+  {
+    "subject": "ReceivedData",
+    "relation": "isSentTo",
+    "object": "Node",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Fig. 3 differentiates the Transmitted (TX) data, which are sent from nodes to clients, from the Received (RX) data, which are sent from clients to nodes."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "exhibitsHigherBandwidthConsumption",
+    "object": "IdleTraffic",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Aptos exhibits significantly higher bandwidth consumption during these idle periods compared to other blockchains."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "transmittedDataVolume",
+    "object": "218856KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "For instance, during Phase 0 (Setup), Aptos nodes transmitted 218,856 KiB of data, whereas Avalanche and Redbelly transmitted only 298 KiB and 11 KiB, respectively."
+  },
+  {
+    "subject": "Avalanche",
+    "relation": "transmittedDataVolume",
+    "object": "298KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "For instance, during Phase 0 (Setup), Aptos nodes transmitted 218,856 KiB of data, whereas Avalanche and Redbelly transmitted only 298 KiB and 11 KiB, respectively."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "transmittedDataVolume",
+    "object": "11KiB",
+    "chunk": "consumptionskewnessovertime",
+    "context": "For instance, during Phase 0 (Setup), Aptos nodes transmitted 218,856 KiB of data, whereas Avalanche and Redbelly transmitted only 298 KiB and 11 KiB, respectively."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "usesClientCommunicationMechanism",
+    "object": "PollingMechanism",
+    "chunk": "consumptionskewnessovertime",
+    "context": "This massive overhead in Aptos is attributed to its client communication architecture. While Avalanche, Redbelly, and Solana utilize WebSocket streaming to push updates to clients efficiently, Aptos clients rely on polling."
+  },
+  {
+    "subject": "Avalanche",
+    "relation": "usesClientCommunicationMechanism",
+    "object": "WebSocketStreaming",
+    "chunk": "consumptionskewnessovertime",
+    "context": "While Avalanche, Redbelly, and Solana utilize WebSocket streaming to push updates to clients efficiently, Aptos clients rely on polling."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "usesClientCommunicationMechanism",
+    "object": "WebSocketStreaming",
+    "chunk": "consumptionskewnessovertime",
+    "context": "While Avalanche, Redbelly, and Solana utilize WebSocket streaming to push updates to clients efficiently, Aptos clients rely on polling."
+  },
+  {
+    "subject": "Solana",
+    "relation": "usesClientCommunicationMechanism",
+    "object": "WebSocketStreaming",
+    "chunk": "consumptionskewnessovertime",
+    "context": "While Avalanche, Redbelly, and Solana utilize WebSocket streaming to push updates to clients efficiently, Aptos clients rely on polling."
+  },
+  {
+    "subject": "AptosClient",
+    "relation": "repeatedlyRequestsData",
+    "object": "EmptyBlock",
+    "chunk": "consumptionskewnessovertime",
+    "context": "Consequently, Aptos clients repeatedly request data even when blocks are empty, resulting in substantial bandwidth usage (≈227,000 KiB in Phase 2) despite the absence of new transaction submissions."
+  }
+]

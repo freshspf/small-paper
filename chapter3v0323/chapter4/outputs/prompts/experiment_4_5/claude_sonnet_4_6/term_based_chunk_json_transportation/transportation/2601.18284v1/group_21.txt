@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RLSetting",
+  "hasDefaultActionFunction",
+  "SwitchNextOrNot",
+  "hasDefaultRewardFunction",
+  "DefaultRewardFunction",
+  "ctrl_intersections",
+  "acceptsValue",
+  "listOfIntersectionIDs",
+  "all",
+  "LoggerSetting",
+  "hasDefaultLogDirectory",
+  "logs",
+  "hasDefaultLogSuffix",
+  "VissimRL",
+  "hasDefaultLogLevel",
+  "INFO",
+  "hasDefaultValue",
+  "log_to_file_false",
+  "log_to_console_true",
+  "RLEnvironment",
+  "canBeInstantiatedAs",
+  "SingleAgentGymEnvironment",
+  "MultiAgentParallelEnvironment",
+  "VissimRLFramework",
+  "usesAlgorithm",
+  "PPOAlgorithm",
+  "implementedIn",
+  "RLlib",
+  "SingleAgentTraining",
+  "usesObservationFunction",
+  "LocalObservationFunction",
+  "MultiAgentTraining",
+  "GlobalObservationFunction",
+  "incorporatesMetric",
+  "InternalWaitingTime",
+  "BoundaryWaitingTime",
+  "Throughput",
+  "AverageSpeed",
+  "hasRewardWeight",
+  "-0.0001",
+  "0.01",
+  "0.001",
+  "isAppliedAcross",
+  "AllExperiments",
+  "PerformanceValidationExperiment",
+  "conductedAt",
+  "DayuanInterchange",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface"
+]
+
+Triples:
+[
+  {
+    "subject": "RLSetting",
+    "relation": "hasDefaultActionFunction",
+    "object": "SwitchNextOrNot",
+    "chunk": "conclusions2",
+    "context": "action_config dict{class: SwitchNextOrNot, args:{}}Action function and arguments"
+  },
+  {
+    "subject": "RLSetting",
+    "relation": "hasDefaultRewardFunction",
+    "object": "DefaultRewardFunction",
+    "chunk": "conclusions2",
+    "context": "reward_config dict{class: DefaultRewardFunction, args:{}}Reward function and arguments"
+  },
+  {
+    "subject": "ctrl_intersections",
+    "relation": "acceptsValue",
+    "object": "listOfIntersectionIDs",
+    "chunk": "conclusions2",
+    "context": "ctrl_intersections list/str \"all\"Controlled intersections (list of IDs or 'all')"
+  },
+  {
+    "subject": "ctrl_intersections",
+    "relation": "acceptsValue",
+    "object": "all",
+    "chunk": "conclusions2",
+    "context": "ctrl_intersections list/str \"all\"Controlled intersections (list of IDs or 'all')"
+  },
+  {
+    "subject": "LoggerSetting",
+    "relation": "hasDefaultLogDirectory",
+    "object": "logs",
+    "chunk": "conclusions2",
+    "context": "log_dir str \"logs\"Directory for log files"
+  },
+  {
+    "subject": "LoggerSetting",
+    "relation": "hasDefaultLogSuffix",
+    "object": "VissimRL",
+    "chunk": "conclusions2",
+    "context": "log_suffix str \"VissimRL\"Log file name suffix"
+  },
+  {
+    "subject": "LoggerSetting",
+    "relation": "hasDefaultLogLevel",
+    "object": "INFO",
+    "chunk": "conclusions2",
+    "context": "log_level str \"INFO\"Logging level (e.g., DEBUG, INFO, ERROR)"
+  },
+  {
+    "subject": "LoggerSetting",
+    "relation": "hasDefaultValue",
+    "object": "log_to_file_false",
+    "chunk": "conclusions2",
+    "context": "log_to_file bool FalseWhether to write logs to file"
+  },
+  {
+    "subject": "LoggerSetting",
+    "relation": "hasDefaultValue",
+    "object": "log_to_console_true",
+    "chunk": "conclusions2",
+    "context": "log_to_console bool TrueWhether to output logs to console"
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "canBeInstantiatedAs",
+    "object": "SingleAgentGymEnvironment",
+    "chunk": "conclusions2",
+    "context": "gym.make( **config)for single-agent"
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "canBeInstantiatedAs",
+    "object": "MultiAgentParallelEnvironment",
+    "chunk": "conclusions2",
+    "context": "parallel_env( **config)for multi-agent training."
+  },
+  {
+    "subject": "VissimRLFramework",
+    "relation": "usesAlgorithm",
+    "object": "PPOAlgorithm",
+    "chunk": "conclusions2",
+    "context": "The Proximal Policy Optimization (PPO) algorithm implemented in RLlib was adopted for all experiments."
+  },
+  {
+    "subject": "PPOAlgorithm",
+    "relation": "implementedIn",
+    "object": "RLlib",
+    "chunk": "conclusions2",
+    "context": "The Proximal Policy Optimization (PPO) algorithm implemented in RLlib was adopted for all experiments."
+  },
+  {
+    "subject": "SingleAgentTraining",
+    "relation": "usesObservationFunction",
+    "object": "LocalObservationFunction",
+    "chunk": "conclusions2",
+    "context": "Observation Single-agent:LocalObservationFunction"
+  },
+  {
+    "subject": "MultiAgentTraining",
+    "relation": "usesObservationFunction",
+    "object": "GlobalObservationFunction",
+    "chunk": "conclusions2",
+    "context": "Multi-agent:GlobalObservationFunction"
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "incorporatesMetric",
+    "object": "InternalWaitingTime",
+    "chunk": "conclusions2",
+    "context": "- itwt (Internal waiting time)−0.0001"
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "incorporatesMetric",
+    "object": "BoundaryWaitingTime",
+    "chunk": "conclusions2",
+    "context": "- btwt (Boundary waiting time)−0.0001"
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "incorporatesMetric",
+    "object": "Throughput",
+    "chunk": "conclusions2",
+    "context": "- throughput0.01"
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "incorporatesMetric",
+    "object": "AverageSpeed",
+    "chunk": "conclusions2",
+    "context": "- speed0.001"
+  },
+  {
+    "subject": "InternalWaitingTime",
+    "relation": "hasRewardWeight",
+    "object": "-0.0001",
+    "chunk": "conclusions2",
+    "context": "- itwt (Internal waiting time)−0.0001"
+  },
+  {
+    "subject": "BoundaryWaitingTime",
+    "relation": "hasRewardWeight",
+    "object": "-0.0001",
+    "chunk": "conclusions2",
+    "context": "- btwt (Boundary waiting time)−0.0001"
+  },
+  {
+    "subject": "Throughput",
+    "relation": "hasRewardWeight",
+    "object": "0.01",
+    "chunk": "conclusions2",
+    "context": "- throughput0.01"
+  },
+  {
+    "subject": "AverageSpeed",
+    "relation": "hasRewardWeight",
+    "object": "0.001",
+    "chunk": "conclusions2",
+    "context": "- speed0.001"
+  },
+  {
+    "subject": "DefaultRewardFunction",
+    "relation": "isAppliedAcross",
+    "object": "AllExperiments",
+    "chunk": "conclusions2",
+    "context": "Reward function applies the same weighted combination across all experiments."
+  },
+  {
+    "subject": "PerformanceValidationExperiment",
+    "relation": "conductedAt",
+    "object": "DayuanInterchange",
+    "chunk": "conclusions2",
+    "context": "All experiments were conducted at the Dayuan Interchange using identical network and training configurations"
+  }
+]

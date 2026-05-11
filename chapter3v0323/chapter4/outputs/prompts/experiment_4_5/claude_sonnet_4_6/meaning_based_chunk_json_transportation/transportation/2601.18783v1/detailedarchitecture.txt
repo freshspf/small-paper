@@ -1,0 +1,111 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "detailedarchitecture",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: detailedarchitecture
+- section_title: Detailed Architecture
+- page_start: 10
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+The decision making and control architecture is hierarchical
+integrating RL with low-level controllers as depicted in Fig-
+ure 5. It is adapted from the paper [Pathareet al., 2026 ],
+extended for MORL.
+We separate the high level and low level decision making
+between MORL agent and low-level controllers. The agentTable 1: Traffic simulation parameters.
+Parameter Value
+Length of highway segment (l road) 3000 m
+Moving window size (l window ) 400 m
+Heterogeneous vehicle ratio (trucks) 0.2
+Heterogeneous vehicle ratio (cars) 0.8
+Car speed distribution N(23,3.8)m/s
+Truck speed distribution N(20,0.8)m/s
+Maximum speed of ego truck 25 m/s
+Maximum acceleration of ego truck 0.1m/s2
+Maximum deceleration of ego truck 6m/s2
+Maximum episode length 200
+has a discrete action space which includes high level deci-
+sions about longitudinal and lateral controls. The longitudinal
+actions include changing the desired speed or desired timegap
+with the vehicle. Lateral actions include changing the lane to
+left or right. The actions space is given below.
+1. Set short time gap with leading vehicle (1s)
+2. Set medium time gap with leading vehicle (2s)
+3. Set long time gap with leading vehicle (3s)
+4. Increase the desired speed by 1 m/s
+5. Decrease the desired speed by 1 m/s
+6. Maintain current desired speed and time gap
+7. Change lane to left
+8. Change lane to right
+When one of the longitudinal action is chosen it trig-
+gers the longitudinal controller which compute the acceler-
+ation/deceleration using the set desired speed and timegap.
+We use Intelligent Driver Model (IDM) [Treiberet al., 2000 ]
+given by,
+˙vα=dvα
+dt=a 
+1−vα
+v0δ
+−s∗(vα,∆vα)
+sα2!
+,
+s∗(vα,∆vα) =s 0+vαT+vα∆vα
+2√
+ab
+(11)
+whereαis the ego vehicle andα−1is the leading vehi-
+cle.vdenotes the velocity andldenotes the length of the
+vehicle.s α:=x α−1−xα−lα−1 is the net distance and
+∆vα:=v α−vα−1is the velocity difference.v 0(desired ve-
+locity),s 0(minimum spacing),T(desired time gap),a(max-
+imum acceleration), andb(comfortable braking deceleration)
+are model parameters.
+A new acceleration is computed for the truck and the re-
+sulting speed is set to the vehicle every 0.1s. This process
+continues for a total duration of 1s, after which the RL agent
+chooses the next high level action. If a lateral action is chosen
+by the agent, the lateral controller initiates the lane change.
+Lane change is performed using the default LC2013 lane
+change model [Erdmann, 2014 ]in SUMO. The lane width is
+set to3.2mand the lateral speed of the truck is set to0.8m/s.

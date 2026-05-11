@@ -1,0 +1,162 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "method1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: method1
+- section_title: Method
+- page_start: 3
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+3.1 Overview
+As shown in Fig. 2, we propose a unified framework UniCD,
+which aims to unify CD tasks with varying supervision levels.
+Specifically, STAM for supervised learning inSection 3.2,
+CRR for weakly-supervised learning inSection 3.3, SPCI for
+unsupervised learning inSection 3.4.
+Initially, we employ the frozen FastSAM as the feature
+encoderϕ(·), fine-tuned with adapter. Given a pair of bi-
+temporal images, the model produces a set of multi-scale fea-
+ture representations{Ft
+i}t=1,2
+i=1,2,3,4after passing throughϕ(·).
+In the supervised branch, multi-scale features are fused by
+STAM to model spatial structures and temporal variations,
+generating the prediction map ˆYthrough the decoder. Later,
+supervised by pixel-level labelY, the supervised component
+is optimized using a batch-balanced contrastive loss, defined
+as follows:Lsup=1
+NuX
+i,j(1−Y i,j)·ˆY2
+i,j
++1
+NcX
+i,jYi,j·max(0,1− ˆYi,j)2,(1)
+In the weakly-supervised branch, to effectively learn the
+spatial distribution of changed regions, UniCD introduces
+CRR. Following multi-scale feature extraction, a classifica-
+tion branch is added to generate CAM. Subsequently, the
+network undergoes deep constraints by combining SCR and
+CFR, progressively refining spatially interpretable changed
+regions from coarse-grained semantic activations. During
+training, CAM is continuously calibrated and refined through
+the joint optimization of regularization terms, enabling the
+model to progressively develop clearer representations of
+changed regions. The weakly-supervised branch jointly opti-
+mizes three objectives: binary classification lossL bc, spatial
+coherency lossL sc, and contrastive feature lossL cf. The
+combined training objective is:
+Lweak =Lcls+Lsc+Lcf, (2)
+In the unsupervised branch, UniCD ingeniously trans-
+forms unsupervised perception logic into a learnable weakly-
+supervised process by incorporating SPCI. It utilizes Fast-
+SAM to extract panoramic feature masks. Subsequently,
+
+Figure 3: The overall structure of STAM, which can effectively
+model spatial structures and temporal variations.
+CLIP is used to compute the semantic similarity between
+instance-level masks and text prompts to anchor foreground
+features. By calculating the cosine distance of encoder fea-
+tures to identify change patterns, foreground features are mul-
+tiplied with change patterns to generate a change map fo-
+cused on the foreground. Thus, the unsupervised paradigm
+is ingeniously transformed into pseudo label-driven weakly-
+supervised tasks, leveraging generated pseudo-labels for op-
+timization to achieve modeling of changed regions under un-
+supervised conditions.
+3.2 Spatial-Temporal Awareness Module
+The core design principle of STAM lies in achieving efficient
+feature modeling. Unlike many methods that rely on com-
+plex attention mechanisms, STAM fully exploits the spatial-
+temporal correlations through lightweight convolutional op-
+erators without complex computations.{Ft
+i}t=1,2
+i=1,2,3,4are
+fed into STAM for feature fusion. STAM progressively in-
+tegrates multi-scale features through hierarchical merging
+of bi-temporal characteristics, gradually combining spatial
+structures and temporal information into a unified represen-
+tation. STAM primarily consists of two stages: spatial-aware
+fusion and temporal-aware fusion.
+Spatial-Aware Fusion
+STAM adopts a top-down integration strategy to aggregate
+multi-scale spatial features within each temporal phaset∈
+{1,2}. For scalei, the deep featureFt
+i+1is reshaped to match
+the resolution of the shallower layerFt
+i. The fused spatial
+representationSt
+iis formulated as:
+St
+i=MLP(Concat(Ft
+i, Reshape(Ft
+i+1))), (3)
+where MLP(·)denotes a lightweight mapping block con-
+sisting of convolution, normalization, and ReLU activation.
+This process effectively integrates structural textures from
+shallow layers with semantic cues from deep layers.
+Temporal-Aware Fusion
+To capture the evolutionary logic between bi-temporal
+phases, STAM further performs temporal coupling. Given the
+aggregated spatial featuresS1
+iandS2
+ifor both timestamps,
+the final spatio-temporal outputSout
+iis generated by:
+Sout
+i=MLP(Concat(S1
+i, S2
+i)), (4)By concatenating along the temporal dimension and apply-
+ing deep integration, STAM yields a discriminative feature
+map rich in spatial-temporal evolution information, which is
+then used for the final change prediction.
+3.3 Change Representation Regularization
+In weakly-supervised CD scenarios, due to reliance solely
+on image-level labels or coarse-grained signals, the model
+lacks sufficient pixel-level discriminative constraints, making
+it difficult to naturally form clear and stable change bound-
+aries. Existing methods typically employ class activation
+maps (CAMs) to derive spatial responses from the reverse
+gradients of classification branches. However, the generation
+mechanism of CAM inherently focuses on the saliency at-
+tribution of global discriminative targets.

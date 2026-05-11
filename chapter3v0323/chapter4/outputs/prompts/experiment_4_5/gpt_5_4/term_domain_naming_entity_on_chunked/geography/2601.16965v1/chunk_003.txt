@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["ThoughtActionObservationLoop","Toolformer","CodeAct","ExecutableCode","JSONBasedAction","LLMGeo","GeoGPT","GPT4","GeoprocessingWorkflowGeneration","CodeExecution","GeoAgent","RAG","MonteCarloTreeSearch","GeospatialDataProcessing","GTChain","LLaMA","ToolUseChain","CoreConceptDataTypeOntology","AccessibilityAssessment","SpatialInterpolation","NeuralProgramSynthesis","StructuredProgram","SemanticDomain","SpatialDomain","GeometricStructure","Airport","Terminal","DistanceComputation","CognitiveReasoning","SpatialReasoning","BlackBoxAPI","SpatialQuery","OrderedOperation","SpatialOrchestration","SpatialExecution","IntermediateState","DataDependency","SpatialGrounding","ComputationalRepresentation","GeometricMeaning"]
+
+Triples:
+[{"subject":"TourismQA","relation":"retrievesFrom","object":"SpatialDatabase"},{"subject":"TourismQA","relation":"uses","object":"TextToSQLApproach"},{"subject":"TextToSQLApproach","relation":"usesConstraint","object":"GeospatialConstraint"},{"subject":"TextToSQLApproach","relation":"usesConstraint","object":"SemanticConstraint"},{"subject":"MapQA","relation":"isA","object":"PointOfInterestRetrievalBenchmark"},{"subject":"MapQA","relation":"uses","object":"TextToSQLApproach"},{"subject":"MapQA","relation":"has","object":"GeospatialConstraint"},{"subject":"EarlyGeospatialQASystem","relation":"focusedOn","object":"FactoidStyleQuestion"},{"subject":"FactoidStyleQuestion","relation":"isAskedOver","object":"KnowledgeGraph"},{"subject":"ReAct","relation":"introduces","object":"ThoughtActionObservationLoop"},{"subject":"Toolformer","relation":"enables","object":"ToolUseLearning"},{"subject":"CodeAct","relation":"generates","object":"ExecutableCode"},{"subject":"ExecutableCode","relation":"outperforms","object":"JSONBasedAction"},{"subject":"LLMGeo","relation":"demonstrates","object":"AutonomousGISCapability"},{"subject":"GeoGPT","relation":"demonstrates","object":"AutonomousGISCapability"},{"subject":"GeoGPT","relation":"uses","object":"GPT4"},{"subject":"GeoGPT","relation":"supports","object":"GeoprocessingWorkflowGeneration"},{"subject":"GeoGPT","relation":"supports","object":"CodeExecution"},{"subject":"GeoAgent","relation":"integrates","object":"RAG"},{"subject":"GeoAgent","relation":"integrates","object":"MonteCarloTreeSearch"},{"subject":"GeoAgent","relation":"isUsedFor","object":"GeospatialDataProcessing"},{"subject":"GTChain","relation":"fineTunes","object":"LLaMA"},{"subject":"GTChain","relation":"isFor","object":"ToolUseChain"},{"subject":"CoreConceptDataTypeOntology","relation":"enables","object":"SemanticConstraint"},{"subject":"CoreConceptDataTypeOntology","relation":"supports","object":"GISWorkflowAutomation"},{"subject":"CoreConceptDataTypeOntology","relation":"includes","object":"Object"},{"subject":"CoreConceptDataTypeOntology","relation":"includes","object":"Field"},{"subject":"CoreConceptDataTypeOntology","relation":"includes","object":"Event"},{"subject":"CoreConceptDataTypeOntology","relation":"includes","object":"Network"},{"subject":"LooseProgramming","relation":"constructs","object":"GISWorkflow"},{"subject":"GISWorkflow","relation":"supportsTask","object":"AccessibilityAssessment"},{"subject":"GISWorkflow","relation":"supportsTask","object":"SpatialInterpolation"},{"subject":"NeuralProgramSynthesis","relation":"generates","object":"StructuredProgram"},{"subject":"SpatialAgent","relation":"isDesignedAround","object":"SpatialGrounding"},{"subject":"NaturalLanguageSemantics","relation":"isGroundedInto","object":"ComputationalRepresentation"},{"subject":"SemanticDomain","relation":"differsFrom","object":"SpatialDomain"},{"subject":"LLMAgent","relation":"representsAs","object":"LinguisticPattern"},{"subject":"SpatialRelationship","relation":"isRepresentedAs","object":"LinguisticPattern"},{"subject":"Airport","relation":"isLinguisticallyInterchangeableWith","object":"Terminal"},{"subject":"Terminal","relation":"isContainedWithin","object":"Airport"}]

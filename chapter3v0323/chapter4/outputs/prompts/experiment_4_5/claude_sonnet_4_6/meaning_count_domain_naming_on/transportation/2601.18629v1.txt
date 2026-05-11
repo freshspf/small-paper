@@ -1,0 +1,745 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+ExoGS: A 4D Real-to-Sim-to-Real Framework
+for Scalable Manipulation Data Collection
+Yiming Wang, Ruogu Zhang, Minyang Li, Hao Shi, Junbo Wang, Deyi Li,
+Jieji Ren, Wenhai Liu, Weiming Wang, Hao-Shu Fang
+Shanghai Jiao Tong University
+Fig. 1. Overview ofExoGS. (a) Real-world demonstrations captured by AirExo-3 are reconstructed into editable 3D Gaussian scenes. (b) These assets enable
+scalable data augmentation across viewpoints and lighting. (c) A semantic Mask Adapter facilitates robust sim-to-real policy transfer for manipulation tasks.
+Abstract—Real-to-Sim-to-Real technique is gaining increasing
+interest for robotic manipulation, as it can generate scalable data
+in simulation while having narrower sim-to-real gap. However,
+previous methods mainly focused on environment-level visual
+real-to-sim transfer, ignoring the transfer of interactions, which
+could be challenging and inefficient to obtain purely in simulation
+especially for contact-rich tasks. We propose ExoGS, a robot-
+free 4D Real-to-Sim-to-Real framework that captures both static
+environments and dynamic interactions in the real world and
+transfers them seamlessly to a simulated environment. It provides
+a new solution for scalable manipulation data collection and
+policy learning. ExoGS employs a self-designed robot-isomorphic
+passive exoskeleton AirExo-3 to capture kinematically consistent
+trajectories with millimeter-level accuracy and synchronized
+RGB observations during direct human demonstrations. The
+robot, objects, and environment are reconstructed as editable 3D
+Gaussian Splatting assets, enabling geometry-consistent replay
+and large-scale data augmentation. Additionally, a lightweight
+Mask Adapter injects instance-level semantics into the policy
+to enhance robustness under visual domain shifts. Real-world
+experiments demonstrate that ExoGS significantly improves data
+efficiency and policy generalization compared to teleoperation-
+based baselines. Code and hardware files have been released on
+https://github.com/zaixiabalala/ExoGS.
+Index Terms—Robotic manipulation, imitation learning,
+demonstration data collection, real-to-sim-to-real, 3D Gaussian
+Splatting, data augmentation, sim-to-real transfer.
+I. INTRODUCTION
+MITATION learning has enabled robots to acquire complex
+manipulation skills from demonstrations. However, its effi-
+cacy is heavily based on the scale and quality of the training
+data. Simulation-based data synthesis offers scalability, but
+suffers from the well-known sim-to-real gap due to discrep-
+ancies in geometric representation, visual appearance, and
+physical interaction, particularly in visual fidelity for RGB-
+based policies.
+Recent Real-to-Sim-to-Real (R2S2R) pipelines with neu-
+ral scene representations, such as NeRF and 3D Gaussian
+Splatting (3DGS) [1], [2], have shown promise in bridging
+the visual gap through photorealistic rendering. However,
+most existing R2S2R pipelines are limited to static scene
+reconstruction and rely on reinforcement learning to obtain
+manipulation data. This challenge lies in acquiring physically
+valid, high-fidelity interaction data without the burden of
+deploying expensive robotic hardware.
+To address this, this paper introducesExoGS, a low-cost,
+robot-free R2S2R framework that allows users to capture
+4D sequences comprising 3D environments and spatiotem-
+poral robot interactions with objects. Our framework con-
+sists of a custom passive exoskeleton with a 3DGS-based
+data generation pipeline. The core insight is to leverage
+a robot-isomorphic exoskeleton, AirExo-3, to sensorize and
+capture human manipulation. The manipulation data including
+exoskeleton joint configurations and object trajectories are
+captured by our platform (see Sec. III-B1) and then digitized
+into a motion sequence of editable 3DGS assets of the robot
+and the objects. This hardware-software synergy allows us
+to decouple the robot, objects, and environment, enabling
+massive, geometry-consistent data augmentation in simulation.
+Furthermore, to mitigate the residual domain shift, we in-
+troduce a Mask Adapter, a lightweight module that injects
+instance-level semantic constraints into the policy, guiding
+arXiv:2601.18629v1 [cs.RO] 26 Jan 2026
+attention toward interaction-relevant features.
+The main contributions of this work are threefold:
+•A 4D, robot-free R2S2R frameworkthat reconstructs
+real-world assets and manipulation sequences into ed-
+itable 3DGS assets and their dynamics, enabling scalable,
+embodiment-consistent data generation.
+•AirExo-3, an open-source, low-cost, accurate, and
+durable manipulation data collection device.
+•A Mask Adapterthat injects semantic mask information
+into the policy to steer attention toward interaction-
+relevant regions, thereby enhancing robustness.
+II. RELATEDWORKS
+A. Sim-to-Real Transfer and 3D Gaussian Splatting
+Due to persistent discrepancies in appearance, geometry,
+and contact dynamics, policies trained in simulation often fail
+to generalize to the real world, motivating Real-to-Sim-to-Real
+(R2S2R) pipelines. R2S2R pipelines reconstruct photorealistic
+digital twins from real scenes and perform data generation and
+policy learning in reconstructed environments, leveraging neu-
+ral radiance fields or 3D Gaussian Splatting for high-fidelity
+rendering and novel view synthesis [3], [4]. These approaches
+generally fall into interaction-oriented frameworks that sup-
+port closed-loop training and rendering-centered pipelines that
+scale data generation via photorealistic replay [5]–[9], yet
+limitations in physical interactability and contact modeling
+persist.
+Compared with NeRF [1], 3DGS [2] offers an explicit,
+point-based representation with fast optimization and real-
+time rendering, making it suitable for robotics. With recent
+extensions incorporating dynamics and physical priors [10],
+[11], 3DGS has emerged as an editable, geometry-aware world
+model for manipulation and navigation [6], [12]–[15], enabling
+geometry-consistent edits beyond 2D augmentation [16]. Nev-
+ertheless, effectively leveraging 3DGS for robot learning re-
+quires tight integration of demonstration acquisition, pose
+modeling, and interaction-aware replay.
+Therefore, a Real-to-Sim-to-Real framework that tightly
+couples real-world demonstration acquisition, accurate pose
+modeling, and geometry-consistent 3DGS replay is still needed
+to support scalable, contact-rich manipulation learning with
+high visual fidelity, a gap thatExoGSaddresses.
+B. Demonstration Data Collection
+Demonstration data is fundamental to scalable and gener-
+alizable imitation learning in robotic manipulation [17]–[21].
+Although teleoperation enables embodiment-consistent robot
+demonstrations, its scalability is fundamentally constrained by
+hardware cost, deployment overhead, and non-intuitive human-
+robot interfaces.
+To reduce these limitations, an alternative direction focuses
+on in-the-wild demonstration collection using human-operated
+devices such as handheld grippers, VR/AR systems, motion-
+capture gloves, and exoskeletons [22]–[27]. These systems re-
+duce deployment cost and enable more natural demonstrations,
+but often suffer from limited kinematic fidelity, trajectory
+accuracy, or environment diversity.
+Therefore, existing approaches lack a low-cost, robot-free
+data collection framework that preserves robot-aligned kine-
+matics and supporting scalable, geometry-consistent replay,
+motivating the Real-to-Sim-to-Real design ofExoGS.
+III. METHOD
+ExoGS first employs AirExo-3, a low-cost exoskeleton
+(detailed in Sec. III-A), to capture accurate robot manipula-
+tion demonstrations without needing a real robot (detailed in
+Sec. III-B (1)). Based on these demonstrations, 3D Gaussian
+Splatting is utilized to replay and augment the demonstrated
+interactions (detailed in Sec. III-B (2)-(4)). Building upon this
+real-to-sim dataset, we further propose a novel plug-in module,
+Mask Adapter, to facilitate more effective sim-to-real transfer
+of visuomotor policies (detailed in Sec. III-C).
+A. Hardware Design: AirExo-3
+AirExo-3 extends prior low-cost exoskeleton-based demon-
+stration systems [22], [23] by improving kinematic accuracy
+and ease of deployment. The design of AirExo-3 targets the
+following objectives:
+•Ease of deployment: AirExo-3 supports accurate zero-
+position calibration and straightforward installation with-
+out specialized tools, enabled by a simplified mechanical
+design.
+•High accuracy: Unlike handheld devices such as
+UMI [24], AirExo-3 achieves robust and accurate motion
+tracking with millimeter-level accuracy via forward kine-
+matics using high-precision rotary encoders, remaining
+insensitive to visual conditions while enforcing robot-
+consistent kinematic constraints.
+•Ease of use: AirExo-3 enables intuitive, contact-rich
+manipulation through direct gripper interaction, while its
+lightweight design supports prolonged use with minimal
+operator fatigue.
+Fig. 2. Mechanical structure of the proposed data acquisition device. (a)
+Structural design of an individual joint module. (b) Overall structure of
+AirExo-3, consisting of seven articulated joints and a parallel gripper. (c)
+The target robotic platform used in this work.
+The structure of AirExo-3 is shown in Fig. 2. It is a serial
+link-joint chain geometrically matched to the target robot and
+equipped with a replaceable handheld gripper, sharing iden-
+tical kinematic parameters, joint limits, and gripper opening
+range to ensure workspace consistency. All components are
+3D-printed with glass-fiber-reinforced nylon for a lightweight
+and robust design, with an optional spring-based suspension
+at Joint 4 to reduce operator effort.
+The core component of AirExo-3 is the joint module, which
+consists of a joint shaft, bearings, and a joint body housing
+a 12-bit miniature rotary encoder, as shown in Fig. 2 (a).
+Eight encoders are connected via a shared bus, enabling
+synchronized joint state acquisition at up to approximately 300
+Hz. The joint shaft defines the rotational limits, while cross-
+roller bearings connect the shaft and body, providing high
+stiffness and rotational accuracy. An established evaluation
+protocol for exoskeleton-based manipulation systems [23] is
+adopted to assess kinematic accuracy. The results demonstrate
+that AirExo-3 achieves an average end-effector positioning
+error of less than 1 mm.
+Limit slots are machined into the joint shaft, and a high-
+strength pin fixed to the joint body engages with the slot to
+define the joint’s angular limits. When the pin reaches the slot
+boundary, further rotation is mechanically prevented. The pin
+hole on the joint body also serves as a reference for zero-
+position calibration. Calibration is performed by mechanically
+locking the joint at its zero position using an extended pin and
+recording the corresponding encoder reading.
+Each joint incorporates a groove with a 3D-printed retaining
+ring to provide tunable passive damping, enabling stable and
+comfortable operation.
+B. 4D Data Generation and Augmentation
+Fig. 3. Overview of the pipeline for reconstructing manipulation demonstra-
+tions collected with AirExo-3 using 3D Gaussian representations. Camera-
+based object pose tracking and joint angle encoding from AirExo-3 are
+combined to generate robot motions, which, together with the reconstructed
+digital assets, allow the full manipulation process to be faithfully replayed in
+simulation.
+1) Manipulation Demonstration Collection with AirExo-3:
+Let the joint-angle vector of the robotic arm be denoted as
+q= [q 1, q2, . . . , qn]⊤, and let the gripper opening beg∈[0,1].
+Each demonstration trajectory can then be represented as a
+discrete-time sequence:
+τ={(q t, gt)}H
+t=1,(1)
+whereHdenotes the number of time steps.
+Since AirExo-3 is geometrically and kinematically identi-
+cal to the target robot, the collected joint statesq t can be
+directly used for forward kinematics computation, enabling
+high-fidelity reproduction of manipulation trajectories in both
+real and simulated environments.
+Multiple calibrated Intel RealSense D415 cameras syn-
+chronously capture multi-view RGB-D observationsI=
+{I(k)
+t }H,K
+t=1,k=1, which are unified in a common world coor-
+dinate frame to provide geometric constraints for subsequent
+3D reconstruction and pose estimation.
+2) Digital Asset Generation via Multi-View Reconstruction:
+We adopt 3D Gaussian Splatting (3DGS) to digitize real-world
+scenes into editable simulation assets. Following the standard
+formulation [2], we represent the scene (including the robot,
+objects, and environment) as a collection of 3D Gaussians,
+each parameterized by position, covariance, opacity, and spher-
+ical harmonics. We implement a “capture-reconstruct-assetize”
+pipeline: multi-view images are first captured and processed
+via COLMAP [28] to recover camera poses. These poses
+initialize the optimization of Gaussian parameters, which is
+driven by minimizing a weighted L1 and SSIM photometric
+loss between rendered and captured views. This process yields
+high-fidelity, decoupled 3D assets for the robotic arm and
+manipulated objects, enabling independent manipulation and
+geometry-consistent replay in the simulation environment.
+3) Object Pose Estimation and Trajectory Processing:
+Multi-view RGB-D sequences are processed with Founda-
+tionPose [29] for object pose tracking. The pose of object
+oat timetin camerakis denoted asT (k)
+o,t ∈SE(3). To
+improve robustness and consistency, we integrate these multi-
+view estimates by adopting the rotation from the primary
+camera as the global orientation and averaging the translation
+vectors across all views. This fusion results in a unified pose
+sequence{T o,t}H
+t=1 in the robot base coordinate frame.
+To enhance data diversity across task scenarios, we in-
+troduce a lightweight pose-processing module,PoseProcess,
+which performs normalization and recomposition of object
+pose sequences. Afixoperation constrains the object pose
+to the robot end-effector frame, enabling rigid attachment
+during manipulation. By substituting object models, the same
+pose sequence can be directly transferred to different objects,
+allowing the generation of diverse task instances without
+additional data collection.
+Robot kinematics are computed using the URDF model of
+the target robot with the recorded joint-angle sequence{q t}.
+The pose of each linkℓis obtained via forward kinematics:
+Tℓ,t = FKℓ(qt), ℓ= 1, . . . , L, t= 1, . . . , H,(2)
+whereLdenotes the number of robot links. The resulting robot
+link posesT ℓ,t are combined with object posesT o,t in the
+Gaussian rendering pipeline, enabling multi-view rendering of
+robot-object scenes for policy training.
+Fig. 4. Overview of the proposed Mask Adapter. The module is trained in two stages. Stage 1 performs semantic segmentation pretraining using pixel-level
+supervision generated by the 3D Gaussian Splatting pipeline, yielding stable patch-level semantic labels for the background, robotic arm, and manipulated
+objects. Stage 2 incorporates these semantic cues into a ViT-based imitation learning policy via enhanced positional encodings and mask-guided attention,
+encouraging interaction-relevant token communication to improve robustness and cross-scene generalization under visual domain shifts.
+4) Data Augmentation under Gaussian Rendering:To
+improve policy robustness under real-world variations, we
+employ four data augmentation strategies leveraged by the
+editable 3DGS representation. First,camera viewpoint aug-
+mentationrenders demonstrations from perturbed extrinsics
+to simulate camera placement changes. Second,color and
+illumination augmentationapplies random scaling to Gaus-
+sian color attributes and global/local brightness, addressing
+appearance and lighting gaps. Third,background augmen-
+tationcomposites diverse real-world images as background
+textures behind the geometry-consistent Gaussian foregrounds,
+encouraging background-invariant policy learning. Finally,ob-
+ject pose augmentationperturbs object poses and scales,
+or substitutes objects with affordance-compatible alternatives,
+enabling trajectory reuse and improving robustness to physical
+variations.
+C. Policy Module: Mask Adapter
+1) Introduction:Although in-the-wild demonstrations can
+be converted into pseudo-robot data, domain gaps in view-
+point, background, and lighting still hinder the generalization
+of 2D visuomotor policies. Most imitation learning methods
+lack explicit interaction-centric inductive biases, making them
+susceptible to spurious background correlations under distri-
+bution shifts.
+Leveraging the explicit instance-level representation of 3D
+Gaussian Splatting (3DGS), our pipeline generates pixel-wise
+semantic masks and supports geometry-consistent data aug-
+mentation via multi-view rendering, appearance perturbation,
+and background replacement, effectively narrowing the sim-to-
+real gap. Building on an enhanced ACT [26] backbone with a
+DINOv3 ViT encoder [30] and LoRA fine-tuning [31], we
+introduce Mask Adapter, a lightweight module that injects
+patch-level semantic cues into ViT-based policies to guide
+attention toward interaction-relevant regions and improve ro-
+bustness and cross-scene generalization. The full pipeline is
+shown in Fig. 4
+Given an observation image sequenceI 1:T , a ViT encoder
+produces patch tokens and base positional encodings:
+x=E vit(I1:T )∈R B×(T N)×D ,p∈R B×(T N)×D ,
+whereNis the number of patches per frame andDis the
+hidden dimension. Mask Adapter augments this pipeline with
+a mask head and label-driven attention constraints, trained in
+two stages.
+2) Mask Head:When trained only with action supervision,
+2D policies receive sparse and highly task-specific gradients,
+making it difficult to learn stable semantic structures (e.g.,
+background vs. arm vs. objects). Under domain shifts, this of-
+ten amplifies attention drift. Therefore, in Stage 1 we fine-tune
+the visual encoder and a segmentation head with pixel-level
+supervision to obtain transferable semantics and to provide
+patch-level labels for Stage 2. We adopt a lightweight multi-
+scale segmentation headH mask, following ASPP [32] style.
+After reshaping tokens into a feature mapF∈R B×D×h×w ,
+the head predicts pixel logits:
+S=H mask(F)∈R B×C×H×W .
+To align with the token sequence, we aggregate pixel predic-
+tions into patch-level labelsℓ∈ {0, . . . , C−1} T N. LetΩ n be
+the set of pixels belonging to patchn; we compute:
+ℓn = arg max
+c∈{0,...,C−1}
+|Ωn|
+u∈Ωn
+softmax(Su)c.
+3) Mask-guided Token Modeling:Standard Transformers in
+imitation learning policies typically treat all patches uniformly
+and provide no structural priors on which tokens should inter-
+act. As a result, under occlusions or background changes, the
+model may aggregate irrelevant context and fail to generalize.
+In Stage 2, we use patch labelsℓto enhance positional
+encodings and impose label-driven interaction constraints,
+Fig. 5. Real-world experimental setup and task illustration. A Flexiv Rizon 4s robotic arm is used together with two eye-on-base Intel RealSense D415
+cameras. During standard experiments and teleoperation data collection, only the left camera is used, while the other camera is reserved exclusively for
+evaluating camera viewpoint variations. Three manipulation tasks are designed in this work, whose detailed descriptions are provided in Sec. IV.
+encouraging semantic-consistent and interaction-relevant token
+communication. We add a learnable label embedding to the
+base positional encoding:
+˜p=p+E label(ℓ).
+We define a label relation setRand construct an additive
+attention maskA:
+Aij =
+0,(ℓ i, ℓj)∈ R
+−∞,(ℓ i, ℓj)/∈ R ,
+which is added to attention logits.
+4) Training Objective:We train segmentation with (option-
+ally class-weighted) pixel-level cross-entropy:
+Lseg =− 1
+|Ω|
+u∈Ω
+wyu log softmax(Su)yu .
+Stage 2 optimizes the original policy action lossL act jointly
+with segmentation to stabilize semantic alignment:
+Lstage2 =L act +λL seg.
+When ground-truth masks are unavailable, one can optimize
+Lact only while still using Stage-1 predictions to provideℓfor
+positional enhancement and attention constraints. Since Mask
+Adapter only requires ViT tokens, positional encodings, and an
+attention interface, it can be integrated into most ViT-based 2D
+imitation learning policies with minimal architectural changes.
+IV. EXPERIMENTS
+We conduct multiple real-world experiments to validate the
+efficiency and effectiveness of our data generation pipeline.
+The detailed experimental scenarios and task settings are
+illustrated in Fig. 5.
+We design three manipulation tasks:Pick and Place,Pick
+Place Close, andUnscrew Bottle Cap. InPick and Place, the
+robot picks a target object and places it into a container. In
+Pick Place Close, the robot additionally closes the container
+lid after placement. InUnscrew Bottle Cap, the robot unscrews
+and removes the cap from a jar fixed to the tabletop, involving
+contact-rich interactions.
+Experiments are conducted on a Flexiv Rizon 4s robotic arm
+with a Xense Aurora Lite gripper under position control, using
+an overhead RealSense D415 camera for RGB observations.
+For each task, policies trained on data generated by our
+pipeline are compared against those trained on teleoperation
+data.
+For thePick and Placetask, objects are randomly placed
+within a40cm×50cm tabletop workspace. Multiple target
+objects (e.g., cube, fruits, and plush toy) and containers of
+different materials are considered. Only the cube-box case
+is physically collected, while all other object-container com-
+binations are synthesized by replacing 3D Gaussian assets
+in simulation. ThePick Place Closetask follows the same
+workspace configuration but requires closing the container lid
+after placement. In theUnscrew Bottle Captask, the jar is
+fixed on the table, and the robot unscrews and removes the
+cap.
+Through these experiments, we evaluate ExoGS pipeline
+efficiency, policy performance, and robustness gains enabled
+by the proposed augmentation strategies. Across all tasks,
+we collect 60 raw demonstrations per task using AirExo-3
+within our pipeline, and an additional 60 demonstrations via
+teleoperation for comparison. Data collection time and success
+rate are reported as evaluation metrics. For policy evaluation,
+each task is executed over 25 trials, with success rates as the
+primary performance measure.
+A. Evaluation of Demonstration Data Collection Efficiency
+To evaluate data collection efficiency, we recruited 10 vol-
+unteers without robotics background, each receiving approxi-
+mately 10 minutes of training. During data collection, failed
+attempts were discarded, and only successful demonstrations
+were used to compute metrics. Each participant recorded six
+valid demonstrations per task. We report the success ratio and
+the average time per successful demonstration as evaluation
+metrics.
+Fig. 6. Task completion time comparison between AirExo-3 and teleoperation.
+Bars show the average over all volunteers, and colored dots denote individual
+averages, computed using successful trials only.
+Fig. 6 compares average data collection time across manipu-
+lation tasks using two acquisition methods. Overall, AirExo-3
+achieves faster data collection than teleoperation, with com-
+parable performance on simple tasks and increasingly larger
+advantages as task complexity grows. This benefit arises from
+more natural manipulation feedback and lower operational bur-
+den, and is further reflected by reduced inter-subject variance,
+indicating improved consistency across users.
+TABLE I
+TASKSUCCESSRATIOCOMPARISON: AIREXO-3VS. TELEOPERATION
+Task AirExo-3 Teleoperation
+Pick and place 100% 92.3%
+Pick place close 100% 83%
+Unscrew bottle cap 87% 17%
+Table I reports task success ratios for the two data collection
+methods. Consistent with the timing results, AirExo-3 achieves
+higher success ratios than teleoperation across all tasks, with
+the performance gap increasing as task difficulty grows. The
+advantage is most pronounced in the bottle-cap unscrewing
+task, where teleoperation requires many failed attempts and
+often causes unintended collisions and object damage. In
+contrast, AirExo-3 yields more stable executions and higher
+success ratios, demonstrating its effectiveness for collecting
+reliable demonstrations in contact-rich manipulation tasks.
+B. Policy Performance without Data Augmentation
+We evaluate policies trained on data generated by our
+pipeline against those trained on teleoperation-collected data to
+assess whether the generated data can match the effectiveness
+of real-world demonstrations. For thePick and Placetask, we
+further expand the dataset by replacing the manipulated object
+with different digital assets, yielding a dataset ten times larger
+than the original. In thePick and Place (New Object)setting,
+the objects are exclusively drawn from this augmented set
+and have never appeared during physical data collection, with
+demonstrations generated solely through trajectory transfer
+via digital asset replacement. All experiments in this setting
+are conducted using the modified ACT policy described in
+Sec. III-C1.
+TABLE II
+SUCCESSRATECOMPARISONBETWEENEXOGSANDTELEOPERATION
+Task ExoGS Teleop
+Pick and place 50% 72%
+Pick place close 48% 64%
+Unscrew bottle cap 24% 8%
+Pick and place (New Object) 76% 0%
+For most manipulation tasks, policies trained on the orig-
+inal generated demonstrations underperform those trained on
+teleoperation data, primarily due to the remaining visual gap
+between rendered and real-world observations. In theUnscrew
+Bottle Captask, this trend is reversed, likely because teleoper-
+ation is particularly difficult, leading to noisy and inconsistent
+trajectories that hinder effective policy learning.
+Moreover, fully synthetic derived demonstrations signifi-
+cantly benefit policy training. By enabling low-cost dataset
+expansion, these demonstrations allow policies to achieve
+performance comparable to those trained on real-world data.
+C. Policy Performance with Data Augmentation
+Despite lower visual fidelity, the generated data supports
+flexible augmentation across viewpoints, appearance, back-
+grounds, and object pose, enabling systematic evaluation of
+their effects on policy generalization.
+Fig. 7. Illustration of the generalization evaluation scenarios. Camera view-
+points, object colors, background appearances, and lighting conditions are
+varied to assess the generalization capability of the learned policies across
+different environments.
+Using these four augmentation strategies, we obtain a
+dataset that is twenty times the size of the original one
+for policy training. We then introduce variations in both the
+environment and the manipulated objects to assess model
+performance under generalization settings. The generalization
+evaluation scenarios are illustrated in Fig. 7.
+As shown in Fig. 8 (a), data augmentation substantially
+improves policy generalization. Policies trained with aug-
+mented data consistently outperform those trained on non-
+augmented synthetic data and even real-world data, especially
+under variations in object color, background, and lighting. In
+these challenging settings, policies trained solely on real-world
+data often fail completely, highlighting the effectiveness of the
+proposed augmentation strategies.
+In contrast, the improvement is limited for theUnscrew
+Bottle Captask, where failures are dominated by strong
+kinematic constraints from the threaded coupling, such as
+slippage and jamming, rather than visual perception. These
+issues mainly arise from suboptimal demonstration quality due
+to operator proficiency, inherently limiting the benefits of data
+augmentation.
+D. Ablation Study of Data Augmentation Methods
+To evaluate the individual contributions of different data
+augmentation strategies to policy generalization, we construct
+three augmented datasets for ablation studies. Since color jitter
+inherently affects background appearance, it is not considered
+separately from background replacement. The datasets are
+defined as follows:
+Fig. 8. Effect of data augmentation on policy generalization. (a) Success rates under various visual perturbations for policies trained on teleoperation and
+augmented data. (b) Ablation study using three augmented datasets (A, B, and C) to evaluate the impact of different augmentation strategies on generalization
+performance.
+Fig. 9. Example segmentation results of the proposed Mask Adapter. The
+model is trained using only containers and green blocks, yet achieves robust
+segmentation when tested on novel objects and backgrounds, demonstrating
+strong generalization capability.
+•Dataset A (Viewpoint): Each demonstration is rendered
+from ten novel camera viewpoints using 3DGS, resulting
+in a dataset ten times the size of the original one.
+•Dataset B (Appearance): Background textures and light-
+ing conditions are randomized, and large-range color jitter
+is applied to all Gaussian models, producing a dataset ten
+times the size of the original one.
+•Dataset C (Object Pose): Additional demonstrations are
+generated by applying random perturbations to the poses
+of the manipulated objects, yielding a dataset ten times
+the size of the original one.
+Since the performance bottleneck of theUnscrew Bottle Cap
+task mainly arises from physical constraints rather than visual
+representation, we conduct the ablation study on thePick Place
+Closetask.
+As shown in Fig. 8 (b), the generalization improvements
+from data augmentation largely align with intuition. Viewpoint
+variation and color jitter most effectively expand the training
+domain and thus contribute the largest performance gains,
+with color jitter yielding the strongest overall improvement
+due to persistent color and illumination discrepancies between
+synthetic and real data.
+In contrast, pose augmentation provides only marginal bene-
+fits, as object poses are already sufficiently diverse during data
+collection and pose perturbations do not address the primary
+visual domain gap, resulting in limited performance gains.
+E. Effect of Mask Adapter on Policy Performance
+Mask Adapter is a lightweight module designed to enhance
+policy generalization by guiding attention toward interaction-
+centric features and facilitating the modeling of interaction-
+relevant relationships, thereby mitigating the sim-to-real gap.
+While sharing a similar goal with data augmentation, con-
+ventional augmentation relies on substantially enlarged syn-
+thetic datasets, incurring notable storage and computational
+overhead. In contrast, Mask Adapter operates directly on the
+original data and remains fully compatible with augmented
+data, offering a more efficient alternative.
+We train ACT policies equipped with Mask Adapter using
+non-augmented demonstrations generated by our pipeline and
+evaluate their generalization performance under varying envi-
+ronmental and object conditions.
+Fig. 10. Impact of the Mask Adapter on policy generalization. The adapter
+effectively narrows the sim-to-real gap, enabling policies to outperform tele-
+operation baselines in standard and color-varied scenarios, while performance
+remains sensitive to severe background and lighting perturbations.
+Fig. 9 illustrates segmentation results produced by the
+Mask Adapter during evaluation. The adapter enables fully
+automatic and accurate segmentation of the target objects, the
+background, and the robot, and is able to generalize to objects
+that do not appear in the training dataset.
+As shown in Fig. 10, the Mask Adapter is highly effective
+at mitigating the sim-to-real gap introduced by training on
+synthetic data. Benefiting from the higher-quality motion tra-
+jectories collected using AirExo-3, the resulting policies even
+outperform those trained on teleoperation data. In addition, the
+policies exhibit a certain degree of robustness to object color
+variations. However, under more severe conditions, such as
+drastic background changes and colored lighting that adversely
+affect the segmentation model, performance still degrades
+noticeably. Considering that the Mask Adapter is designed
+as a lightweight module to counter the sim-to-real gap, its
+performance is fully satisfactory.
+V. CONCLUSION
+In this work, we presented ExoGS, a scalable, robot-free
+Real-to-Sim-to-Real framework for manipulation data collec-
+tion. By integrating a low-cost (approx. $400) passive ex-
+oskeleton with a 3D Gaussian Splatting pipeline, we enable the
+efficient acquisition of kinematically consistent demonstrations
+and their digitization into editable simulation assets. This ap-
+proach allows for massive, geometry-aware data augmentation
+that significantly enhances policy generalization. Furthermore,
+our proposed Mask Adapter effectively bridges the sim-to-
+real gap by injecting instance-level semantic constraints into
+the policy. Extensive real-world experiments demonstrate that
+ExoGS reduces data collection costs while yielding policies
+that outperform those trained via traditional teleoperation.
+However, the current framework relies on the rigid-body
+assumption of 3DGS, which restricts the modeling of de-
+formable objects with variable geometry. Future work will plan
+to further improve the automation level of the data generation
+pipeline.
+REFERENCES
+[1] B. Mildenhall, P. P. Srinivasan, M. Tancik, J. T. Barron, R. Ramamoorthi,
+and R. Ng, “Nerf: Representing scenes as neural radiance fields for view
+synthesis,”Communications of the ACM, 2021.
+[2] B. Kerbl, G. Kopanas, T. Leimk ¨uhler, and G. Drettakis, “3d gaussian
+splatting for real-time radiance field rendering.”ACM Trans. Graph.,
+2023.
+[3] A. Byravan, J. Humplik, L. Hasenclever, A. Brussee, F. Nori,
+T. Haarnoja, B. Moran, S. Bohez, F. Sadeghi, B. Vujatovicet al.,
+“Nerf2real: Sim2real transfer of vision-guided bipedal motion skills
+using neural radiance fields,” inICRA, 2023.
+[4] M. N. Qureshi, S. Garg, F. Yandun, D. Held, G. Kantor, and A. Silwal,
+“Splatsim: Zero-shot sim2real transfer of rgb manipulation policies
+using gaussian splatting,” inCoRL 2024 Workshop on Mastering Robot
+Manipulation in a World of Abundant Data, 2024.
+[5] M. T. Villasevil, A. Simeonov, Z. Li, A. Chan, T. Chen, A. Gupta,
+and P. Agrawal, “Reconciling reality through simulation: A real-to-sim-
+to-real approach for robust manipulation,” inRobotics: Science and
+Systems, 2024.
+[6] H. Lou, Y . Liu, Y . Pan, Y . Geng, J. Chen, W. Ma, C. Li, L. Wang,
+H. Feng, L. Shiet al., “Robo-gs: A physics consistent spatial-temporal
+model for robotic arm with hybrid representation,”CoRR, 2024.
+[7] X. Li, J. Li, Z. Zhang, R. Zhang, F. Jia, T. Wang, H. Fan, K.-K. Tseng,
+and R. Wang, “Robogsim: A real2sim2real robotic gaussian splatting
+simulator,”arXiv preprint arXiv:2411.11839, 2024.
+[8] J. Yu, L. Fu, H. Huang, K. El-Refai, R. A. Ambrus, R. Cheng,
+M. Z. Irshad, and K. Goldberg, “Real2render2real: Scaling robot
+data without dynamics simulation or robot hardware,”arXiv preprint
+arXiv:2505.09601, 2025.
+[9] Z. Yuan, T. Wei, S. Cheng, G. Zhang, Y . Chen, and H. Xu, “Learning to
+manipulate anywhere: A visual generalizable framework for reinforce-
+ment learning,” inConference on Robot Learning. PMLR, 2025, pp.
+1815–1833.
+[10] G. Wu, T. Yi, J. Fang, L. Xie, X. Zhang, W. Wei, W. Liu, Q. Tian, and
+X. Wang, “4d gaussian splatting for real-time dynamic scene rendering,”
+inProceedings of the IEEE/CVF conference on computer vision and
+pattern recognition, 2024.
+[11] T. Xie, Z. Zong, Y . Qiu, X. Li, Y . Feng, Y . Yang, and C. Jiang, “Phys-
+gaussian: Physics-integrated 3d gaussians for generative dynamics,” in
+Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition, 2024.
+[12] O. Shorinwa, J. Tucker, A. Smith, A. Swann, T. Chen, R. Firoozi,
+M. D. Kennedy, and M. Schwager, “Splat-mover: Multi-stage, open-
+vocabulary robotic manipulation via editable gaussian splatting,” in8th
+Annual Conference on Robot Learning, 2024.
+[13] M. Ji, R.-Z. Qiu, X. Zou, and X. Wang, “Graspsplats: Efficient manip-
+ulation with 3d feature splatting,” in8th Annual Conference on Robot
+Learning, 2024.
+[14] B. P. Duisterhof, Z. Mandi, Y . Yao, J.-W. Liu, J. Seidenschwarz, M. Z.
+Shou, R. Deva, S. Song, S. Birchfield, B. Wen, and J. Ichnowski,
+“DeformGS: Scene flow in highly deformable scenes for deformable
+object manipulation,”WAFR, 2024.
+[15] J. Abou-Chakra, K. Rana, F. Dayoub, and N. S ¨underhauf, “Physically
+embodied gaussian splatting: A realtime correctable world model for
+robotics,”CoRR, 2024.
+[16] S. Yang, W. Yu, J. Zeng, J. Lv, K. Ren, C. Lu, D. Lin, and J. Pang,
+“Novel demonstration generation with gaussian splatting enables robust
+one-shot manipulation,”arXiv preprint arXiv:2504.13175, 2025.
+[17] B. Zitkovich, T. Yu, S. Xu, P. Xu, T. Xiao, F. Xia, J. Wu, P. Wohlhart,
+S. Welker, A. Wahidet al., “Rt-2: Vision-language-action models
+transfer web knowledge to robotic control,” inConference on Robot
+Learning, 2023.
+[18] E. Jang, A. Irpan, M. Khansari, D. Kappler, F. Ebert, C. Lynch,
+S. Levine, and C. Finn, “Bc-z: Zero-shot task generalization with robotic
+imitation learning,” inConference on Robot Learning, 2022.
+[19] T. Zhang, Z. McCarthy, O. Jow, D. Lee, X. Chen, K. Goldberg, and
+P. Abbeel, “Deep imitation learning for complex manipulation tasks from
+virtual reality teleoperation,” inICRA, 2018.
+[20] S. Song, A. Zeng, J. Lee, and T. Funkhouser, “Grasping in the wild:
+Learning 6dof closed-loop grasping from low-cost demonstrations,”
+IEEE Robotics and Automation Letters, 2020.
+[21] K. Bousmalis, G. Vezzani, D. Rao, C. Devin, A. X. Lee, M. Bauza,
+T. Davchev, Y . Zhou, A. Gupta, A. Rajuet al., “Robocat: A self-
+improving foundation agent for robotic manipulation,”arXiv preprint
+arXiv:2306.11706, vol. 1, no. 8, 2023.
+[22] H. Fang, H.-S. Fang, Y . Wang, J. Ren, J. Chen, R. Zhang, W. Wang,
+and C. Lu, “Airexo: Low-cost exoskeletons for learning whole-arm
+manipulation in the wild,” inICRA, 2024.
+[23] H. Fang, C. Wang, Y . Wang, J. Chen, S. Xia, J. Lv, Z. He, X. Yi, Y . Guo,
+X. Zhanet al., “Airexo-2: Scaling up generalizable robotic imitation
+learning with low-cost exoskeletons,” in7th Robot Learning Workshop:
+Towards Robots with Human-Level Abilities, 2025.
+[24] C. Chi, Z. Xu, C. Pan, E. Cousineau, B. Burchfiel, S. Feng, R. Tedrake,
+and S. Song, “Universal manipulation interface: In-the-wild robot teach-
+ing without in-the-wild robots,” inRobotics: Science and Systems, 2024.
+[25] C. Wang, H. Shi, W. Wang, R. Zhang, L. Fei-Fei, and K. Liu, “Dexcap:
+Scalable and portable mocap data collection system for dexterous
+manipulation,” inRSS 2024 Workshop: Data Generation for Robotics,
+2024.
+[26] T. Z. Zhao, V . Kumar, S. Levine, and C. Finn, “Learning fine-grained
+bimanual manipulation with low-cost hardware,” inICML Workshop on
+New Frontiers in Learning, Control, and Dynamical Systems, 2023.
+[27] Q. Ben, F. Jia, J. Zeng, J. Dong, D. Lin, and J. Pang, “Homie: Humanoid
+loco-manipulation with isomorphic exoskeleton cockpit,” inRSS 2025
+Workshop on Whole-body Control and Bimanual Manipulation: Appli-
+cations in Humanoids and Beyond, 2025.
+[28] J. L. Sch ¨onberger and J.-M. Frahm, “Structure-from-Motion Revisited,”
+inCVPR, 2016.
+[29] B. Wen, W. Yang, J. Kautz, and S. Birchfield, “Foundationpose: Unified
+6d pose estimation and tracking of novel objects,” inCVPR, 2024.
+[30] O. Sim ´eoni, H. V . V o, M. Seitzer, F. Baldassarre, M. Oquab, C. Jose,
+V . Khalidov, M. Szafraniec, S. Yi, M. Ramamonjisoaet al., “Dinov3,”
+arXiv preprint arXiv:2508.10104, 2025.
+[31] E. J. Hu, Y . Shen, P. Wallis, Z. Allen-Zhu, Y . Li, S. Wang, L. Wang,
+W. Chenet al., “Lora: Low-rank adaptation of large language models.”
+ICLR, 2022.
+[32] L.-C. Chen, Y . Zhu, G. Papandreou, F. Schroff, and H. Adam, “Encoder-
+decoder with atrous separable convolution for semantic image segmen-
+tation,” inProceedings of the European conference on computer vision
+(ECCV), 2018, pp. 801–818.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SatelliteImagery",
+  "isCornerstone Of",
+  "DisasterResponse",
+  "LargeScaleHazard",
+  "includes",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "requires",
+  "BuildingLevelAssessment",
+  "supports",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "emphasizes",
+  "BuildingFunction",
+  "FEMA",
+  "fullNameIs",
+  "InternationalSearchAndRescueAdvisoryGroup",
+  "FederalEmergencyManagementAgency",
+  "DamagedBuilding",
+  "canFunctionAs",
+  "Hospital",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "influences",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "PhysicalDamageAssessment",
+  "ComputerVisionLaboratory",
+  "locatedIn",
+  "LinköpingUniversity",
+  "Sweden",
+  "Vantor",
+  "Linköping",
+  "PhysicalDamage",
+  "BuildingUse",
+  "RemoteSensing",
+  "DisasterAssessment",
+  "Dataset",
+  "DamageMapping",
+  "ChangeAnalysis",
+  "xBD",
+  "BRIGHT",
+  "FloodNet",
+  "PreEventImagery",
+  "PostEventImagery",
+  "DamageAnnotation",
+  "Hazard",
+  "Building",
+  "SceneLevelLabel",
+  "FunctionAwareEvaluation",
+  "InstanceLevelEvaluation",
+  "StructuredReporting",
+  "HumanitarianAssessment",
+  "agency_FEMA",
+  "agency_INSARAG",
+  "PostDisasterAssessment",
+  "benchmark_DisasterInsight",
+  "dataset_xBD",
+  "SatelliteImage",
+  "HighSpatialResolutionSensor",
+  "DisasterEvent",
+  "BuildingCenteredInstance",
+  "PreDisasterImagePatch",
+  "PostDisasterImagePatch",
+  "BoundingBoxCoordinate",
+  "DamageLevel",
+  "BuildingInstance",
+  "FunctionalSemantic",
+  "dataset_OpenStreetMap",
+  "OSM",
+  "VolunteeredGeographicInformation",
+  "BuildingFootprint",
+  "BuildingPolygon"
+]
+
+Triples:
+[
+  {
+    "subject": "SatelliteImagery",
+    "relation": "isCornerstone Of",
+    "object": "DisasterResponse",
+    "chunk": "introduction",
+    "context": "Rapid and accurate interpretation of satellite imagery is a cornerstone of effective disaster response."
+  },
+  {
+    "subject": "LargeScaleHazard",
+    "relation": "includes",
+    "object": "Earthquake",
+    "chunk": "introduction",
+    "context": "Following large-scale hazards such as earthquakes, floods, or hurricanes, emergency coordination agencies require fine-grained, building-level assessments to support triage, resource allocation, and risk mitigation decisions."
+  },
+  {
+    "subject": "LargeScaleHazard",
+    "relation": "includes",
+    "object": "Flood",
+    "chunk": "introduction",
+    "context": "Following large-scale hazards such as earthquakes, floods, or hurricanes, emergency coordination agencies require fine-grained, building-level assessments to support triage, resource allocation, and risk mitigation decisions."
+  },
+  {
+    "subject": "LargeScaleHazard",
+    "relation": "includes",
+    "object": "Hurricane",
+    "chunk": "introduction",
+    "context": "Following large-scale hazards such as earthquakes, floods, or hurricanes, emergency coordination agencies require fine-grained, building-level assessments to support triage, resource allocation, and risk mitigation decisions."
+  },
+  {
+    "subject": "EmergencyCoordinationAgency",
+    "relation": "requires",
+    "object": "BuildingLevelAssessment",
+    "chunk": "introduction",
+    "context": "Following large-scale hazards such as earthquakes, floods, or hurricanes, emergency coordination agencies require fine-grained, building-level assessments to support triage, resource allocation, and risk mitigation decisions."
+  },
+  {
+    "subject": "BuildingLevelAssessment",
+    "relation": "supports",
+    "object": "Triage",
+    "chunk": "introduction",
+    "context": "emergency coordination agencies require fine-grained, building-level assessments to support triage, resource allocation, and risk mitigation decisions."
+  },
+  {
+    "subject": "BuildingLevelAssessment",
+    "relation": "supports",
+    "object": "ResourceAllocation",
+    "chunk": "introduction",
+    "context": "emergency coordination agencies require fine-grained, building-level assessments to support triage, resource allocation, and risk mitigation decisions."
+  },
+  {
+    "subject": "BuildingLevelAssessment",
+    "relation": "supports",
+    "object": "RiskMitigation",
+    "chunk": "introduction",
+    "context": "emergency coordination agencies require fine-grained, building-level assessments to support triage, resource allocation, and risk mitigation decisions."
+  },
+  {
+    "subject": "INSARAG",
+    "relation": "emphasizes",
+    "object": "BuildingFunction",
+    "chunk": "introduction",
+    "context": "Operational disaster-response guidelines from the International Search and Rescue Advisory Group (INSARAG) and the Federal Emergency Management Agency (FEMA) further emphasize that, beyond estimating physical damage, responders must assess the function and use of affected structures."
+  },
+  {
+    "subject": "FEMA",
+    "relation": "emphasizes",
+    "object": "BuildingFunction",
+    "chunk": "introduction",
+    "context": "Operational disaster-response guidelines from the International Search and Rescue Advisory Group (INSARAG) and the Federal Emergency Management Agency (FEMA) further emphasize that, beyond estimating physical damage, responders must assess the function and use of affected structures."
+  },
+  {
+    "subject": "INSARAG",
+    "relation": "fullNameIs",
+    "object": "InternationalSearchAndRescueAdvisoryGroup",
+    "chunk": "introduction",
+    "context": "Operational disaster-response guidelines from the International Search and Rescue Advisory Group (INSARAG)"
+  },
+  {
+    "subject": "FEMA",
+    "relation": "fullNameIs",
+    "object": "FederalEmergencyManagementAgency",
+    "chunk": "introduction",
+    "context": "the Federal Emergency Management Agency (FEMA)"
+  },
+  {
+    "subject": "DamagedBuilding",
+    "relation": "canFunctionAs",
+    "object": "Hospital",
+    "chunk": "introduction",
+    "context": "such as whether a damaged building serves as a hospital, school, industrial facility, or residential shelter, as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "DamagedBuilding",
+    "relation": "canFunctionAs",
+    "object": "School",
+    "chunk": "introduction",
+    "context": "such as whether a damaged building serves as a hospital, school, industrial facility, or residential shelter, as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "DamagedBuilding",
+    "relation": "canFunctionAs",
+    "object": "IndustrialFacility",
+    "chunk": "introduction",
+    "context": "such as whether a damaged building serves as a hospital, school, industrial facility, or residential shelter, as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "DamagedBuilding",
+    "relation": "canFunctionAs",
+    "object": "ResidentialShelter",
+    "chunk": "introduction",
+    "context": "such as whether a damaged building serves as a hospital, school, industrial facility, or residential shelter, as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "BuildingFunction",
+    "relation": "influences",
+    "object": "MedicalSurgeCapacity",
+    "chunk": "introduction",
+    "context": "as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "BuildingFunction",
+    "relation": "influences",
+    "object": "ShelterAvailability",
+    "chunk": "introduction",
+    "context": "as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "BuildingFunction",
+    "relation": "influences",
+    "object": "SearchAndRescuePlanning",
+    "chunk": "introduction",
+    "context": "as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "BuildingFunction",
+    "relation": "influences",
+    "object": "InfrastructureRestoration",
+    "chunk": "introduction",
+    "context": "as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "DisasterResponse",
+    "relation": "requires",
+    "object": "PhysicalDamageAssessment",
+    "chunk": "introduction",
+    "context": "beyond estimating physical damage, responders must assess the function and use of affected structures"
+  },
+  {
+    "subject": "ComputerVisionLaboratory",
+    "relation": "locatedIn",
+    "object": "LinköpingUniversity",
+    "chunk": "introduction",
+    "context": "Computer Vision Laboratory, Linköping University, Sweden."
+  },
+  {
+    "subject": "LinköpingUniversity",
+    "relation": "locatedIn",
+    "object": "Sweden",
+    "chunk": "introduction",
+    "context": "Computer Vision Laboratory, Linköping University, Sweden."
+  },
+  {
+    "subject": "Vantor",
+    "relation": "locatedIn",
+    "object": "Linköping",
+    "chunk": "introduction",
+    "context": "Vantor, Linköping, Sweden."
+  },
+  {
+    "subject": "Vantor",
+    "relation": "locatedIn",
+    "object": "Sweden",
+    "chunk": "introduction",
+    "context": "Vantor, Linköping, Sweden."
+  }
+]

@@ -1,0 +1,732 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Low Cost, High E!ciency: LiDAR Place Recognition in
+Vineyards with Matryoshka Representation Learning
+Judith Vilella-Cantos a,→,M a u r oM a r t i n ib,M a r c e l l oC h i a b e r g eb,M ´ o n i c a
+Ballestaa,D a v i dV a l i e n t ea
+aUniversity Institute for Engineering Research, Miguel Hern´ andez University, Avda. de
+la Universidad s/n, Ediﬁcio Innova, Elche, 03202, Alicante, Spain
+bDepartment of Electronics and Communications, Politecnico di
+Torino, Torino, 10129, Italy
+Abstract
+Localization in agricultural environments is challenging due to their unstruc-
+tured nature and lack of distinctive landmarks. Although agricultural set-
+tings have been studied in the context of object classiﬁcation and segmenta-
+tion, the place recognition task for mobile robots is not trivial in the current
+state of the art. In this study, we propose MinkUNeXt-VINE, a lightweight,
+deep-learning-based method that surpasses state-of-the-art methods in vine-
+yard environments thanks to its pre-processing and Matryoshka Representa-
+tion Learning multi-loss approach. Our method prioritizes enhanced perfor-
+mance with low-cost, sparse LiDAR inputs and lower-dimensionality outputs
+to ensure high e!ciency in real-time scenarios. Additionally, we present a
+comprehensive ablation study of the results on various evaluation cases and
+two extensive long-term vineyard datasets employing di”erent LiDAR sen-
+sors. The results demonstrate the e!ciency of the trade-o” output produced
+by this approach, as well as its robust performance on low-cost and low-
+resolution input data. The code is publicly available for reproduction. 1
+Keywords: LiDAR Place Recognition, Deep Learning, Vineyard
+Environments, Season Generalization, Matryoshka Representation Learning
+→Corresponding author
+Email address: jvilella@umh.es (Judith Vilella-Cantos)
+1https://github.com/JudithV/MinkUNeXt-VINE
+arXiv:2601.18714v1 [cs.CV] 26 Jan 2026
+1. Introduction
+In the domain of robotic localization, the place recognition problem in-
+volves the ability to accurately match a place on real-time navigation in a
+database which stores the map of previously visited locations. A robust solu-
+tion to this problem allows any robotic system to navigate the environment
+accurately and successfully localize itself in GPS-denied environments. This
+is crucial in every simultaneous localization and mapping (SLAM) applica-
+tion and in loop closure detection algorithms [1, 2, 3].
+The utilization of Light Detection and Ranging (LiDAR) technology as an
+input in these algorithms is a growing approach. The 3D data from scans are
+more robust to illumination and weather changes than traditional vision sys-
+tems. Therefore, applying deep learning techniques to point clouds for place
+recognition tasks has become a critical component in modern autonomous
+navigation systems. [4, 5, 6].
+Agricultural environments present a series of unique challenges that are
+not present in urban settings, which are the most widely tested environments.
+In this study, the research is conducted in a speciﬁc agricultural context:
+vineyards. Among the aforementioned challenges, the presence of repetitive
+structures without distinctive landmarks, occlusions by heavy vegetation [7],
+and signiﬁcant changes in the appearance of the scene between di”erent sea-
+sons are particularly prominent [8]. Furthermore, the geometry of vine rows
+produces limited discriminative features for both visual and LiDAR sensors.
+The identiﬁcation of a robust solution to the LiDAR place recognition
+(LPR) problem in agricultural settings has the potential to facilitate the de-
+velopment of advanced applications in precision agriculture [9], ﬁeld and crop
+monitoring [10], phenotyping [11], and autonomous navigation of agricultural
+vehicles [12]. In order to address the speciﬁc challenges posed by vineyard en-
+vironments, a series of experiments were conducted with di”erent backbones
+and scopes of the training and evaluation data. We analyze how repeti-
+tive plant structures and seasonal variability a”ect the robustness of current
+place recognition networks, and propose strategies to improve generalization
+in such challenging agricultural settings. Finally, we propose MinkUNeXt-
+VINE, a variant of the MinkUNeXt backbone [13], known for its strong
+performance in urban LPR. We redesign the original architecture by pruning
+ine!cient layers and enforcing a lower-dimensional output, which drastically
+lowers parameter count and latency. We couple this lightweight design with
+Matryoshka Representation Learning (MRL) [14], a training strategy that
+enforces structure at various embedding sizes via a weighted summation of
+descriptor slices. The resulting framework o”ers a scalable and e!cient so-
+lution designed for real-time deployment in agricultural localization.
+The contributions of our work are the following:
+• We introduce MinkUNeXt-VINE, a lightweight LPR network designed
+for agricultural robotics. It leverages a multi-loss strategy through
+MRL and architectural simpliﬁcation to produce ﬂexible, low-dimensional
+descriptors suitable for real-time constraints. This is the ﬁrst contri-
+bution using a MRL approach for optimizing a LPR method.
+• We conduct a thorough analysis of architectural trade-o”s, sp eciﬁcally
+investigating the synergy between MRL, reduced layer complexity, and
+descriptor dimensionality, proving the e!cacy of our pruning strategy
+in inputs such as a Livox LiDAR sensor (low-cost, low-resolution).
+• We present an extensive validation of MinkUNeXt-VINE in cross-season
+scenarios, testing the robustness of our method across the di”erent
+months and seasons conforming the phenological cycle of the vineyards.
+• A complete benchmark of LiDAR place recognition approaches over
+most recent long-term vineyard datasets. We establish a comparison
+between the impact of our method on di”erent cost and resolution
+LiDAR sensors such as Livox and Velodyne.
+2. Related works
+2.1. Place recognition in agricultural environments
+Agricultural environments are distinguished by their uniformity and high
+variability in the di”erent seasons of the year. The environment undergoes
+notable changes depending on the crop’s developmental stage, including pe-
+riods of high vegetation density within the ﬁeld, which can impede the func-
+tionality of robotic vision systems. In particular, within vineyard environ-
+ments characterized by dense foliage, the robot’s ﬁeld of vision is constrained
+to the immediate row in which it is operating.
+The issue of place recognition in these environments remains an active
+area of research. While classiﬁcation and semantic segmentation have been
+the focus of these environments, the realm of localization remains largely un-
+explored. With regard to the issue of vision localization, proposed solutions
+include an approach by Liu et al. [15] for autonomous navigation in vine-
+yard environments. This approach utilizes a path detection framework that
+detects traversability from the RGB-D image source. In [16], the authors
+propose a localization solution that uses an estimation of the location of the
+end of the vineyard row through a depth map and a modiﬁed MobileNet [17]
+for the classiﬁcation of objects detected in the vision system. This approach
+facilitates the localization process and was tested in real-world environments.
+In the case of the LPR problem, several recent works has addressed it
+on agricultural environments. In TriLoc-NetVLAD [18], the authors pro-
+pose an orchard-focused, long-term LPR solution consisting of a spatial con-
+text descriptor based on point cloud density, height, and spatial information.
+Then, they use a triplet neural network that fuses high-dimensional and low-
+dimensional features with a NetVLAD [19] aggregation module. The method-
+ology in SPVSoAP3D [20] consists of a voxel-based feature extraction module
+(SPV), followed by a feature extraction module that combines second-order
+pooling, log-Euclidean projection, and power normalization (SoAP). Finally,
+it produces the descriptor through a fully connected layer with L2 normal-
+ization. In a similar vein, PointNetPGAP-SLC [21] proposed by Barros et
+al. presents a methodology for the extraction of features from point clouds
+by leveraging the capabilities of PointNet [22]. The subsequent aggregation
+of these features is achieved through a process that integrates the Pairwise
+Feature Interactions and Global Average Pooling (PGAP) aggregation tech-
+niques. To enhance the robustness of this methodology, a signal that con-
+siders the segmentation of vineyards is incorporated into the Segment-Level
+Consistency (SLC) model.
+2.2. LiDAR place recognition
+The use of LiDAR technology instead of a traditional 2D vision system
+provides invariance to lightning changes. For this reason, the development
+of algorithms that take as input these 3D data has been increasing over the
+last years. The grounding work for the development of LPR deep learn-
+ing algorithms is PointNetVLAD [4]. This method combines the use of the
+PointNet architecture [22] to extract higher dimensional local features from
+the point clouds and pass them to a NetVLAD [19] aggregation module.
+After the creation of PointNetVLAD, several works approached the LPR
+problem with deep learning techniques. In LPD-Net [23], the network in-
+corporates additional contextual information regarding the neighborhood of
+each point. This additional information encompasses the linearity, planarity,
+and scattering properties of the neighborhood. In contrast to other net-
+works, LPD-Net utilizes this expanded set of features for feature extraction,
+in addition to positional information. Instead of NetVLAD, a graph-based
+aggregation module is utilized. In MinkLoc3D [5], the authors propose a
+method based on Minkowski convolutions [24], which operates on sparse ten-
+sors of unordered 3D coordinates. On the same note, MinkUNeXt [13] is
+ad e e pn e t w o r kt h a ta c h i e v e se x c e p t i o n a lr e c a l lr e s u l t so nt h eL P Rt a s k s ,
+using only Minkowski convolutions and transposed Minkowski convolutions
+without additional complex mechanisms such as transformers or attention
+modules.
+Apart from the deep learning approaches to the LPR problem, some meth-
+ods use handcrafted global descriptors to solve it. These descriptors are not
+trained through a machine learning system; rather, they are built from the
+geometric characteristics of LiDAR scans. Scan Context [25] is a popular
+example. It creates a global descriptor by dividing the original point cloud
+into sectors and voxels. Then, it encodes the descriptor by taking into ac-
+count the maximum height of the points in each bin. Other methods such as
+Fusion Scan Context [26] also take into account the density of each bin (how
+many points are present in each of them) and the intensity of each bin. In
+Semantic Scan Context [27] is augmented by the application of semantic seg-
+mentation to the raw point cloud, with the resultant information projected
+onto the plane. A two-step global semantic ICP is also performed to obtain
+the 3D pose and to robustly align the point clouds. A distinct handcrafted
+place recognition descriptor is the Stable Triangle Descriptor (STD) [28].
+The STD is a six-dimensional vector formed by the length of the three tri-
+angle sides and the three normal vectors corresponding to each of the three
+vertices of the triangle. It is imperative to note that the term ”triangle”
+in this context refers to a geometric ﬁgure delineated by three keypoints,
+which are identiﬁed within the point cloud subsequent to its projection onto
+a plane. The recent Omni Point method [29], as outlined in the study, builds
+ad e s c r i p t o rf r o mt h ed i s t a n c eb e t w e e nt h ef e a t u r ep o i n t sp r e s e n ti nt h ep o i n t
+cloud, following a histogram of distances approach.
+LiDAR-based place recognition is a promising ﬁeld due to the immutabil-
+ity of these geometric data to external inﬂuences. However, further research
+is necessary to extend these solutions to agricultural environments and obtain
+successful results.
+3. Methodology
+To address the unique challenges of vineyard environments and low-
+cost LiDAR sensors, we propose MinkUNeXt-VINE. It is a lightweight LPR
+pipeline optimized for repetitive settings with a focus on high e!ciency, based
+on the backbone MinkUNeXt [13].
+To provide an exhaustive explanation of the prop osed metho d, Section 3.1
+presents, ﬁrstly, the preprocessing steps taken to stabilize the sparse input
+for our method. Section 3.2 discusses the architectural decisions that led us
+to our ﬁnal proposal, MinkUNeXt-VINE. Finally, Section 3.3 provides details
+about the MRL multi-loss strategy adopted by our algorithm.
+3.1. Input preprocessing
+In order to ensure a stable, reliable and higher accuracy performance,
+we applied preprocessing steps to the raw points extracted from the point
+clouds.
+In order to ensure the integrity of our algorithm, a process of ﬁltration
+is implemented to remove points that may contain extraneous data, such
+as those characterized by zero values for the x, y, z coordinates. Addi-
+tionally, a ﬁltration process is employed to remove points that are situated
+at a distance greater than 60 meters, a procedure that is applied to both
+datasets. Finally, we normalize each point in a [ →1, 1] range. This pro-
+posed global normalization process involves two stages: ﬁxed-range scaling
+and zero-centering. First, the coordinates are scaled by a ﬁxed factor S =6 0 ,
+mapping the mapped range of the sensor to the normalized interval [ →1, 1].
+This transformation preserves the geometric aspect ratio while standardizing
+the input variance. Subsequently, the point cloud is translated to the origin
+by subtracting the centroid (mean) from each coordinate, e”ectively remov-
+ing translation invariance. Equation 1 illustrates this global normalization
+process.
+ˆpi = pi → µ
+S (1)
+Where ˆpi represent the normalized original pi point, µ the centroid of the
+point cloud and S the normalization factor which, as previously mentioned,
+is equivalent to 60.
+3.2. MinkUNeXt-VINE
+MinkUNeXt is a LiDAR place recognition method that follows a U-Net
+architecture and relies solely on Minkowski convolutions to produce a robust
+global descriptor. This network is based on the encoder-decoder type, in-
+corporating skip connections. The utilization of skip connections facilitates
+the integration of low-level and high-level features, thereby enhancing the
+performance of the place recognition task.
+Building upon the insights of M´ aximo et al. [30] that descriptors emerg-
+ing after the second transpose convolution yield minimized mean positional
+and orientation errors, we designated this layer’s output as the ﬁnal feature
+map. We then pruned the subsequent ﬁve layers and the ﬁnal fully connected
+layer from the original backbone. This resulted in a 192-dimensional global
+descriptor, which is much more compact than the original 512-dimensional
+global descriptor. As demonstrated in Section 6.2, this streamlining signiﬁ-
+cantly reduces pipeline complexity while enhancing retrieval performance.
+Figure 1 depicts the architecture of MinkUNeXt-VINE, highlighting the
+strategic integration of the GeM pooling aggregator immediately following
+the second transpose convolution. This design yields a signiﬁcantly more
+compact pipeline compared to the baseline, ensuring e!cient real-time per-
+formance as quantitatively demonstrated in Section 7.2.
+Figure 1: MinkUNeXt-VINE’s proposed architecture. The parent backbone has been
+pruned to improve e!ciency and performance in unstructured settings.
+3.3. Learning with a multi-loss approach
+The original MinkUNeXt method uses a simple Truncated Smooth Aver-
+age Precision (TSAP) loss function, which aims to maximize the ranking of
+the positives with the following formula:
+LTSAP = 1
+q=1
+(1 → APq)( 2 )
+Where b is the batch size and AP is the smooth average precision, which is
+calculated with this formula:
+AP = 1
+|P |
+i↑P
+1+ ∑
+j↑P,j↓=i G(d(q, i) → d(q, j); ω )
+1+ ∑
+j↑!,j↓=i G(d(q, i) → d(q, j); ω ) (3)
+Where, for a set of positives P ,t h ea v e r a g ep r e c i s i o no fag i v e np o i n tc l o u d
+q is computed as the mean of the soft precision values calculated for each
+positive sample i. Here, # represents the complete set of all samples in the
+batch, including both positives and negatives. On the other hand, d(·, ·)i s
+the distance metric between the query descriptor and a candidate, repre-
+sented by the Euclidean distance. The Sigmoid function G(·; ω ), where ω is a
+temperature parameter, controls the sharpness of the ranking approximation.
+Nevertheless, multi-loss approaches have been proven to enhance fea-
+ture robustness by enforcing constraints at di”erent levels of granularity
+[31, 32, 33]. A speciﬁc multi-loss paradigm that has gained signiﬁcant trac-
+tion recently is Matryoshka Representation Learning (MRL) [14]. Mimick-
+ing the structure of nesting dolls, MRL enforces that nested sub-vectors of
+the full descriptor independently encode discriminative information. This is
+achieved through a weighted summation strategy, where the loss is evaluated
+at multiple embedding dimensions simultaneously.
+The formula for the MRL approach adopted by our method is deﬁned in
+Equation 4:
+Lmat =
+m↑M
+wm ·L TSAP(z1:m)( 4 )
+where Lmat represents the total combined loss. The term M denotes the
+set of nested dimensions (e.g., {16, 32, 64,. . . ,d}), wm is the weight assigned to
+each granularity, and LTSAP(z1:m) is the TSAP loss computed on the ﬁrst m
+dimensions of the descriptor z. In our MinkUNeXt-VINE, we select the list
+of dimensions [64 , 128, 192] with the weights of [1 .0, 0.5, 0.25] for each dimen-
+sion, based on the results of the preliminary dimensionality ablation study
+presented in Section 6.1. This approach prioritizes lower-dimensionalities to
+focus on high e!ciency.
+4. Datasets
+Traditionally, public data from vineyard environments have b een centered
+around vision tasks (classiﬁcation and segmentation tasks) [34]. For example,
+the GrapesNet dataset [35] provides RGB-D imagery taken on a vineyard lo-
+cated in India. Abdelghafour et al. [36] also presented an annotated imagery
+dataset for vineyard environments. The aforementioned datasets were pub-
+lished with the objective of addressing the necessity for data classiﬁcation in
+the context of disease identiﬁcation tasks.
+In this study, we use the data from the only two vineyard datasets to
+this date that are taken in long-term periods with 3D LiDAR sensors: the
+Bacchus Long-Term (BLT) Dataset [37] and the TEMPO-VINE dataset [38].
+4.1. Bacchus Long-Term Dataset
+The BLT dataset [37] was collected in two di”erent vineyard environ-
+ments located in Greece (Ktima Gerovassiliou) and the United Kingdom
+(Riseholme). The Greek campaigns are eleven, recorded between the months
+of March and September and covering all the di”erent phases of the crop.
+On the other side, the campaigns taken in the Riseholme vineyard are ﬁve
+and were taken in the months of July and August. It is important to note
+that, in the initial two campaigns conducted at the Riseholme vineyard, GPS
+data is not available. Consequently, these campaigns are not appropriate for
+LPR algorithms due to the absence of a ground-truth source.
+With regard to the expansion of the data set collected in this particular
+vineyard, the robot traverses a total of ﬁve rows within the Ktima Gerovas-
+siliou vineyard, with each row spanning a length of 50 meters. Similarly, the
+Riseholme vineyard encompasses ﬁve rows, which are half the length of their
+Greek counterpart. Both data collection settings encompass the process of
+revisiting the same row in reverse order.
+Regarding the robotic setup employed to collect these data, a robotic
+SAGA Robotics Thorvald II platform was used. The sensor mounting in-
+cludes two Zed2i stereo RGB-D cameras, a SICK MRS1000 2D LiDAR, a FPS
+BX992 GPS-RTK system, a RSK-UM7 inertial measurement unit (IMU) sen-
+sor and an Ouster OS1-16 3D LiDAR. For the LPR task, the Ouster OS1-16
+provides high quality point clouds of the environment, as it is able to capture
+more than 300k points per second with a range of more than 100 meters with
+its 16 simultaneous beams.
+Figure 2 depicts the two vineyards that comprise the BLT dataset with
+their corresponding extension.
+Figure 2: Extension of each of the vineyard considered within the BLT datasets [37]. a)
+Ktima Gerovassiliou (Greece). b) Riseholme (United Kingdom).
+4.2. TEMPO-VINE dataset
+The TEMPO-VINE dataset [38] was collected in northern Italy (Agli` e)
+in two distinct vineyard settings: pergola and trellis. The campaigns con-
+ducted at this dataset are a total of eleven, starting in February and ﬁnishing
+in October, which results in a total coverage of all seasons and crop stages.
+For each campaign, two runs are collected in the pergola setting and two
+runs are collected in the trellis setting. Although the two runs recorded
+in the pergola cover the same path, there is a discrepancy between the two
+runs captured in the trellis environment. Speciﬁcally, ”run1” encompasses 10
+rows, while ”run2” encompasses 8 rows. The ﬁrst four rows of ”run2” align
+with the ﬁrst four rows of ”run1,” while the subsequent four rows traverse in
+the opposite direction. Furthermore, from the latter campaigns conducted
+in June onward, a third row was collected in the trellis environment, en-
+compassing revisits to the ﬁrst three rows of the trellis in reverse. Taking
+this into account, the total number of trajectories available of this dataset is
+twenty-four.
+Each row in both the pergola and trellis settings is 110 meters long. This
+dataset’s distinctive features are its captions of the diverse growth stages of
+grass in a ﬁeld and the fact that the dataset was recorded at a linear speed
+of one meter per second. These attributes introduce an additional layer
+of complexity to the place recognition problem, making it more di!cult to
+identify the exact location within the ﬁeld.
+Regarding the robotic setup of this dataset, a Husky UGV platform from
+Clearpath Robotics was used. The sensors collected include a RGB-D Intel
+Realsense D435 camera, a Swift Navigation Duro GPS-RTK system and a
+MicroStrain 3DM-GX5 IMU. The dataset was collected using two di”erent
+LiDARs: a Velodyne VLP-16 and a Livox MID360. The two sources un-
+der consideration yield point clouds of varying characteristics. The Livox
+employs a non-repetitive scanning pattern, whereby the point clouds are
+constructed from the exposure time. In contrast, the Velodyne adheres to
+a conventional time-of-ﬂight (TOF) pattern. Consequently, the Livox sen-
+sors generate considerably less detailed point clouds, a common feature in
+lower cost sensors. Figure 3 illustrates the point clouds generated by both
+sensors captured simultaneously, highlighting the FoV characteristics of each
+device. Notably, the point cloud obtained with the Velodyne sensor contains
+approximately 10,000 more points per frame than its Livox counterpart.
+Figure 4 displays the ﬁeld corresponding to the TEMPO-VINE dataset.
+The pergola rows are situated in the left portion of the ﬁeld, while the rows
+corresponding to the trellis are located in the central and right parts of the
+image. It is important to note that, due to the curvature of the ﬁeld, the
+extension values are approximate (the rows on the left side are longer than
+those on the right side). In the pergola scenario, the rows are wider (3.5
+meters), while in the trellis, the rows have a width of 2 meters. The pergola
+section measures 15 meters in width, with a length of 110 meters that aligns
+with the westernmost section of the trellis.
+5. Experimental setup
+In order to assess the e!cacy of the proposed MinkUNeXt-VINE, a series
+of experiments were conducted on two distinct datasets, as outlined in Section
+4. In Section 7, the division of the query into a training set and a testing
+set is executed in accordance with the methodology outlined by Uy et al.
+Figure 3: Comparison between the two LiDAR sensors used in the TEMPO-VINE dataset
+collection. Left: Point cloud captured with the Livox. Right: Point cloud captured with
+the Velodyne. The vertical FoV is annotated next to each sensor, while the horizontal
+FoV is 360 ↑ for both.
+in their PointNetVLAD contribution [4]. The trajectory of the vehicle is
+subdivided into a series of zones, deﬁned by a predetermined set of points.
+These points are determined by the robot’s GPS position and a radius in
+meters, which is used to delineate the area of interest. A subset of zones
+within this trajectory is reserved for testing only, while the remainder is
+incorporated into the training set. For the BLT, the radius was set to 13
+meters, and three reference points for the test zones were chosen in di”erent
+areas of the vineyard. For the TEMPO-VINE dataset, the radius was set to
+23 meters, and four reference points for the test zones were selected in both
+the pergola and trellis sections of the vineyard.
+For the results displayed on Section 6, unlike the zone-based division
+method used for Section 7, we conducted experiments using two additional
+types of sampling. The results in Section 6 were obtained using only the Livox
+data from the TEMPO-VINE dataset, as our research focuses primarily on
+low-cost sensors. The ﬁrst approach involves implementing a methodology
+that aligns with the dataset’s structural characteristics. In this methodology,
+the ”run2” trajectory is designated as the test set. Construction of the
+Figure 4: Extension of the ﬁeld where the TEMPO-VINE dataset [38] was recorded.
+test set comprises 40 to 50 percent of the examples and is contingent upon
+inclusion of the ”run3” trajectory within the campaign. The second approach
+uses a ”one in, one out” division. In this approach, one query is ﬁrst entered
+into the training set, then the next query is entered into the test set, and so
+on. Thus, the training set comprises 50% of the total set of examples, and
+the test set consists of the remaining 50%.
+All three sensors that were recorded between these two datasets have a
+sampling frequency of 10 Hz. To avoid redundant information and enhance
+computational e!ciency, sampling is based on distance. For the BLT dataset,
+since the area is considerably smaller, scans collected every half meter are
+considered. Conversely, for the TEMPO-VINE dataset, scans are considered
+every meter.
+6. Ablation study
+This section details the ablation studies conducted to substantiate the
+architectural choices of MinkUNeXt-VINE for e!cient vineyard place recog-
+nition. We begin by analyzing the trade-o” between performance and e!-
+ciency when using lower-dimensional output embeddings. Subsequently, we
+evaluate the impact of the loss function, speciﬁcally highlighting the beneﬁts
+of adopting a MRL approach. Finally, to address the challenge of long-term
+autonomy, we assess the model’s generalization capabilities across di”erent
+months and quarterly data partitions. All experiments reported in this sec-
+tion were conducted on an Nvidia A30 GPU. The results in both Section 6
+and 7 are expressed via the Recall@1 and Recall@1% metrics. The recall
+value measures the performance of a place recognition algorithm as follows:
+Recall = TP
+TP + FN (5)
+Being TP the amount of the true positives and FN the amount of false
+negatives found during the evaluation phase of the algorithm.
+6.1. Dimensionality study
+While urban settings are commonly rich in unique semantic landmarks,
+agricultural scenes su”er from feature scarcity and self-similarity. Conse-
+quently, generating a global descriptor in this domain presents a trade-o”:
+broadly descriptive vectors may capture unnecessary high-frequency noise,
+while overly compressed vectors might lose discriminative power. This ab-
+lation study aims to determine the optimal dimensionality that balances
+feature robustness against noise suppression, ensuring an accurate depiction
+of the environment.
+Table 1 displays the results for the MinkUNeXt method with di”erent out-
+put dimensions on the Livox point clouds from the TEMPO-VINE dataset.
+The setup for these experiments consists of the original MinkUNeXt archi-
+tecture with a quantization size value of 0 .01 meters and the normalization of
+the points in a [ →1, 1] range. The global normalization applied to the points
+was made following the procedure exposed under Section 3.1. The evaluation
+of these results was conducted in three distinct cases: ﬁrstly, an assessment
+was made against the same month (February); secondly, an evaluation was
+conducted against May; and thirdly, an evaluation was conducted against
+Output
+dimensions
+February May June
+Recall@1% Recall@1 Recall@1% Recall@1 Recall@1% Recall@1
+512 95.59 58.82 67.15 21.81 70.34 25.61
+256 95.59 58.82 68.88 20.61 71.94 25.00
+192 95.83 59.31 66.62 22.34 70.47 26.71
+128 94.49 58.95 65.03 24.07 69.73 25.37
+64 95.10 56.86 68.62 24.73 70.10 22.55
+32 95.34 57.35 62.50 20.48 67.77 22.18
+16 94.49 56.49 64.89 19.41 65.69 19.12
+Table 1: Recall results for di”erent dimensionalities of the original MinkUNeXt global
+descriptor.
+the second campaign of June. The two latter cases demonstrate the impact
+of the descriptor’s dimensionality on cross-season evaluations.
+The ﬁndings presented in this study are of considerable interest for place
+recognition tasks in repetitive settings. They demonstrate that a more com-
+pact descriptor can achieve equivalent performance. This is signiﬁcant be-
+cause vineyards are unstructured and comparatively less informative than
+urban settings. Therefore, mapping all the salient features does not require
+ah i g h - d i m e n s i o n a ld e s c r i p t o r . F u r t h e r m o r e ,s e l e c t i n gah i g ho u t p u tc h a n n e l
+value for these algorithms in agricultural settings can result in noise encoding
+because these settings lack of a signiﬁcant number of features. For example,
+when choosing a lower output dimensionality of 64 instead of 256 increases
+Recall@1 increases by +4% when evaluated in May. This suggests that the
+computational load can be signiﬁcantly reduced while maintaining uncom-
+promised or even enhancing performance. However, selecting a very low
+output channel value for the algorithm’s output (such as 32 or 16) begins to
+have a detrimental impact on the overall results and evaluation. Therefore,
+selecting an output dimensionality that is too low for our algorithm would
+be a poor choice.
+Following this trend, we decided to use a ﬁnal descriptor dimension of
+192, as the performance is not compromised and it reports greater Recall@1
+results in two of the three evaluations proposed.
+6.2. Impact of design choices
+To justify the prop osed architecture, we assess the impact of di”erent
+design choices concerning the use of a multi-loss approach and architectural
+pruning of the base method. As illustrated in Table 2, the impact on the net-
+work’s performance after implementing the various design decisions outlined
+in Section 3 is demonstrated. As it was done in Section 6.1, the experimental
+setup used for this ablation study is training on the TEMPO-VINE’s dataset
+February campaigns (”run1” and ”run2”) with the Livox sensor’s data as an
+input. The division of the data into training and test sets was done by using
+the ”run1” trajectory as the training set and the ”run2” trajectory as the test
+set, as outlined in Section 5. The other hyperparameters for the experiments
+are set to the speciﬁed in the MinkUNeXt work [13], except for the total
+number of training epochs, which is set to 200 (half of the number proposed
+in the cited paper) because the datasets used in this work are considerably
+smaller.
+ID Loss Dims. Second
+descriptor
+Quantiz.
+size Normalization R@1% R@1
+1 TSAP 512 No 0.01 No 31.99 6.13
+2 TSAP 512 No 0.1 No 85.54 49.63
+3 TSAP 512 No 0.01 Yes 95.59 58.82
+4 Contrastive Loss 512 No 0.01 Yes 48.65 10.17
+5 Multi-loss TSAP (2) 192 Global 0.01 Yes 95.34 62.38
+6 Multi-loss TSAP (2) 192 Intermediate 0.01 Yes 97.06 62.62
+7 Multi-loss TSAP (3) 192 Global 0.01 Yes 93.75 54.04
+8 Matryoshka 192 Global 0.01 Yes 96.32 61.89
+9 Matryoshka 192 Intermediate 0.01 Yes 97.30 67.77
+Table 2: Results in terms of recall for each of the distinct design combinations that were
+tested using the MinkUNeXt method.
+As illustrated in Table 2, the most signiﬁcant impact is observed when the
+quantization size is adapted to align with the scale of the coordinates. When
+quantization size is set to 0 .01, as is the case with the original MinkUNeXt
+[13] for both the baseline and reﬁned protocols, the recall results are no-
+tably low. However, when adapting the quantization size to the unprocessed
+state of the coordinates and using a higher 0 .1v a l u e ,t h er e c a l lr e s u l t si m -
+prove by +40%. However, optimal outcomes are achieved by adapting the
+raw coordinates of the Livox sensor to a normalized [ →1, 1] space. Applying
+this preprocessing step to the raw coordinates of the point cloud achieves
+Recall@1% values above 90 percent. This substantial improvement suggests
+that normalizing the input space ensures a voxelization density that is com-
+patible with the network’s receptive ﬁeld, preventing both excessive sparsity
+and information loss due to collision. By scaling the relative distances to a
+standard range, the sparse convolution kernels can extract geometric features
+more e”ectively, maintaining structural integrity across the discretized grid.
+In terms of loss function adaptation, the experiments show that the op-
+timal learning is achieved by keeping the TSAP and not substituting it with
+as i m p l et r i p l e tc o n t r a s t i v el o s sf u n c t i o n . T h i ss u p e r i o r i t yi sd u et ot h ef a c t
+that TSAP acts as a direct, di”erentiable surrogate for the evaluation metric
+itself (Average Precision), optimizing the global ranking of the retrieved can-
+didates. While Triplet Loss focuses on local pairwise constraints—pushing
+negatives away from positives by a ﬁxed margin—it relies heavily on complex
+hard-negative mining strategies to be e”ective. Conversely, TSAP consid-
+ers the entire batch distribution simultaneously, enforcing a global ordering
+where positive matches are prioritized over negatives, thereby learning a
+more robust and structured embedding space without the instability associ-
+ated with triplet selection. Adopting this loss function is critical in vineyard
+scenarios. The high degree of perceptual aliasing inherent to these semi-
+structured environments often causes triplet-based approaches to fail by en-
+forcing separation between distinct locations that are visually indistinguish-
+able, leading to poor convergence. Therefore, the loss function employed by
+our MinkUNeXt-VINE is the original TSAP approach.
+Experiments in Table 2 with IDs 5 through 7 show the results of using
+a weighted sum of multiple loss functions in the multi-loss variant. The
+experiments with IDs 5 and 6 consist of using the TSAP function twice. In
+ID 5, the second component of the sum is the global descriptor, and in ID 6,
+it is the output of the second transposed convolution. The ID 7 experiment,
+on the other hand, involves three operands: the original global descriptor,
+the TSAP function with the global descriptor (as in ID 5), and a third
+operand with the batch hard contrastive loss, which uses the ﬁnal output
+of the MinkUNeXt backbone. Of these three cases, ID 6 yields the best
+results. Including triplet loss, as in ID 7, considerably degrades the output.
+However, the best multi-loss approach is introducing the MRL approach,
+as seen in experiments with IDs 8 and 9. Experiments with IDs 6 and 9
+both use a multi-loss approach with earlier outputs. Using MRL represents
+a+ 5 %i m p r o v e m e n ti nt h eR e c a l l @ 1m e t r i c . R e c a l l @ 1i st h em o s ti m p o r t a n t
+metric in place recognition because it represents the success of retrieving the
+ﬁrst candidate. These experiments demonstrate that the MRL multi-loss
+approach provides better performance in our LPR algorithm, despite being
+simpler and more computationally e!cient because it does not require the
+full descriptor to be used multiple times.
+From an architectural perspective, Table 2 shows that using the output of
+the second transposed convolution as the ﬁnal layer gives better results. Ex-
+periments with IDs 5 and 6 show that using these intermediate features as the
+second descriptor in the multi-loss approach improves Recall@1% by +2%.
+However, the greatest improvement is seen when comparing experiments with
+IDs 8 and 9. Using these intermediate outputs as the ﬁnal descriptor for the
+MRL approach results in a signiﬁcant improvement of almost +6% in the
+Recall@1 metric.
+Therefore, the conﬁguration used in the experiment with ID 9 was the
+ﬁnal proposal for our MinkUNeXt-VINE method because it produced better
+results. When compared to the original backbone, the results of which are
+displayed under the experiment with ID 2, our method improved by around
++12% and +18% in the Recall@1% and Recall@1 metrics, respectively. Fig-
+ure 5 displays the Recall@N graph for all of the cases displayed in Table
+Figure 5: Recall@N graph for the di”erent design decisions tested.
+6.3. Seasonal changes
+For the quantitative evaluation of the impact of seasonal changes in agri-
+cultural environments on LPR tasks, we used the MinkUNeXt backbone [13]
+and the TEMPO-VINE dataset [38]. The distribution of the train and test
+examples has been made following the ”one in, one out” distribution exposed
+in Section 5.
+The experiments were conducted following these di”erent approaches:
+• Use of a winter sequence (February) as train set and database.
+• Use of a spring sequence (March) as train set and database.
+• Use of a summer sequence (the second sequence from June) as train set
+and database.
+• Use of a autumn sequence (September) as train set and database.
+• Use of season packages of three month each as train set and database.
+Figure 6 represents the challenge of obtaining an accurate place recognition
+solution in vineyard settings.
+Figure 6: Example of seasonal changes from a same location in a vineyard environment
+extracted from the TEMPO-VINE dataset. Left: Winter season with bare vines. Right:
+Summer season with abundant vegetation and the grown crop.
+Tables 3, 4, 5, 6 and 7 present the results obtained from implementing
+our MinkUNeXt-VINE proposed method for individual months: February,
+March, May, the end of June and September, respectively. These tables
+also display the generalization of the method for months that have not been
+trained with. Each of the selected campaigns belongs to a di”erent season
+and represents a di”erent crop stage, making them distinctly di”erent from
+each other.
+Train set Test set Recall@1% Recall@1
+February February 85.98 63.26
+February March 84.99 58.86
+February May 58.76 23.12
+February June (last) 61.52 21.91
+February September 70.71 34.91
+Table 3: Validation results of MinkUNeXt-VINE trained with the February campaign.
+Train set Test set Recall@1% Recall@1
+March February 84.91 56.08
+March March 83.97 56.44
+March May 52.97 18.38
+March June (last) 61.33 20.80
+March September 72.28 33.29
+Table 4: Validation results of MinkUNeXt-VINE trained with the March campaign.
+Train set Test set Recall@1% Recall@1
+May February 78.04 29.89
+May March 75.11 30.03
+May May 67.77 28.54
+May June (last) 67.32 24.61
+May September 64.64 27.03
+Table 5: Validation results of MinkUNeXt-VINE trained with the May campaign.
+As evidenced by the ﬁve validation tables, performance remains consis-
+tent across months where the crop status is stable. However, a signiﬁcant
+performance decay is observed in May. As reported in the TEMPO-VINE
+dataset article [38], this period is characterized by tall grass which obstructs
+Train set Test set Recall@1% Recall@1
+June (last) February 73.03 26.78
+June (last) March 67.62 27.21
+June (last) May 58.34 20.94
+June (last) June (last) 75.90 34.73
+June (last) September 68.23 29.17
+Table 6: Validation results of MinkUNeXt-VINE trained with the end of June campaign.
+Train set Test set Recall@1% Recall@1
+September February 79.46 41.45
+September March 78.84 43.61
+September May 56.99 19.40
+September June (last) 66.91 29.08
+September September 79.44 51.96
+Table 7: Validation results of MinkUNeXt-VINE trained with the September campaign.
+the ﬁeld of view of the Livox sensor, given its low mounting position on the
+Husky UGV base. Consequently, the results in Table 5 are lower than those
+of earlier months like February and March.
+It is also notable that in months with fully developed canopies, such as
+June and September, environmental occlusions signiﬁcantly increase the dif-
+ﬁculty of the place recognition task. Comparing Table 3 (February) with Ta-
+ble 6 (June), this occlusion challenge translates to a decay of approximately
+→10%, even in the best-case scenario where the evaluation is performed on
+the same month used for training. In February, when the vineyard is dor-
+mant, the best results are reported, with more than 85% of Recall@1% and
+63.26% of Recall@1.
+Furthermore, it is worth highlighting that mo dels trained during early
+crop stages (February/March) generalize better to September than to June,
+despite the greater temporal distance. This phenomenon occurs because
+June represents the peak of vegetative occlusion. In contrast, September is
+inﬂuenced by pre-harvest interventions, speciﬁcally canopy management and
+leaf removal, which re-expose structural elements of the vineyard, making it
+geometrically more similar to the winter months.
+Regarding cross-season validation, Table 8 presents the seasonal general-
+ization results on three di”erentiated packages. Each package contains three
+campaigns. The ”Early-Year” package contains the campaigns from Febru-
+ary, March and April. The ”Mid-Year” package contains the campaigns from
+May and June (both). The ”Late-Year” package contains the campaigns from
+July (both), August and September.
+Train set Test set Recall@1% Recall@1
+Early-Year Early-Year 78.98 48.07
+Early-Year Mid-Year 49.25 14.82
+Early-Year Late-Year 57.75 24.60
+Mid-Year Early-Year 69.09 27.81
+Mid-Year Mid-Year 61.59 24.34
+Mid-Year Late-Year 59.44 26.99
+Late-Year Early-Year 62.07 28.08
+Late-Year Mid-Year 48.42 16.90
+Late-Year Late-Year 68.76 36.80
+Table 8: Generalization results of our proposed method on seasonal packages of TEMPO-
+VINE campaigns.
+From the results presented in Table 8, it can b e observed that, considering
+several campaigns into the training set can make the place recognition task
+harder. The reason behind this behaviour is the increased intra-class variabil-
+ity introduced by diverse environmental conditions. As the model is forced
+to map signiﬁcantly di”erent visual appearances (such as the phenological
+changes in the vineyard) to the same geographical location, the resulting fea-
+ture representations may become less discriminative. This leads to potential
+confusion between distinct but visually similar places (perceptual aliasing).
+Firstly, the highest performance is consistently achieved when the model
+is trained and tested on the same seasonal package (the diagonal of the table).
+Speciﬁcally, the ”Early-Year” model achieves the best overall results, with
+a Recall@1% of 78.98% and a Recall@1 of 48.07%. This suggests that the
+visual features during the period from February to April are more consistent
+or contain more distinctive landmarks that the model can easily learn, as the
+occlusions are not prominent in the vineyard.
+Secondly, it can be noted that the Mid-Year package yields the most chal-
+lenging results in both generalization from di”erent campaigns and training.
+This is because the training set contains two campaigns recorded with tall
+grass, which introduced di!culty in the learning process of MinkUNeXt-
+VINE. The performance drops to Recall@1 values of 14.82% and 16.90%
+when evaluating on the Early-Year and Late-Year training scenarios, respec-
+tively. Also, the Recall@1 metric on the Mid-Year training set does not
+exceed 28% in any case.
+Finally, the Late-Year training scenario presents consistent results. The
+generalization results of the Early-Year package presents Recall@1% results
+are similar to the training case, above 60%, but the Recall@1 metric su”ers
+am o r ed r a s t i cd e c a yo f- 1 0 %i nt h eg e n e r a l i z a t i o nc a s e .
+Overall, the consistent gap between Recall@1% and Recall@1 across all
+experiments underscores the challenge of high-precision localization; while
+the model can often retrieve the correct area (coarse recognition), pinpoint-
+ing the exact location remains di!cult under seasonal transitions. Figure 7
+presents a heatmap comparison of the results obtained in each of the indi-
+vidual month experiment with each generalization scenario.
+Figure 7: Cross-season generalization performance matrix showing Recall@1 values.

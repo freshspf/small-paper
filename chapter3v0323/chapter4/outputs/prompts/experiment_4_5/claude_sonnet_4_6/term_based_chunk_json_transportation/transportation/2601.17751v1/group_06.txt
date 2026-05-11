@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TetheredDrone",
+  "assists",
+  "BackhaulNetwork",
+  "FixedWingUav",
+  "undergoes",
+  "TrajectoryOptimization",
+  "exhibits",
+  "UavDynamics",
+  "UrbanAirMobilityNetwork",
+  "utilizes",
+  "GroundSatelliteScheduling",
+  "MecNetwork",
+  "enabledBy",
+  "Uav",
+  "AerialRis",
+  "deployedFor",
+  "SixGNetwork",
+  "NonTerrestrialNetwork",
+  "operatesIn",
+  "SixGEra",
+  "Ris",
+  "deployedIn",
+  "CommercialMobileNetwork",
+  "AerialRisAssistedNetwork",
+  "features",
+  "3dImperfectReflection",
+  "AerialIntelligentReflectingSurface",
+  "involves",
+  "JointPlacement",
+  "AerialRisAuxiliaryMmwaveMobileCommunication",
+  "affectedBy",
+  "UavFluctuation",
+  "ActiveAerialReconfigurableIntelligentSurface",
+  "SecureCommunication",
+  "integrates",
+  "Positioning",
+  "LeoSatelliteNetwork",
+  "empoweredBy",
+  "AerialBackhaulSystem",
+  "equippedWith",
+  "ReconfigurableIntelligentSurface",
+  "UavNetwork",
+  "assistedBy",
+  "StarRis",
+  "HighAltitudePlatformCommunication",
+  "PanoramicReflection",
+  "ArrayRadar",
+  "ActiveRis",
+  "MultiUserMisoCommunication",
+  "MmwaveMimoSystem",
+  "aidedBy",
+  "CommunicationSystem",
+  "MultipleAccessNetwork",
+  "WirelessCommunication",
+  "utilizing",
+  "RotaryWingUav",
+  "MimoRelaying",
+  "LinearProcessing",
+  "AerialBackhaulArchitecture",
+  "AerialActiveRis",
+  "Full3dCoverage",
+  "HighAltitudeAerialPlatform",
+  "LineOfSightLink",
+  "MultiplicativeFading",
+  "UavBs",
+  "TrafficSurge",
+  "UrbanArea",
+  "BackhaulSignal",
+  "Blockage",
+  "AerialBaseStation",
+  "NetworkCoverage",
+  "HighTrafficScenario",
+  "HighAltitudeOperation",
+  "Obstacle",
+  "DirectBackhaulLink",
+  "WirelessCoverage",
+  "PassiveReflectingElement",
+  "IncidentSignal",
+  "ConventionalRis",
+  "PassiveReflectionElement"
+]
+
+Triples:
+[
+  {
+    "subject": "TetheredDrone",
+    "relation": "assists",
+    "object": "BackhaulNetwork",
+    "chunk": "completedocument12",
+    "context": "[9] Y . Zhanget al., “Deployment optimization of tethered drone-assisted in-\ntegrated access and backhaul networks,”IEEE Trans. Wireless Commun.,\nvol. 23, no. 4, pp. 2668–2680, Apr. 2024."
+  },
+  {
+    "subject": "FixedWingUav",
+    "relation": "undergoes",
+    "object": "TrajectoryOptimization",
+    "chunk": "completedocument12",
+    "context": "[12] X. Guanet al., “3D trajectory optimization for fixed-wing UA V commu-\nnications with full UA V dynamics,”IEEE Trans. Veh. Technol., vol. 74,\nno. 10, pp. 15 401–15 415, 2025."
+  },
+  {
+    "subject": "FixedWingUav",
+    "relation": "exhibits",
+    "object": "UavDynamics",
+    "chunk": "completedocument12",
+    "context": "[12] X. Guanet al., “3D trajectory optimization for fixed-wing UA V commu-\nnications with full UA V dynamics,”IEEE Trans. Veh. Technol., vol. 74,\nno. 10, pp. 15 401–15 415, 2025."
+  },
+  {
+    "subject": "UrbanAirMobilityNetwork",
+    "relation": "utilizes",
+    "object": "GroundSatelliteScheduling",
+    "chunk": "completedocument12",
+    "context": "[13] H.-J. Moon and C.-B. Chae, “Cooperative ground-satellite scheduling\nand power allocation for urban air mobility networks,”IEEE J. Sel.\nAreas Commun., vol. 43, no. 1, pp. 218–233, Jan. 2025."
+  },
+  {
+    "subject": "MecNetwork",
+    "relation": "enabledBy",
+    "object": "Uav",
+    "chunk": "completedocument12",
+    "context": "[14] H. Xiaoet al., “Energy-efficient STAR-RIS enhanced UA V-enabled\nMEC networks with bi-directional task offloading,”IEEE Trans. Wireless\nCommun., vol."
+  },
+  {
+    "subject": "AerialRis",
+    "relation": "deployedFor",
+    "object": "SixGNetwork",
+    "chunk": "completedocument12",
+    "context": "[1] H.-B. Jeon and C.-B. Chae, “Energy-efficient aerial-RIS deployment for\n6G,” inProc. IEEE Int. Conf. ICT Converg. (ICTC), 2022, pp. 199–201."
+  },
+  {
+    "subject": "NonTerrestrialNetwork",
+    "relation": "operatesIn",
+    "object": "SixGEra",
+    "chunk": "completedocument12",
+    "context": "[5] M. Giordani and M. Zorzi, “Non-terrestrial networks in the 6G era:\nChallenges and opportunities,”IEEE Netw., vol. 35, no. 2, pp. 244–251,\nMar./Apr. 2021."
+  },
+  {
+    "subject": "Ris",
+    "relation": "deployedIn",
+    "object": "CommercialMobileNetwork",
+    "chunk": "completedocument13",
+    "context": "[22] J. Sanget al., “Coverage enhancement by deploying RIS in 5G commercial mobile networks: Field trials,”IEEE Wireless Commun., vol. 31, no. 1, pp. 172–180, Feb. 2024."
+  },
+  {
+    "subject": "AerialRisAssistedNetwork",
+    "relation": "features",
+    "object": "3dImperfectReflection",
+    "chunk": "completedocument13",
+    "context": "[35] J. Liu and H. Zhang, “Throughput optimization in aerial RIS-assisted networks with 3D imperfect reflection,”IEEE Trans. Veh. Technol., vol. 74, no. 7, pp. 10 510–10 523, Jul. 2025."
+  },
+  {
+    "subject": "AerialIntelligentReflectingSurface",
+    "relation": "involves",
+    "object": "JointPlacement",
+    "chunk": "completedocument13",
+    "context": "[36] H. Luet al., “Aerial intelligent reflecting surface: Joint placement and passive beamforming design with 3D beam flattening,”IEEE Trans. Wireless Commun., vol. 20, no. 7, pp. 4128–4143, Jul. 2021."
+  },
+  {
+    "subject": "AerialRisAuxiliaryMmwaveMobileCommunication",
+    "relation": "affectedBy",
+    "object": "UavFluctuation",
+    "chunk": "completedocument13",
+    "context": "[37] B. Xionget al., “Performance analysis of aerial RIS auxiliary mmWave mobile communications with UA V fluctuation,”IEEE Wireless Commun. Lett., vol. 13, no. 4, pp. 1183–1187, Apr. 2024."
+  },
+  {
+    "subject": "ActiveAerialReconfigurableIntelligentSurface",
+    "relation": "assists",
+    "object": "SecureCommunication",
+    "chunk": "completedocument13",
+    "context": "[40] D. Wanget al., “Active aerial reconfigurable intelligent surface assisted secure communications: Integrating sensing and positioning,”IEEE J. Sel. Areas Commun., vol. 42, no. 10, pp. 2769–2785, Oct. 2024."
+  },
+  {
+    "subject": "SecureCommunication",
+    "relation": "integrates",
+    "object": "Positioning",
+    "chunk": "completedocument13",
+    "context": "[40] D. Wanget al., “Active aerial reconfigurable intelligent surface assisted secure communications: Integrating sensing and positioning,”IEEE J. Sel. Areas Commun., vol. 42, no. 10, pp. 2769–2785, Oct. 2024."
+  },
+  {
+    "subject": "LeoSatelliteNetwork",
+    "relation": "empoweredBy",
+    "object": "Ris",
+    "chunk": "completedocument14",
+    "context": "Tokaet al., \"RIS-empowered LEO satellite networks for 6G: Promising usage scenarios and future directions,\""
+  },
+  {
+    "subject": "AerialBackhaulSystem",
+    "relation": "equippedWith",
+    "object": "ReconfigurableIntelligentSurface",
+    "chunk": "completedocument14",
+    "context": "[43] H.-B. Jeonet al., \"An energy-efficient aerial backhaul system with reconfigurable intelligent surface,\""
+  },
+  {
+    "subject": "UavNetwork",
+    "relation": "assistedBy",
+    "object": "StarRis",
+    "chunk": "completedocument14",
+    "context": "[44] J. Leiet al., \"NOMA for STAR-RIS assisted UA V networks,\""
+  },
+  {
+    "subject": "HighAltitudePlatformCommunication",
+    "relation": "assistedBy",
+    "object": "AerialRis",
+    "chunk": "completedocument14",
+    "context": "[45] N. Gao and ohters, \"Aerial RIS-assisted high altitude platform communications,\""
+  },
+  {
+    "subject": "PanoramicReflection",
+    "relation": "enabledBy",
+    "object": "AerialIntelligentReflectingSurface",
+    "chunk": "completedocument14",
+    "context": "[46] H. Luet al., \"Enabling panoramic full-angle reflection via aerial intelligent reflecting surface,\""
+  },
+  {
+    "subject": "ArrayRadar",
+    "relation": "empoweredBy",
+    "object": "ActiveRis",
+    "chunk": "completedocument14",
+    "context": "[48] S. Chenet al., \"Interference suppression for active RIS-empowered array radar using joint beamforming design,\""
+  },
+  {
+    "subject": "MultiUserMisoCommunication",
+    "relation": "empoweredBy",
+    "object": "Ris",
+    "chunk": "completedocument14",
+    "context": "[50] L. Weiet al., \"Channel estimation for RIS-empowered multi-user MISO wireless communications,\""
+  },
+  {
+    "subject": "MmwaveMimoSystem",
+    "relation": "aidedBy",
+    "object": "ReconfigurableIntelligentSurface",
+    "chunk": "completedocument14",
+    "context": "[51] J. Chenet al., \"Channel estimation for reconfigurable intelligent surface aided multi-user mmWave MIMO systems,\""
+  },
+  {
+    "subject": "CommunicationSystem",
+    "relation": "aidedBy",
+    "object": "Ris",
+    "chunk": "completedocument14",
+    "context": "[53] G. Zhouet al., \"Individual channel estimation for RIS-aided communication systems—a general framework,\""
+  },
+  {
+    "subject": "MultipleAccessNetwork",
+    "relation": "assistedBy",
+    "object": "ActiveRis",
+    "chunk": "completedocument14",
+    "context": "[55] H. Niuet al., \"Active RIS assisted rate-splitting multiple access network: Spectral and energy efficiency tradeoff,\""
+  },
+  {
+    "subject": "WirelessCommunication",
+    "relation": "utilizing",
+    "object": "RotaryWingUav",
+    "chunk": "completedocument14",
+    "context": "[61] Y . Zenget al., \"Energy minimization for wireless communication with rotary-wing UA V,\""
+  },
+  {
+    "subject": "MimoRelaying",
+    "relation": "utilizes",
+    "object": "LinearProcessing",
+    "chunk": "completedocument15",
+    "context": "[73] C.-B. Chaeet al., “MIMO relaying with linear processing for multiuser transmission in fixed relay networks,”IEEE Trans. Signal Process., vol. 56, no. 2, pp. 727–738, Feb. 2008."
+  }
+]

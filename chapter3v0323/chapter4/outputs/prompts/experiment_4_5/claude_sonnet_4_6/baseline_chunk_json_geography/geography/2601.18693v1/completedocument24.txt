@@ -1,0 +1,165 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument24
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+V., 2005, ApJ, 635, 931
+Bullock J. S., Dekel A., Kolatt T. S., Kravtsov A. V., Klypin A. A., Porciani
+C., Primack J. R., 2001, ApJ, 555, 240
+Butler J., Martin G., Hatch N. A., Pearce F., Brough S., Dubois Y., 2025,
+MNRAS, 539, 2279
+Byrd G., Valtonen M., 1990, ApJ, 350, 89
+CanepaL.,BroughS.,LanusseF.,MontesM.,HatchN.,2025,ApJ,980,245
+Chandrasekhar S., 1943, ApJ, 97, 255
+Chen X., Zu Y., Shao Z., Shan H., 2022, MNRAS, 514, 2692
+Chiang B. T., van den Bosch F. C., Schive H.-Y., 2025, arXiv e-prints, p.
+arXiv:2510.26901
+Chun K., Shin J., Smith R., Ko J., Yoo J., 2023, ApJ, 943, 148
+Contini E., 2021, Galaxies, 9, 60
+ContiniE.,DeLuciaG.,VillalobosÁ.,BorganiS.,2014,MNRAS,437,3787
+Contini E., Yi S. K., Kang X., 2018, MNRAS, 479, 932
+Contini E., Yi S. K., Kang X., 2019, ApJ, 871, 24
+Contini E., Rhee J., Han S., Jeon S., Yi S. K., 2024, AJ, 167, 7
+Contreras-Santos A., et al., 2024, A&A, 683, A59
+Contreras-Santos A., et al., 2025, A&A, 703, A85Cooper A. P., Gao L., Guo Q., Frenk C. S., Jenkins A., Springel V., White
+S. D. M., 2015, MNRAS, 451, 2703
+Cui W., et al., 2014, MNRAS, 437, 816
+Cui W., et al., 2018, MNRAS, 480, 2898
+Cui W., et al., 2022, MNRAS, 514, 977
+Davé R., Anglés-Alcázar D., Narayanan D., Li Q., Rafieferantsoa M. H.,
+Appleby S., 2019, MNRAS, 486, 2827
+Davidzon I., et al., 2017, A&A, 605, A70
+DeMaio T., Gonzalez A. H., Zabludoff A., Zaritsky D., Connor T., Donahue
+M., Mulchaey J. S., 2018, MNRAS, 474, 3009
+Diego J. M., et al., 2023, A&A, 679, A159
+Diego J. M., et al., 2024, A&A, 690, A114
+Dolag K., Murante G., Borgani S., 2010, MNRAS, 405, 1544
+Dubois Y., et al., 2014, MNRAS, 444, 1453
+DuboisY.,PeiraniS.,PichonC.,DevriendtJ.,GavazziR.,WelkerC.,Volon-
+teri M., 2016, MNRAS, 463, 3948
+Ellien A., et al., 2025, A&A, 698, A134
+Englert A. M., Dell’Antonio I., Montes M., 2025, ApJ, 989, L2
+Euclid Collaboration, Bellhouse C., et al., 2025, A&A, 698, A14
+Euclid Collaboration, Mellier Y., et al., 2025, A&A, 697, A1
+Fakhouri O., Ma C.-P., Boylan-Kolchin M., 2010, MNRAS, 406, 2267
+Gifford D., Miller C., Kern N., 2013, ApJ, 773, 116
+Giocoli C., Tormen G., Sheth R. K., van den Bosch F. C., 2010, MNRAS,
+404, 502
+Gnedin O. Y., Kravtsov A. V., Klypin A. A., Nagai D., 2004, ApJ, 616, 16
+Golden-Marx J. B., et al., 2023, MNRAS, 521, 478
+Golden-Marx J. B., et al., 2025, MNRAS, 538, 622
+Gómez J. S., Hough T., Jiménez Muñoz A., Yepes G., Cui W., Cora S. A.,
+2025, A&A, 697, A171
+Gonzalez A. H., Zaritsky D., Zabludoff A. I., 2007, ApJ, 666, 147
+GonzalezA.H.,SivanandamS.,ZabludoffA.I.,ZaritskyD.,2013,ApJ,778,
+14
+Goulard M., Voltz M., 1992, Mathematical Geology, 24, 269
+Haggar R., Pearce F. R., Gray M. E., Knebe A., Yepes G., 2021, Monthly
+Notices of the Royal Astronomical Society, 502, 1191
+Han S., et al., 2025, arXiv e-prints, p. arXiv:2507.06301
+HarkerG.,ColeS.,HellyJ.,FrenkC.,JenkinsA.,2006,MNRAS,367,1039
+Harris C. R., et al., 2020, Nature, 585, 357
+Hendel D., Johnston K. V., 2015, MNRAS, 454, 2472
+Hernquist L., 1990, ApJ, 356, 359
+Hoekstra H., Bartelmann M., Dahle H., Israel H., Limousin M., Meneghetti
+M., 2013, Space Sci. Rev., 177, 75
+Homan M. D., Gelman A., 2014, J. Mach. Learn. Res., 15, 1593–1623
+Hough R. T., Rennehan D., Kobayashi C., Loubser S. I., Davé R., Babul A.,
+Cui W., 2023, MNRAS, 525, 1061
+Hunter J. D., 2007, Computing in Science & Engineering, 9, 90
+Ilbert O., et al., 2013, A&A, 556, A55
+Ivezić Ž., et al., 2019, ApJ, 873, 111
+Jackson R. A., et al., 2025, MNRAS, 539, 3797
+Jaffé Y. L., et al., 2018, MNRAS, 476, 4753
+Jeon S., et al., 2025, arXiv e-prints, p. arXiv:2512.06098
+Johnston K. V., 1998, ApJ, 495, 297
+Johnston K. V., Bullock J. S., Sharma S., Font A., Robertson B. E., Leitner
+S. N., 2008, ApJ, 689, 936
+Kaviraj S., et al., 2017, MNRAS, 467, 4739
+Kimmig L. C., et al., 2025, A&A, 700, A95
+Kluge M., et al., 2025, A&A, 697, A13
+Klypin A., Yepes G., Gottlöber S., Prada F., Heß S., 2016, MNRAS, 457,
+4340
+Komatsu E., et al., 2011, ApJS, 192, 18
+Kravtsov A. V., Borgani S., 2012, ARA&A, 50, 353
+Kulier A., et al., 2023, ApJ, 954, 177
+Laureijs R., et al., 2011, preprint, (arXiv:1110.3193)
+Lovell M. R., Pillepich A., Engler C., Nelson D., Ramesh R., Springel V.,
+Hernquist L., 2025, MNRAS, 544, 4367
+Lynden-Bell D., 1967, MNRAS, 136, 101
+Marinacci F., et al., 2018, MNRAS, 480, 5113
+Martin G., et al., 2022, MNRAS, 513, 1459
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM21
+MartinG.,PearceF.R.,HatchN.A.,Contreras-SantosA.,KnebeA.,CuiW.,
+2024, MNRAS, 535, 2375
+Martin G., et al., 2025, MNRAS, 541, 1831
+McBride J., Fakhouri O., Ma C.-P., 2009, MNRAS, 398, 1858
+McLaughlin D. E., 1999, ApJ, 512, L9
+McLeod D. J., McLure R. J., Dunlop J. S., Cullen F., Carnall A. C., Duncan
+K., 2021, MNRAS, 503, 4413
+Mihos J. C., Harding P., Feldmeier J. J., Rudick C., Janowiecki S., Morrison
+H., Slater C., Watkins A., 2017, ApJ, 834, 16
+Montes M., Trujillo I., 2018, MNRAS, 474, 917
+Montes M., Trujillo I., 2019, MNRAS, 482, 2838
+Montes M., Brough S., Owers M. S., Santucci G., 2021, ApJ, 910, 45
+Morishita T., Abramson L.

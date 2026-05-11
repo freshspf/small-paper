@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["DSAMNet","DeepSupervision","AttentionBasedMetricLearning","BIT","SelfAttention","LongRangeSpatialTemporalDependency","SAM_CD","Backbone","LargeScalePretrainingPrior","Robustness","ComplexScene","CS_WSCD","ClassActivationMap","CAM","ClassificationNetwork","PotentialChangeRegion","DSFA","LatentSpace","AnyChange","BiTemporalLatentMatching","FixedSupervisionAssumption","PracticalApplication","ComputerVision","ImageSegmentationTask","Omni_RES","ReferentialSegmentationLearning","TeacherStudentFramework","SingleModelArchitecture","WeakLabel","ObjectDetectionTask","Omni_DETR","SharedFeatureRepresentation","DifferentiatedOptimizationStrategy","FCD_GAN","Segmenter","Generator","Discriminator","AdversarialLearningProcess","ChangeDistribution","GenerativeModeling"]
+
+Triples:
+[{"subject":"STAM","relation":"reconstructs","object":"ChangeArea"},{"subject":"CRR","relation":"integrates","object":"SCR"},{"subject":"CRR","relation":"integrates","object":"CFR"},{"subject":"SCR","relation":"isA","object":"SpatialConsistencyRegularization"},{"subject":"CFR","relation":"isA","object":"ContrastFeatureRegularization"},{"subject":"CRR","relation":"imposes","object":"GeometricInvarianceConstraint"},{"subject":"CRR","relation":"drives","object":"SemanticFeatureAlignment"},{"subject":"CRR","relation":"forms","object":"DiscriminativeChangeDecisionBoundary"},{"subject":"SPCI","relation":"leverages","object":"CLIP"},{"subject":"CLIP","relation":"hasCapability","object":"CrossModalSemanticAlignmentCapability"},{"subject":"SPCI","relation":"generates","object":"PseudoAnnotation"},{"subject":"PseudoAnnotation","relation":"isGeneratedUnder","object":"UnlabeledCondition"},{"subject":"SPCI","relation":"bridgesGapBetween","object":"UnsupervisedLearningParadigm"},{"subject":"SPCI","relation":"bridgesGapTo","object":"WeaklySupervisedLearningParadigm"},{"subject":"RemoteSensingChangeDetectionTask","relation":"isDividedInto","object":"SupervisedLearningParadigm"},{"subject":"RemoteSensingChangeDetectionTask","relation":"isDividedInto","object":"WeaklySupervisedLearningParadigm"},{"subject":"RemoteSensingChangeDetectionTask","relation":"isDividedInto","object":"UnsupervisedLearningParadigm"},{"subject":"SupervisedLearningParadigm","relation":"reliesOn","object":"PixelLevelChangeAnnotation"},{"subject":"SupervisedLearningParadigm","relation":"enablesLearningOf","object":"ChangeBoundary"},{"subject":"DSAMNet","relation":"integrates","object":"DeepSupervision"},{"subject":"DSAMNet","relation":"integrates","object":"AttentionBasedMetricLearning"},{"subject":"DSAMNet","relation":"models","object":"BiTemporalDifference"},{"subject":"BIT","relation":"uses","object":"SelfAttention"},{"subject":"BIT","relation":"captures","object":"LongRangeSpatialTemporalDependency"},{"subject":"SAM_CD","relation":"incorporates","object":"VisualFoundationModel"},{"subject":"VisualFoundationModel","relation":"servesAs","object":"Backbone"},{"subject":"SAM_CD","relation":"leverages","object":"LargeScalePretrainingPrior"},{"subject":"SAM_CD","relation":"improves","object":"Robustness"},{"subject":"Robustness","relation":"appliesIn","object":"ComplexScene"},{"subject":"SupervisedChangeDetectionMethod","relation":"reliesOn","object":"PixelLevelChangeAnnotation"},{"subject":"PixelLevelChangeAnnotation","relation":"isCostlyToObtain","object":"True"},{"subject":"PixelLevelChangeAnnotation","relation":"isDifficultToScaleTo","object":"LargeMultiRegionLongTermApplicationScenario"},{"subject":"WeaklySupervisedChangeDetection","relation":"reliesOn","object":"ImageLevelAnnotation"},{"subject":"WeaklySupervisedChangeDetection","relation":"reliesOn","object":"RegionLevelAnnotation"},{"subject":"WeaklySupervisedChangeDetection","relation":"attemptsToLocate","object":"ChangeArea"},{"subject":"WeaklySupervisedChangeDetection","relation":"uses","object":"IndirectSupervisionSignal"},{"subject":"CS_WSCD","relation":"leverages","object":"ClassActivationMap"},{"subject":"ClassActivationMap","relation":"isA","object":"CAM"},{"subject":"CS_WSCD","relation":"extracts","object":"SpatialResponse"},{"subject":"SpatialResponse","relation":"comesFrom","object":"ClassificationNetwork"}]

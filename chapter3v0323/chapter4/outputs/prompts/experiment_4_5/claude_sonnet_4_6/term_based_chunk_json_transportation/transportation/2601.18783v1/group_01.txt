@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AutonomousDriving",
+  "requires",
+  "RealTimeDecisionMaking",
+  "HeavyDutyTruck",
+  "hasCharacteristic",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "TraditionalApproach",
+  "reliesOn",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "governs",
+  "VehicleBehavior",
+  "DecisionTreeModel",
+  "performs",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "ModelPredictiveControl",
+  "appliedTo",
+  "AutonomousVehicleManeuver",
+  "ReinforcementLearning",
+  "learns",
+  "ControlPolicy",
+  "DeepRlAgent",
+  "LaneChanging",
+  "AdaptiveCruiseControl",
+  "RlApproach",
+  "ScalarRewardFunction",
+  "HierarchicalControlArchitecture",
+  "uses",
+  "handles",
+  "HighLevelTacticalDecision",
+  "LowLevelControl",
+  "managedBy",
+  "PhysicsBasedModel",
+  "TacticalDecision",
+  "includes",
+  "LaneChange",
+  "balances",
+  "Safety",
+  "TimeEfficiency",
+  "EnergyEfficiency",
+  "Environment",
+  "sumo_simulator",
+  "MicroscopicVehicleDynamics",
+  "Simulation",
+  "ThreeLaneHighwaySegment",
+  "MixedTraffic",
+  "PassengerCar",
+  "Truck",
+  "EgoVehicle",
+  "TractorSemitrailerCombination",
+  "TacticalDecisionMakingProblem",
+  "MultiObjectiveReinforcementLearningFramework",
+  "MultiObjectiveMarkovDecisionProcess",
+  "StateSpace",
+  "ActionSpace",
+  "TransitionProbabilityDistribution",
+  "Policy",
+  "DecisionRule",
+  "Optimality",
+  "ParetoDominance",
+  "implementedUsing",
+  "provides",
+  "consistsOf",
+  "populatedBy",
+  "modeledAs",
+  "formulatedWithin",
+  "definedBy",
+  "defines",
+  "definedInTermsOf",
+  "algorithm_1",
+  "SetOfPolicies",
+  "ValueVector",
+  "ConvexCoverageSet"
+]
+
+Triples:
+[
+  {
+    "subject": "AutonomousDriving",
+    "relation": "requires",
+    "object": "RealTimeDecisionMaking",
+    "chunk": "introduction",
+    "context": "Autonomous driving requires real-time decision-making un-der uncertainty, where multiple conflicting objectives must be simultaneously balanced [Campbellet al., 2010; Abdal-laouiet al., 2023 ]."
+  },
+  {
+    "subject": "HeavyDutyTruck",
+    "relation": "hasCharacteristic",
+    "object": "LargeSize",
+    "chunk": "introduction",
+    "context": "For heavy-duty trucks, this challenge be-comes even more pronounced due to their large size, high fuel consumption, long braking distances, and the severe conse-quences that can result from even minor control errors [Zhang et al., 2020; Engstr ¨omet al., 2018 ]."
+  },
+  {
+    "subject": "HeavyDutyTruck",
+    "relation": "hasCharacteristic",
+    "object": "HighFuelConsumption",
+    "chunk": "introduction",
+    "context": "For heavy-duty trucks, this challenge be-comes even more pronounced due to their large size, high fuel consumption, long braking distances, and the severe conse-quences that can result from even minor control errors [Zhang et al., 2020; Engstr ¨omet al., 2018 ]."
+  },
+  {
+    "subject": "HeavyDutyTruck",
+    "relation": "hasCharacteristic",
+    "object": "LongBrakingDistance",
+    "chunk": "introduction",
+    "context": "For heavy-duty trucks, this challenge be-comes even more pronounced due to their large size, high fuel consumption, long braking distances, and the severe conse-quences that can result from even minor control errors [Zhang et al., 2020; Engstr ¨omet al., 2018 ]."
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "reliesOn",
+    "object": "RuleBasedArchitecture",
+    "chunk": "introduction",
+    "context": "Traditional approaches to modeling autonomous driving have relied on rule-based architectures, optimization-based control, and data-driven learning methods."
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "reliesOn",
+    "object": "OptimizationBasedControl",
+    "chunk": "introduction",
+    "context": "Traditional approaches to modeling autonomous driving have relied on rule-based architectures, optimization-based control, and data-driven learning methods."
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "reliesOn",
+    "object": "DataDrivenLearningMethod",
+    "chunk": "introduction",
+    "context": "Traditional approaches to modeling autonomous driving have relied on rule-based architectures, optimization-based control, and data-driven learning methods."
+  },
+  {
+    "subject": "RuleBasedSystem",
+    "relation": "reliesOn",
+    "object": "HandCraftedDecisionRule",
+    "chunk": "introduction",
+    "context": "Early rule-based systems relied on hand-crafted decision rules and safety con-straints to govern vehicle behavior and ensure compliance with traffic rules, offering strong interpretability and real-time performance but limited adaptability to complex or rapidly changing traffic scenarios [Padenet al., 2016 ]."
+  },
+  {
+    "subject": "RuleBasedSystem",
+    "relation": "reliesOn",
+    "object": "SafetyConstraint",
+    "chunk": "introduction",
+    "context": "Early rule-based systems relied on hand-crafted decision rules and safety con-straints to govern vehicle behavior and ensure compliance with traffic rules, offering strong interpretability and real-time performance but limited adaptability to complex or rapidly changing traffic scenarios [Padenet al., 2016 ]."
+  },
+  {
+    "subject": "HandCraftedDecisionRule",
+    "relation": "governs",
+    "object": "VehicleBehavior",
+    "chunk": "introduction",
+    "context": "Early rule-based systems relied on hand-crafted decision rules and safety con-straints to govern vehicle behavior and ensure compliance with traffic rules, offering strong interpretability and real-time performance but limited adaptability to complex or rapidly changing traffic scenarios [Padenet al., 2016 ]."
+  },
+  {
+    "subject": "DecisionTreeModel",
+    "relation": "performs",
+    "object": "GoalRecognition",
+    "chunk": "introduction",
+    "context": "More re-cent work has explored the use of interpretable decision-tree models for specific sub-tasks such as goal recognition and trajectory prediction, enabling fast inference and for-mal verification of prediction behavior [Brewittet al., 2021 ]."
+  },
+  {
+    "subject": "DecisionTreeModel",
+    "relation": "performs",
+    "object": "TrajectoryPrediction",
+    "chunk": "introduction",
+    "context": "More re-cent work has explored the use of interpretable decision-tree models for specific sub-tasks such as goal recognition and trajectory prediction, enabling fast inference and for-mal verification of prediction behavior [Brewittet al., 2021 ]."
+  },
+  {
+    "subject": "ModelPredictiveControl",
+    "relation": "appliedTo",
+    "object": "AutonomousVehicleManeuver",
+    "chunk": "introduction",
+    "context": "Optimization-based frameworks, most notably Model Predic-tive Control (MPC) [Isaksson Palmqvist, 2016 ], have also been applied to autonomous vehicle maneuvers [Nilssonet al., 2015; Musaet al., 2021 ]."
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "learns",
+    "object": "ControlPolicy",
+    "chunk": "introduction",
+    "context": "A number of these challenges have been mitigated through Reinforcement Learning (RL), which has emerged as a promising alternative capable of learning control policies di-rectly from interactions with traffic environments."
+  },
+  {
+    "subject": "DeepRlAgent",
+    "relation": "performs",
+    "object": "LaneChanging",
+    "chunk": "introduction",
+    "context": "Deep RL agents have demonstrated strong performance in tasks such as lane changing, merging, and adaptive cruise control, discov-ering policies that can outperform hand-crafted control strate-gies in complex and dynamic highway environments [Kiran et al., 2022; Hoelet al., 2020; Pathareet al., 2023 ]."
+  },
+  {
+    "subject": "DeepRlAgent",
+    "relation": "performs",
+    "object": "AdaptiveCruiseControl",
+    "chunk": "introduction",
+    "context": "Deep RL agents have demonstrated strong performance in tasks such as lane changing, merging, and adaptive cruise control, discov-ering policies that can outperform hand-crafted control strate-gies in complex and dynamic highway environments [Kiran et al., 2022; Hoelet al., 2020; Pathareet al., 2023 ]."
+  },
+  {
+    "subject": "RlApproach",
+    "relation": "reliesOn",
+    "object": "ScalarRewardFunction",
+    "chunk": "introduction",
+    "context": "However, most RL approaches in autonomous driving rely on a single scalar reward function that combines multiple objectives such as safety, comfort, and energy efficiency."
+  },
+  {
+    "subject": "HierarchicalControlArchitecture",
+    "relation": "uses",
+    "object": "ReinforcementLearning",
+    "chunk": "introduction",
+    "context": "The authors propose a hierarchical control architecture where RL handles high-level tactical decisions using reward func-tions incorporating safety, efficiency, and total operational cost, while low-level control is managed by physics-based models."
+  },
+  {
+    "subject": "ReinforcementLearning",
+    "relation": "handles",
+    "object": "HighLevelTacticalDecision",
+    "chunk": "introduction",
+    "context": "The authors propose a hierarchical control architecture where RL handles high-level tactical decisions using reward func-tions incorporating safety, efficiency, and total operational cost, while low-level control is managed by physics-based models."
+  },
+  {
+    "subject": "LowLevelControl",
+    "relation": "managedBy",
+    "object": "PhysicsBasedModel",
+    "chunk": "introduction",
+    "context": "The authors propose a hierarchical control architecture where RL handles high-level tactical decisions using reward func-tions incorporating safety, efficiency, and total operational cost, while low-level control is managed by physics-based models."
+  },
+  {
+    "subject": "TacticalDecision",
+    "relation": "includes",
+    "object": "AdaptiveCruiseControl",
+    "chunk": "problemformulation",
+    "context": "Tactical decisions include adaptive cruise control and lane changes, and with the objectives to balance safety, time efficiency, and energy efficiency."
+  },
+  {
+    "subject": "TacticalDecision",
+    "relation": "includes",
+    "object": "LaneChange",
+    "chunk": "problemformulation",
+    "context": "Tactical decisions include adaptive cruise control and lane changes, and with the objectives to balance safety, time efficiency, and energy efficiency."
+  },
+  {
+    "subject": "TacticalDecision",
+    "relation": "balances",
+    "object": "Safety",
+    "chunk": "problemformulation",
+    "context": "Tactical decisions include adaptive cruise control and lane changes, and with the objectives to balance safety, time efficiency, and energy efficiency."
+  },
+  {
+    "subject": "TacticalDecision",
+    "relation": "balances",
+    "object": "TimeEfficiency",
+    "chunk": "problemformulation",
+    "context": "Tactical decisions include adaptive cruise control and lane changes, and with the objectives to balance safety, time efficiency, and energy efficiency."
+  },
+  {
+    "subject": "TacticalDecision",
+    "relation": "balances",
+    "object": "EnergyEfficiency",
+    "chunk": "problemformulation",
+    "context": "Tactical decisions include adaptive cruise control and lane changes, and with the objectives to balance safety, time efficiency, and energy efficiency."
+  }
+]

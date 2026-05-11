@@ -1,0 +1,190 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument9",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument9
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+**INPUT TEXT CHUNK:**
+A Time-Scale-Adaptable Spectrum Sharing Scheme
+Based on illustrations in Subsection III-A and Subsection
+III-B, a time-scale-adaptable spectrum sharing scheme is pro-
+posed for the hybrid network based on link feature sketching.
+As illustrated in Algorithm 2, the proposed scheme consists of
+three parts, i.e., 1) link scheduling for the SUs via hierarchical
+clustering of the SU-satellite links, 2) link scheduling for the
+CUs, and 3) power control for the SUs.
+Firstly,KSU-satellite link clusters, i.e.,U k,k= 1, ..., K,
+and a group of satellite selection indicators for the SUs,
+ˆζ∗
+u,j,u∈N s,j= 1, ..., J′
+u, are obtained via Algorithm 1.
+Accordingly, a group of link scheduling indicators for theSUs, ˆδ∗(su)
+u,k,u∈N s,k∈K, could be derived fromU k,
+k= 1, ..., K, based on (18b), i.e., ˆδ∗(su)
+u,k= 1ifu∈U kand
+ˆδ∗(su)
+u,k= 0otherwise.
+Then link scheduling for the CUs is implemented based
+onˆδ∗(su)
+u,kandˆζ∗
+u,j,∀u, k, j. WithKfine clusters of the SU-
+satellite links being respectively scheduled inKsubcarriers,
+the BS-CU links corresponding to each BS can be scheduled
+independently. To circumvent the NP-hardness of solving (17)
+directly,M=I clFassignment problems similar to (43) are
+formulated for BS-CU link scheduling using the lower bounds
+ofCsum given in (33). For each pair ofi∈I clandr∈F, the
+assignment problem can be written as
+max n
+δ(cu)
+i,r,v,k r|∀v,k roNcX
+v=1X
+kr∈K′rδ(cu)
+i,r,v,k rµ(cu)
+i,r,v,k r(46a)
+s.t.X
+kr∈K′rδ(cu)
+i,r,v,k r= 1, v∈N c,(46b)
+NcX
+v=1δ(cu)
+i,r,v,k r=N′
+c, kr∈K′
+r,(46c)
+δ(cu)
+i,r,v,k r∈ {0,1},∀v, k r,(46d)
+where
+µ(cu)
+i,r,v,k r=
+
+ω2X
+u∈Ukr∆C(su)
+u(¯p(i,r,v)
+u )
+N′s+∆C(cu)
+i,r,v(γ(kr,min)
+i,r,v)
+N′c,
+ifγ(kr,min)
+i,r,v< γth,
+− M,otherwise.
+(47)
+γ(k,min)
+i,r,vand¯p(i,r,v)
+u are given by (31a) and (32), respectively.
+Mis a positive number large enough to ensure that QoS
+for the CUs and SUs in (17c) and (17d) is satisfied while
+maximizing (46a).ω 2= 1/(I clN′
+c)is to balance average
+transmission rates of the SUs and CUs referring toCsum
+given in (14). Each problem in (46) can be solved with
+polynomial complexity via standard assignment optimization
+like (43) [28].
+Lastly, power control for the SUs is implemented in each
+subcarrierk∈Kbased on (21) with the aid of the Monte
+Carlo method as shown in (25) and successive approximation.
+Following (23) and (24), eachC′(cu)
+i,r,v(ti,r,v)in (21a) is suc-
+cessively approximated in each iteration by
+C′(cu)
+i,r,v(ti,r,v)≈B[C(1)
+i,r,v(ti,r,v)−˜C(2)
+i,r,v(ti,r,v)],(48)
+where
+˜C(2)
+i,r,v(ti,r,v) =C(2)
+i,r,v(˜ti,r,v) + log2eti,r,v−˜ti,r,v
+˜ti,r,v+σ(cu)2,(49)
+is the first-order Taylor expansion ofC(2)
+i,r,v(ti,r,v)at˜ti,r,v[24],
+[26]. Using this approximation, (21) can be solved via convex
+optimization algorithms, e.g., the interior-point method [26].
+A group of random samples for channels of the links, i.e., ˜hq,
+q= 1, ..., Q, are needed to deal with the expectation operator
+EHcsi[·]in the target of (21) based on (25). For each time
+interval ofT= ∆τ, they can be generated just once based on
+
+9
+the given set of statistical CSI inH csi, and utilized across the
+whole optimization process. Generally, the parameters inH csi,
+i.e.,η(cu,bs)
+i,r,v ,η(sat,su)
+u , andη(cu,su)
+i,r,v,u in (4), specify the statistical
+distribution of channel fading for the links withinT= ∆τ, as
+illustrated at the end of Section II-B. TheQsamples can be
+randomly generated based the statistical distribution just at the
+beginning of the execution of the proposed scheme for each
+time interval. Note that, whenever closed-form expressions or
+ones more concise than (25) are available forE Hcsi[·], they
+should be utilized appropriately for efficient calculation [5],
+[13].
+The complexity of the proposed spectrum sharing scheme in
+Algorithm 2 is mainly constituted by three parts. They are the
+complexity of hierarchical clustering of the SU-satellite links
+in Algorithm 1, that of link scheduling for the CUs based
+on (46), and that of power control for the SUs based on (21)
+and (48).
+•The complexity of Algorithm 1 is mainly composed of
+calculation of the feature vectorsF uin (34), solving of
+the assignment problem in (43) for coarse link clustering,
+as well as fine link clustering for each coarse link cluster.
+The feature vectors can be calculated with a complexity
+ofO(QMN cNs)whereM=I clF. The assignment
+problem in (43) can be solved with a complexity of
+O(N3
+s)[28]. The complexity of fine link clustering can
+be expressed asO(KN sIclNcNs), whereN sdenotes the
+number of iterations corresponding toL s[29].
+•Based on complexity of the assignment problem in (46),
+i.e.,O(N3
+c), link scheduling for the CUs served by all
+M=I clFBSs has a complexity ofO(MN3
+c)[28].
+•The complexity of power control for the SUs depends
+on the number of subcarriersK, the number of itera-
+tions corresponding toL p, denoted asN p, as well as
+complexity of the approximated convex problem of (21)
+in each iteration.

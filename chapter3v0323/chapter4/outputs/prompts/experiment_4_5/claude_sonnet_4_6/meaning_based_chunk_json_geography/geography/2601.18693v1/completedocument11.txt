@@ -1,0 +1,158 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument11",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument11
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+This yields 15 clusters fromTNG100with a mean halo mass
+of1014.2M⊙,8clustersfromHorizon-AGNwithameanhalomass
+of1014.3M⊙, and 16 clusters fromHydrangeawith a mean halo
+mass of1014.4M⊙. Clusters inTheThreeHundredare systemati-
+cally more massive; we retain all haloes with𝑀 200<1015M⊙, re-
+sultinginasampleof15clusterswithameanhalomassof1014.9M⊙.
+AsdescribedinAppendixC,wefirstmeasurethestellarmassdis-
+tribution of all infalling satellites and then separately fit a Schechter
+MNRAS000, 1–26 (2026)
+
+10G. Martin et al.
+Function Parameter Fiducial value Range
+𝑝(𝜂)𝑎2.05 [1.5, 3.0]
+𝑏1.90 [1.5, 3.0]
+𝜙(𝑀 ★)𝑀∗1011.5M⊙[1010.9M⊙,1011.8M⊙]
+𝛼−1.3[−1.55,−1.0]
+Table 1.Summary of the functional parameters adopted for the infalling
+satellite population model, listing the fiducial values and ranges explored for
+each parameter.
+function for each simulation. This provides an estimate of plausible
+𝛼and𝑀★valueswhicharebroadlyconsistentwitharangeofobser-
+vational measurements of the galaxy stellar mass function between
+0>𝑧>1(e.g. Baldry et al. 2012; Ilbert et al. 2013; Tomczak et al.
+2014; Davidzon et al. 2017; Sedgwick et al. 2019; McLeod et al.
+2021;Weaveretal.2023).Fiducialvaluesarechosennearthecentre
+of this range.
+Fortheinitialorbitalcircularitydistributionofinfallingsatellites,
+wefitabetafunctiontotheresultsofWetzel(2011).Weadoptabroad
+range of values for𝑎and𝑏, chosen to span reasonable variations in
+orbital shapes, from a moderate bias towards radial orbits to mod-
+erate bias towards circular orbits. The combined parameter ranges
+exploredforboththestellarmassfunctionandtheorbitalcircularity
+distribution are illustrated in Figure 7, which shows the envelopes
+spannedbythesevariationstogetherwiththeadoptedfiducialmodel
+and representative individual realisations. The fiducial values and
+parameter ranges used are summarised in Table 1.
+4.2.2 Population averaged quantities
+For a given stellar mass function𝜙(𝑀 ★)and orbital circularity dis-
+tribution𝑝(𝜂),wecomputepopulation-averagedspecificenergiesof
+stripped stars and DM by summing over the contributions from all
+satellites,weightedsimultaneouslyby(i)theamountofmassstripped
+fromeachsatellitegivenbytheproductof𝑓 strip,★(𝑀★,𝜂)and𝑀★or
+𝑓strip,DM(𝑀★,𝜂)and𝑀 h(𝑀★),and(ii)theproductoftheabundance
+ofsatelliteswiththatstellarmass𝜙(𝑀 ★)andorbitalcircularity𝑝(𝜂).
+For the stripped stellar component the population-averaged specific
+energy is
+⟨𝜀⟩tot,★=
+∫𝑀★,max
+𝑀★,min∫𝜂max
+𝜂min𝜀(𝑀★,𝜂)𝑀★𝑓strip(𝑀★,𝜂)𝜙(𝑀★)𝑝(𝜂)d𝜂d𝑀 ★
+∫𝑀★,max
+𝑀★,min∫𝜂max
+𝜂min𝑀★𝑓strip(𝑀★,𝜂)𝜙(𝑀★)𝑝(𝜂)d𝜂d𝑀 ★.(9)
+and the corresponding quantity for stripped DM is
+⟨𝜀⟩tot,DM=
+∫𝑀★,max
+𝑀★,min∫𝜂max
+𝜂min𝜀(𝑀★,𝜂)𝑀 h(𝑀★)𝑓strip(𝑀★,𝜂)𝜙(𝑀★)𝑝(𝜂)d𝜂d𝑀 ★
+∫𝑀★,max
+𝑀★,min∫𝜂max
+𝜂min𝑀★𝑓strip(𝑀★,𝜂)𝜙(𝑀★)𝑝(𝜂)d𝜂d𝑀 ★.
+(10)
+Analogous expressions are used to compute the population-
+averaged specific angular momentumℎ(𝑀 ★,𝜂). Here𝑀 ℎ(𝑀★)de-
+notes the halo mass associated with a satellite of stellar mass𝑀 ★
+and𝑓 stripdenotes the stripped fraction of the specified component.
+We consider the result for particle-averaged values over all particles
+and restricted to𝑟 >100kpc. For the latter,𝑓 stripdenotes only the
+9.0 9.5 10.0 10.5 11.0 11.5 12.0
+log10(M/M)
+6
+5
+4
+3
+2
+1
+log10( [dex1])
+(M)
+0.0 0.2 0.4 0.6 0.8 1.0
+0.0000.0020.0040.0060.0080.010P() d
+P()
+Figure7.Parameterrangesexploredinthesatellitepopulationmodel.Shaded
+regions indicate the envelopes spanned by variations in the infalling stellar
+massfunctionparameters(top,𝛼,𝑀★)andtheorbitalcircularitydistribution
+parameters(bottom,𝑎,𝑏).Thefiducialparameterchoiceisshownbythethick
+black line, while a representative subset of individual parameter realisations
+is indicated by thin grey lines. These ranges define the space over which
+population-averagedquantitiesarecomputedbymarginalisingoverplausible
+satellite mass and orbital distributions.
+strippedmassoutsideof100kpcasafractionofthesatellite’sinfall
+mass.
+We further define the normalised progenitor stellar mass contri-
+bution function,𝑝(𝑀 ★|strip,★), which quantifies the amount of
+stellar mass entering the ICL per bin of satellite infall stellar mass,
+normalised by the total stripped stellar mass.
+𝑝(𝑀★|stripped,★)=
+𝜙(𝑀★)𝑀★∫𝜂max
+𝜂min𝑓strip,★(𝑀★,𝜂)𝑝(𝜂)d𝜂
+∫𝑀★,max
+𝑀★,min𝜙(𝑀★)𝑀★∫𝜂max
+𝜂min𝑓strip,★(𝑀★,𝜂)𝑝(𝜂)d𝜂d𝑀 ★.(11)
+For each point in the (𝜙(𝑀 ★),𝑝(𝜂)) parameter space we prop-
+agate model uncertainty by drawing multiple posterior predictive
+realisations of our multi-output Gaussian process model. For every
+realisation we evaluate the integrals above. The ensemble of results
+yields posterior distributions for the population-averaged𝜀andℎ
+and𝑝(𝑀★|stripped,★), which we summarise by their median val-
+ues and credible intervals.

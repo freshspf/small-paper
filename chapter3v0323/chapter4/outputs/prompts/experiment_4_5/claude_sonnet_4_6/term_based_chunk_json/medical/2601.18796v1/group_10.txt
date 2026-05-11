@@ -1,0 +1,277 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "IrritableBowelSyndromePatient",
+  "hasSymptom",
+  "SleepDisturbance",
+  "Clozapine",
+  "comparedWith",
+  "Haloperidol",
+  "RefractorySchizophrenia",
+  "treatedBy",
+  "HighSymptomLevel",
+  "associatedWith",
+  "ImprovementOnClozapine",
+  "FunctionalConstipation",
+  "SubcutaneousDiamorphine",
+  "SubcutaneousHyoscineButylbromide",
+  "IntrathecalOpioid",
+  "causes",
+  "LowerUrinaryTractDysfunction",
+  "Morphine",
+  "affects",
+  "LowerUrinaryTractFunction",
+  "Sufentanil",
+  "decreases",
+  "BladderFunction",
+  "SuppressionOfDetrusorContractility",
+  "DecreasedSensationOfUrge",
+  "TestAndTreatStrategy",
+  "evaluatedFor",
+  "Dyspepsia",
+  "PrimaryCarePhysician",
+  "PromptEndoscopy",
+  "ctelm",
+  "ClinicalTrialEmbedding",
+  "ClinicalTrial",
+  "LargeLanguageModel",
+  "EmbeddingLanguageModel",
+  "ConceptVector",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "TextEmbedding",
+  "ClinicalTrialAbstract",
+  "vec2text",
+  "ConceptActivationVector",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "Corrector",
+  "HypothesisText",
+  "Text",
+  "ContextualEmbedding",
+  "EmbeddingSpace",
+  "BaseChatModel",
+  "TransformerLayer",
+  "TargetModel",
+  "AdapterModule",
+  "MultilayerPerceptron",
+  "Dataset",
+  "StructuredAbstractSection",
+  "RandomizedControlledTrial",
+  "UnstructuredClinicalTrialAbstract",
+  "model_baseChatModel",
+  "layer_tokenEmbedding",
+  "layer_transformer",
+  "model_targetModel",
+  "module_adapter",
+  "model_ctELM",
+  "dataset_pubmed200kRct",
+  "task_emb2sec",
+  "task_emb2pls",
+  "output_plainLanguageSummary"
+]
+
+Triples:
+[
+  {
+    "subject": "IrritableBowelSyndromePatient",
+    "relation": "hasSymptom",
+    "object": "SleepDisturbance",
+    "chunk": "completedocument18",
+    "context": "The findings suggest that the beneficial effects of melatonin on abdominal pain in IBS patients with sleep disturbances are independent of its action on sleep disturbances or psychological profiles.”"
+  },
+  {
+    "subject": "Clozapine",
+    "relation": "comparedWith",
+    "object": "Haloperidol",
+    "chunk": "completedocument18",
+    "context": "Data were from a 15-site randomized clinical trial comparing clozapine and haloperidol in hospitalized patients with refractory schizophrenia (n = 423)."
+  },
+  {
+    "subject": "RefractorySchizophrenia",
+    "relation": "treatedBy",
+    "object": "Clozapine",
+    "chunk": "completedocument18",
+    "context": "Data were from a 15-site randomized clinical trial comparing clozapine and haloperidol in hospitalized patients with refractory schizophrenia (n = 423)."
+  },
+  {
+    "subject": "RefractorySchizophrenia",
+    "relation": "treatedBy",
+    "object": "Haloperidol",
+    "chunk": "completedocument18",
+    "context": "Data were from a 15-site randomized clinical trial comparing clozapine and haloperidol in hospitalized patients with refractory schizophrenia (n = 423)."
+  },
+  {
+    "subject": "HighSymptomLevel",
+    "relation": "associatedWith",
+    "object": "ImprovementOnClozapine",
+    "chunk": "completedocument18",
+    "context": "Although high levels of symptoms were associated with greater improvement on clozapine, these findings are not robust enough to suggest that any specific, clinically defined subgroup of refractory patients should be preferentially targeted for clozapine treatment.”"
+  },
+  {
+    "subject": "FunctionalConstipation",
+    "relation": "treatedBy",
+    "object": "SubcutaneousDiamorphine",
+    "chunk": "completedocument18",
+    "context": "“The results of this study demonstrate that patients with functional constipation have a better outcome after treatment with a single dose of subcutaneous diamorphine than after treatment with a single dose of subcutaneous hyoscine butylbromide.”"
+  },
+  {
+    "subject": "FunctionalConstipation",
+    "relation": "treatedBy",
+    "object": "SubcutaneousHyoscineButylbromide",
+    "chunk": "completedocument18",
+    "context": "“The results of this study demonstrate that patients with functional constipation have a better outcome after treatment with a single dose of subcutaneous diamorphine than after treatment with a single dose of subcutaneous hyoscine butylbromide.”"
+  },
+  {
+    "subject": "IntrathecalOpioid",
+    "relation": "causes",
+    "object": "LowerUrinaryTractDysfunction",
+    "chunk": "completedocument18",
+    "context": "[Background] Intrathecal administration of opioids may cause lower urinary tract dysfunction."
+  },
+  {
+    "subject": "Morphine",
+    "relation": "affects",
+    "object": "LowerUrinaryTractFunction",
+    "chunk": "completedocument18",
+    "context": "In this study, the authors compared the effects of morphine and sufentanil administered intrathe- cally in a randomized double-blind fashion (two doses each) on lower urinary tract function in healthy male volunteers."
+  },
+  {
+    "subject": "Sufentanil",
+    "relation": "affects",
+    "object": "LowerUrinaryTractFunction",
+    "chunk": "completedocument18",
+    "context": "In this study, the authors compared the effects of morphine and sufentanil administered intrathe- cally in a randomized double-blind fashion (two doses each) on lower urinary tract function in healthy male volunteers."
+  },
+  {
+    "subject": "IntrathecalOpioid",
+    "relation": "decreases",
+    "object": "BladderFunction",
+    "chunk": "completedocument18",
+    "context": "[Conclusion] Intrathecal opioids decrease bladder function by causing dose-dependent suppression of detrusor contractility and decreased sensation of urge."
+  },
+  {
+    "subject": "IntrathecalOpioid",
+    "relation": "causes",
+    "object": "SuppressionOfDetrusorContractility",
+    "chunk": "completedocument18",
+    "context": "[Conclusion] Intrathecal opioids decrease bladder function by causing dose-dependent suppression of detrusor contractility and decreased sensation of urge."
+  },
+  {
+    "subject": "IntrathecalOpioid",
+    "relation": "causes",
+    "object": "DecreasedSensationOfUrge",
+    "chunk": "completedocument18",
+    "context": "[Conclusion] Intrathecal opioids decrease bladder function by causing dose-dependent suppression of detrusor contractility and decreased sensation of urge."
+  },
+  {
+    "subject": "TestAndTreatStrategy",
+    "relation": "evaluatedFor",
+    "object": "Dyspepsia",
+    "chunk": "completedocument18",
+    "context": "[Background] The value of the test-and-treat strategy in the approach to dyspepsia has been evaluated only in a few secondary care studies."
+  },
+  {
+    "subject": "Dyspepsia",
+    "relation": "treatedBy",
+    "object": "PrimaryCarePhysician",
+    "chunk": "completedocument18",
+    "context": "Most patients with dyspepsia, however, are treated by their primary care physician ..."
+  },
+  {
+    "subject": "TestAndTreatStrategy",
+    "relation": "comparedWith",
+    "object": "PromptEndoscopy",
+    "chunk": "completedocument18",
+    "context": "[Conclusion] The test-and-treat strategy proved to be as effective and safe as prompt endoscopy."
+  }
+]

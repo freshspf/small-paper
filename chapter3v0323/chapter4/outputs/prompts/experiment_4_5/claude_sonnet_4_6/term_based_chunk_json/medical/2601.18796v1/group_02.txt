@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Text",
+  "recoveredFrom",
+  "ContextualEmbedding",
+  "EmbeddingLanguageModel",
+  "explores",
+  "EmbeddingSpace",
+  "ConceptActivationVector",
+  "identifiesAxesIn",
+  "model_baseChatModel",
+  "isA",
+  "LargeLanguageModel",
+  "comprisesComponent",
+  "layer_tokenEmbedding",
+  "layer_transformer",
+  "model_targetModel",
+  "extendsModel",
+  "module_adapter",
+  "MultilayerPerceptron",
+  "dataset_pubmed200kRct",
+  "containsCollectionOf",
+  "ClinicalTrialAbstract",
+  "aidsInClassifying",
+  "StructuredAbstractSection",
+  "actsAsCollectionFor",
+  "RandomizedControlledTrial",
+  "concatenatedInto",
+  "UnstructuredClinicalTrialAbstract",
+  "model_ctELM",
+  "usesArchitecture",
+  "task_emb2sec",
+  "decodesTo",
+  "task_emb2pls",
+  "generates",
+  "output_plainLanguageSummary",
+  "task_emb2com",
+  "analyzes",
+  "data_abstractEmbedding",
+  "promptedWith",
+  "data_textInstruction",
+  "optimizedBy",
+  "loss_negativeLogLikelihood",
+  "method_lowRankAdaptation",
+  "optimizes",
+  "layer_Mbase",
+  "model_gpt4oMini",
+  "actsAs",
+  "role_oracleModel",
+  "data_syntheticData",
+  "module_adapterA",
+  "hasArchitecture",
+  "architecture_multilayerPerceptron",
+  "trainedOn",
+  "dataset_clinicalTrialStudy",
+  "model_Vec2Text",
+  "performs",
+  "task_embeddingInversion",
+  "ctelm",
+  "ClinicalTrialEmbedding",
+  "ClinicalTrial",
+  "ConceptVector",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "TextEmbedding",
+  "vec2text",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "Corrector",
+  "HypothesisText"
+]
+
+Triples:
+[
+  {
+    "subject": "Text",
+    "relation": "recoveredFrom",
+    "object": "ContextualEmbedding",
+    "chunk": "completedocument2",
+    "context": "Kugler et al. (2024) showed that text can\nalso be recovered from the token-level contextual\nembeddings of BERT"
+  },
+  {
+    "subject": "EmbeddingLanguageModel",
+    "relation": "explores",
+    "object": "EmbeddingSpace",
+    "chunk": "completedocument2",
+    "context": "Tennenholtz et al. (2024) in-\ntroduce Embedding Language Models, partly with\nthe aim of exploring embedding spaces to generate\nmore novel text content."
+  },
+  {
+    "subject": "ConceptActivationVector",
+    "relation": "identifiesAxesIn",
+    "object": "EmbeddingSpace",
+    "chunk": "completedocument2",
+    "context": "axes (representing attributes such as comedy or\ndrama) identified in the embedding space using\nConcept Activation Vectors (CA Vs)"
+  },
+  {
+    "subject": "model_baseChatModel",
+    "relation": "isA",
+    "object": "LargeLanguageModel",
+    "chunk": "completedocument3",
+    "context": "The base chat model, represented by M, is a text-only, instruction-tuned large language model (LLM)."
+  },
+  {
+    "subject": "model_baseChatModel",
+    "relation": "comprisesComponent",
+    "object": "layer_tokenEmbedding",
+    "chunk": "completedocument3",
+    "context": "The chat model com- prises two primary components, namely the to- ken embedding layer Ebaseand the transformer layers Mbase."
+  },
+  {
+    "subject": "model_baseChatModel",
+    "relation": "comprisesComponent",
+    "object": "layer_transformer",
+    "chunk": "completedocument3",
+    "context": "The chat model com- prises two primary components, namely the to- ken embedding layer Ebaseand the transformer layers Mbase."
+  },
+  {
+    "subject": "model_targetModel",
+    "relation": "extendsModel",
+    "object": "model_baseChatModel",
+    "chunk": "completedocument3",
+    "context": "Our objective is to extend the base model Mto a target model ( Mtgt) capable of processing and interpreting embeddings produced by the external embedding model Eemb, alongside standard lan- guage tokens."
+  },
+  {
+    "subject": "module_adapter",
+    "relation": "isA",
+    "object": "MultilayerPerceptron",
+    "chunk": "completedocument3",
+    "context": "The adapter Ais a two-layer multilayer perceptron (MLP)"
+  },
+  {
+    "subject": "dataset_pubmed200kRct",
+    "relation": "containsCollectionOf",
+    "object": "ClinicalTrialAbstract",
+    "chunk": "completedocument3",
+    "context": "We use PubMed 200K RCT (Dernoncourt and Lee, 2017), which contains 190,654, 2,500, and 2,500 abstracts for training, validation, and testing sets, respectively."
+  },
+  {
+    "subject": "dataset_pubmed200kRct",
+    "relation": "aidsInClassifying",
+    "object": "StructuredAbstractSection",
+    "chunk": "completedocument3",
+    "context": "This dataset was created to aid in classifying structured abstract sections; here we will use it to generate those sections, and as a clean collection of randomized controlled trials."
+  },
+  {
+    "subject": "dataset_pubmed200kRct",
+    "relation": "actsAsCollectionFor",
+    "object": "RandomizedControlledTrial",
+    "chunk": "completedocument3",
+    "context": "This dataset was created to aid in classifying structured abstract sections; here we will use it to generate those sections, and as a clean collection of randomized controlled trials."
+  },
+  {
+    "subject": "StructuredAbstractSection",
+    "relation": "concatenatedInto",
+    "object": "UnstructuredClinicalTrialAbstract",
+    "chunk": "completedocument3",
+    "context": "Since each abstract is structured and separated by section, we concatenate all sections into an unstructured clinical trial abstract."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "usesArchitecture",
+    "object": "model_targetModel",
+    "chunk": "completedocument3",
+    "context": "To train ctELM using the Mtgtmodel architecture, we prepare five diverse tasks relevant to clinical trial abstracts, as illustrated in Fig. 1."
+  },
+  {
+    "subject": "task_emb2sec",
+    "relation": "decodesTo",
+    "object": "StructuredAbstractSection",
+    "chunk": "completedocument3",
+    "context": "emb2sec : Decode an abstract embedding to a spe- cific section."
+  },
+  {
+    "subject": "task_emb2pls",
+    "relation": "generates",
+    "object": "output_plainLanguageSummary",
+    "chunk": "completedocument4",
+    "context": "emb2pls : Generates a plain language summary from an abstract embedding zwith input prompt p: “Write a plain language summary of the abstract z”;ois the plain language summary generated by an oracle model (see Appendix A)."
+  },
+  {
+    "subject": "task_emb2com",
+    "relation": "analyzes",
+    "object": "data_abstractEmbedding",
+    "chunk": "completedocument4",
+    "context": "emb2com : Analyzes two abstract embeddings and lists five commonalities."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "promptedWith",
+    "object": "data_textInstruction",
+    "chunk": "completedocument4",
+    "context": "Although we prompt ctELM with both text instructions and abstract embedding(s), its training is similar to text-only language models in that it aims to predict the next word in a sequence."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "promptedWith",
+    "object": "data_abstractEmbedding",
+    "chunk": "completedocument4",
+    "context": "Although we prompt ctELM with both text instructions and abstract embedding(s), its training is similar to text-only language models in that it aims to predict the next word in a sequence."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "optimizedBy",
+    "object": "loss_negativeLogLikelihood",
+    "chunk": "completedocument4",
+    "context": "Therefore, we can optimize the ctELM by minimizing the negative log-likelihood loss versus training outputs."
+  },
+  {
+    "subject": "method_lowRankAdaptation",
+    "relation": "optimizes",
+    "object": "layer_Mbase",
+    "chunk": "completedocument4",
+    "context": "For efficient fine-tuning, in practice we employ Low-Rank Adaptation (LoRA) (Hu et al., 2022) to optimize Mbase, thus tuning low-rank adapters rather than the original weights."
+  },
+  {
+    "subject": "model_gpt4oMini",
+    "relation": "actsAs",
+    "object": "role_oracleModel",
+    "chunk": "completedocument4",
+    "context": "For experiments, we set M to be Llama-3.1-8B-Instruct (Dubey et al., 2024), Eemb to be BAAI/bge-large-en-v1.5 , and adopt gpt-4o-mini as the oracle model to generate the synthetic data for emb2pls ,emb2com , and emb2dif ."
+  },
+  {
+    "subject": "role_oracleModel",
+    "relation": "generates",
+    "object": "data_syntheticData",
+    "chunk": "completedocument4",
+    "context": "For experiments, we set M to be Llama-3.1-8B-Instruct (Dubey et al., 2024), Eemb to be BAAI/bge-large-en-v1.5 , and adopt gpt-4o-mini as the oracle model to generate the synthetic data for emb2pls ,emb2com , and emb2dif ."
+  },
+  {
+    "subject": "module_adapterA",
+    "relation": "hasArchitecture",
+    "object": "architecture_multilayerPerceptron",
+    "chunk": "completedocument4",
+    "context": "We load the base model via Huggingface’s transformers package (Wolf et al., 2020) and extend it by introducing an adapter A, which is a 2-layer MLP with 2,048 neurons in the hidden layer, 4,096 in the second layer (to match LLama 3.1’s token embedding dimension), and ReLU activation between the layers."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "trainedOn",
+    "object": "dataset_clinicalTrialStudy",
+    "chunk": "completedocument4",
+    "context": "AsctELM is trained on clinical trial studies, direct comparison with the originally reported ELM of Tennenholtz et al. (2024) is not feasible, since (1) it was trained on a movie review dataset and (2) the architecture is not publicly available for retraining."
+  },
+  {
+    "subject": "model_Vec2Text",
+    "relation": "performs",
+    "object": "task_embeddingInversion",
+    "chunk": "completedocument4",
+    "context": "However, as the emb2abs task is direct inversion of an embedding, we can compare ctELM ’s performance for this task against Vec2Text (Morris et al., 2023), to our knowledge the state-of-the art system for embedding inversion."
+  }
+]

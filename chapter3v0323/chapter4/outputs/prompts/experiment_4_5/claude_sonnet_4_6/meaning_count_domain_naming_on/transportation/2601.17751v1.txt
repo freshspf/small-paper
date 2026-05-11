@@ -1,0 +1,1141 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Ampli-Flection for 6G: Active-RIS-Aided
+Aerial Backhaul with Full 3D Coverage
+Hong-Bae Jeon, Member , IEEE, and Chan-Byoung Chae, Fellow, IEEE
+Abstract—In this paper, we propose a novel aerial backhaul
+architecture that employs an aerial active reconﬁgurable intelli-
+gent surface (RIS) to achieve energy-efﬁcient, full 3D coverage
+including UA V-BSs and ground users in 6G wireless networks.
+Unlike prior aerial-RIS approaches limited to 2D coverage with
+only servicing ground users or passive operation, the proposed
+design integrates an active-RIS onto a high-altitude aerial
+platform, enabling reliable line-of-sight links and overcoming
+multiplicative fading through ampliﬁcation. In a scenario with
+UA V-BSs deployed to handle sudden trafﬁc surges in urban areas,
+the aerial-active-RIS both reﬂects and ampliﬁes backhaul signals
+to overcome blockage. We jointly optimize the aerial platform
+placement, array partitioning, and RIS phase conﬁguration to
+maximize UA V-BS energy-efﬁciency. Simulation results conﬁrm
+that the proposed method signiﬁcantly outperforms benchmarks,
+demonstrating its strong potential to deliver resilient backhaul
+connectivity with comprehensive 3D coverage in 6G networks.
+Index Terms —Active reconﬁgurable intelligent surface, un-
+manned aerial vehicle, wireless backhaul, non-convex optimiza-
+tion, energy-efﬁciency.
+I. I NTRODUCTION
+FL A T E, the rapid expansion of data-driven applications
+with the push for extended wireless coverage in beyond
+ﬁfth-generation (B5G) and sixth-generation (6G) networks
+have driven an unprecedented demand for providing ultra-
+reliable and high-capacity communications anywhere [2]–[4].
+In response, researchers have been exploring the deployment
+of aerial base stations, realized through unmanned-aerial-
+vehicle-base-stations (UA V -BSs), for rapid and ﬂexible cover-
+age extensions [5], [6]. These UA V -BSs present a compelling
+solution for extending network coverage to areas where con-
+ventional base station infrastructure is inadequate, offering
+rapid deployment capabilities in emergency or high-trafﬁc
+scenarios. Their high-altitude operation further enhances the
+likelihood of rich line-of-sight (LoS) links [7], [8], thereby
+improving communication reliability and efﬁciency. To enable
+efﬁcient UA V -BS deployment, prior studies have investigated
+deployment strategy design [9], [10], trajectory optimiza-
+tion [11], [12], and power control schemes [13], [14]. One
+of the critical challenges that remains for deploying UA V -BSs
+is the backhaul connectivity, particularly in dense urban areas
+This work was supported by Hankuk University of Foreign Studies Research
+Fund of 2026. This article was presented in part at the IEEE ICTC 2022, Jeju
+Island, South Korea, October 19-21, 2022 [1]. (Corresponding Author: Chan-
+Byoung Chae.)
+H.-B. Jeon is with the Department of Information Communications Engi-
+neering, Hankuk University of Foreign Studies, Y ong-in, 17035, Korea (e-
+mail: hongbae08@hufs.ac.kr).
+C.-B. Chae is with the School of Integrated Technology, Y onsei University,
+Seoul 03722, Korea (e-mail: cbchae@yonsei.ac.kr).
+where obstacles obstruct direct backhaul links from terrestrial
+sources and generates non-LoS (NLoS) components, which
+severely deteriorates the system’s energy-efﬁciency, posing a
+critical challenge for 6G wireless networks operating with
+higher spectrum [15]–[17].
+Therefore, the reconﬁgurable intelligent surfaces (RIS) have
+been explored as a means to enhance wireless coverage and
+mitigate blockages [18]–[21]. RIS is an artiﬁcial metasurface
+composed of passive reﬂecting elements capable of adjusting
+both the amplitude and phase of an incident signal [22], [23].
+Furthermore, due to its passive array architecture, the RIS
+exhibits high channel capacity with low power consumption,
+which leads to the energy-efﬁciency compared to conventional
+decode-and-forward or amplify-and-forward (DF/AF) relays
+in several scenarios [24]–[26]. However, conventional RIS
+has passive reﬂection elements, which highly suffer from
+severe “multiplicative fading,” where the path loss is given by
+the multiplication of Tx-to-RIS and RIS-to-Rx links, limiting
+their effectiveness in practical scenarios [27], [28]. These
+disadvantages become more severe when the RIS is deployed
+in terrestrial infrastructure on dense urban areas.
+To overcome the fundamental physical limitation imposed
+by the multiplicative fading effect of cascaded channels in
+RIS-assisted systems, the concept of active-RIS has recently
+been proposed [27], [29]. Unlike conventional passive-RISs,
+which only reﬂect incident signals without ampliﬁcation,
+active-RISs incorporate reﬂection-type ampliﬁers within each
+element, thereby enabling signal ampliﬁcation at the cost
+of additional power consumption [30]. This capability fun-
+damentally changes the power-rate trade-off and opens up
+new possibilities for performance enhancement in future 6G
+wireless networks.
+Early studies, such as [27], focused on characterizing the
+performance gains of active-RIS over passive-RIS through
+sum-rate maximization and comparative analyses, demonstrat-
+ing that active-RIS can effectively mitigate the double-fading
+loss inherent in passive architectures. These works established
+the potential of active-RIS as a promising technology for
+next-generation systems. Building upon this foundation, subse-
+quent research addressed practical implementation challenges.
+In particular, [31] investigated a sub-connected active-RIS
+architecture and proposed a joint beamforming design that
+balances hardware complexity and performance, revealing
+important trade-offs between achievable gains and circuit-level
+constraints. From a performance perspective, [28], [32] further
+examined the SNR advantages of active-RIS under a uniﬁed
+power budget, showing that, when properly optimized, active-
+RIS can signiﬁcantly outperform passive-RIS counterparts.
+arXiv:2601.17751v1 [eess.SP] 25 Jan 2026
+More recently after performance characterization and architec-
+tural investigations, attention has shifted toward robustness and
+practical deployability. To bridge the gap between theoretical
+analysis and real-world operation, [33], [34] studied active-RIS
+transmission designs under partial channel state information
+(CSI). Speciﬁcally, [33] aimed at maximizing the average sum-
+rate, while [34] focused on minimizing the average total trans-
+mit power subject to rate and outage probability constraints.
+These works highlight the importance of accounting for CSI
+uncertainty when designing active-RIS-assisted systems.
+Most prior work, however, has primarily focused on deploy-
+ing the active-RIS in terrestrial environments, such as those
+involving buildings and walls. These environments impose
+several limitations on communication performance. In dense
+urban areas with many buildings, reliable transmission often
+depends on multiple reﬂections, which requires deploying a
+large number of RIS units to alleviate severe signal attenuation.
+Moreover, a terrestrial RIS can only reﬂect signals from
+the source to destinations located on the same side, thereby
+restricting the angular range of reﬂection and preventing
+isotropic coverage over 0→ → 360→ arrival angles. Several
+studies have investigated the deployment of RIS on aerial
+platforms (e.g., [35]–[37]); however, most of these works focus
+on conventional passive RIS architectures and consider only
+2D coverage, or assume ﬁxed transmit power at the source,
+thereby largely overlooking energy-efﬁciency considerations.
+Although a few recent studies have explored active-RIS-
+assisted aerial systems [38]–[40], they still restrict their scope
+to 2D coverage scenarios 1, which limits their applicability in
+dense urban 6G environments with heterogeneous mobility and
+altitude-dependent service demands.
+In contrast, this paper proposes a novel aerial active-RIS
+architecture that explicitly distinguishes the geometric beneﬁts
+of aerial deployment from the ampliﬁcation-enabled gains in-
+troduced by the active-RIS itself. While the elevated platform
+inherently improves LoS availability and alleviates blockage
+through favorable 3D geometry, the active-RIS provides an ad-
+ditional and fundamentally different advantage by amplifying
+the reﬂected signals at the element level. This ampliﬁcation
+capability mitigates the multiplicative path-loss of cascaded
+source-RIS-destination links, which is an important issue due
+to the long link distance of aerial platform and cannot be
+achieved by aerial placement or passive RIS alone under the
+same power budget [41]. As a result, the proposed architecture
+enables energy-efﬁcient 3D coverage and, for the ﬁrst time,
+facilitates an aerial-active-RIS-assisted backhaul network ca-
+pable of reliably supporting UA V -BSs and heterogeneous users
+in future 6G wireless networks.
+The key contributions are summarized as follows:
+1) We propose a novel aerial-active-RIS architecture aimed
+at enhancing 3D backhaul connectivity to UA V -BSs in
+urban environments characterized by severe blockages.
+1In this paper, we deﬁne “2D coverage” as the servicing of only ground
+users, whereas “3D coverage” refers to the service of both aerial and
+ground users, which constitutes a geometrical extension of 2D coverage. It is
+emphasized that the term “3D coverage” in this work refers to geometry-aware
+coverage over a three-dimensional spatial region, rather than full-dimensional
+beamforming enabled by planar arrays.
+The proposed scheme deploys an RIS on a high-altitude
+platform, where each RIS element is equipped with an
+active ampliﬁer, ensuring both a rich LoS component and
+robustness against multiplicative fading, respectively. To
+maximize the received SNR and minimize the transmit
+power, we show that the maximum-ratio transmission
+(MRT) strategy achieves the purpose.
+2) We verify that equal ampliﬁcation gain across active-RIS
+elements is a feasible approach for optimizing the energy-
+efﬁciency by minimizing the total consumed power of the
+system. Under this assumption, an optimization frame-
+work is developed to determine the placement, array-
+partitioning strategy, phase control and optimal ampli-
+ﬁcation gain of the aerial-active-RIS with the objective
+of maximizing energy-efﬁciency. Speciﬁcally, a nonzero
+closed-form value of the source transmit power for each
+UA V -BS is derived, and a minimization problem is for-
+mulated by adjusting the numerator and denominator
+of the value. The problem is efﬁciently solved using
+the global criterion method, which selects a minimal-
+total-distance operating point corresponding to a Pareto-
+efﬁcient solution, and considering the partition of full RIS
+array, respectively.
+3) The proposed approach is evaluated numerically in a
+realistic urban outdoor environment with 103 randomly
+distributed ground users and corresponding UA V -BSs.
+Extensive numerical results demonstrate that the pro-
+posed aerial-active-RIS scheme signiﬁcantly outperforms
+conventional benchmarks including the aerial-AF-relay
+and the aerial-passive-RIS schemes and aerial-active-RIS
+with randomly determined ampliﬁcation gain in terms of
+energy-efﬁciency.
+II. S YSTEM MODEL
+A. Aerial Backhaul with Conventional Passive-RIS
+We consider an urban area G with origin ωωωG on xy-plane, as
+depicted in Fig. 1(a). We assume that G contains N0 ground
+users equipped with omnidirectional antenna, and served by
+multiple stationary UA V -BSs with a directional antenna, rep-
+resented as M = {1, ··· ,M 0}. The directional antenna of
+each UA V -BS has different azimuth and elevation half-power
+beamwidths (HPBW) [42]. The 3D coordinates of a UA V -BS
+m are expressed as ωωωm ↭
+m hm
+, with its 2D coordinate
+wm and altitude hm.
+To alleviate interference among adjacent cells, we assume
+that each UA V -BS serves a distinct, non-overlapping subset of
+users. In this context, the Ellipse Clustering algorithm [8] is
+employed to allocate ground users and determine M0, while
+signiﬁcantly reducing the transmit power through optimized
+3D deployment. Under this setup, the throughput Cm of UA V -
+BS m is expressed as
+Cm =
+n↑Um
+|Um| log2
+1+ Pf,n
+, (1)
+where Um represents the user set served by UA V -BS m,
+Bf denotes the fronthaul bandwidth, which is evenly divided
+among the |Um| users in Um, Pf,n is the received power at
+Fig. 1. (a) UA V -BS access network supported by an aerial-active-RIS backhaul and (b) signal model illustration of the aerial-active-RIS.
+user n ↑ Um, and ε2
+f,m represents the noise power of the
+fronthaul link for UA V -BS m. By adopting the frequency-
+division-multiple-access (FDMA) within each cell and non-
+overlapping UA V -BS coverage regions, both intra- and inter-
+cell interference are eliminated, and the achievable rate in (1)
+directly follows.
+For an aerial-active-RIS which maintains an altitude H, and
+designating the ﬁrst element as the reference, the 3D coordi-
+nates of the aerial-RIS are expressed as ωωωRIS ↭
+qT H
+.W e
+consider a source at origin, which is equipped with a uniform
+linear array (ULA) comprising M antennas with inter-element
+spacing ds and an antenna gain of Gs. Note that although the
+source and the aerial-active-RIS employ ULAs, the considered
+coverage is inherently “three-dimensional”, as the RIS and
+UA V -BS location, propagation distance, and elevation angle
+are explicitly characterized in a 3D coordinate system [43]–
+[45]. In particular, H and {hm} induce elevation-dependent
+path loss and phase variations, which are fully captured in the
+channel model.
+The distance between the source and the center of the
+coverage area is denoted by dG ↭ ||ωωωG ||2, and is assumed to
+be sufﬁciently large and the direct transmission path from the
+source to the UA V -BS is blocked. The aerial-RIS is modeled
+as a ULA comprising N reﬂecting elements with inter-element
+spacing dRIS, and carrier wavelength ϑ. We assumed an
+uncoupled model for the RIS elements under this ULA-spacing
+conﬁguration [46]–[48]. Without loss of generality, the RIS is
+assumed to be aligned parallel to the x-axis.
+Due to the elevated altitude of the aerial-RIS, the backhaul
+link is assumed to be dominated by an LoS component.
+Considering that dRIS is signiﬁcantly smaller than both H and
+dG , the backhaul link is approximated using a uniform plane-
+wave model, implying that the path loss is assumed to be
+identical across all RIS-element pairs. Accordingly, the path
+loss associated with the source-to-RIS link, ϖs (q), and the
+RIS-to-UA V -BS link,ϖ (q,ωωωm), are formulated as [49]:
+ϖs (q)= ϖ0||ωωωRIS||↓ 2
+2 ,ϖ (q,ωωωm)= ϖ0||ωωωRIS ↓ ωωωm||↓ 2
+2 , (2)
+where ϖ0 represents the reference path loss at a 1 m distance.
+Therefore, the channel for the source-to-RIS link, H (q) ↑
+CN ↔ M , and the RIS-to-destination link, h↗ (q, ·) ↑ C1↔ N ,
+are expressed as:
+
+
+H (q)
+ϖs (q)e
+!H ↓
+2ω||ωωωRIS ||2
+aRIS (ϱr,RIS (q)) a↗
+s (ϱt,s (q))
+h↗ (q,ωωωm)
+ϖ (q,ωωωm)e
+!h ↓
+2ω||ωωωRIS → ωωωm||2
+RIS (ϱt,RIS (q,ωωωm)) ,
+(3)
+where !H and !h are independent and uniformly-distributed
+random phases within [0, 2ς). Therein, the array response
+as (·) and aRIS (·) ↑ CN of the source and aerial-RIS,
+respectively, are given by:
+as (·)=
+{e↓ j2ω(m↓ 1) ¯ds (sin(·))}M ↓ 1
+m=0
+aRIS (·)=
+{e↓ j2ω(n↓ 1) ¯d(sin(·))}N ↓ 1
+n=0
+(4)
+where ¯ds ↭ ds
+ε and ¯d ↭ dRIS
+ε . Lastly, ϱt,s (q), ϱt,RIS (q, ·),
+and ϱr,RIS (q) denote the angle-of-departure (AoD) of the
+source-RIS and RIS-destination links and the angle-of-arrival
+(AoA) of the source-RIS link, respectively. For analytical
+tractability, it is assumed that the ground source has knowledge
+of channels, which can be obtained using methods outlined
+in [50]–[53].
+B. Implementation of Active-RIS
+Since conventional RIS consists of passive elements which
+cannot amplify the signal, the reﬂected signal has to suffer
+from “multiplicative fading” induced by the multiplication of
+the path loss of source-to-RIS and RIS-to-UA V -BS links [27],
+which is presented by ||ωωω↗
+RIS ↓ ωωωm||2
+2 ||ωωω↗
+RIS||2
+2 in (14). Re-
+cently, by accompanying the active-RIS [28], [31], [32],
+[54], we can solve the aforementioned “multiplicative fading”
+problem by compensating signal power at the active-RIS
+component.
+We assume that, as illustrated in Fig. 1(b), the active am-
+pliﬁcation circuit with ampliﬁcation factor {φ n}N
+n=1 and the
+element-wise hardware power consumption PE is implemented
+into the N -element aerial-RIS. In other words, after supplying
+the hardware power consumption for N active elements, we
+can generate feasible ampliﬁcation gain by remaining power
+for a given power budget [27], [32]. The reﬂected and ampli-
+ﬁed signal yra for incident signal xra is modeled by [27]:
+yra = A”””xra  
+Desired signal
++ A”””na  
+Dynamic noise
++ ns
+Static noise
+. (5)
+Here, A ↭ diag
+{φ n}N
+n=1
+is the ampliﬁcation matrix of the
+active-RIS, wherein we assume 1 <φ n ↔ φ max (↗n) [55].
+Moreover, ””” ↭ diag
+ejϑn
+n=1
+↑ CN ↔ N is a phase shift
+matrix with phase shift ↼n ↑ [0, 2ς) of the nth element,
+na →C N
+0N ,ε 2
+a IN
+is the dynamic noise induced by the
+ampliﬁcation of the active-RIS elements, and ns is the static
+additive Gaussian noise uncorrelated to A and na [27], [31].
+By deﬁnition, xra is given by xra = H (q) x, where x is
+the total transmit signal. We can represent x as a sum of unit-
+magnitude precoding vectors vm ↑ CM , each corresponding
+to a unit-power signal sm intended for UA V -BS m, with
+transmit power Pm at the source. Therefore, x is:
+x =
+m↑M
+PmGssm, (6)
+which implies that the source transmit power Ptot,s is:
+Ptot,s = E
+||xxx||2
+=t r (GsPV↗VPV↗VPV↗V) = Gs
+m↑M
+Pm. (7)
+By (5), the reﬂection power of active-RIS is given by [26]
+PR = E
+||A”””(xra + na)||2
+= E[||AH(q)x||2
+2]+ ε2
+n=1
+φ 2
+(8)
+and the power consumed by the active hardware components is
+expressed as NP E ↭ N (PDC + PSW) [28], where PE denotes
+the per-element hardware power consumption comprising the
+control and phase-shift switching power PSW and the direct
+current (DC) biasing power PDC required for the ampliﬁer in
+each active-RIS element [17]. Consequently, the total power
+consumption of the active-RIS is given by
+Ptot,a = PR + NP E, (9)
+where we assume that the efﬁciency of the power ampliﬁer is
+1 in both source and aerial-active-RIS.
+Moreover, yra faces the channel h↗ (q,ωωωm) from RIS-
+destination. Hence, by concatenating the effects, the signal
+model from source-to-RIS-to-UA V -BS-m is given by [26]
+ym = h↗ (q,ωωωm) A”””H (q) x + h↗ (q,ωωωm) A”””na + n,
+(10)
+where n →C N (0,ε 2) is the noise at the receiver. By (10),
+the backhaul rate of UA V -BS m is given by [26]
+Rm = Bb
+log2
+1+ PmGs |h↗ (q,ωωωm) A”””H (q) vm|2
+ε2a ||A”””↗h (q,ωωωm) ||2+ε2
+  
+↭ϖm
+ ,
+(11)
+where Bb denotes the backhaul bandwidth, which is equally
+partitioned into M0 sub-bands assigned to each UA V -BS, and
+↽m is the received SNR of UA V -BSm. Here, we can notice the
+deﬁnition of ↽m that the signal is ampliﬁed by {φ n} and the
+denominator is extended with the power of the dynamic noise
+signal h↗ (q,ωωωm) A”””na. Moreover, since h↗ (q,ωωωm) contains
+ϖ (q,ωωωm) ↭ ϱ0
+||ωωωRIS ↓ωωωm||
+, the effect of the dynamic noise gets
+weaker when the RIS-to-UA V -BS distance gets larger.
+To enhance energy-efﬁciency by minimizing the source
+transmit power, i.e., 
+m↑M Pm [8], [43], which will be clari-
+ﬁed in (27), we ﬁrst derive the precoding vector vm for UA V -
+BS m that maximizes ↽m under a given Pm. This approach
+enables a reduction in transmit power while maintaining the
+required data rate, and is formulated by MRT:
+vm = as (ϱt,s (q))↘
+(↗m ↑ M) , (12)
+which implies that the optimal transmission strategy
+{vm}m↑M is given to maximize the inner-product with
+s (ϱt,s (q)) [43]. Moreover, in (11) it is clear that
+||A”””↗h (q,ωωωm) ||2
+2= ||Ah (q,ωωωm) ||2
+2= ϖ (q,ωωωm)
+n=1
+φ 2
+(13)
+where the ﬁrst equality comes from the fact that ””” ↭
+diag
+ejϑn
+n=1
+is unitary. By applying MRT and (13), ↽m
+becomes (14) where ¯↽ ↭ PmGs ϱ2
+0 M
+ς2a ϱ(q,ωωωm) ∑N
+n=1 φ2n +ς2 [43].
+For {↼↗
+n}N
+n=1 to maximize ↽m for a given Pm, they must
+be conﬁgured to ensure that the reﬂected signals are construc-
+tively combined at the designated point ωωωm:
+n (q,ωωωm)
+= ¯↼ ↓ 2ς (n ↓ 1) ¯d (sin (ϱt,RIS (q,ωωωm)) ↓ sin (ϱr,RIS (q))) ,
+(15)
+where ¯↼ is a random phase shift in RIS. However, since M0
+UA V -BSs need to be served, the optimal {↼↗
+n}N
+n=1 vary for
+each m ↑ M. Therefore, it is necessary to determine a phase
+alignment point ¯ω¯ω¯ω that achieves a Pareto-optimal solution with
+respect to {↽m}m↑M. That is, for given q and ¯ω¯ω¯ω, the phase
+shifts {↼↗
+n}N
+n=1 are set as
+n (q, ¯ω¯ω¯ω)
+= ¯↼ ↓ 2ς (n ↓ 1) ¯d (sin (ϱt,RIS (q, ¯ω¯ω¯ω)) ↓ sin (ϱr,RIS (q))) ,
+(16)
+which coherently overlaps the reﬂected signal to ¯ω¯ω¯ω. By substi-
+tuting (16) into (14), ↽m becomes
+↽m =¯↽ ˜g (#ϱm (¯ω¯ω¯ω))
+||ωωωRIS ↓ ωωωm||2
+2 ||ωωωRIS||2
+, (17)
+where ˜g (#ϱm (¯ω¯ω¯ω)) represents the passive beamforming gain
+of the aerial-active-RIS towards ωωωm, assuming that the phases
+are aligned with ¯ω¯ω¯ω. This gain is derived by evaluating
+˜g (#ϱm (¯ω¯ω¯ω)) =
+
+n=1
+φ nej(2ω(n↓ 1) ¯d”↼m(¯↽¯↽¯↽))
+
+(18)
+in (14), where #ϱm (¯ω¯ω¯ω) is the sin-AoD deviation between
+¯ω¯ω¯ω and ωωωm, that is, #ϱm (¯ω¯ω¯ω) ↭ sin (ϱt,RIS (q,ωωωm)) ↓
+sin (ϱt,RIS (q, ¯ω¯ω¯ω)) . As depicted in Fig. 2(a), the optimal beam-
+forming gain is achieved within the main lobe of ˜g. Moreover,
+↽m =¯↽
+h↗ (q,ωωωm) A”””H (q) as (ϱt,s (q))↘
+
+=¯↽
+
+ N
+n=1 φ nej(ϑn +2ω(n↓ 1) ¯d(sin(↼t,RIS (q,↽↽↽m))↓ sin(↼r,RIS (q))))
+
+||ωωωRIS||2
+2 ||ωωωRIS ↓ ωωωm||2
+, (14)
+Fig. 2. Illustration of passive beamforming gain g and the full/sub-array
+structure: (a) The main lobe characteristics obtained under a general unequal
+gain conﬁguration {ωn}N
+n=1 are nearly identical to those under the equal-gain
+case ωn = ω (→n). (b) When the sin-AoD deviation lies beyond the HPBW
+of the full-array beamforming pattern, a sub-array structure is employed to
+accommodate the deviated point.
+Fig. 2(a) demonstrates that adopting the equal active-RIS gain
+scenario yields nearly identical results within the main lobe
+region. This observation is actually rigorously true, which can
+be proved by the triangular and Cauchy-Schwartz inequality,
+˜g(#ϱ) ↔
+ N∑
+n=1
+φ n
+↔ N
+n=1
+φ 2
+n, (19)
+respectively, with the ﬁrst inequality becoming tight when #ϱ
+is sufﬁciently small (main-lobe region) so that the phasors
+are nearly aligned. In our deployment, the aerial-active-RIS is
+placed close to the source and the beam is steered towards
+¯ω chosen to represent the Pareto-optimal directions of the
+UA V -BSs; consequently,#ϱm(¯ω) stays within the main-lobe
+vicinity and the variation of the denominator term is minor. In
+this regime, maximizing ˜g is equivalently achieved by uniform
+φ n = φ by the second inequality, which yields the dominant
+gain improvement while avoiding an ill-conditioned optimiza-
+tion over element-wise amplitudes that provides marginal
+additional beneﬁt, as it matches with Fig 2(a).
+Considering φ n = φ (↗n) and ¯N (↔ N ) utilized active-RIS
+elements, ˜g becomes
+˜g = φ 2g (#ϱm (¯ω¯ω¯ω)) ↭ φ 2
+
+sin
+ς ¯N ¯d#ϱm (¯ω¯ω¯ω)
+sin
+ς ¯d#ϱm (¯ω¯ω¯ω)
+
+, (20)
+As in Fig. 2(b), g dissipates to 0 out of its HPBW
+#ϱHPBW [56]:
+#ϱHPBW
+¯N
+≃ 0.8858
+¯N ¯d , #ϱHPBW (N ) ↭ #ϱHPBW, (21)
+and the peak gain of g is ¯N 2. Thus, it is necessary to
+ﬁne-tune ¯ω¯ω¯ω and determine the maximum value of ¯N to
+locate every UA V -BS within the HPBW, thereby maximizing
+{g (#ϱm (¯ω¯ω¯ω))}m↑M.
+Moreover, ¯↽ is transformed into
+¯↽ ↭ PmGsϖ2
+0 M
+ε2a ϖ(q,ωωωm)Nφ 2 + ε2 . (22)
+and we can also manipulate (8) by (23). By adding NP E
+to (23) [32], it implies that for given φ 2,G s,N , and PE, the
+maximum power constraint of active-RIS is given by
+Ptot,a = PR + NP E
+= φ 2
+NMϖ sGs
+m↑M
+Pm + Nε 2
++ NP E ↔ Pmax,a,
+(24)
+where Pmax,a is the maximum threshold of the active-RIS
+reﬂection power. From (24), the trade-off between φ 2 and
+the consumed power becomes explicit. Increasing φ 2 directly
+raises the required PR, which in turn tightens Pmax,a. Con-
+sequently, the feasible power budget for signal transmission
+m↑M Pm) is reduced, thereby limiting the admissible {Pm}
+and reﬂecting the inherent trade-off between higher ampliﬁca-
+tion gain and increased aerial-active-RIS power consumption.
+To reliably support the UA V -BSs, the backhaul rate
+{Rm}m↑M provided by the source should be balanced with
+the throughput {Cm}m↑M of the fronthaul link: Rm =
+Cm (↗m ↑ M), where the balance between fronthaul and
+backhaul capacities is critical for optimal network perfor-
+mance with avoidance of bottleneck in B5G/6G wireless
+network [43], [57]. By Rm = Bb
+log2 (1 + ↽m), Pm must
+satisfy the following constraint (25). Moreover, the maximum
+power budget of the source and aerial-active-RIS is given
+by [32], [58]
+(1) : Ptot,s = Gs
+m↑M
+Pm ↔ Pmax, (2) : (24) , (26)
+respectively, wherein VVV ↭ [vvv1 ··· vvvM0 ] ↑ CM ↔ M0 derived
+by (12), PPP ↭ diag
+{Pm}m↑M
+↑ RM0 ↔ M0 and Pmax is the
+feasible threshold of the source transmit power, respectively.
+The deﬁnition of energy-efﬁciency is given by [58]
+⇀ ↭
+m↑M Cm
+m↑M
+(Pm + PUA V↓ BS,m)+ Ptot,a + PgBS + PAP
+  
+↭P0
+(27)
+where the 
+m↑M Cm comes from Rm = Cm (↗m ↑ M),
+and PAP, PgBS and 
+m↑M PUA V↓ BS,m are the hardware-
+dissipated power used by the aerial platform that carries
+active-RIS, ground backhaul source and the UA V -BS m,
+respectively. Hence, since the numerator 
+m↑M Rm becomes
+constant since the backhaul rate {Rm}m↑M is balanced with
+the fronthaul throughput {Cm}m↑M, we can conclude that
+the energy-efﬁciency maximization problem is equivalent to
+PR = φ 2
+Nϖ sE
+a↗
+s (ϱt,s(q))
+m↑M
+as(ϱt,s(q))
+||as(ϱt,s(q))||2
+PmGssm
+
+ + Nε 2
+ = φ 2
+NMϖ sGs
+m↑M
+Pm + Nε 2
+(23)
+Pm = φ ↓ 2
+↓ 1
+ε2 + φ 2ε2
+a N ϱ0
+||ωωωRIS ↓ωωωm||
+||ωωωRIS ↓ ωωωm||2
+2 ||ωωωRIS||2
+Gsϖ2
+0 Mg (#ϱm (¯ω¯ω¯ω)) (↗m ↑ M) (25)
+the minimization of P0, the total power consumption of the
+whole system. From the denominator of (27), P0 includes
+PAP, PgBS and 
+m↑M PUA V↓ BS,m. In this paper, we adopt
+two key assumptions: (i) the transmit ampliﬁers operate within
+their linear region, and (ii) the circuit power consumption
+is independent of the communication rate [58]–[60]. These
+assumptions are valid for most practical wireless communi-
+cation systems [28], [32], [58], where ampliﬁers are typically
+designed to work within the linear portion of their transfer
+function, and where the hardware power consumption PAP2,
+PBS and {PUA V↓ BS,m}m↑M can be treated as constant offsets.
+Therefore, together with 
+m↑M Rm = 
+m↑M Cm, we ex-
+clude them from the energy-efﬁciency maximization process,
+and consider
+obj ↭
+m↑M
+Pm + Ptot,a, (28)
+which is total transmit and operation (reﬂection + hardware
+components) power of the source and aerial-active-RIS, re-
+spectively, as a objective function of the energy-efﬁciency
+maximization, which can be formulated by (29). From now
+on, we will use term “total power” as (28).
+Remark 1. Since Cm > 0, ||ωωωRIS||2 ⇐ H> 0 and
+||ωωωRIS ↓ ωωωm||2 > 0 (↫ ωωωRIS is extremely close to the origin, as
+shown in Theorem 1 and Fig. 5). Thereby, the right-hand side
+(RHS) of (25) is non-zero, thus ensuring non-zero transmit
+power for every UA V -BS via aerial-active-RIS.
+III. P ROPOSED ALGORITHM
+A. Minimizing the Numerator
+Problem (29) is highly nonlinear and non-convex due to its
+highly-cluttered RHS1 and RHS2 of the constraints. There-
+fore, we will approach the problem by ﬁrst assuming that
+φ is given, and minimizing the numerator and maximizing
+the denominator of RHS1, respectively, which leads to the
+minimization of the objective function. After that, we will
+minimize the total power with respect to φ . Through numerical
+simulations, we will show that the second constraint, which
+represents the upper-bound of the source transmit power,
+does not impact the feasibility of the problem. Therefore,
+our approach of focusing primarily on the ﬁrst constraint is
+justiﬁed for energy-efﬁciency minimization.
+It ﬁrst leads to minimizing the numerator of RHS1. For
+given φ , if we multiply 1+ φ 2NMϖ sGs to the both sides
+2Since we assumed that aerial platform is ﬁxed (hovering), the consumed
+power, which is in general a function of velocity, becomes constant [61].
+of the ﬁrst constraint of (29), which becomes the ﬁrst term
+of the objective function in (29) related to 
+m↑M Pm, it
+becomes (30). Hence, the RHS of (30) is determined by
+(||ωωωRIS||2
+2 + ˜$1)(||ωωωRIS ↓ ωωωm||2
+2 + ˜$2), (31)
+where
+˜$1 = φ 2NMϖ 0Gs, ˜$2 = φ 2 ε2
+ε2 Nϖ 0. (32)
+Thereafter, by letting qm the 2D location of the aerial-active-
+RIS considering only UA V -BS m (ωωωRIS =[ qT
+m H]T), the
+numerator minimization becomes equivalent to:
+min
+(||ωωωRIS||2
+2 + ˜$1)(||ωωωRIS ↓ ωωωm||2
+2 + ˜$2)
+H2 + ||qm||2
+2 + ˜$1
+(H ↓ hm)2 + ||qm ↓ wm||2
+2 + ˜$2
+s.t. ||qm||2 ⇒ ⇁ ||wm||2 ,
+(33)
+where ⇁ ⇒ 1 is constant. The constraint “ ||qm||2⇒ ⇁||wm||2”
+is imposed to keep qm near the source. Positioning qm with
+ﬁxed H close to the source ensures that the full-array RIS
+architecture ( ¯N = N ) is almost certainly utilized, which
+maximizes the minimum SNR [46] and consequently reduces
+the total transmit power (1 + φ 2NMϖ sGs) 
+m↑M Pm. For-
+tunately, we can ﬁnd a practical solution for the problem, as
+stated in Theorem 1.
+Theorem 1. The solution of Problem (33) is given by
+m = κmwm, (34)
+where
+κm = 1
+2 +2
+↓ a
+3 cos
+3 cos↓ 1
+↓ 3
+↓ 4
+3 ς
+(35)
+Here, a and b are given by
+a ↭ 1
+1 + ζ2
+2 + ¯$1 + ¯$2
+↓ 1
+4 ,b ↭ 1
+2 ↓ ζ2
+1 + ¯$2 ↓ ¯$1
+(36)
+where
+ζ1 ↭ H
+||wm||2
+,ζ 2 ↭ |H ↓ hm|
+||wm||2
+, ¯$i ↭ ||wm||↓ 2
+2 ˜$i (i =1 , 2).
+(37)
+Proof. See Appendix A. ↬
+We numerically conﬁrm in Section IV that κm remains
+positive yet very close to zero under the given assumptions,
+min
+q, ¯ω¯ω¯ω,{ ¯N },φ,{Pm}m↑M
+1+ φ 2NMϖ sGs
+ ∑
+m↑M
+Pm + φ 2Nε 2
+a + NP E (↭ obj)
+s.t. Pm = φ ↓ 2
+↓ 1
+ε2 + φ 2ε2
+a N ϱ0
+||ωωωRIS ↓ωωωm||
+||ωωωRIS ↓ ωωωm||2
+2 ||ωωωRIS||2
+Gsϖ2
+0 Mg (#ϱm (¯ω¯ω¯ω)) (↭ RHS1)( ↗m ↑ M) ,
+m↑M
+Pm ↔ min
+G↓ 1
+s Pmax,φ ↓ 2G↓ 1
+s N ↓ 1M ↓ 1ϖ↓ 1
+Pmax,a ↓ NP E ↓ φ 2Nε 2
+(↭ RHS2)
+(29)
+1+ φ 2NMϖ sGs
+= φ ↓ 2
+↓ 1
+1+ φ 2NM ϱ0
+||ωωωRIS ||2
+ε2 + φ 2ε2
+a N ϱ0
+||ωωωRIS ↓ωωωm||
+||ωωωRIS ↓ ωωωm||2
+2 ||ωωωRIS||2
+Gsϖ2
+0 Mg (#ϱm (¯ω¯ω¯ω)) (↗m ↑ M)
+(30)
+thereby validating that q↗
+m = κmwm serves as an appropriate
+solution for the proposed power-minimization procedure.
+After obtaining {q↗
+m}m↑M, we need to determine a single
+q↗ that achieves a Pareto-optimal for all m ↑ M in relation
+to (33). We adopt a global criterion approach that minimizes
+the total ▷2-distances, thereby guiding the solution toward the
+Pareto front [62].
+min
+m↑M
+||q↗
+m ↓ q||2 . (38)
+Problem (38) is known as the Fermat-Torricelli problem,
+which is convex and can therefore be efﬁciently solved using
+Weiszfeld’s algorithm [63] with guaranteeing the optimal
+solution [64]. Consequently, by solving (38), we obtain q↗,
+which serves as a suboptimal solution for the numerator
+minimization. The obtained q↗ provides a clear deployment
+insight: the aerial-active-RIS should be placed sufﬁciently
+closer to the source in terms of 2D distance to enhance the
+incident signal power, while maintaining a moderate distance
+from the UA V -BSs to balance the overall power consumption.
+Remark 2. To keep ||q↗||2 small even in the presence of
+an outlier within {q↗
+m}m↑M, we minimize the sum of norms
+rather than the squared norms in (38), which further enhances
+the robustness of the solution [62].
+B. Maximizing the Denominator
+We adopt the same methodology as described in Section
+III.B of [46] to solve the denominator (29) since the denomina-
+tor is exactly same with the passive-RIS-implemented scenario
+in [46]. This allows us to determine the sub-optimal values for
+{ ¯N }, ¯ω¯ω¯ω (or {¯ω¯ω¯ω↗
+i }L
+i=1), and ””” for utilizing both full RIS array
+or L-times partitioned sub-array scenario.
+C. Determining φ and {Pm}m↑M
+Since we have determined q↗, { ¯N }, ¯ω¯ω¯ω (or {¯ω¯ω¯ω↗
+i }L
+i=1), ”””, the
+optimal φ ↗ is determined by following Theorem 2.
+Theorem 2. F or given q↗, { ¯N }, ¯ω¯ω¯ω (or {¯ω¯ω¯ω↗
+i }L
+i=1), ”””, the opti-
+mum φ that minimizes obj is given by
+φ ↗ =m i n
+√ 
+m↑M $0 ||ωωωRIS||2
+2 ||ωωωRIS ↓ ωωωm||2
+Nε 2a + 
+m↑M $0$1$2
+,φ max
+ ,
+(39)
+where
+$0 = ε2 2
+↓ 1
+Gsϖ2
+0 Mg (#ϱ↗m)
+$1 = φ ↓ 2 ˜$1 = NMϖ 0Gs, $2 = φ ↓ 2 ˜$2 = ε2
+ε2 Nϖ 0.
+(40)
+Proof. See Appendix B. ↬
+Since we determine all the variables q, ¯ω¯ω¯ω,
+ ¯N
+,φ ↗, the
+power {Pm}m↑M is given by RHS1, which can be expressed
+by (42), where ωωω↗
+RIS =
+q↗T H
+and #ϱ↗
+m is deﬁned by
+#ϱ↗
+m ↭
+#ϱm (¯ω¯ω¯ω↗)
+¯N = N (full-array)
+#ϱm (¯ω¯ω¯ω↗
+i )
+¯N< N (sub-array,m ↑ Mi)
+(41)
+where the full- and L-times-partitioned sub-array scenario
+with phase-align points {¯ω¯ω¯ω↗
+i }L
+i=1 and partitions of UA V -BS
+{Mi}L
+i=1(⇑iMi = M) are deﬁned in Section III.B in [43].
+Thus, by substituting (42) and φ ↗ to obj, we can achieve the
+optimal total power by utilizing aerial-active-RIS.
+D. Conditions for Feasibility
+Although the power is to be positive in Remark 1, we
+cannot claim the strict feasibility since we cannot always
+guarantee the upper-bound of 
+m↑M Pm by (42). Speciﬁcally,
+the backhaul-rate-ensuring constraint leads to:
+Rm = Cm ⇓ Pm = [RHS1]m (↗m ↑ M), (43)
+where [RHS1]m is the RHS1 corresponding to Pm in the ﬁrst
+constraint of (29), and the source/active-RIS power constraint
+is trivially given by
+m↑M
+Pm ↔ RHS2. (44)
+P ↗
+m = φ ↗↓2
+↓ 1
+ε2 + φ ↗2ε2
+a N ϱ0
+||ωωω↓
+RIS ↓ωωωm||
+||ωωω↗
+RIS ↓ ωωωm||2
+2 ||ωωω↗
+RIS||2
+Gsϖ2
+0 Mg (#ϱ↗m) (↗m ↑ M) (42)
+From (43) and (44), it is clear that although the individual
+transmit power meets the constraint in (43) by choosing the
+lower-bound itself as a transmit power value, we cannot
+guarantee 
+m↑M[RHS1]m ↔ RHS2 [58], [65], [66]. We,
+however, offer some additional clariﬁcation on whether the
+feasibility holds or not. Using the closed-form rate-matching
+transmit power in (42), the total source transmit power can be
+expressed as
+m↑M
+P ↗
+m = d2
+Gsϖ2
+0 M
+φ ↓ 2ε2 ∑
+m↑M
+%md2
++ε2
+aNϖ 0
+m↑M
+(45)
+where %m ↭ 2
+↓ 1, d2
+s = ⇔ω↗
+RIS⇔2
+2, d2
+m = ⇔ω↗
+RIS ↓
+ωm⇔2
+2, and gm = g(#ϱ↗
+m). Substituting (45) into the two terms
+in the left-hand side in (29) yields two sufﬁcient feasibility
+conditions with respect to RHS2.
+(1. Source power budget Pmax)
+Pmax ⇐ d2
+0 M
+φ ↓ 2ε2 ∑
+m↑M
+%md2
++ ε2
+aNϖ 0
+m↑M
+(46)
+(2. Aerial-Active-RIS power budget Pmax,a)
+Pmax,a ⇐NP E + φ 2Nε 2
++ Nϖ s
+ε2 ∑
+m↑M
+%md2
++ φ 2ε2
+aNϖ 0
+m↑M
+(47)
+Equations (46) and (47) provide an explicit post-solution
+feasibility check:
+• Once the optimal variables are obtained, 
+m P ↗
+m is
+evaluated via (45)
+• The constraint 
+m P ↗
+m ↔ RHS2 is veriﬁed by check-
+ing (46) and (47).
+Equation (45) reveals that 
+m P ↗
+m consists of two com-
+ponents: an φ ↓ 2-decreasing term associated with thermal
+noise and an φ -independent ﬂoor term induced by the am-
+pliﬁed dynamic noise. Consequently, increasing φ does not
+cause 
+m P ↗
+m to diverge. Furthermore, when the phase-
+alignment/partitioning design keeps all UA V -BSs within the
+RIS main lobe, the passive beamforming gain satisﬁes gm ↖
+N 2 [43]. In this regime,
+≃ 1
+N 2
+%m,
+%md2
+≃ 1
+N 2
+%md2
+m, (48)
+so that the last term of the right-hand side in both (46) and (47)
+scale down with N . In Section IV (Fig. 8), we verify that
+the practical transmit power and total power obtained by the
+proposed algorithm remain well below the feasible threshold,
+achieving a feasibility rate of 100% even with conservative
+power budget. This conﬁrms the almost-sure feasibility of our
+approach, thereby rendering the consideration of infeasible
+scenarios negligible.
+TABLE I
+SIMULA TION PARAMETERS
+Parameter Description Value
+Bandwidth of the backhaul link
+(unless referred) 50 (MHz)
+M0 Number of UA V -BSs ⊜ 4 [8]
+G Targeted urban region 500 ↑ 500 (m)
+εεεG Center of G (unless referred) [1000 0] T (m)
+(Pmax,P max,a)
+Feasible threshold of
+source transmit power and
+active-RIS power consumption
+20 (dBm) [32]
+Gmax Maximum directional gain 8 (dB)
+H Height of aerial-RIS
+(unless referred) 180 (m)
+N Number of RIS elements
+(unless referred) 300
+M Number of source antennas 16
+(ds,d RIS) Source antenna and
+RIS element separations
+2 , ω
+[67]
+max
+Maximum ampliﬁcation gain of
+the active-RIS 40 (dB) [32]
+Power consumed by
+single active hardware component
+-3.8 (dBm)
+[28], [32]
+Distance from ω→2 in dB for
+non-optimality comparison -5 (dB)
+Dynamic noise of the
+active-RIS elements
+-80 (dBm)
+[28], [32]
+E. Analysis on Computational Complexity
+The computational complexity of the proposed algorithm is
+divided into three main stages. In Section III.A, we begin by
+selecting {κm}m↑M according to (35), which involves a com-
+plexity of O (M0). Subsequently, we solve for q↗ using (38),
+which has an upper-bounded complexity of O (IMM0), where
+I(·) represents the number of iterations required by Weiszfeld’s
+algorithm for the given set [43], [63], [64]. In Section III.B,
+the complexity is identical to that presented in Section III.B
+of [43], and is given by O((Lmax + IL + M0)M0 + L). Here,
+Lmax denotes the maximum candidate for L, identiﬁed through
+a one-dimensional search, and IL ↭ maxi↑{1,···,L} IMi . The
+RIS phase alignment step, performed via (16), incurs a com-
+plexity of O(N ). Lastly, in Section III.C, we optimize φ ↗
+and {P ↗
+m}m↑M through (39) and (42), each requiring O (M0).
+Thus, the overall computational complexity is bounded as
+O ((IM + Lmax + IL + M0) M0 + L + N )
+≃O ((IM + IL + M0) M0 + N )
+↫ I(·) >L max ⇐ L
+(49)
+which is within quadratic order. Therefore, we can conclude
+that the proposed algorithm is both energy-efﬁcient and com-
+putationally efﬁcient.
+Fig. 3. Simulated aerial-active-RIS conﬁguration with an N -element active-
+RIS and M0 UA V -BSs.
+Fig. 4. Simulated aerial-active-RIS conﬁguration compared to M -array aerial-
+AF-relay.
+IV . N UMERICAL RESULTS
+A. Simulation Setup
+We considered 103 independent realizations of randomly
+distributed users and their associated UA V -BSs [8]. The fron-
+thaul and backhaul links were assumed to operate over 2 GHz
+and sub-6 GHz frequency bands, respectively [68]. Further-
+more, the directional antennas at source were assumed to
+follow the radiation pattern described in [68]. Accordingly, the
+directional antenna gain Gs(↼, ϱ) with maximum directional
+gain Gmax can be expressed as
+Gs (↼, ϱ)= Gmax ↓ min (Av (↼)+ Ah (ϱ) ,A max) . (50)
+where the vertical and horizontal attenuations Av and Ah,
+respectively, are given by
+
+
+Av (↼)=m i n
+ϑ↓ 90↔
+, SLAv
+Ah (ϱ)=m i n
+,A max
+(51)
+where ↼ ↑ [0→, 180→] and ϱ ↑ [↓180→, 180→) denote the ver-
+tical and horizontal angles, ↼H and ϱH represent the HPBWs
+in the vertical and horizontal domains, respectively, and SLAv
+and Amax denote the vertical side-lobe and maximum attenu-
+ations, respectively.
+Under this setup, we conducted a numerical performance
+comparison between the proposed aerial-active-RIS scheme
+and the passive-RIS-based algorithm in [43], which aims to
+minimize the transmit power at the source. Under same achiev-
+Fig. 5. V ariation of ϖm as a function of the aerial-active-RIS altitude and
+the 2D source-UA V distance with hm =4 5 m.
+Fig. 6. Behavior of (a) ω→2 with ω2
+max =4 0 dB with respect to the height
+of aerial-RIS and the source-UA V 2D distance and (b) optimal total power
+with respect to ω2 with minimum at ω→2.
+able rate {Cm}m↑M, the energy-efﬁciency ⇀p for passive-RIS
+is given by [43], [58]
+⇀p =
+m↑M Cm
+m↑M(Pm,p + PUA V↓ BS,m)+ PgBS + PAP
+, (52)
+where Pm,p is the source transmit power corresponds to
+UA V -BSm with aerial-passive-RIS, which also makes the
+backhaul rate {Cm}m↑M for each UA V -BS m [43]. Thus, it
+is reasonable to compare 
+m↑M Pm,p (in [43]) with obj for
+aerial-passive/active-RIS scenarios, respectively, which allows
+for a fair comparison of energy-efﬁciency minimization be-
+tween the two cases. The simulation environment based on the
+parameters is illustrated in Fig. 3, and the detailed parameters
+are given in Table I.
+B. Active-RIS vs. AF Relay: Performance Comparison
+It is reasonable to explore the scenario where the aerial-
+active-RIS is not deployed. In such a case, an AF relay on the
+aerial platform serves as a natural alternative, as it similarly
+receives the incoming signal and forwards an ampliﬁed one
+to the destination. However, a closer comparison reveals that
+the proposed aerial-active-RIS architecture can offer greater
+advantages over the aerial-AF-relay. Speciﬁcally, the total AF-
+relay power consumption is expressed as [69]
+Ptot,AF =
+m↑M
+(Pm,AF + PUA V↓ BS↓ m)+ PR,AF
++ PgBS + Pcirc,AF + PAP,
+(53)

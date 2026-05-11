@@ -1,0 +1,128 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "methods2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: methods2
+- section_title: Methods
+- page_start: 3
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+Compared to DDPM’s 1000-step diffusion,
+this design dramatically reduces computational cost while maintaining sample quality.
+2.2.2 Adaptive Synthesis Quantity Control
+To avoid computational redundancy and possible mode collapse caused by excessive
+generation, this work designs an adaptive synthesis mechanism based on the target bal-
+ance ratio. LetN majbe the number of majority class samples,N minbe the number of
+minority class samples, andρ targetbe the target balance ratio. The required number of
+synthetic samplesMis determined by:
+M= max (0,⌈ρ target·Nmaj⌉ −Nmin)(3)
+For example, ifN maj= 280,N min= 102, andρ target = 0.7, thenM=⌈0.7×280⌉ −
+102 = 196−102 = 94. For each generated synthetic sample ˜xj, a source samplex(j)
+0is
+4
+
+randomlyselectedfromtheminorityclasssampleset, andatimestept j∼Uniform(0, T−
+1)is randomly sampled to generate a noisy version through the above diffusion formula.
+Furthermore, to enhance the realism of synthetic samples, post-processing augmen-
+tation is introduced:
+˜xfinal
+j=G σ(˜xj)⊙ B γ(˜xj)(4)
+whereG σis Gaussian blur with radiusσ= 0.5(simulating denoising effect),B γis
+brightness adjustment factorγ∼Uniform(0.9,1.1), and⊙denotes element-wise multi-
+plication. This combined strategy maintains key structural features of medical images
+(such as lesion morphology and texture) while introducing moderate photometric and
+spatial variations, enhancing the diversity of synthetic samples.
+2.2.3 Theoretical Guarantee and Empirical Validation
+Diffusion augmentation is essentially kernel density estimation (KDE) of the mi-
+nority class feature distributionp min(x). Let the true distribution bep min(x)and the
+distribution estimated from finite samples beˆp min(x). Diffusion augmentation can be
+viewed as constructing a Gaussian kernelN(x 0,(1−¯α t)I)around each sample, making
+the augmented empirical distribution˜p min(x)closer to the true distribution.
+In experiments, we validated the quality of synthetic samples by calculating the
+Fréchet Inception Distance (FID) between generated and real samples: whenT= 5, FID
+= 28.3, significantly better than traditional geometric augmentation (FID = 45.7) and
+approaching complete DDPM (FID = 22.1), but with computational cost only 1/15 of
+the latter.
+2.3 Discriminative Feature Extraction via Lightweight Convolu-
+tional Networks
+In clinical application scenarios of medical image diagnosis, model deployability (in-
+cluding inference speed, memory footprint, energy consumption) is often more critical
+than extreme performance. This work selects MobileNetV2 as the feature extraction
+backbone network. Its inverted residual structure maintains expressive power while sig-
+nificantly reducing parameter count and computational complexity. MobileNetV2’s core
+idea is to decompose standard convolution into depthwise convolution and pointwise
+convolution through depthwise separable convolution, reducing computational cost from
+O(K2·Cin·Cout·H·W)toO(K2·Cin·H·W+C in·Cout·H·W), whereKis kernel size,
+CinandCoutare input and output channels, andHandWare feature map dimensions.
+2.3.1 Feature Pyramid and Multi-Scale Aggregation
+MobileNetV2 constructs a feature pyramid by stacking multiple inverted residual
+modules, progressively abstracting from low-level edge textures to high-level semantic
+information. Let the input medical image bex input∈R3×224×224(grayscale converted to
+RGB). After extraction through MobileNetV2.features, a high-dimensional feature map
+Fconv∈R1280×7×7is obtained. To aggregate spatial information into a compact global
+representation, global average pooling is applied:
+5
+
+fglobal =1
+Hf×W fHfX
+i=1WfX
+j=1Fconv[:, i, j],f global∈R1280(5)
+whereH f=W f= 7is the spatial size of the feature map. Global average pooling
+has stronger generalization capability compared to fully connected layers and introduces
+no additional parameters, effectively preventing overfitting.
+To perform dimensionality reduction of the discriminative feature space and adapt
+to the input requirements of the subsequent quantum enhancement module, the 1280
+dimensional high-dimensional features need to be mapped to a low-dimensional compact
+space. Thisworkadoptsalineardimensionalityreductionlayer,whereW reduce∈R256×1280
+andbreduce∈R256:
+freduced =ReLU(W reducefglobal +breduce),freduced ∈R256(6)
+2.4 Quantum-Enhanced Nonlinear Feature Mapping
+Classicalconvolutionalneuralnetworksconstructdecisionboundariesthroughstacked
+nonlinear activation functions and pooling operations. However, in high-dimensional
+medical image feature spaces, this hierarchical nonlinear mapping may be insufficient to
+capture complex inter-class relationships, especially in scenarios with severe class imbal-
+ance where minority class samples are sparsely distributed in feature space, making their
+decision boundaries easily overshadowed by majority class samples.
+Quantum computing leverages the superposition and entanglement properties of
+qubitstoperformparallelcomputationinhigh-dimensionalHilbertspace.

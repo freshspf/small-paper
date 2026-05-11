@@ -1,0 +1,162 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument21",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument21
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+Liang, “Efficient collision
+detection framework for enhancing collision-free robot motion,” in2025
+IEEE International Conference on Robotics and Automation (ICRA),
+2025, pp. 16 162–16 168.
+[83] Y . Chen, X. Gao, K. Yao, L. Niederhauser, Y . Bekiroglu, and A. Billard,
+“Implicit articulated robot morphology modeling with configuration
+space neural signed distance functions,” in2025 IEEE International
+Conference on Robotics and Automation (ICRA), 2025, pp. 4558–4564.
+[84] K. Long, K. M. B. Lee, N. Raicevic, N. Attasseri, M. Leok, and
+N. Atanasov, “Neural configuration-space barriers for manipulation
+planning and control,”arXiv:2503.04929, 2025.
+[85] X. Chi, Y . Li, J. Huang, B. Dai, Z. Liu, and S. Calinon, “Safe dynamic
+motion generation in configuration space using differentiable distance
+fields,”arXiv:2412.16456, 2024.
+[86] Y . Li, T. Miyazaki, and K. Kawashima, “One-step model predictive
+path integral for manipulator motion planning using configuration space
+distance fields,”arXiv:2509.00836, 2025.
+[87] J. Nocedal and S. J. Wright,Numerical Optimization. New York:
+Springer, 1999.
+[88] Y . Li, H. Han, S. Kang, J. Ma, and H. Yang, “On the surprising
+robustness of sequential convex optimization for contact-implicit motion
+planning,” inRobotics: Science and Systems (RSS), 2025.
+[89] S. Kang, X. Xu, J. Sarva, L. Liang, and H. Yang, “Fast and certifiable
+trajectory optimization,” inInternational Workshop on the Algorithmic
+Foundations of Robotics (WAFR), 2024.
+
+19
+[90] F. Farshidianet al., “OCS2: An open source library for optimal
+control of switched systems,” [Online]. Available: https://github.com/
+leggedrobotics/ocs2.
+[91] J. Carpentier, G. Saurel, G. Buondonno, J. Mirabel, F. Lamiraux,
+O. Stasse, and N. Mansard, “The Pinocchio C++ library – a fast and
+flexible implementation of rigid body dynamics algorithms and their
+analytical derivatives,” inIEEE International Symposium on System
+Integrations (SII), 2019.
+[92] R. Tedrake and the Drake Development Team, “Drake: Model-based
+design and verification for robotics,” 2019. [Online]. Available:
+https://drake.mit.edu
+[93] J. A. Andersson, J. Gillis, G. Horn, J. B. Rawlings, and M. Diehl,
+“CasADi: a software framework for nonlinear optimization and optimal
+control,”Mathematical Programming Computation, vol. 11, pp. 1–36,
+2019.
+[94] T. Salzmann, J. Arrizabalaga, J. Andersson, M. Pavone, and M. Ryll,
+“Learning for CasADi: Data-driven models in numerical optimization,”
+inLearning for Dynamics and Control Conference (L4DC), 2024.
+[95] I. A. ¸ Sucan, M. Moll, and L. E. Kavraki, “The Open Motion Planning
+Library,”IEEE Robotics & Automation Magazine, vol. 19, no. 4, pp.
+72–82, December 2012, https://ompl.kavrakilab.org.
+[96] J. R. Shewchuk, “An introduction to the conjugate gradient method
+without the agonizing pain,” Carnegie Mellon University, Pittsburgh,
+PA, USA, Technical Report CMU-CS-94-125, Aug. 1994.
+APPENDIXA
+PROOF OFTHEOREM1
+Proof.
+1) Starting from Definition 1, letq zbe the closest configu-
+ration ofqonZ(p), we have
+fg
+c(p,q) =q
+(q−q z)⊤M(q−q z),
+and its partial derivative with respect toq:
+∇qfg
+c(p,q) =M(q−q z)p
+(q−q z)⊤M(q−q z)=M(q−q z)
+fg
+c(p,q).
+Then, with the definition of the weighted norm, we have
+∥∇qfg
+c(p,q)∥ M−1=q
+∇qfg
+c(p,q)⊤M−1∇qfg
+c(p,q)
+=s
+(q−q z)⊤M⊤M−1M(q−q z)
+(q−q z)⊤M(q−q z)
+= 1.
+2) We first illustrate why we can not move along the gradient
+direction to get to theZin one step. To reachZin one
+step, we need to find a direction and step sizeλsuch that
+q−q z=λ∇fg
+c(p,q).
+Substituting the gradient expressions, it gives
+q−q z=λM(q−q z)p
+(q−q z)TM(q−q z).
+Letv=q−q z. Then, it gives
+v=λMv√
+vTMv.
+Left multiplying both sides byvT, it gives
+vTv=λvTMv√
+vTMv.Therefore, it gives
+λ=vTv√
+vTMv=∥q−q z∥2
+p
+(q−q z)TM(q−q z).
+Note that, unlessMis an identity matrix, we cannot
+obtainλsinceq zis unknown. However, inspired by the
+concept of conjugate gradient descent [96], we can try
+moving along the direction ofM−1∇fg
+c(p,q)instead:
+q−q z=λM−1∇fg
+c(p,q).
+Substituting the gradient gives
+q−q z=λM−1 M(q−q z)p
+(q−q z)TM(q−q z).
+Letv=q−q z. Then, we have
+v=λv√
+vTMv.
+Since the vectors on both sides are now aligned, we can
+directly solve forλ:
+λ=√
+vTMv=q
+(q−q z)TM(q−q z) =fg
+c(p,q)..

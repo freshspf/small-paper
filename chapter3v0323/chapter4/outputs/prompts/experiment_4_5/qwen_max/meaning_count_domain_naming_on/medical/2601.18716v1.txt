@@ -1,0 +1,220 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Biomolecules 2025, 15, 849 https://doi.org/10.3390/biom15060849
+Original Research
+Conditioned Generative Modeling of Molecular Glues: A Realistic AI Approach for Synthesizable Drug-
+Like Molecules
+Naeyma N. Islam, PhD1 and Thomas R. Caulfield, PhD 2,*
+1 Department of Neuroscience, Mayo Clinic, Jacksonville FL; islam.naeyma@mayo.edu
+2 Digital Ether Computing, Miami, FL; thomas@digitalethercomputing.com
+* Correspondence: thomas@digitalethercomputing.com;
+Abstract: Alzheimer’s disease (AD) is marked by the pathological accumulation of
+amyloid beta-42 (Aβ42), contributing to synaptic dysfunction and neurodegeneration.
+While extracellular amyloid plaques are well-studied, increasing evidence highlights
+intracellular Aβ42 as an early and toxic driver of disease progression. In this study, we
+present a novel, AI-assisted drug design approach to promote targeted degradation of
+Aβ42 via the ubiquitin-proteasome system (UPS), using E3 ligase-directed molecular
+glues. We systematically evaluated the ternary complex formation potential of Aβ42 with
+three E3 ligases-CRBN, VHL, and MDM2-through structure-based modeling, ADMET
+screening, and docking. We then developed a Ligase -Conditioned Junction Tree
+Variational Autoencoder (LC-JT-VAE) to generate ligase-specific small molecules,
+incorporating protein sequence embeddings and torsional angle-aware molecular graphs.
+Our results demonstrate that this generative model can produce chemically valid, novel,
+and target-specific molecular glues capable of facilitating Aβ42 degradation. This
+integrated approach offers a promising framework for designing UPS-targeted therapies
+for neurodegenerative diseases.
+Keywords: Molecular Glues, Artificial Intelligence, Variable AutoEncoders, Ligase -
+Conditioned Junction Tree Variational Autoencoder
+1. Introduction
+Alzheimer’s disease (AD), the most prevalent neurodegenerative disorder, is
+characterized by progressive cognitive decline and neuronal loss. The
+accumulation of amyloid beta 42 (Aβ42) peptides, derived from the aberrant
+cleavage of amyloid precursor protein (APP) by β- and γ-secretases, is a central
+pathological hallmark [1-4]. Aβ42 is particularly aggregation-prone and toxic
+compared to Aβ40, forming intracellular deposits that precede extracellular
+amyloid plaques and correlate with early synaptic dysfunction and neuronal
+death [1,5-8]. Thus, targeting intracellular Aβ42 is crucial for developing effective
+AD therapies.
+Despite numerous therapeutic efforts -including secretase inhibition,
+immunotherapy, and enhancing proteostasis -significant challenges persist.
+Secretase inhibitors suffer from off-target toxicities due to the broad substrate
+specificity of γ- and β-secretases [9-11]. Immunotherapeutic strategies, while
+promising, face issues with blood-brain barrier (BBB) penetration and potential
+Academic Editor: Antonio Lavecchia
+and Carmen Cerchia
+Received: 28 April 2025
+Revised: 31 May 2025
+Accepted: 5 June 2025
+Published: 10 June 2025
+Citation: Islam, N.N.; Caulfield, T.R.
+Conditioned Generative Modeling of
+Molecular Glues: A Realistic AI
+Approach for Synthesizable Drug-like
+Molecules. Biomolecules 2025, 15, 849.
+https://doi.org/10.3390/biom15060849.
+Copyright: © 2025 by the authors.
+Submitted for possible open access
+publication under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license
+(https://creativecommons.org/license
+s/by/4.0/).
+Biomolecules 2025, 15, 849 2 of 31
+CNS inflammation [12,13]. Enhancement of autophagy to clear Aβ42 aggregates
+has shown potential but remains nonspecific and may compromise essential
+cellular functions [14].
+The ubiquitin-proteasome system (UPS) offers an attractive alternative for
+degrading intracellular Aβ42 aggregates [15,16]. However, Aβ42’s aggregation-
+prone nature impedes its efficient recognition by the UPS. Molecular glues-small
+molecules that induce or stabilize interactions between E3 ligases and target
+proteins-have emerged as a promising strategy to facilitate Aβ42 degradation
+through ubiquitination and proteasomal clearance [15-19]. Unlike PROTACs,
+molecular glues require no bifunctional linker and can enhance BBB permeability
+due to their smaller size [17-19].
+Selecting the appropriate E3 ligase is critical. VHL, CRBN, and MDM2 are
+prominent candidates based on their structural properties and prior success in
+targeted protein degradation [20-24]. VHL, associated with hypoxia signaling;
+CRBN, known for ligand-dependent substrate recruitment; and MDM2, a
+versatile p53 regulator, offer complementary substrate specificities that could be
+leveraged for Aβ42 targeting. In this work, we evaluate these three E3 ligases for
+their potential to form stable ternary complexes with Aβ42 and designed
+molecular glues.
+Traditional molecular glue discovery relies on extensive chemical library
+screening, making it slow and resource-intensive. Artificial intelligence (AI)
+models now provide a powerful alternative, enabling efficient de novo design,
+lead optimization, and virtual screening [25-30]. Several generative AI models
+have been employed for small molecule design; however, each presents notable
+limitations. Sequence-based models, such as those relying on SMILES
+representations, often suffer from non-uniqueness and syntactic errors that lead
+to chemically invalid molecules, complicating the learning process and limiting
+their reliability in drug discovery [35]. Similarly, standard Variational
+Autoencoders (VAEs) and Generative Adversarial Networks (GANs), although
+effective at sampling chemical space, often fail to guarantee chemical validity and
+structural coherence in the generated compounds [36,37].
+To overcome these challenges, we selected the Junction Tree Variational
+Autoencoder (JTVAE) [31-34], a graph-based model that encodes molecular
+structures as hierarchical trees of chemically meaningful substructures, enabling
+the generation of valid, drug-like molecules with superior structural fidelity.
+Unlike sequence-based or flat graph models, JTVAE preserves chemical rules
+during molecule generation, making it particularly well-suited for drug design
+applications. While the original JTVAE framework models molecular structures
+as 2D graphs, it does not account for torsional flexibility, a critical factor for
+molecular stability, bioactivity, and ligand-receptor interactions. To address this
+limitation, we extended JTVAE by explicitly integrating torsional angles into
+bond representations, enabling the model to capture conformational dynamics
+and generate structurally diverse, chemically realistic molecules with improved
+3D predictive fidelity.Moreover, to design molecular glues specific to different E3
+ligases, we further enhanced the model by incorporating protein -level
+information. Specifically, we embedded the amino acid sequences of binding site
+residues from CRBN, VHL, and MDM2 into the training pipeline. This allowed
+the model to learn ligase -specific binding patterns, enabling conditional
+Biomolecules 2025, 15, 849 3 of 31
+generation of molecular glues optimized for forming stable ternary complexes
+between Aβ42 and individual E3 ligases. Together, these advancements
+substantially improve the chemical validity, conformational realism, and
+biological specificity of the molecules generated compared to the original JTVAE
+framework.
+In this study, we investigate the potential of three widely studied E3 ubiquitin
+ligases-VHL, CRBN, and MDM2-for mediating the targeted degradation of
+amyloid beta (Aβ42) through molecular glue strategies. Furthermore, we design
+ligase-specific novel molecular glues by incorporating protein sequence
+embeddings derived from the binding site residues of each E3 lig ase into a
+Junction Tree Variational Autoencoder (JT-VAE), a graph-based generative
+model. To enhance the precision of molecular glue generation, we also integrate
+three-dimensional conformational features -including molecular rotational
+angles-alongside conventional structural and chemical descriptors. This multi-
+modal approach allows for the generation of chemically valid, drug-like small
+molecules that are optimized for selective engagement with E3 ligases and
+effective degradation of Aβ42.
+2. METHODS
+2.1 Amyloid beta 42 structure
+For structural studies of Aβ42, which corresponds to residues 627-713 of the
+full-length APP, we selected the cryo-EM structure of Type I Aβ42 filaments from
+human brain tissue (PDB ID: 7Q4B) [42]. These fibrils, resolved at 2.5 Å, represent
+a homo-decameric assembly of Aβ42 peptides adopting an S -shaped
+conformation, a structural feature crucial to their aggregation and stability in
+Alzheimer's disease pathology [43]. Although 7Q4B depicts extracellular fibrils,
+they originate from intracellular oligomerization processes, making this structure
+highly relevant to the pathological cascade [44].
+The raw PDB structure was preprocessed using Schrödinger’s Protein
+Preparation Wizard in Maestro [45]. Preprocessing steps included bond order
+assignment, addition of missing hydrogen atoms, removal of water molecules
+beyond 5 Å, protonation state adjustme nt with Epik at pH 7.0 ± 2.0, and
+optimization of the hydrogen bonding network. A restrained energy
+minimization was performed with the OPLS4 force field, allowing hydrogen
+atoms to relax while constraining heavy atoms. The resulting prepared structure
+was subsequently used for all in silico analyses.
+2.2 Binding site identified in Amyloid Beta42
+To identify ligandable regions on the Aβ42 fibril structure, we employed the
+SiteMap module within Schrödinger Maestro to predict and characterize potential
+binding pockets based on physicochemical and geometric criteria [45].
+2.3 E3 Ligase Structure Selection and Preparation
+High-quality crystallographic structures of three E3 ligases-VHL (PDB ID:
+4W9C), CRBN (PDB ID: 4CI3), and MDM2 (PDB ID: 4OAS)-were selected based
+on resolution and relevance to small-molecule recruitment. The VHL structure
+(1.45 Å) offers a well-defined ligand-binding interface suitable for docking studies
+targeting Aβ42 degradation. The CRBN structure, resolved with thalidomide,
+Biomolecules 2025, 15, 849 4 of 31
+reveals the canonical molecular glue binding site, while the MDM2 structure
+features a co-crystallized inhibitor occupying the druggable p53-interacting cleft.
+All structures were prepared using Schrödinger’s Protein Preparation Wizard
+[45], with preprocessing steps including removal of non-essential heteroatoms
+and waters, bond order assignment, hydrogen addition, hydrogen bonding
+optimization, and restrained energy minimization using the OPLS3e or OPLS4
+force fields. These curated models served as the structural foundation for E3
+ligase-specific molecular glue design. Prepared structures of VHL, CRBN, and
+MDM2 are shown in Figure 1.
+2.4 ADMET based filtering and docking
+To optimize drug-likeness and safety, in silico ADMET (Absorption,
+Distribution, Metabolism, Excretion, and Toxicity) screening was performed on
+compound libraries from the Vitas and ChEMBL databases [46,47] using
+Schrödinger’s QikProp and ADMET/Tox modules [48]. Compounds were filtered
+based on Lipinski’s Rule of Five and Veber’s rule, followed by predictions for
+intestinal absorption, blood-brain barrier permeability, CYP450 inhibition,
+hepatotoxicity, and AMES mutagenicity. Only candidates meeting all
+pharmacokinetic and toxicity thresholds were retained for downstream studies.
+Filtered compounds were docked into the ligand-binding sites of VHL, CRBN,
+and MDM2 using Schrödinger’s Glide module in standard precision (SP) and
+extra precision (XP) modes. For each docked complex, Aβ42 was aligned near the
+E3-ligase interface, and ternary complexes were refined using Rosetta
+FlexPepDock and evaluated based on docking scores.
+Additionally, all-atom molecular dynamics (MD) simulations were conducted
+using the Desmond simulation engine (Schrödinger Suite) with the OPLS4 force
+field. Ternary complexes were solvated in TIP3P water, neutralized with

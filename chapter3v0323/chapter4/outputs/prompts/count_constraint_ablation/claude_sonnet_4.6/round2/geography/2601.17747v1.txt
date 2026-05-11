@@ -1,0 +1,70 @@
+You are an ontology axiom extraction system. Your task is to identify and extract formal RDFS ontology axioms from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Extract ontology axioms including but not limited to:
+   - Subclass relationships (`rdfs:subClassOf`)
+   - Sub-objectproperty relationships (`owl:subObjectPropertyOf`)
+   - Sub-dataproperty relationships (`owl:subDataPropertyOf`)
+   - Domain restrictions (`rdfs:domain`)
+   - Range restrictions (`rdfs:range`)
+   - Disjointness axioms (`owl:disjointWith`)
+
+2. Each axiom must represent a single atomic ontological assertion and describe the knowledge in the given field.
+
+3. Every axiom MUST be directly supported by an exact quote from the provided text OR logically inferred from explicit statements about class/property relationships.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+
+
+
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following exact structure:
+{
+  "axioms": [
+    {
+      "subject": "string (the ontological entity)",
+      "relation": "string (the ontological predicate)",
+      "object": "string (the target entity or value)",
+      "chunk": "string (from which section)",
+      "evidence": "string (exact text segment supporting this axiom)"
+    }
+  ]
+}
+
+**EXAMPLES OF EXPECTED EXTRACTION:**
+Input text: "Aquifer microbes are a subclass of microbial functional guilds. They are found in aquifers."
+
+Extracted axioms:
+1. {
+  "subject": "AquiferMicrobes",
+  "relation": "rdfs:subClassOf",
+  "object": "MicrobialFunctionalGuild",
+  "chunk": "ABSTRACT",
+  "evidence": "Aquifer microbes are a subclass of microbial functional guilds."
+}
+2. {
+  "subject": "foundIn",
+  "relation": "rdfs:domain",
+  "object": "AquiferMicrobes",
+  "chunk": "Introduction",
+  "evidence": "They are found in aquifers."
+}
+3. {
+  "subject": "foundIn",
+  "relation": "rdfs:range",
+  "object": "Aquifer",
+  "chunk": "Experiments",
+  "evidence": "They are found in aquifers."
+}
+
+**INPUT TEXT:**
+Bridging Supervision Gaps: A Unified Framework for Remote Sensing Change Detection
+
+ABSTRACT
+Change detection(CD) aims to identify surface changes from multi-temporal remote sensing imagery. In real-world scenarios, Pixel-level change labels are expensive to acquire, and existing models struggle to adapt to scenarios with diverse annotation availability. To tackle this challenge, we propose a unified change detection framework (UniCD), which collaboratively handles supervised, weakly-supervised, and unsupervised tasks through a coupled architecture. UniCD eliminates architectural barriers through a shared encoder and multi-branch collaborative learning mechanism, achieving deep coupling of heterogeneous supervision signals. Specifically, UniCD consists of three supervision-specific branches. In the supervised branch, UniCD introduces the spatial-temporal awareness module(STAM), achieving efficient synergistic fusion of bi-temporal features. In the weakly-supervised branch, we construct change representation regularization(CRR), which steers model convergence from coarse-grained activations toward coherent and separable change modeling. In the unsupervised branch, we propose semantic prior-driven change inference(SPCI), which transforms unsupervised tasks into controlled weakly-supervised path optimization. Experiments on mainstream datasets demonstrate that UniCD achieves optimal performance across three tasks. It exhibits significant accuracy improvements in weakly and unsupervised scenarios, surpassing current state-of-the-art by 12.72% and 12.37% on LEVIR-CD, respectively. The code will be available at: link.

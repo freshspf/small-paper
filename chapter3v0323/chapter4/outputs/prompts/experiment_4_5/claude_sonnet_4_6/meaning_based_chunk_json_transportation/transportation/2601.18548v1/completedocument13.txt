@@ -1,0 +1,134 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument13",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument13
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+6: Residual reduction comparison between our GCDF-
+based analytical projection and an iterative workspace SDF
+baseline. Targets are sampled within threex–yranges (±4 m,
+±5 m,±6 m), and results aggregate 128 targets with 128
+random arm initializations per target. Shaded regions indicate
+variability across trials.
+Initial Projected Goal
+Fig. 7: Visualization of the analytical single-step projection
+using the trained neural GCDF. The red dot denotes the queried
+target point. The initial configuration and the projected config-
+uration after one step are overlaid for comparison. The result
+highlights the accuracy of the learned GCDF (values/gradients)
+and shows that the proposed projection moves directly in
+configuration space toward the target point’s nearest zero-level
+set.
+a configuration onto the queried obstacle point’s zero-level
+set using first-order information. Second, we benchmark our
+GCDF-constrained trajectory optimization algorithm against
+the state-of-the-art (SOTA) pipelines in multiple randomized
+maps to demonstrate efficiency, robustness, and solution qual-
+ity in obstacle-dense environments. Third, we deploy the full
+system on a real mobile manipulator to verify practicality in
+real-world scenes.
+
+12
+Fig. 8: Visualization of the goalkeeper example with online GCDF-based control. Each row shows a different shot with a
+distinct initial ball state; frames progress left-to-right in time. At each time step, the controller evaluates the value and gradient
+of the GCDF online and applies the corresponding projection to generate real-time, collision-aware motions that intercept the
+incoming ball.
+A. Simulation Experiments
+1) Training Results:We begin by reporting the training
+settings and outcomes for GCDF. We set the loss weights
+toλ 1= 5.0,λ 2= 0.1,λ 3= 0.01, andλ 4= 0.01,
+and optimize the network by minimizingL total in (9) to
+achieve accurate GCDF approximation while enforcing the
+desired regularization. For each training iteration, we sample
+b1= 20environment points from the grid and, for each
+point, drawb 2= 100configurations, resulting in a batch
+size of20×100. We train for 14,900 epochs using Adam
+with an initial learning rate of 0.005, decayed by a factor of
+0.5. Training takes approximately 2 hours on four NVIDIA
+RTX 3090 GPUs. The final loss terms areL dist= 0.274,
+Lgrad= 0.100,L eikonal = 0.228, andL tension = 18.571.
+Unless otherwise specified, we use this model throughout
+the following experiments. The training code and pretrained
+weights are available on the project website.
+2) Properties of Neural GCDF:Next, we validate the
+Euclidean projection property and evaluate the accuracy of
+the value and gradient information provided by the learned
+implicit GCDF. Preserving this property with accurate first-
+order information is a core theoretical pillar of our framework:
+it underpins the use of GCDF values and gradients to en-
+force collision avoidance and perform trajectory optimization
+directly in configuration space, thereby avoiding the intricate
+nonlinear mapping and kinematic coupling between workspace
+collision constraints and configuration space variables.
+Concretely, we quantitatively evaluate this property by
+comparing the residual reduction achieved by our GCDF-
+based analytical projection against iterative algorithm using
+workspace SDF directly. Specifically, we randomly sample
+128 target environment points within threex–yranges (±4m,
+±5m, and±6m) around the mobile base to cover varying
+proximity and difficulty. For each target pointp, we initialize
+the robot from 128 different arm configurationsqand applythe projection in Theorem 1 to obtain a projected configuration
+q+. We quantify convergence by measuring the residual ratio
+between the initial and projected states, computed using SDF
+values evaluated at the corresponding configurations. Since
+the projection is closed-form, its runtime is negligible. As a
+baseline, we implement standard gradient descent with Armijo
+line search to solve the unconstrained problemmin qf2
+s(q,p),
+and record the residual ratio after each iteration. The results are
+shown in Fig. 6. Our GCDF projection brings the robot to (or
+extremely close to) the target point’s zero-level set in a single
+step across all ranges, whereas the SDF-based method often
+requires multiple iterations. This gap is as expected:the SDF
+gradient must be back-propagated through nonlinear forward
+kinematics, so its induced updates in configuration space are
+strongly coupled and effective only locally, leading to slower
+contraction toward the contact manifold.Some results of our
+single-step projection are visualized in Fig. 7.
+Additionally, we design a goalkeeper scenario as an intuitive
+demonstration of the practical utility of GCDF projection
+in real-time closed-loop control.

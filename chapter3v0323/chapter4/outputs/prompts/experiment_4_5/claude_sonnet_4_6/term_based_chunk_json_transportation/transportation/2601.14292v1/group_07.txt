@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "InconsistentSpeedLimit",
+  "reduces",
+  "Compliance",
+  "creates",
+  "DangerousSpeedDifferential",
+  "UndetectedFault",
+  "resultsIn",
+  "MisleadingSpeedLimitInformation",
+  "Assumption",
+  "translatedInto",
+  "MeasurableTerm",
+  "enables",
+  "ContinuousMonitoring",
+  "convertsInto",
+  "DynamicSafetyConstraint",
+  "has",
+  "LeadingIndicator",
+  "AcceptableThreshold",
+  "CorrectiveAction",
+  "takenIf",
+  "Deviation",
+  "EuropeanCommission",
+  "defines",
+  "EuRoadSafetyPolicy",
+  "focusesOn",
+  "KeyPerformanceIndicator",
+  "SafeRoadsAndRoadsides",
+  "includesStakeholder",
+  "DepartmentForTransport",
+  "hasFunctionalRole",
+  "NationalRoadSafetyStrategy",
+  "NationalHighways",
+  "operates",
+  "StrategicRoadNetwork",
+  "LocalHighwayAuthorities",
+  "LocalRoadManagement",
+  "OfficeOfRailAndRoad",
+  "regulates",
+  "UkPoliceForces",
+  "SpeedAndTrafficLawEnforcement",
+  "SafeVehicles",
+  "VehicleCertificationAgency",
+  "TypeApprovalOfVehiclesAndComponents",
+  "SafeRoadUsers",
+  "Dvla",
+  "DriverLicensing",
+  "PostCrashResponseAndLearning",
+  "NhsAmbulanceTrusts",
+  "PreHospitalEmergencyResponse",
+  "AdsVehicle",
+  "sendsDataTo",
+  "Psap",
+  "ECallFunction",
+  "invokedDuring",
+  "QualifyingCollision",
+  "AdvancedDriverAssistanceSystem",
+  "AdvancedSafetyTechnology",
+  "AutomatedDrivingSystem",
+  "BlackspotAnalysis",
+  "BowTieAnalysis",
+  "ComprehensiveApproach",
+  "ContinuousSystemLevelRiskMonitoring",
+  "CurrentStrategy",
+  "DriverBehaviour",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "FaultTreeAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "HazardIdentification",
+  "HistoricalCollisionData",
+  "InfrastructureQuality",
+  "InfrastructureReadiness",
+  "LinearAccidentCausation",
+  "PublicPerception",
+  "RetrospectiveCrashData",
+  "RoadCrashOutcome",
+  "RoadCrashSeverity",
+  "RoadGeometry",
+  "RoadInfrastructureAdaptability",
+  "RoadSafetyBehaviour"
+]
+
+Triples:
+[
+  {
+    "subject": "InconsistentSpeedLimit",
+    "relation": "reduces",
+    "object": "Compliance",
+    "chunk": "casestudyandresults1",
+    "context": "Driver Confusion: Poorly displayed or inconsistent speed limits reduce compliance and create dangerous speed differentials between vehicles."
+  },
+  {
+    "subject": "InconsistentSpeedLimit",
+    "relation": "creates",
+    "object": "DangerousSpeedDifferential",
+    "chunk": "casestudyandresults1",
+    "context": "Driver Confusion: Poorly displayed or inconsistent speed limits reduce compliance and create dangerous speed differentials between vehicles."
+  },
+  {
+    "subject": "UndetectedFault",
+    "relation": "resultsIn",
+    "object": "MisleadingSpeedLimitInformation",
+    "chunk": "casestudyandresults1",
+    "context": "System Failures: Undetected faults (e.g., non-functioning signs, algorithm errors) may persist, resulting in unsafe or misleading speed limit information."
+  },
+  {
+    "subject": "Assumption",
+    "relation": "translatedInto",
+    "object": "MeasurableTerm",
+    "chunk": "casestudyandresults1",
+    "context": "Once we list all assumptions behind the closed loop in the control structure, each assumption needs to be translated into measurable terms to enable continuous monitoring."
+  },
+  {
+    "subject": "MeasurableTerm",
+    "relation": "enables",
+    "object": "ContinuousMonitoring",
+    "chunk": "casestudyandresults1",
+    "context": "Once we list all assumptions behind the closed loop in the control structure, each assumption needs to be translated into measurable terms to enable continuous monitoring."
+  },
+  {
+    "subject": "Assumption",
+    "relation": "convertsInto",
+    "object": "DynamicSafetyConstraint",
+    "chunk": "casestudyandresults1",
+    "context": "This step prevents assumptions from being violated and converts them from a statement into dynamic safety constraints."
+  },
+  {
+    "subject": "Assumption",
+    "relation": "has",
+    "object": "LeadingIndicator",
+    "chunk": "casestudyandresults1",
+    "context": "For each assumption, a set of leading indicators is defined, along with acceptable thresholds and predefined corrective actions to be taken if deviations are detected."
+  },
+  {
+    "subject": "Assumption",
+    "relation": "has",
+    "object": "AcceptableThreshold",
+    "chunk": "casestudyandresults1",
+    "context": "For each assumption, a set of leading indicators is defined, along with acceptable thresholds and predefined corrective actions to be taken if deviations are detected."
+  },
+  {
+    "subject": "CorrectiveAction",
+    "relation": "takenIf",
+    "object": "Deviation",
+    "chunk": "casestudyandresults1",
+    "context": "For each assumption, a set of leading indicators is defined, along with acceptable thresholds and predefined corrective actions to be taken if deviations are detected."
+  },
+  {
+    "subject": "EuropeanCommission",
+    "relation": "defines",
+    "object": "EuRoadSafetyPolicy",
+    "chunk": "casestudyandresults2",
+    "context": "The current EU road safety policy as define by the European Commission focuses mainly on eight Key Performance Indicators ( KPIs ) for monitoring and benchmarking: speed, safety belt use, protective equipment, alcohol, distraction, vehicle safety Infrastructure, and post crash care."
+  },
+  {
+    "subject": "EuRoadSafetyPolicy",
+    "relation": "focusesOn",
+    "object": "KeyPerformanceIndicator",
+    "chunk": "casestudyandresults2",
+    "context": "The current EU road safety policy as define by the European Commission focuses mainly on eight Key Performance Indicators ( KPIs ) for monitoring and benchmarking: speed, safety belt use, protective equipment, alcohol, distraction, vehicle safety Infrastructure, and post crash care."
+  },
+  {
+    "subject": "SafeRoadsAndRoadsides",
+    "relation": "includesStakeholder",
+    "object": "DepartmentForTransport",
+    "chunk": "casestudyandresults2",
+    "context": "Table 1: Road Safety Stakeholders Categorised by Safe System Elements\nSafe System Ele-\nmentStakeholders Functional Role\nSafe Roads and\nRoadsidesDepartment for Transport (DfT)"
+  },
+  {
+    "subject": "DepartmentForTransport",
+    "relation": "hasFunctionalRole",
+    "object": "NationalRoadSafetyStrategy",
+    "chunk": "casestudyandresults2",
+    "context": "Department for Transport (DfT) National road safety strategy, funding, STATS19 ownership"
+  },
+  {
+    "subject": "NationalHighways",
+    "relation": "operates",
+    "object": "StrategicRoadNetwork",
+    "chunk": "casestudyandresults2",
+    "context": "National Highways Design, construction and operation of the Strategic Road Network"
+  },
+  {
+    "subject": "LocalHighwayAuthorities",
+    "relation": "hasFunctionalRole",
+    "object": "LocalRoadManagement",
+    "chunk": "casestudyandresults2",
+    "context": "Local Highway Authorities Local road management, speed limits, engineering and maintenance"
+  },
+  {
+    "subject": "OfficeOfRailAndRoad",
+    "relation": "regulates",
+    "object": "NationalHighways",
+    "chunk": "casestudyandresults2",
+    "context": "ORR – Office of Rail & Road Safety and performance regulator of National Highways"
+  },
+  {
+    "subject": "UkPoliceForces",
+    "relation": "hasFunctionalRole",
+    "object": "SpeedAndTrafficLawEnforcement",
+    "chunk": "casestudyandresults2",
+    "context": "UK Police Forces – RPUs Speed and traffic-law enforcement, collision investigation"
+  },
+  {
+    "subject": "SafeVehicles",
+    "relation": "includesStakeholder",
+    "object": "VehicleCertificationAgency",
+    "chunk": "casestudyandresults2",
+    "context": "Safe VehiclesVehicle Certification Agency (VCA) Type approval of vehicles and components"
+  },
+  {
+    "subject": "VehicleCertificationAgency",
+    "relation": "hasFunctionalRole",
+    "object": "TypeApprovalOfVehiclesAndComponents",
+    "chunk": "casestudyandresults2",
+    "context": "Vehicle Certification Agency (VCA) Type approval of vehicles and components"
+  },
+  {
+    "subject": "SafeRoadUsers",
+    "relation": "includesStakeholder",
+    "object": "Dvla",
+    "chunk": "casestudyandresults2",
+    "context": "Safe Road UsersDVLA Driver licensing, medical fitness, driver database"
+  },
+  {
+    "subject": "Dvla",
+    "relation": "hasFunctionalRole",
+    "object": "DriverLicensing",
+    "chunk": "casestudyandresults2",
+    "context": "DVLA Driver licensing, medical fitness, driver database"
+  },
+  {
+    "subject": "PostCrashResponseAndLearning",
+    "relation": "includesStakeholder",
+    "object": "NhsAmbulanceTrusts",
+    "chunk": "casestudyandresults2",
+    "context": "Post-Crash\nResponse&\nLearningNHS Ambulance Trusts Pre-hospital emergency response"
+  },
+  {
+    "subject": "NhsAmbulanceTrusts",
+    "relation": "hasFunctionalRole",
+    "object": "PreHospitalEmergencyResponse",
+    "chunk": "casestudyandresults2",
+    "context": "NHS Ambulance Trusts Pre-hospital emergency response"
+  },
+  {
+    "subject": "AdsVehicle",
+    "relation": "sendsDataTo",
+    "object": "Psap",
+    "chunk": "casestudyandresults2",
+    "context": "[A−1.1] ADS Vehicle/OEM telematics → PSAP (999)"
+  },
+  {
+    "subject": "ECallFunction",
+    "relation": "invokedDuring",
+    "object": "QualifyingCollision",
+    "chunk": "casestudyandresults2",
+    "context": "The eCall function is available and can be invoked whenever a qualifying collision occurs."
+  }
+]

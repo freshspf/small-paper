@@ -1,0 +1,129 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument7",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument7
+- section_title: Complete Document
+- page_start: 1
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+Scientific Reports, 15(1), p.24376.
+[9] Li, Y ., Rao, S., Solares, J.R.A., Hassaine, A., Ramakrishnan, R., Canoy,
+D., Zhu, Y ., Rahimi, K. and Salimi-Khorshidi, G., 2020. BEHRT: trans-
+former for electronic health records. Scientific reports, 10(1), p.7155.
+[10] Ma, F., Chitta, R., Zhou, J., You, Q., Sun, T. and Gao, J., 2017,
+August. Dipole: Diagnosis prediction in healthcare via attention-based
+bidirectional recurrent neural networks. In Proceedings of the 23rd ACM
+SIGKDD international conference on knowledge discovery and data
+mining (pp. 1903-1911).
+[11] Zhang, D., Yin, C., Zeng, J., Yuan, X. and Zhang, P., 2020. Combining
+structured and unstructured data for predictive models: a deep learning
+approach. BMC medical informatics and decision making, 20(1), p.280.
+[12] Si, Y ., Du, J., Li, Z., Jiang, X., Miller, T., Wang, F., Zheng, W.J.
+and Roberts, K., 2021. Deep representation learning of patient data
+from Electronic Health Records (EHR): A systematic review. Journal
+of biomedical informatics, 115, p.103671.
+[13] Deznabi, I., Iyyer, M. and Fiterau, M., 2021, August. Predicting in-
+hospital mortality by combining clinical notes with time-series data. In
+Findings of the association for computational linguistics: ACL-IJCNLP
+2021 (pp. 4026-4031).
+[14] Shivashankar, K., Hajj, G.S.A. and Martini, A., 2025. Scalability and
+Maintainability Challenges and Solutions in Machine Learning: Sys-
+tematic Literature Review. arXiv preprint arXiv:2504.11079.
+[15] Niv, Y ., 2019. Learning task-state representations. Nature neuroscience,
+22(10), pp.1544-1553.
+[16] Kauffman, J., Miotto, R., Klang, E., Costa, A., Norgeot, B., Zitnik,
+M., Khader, S., Wang, F., Nadkarni, G.N. and Glicksberg, B.S., 2025.
+Embedding Methods for Electronic Health Record Research. Annual
+Review of Biomedical Data Science, 8.
+[17] Zheng, X., 2025. Machine Learning for Complex Clinical Time Series:
+From Representation Learning to Interpretable Phenotyping.
+[18] Ruan, T., Lei, L., Zhou, Y ., Zhai, J., Zhang, L., He, P. and Gao, J.,
+2019. Representation learning for clinical time series prediction tasks
+in electronic health records. BMC medical informatics and decision
+making, 19(Suppl 8), p.259.
+[19] Xie, F., Yuan, H., Ning, Y ., Ong, M.E.H., Feng, M., Hsu, W.,
+Chakraborty, B. and Liu, N., 2022. Deep learning for temporal data
+representation in electronic health records: A systematic review of
+challenges and methodologies. Journal of biomedical informatics, 126,
+p.103980.
+[20] [16] Lee, S.A., Jain, S., Chen, A., Ono, K., Biswas, A., Rudas, ´A., Fang,
+J. and Chiang, J.N., 2025. Clinical decision support using pseudo-notes
+from multiple streams of EHR data. npj Digital Medicine, 8(1), p.394.
+[21] Shen, Y ., Yu, J., Zhou, J. and Hu, G., 2025. Twenty-five years of
+evolution and hurdles in electronic health records and interoperability
+in medical research: comprehensive review. Journal of Medical Internet
+Research, 27, p.e59024.
+[22] Zheng, Z., Luo, J., Zhu, Y ., Du, L., Lan, L., Zhou, X., Yang, X. and
+Huang, S., 2025. Development and Validation of a Dynamic Real-
+Time Risk Prediction Model for Intensive Care Units Patients Based on
+Longitudinal Irregular Data: Multicenter Retrospective Study. Journal of
+medical Internet research, 27, p.e69293.
+[23] Zhong, S., Wang, L.R., Zhan, Z., Ng, Y .Y . and Fan, X., 2025. A
+Hybrid Approach for Irregular-Time Series Prediction using Electronic
+Health Records: an Intensive Care Unit Mortality Case Study. ACM
+Transactions on Computing for Healthcare, 6(4), pp.1-33.
+[24] Ren, W., Zhu, J., Liu, Z., Zhao, T. and Honavar, V ., 2025. A compre-
+hensive survey of electronic health record modeling: From deep learning
+approaches to large language models. arXiv preprint arXiv:2507.12774.
+[25] Islam, M.S., Umran, H.M., Umran, S.M. and Karim, M., 2019, May.
+Intelligent healthcare platform: cardiovascular disease risk factors pre-
+diction using attention module based LSTM. In 2019 2nd international
+conference on artificial intelligence and big data (ICAIBD) (pp. 167-
+175). IEEE.
+[26] Baytas, I.M., Xiao, C., Zhang, X., Wang, F., Jain, A.K. and Zhou, J.,
+2017, August. Patient subtyping via time-aware LSTM networks. In
+Proceedings of the 23rd ACM SIGKDD international conference on
+knowledge discovery and data mining (pp. 65-74).[27] Zheng, Y ., Bensahla, A., Bjelogrlic, M., Zaghir, J., Turbe, H., Bed-
+narczyk, L., Gaudet-Blavignac, C., Ehrsam, J., Marchand-Maillet, S.
+and Lovis, C., 2025. A scoping review of self-supervised representation
+learning for clinical decision making using EHR categorical data. NPJ
+Digital Medicine, 8(1), pp.362-362.
+[28] Johnson, A.E., Bulgarelli, L., Shen, L., Gayles, A., Shammout, A.,
+Horng, S., Pollard, T.J., Hao, S., Moody, B., Gow, B. and Lehman,
+L.W.H., 2023. MIMIC-IV , a freely accessible electronic health record
+dataset. Scientific data, 10(1), p.1.
+[29] Gupta, M., Gallamoza, B., Cutrona, N., Dhakal, P., Poulain, R. and
+Beheshti, R., 2022, November. An extensive data processing pipeline
+for mimic-iv.

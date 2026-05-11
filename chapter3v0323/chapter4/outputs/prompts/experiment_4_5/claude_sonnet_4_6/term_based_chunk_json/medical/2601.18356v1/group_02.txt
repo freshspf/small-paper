@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "DomainAwareRetrieval",
+  "selects",
+  "OptimalRetriever",
+  "AdaptiveContextSelection",
+  "filters",
+  "Evidence",
+  "StructuralCausalModel",
+  "represents",
+  "MedicalKnowledge",
+  "contains",
+  "EndogenousVariable",
+  "ObservableVariable",
+  "includes",
+  "ImageRegion",
+  "ClinicalFinding",
+  "PatientSymptom",
+  "DiagnosticOutcome",
+  "ExogenousVariable",
+  "UnobservedFactor",
+  "influences",
+  "GeneticPredisposition",
+  "isA",
+  "DataHeterogeneity",
+  "StructuralEquation",
+  "definesValueOf",
+  "hasAssociatedFeature",
+  "CausalGraph",
+  "model_llavaMed157b",
+  "LanguageModel",
+  "fineTunedWith",
+  "method_lora",
+  "usesOptimizer",
+  "optimizer_adamW",
+  "encoder_medVit",
+  "VisionEncoder",
+  "encoder_bioClinicalBert",
+  "TextEncoder",
+  "method_dola",
+  "DecodingBasedApproach",
+  "method_opera",
+  "method_vcd",
+  "ArtificialIntelligence",
+  "Healthcare",
+  "MedicalLargeVisionLanguageModel",
+  "IntelligentDiagnosis",
+  "ReliabilityIssue",
+  "NonFactualMedicalResponse",
+  "DiagnosticError",
+  "SevereConsequence",
+  "FineTuning",
+  "LowRankAdaptation",
+  "RetrievalAugmentedGeneration",
+  "ModelPerformance",
+  "MedicalField",
+  "MedicalDomain",
+  "HighQualityLabeledData",
+  "DistributionShift",
+  "ExternalKnowledge",
+  "Factuality",
+  "framework_medrag",
+  "framework_mmedrag",
+  "SemanticOverReliance",
+  "CrossModalityMisalignment",
+  "CausalityBasedMethod",
+  "RetrievalAccuracy",
+  "RepresentationLearning",
+  "framework_causalrag",
+  "CausalImportance",
+  "framework_cmcrl",
+  "SharedCausalRepresentation",
+  "Interpretability",
+  "HolisticFramework",
+  "Alignment",
+  "ExplicitCausalGraph",
+  "RagRetrieval",
+  "framework_mcrag",
+  "Robustness",
+  "CausalAlignmentGraph",
+  "StructuredDependency",
+  "McragFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "DomainAwareRetrieval",
+    "relation": "selects",
+    "object": "OptimalRetriever",
+    "chunk": "methodology",
+    "context": "The framework has three stages: (1)domain-aware retrieval, which selects the optimal retriever for each input; (2)adaptive context se- lection, which filters and sizes evidence on the fly; and (3)RAG-based preference fine-tuning, which aligns responses with SCM-supported evidence."
+  },
+  {
+    "subject": "AdaptiveContextSelection",
+    "relation": "filters",
+    "object": "Evidence",
+    "chunk": "methodology",
+    "context": "The framework has three stages: (1)domain-aware retrieval, which selects the optimal retriever for each input; (2)adaptive context se- lection, which filters and sizes evidence on the fly; and (3)RAG-based preference fine-tuning, which aligns responses with SCM-supported evidence."
+  },
+  {
+    "subject": "StructuralCausalModel",
+    "relation": "represents",
+    "object": "MedicalKnowledge",
+    "chunk": "methodology",
+    "context": "At the core of the MCRAG framework is the formal repre- sentation of medical knowledge as aStructural Causal Model (SCM), a mathematical formalism for causal inference."
+  },
+  {
+    "subject": "StructuralCausalModel",
+    "relation": "contains",
+    "object": "EndogenousVariable",
+    "chunk": "methodology",
+    "context": "An SCM, denoted asM, is a tuple⟨V,U,F⟩, where: •Vis a set of endogenous variables, representing the manifest, observable variables within the system."
+  },
+  {
+    "subject": "EndogenousVariable",
+    "relation": "represents",
+    "object": "ObservableVariable",
+    "chunk": "methodology",
+    "context": "An SCM, denoted asM, is a tuple⟨V,U,F⟩, where: •Vis a set of endogenous variables, representing the manifest, observable variables within the system."
+  },
+  {
+    "subject": "EndogenousVariable",
+    "relation": "includes",
+    "object": "ImageRegion",
+    "chunk": "methodology",
+    "context": "In the medical context,Vincludes variables correspond- ing to image regions (V I), clinical findings (V F), pa- tient symptoms (V S), and diagnostic outcomes (V D)."
+  },
+  {
+    "subject": "EndogenousVariable",
+    "relation": "includes",
+    "object": "ClinicalFinding",
+    "chunk": "methodology",
+    "context": "In the medical context,Vincludes variables correspond- ing to image regions (V I), clinical findings (V F), pa- tient symptoms (V S), and diagnostic outcomes (V D)."
+  },
+  {
+    "subject": "EndogenousVariable",
+    "relation": "includes",
+    "object": "PatientSymptom",
+    "chunk": "methodology",
+    "context": "In the medical context,Vincludes variables correspond- ing to image regions (V I), clinical findings (V F), pa- tient symptoms (V S), and diagnostic outcomes (V D)."
+  },
+  {
+    "subject": "EndogenousVariable",
+    "relation": "includes",
+    "object": "DiagnosticOutcome",
+    "chunk": "methodology",
+    "context": "In the medical context,Vincludes variables correspond- ing to image regions (V I), clinical findings (V F), pa- tient symptoms (V S), and diagnostic outcomes (V D)."
+  },
+  {
+    "subject": "StructuralCausalModel",
+    "relation": "contains",
+    "object": "ExogenousVariable",
+    "chunk": "methodology",
+    "context": "•Uis a set of exogenous variables, representing latent or unobserved factors."
+  },
+  {
+    "subject": "ExogenousVariable",
+    "relation": "represents",
+    "object": "UnobservedFactor",
+    "chunk": "methodology",
+    "context": "•Uis a set of exogenous variables, representing latent or unobserved factors."
+  },
+  {
+    "subject": "ExogenousVariable",
+    "relation": "influences",
+    "object": "EndogenousVariable",
+    "chunk": "methodology",
+    "context": "These variables account for all fac- tors influencing the endogenous variables that are not explicitly included in the model, such as genetic predis- positions or data heterogeneity across hospital systems."
+  },
+  {
+    "subject": "GeneticPredisposition",
+    "relation": "isA",
+    "object": "ExogenousVariable",
+    "chunk": "methodology",
+    "context": "These variables account for all fac- tors influencing the endogenous variables that are not explicitly included in the model, such as genetic predis- positions or data heterogeneity across hospital systems."
+  },
+  {
+    "subject": "DataHeterogeneity",
+    "relation": "isA",
+    "object": "ExogenousVariable",
+    "chunk": "methodology",
+    "context": "These variables account for all fac- tors influencing the endogenous variables that are not explicitly included in the model, such as genetic predis- positions or data heterogeneity across hospital systems."
+  },
+  {
+    "subject": "StructuralCausalModel",
+    "relation": "contains",
+    "object": "StructuralEquation",
+    "chunk": "methodology",
+    "context": "•Fis a set of structural equations, one for each variable Vi∈V."
+  },
+  {
+    "subject": "StructuralEquation",
+    "relation": "definesValueOf",
+    "object": "EndogenousVariable",
+    "chunk": "methodology",
+    "context": "Each equationf i∈ Fdefines the value ofV i as a function of its parents,Pa(V i), in the causal graph and its corresponding exogenous variableU i∈U."
+  },
+  {
+    "subject": "StructuralCausalModel",
+    "relation": "hasAssociatedFeature",
+    "object": "CausalGraph",
+    "chunk": "methodology",
+    "context": "A key feature of the SCM is its associated causal graph G, a directed graph over the variables inVandU."
+  },
+  {
+    "subject": "model_llavaMed157b",
+    "relation": "isA",
+    "object": "LanguageModel",
+    "chunk": "experiment",
+    "context": "For the language model, we adopt LLaV A-Med-1.5-7B [1], fine-tuned with LoRA [19] using the AdamW optimizer."
+  },
+  {
+    "subject": "model_llavaMed157b",
+    "relation": "fineTunedWith",
+    "object": "method_lora",
+    "chunk": "experiment",
+    "context": "For the language model, we adopt LLaV A-Med-1.5-7B [1], fine-tuned with LoRA [19] using the AdamW optimizer."
+  },
+  {
+    "subject": "method_lora",
+    "relation": "usesOptimizer",
+    "object": "optimizer_adamW",
+    "chunk": "experiment",
+    "context": "For the language model, we adopt LLaV A-Med-1.5-7B [1], fine-tuned with LoRA [19] using the AdamW optimizer."
+  },
+  {
+    "subject": "encoder_medVit",
+    "relation": "isA",
+    "object": "VisionEncoder",
+    "chunk": "experiment",
+    "context": "For modality-specific encoders, we employ MedVIT [20] as the vision encoder and BioClinicalBERT [21] as the text encoder."
+  },
+  {
+    "subject": "encoder_bioClinicalBert",
+    "relation": "isA",
+    "object": "TextEncoder",
+    "chunk": "experiment",
+    "context": "For modality-specific encoders, we employ MedVIT [20] as the vision encoder and BioClinicalBERT [21] as the text encoder."
+  },
+  {
+    "subject": "method_dola",
+    "relation": "isA",
+    "object": "DecodingBasedApproach",
+    "chunk": "experiment",
+    "context": "Decoding-based approaches, such as DoLa [13], OPERA [14], and VCD [15], improve factual consistency by directly adjusting the model’s output distribution."
+  },
+  {
+    "subject": "method_opera",
+    "relation": "isA",
+    "object": "DecodingBasedApproach",
+    "chunk": "experiment",
+    "context": "Decoding-based approaches, such as DoLa [13], OPERA [14], and VCD [15], improve factual consistency by directly adjusting the model’s output distribution."
+  },
+  {
+    "subject": "method_vcd",
+    "relation": "isA",
+    "object": "DecodingBasedApproach",
+    "chunk": "experiment",
+    "context": "Decoding-based approaches, such as DoLa [13], OPERA [14], and VCD [15], improve factual consistency by directly adjusting the model’s output distribution."
+  }
+]

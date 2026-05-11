@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LigaseConditionedJtVaeFramework",
+  "includesFeature",
+  "TorsionalAngleFeature",
+  "SystematicMolecularDocking",
+  "evaluates",
+  "AiGeneratedCompound",
+  "docksAgainst",
+  "E3LigaseAbeta42Complex",
+  "compound_vhl_cmpd_4",
+  "targets",
+  "Vhl",
+  "compound_crbn_cmpd_3",
+  "Crbn",
+  "compound_mdm2_cmpd_5",
+  "Mdm2",
+  "formsHydrogenBondWith",
+  "residue_his13",
+  "belongsTo",
+  "Abeta42",
+  "residue_his110",
+  "compound_crbn_cmpd_2",
+  "interactsWith",
+  "residue_his355",
+  "residue_trp402",
+  "CrbnBindingPocket",
+  "StructureGuidedGenerativeFramework",
+  "designs",
+  "E3LigaseSpecificMolecularGlue",
+  "AmyloidBeta42Fibril",
+  "CandidateMolecule",
+  "forms",
+  "TernaryComplex",
+  "TargetSpecificGenerativeModel",
+  "integrates",
+  "StructuralFeature",
+  "GenerativeModel",
+  "produces",
+  "Compound",
+  "DegraderCompound",
+  "Ab42",
+  "LcjtvaeGenerativeFramework",
+  "PredictiveAndGenerativePipeline",
+  "intervenesIn",
+  "AgeRelatedDisease",
+  "AlzheimerSDisease",
+  "isAn",
+  "AiDrivenFramework",
+  "MolecularGlue",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "UbiquitinProteasomeSystem",
+  "E3Ligase",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability",
+  "HypoxiaSignaling",
+  "P53",
+  "MolecularGlueDiscovery",
+  "ChemicalLibraryScreening",
+  "ArtificialIntelligenceModel",
+  "DeNovoDesign"
+]
+
+Triples:
+[
+  {
+    "subject": "LigaseConditionedJtVaeFramework",
+    "relation": "includesFeature",
+    "object": "TorsionalAngleFeature",
+    "chunk": "completedocument9",
+    "context": "These minimal deviations indicate that the generat ed molecules consistently adopt low -energy, chemically plausible conformations, further validating the inclusion of torsional angle features in our Ligase -Conditioned JT -VAE framework."
+  },
+  {
+    "subject": "SystematicMolecularDocking",
+    "relation": "evaluates",
+    "object": "AiGeneratedCompound",
+    "chunk": "completedocument9",
+    "context": "To evaluate the binding specificity and interaction profiles of our AI -generated compounds, we performed systematic molecular docking of all designed molecules against each of the three E3 ligase -Aβ42 complexes (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "AiGeneratedCompound",
+    "relation": "docksAgainst",
+    "object": "E3LigaseAbeta42Complex",
+    "chunk": "completedocument9",
+    "context": "To evaluate the binding specificity and interaction profiles of our AI -generated compounds, we performed systematic molecular docking of all designed molecules against each of the three E3 ligase -Aβ42 complexes (VHL, CRBN, and MDM2)."
+  },
+  {
+    "subject": "compound_vhl_cmpd_4",
+    "relation": "targets",
+    "object": "Vhl",
+    "chunk": "completedocument9",
+    "context": "Figure S4 presents examples of the top-ranked compounds  based on docking scores for each E3 ligase: VHL_Cmpd_4  for VHL (docking score: -5.98 kcal/mol in Figure 12 ), CRBN_Cmpd_3  for CRBN ( -5.80 kcal/mol in Figure 12 ), and MDM2_Cmpd_5  for MDM2 (-5.78 kcal/mol in Figure 12 )."
+  },
+  {
+    "subject": "compound_crbn_cmpd_3",
+    "relation": "targets",
+    "object": "Crbn",
+    "chunk": "completedocument9",
+    "context": "Figure S4 presents examples of the top-ranked compounds  based on docking scores for each E3 ligase: VHL_Cmpd_4  for VHL (docking score: -5.98 kcal/mol in Figure 12 ), CRBN_Cmpd_3  for CRBN ( -5.80 kcal/mol in Figure 12 ), and MDM2_Cmpd_5  for MDM2 (-5.78 kcal/mol in Figure 12 )."
+  },
+  {
+    "subject": "compound_mdm2_cmpd_5",
+    "relation": "targets",
+    "object": "Mdm2",
+    "chunk": "completedocument9",
+    "context": "Figure S4 presents examples of the top-ranked compounds  based on docking scores for each E3 ligase: VHL_Cmpd_4  for VHL (docking score: -5.98 kcal/mol in Figure 12 ), CRBN_Cmpd_3  for CRBN ( -5.80 kcal/mol in Figure 12 ), and MDM2_Cmpd_5  for MDM2 (-5.78 kcal/mol in Figure 12 )."
+  },
+  {
+    "subject": "compound_vhl_cmpd_4",
+    "relation": "formsHydrogenBondWith",
+    "object": "residue_his13",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "residue_his13",
+    "relation": "belongsTo",
+    "object": "Abeta42",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "compound_vhl_cmpd_4",
+    "relation": "formsHydrogenBondWith",
+    "object": "residue_his110",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "residue_his110",
+    "relation": "belongsTo",
+    "object": "Vhl",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "compound_crbn_cmpd_2",
+    "relation": "interactsWith",
+    "object": "residue_his355",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "compound_crbn_cmpd_2",
+    "relation": "interactsWith",
+    "object": "residue_trp402",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "residue_his355",
+    "relation": "belongsTo",
+    "object": "CrbnBindingPocket",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "residue_trp402",
+    "relation": "belongsTo",
+    "object": "CrbnBindingPocket",
+    "chunk": "completedocument9",
+    "context": "For instance, VH L_Cmpd_4 forms hydrogen bonds with HIS13 of Aβ42 and HIS110 of VHL, whereas CRBN_Cmpd_2 establishes extensive interactions with HIS355, TRP402, and surrounding residues within the CRBN binding pocket."
+  },
+  {
+    "subject": "StructureGuidedGenerativeFramework",
+    "relation": "designs",
+    "object": "E3LigaseSpecificMolecularGlue",
+    "chunk": "completedocument9",
+    "context": "In this study, we developed a structure -guided generative framework  to design E3 ligase -specific molecular glues  targeting amyloid -β42 (Aβ42) fibrils ."
+  },
+  {
+    "subject": "E3LigaseSpecificMolecularGlue",
+    "relation": "targets",
+    "object": "AmyloidBeta42Fibril",
+    "chunk": "completedocument9",
+    "context": "In this study, we developed a structure -guided generative framework  to design E3 ligase -specific molecular glues  targeting amyloid -β42 (Aβ42) fibrils ."
+  },
+  {
+    "subject": "CandidateMolecule",
+    "relation": "forms",
+    "object": "TernaryComplex",
+    "chunk": "completedocument9",
+    "context": "Following rigorous physicochemical and pharmacokinetic filtering, candidate molecules were evaluated for their ability to form ternary complexes through interaction modeling with each E3 ligase and Aβ42 (Table 2) ."
+  },
+  {
+    "subject": "TargetSpecificGenerativeModel",
+    "relation": "integrates",
+    "object": "StructuralFeature",
+    "chunk": "completedocument10",
+    "context": "These prioritized compounds were subsequently used to train a target -specific generative model  that integrates both the structural features of ligase binding sites and the 3D conformational dynamics of small molecules, incorporating torsional angles as an additional feature to enhance chemical realism."
+  },
+  {
+    "subject": "GenerativeModel",
+    "relation": "produces",
+    "object": "Compound",
+    "chunk": "completedocument10",
+    "context": "Our results demonstrate that the generative model effectively captured ligase -\nspecific chemical preferences , producing valid, novel, and structurally diverse\n\nBiomolecules 2025 , 15, 849 15 of 31  \ncompounds optimized for each E3 ligase ( Figure 9 and 10 )."
+  },
+  {
+    "subject": "DegraderCompound",
+    "relation": "targets",
+    "object": "Ab42",
+    "chunk": "completedocument10",
+    "context": "These outcomes highlight the model’s po tential utility for designing degrader compounds against structurally challenging targets  such as Aβ42."
+  },
+  {
+    "subject": "LcjtvaeGenerativeFramework",
+    "relation": "designs",
+    "object": "Compound",
+    "chunk": "completedocument10",
+    "context": "The comprehensive docking analysis  further underscores the effectiveness of our LC-JT-VAE generative framework  in designing compounds with targeted binding specificity ."
+  },
+  {
+    "subject": "PredictiveAndGenerativePipeline",
+    "relation": "intervenesIn",
+    "object": "AgeRelatedDisease",
+    "chunk": "completedocument10",
+    "context": "Together, these findings position our integrated predictive and generative pipeline as a powerful strategy  for early intervention  in age -related diseases such as Alzheimer's disease, and offer a generalizable framework  for therapeutic discovery against other undruggable targets."
+  },
+  {
+    "subject": "AlzheimerSDisease",
+    "relation": "isAn",
+    "object": "AgeRelatedDisease",
+    "chunk": "completedocument10",
+    "context": "Together, these findings position our integrated predictive and generative pipeline as a powerful strategy  for early intervention  in age -related diseases such as Alzheimer's disease, and offer a generalizable framework  for therapeutic discovery against other undruggable targets."
+  },
+  {
+    "subject": "AiDrivenFramework",
+    "relation": "designs",
+    "object": "MolecularGlue",
+    "chunk": "completedocument10",
+    "context": "This study presents an AI -driven framework for the rational design of E3 ligase -specific molecular glues targeting Aβ42, a key pathogenic peptide in Alzheimer’s disease."
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "targets",
+    "object": "Ab42",
+    "chunk": "completedocument10",
+    "context": "This study presents an AI -driven framework for the rational design of E3 ligase -specific molecular glues targeting Aβ42, a key pathogenic peptide in Alzheimer’s disease."
+  }
+]

@@ -1,0 +1,116 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "inverseproblempredictinghs2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: inverseproblempredictinghs2
+- section_title: Inverse Problem: Predicting hs
+- page_start: 4
+- page_end: 6
+
+**INPUT TEXT CHUNK:**
+Since albedo is critical
+to the ice-albedo feedback loop and is measured reliably by remote sensing, it serves as
+a robust and practical stand-in for the difficult-to-measure physical depthh sin large-scale
+sea ice models.
+4.2 MODELARCHITECTURE
+The PhysE-Inv framework is a recurrent sequence modeling architecture designed to address the
+ill-posed nature of physical inverse problems under data scarcity. As depicted in Figure1, our
+methodology achieves this by integrating three novel conceptual components: Surjective Inverse
+Mapping, Physics Encoding, and Physics-Guided Contrastive Learning, which together guide the
+model toward physically consistent solutions.
+Sequence Latent Representation (z n):The foundational step is the transformation of the input
+time seriesX= [x 0, x1, . . . , x n−1, xn](wheren= 9, resulting inN= 10total observations) into
+a robust, contextually aware latent statez n. This latent vector serves as a compressed representation
+of the entire input history for all subsequent inverse operations.
+Encoder-Decoder Architecture:We employ a standard LSTM encoder-decoder structure, lever-
+aging the LSTM’s efficiency in modeling the long-range temporal dependencies crucial for climate
+memory effects. The encoder sequentially processes the inputXoverN=n+ 1time steps. For
+each stept∈ {0, . . . , n}, the LSTM updates its internal states:
+henc
+t, cenc
+t=LSTMenc(xt, henc
+t−1, cenc
+t−1)
+wherehenc
+nandcenc
+nsummarize the total historical information.
+5
+
+Published as a conference paper at ICLR 2026
+Figure 1: The Physics-Encoded Inverse (PhysE-Inv) framework outlines the fusion of physical con-
+straints, representation learning, and a surjective inverse mapping approach based on the hydrostatic
+balance proxy.Trepresents the final observation time in the input sequence.
+Multi-Head Self-Attention:A multi-head self-attention mechanism refines the encoder outputs,
+specializing in identifying and weighing non-local temporal dependencies. For each time stept∈
+{0, . . . , n}, the attention-enhanced representationa tis computed as:
+at=Attention(q t, K, V) =nX
+j=0αtjvj
+where the attention weightsα tjare defined by:
+αtj=exp
+qtk⊤
+j√dk
+Pn
+l=0expqtk⊤
+l√dk
+The decoder LSTM processes this refined sequence, yielding the final hidden statez n=hdec
+n, which
+serves as the definitive input to the inverse module.
+Surjective Inverse Mapping and Physics Encoding:The retrieval of sea ice parameters from
+uncertain satellite data is an ill-posed inverse problem. To address inherent non-uniqueness, we
+define a surjective inverse mapping that links the model’s latent state to the final physical parameters,
+ensuring dynamic enforcement of physical constraints.
+We implement this mapping using an MLP-based operator that estimates the hidden sea ice param-
+etersΘ n= [α n,βn,γn]from the compressed history. Specifically, the final decoder latent statez n
+is passed through a fully connected layer to produce raw predictions:
+Θraw=MLP(z n)(6)
+These raw outputs are then transformed to adhere to their respective physical domains:
+αn= 2·σ(α raw)−1∈[−1,1](7)
+βn= exp(β raw)∈(0,∞)(8)
+γn= 10·tanh(γ raw)∈[−10,10](9)
+whereσ(·)denotes the sigmoid function. This procedure recovers dynamically varying parame-
+ters while naturally realizing a surjective mapping from the observation-driven latent space to the
+constrained physical variable space.
+Physics Encoding and Reconstruction Proxy:The estimated parametersΘ tare used to enforce
+hydrostatic balance via a physics encoding layer. The final physics-constrained prediction, ˆhest
+s,t, is
+6.

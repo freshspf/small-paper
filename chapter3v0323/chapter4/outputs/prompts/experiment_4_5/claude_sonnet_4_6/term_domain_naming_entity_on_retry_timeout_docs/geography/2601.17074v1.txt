@@ -1,0 +1,240 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SnowDepth",
+  "SeaIceThickness",
+  "region_arctic",
+  "SeaIce",
+  "product_era5",
+  "SnowDensity",
+  "SnowAlbedo",
+  "SeaIceConcentration",
+  "HydrostaticBalance",
+  "Seawater",
+  "BuoyantForce",
+  "region_centralArcticOcean",
+  "latitude_70n_85n",
+  "organization_ecmwf",
+  "SnowCover",
+  "model_physEInv",
+  "Freeboard",
+  "TotalWeight"
+]
+
+Triples:
+[
+  {
+    "subject": "SnowDepth",
+    "relation": "influences",
+    "object": "SeaIceThickness"
+  },
+  {
+    "subject": "SeaIceThickness",
+    "relation": "locatedIn",
+    "object": "region_arctic"
+  },
+  {
+    "subject": "SnowDepth",
+    "relation": "locatedIn",
+    "object": "region_arctic"
+  },
+  {
+    "subject": "product_era5",
+    "relation": "lacksMeasurementOf",
+    "object": "SnowDepth"
+  },
+  {
+    "subject": "SnowDepth",
+    "relation": "locatedOn",
+    "object": "SeaIce"
+  },
+  {
+    "subject": "SnowDensity",
+    "relation": "drivesObservationOf",
+    "object": "SnowDepth"
+  },
+  {
+    "subject": "product_era5",
+    "relation": "createdBy",
+    "object": "organization_ecmwf"
+  },
+  {
+    "subject": "region_centralArcticOcean",
+    "relation": "locatedIn",
+    "object": "region_arctic"
+  },
+  {
+    "subject": "region_centralArcticOcean",
+    "relation": "boundedBy",
+    "object": "latitude_70n_85n"
+  },
+  {
+    "subject": "product_era5",
+    "relation": "providesDataFor",
+    "object": "region_centralArcticOcean"
+  },
+  {
+    "subject": "HydrostaticBalance",
+    "relation": "describesEquilibriumOf",
+    "object": "SeaIce"
+  },
+  {
+    "subject": "HydrostaticBalance",
+    "relation": "describesEquilibriumOf",
+    "object": "SnowDepth"
+  },
+  {
+    "subject": "Seawater",
+    "relation": "exerts",
+    "object": "BuoyantForce"
+  },
+  {
+    "subject": "BuoyantForce",
+    "relation": "balances",
+    "object": "SeaIce"
+  },
+  {
+    "subject": "BuoyantForce",
+    "relation": "balances",
+    "object": "SnowDepth"
+  },
+  {
+    "subject": "SeaIceConcentration",
+    "relation": "constrains",
+    "object": "SeaIceThickness"
+  },
+  {
+    "subject": "SeaIceConcentration",
+    "relation": "measuresCoverageOf",
+    "object": "SeaIce"
+  },
+  {
+    "subject": "SnowAlbedo",
+    "relation": "indicates",
+    "object": "SnowCover"
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "predicts",
+    "object": "SnowDepth"
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "incorporates",
+    "object": "HydrostaticBalance"
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "estimates",
+    "object": "SnowDensity"
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "estimates",
+    "object": "SnowAlbedo"
+  },
+  {
+    "subject": "model_physEInv",
+    "relation": "estimates",
+    "object": "SeaIceConcentration"
+  },
+  {
+    "subject": "Freeboard",
+    "relation": "characterizesElevationOf",
+    "object": "SeaIce"
+  },
+  {
+    "subject": "SeaIce",
+    "relation": "determines",
+    "object": "TotalWeight"
+  },
+  {
+    "subject": "SnowDepth",
+    "relation": "determines",
+    "object": "TotalWeight"
+  }
+]

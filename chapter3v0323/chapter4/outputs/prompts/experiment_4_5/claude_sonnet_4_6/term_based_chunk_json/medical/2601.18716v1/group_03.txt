@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SiteMapModule",
+  "predicts",
+  "BindingPocket",
+  "Vhl",
+  "isA",
+  "E3Ligase",
+  "Crbn",
+  "Mdm2",
+  "VhlStructure",
+  "targets",
+  "AmyloidBeta42Degradation",
+  "CrbnStructure",
+  "bindsWith",
+  "Thalidomide",
+  "contains",
+  "MolecularGlueBindingSite",
+  "Mdm2Structure",
+  "P53InteractingCleft",
+  "CoCrystallizedInhibitor",
+  "ProteinStructure",
+  "preparedBy",
+  "ProteinPreparationWizard",
+  "AdmetScreening",
+  "evaluates",
+  "CompoundLibrary",
+  "utilizes",
+  "QikProp",
+  "FilteredCompound",
+  "dockedInto",
+  "TernaryComplex",
+  "refinedBy",
+  "RosettaFlexPepDock",
+  "MolecularDynamicsSimulation",
+  "DesmondSimulationEngine",
+  "usesForceField",
+  "Opls4ForceField",
+  "Molecule",
+  "convertedBy",
+  "Rdkit",
+  "ModifiedJtVaeFramework",
+  "generates",
+  "MolecularGlue",
+  "JtVaeFramework",
+  "ChemicallyValidMolecule",
+  "model_jt_vae",
+  "encodes",
+  "MolecularGraph",
+  "JunctionTree",
+  "DihedralAngle",
+  "computedUsing",
+  "tool_rdkit",
+  "SequenceEmbedding",
+  "derivedFrom",
+  "BindingSiteResidue",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "UbiquitinProteasomeSystem",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath",
+  "SecretaseInhibitor",
+  "OffTargetToxicity",
+  "ImmunotherapeuticStrategy",
+  "BloodBrainBarrierPenetration",
+  "CnsInflammation",
+  "AutophagyEnhancement",
+  "AmyloidBeta42Aggregate",
+  "CellularFunction",
+  "BloodBrainBarrierPermeability",
+  "HypoxiaSignaling"
+]
+
+Triples:
+[
+  {
+    "subject": "SiteMapModule",
+    "relation": "predicts",
+    "object": "BindingPocket",
+    "chunk": "completedocument3",
+    "context": "To identify ligandable regions on the Aβ42 fibril structure, we employed the SiteMap module within Schrödinger Maestro to predict and characterize potential binding pockets based on physicochemical and geometric criteria [45]."
+  },
+  {
+    "subject": "Vhl",
+    "relation": "isA",
+    "object": "E3Ligase",
+    "chunk": "completedocument3",
+    "context": "High -quality crystallographic structures of three E3 ligases -VHL (PDB ID: 4W9C), CRBN (PDB ID: 4CI3), and MDM2 (PDB ID: 4OAS) -were selected based on resolution and relevance to small -molecule recruitment."
+  },
+  {
+    "subject": "Crbn",
+    "relation": "isA",
+    "object": "E3Ligase",
+    "chunk": "completedocument3",
+    "context": "High -quality crystallographic structures of three E3 ligases -VHL (PDB ID: 4W9C), CRBN (PDB ID: 4CI3), and MDM2 (PDB ID: 4OAS) -were selected based on resolution and relevance to small -molecule recruitment."
+  },
+  {
+    "subject": "Mdm2",
+    "relation": "isA",
+    "object": "E3Ligase",
+    "chunk": "completedocument3",
+    "context": "High -quality crystallographic structures of three E3 ligases -VHL (PDB ID: 4W9C), CRBN (PDB ID: 4CI3), and MDM2 (PDB ID: 4OAS) -were selected based on resolution and relevance to small -molecule recruitment."
+  },
+  {
+    "subject": "VhlStructure",
+    "relation": "targets",
+    "object": "AmyloidBeta42Degradation",
+    "chunk": "completedocument3",
+    "context": "The VHL structure (1.45 Å) offers a well -defined ligand -binding interface suitable for docking studies targeting Aβ42 degradation."
+  },
+  {
+    "subject": "CrbnStructure",
+    "relation": "bindsWith",
+    "object": "Thalidomide",
+    "chunk": "completedocument3",
+    "context": "The CRBN structure, resolved with thalidomide, reveals the canonical molecular glue binding site, while the MDM2 structure features a co -crystallized inhibitor occupying the druggable p53 -interacting cleft."
+  },
+  {
+    "subject": "CrbnStructure",
+    "relation": "contains",
+    "object": "MolecularGlueBindingSite",
+    "chunk": "completedocument3",
+    "context": "The CRBN structure, resolved with thalidomide, reveals the canonical molecular glue binding site, while the MDM2 structure features a co -crystallized inhibitor occupying the druggable p53 -interacting cleft."
+  },
+  {
+    "subject": "Mdm2Structure",
+    "relation": "contains",
+    "object": "P53InteractingCleft",
+    "chunk": "completedocument3",
+    "context": "The CRBN structure, resolved with thalidomide, reveals the canonical molecular glue binding site, while the MDM2 structure features a co -crystallized inhibitor occupying the druggable p53 -interacting cleft."
+  },
+  {
+    "subject": "Mdm2Structure",
+    "relation": "bindsWith",
+    "object": "CoCrystallizedInhibitor",
+    "chunk": "completedocument3",
+    "context": "The CRBN structure, resolved with thalidomide, reveals the canonical molecular glue binding site, while the MDM2 structure features a co -crystallized inhibitor occupying the druggable p53 -interacting cleft."
+  },
+  {
+    "subject": "ProteinStructure",
+    "relation": "preparedBy",
+    "object": "ProteinPreparationWizard",
+    "chunk": "completedocument3",
+    "context": "All structures were prepared using Schrödinger’s Protein Preparation Wizard [45], with preproces sing steps including removal of non -essential heteroatoms and waters, bond order assignment, hydrogen addition, hydrogen bonding optimization, and restrained energy minimization using the OPLS3e or OPLS4 force fields."
+  },
+  {
+    "subject": "AdmetScreening",
+    "relation": "evaluates",
+    "object": "CompoundLibrary",
+    "chunk": "completedocument3",
+    "context": "To optimize drug -likeness and safety, in silico ADMET (Absorption, Distribution, Metabolism, Excretion, and Toxicity) screening was performed on compound libraries from the Vitas and ChEMBL databases [46,47] using Schrödinger’s QikProp and ADMET/Tox module s [48]."
+  },
+  {
+    "subject": "AdmetScreening",
+    "relation": "utilizes",
+    "object": "QikProp",
+    "chunk": "completedocument3",
+    "context": "To optimize drug -likeness and safety, in silico ADMET (Absorption, Distribution, Metabolism, Excretion, and Toxicity) screening was performed on compound libraries from the Vitas and ChEMBL databases [46,47] using Schrödinger’s QikProp and ADMET/Tox module s [48]."
+  },
+  {
+    "subject": "FilteredCompound",
+    "relation": "dockedInto",
+    "object": "Vhl",
+    "chunk": "completedocument3",
+    "context": "Filtered compounds were docked into the ligand -binding sites of VHL, CRBN, and MDM2 using Schrödinger’s Glide module in standard precision (SP) and extra precision (XP) modes."
+  },
+  {
+    "subject": "FilteredCompound",
+    "relation": "dockedInto",
+    "object": "Crbn",
+    "chunk": "completedocument3",
+    "context": "Filtered compounds were docked into the ligand -binding sites of VHL, CRBN, and MDM2 using Schrödinger’s Glide module in standard precision (SP) and extra precision (XP) modes."
+  },
+  {
+    "subject": "FilteredCompound",
+    "relation": "dockedInto",
+    "object": "Mdm2",
+    "chunk": "completedocument3",
+    "context": "Filtered compounds were docked into the ligand -binding sites of VHL, CRBN, and MDM2 using Schrödinger’s Glide module in standard precision (SP) and extra precision (XP) modes."
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "refinedBy",
+    "object": "RosettaFlexPepDock",
+    "chunk": "completedocument3",
+    "context": "For each docked complex, Aβ42 was aligned near the E3-ligase interface, and ternary complexes were refined using Rosetta FlexPepDock and evaluated based on docking scores."
+  },
+  {
+    "subject": "MolecularDynamicsSimulation",
+    "relation": "utilizes",
+    "object": "DesmondSimulationEngine",
+    "chunk": "completedocument3",
+    "context": "Additionally, all -atom molecular dynamics (MD) simulations were conducted using the Desmond simulation engine (Schrödinger Suite) with the OPLS4 force field."
+  },
+  {
+    "subject": "MolecularDynamicsSimulation",
+    "relation": "usesForceField",
+    "object": "Opls4ForceField",
+    "chunk": "completedocument3",
+    "context": "Additionally, all -atom molecular dynamics (MD) simulations were conducted using the Desmond simulation engine (Schrödinger Suite) with the OPLS4 force field."
+  },
+  {
+    "subject": "Molecule",
+    "relation": "convertedBy",
+    "object": "Rdkit",
+    "chunk": "completedocument3",
+    "context": "All molecules were converted into molecular graph and junction tree formats using R DKit and the original JT -VAE preprocessing pipeline located at https://github.com/croningp/JTNN -VAE , which subdirectories for fast_molvae and python script preprocess.py at https://github.com/croningp/JTNN - VAE/blob/master/fast_molvae/preprocess.py ."
+  },
+  {
+    "subject": "ModifiedJtVaeFramework",
+    "relation": "generates",
+    "object": "MolecularGlue",
+    "chunk": "completedocument3",
+    "context": "Together, these enhancements -dihedral angle integration and protein sequence conditioning - enabled the development of a modified JT -VAE framework capable of generating E3 ligase -specific molecular glues for CRBN, VHL, and MDM2."
+  },
+  {
+    "subject": "JtVaeFramework",
+    "relation": "generates",
+    "object": "ChemicallyValidMolecule",
+    "chunk": "completedocument3",
+    "context": "To enable the generation of E3 ligase -specific molecular glues, we extended the canonical Junction Tree Variational Autoencoder (JT -VAE) framework introduced by Jin et al. [49], originally designed for chemically valid molecule generation without target protein context [50]."
+  },
+  {
+    "subject": "model_jt_vae",
+    "relation": "encodes",
+    "object": "MolecularGraph",
+    "chunk": "completedocument4",
+    "context": "While the standard  JT-VAE effectively encodes molecular graphs and junction trees, it lacks two critical capabilities for structure -guided drug design: (i) conditioning molecule generation on protein -specific information, and (ii) model ing three -dimensional (3D) conformational flexibility via torsional (dihedral) angles."
+  },
+  {
+    "subject": "model_jt_vae",
+    "relation": "encodes",
+    "object": "JunctionTree",
+    "chunk": "completedocument4",
+    "context": "While the standard  JT-VAE effectively encodes molecular graphs and junction trees, it lacks two critical capabilities for structure -guided drug design: (i) conditioning molecule generation on protein -specific information, and (ii) model ing three -dimensional (3D) conformational flexibility via torsional (dihedral) angles."
+  },
+  {
+    "subject": "DihedralAngle",
+    "relation": "computedUsing",
+    "object": "tool_rdkit",
+    "chunk": "completedocument4",
+    "context": "Dihedral angles were computed usi ng RDKit’s GetDihedralDeg  function by identifying rotatable bonds ( Supplementary Figure S1 ), providing critical 3D information on conformational dynamics essential for accurate ligand design."
+  },
+  {
+    "subject": "SequenceEmbedding",
+    "relation": "derivedFrom",
+    "object": "BindingSiteResidue",
+    "chunk": "completedocument4",
+    "context": "Second, we integrated sequence embeddings derived from the bindi ng site residues of CRBN, VHL, and MDM2 directly into the molecular latent space, enabling the model to generate ligase -specific molecular glues."
+  }
+]

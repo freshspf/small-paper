@@ -1,0 +1,197 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+AUTOMA TED LANDMARK DETECTION
+FOR ASSESSING HIP CONDITIONS :
+AC ROSS -MODALITY VALIDA TION OF MRI VERSUS X-RA Y
+Roberto Di Via
+MaLGa Center, DIBRIS
+University of Genoa
+Genoa, Italy
+Vito Paolo Pastore
+MaLGa Center, DIBRIS
+University of Genoa
+Genoa, Italy
+Francesca Odone
+MaLGa Center, DIBRIS
+University of Genoa
+Genoa, Italy
+Siôn Glyn-Jones
+Nufﬁeld Department of Orthopaedics, Rheumatology
+and Musculoskeletal Sciences
+University of Oxford
+Oxford, UK
+Irina V oiculescu→
+Department of Computer Science
+University of Oxford
+Oxford, UK
+January 27, 2026
+ABSTRACT
+Many clinical screening decisions are based on angle measurements. In particular, FemoroAcetabular
+Impingement (FAI) screening relies on angles traditionally measured on X-rays. However, assessing
+the height and span of the impingement area requires also a 3D view through an MRI scan. The
+two modalities inform the surgeon on different aspects of the condition. In this work, we conduct a
+matched-cohort validation study (89 patients, paired MRI/X-ray) using standard heatmap regression
+architectures to assess cross-modality clinical equivalence. Seen that landmark detection has been
+proven effective on X-rays, we show that MRI also achieves equivalent localisation and diagnostic
+accuracy for cam-type impingement. Our method demonstrates clinical feasibility for FAI assessment
+in coronal views of 3D MRI volumes, opening the possibility for volumetric analysis through placing
+further landmarks. These results support integrating automated FAI assessment into routine MRI
+workﬂows. Code is released at https://github.com/Malga-Vision/Landmarks-Hip-Conditions.
+1 Introduction
+Femoroacetabular impingement (FAI) is a pathomechanical hip disorder affecting 20–25% of the population, char-
+acterised by abnormal contact between the femoral head–neck junction and acetabular rim during motion [ 1]. Early
+identiﬁcation is critical, as untreated FAI accelerates degenerative cartilage loss and predisposes to premature os-
+teoarthritis [2]. FAI is the main cause of hip replacement. However, it is hard to diagnose at its early stages. Imaging is
+essential for early detection and treatment. Clinical assessment relies on two geometric parameters (Fig. 1): the ω-angle,
+quantifying femoral head asphericity (cam morphology), and the lateral centre-edge (LCE) angle, measuring acetabular
+coverage (pincer morphology). Pathological thresholds are typically ω>65↑ and LCE>40↑ [3, 4].
+Current clinical practice relies on anteroposterior (AP) pelvic X-rays, which have fundamental limitations from tissue
+density being projected into a single view plane. The foot-to-hip alignment and pelvic tilt can affect the plane in which
+the relevant angles are being measured, leading to a variability of up to 15↑ [5], sufﬁcient to misclassify borderline
+cases. In this work, we investigate whether geometric FAI metrics can be reliably extracted from MRI alone. Whilst
+foot-to-hip misalignment can still be present in the coronal view, there are methods for correcting the misalignment,
+→Correspondence to irina@cs.ox.ac.uk
+arXiv:2601.18555v1 [cs.CV] 26 Jan 2026
+SSL PRE -TRAINING WITH DIFFUSION MODEL FOR LANDMARK
+Figure 1: FAI assessment from paired T1 MRI (top) and X-ray (bottom). The ω-angle and LCE angle quantify femoral
+head asphericity and acetabular coverage, respectively. Our study conﬁrms that automated landmark detection achieves
+equivalent accuracy across modalities, conﬁrming the feasibility of MRI landmark detection.
+and measuring the angle in the correct plane. The ﬁrst step towards this important 3D analysis is precisely showing that
+landmarks can be detected automatically in MRI slices.
+Deep learning-based landmark detection have been used in diverse medical imaging tasks [ 6, 7, 8], with recent work
+demonstrating the feasibility of an automated FAI assessment from X-rays [ 9]. However, no prior work has validated
+automated FAI assessment on MRI or directly compared cross-modality performance on matched cohorts. MRI offers
+intrinsic advantages over X-ray, because the alignment of the hip can be corrected post-scan, and the true 3D nature
+of the impingement area can be assessed independently, either across multiple slices separately or, ideally, through a
+single volumetric assessment.
+Contributions. (1) We present the ﬁrst cross-modality validation of automated hip landmark detection between X-ray
+and MRI. Standard heatmap regression models achieve equivalent performance on T1-weighted MRI (2.98 MRI vs.
+3.02 mm X-ray mean error, 87.5% diagnostic accuracy) on a matched patient cohort. This establishes coronal MRI as a
+successful modality for automated FAI assessment; (2) By extending measurements conventionally taken from X-rays
+to the corresponding slice in 3D MRI volumes, we enable seamless integration into clinical workﬂows; (3) We thereby
+establish a validated 2D foundation for future volumetric extensions towards full 3D geometric analysis and prediction.
+2 Method
+2.1 Problem Formulation
+We formulate FAI angle computation as a landmark detection problem. For each hip, we localise four annotated
+anatomical keypoints: femoral head centre (FHC), neck-axis point (NA) along the femoral neck centreline, lateral
+acetabular edge (LAE), and lateral cam point (LCP) where the femoral head deviates from sphericity (see Fig. 2).
+SSL PRE -TRAINING WITH DIFFUSION MODEL FOR LANDMARK
+The ω-angle is computed as the angle between the femoral neck axis (FHC → NA) and the cam deformity vector
+(FHC→ LCP). Due to the LCP being hard to pinpoint – even by clinicians – ω is notoriously difﬁcult to calculate.
+The easier LCE angle is calculated as the angle between the vertical axis and the acetabular coverage vector
+(FHC→ LAE), quantifying lateral acetabular overhang. Angles are visualised in Fig 1.
+2.2 Heatmap Regression Architecture
+Following established practice in medical landmark detection [ 10, 11], we adopt a heatmap regression formulation.
+For each landmark k ↑{ 1,..., 4}, we generate a ground-truth Gaussian heatmap Hk↑Rh↓ w, centred at the annotated
+location (xk,y k) as Hk(i, j)=e x p
+↓ (i↔ yk )2 +(j↔ xk )2
+2ω2
+, with ε=5 empirically providing the best trade-off between
+localisation precision and training stability. Encoder–decoder networks are trained to predict heatmaps ˆHk from input
+images I↑R512↓ 512 by minimizing the negative log-likelihood (NLL) over the four landmarks [ 12]. At inference,
+landmark coordinates are extracted as the spatial argmax of each predicted heatmap. For robustness, we employ
+test-time augmentation (TTA) by averaging heatmap predictions across different augmented views per test image,
+applying the stochastic transformations described in Sec. 3.1.
+3 Experiments
+3.1 Dataset and Training Setup
+We use a paired dataset of 89 patients who underwent AP pelvic X-ray and multiple hip MRI for FAI evaluation,
+collected at Oxford University as part of the FAIT trial [ 13]. This pathological cohort includes subjects with clinical
+and imaging evidence of FAI but without signiﬁcant osteoarthritis or hip dysplasia. Data were acquired using the same
+protocol, across multiple UK sites, with some patients contributing multiple time points. Since acquiring such a rich
+dataset, with multiple imaging modalities, longitudinally for the same patient is logistically and clinically challenging,
+the resulting paired dataset remains relatively small.
+For MRI, we only used T1-weighted coronal acquisitions consisting of 20 slices with 3.3 mm spacing. All images are
+resized/padded to 512↔512 and min–max normalised to [0, 1]. All annotations are standardised to the middle slice (index
+10), identiﬁed through pilot analysis of 20 subjects as the mid-acetabular coronal plane where all four landmarks (FHC,
+NA, LAE, LCP) are concurrently visible with maximal clarity. Future work will investigate automatic slice selection to
+eliminate manual standardisation. Example paired X-ray and MRI images with annotated landmarks are shown in Fig. 2.
+During training, stochastic augmentations include afﬁne transforms (scale 0.95–1.05, translation ±5%, rotation ±10↑,
+shear ±5↑) and intensity jitter (brightness/contrast ±15–20%, gamma 0.85–1.15). The training:validation:test datasplit
+is 65:10:25 balanced across ω-angle distributions given by Kolmogorov–Smirnov testing. This yields 105:17:40 images
+(57:8:24 patients).
+We train a UNet++ with a ResNet18 encoder (ImageNet-initialised) independently on the MRI and X-ray datasets.
+Optimisation uses AdamW (learning rate 1↔10↔ 4, weight decay 1↔10↔ 5). Training uses the NLL loss with an
+ExponentialLR scheduler ( ϑ =0 .95), a batch size of 4, and early stopping.
+3.2 Evaluation Metrics
+We evaluate performance across three hierarchical levels, and all metrics are computed independently for X-ray and
+MRI test sets. Experiment values are reported as mean ± standard deviation across three independent training runs with
+different random seeds.
+Landmark localisation. We report (1) Mean Radial Error (MRE): the average Euclidean distance between predicted
+and ground-truth landmarks (mm); (2) per-landmark MRE for each keypoint [ 14]; and (3) Success Detection Rate at
+radius r (SDR@r): the percentage of landmarks localised within r mm.
+Clinical angle assessment. We measure (1) Mean Absolute Error (MAE) between predicted and ground-truth angles;
+(2) the Intraclass Correlation Coefﬁcient (ICC(2,1)), a two-way random effects model quantifying absolute agreement
+by partitioning variance into between-subject variability, between-rater systematic bias, and residual error through
+ANOV A decomposition of the paired measurements (model vs. clinician). ICC ranges from 0 (no agreement) to 1
+(perfect agreement), with values <0.40 indicating poor, 0.40-0.59 fair, 0.60-0.74 good, and >0.75 excellent clinical
+reliability [ 15]. (3) the median absolute difference as a robust summary; and (4) Bland–Altman analysis [ 16] to
+decompose disagreement into systematic bias, proportional bias, and random error. For each subject, we compute
+the difference and mean between predicted and ground-truth angles, reporting: (i) mean bias (systematic over- or
+SSL PRE -TRAINING WITH DIFFUSION MODEL FOR LANDMARK
+Figure 2: Example of paired anteroposterior pelvic X-ray and corresponding T1-weighted MRI (slice 10) from the
+same subject, showing annotated landmarks: femoral head centre (FHC), neck-axis point (NA), lateral acetabular edge
+(LAE), and lateral cam point (LCP), illustrating their spatial correspondence across modalities.
+Table 1: Landmark localisation accuracy for X-ray and MRI modalities. Mean and median radial errors (RE) are
+reported for each landmark. SDR@r indicates the success detection rate within r mm. ↗indicates lower is better; ↘
+indicates higher is better.
+Landmark Mean RE (mm) → Median RE (mm) →
+X-ray MRI X-ray MRI
+FHC 1.07 ± 0.08 1.78 ± 0.13 1.01 ± 0.11 0.84 ± 0.14
+NA 2.35 ± 1.02 1.25 ± 0.30 1.61 ± 0.17 1.13 ± 0.36
+LAE 3.18 ± 0.64 3.17 ± 0.30 2.81 ± 0.74 2.78 ± 0.09
+LCP 5.50 ± 1.01 5.72 ± 0.76 1.76 ± 0.66 2.55 ± 0.64
+Overall 3.02 ± 0.10 2.98 ± 0.23 1.49 ± 0.16 1.62 ± 0.29
+SDR@2/3/4mm (%) ↑ X-ray: 62.5/79.2/85.4 MRI: 58.3/73.5/83.1
+under-estimation), (ii) 95% limits of agreement (interval containing 95% of differences), and (iii) proportional bias via
+linear regression testing whether error magnitude depends on angle value.
+Diagnostic performance. For cam-type impingement detection ( ω>65↑), we report accuracy, sensitivity, speciﬁcity,
+positive predictive value (PPV), and negative predictive value (NPV), together with the confusion matrix statistics.
+4 Results
+4.1 Landmark Localisation Performance
+Table 1 summarises localisation accuracy. Per-landmark metrics report mean ± standard deviation over three runs;
+the ‘Overall’ row shows per-run averages across landmarks, then aggregated across runs. MRI achieves an overall
+MRE of 2.98 ±0.23 mm, closely matching that for X-rays (of 3.02 ±0.10 mm), demonstrating successful application of
+automated landmark detection to MRI. Individual landmark analysis reveals complementary strengths: X-rays excel
+at femoral head centre localisation (1.07 mm vs. 1.78 mm), likely due to higher bone-air contrast, while MRI shows
+superior neck-axis point detection (1.25 mm vs. 2.35 mm), potentially beneﬁting from improved soft-tissue delineation.
+Both modalities exhibit higher errors for the elusive lateral cam point (LCP: 5.50–5.72 mm mean), reﬂecting its clinical
+variability and frequent inter-observer disagreement; median errors (1.76–2.55 mm) are considerably lower, indicating
+that outliers in borderline FAI cases drive the means. Success detection rates at clinical thresholds (2–4 mm) remain
+similar for MRI 58–83% vs. X-ray 63–85%.

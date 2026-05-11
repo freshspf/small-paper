@@ -1,0 +1,115 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "introduction",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: introduction
+- section_title: Introduction
+- page_start: 1
+- page_end: 1
+
+**INPUT TEXT CHUNK:**
+With the advent of blockchain technology, the number of
+proposals has boomed over the past decade. There exist
+various layer-1 blockchains offering different guarantees
+and performing differently at large scale. Recent stud-
+ies [19, 20] have shown that the performance and robust-
+ness of some blockchains is quite far from the promises
+claimed by their designers. The problem stems mainly
+from a misunderstanding of these blockchains’ under-
+lying networking protocols. The impact of these mis-
+understandings is so important that Avalanche [31] and
+Solana [37] were even shown to stop globally when some
+network messages get delayed [20].
+The misunderstanding of these networking proto-
+cols also presents economic drawbacks. Modern high-
+throughput architectures have shifted validator eco-
+nomics from static capital expenditures to variable op-
+erational burdens, where egress consumption acts as a
+primary cost driver. For instance, the prohibitively high
+egress tariffs of standard cloud providers can render
+high-performance nodes economically non-viable, poten-
+tially incurring monthly costs exceeding US$8,000 for a
+single validator due to misaligned billing models [21].This structural inefficiency necessitates a strategic pivot
+toward bare-metal providers with unmetered allowances
+to avoid the “hyperscaler egress trap” [36].
+As of today, there are no studies comparing the net-
+work traffic of blockchains. Even though it is well known
+that some blockchains (e.g., Solana [37]) favor redun-
+dancy (e.g., through erasure coding) to cope with packet
+losses while others (e.g., Redbelly [12]) adopt differ-
+ent communication patterns between validator and non
+validator nodes, the bandwidth consumption of these
+blockchains remain unclear. Understanding the network
+traffic is, however, crucial to improve performance and
+robustness of layer-1 blockchains by reducing the net-
+work congestion to make them scale or to replicate the
+data that are key to their robustness.
+In this paper, we propose the first empirical compari-
+son of blockchain bandwidth consumption. To this end,
+we build upon the series of work around the Diablo
+performance benchmark [19] and the STABLfault toler-
+ance benchmark [20] to measure the network traffic of
+blockchain network nodes in various situations: (i) while
+receiving and sending messages; (ii) before, during and
+after the network receives transactions and (iii) as the net-
+work size grows both in terms of nodes but also validator
+nodes.
+Using this black-box approach, we deploy five dif-
+ferent blockchain protocols, namely Algorand [18], Ap-
+tos [3], Avalanche [31], Redbelly [12], and Solana [37]. We
+make the following observations:
+1. The dominant factors of network traffic are the trans-
+port protocol (polling vs WebSockets) and the block
+propagation strategy (full block download vs. hash
+comparison) more than the transaction size.
+2. Segregating roles between different types of nodes
+helps reduce the network traffic by reducing net-
+work traffic between nodes of different types.
+3. Solana network traffic depends on the network size,
+Algorand and Redbelly network traffic increases
+with the validator sets and Aptos and Avalanche net-
+work traffic increases with both the number of nodes
+and validators.
+The paper is organized as follows. In Section 2, we
+present the background. In Section 3, we present the ex-
+1arXiv:2601.18400v1  [cs.DC]  26 Jan 2026

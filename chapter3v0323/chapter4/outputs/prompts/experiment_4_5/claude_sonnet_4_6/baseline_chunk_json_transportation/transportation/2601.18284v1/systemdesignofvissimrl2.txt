@@ -1,0 +1,144 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: systemdesignofvissimrl2
+- section_title: System Design of VissimRL
+- page_start: 4
+- page_end: 5
+
+INPUT TEXT CHUNK:
+These performance measures are further
+transformed into standardized RL-TSC indicators, which serve
+as states or rewards for the agent (e.g., the change in delay
+between decision steps).
+
+TABLE III: Signal control functions and their descriptions.
+Function Description
+sc.set_ts_phase(ts_id, phase_state)Set the currentphase_state1of the specified intersectionts_id
+sc.get_ts_phase(ts_id)Retrieve the current phase state of the specified intersectionts_idin real time
+Note.Usevissim.scfor straightforward phase querying and control.
+1The termphase_staterefers to the signal status of all traffic movements within a phase (e.g.,"GRRR", whereGdenotes green andRdenotes red).
+TABLE IV: Evaluation functions and their descriptions.
+Function Description
+eval.total_travel_timeTotal travel time of all vehicles in the network
+eval.total_travel_distanceTotal travel distance of all vehicles in the network
+eval.total_delayTotal delay time for all vehicles in the network
+eval.total_iwaiting_timeTotal waiting time for all vehicles in the network (internal)
+eval.total_bwaiting_timeTotal waiting time for all vehicles at network entry points (boundary)
+eval.total_arrivedTotal number of vehicles that have arrived at their destinations and have left the network
+eval.get_num_vehicles(ts_id)Returns the current number of vehicles in each lane at the specified intersection (ts_id)
+eval.get_queue_length(ts_id)Returns the current queue length in each lane at the specified intersection (ts_id)
+Note.Usevissim.evalfor accessing real-time traffic performance metrics, which can be further processed into RL-TSC indicators.
+B. RL Environment Framework
+The proposed RL Environment Framework is specifically
+developed for TSC and is tightly integrated with the Vissim
+Wrapper. It supports the definition of states, actions, and re-
+wards required for RL, and implements standardized interfaces
+following the Gymnasium and PettingZoo APIs to ensure com-
+patibility with popular RL libraries such as Stable-Baselines3
+and RLlib. The framework adopts a modular design, providing
+built-in implementations of commonly used state, action, and
+reward functions in RL-TSC, while offering base classes
+for easy inheritance and extension, allowing researchers to
+customize components according to experimental needs.
+The operation flow of the RL Environment Framework,
+aligned with standard RL APIs, is illustrated in Figure 6:
+1)Initialize: Before training, the environment loads config-
+uration files, builds the Vissim simulation, and initializes
+the control and evaluation modules.
+2)Reset: At the beginning of each episode, the simulation is
+reset, and the initial observation is converted into a state
+vector usable by the agent.
+3)Step: At each decision step, the agent selects an action
+based on the state vector. The framework maps the
+action into traffic signal control commands applied to
+Vissim, advances the simulation to the next decision
+point, computes the corresponding reward, and returns
+it together with the updated state.
+The step process repeats until the end of the simulation
+horizon, after which the environment can be reset for the
+next training episode, forming a complete RL interaction
+loop. This design ensures synchronization between decisions
+and simulation states, supports both single- and multi-agent
+training, and allows existing RL algorithms to be directly
+applied to high-fidelity traffic control experiments.
+1) Environment Controller:In the RL Environment Frame-
+work, the Environment Controller serves as the central man-
+agement layer, responsible for scenario loading, parameter
+RL Agent Vissim WrapperRL Environment 
+Framework
+Gymnasium / PettingZoo
+interface
+ActionStateReward
+Observation
+EvaluationStep
+Reset
+InitializeFig. 6: Operation flow of the VissimRL environment frame-
+work with standard API interfaces.
+initialization, and simulation time progression. It connects
+the Vissim simulator with agent policies through standardized
+RL interfaces (Figure 6). At the beginning of each training
+episode, the environment executes thereset()function to
+reinitialize the simulator state and signal phases, followed
+by a warm-up procedure to ensure a stable traffic distri-
+bution. During each decision step, the RL agent invokes
+thestep(actions)function, which sends theactionsto
+the corresponding Traffic Signals modules within VissimRL,
+advancing the simulation to the next decision point, and
+then returns updated observations, rewards computed from
+performance measures, as well as termination, truncation, and
+auxiliary information.

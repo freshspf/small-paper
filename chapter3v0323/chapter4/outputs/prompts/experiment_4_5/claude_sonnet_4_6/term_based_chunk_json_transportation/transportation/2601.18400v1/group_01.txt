@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Avalanche",
+  "wasShownToStop",
+  "GlobalOperation",
+  "Solana",
+  "GlobalStopEvent",
+  "causedBy",
+  "NetworkMessageDelay",
+  "PerformanceAndRobustnessClaim",
+  "stemsFrom",
+  "MisunderstandingOfNetworkingProtocol",
+  "HighThroughputArchitecture",
+  "hasShiftedEconomicsTo",
+  "VariableOperationalBurden",
+  "EgressConsumption",
+  "actsAs",
+  "PrimaryCostDriver",
+  "StandardCloudProviderEgressTariff",
+  "canRender",
+  "HighPerformanceNodeEconomicallyNonViable",
+  "SingleValidator",
+  "mayIncurMonthlyCostExceeding",
+  "Cost_8000USD",
+  "MisalignedBillingModel",
+  "causesHighCostFor",
+  "StructuralInefficiency",
+  "necessitates",
+  "PivotToBareMetalProvider",
+  "BareMetalProvider",
+  "provides",
+  "UnmeteredAllowance",
+  "favors",
+  "RedundancyStrategy",
+  "uses",
+  "ErasureCoding",
+  "copesWithPacketLoss",
+  "PacketLoss",
+  "Redbelly",
+  "adopts",
+  "DifferentCommunicationPattern",
+  "existsBetween",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "BandwidthConsumption",
+  "remainsUnclearFor",
+  "Layer1Blockchain",
+  "UnderstandingNetworkTraffic",
+  "isImportantFor",
+  "PerformanceImprovement",
+  "NetworkRobustness",
+  "NetworkCongestionReduction",
+  "enables",
+  "ScalingOfLayer1Blockchain",
+  "DataReplication",
+  "isKeyTo",
+  "EmpiricalComparison",
+  "measures",
+  "BlockchainBandwidthConsumption",
+  "buildsUpon",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "BlockchainTechnology",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "Validator",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "CloudProvider",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap",
+  "CommunicationPattern"
+]
+
+Triples:
+[
+  {
+    "subject": "Avalanche",
+    "relation": "wasShownToStop",
+    "object": "GlobalOperation",
+    "chunk": "introduction",
+    "context": "Avalanche [31] and Solana [37] were even shown to stop globally when some network messages get delayed [20]."
+  },
+  {
+    "subject": "Solana",
+    "relation": "wasShownToStop",
+    "object": "GlobalOperation",
+    "chunk": "introduction",
+    "context": "Avalanche [31] and Solana [37] were even shown to stop globally when some network messages get delayed [20]."
+  },
+  {
+    "subject": "GlobalStopEvent",
+    "relation": "causedBy",
+    "object": "NetworkMessageDelay",
+    "chunk": "introduction",
+    "context": "Avalanche [31] and Solana [37] were even shown to stop globally when some network messages get delayed [20]."
+  },
+  {
+    "subject": "PerformanceAndRobustnessClaim",
+    "relation": "stemsFrom",
+    "object": "MisunderstandingOfNetworkingProtocol",
+    "chunk": "introduction",
+    "context": "The problem stems mainly from a misunderstanding of these blockchains' underlying networking protocols."
+  },
+  {
+    "subject": "HighThroughputArchitecture",
+    "relation": "hasShiftedEconomicsTo",
+    "object": "VariableOperationalBurden",
+    "chunk": "introduction",
+    "context": "Modern high-throughput architectures have shifted validator economics from static capital expenditures to variable operational burdens, where egress consumption acts as a primary cost driver."
+  },
+  {
+    "subject": "EgressConsumption",
+    "relation": "actsAs",
+    "object": "PrimaryCostDriver",
+    "chunk": "introduction",
+    "context": "Modern high-throughput architectures have shifted validator economics from static capital expenditures to variable operational burdens, where egress consumption acts as a primary cost driver."
+  },
+  {
+    "subject": "StandardCloudProviderEgressTariff",
+    "relation": "canRender",
+    "object": "HighPerformanceNodeEconomicallyNonViable",
+    "chunk": "introduction",
+    "context": "the prohibitively high egress tariffs of standard cloud providers can render high-performance nodes economically non-viable, potentially incurring monthly costs exceeding US$8,000 for a single validator due to misaligned billing models [21]."
+  },
+  {
+    "subject": "SingleValidator",
+    "relation": "mayIncurMonthlyCostExceeding",
+    "object": "Cost_8000USD",
+    "chunk": "introduction",
+    "context": "potentially incurring monthly costs exceeding US$8,000 for a single validator due to misaligned billing models [21]."
+  },
+  {
+    "subject": "MisalignedBillingModel",
+    "relation": "causesHighCostFor",
+    "object": "SingleValidator",
+    "chunk": "introduction",
+    "context": "potentially incurring monthly costs exceeding US$8,000 for a single validator due to misaligned billing models [21]."
+  },
+  {
+    "subject": "StructuralInefficiency",
+    "relation": "necessitates",
+    "object": "PivotToBareMetalProvider",
+    "chunk": "introduction",
+    "context": "This structural inefficiency necessitates a strategic pivot toward bare-metal providers with unmetered allowances to avoid the 'hyperscaler egress trap' [36]."
+  },
+  {
+    "subject": "BareMetalProvider",
+    "relation": "provides",
+    "object": "UnmeteredAllowance",
+    "chunk": "introduction",
+    "context": "This structural inefficiency necessitates a strategic pivot toward bare-metal providers with unmetered allowances to avoid the 'hyperscaler egress trap' [36]."
+  },
+  {
+    "subject": "Solana",
+    "relation": "favors",
+    "object": "RedundancyStrategy",
+    "chunk": "introduction",
+    "context": "it is well known that some blockchains (e.g., Solana [37]) favor redundancy (e.g., through erasure coding) to cope with packet losses."
+  },
+  {
+    "subject": "Solana",
+    "relation": "uses",
+    "object": "ErasureCoding",
+    "chunk": "introduction",
+    "context": "some blockchains (e.g., Solana [37]) favor redundancy (e.g., through erasure coding) to cope with packet losses."
+  },
+  {
+    "subject": "ErasureCoding",
+    "relation": "copesWithPacketLoss",
+    "object": "PacketLoss",
+    "chunk": "introduction",
+    "context": "some blockchains (e.g., Solana [37]) favor redundancy (e.g., through erasure coding) to cope with packet losses."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "adopts",
+    "object": "DifferentCommunicationPattern",
+    "chunk": "introduction",
+    "context": "others (e.g., Redbelly [12]) adopt different communication patterns between validator and non validator nodes."
+  },
+  {
+    "subject": "DifferentCommunicationPattern",
+    "relation": "existsBetween",
+    "object": "ValidatorNode",
+    "chunk": "introduction",
+    "context": "others (e.g., Redbelly [12]) adopt different communication patterns between validator and non validator nodes."
+  },
+  {
+    "subject": "DifferentCommunicationPattern",
+    "relation": "existsBetween",
+    "object": "NonValidatorNode",
+    "chunk": "introduction",
+    "context": "others (e.g., Redbelly [12]) adopt different communication patterns between validator and non validator nodes."
+  },
+  {
+    "subject": "BandwidthConsumption",
+    "relation": "remainsUnclearFor",
+    "object": "Layer1Blockchain",
+    "chunk": "introduction",
+    "context": "the bandwidth consumption of these blockchains remain unclear."
+  },
+  {
+    "subject": "UnderstandingNetworkTraffic",
+    "relation": "isImportantFor",
+    "object": "PerformanceImprovement",
+    "chunk": "introduction",
+    "context": "Understanding the network traffic is, however, crucial to improve performance and robustness of layer-1 blockchains by reducing the network congestion to make them scale or to replicate the data that are key to their robustness."
+  },
+  {
+    "subject": "UnderstandingNetworkTraffic",
+    "relation": "isImportantFor",
+    "object": "NetworkRobustness",
+    "chunk": "introduction",
+    "context": "Understanding the network traffic is, however, crucial to improve performance and robustness of layer-1 blockchains by reducing the network congestion to make them scale or to replicate the data that are key to their robustness."
+  },
+  {
+    "subject": "NetworkCongestionReduction",
+    "relation": "enables",
+    "object": "ScalingOfLayer1Blockchain",
+    "chunk": "introduction",
+    "context": "reducing the network congestion to make them scale or to replicate the data that are key to their robustness."
+  },
+  {
+    "subject": "DataReplication",
+    "relation": "isKeyTo",
+    "object": "NetworkRobustness",
+    "chunk": "introduction",
+    "context": "to replicate the data that are key to their robustness."
+  },
+  {
+    "subject": "EmpiricalComparison",
+    "relation": "measures",
+    "object": "BlockchainBandwidthConsumption",
+    "chunk": "introduction",
+    "context": "In this paper, we propose the first empirical comparison of blockchain bandwidth consumption."
+  },
+  {
+    "subject": "EmpiricalComparison",
+    "relation": "buildsUpon",
+    "object": "DiabloBenchmark",
+    "chunk": "introduction",
+    "context": "we build upon the series of work around the Diablo performance benchmark [19] and the STABLfault tolerance benchmark [20] to measure the network traffic of blockchain network nodes in various situations."
+  },
+  {
+    "subject": "EmpiricalComparison",
+    "relation": "buildsUpon",
+    "object": "STABLBenchmark",
+    "chunk": "introduction",
+    "context": "we build upon the series of work around the Diablo performance benchmark [19] and the STABLfault tolerance benchmark [20] to measure the network traffic of blockchain network nodes in various situations."
+  }
+]

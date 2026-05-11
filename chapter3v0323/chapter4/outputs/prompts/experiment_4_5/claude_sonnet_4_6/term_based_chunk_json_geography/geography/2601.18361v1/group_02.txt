@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "HAPS",
+  "providesCoverageIn",
+  "WideArea",
+  "deployedIn",
+  "DisasterArea",
+  "RuralArea",
+  "OffshoreArea",
+  "region_hokkaido",
+  "locatedIn",
+  "region_japan",
+  "region_germany",
+  "experiencesEvent",
+  "Flood",
+  "Earthquake",
+  "providesCoverageOver",
+  "LargeArea",
+  "Haps",
+  "serves",
+  "RemoteRegion",
+  "hoversOver",
+  "Area",
+  "LeoSatellite",
+  "operatesAt",
+  "Altitude",
+  "proximateTo",
+  "earth",
+  "RemoteArea",
+  "UnderservedArea",
+  "TerrestrialNetwork",
+  "impracticalIn",
+  "Satellite",
+  "hasAttribute",
+  "Trajectory",
+  "RemoteScenario",
+  "includes",
+  "Agriculture",
+  "EnvironmentalMonitoring",
+  "MaritimeConnectivity",
+  "operatesIn",
+  "CoordinatedOrbit",
+  "connects",
+  "IoTDevice",
+  "transmitsTo",
+  "TerrestrialGateway",
+  "HighAltitudePlatformStation",
+  "LowEarthOrbitSatellite",
+  "distributedIn",
+  "CircularArea",
+  "FixedRegion",
+  "InternetOfThingsConnectivity",
+  "UnderservedRegion",
+  "GlobalCoverage",
+  "EarthSurface",
+  "HighOrbitalAltitude",
+  "Stratosphere",
+  "altitude_8To50Km",
+  "WeatherDisturbance",
+  "Ground",
+  "RegionalCoverage",
+  "university_UniversityOfOulu",
+  "country_Finland",
+  "university_FederalUniversityOfSantaCatarina",
+  "location_Florianopolis",
+  "country_Brazil",
+  "university_MidSwedenUniversity",
+  "location_Sundsvall",
+  "country_Sweden",
+  "application_ForestFireDetection",
+  "Forest",
+  "application_OffshoreShipTracking",
+  "OffshoreRegion",
+  "NaturalDisaster",
+  "LEOSatellite",
+  "MultiplePlatform",
+  "SparseRegion",
+  "GeographicallyDispersedRegion",
+  "CircularAreaCenter",
+  "GroundLevel",
+  "Earth",
+  "EquatorialRadius"
+]
+
+Triples:
+[
+  {
+    "subject": "HAPS",
+    "relation": "providesCoverageIn",
+    "object": "WideArea",
+    "chunk": "completedocument2",
+    "context": "They provide wide-area wireless coverage by hosting cellular BS as transmitters or relays, the first of which is particularly interesting for direct-to-device communication."
+  },
+  {
+    "subject": "HAPS",
+    "relation": "deployedIn",
+    "object": "DisasterArea",
+    "chunk": "completedocument2",
+    "context": "In terms of deployment, HAPS have been studied and proposed for coverage restoration during disasters (e.g., Germany floods, Japan earthquake), rural broadband in regions like Hokkaido (Japan), and offshore applications including cruise ship coverage and remote oil platforms [13]."
+  },
+  {
+    "subject": "HAPS",
+    "relation": "providesCoverageIn",
+    "object": "RuralArea",
+    "chunk": "completedocument2",
+    "context": "In terms of deployment, HAPS have been studied and proposed for coverage restoration during disasters (e.g., Germany floods, Japan earthquake), rural broadband in regions like Hokkaido (Japan), and offshore applications including cruise ship coverage and remote oil platforms [13]."
+  },
+  {
+    "subject": "HAPS",
+    "relation": "providesCoverageIn",
+    "object": "OffshoreArea",
+    "chunk": "completedocument2",
+    "context": "In terms of deployment, HAPS have been studied and proposed for coverage restoration during disasters (e.g., Germany floods, Japan earthquake), rural broadband in regions like Hokkaido (Japan), and offshore applications including cruise ship coverage and remote oil platforms [13]."
+  },
+  {
+    "subject": "region_hokkaido",
+    "relation": "locatedIn",
+    "object": "region_japan",
+    "chunk": "completedocument2",
+    "context": "In terms of deployment, HAPS have been studied and proposed for coverage restoration during disasters (e.g., Germany floods, Japan earthquake), rural broadband in regions like Hokkaido (Japan), and offshore applications including cruise ship coverage and remote oil platforms [13]."
+  },
+  {
+    "subject": "region_germany",
+    "relation": "experiencesEvent",
+    "object": "Flood",
+    "chunk": "completedocument2",
+    "context": "In terms of deployment, HAPS have been studied and proposed for coverage restoration during disasters (e.g., Germany floods, Japan earthquake), rural broadband in regions like Hokkaido (Japan), and offshore applications including cruise ship coverage and remote oil platforms [13]."
+  },
+  {
+    "subject": "region_japan",
+    "relation": "experiencesEvent",
+    "object": "Earthquake",
+    "chunk": "completedocument2",
+    "context": "In terms of deployment, HAPS have been studied and proposed for coverage restoration during disasters (e.g., Germany floods, Japan earthquake), rural broadband in regions like Hokkaido (Japan), and offshore applications including cruise ship coverage and remote oil platforms [13]."
+  },
+  {
+    "subject": "HAPS",
+    "relation": "providesCoverageOver",
+    "object": "LargeArea",
+    "chunk": "completedocument2",
+    "context": "The authors in [14] provide a comprehensive overview of HAPS as a key enabler of vertical heterogeneous networks, emphasizing its ability to provide high-capacity, low-latency coverage over large areas."
+  },
+  {
+    "subject": "Haps",
+    "relation": "serves",
+    "object": "RemoteRegion",
+    "chunk": "completedocument3",
+    "context": "Moreover, the work in [16] also mentions the use of HAPS as flying BS as a solution for IoT applications in remote regions."
+  },
+  {
+    "subject": "Haps",
+    "relation": "hoversOver",
+    "object": "Area",
+    "chunk": "completedocument3",
+    "context": "We can highlight [19], where the authors assume a moving HAPS hovering over a certain area."
+  },
+  {
+    "subject": "LeoSatellite",
+    "relation": "operatesAt",
+    "object": "Altitude",
+    "chunk": "completedocument3",
+    "context": "Low Earth Orbit (LEO) satellites are the most prominent component of modern NTNs in the context of IoT, offering services from altitudes ranging between 500 and 1,500 km [22]."
+  },
+  {
+    "subject": "LeoSatellite",
+    "relation": "proximateTo",
+    "object": "earth",
+    "chunk": "completedocument3",
+    "context": "Their close proximity to Earth enables round-trip latencies in the 25 to 50 ms range, making them suitable for a diverse range of IoT applications [6]."
+  },
+  {
+    "subject": "LeoSatellite",
+    "relation": "serves",
+    "object": "RemoteArea",
+    "chunk": "completedocument3",
+    "context": "This positions LEO satellites as a viable alternative to traditional terrestrial networks in remote and underserved areas, where other technologies are impractical due to higher costs."
+  },
+  {
+    "subject": "LeoSatellite",
+    "relation": "serves",
+    "object": "UnderservedArea",
+    "chunk": "completedocument3",
+    "context": "This positions LEO satellites as a viable alternative to traditional terrestrial networks in remote and underserved areas, where other technologies are impractical due to higher costs."
+  },
+  {
+    "subject": "TerrestrialNetwork",
+    "relation": "impracticalIn",
+    "object": "RemoteArea",
+    "chunk": "completedocument3",
+    "context": "This positions LEO satellites as a viable alternative to traditional terrestrial networks in remote and underserved areas, where other technologies are impractical due to higher costs."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "hasAttribute",
+    "object": "Trajectory",
+    "chunk": "completedocument3",
+    "context": "Based on the fact that IoT devices can be aware of satellite trajectories, the authors in [27] introduced advanced strategies for DtS-IoT using power domain Non-Orthogonal Multiple Access (NOMA) in the uplink, with fixed or adaptive transmit power."
+  },
+  {
+    "subject": "RemoteScenario",
+    "relation": "includes",
+    "object": "Agriculture",
+    "chunk": "completedocument3",
+    "context": "In addition, companies such as Lacuna Space employ predictive techniques to mitigate synchronization issues in various remote scenarios, including agriculture, environmental monitoring, utilities and metering, and maritime connectivity [28]."
+  },
+  {
+    "subject": "RemoteScenario",
+    "relation": "includes",
+    "object": "EnvironmentalMonitoring",
+    "chunk": "completedocument3",
+    "context": "In addition, companies such as Lacuna Space employ predictive techniques to mitigate synchronization issues in various remote scenarios, including agriculture, environmental monitoring, utilities and metering, and maritime connectivity [28]."
+  },
+  {
+    "subject": "RemoteScenario",
+    "relation": "includes",
+    "object": "MaritimeConnectivity",
+    "chunk": "completedocument3",
+    "context": "In addition, companies such as Lacuna Space employ predictive techniques to mitigate synchronization issues in various remote scenarios, including agriculture, environmental monitoring, utilities and metering, and maritime connectivity [28]."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "operatesIn",
+    "object": "CoordinatedOrbit",
+    "chunk": "completedocument3",
+    "context": "The architecture of LEO systems is inherently dependent on large-scale constellations composed of hundreds to thousands of satellites in coordinated orbits [30], [31]."
+  },
+  {
+    "subject": "LeoSatellite",
+    "relation": "connects",
+    "object": "RemoteArea",
+    "chunk": "completedocument3",
+    "context": "From an economic perspective, studies have been conducted to investigate the viability of using LEO satellites as a potential solution to connect remote areas."
+  },
+  {
+    "subject": "IoTDevice",
+    "relation": "transmitsTo",
+    "object": "TerrestrialGateway",
+    "chunk": "completedocument4",
+    "context": "Figure 1 illustrates an example of several application scenarios, with IoT devices transmitting to terrestrial gateways, HAPS, or LEO satellites."
+  },
+  {
+    "subject": "IoTDevice",
+    "relation": "transmitsTo",
+    "object": "HighAltitudePlatformStation",
+    "chunk": "completedocument4",
+    "context": "Figure 1 illustrates an example of several application scenarios, with IoT devices transmitting to terrestrial gateways, HAPS, or LEO satellites."
+  },
+  {
+    "subject": "IoTDevice",
+    "relation": "transmitsTo",
+    "object": "LowEarthOrbitSatellite",
+    "chunk": "completedocument4",
+    "context": "Figure 1 illustrates an example of several application scenarios, with IoT devices transmitting to terrestrial gateways, HAPS, or LEO satellites."
+  },
+  {
+    "subject": "IoTDevice",
+    "relation": "distributedIn",
+    "object": "CircularArea",
+    "chunk": "completedocument4",
+    "context": "We assume that theNdevices are distributed at random in a circular area of radiusR."
+  }
+]

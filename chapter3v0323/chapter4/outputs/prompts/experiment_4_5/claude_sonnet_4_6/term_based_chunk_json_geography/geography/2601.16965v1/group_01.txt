@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "GeospatialReasoning",
+  "isEssentialFor",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "isGroundedIn",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "isFormalizedAs",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "isParsedInto",
+  "ExecutableWorkflow",
+  "isRepresentedAs",
+  "GeoflowGraph",
+  "isA",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "correspondsTo",
+  "SpatialConcept",
+  "GeoflowGraphEdge",
+  "represents",
+  "Transformation",
+  "extracts",
+  "assigns",
+  "FunctionalRole",
+  "CoreSpatialEntity",
+  "includes",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Routing",
+  "Aggregation",
+  "GisTool",
+  "postgis",
+  "arcgis",
+  "qgis",
+  "BuildingBlockOfSpatialInformation",
+  "Object",
+  "Field",
+  "Event",
+  "Network",
+  "Measure",
+  "Condition",
+  "Subcondition",
+  "Support",
+  "Extent",
+  "ProceduralStructure",
+  "ConceptTransformation",
+  "GisWorkflow",
+  "GeoFlowGraph",
+  "system_spatialAgent",
+  "OrderingConstraint",
+  "GeoFlowGraphGenerationApproach",
+  "MacroTemplate",
+  "RecurringGeoAnalyticalPattern",
+  "GeospatialQuestionAnswering",
+  "QuestionAnswering",
+  "EarlyGeospatialQaSystem",
+  "FactoidStyleQuestion",
+  "system_geoQA",
+  "database_DBpedia",
+  "TemplateBasedSparqlQueryGeneration",
+  "benchmark_geoQuestions1089",
+  "GeoSparqlQuery",
+  "dataset_tourismQA",
+  "TourismOrientedGeospatialQaDataset",
+  "benchmark_mapQA",
+  "PoiRetrievalBenchmark",
+  "system_geoAnQu",
+  "system_reAct",
+  "ThoughtActionObservationLoop",
+  "system_toolformer",
+  "SelfSupervisedToolUseLearning",
+  "system_codeAct"
+]
+
+Triples:
+[
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "isEssentialFor",
+    "object": "UrbanAnalytics",
+    "chunk": "completedocument1",
+    "context": "Geospatial reasoning is essential for real-world applications such as urban analytics, transportation planning, and disaster response."
+  },
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "isEssentialFor",
+    "object": "TransportationPlanning",
+    "chunk": "completedocument1",
+    "context": "Geospatial reasoning is essential for real-world applications such as urban analytics, transportation planning, and disaster response."
+  },
+  {
+    "subject": "GeospatialReasoning",
+    "relation": "isEssentialFor",
+    "object": "DisasterResponse",
+    "chunk": "completedocument1",
+    "context": "Geospatial reasoning is essential for real-world applications such as urban analytics, transportation planning, and disaster response."
+  },
+  {
+    "subject": "spatial_agent",
+    "relation": "isGroundedIn",
+    "object": "SpatialInformationScienceTheory",
+    "chunk": "completedocument1",
+    "context": "We present Spatial-Agent, an AI agent grounded in foundational theories of spatial information science."
+  },
+  {
+    "subject": "GeoAnalyticalQuestionAnswering",
+    "relation": "isFormalizedAs",
+    "object": "ConceptTransformationProblem",
+    "chunk": "completedocument1",
+    "context": "Our approach formalizes geo-analytical question answering as a concept transformation problem, where natural-language questions are parsed into executable workflows represented as GeoFlow Graphs"
+  },
+  {
+    "subject": "NaturalLanguageQuestion",
+    "relation": "isParsedInto",
+    "object": "ExecutableWorkflow",
+    "chunk": "completedocument1",
+    "context": "where natural-language questions are parsed into executable workflows represented as GeoFlow Graphs"
+  },
+  {
+    "subject": "ExecutableWorkflow",
+    "relation": "isRepresentedAs",
+    "object": "GeoflowGraph",
+    "chunk": "completedocument1",
+    "context": "where natural-language questions are parsed into executable workflows represented as GeoFlow Graphs"
+  },
+  {
+    "subject": "GeoflowGraph",
+    "relation": "isA",
+    "object": "DirectedAcyclicGraph",
+    "chunk": "completedocument1",
+    "context": "GeoFlow Graphs—directed acyclic graphs with nodes corresponding to spatial concepts and edges representing transformations."
+  },
+  {
+    "subject": "GeoflowGraphNode",
+    "relation": "correspondsTo",
+    "object": "SpatialConcept",
+    "chunk": "completedocument1",
+    "context": "GeoFlow Graphs—directed acyclic graphs with nodes corresponding to spatial concepts and edges representing transformations."
+  },
+  {
+    "subject": "GeoflowGraphEdge",
+    "relation": "represents",
+    "object": "Transformation",
+    "chunk": "completedocument1",
+    "context": "GeoFlow Graphs—directed acyclic graphs with nodes corresponding to spatial concepts and edges representing transformations."
+  },
+  {
+    "subject": "spatial_agent",
+    "relation": "extracts",
+    "object": "SpatialConcept",
+    "chunk": "completedocument1",
+    "context": "Drawing on spatial information theory, Spatial-Agent extracts spatial concepts, assigns functional roles with principled ordering constraints, and composes transformation sequences through template-based generation."
+  },
+  {
+    "subject": "spatial_agent",
+    "relation": "assigns",
+    "object": "FunctionalRole",
+    "chunk": "completedocument1",
+    "context": "Drawing on spatial information theory, Spatial-Agent extracts spatial concepts, assigns functional roles with principled ordering constraints, and composes transformation sequences through template-based generation."
+  },
+  {
+    "subject": "CoreSpatialEntity",
+    "relation": "includes",
+    "object": "SpatialObject",
+    "chunk": "completedocument1",
+    "context": "Answering a geo-analytical question often involves: (i) identifying core spatial entities (objects, events, fields, networks)"
+  },
+  {
+    "subject": "CoreSpatialEntity",
+    "relation": "includes",
+    "object": "SpatialEvent",
+    "chunk": "completedocument1",
+    "context": "Answering a geo-analytical question often involves: (i) identifying core spatial entities (objects, events, fields, networks)"
+  },
+  {
+    "subject": "CoreSpatialEntity",
+    "relation": "includes",
+    "object": "SpatialField",
+    "chunk": "completedocument1",
+    "context": "Answering a geo-analytical question often involves: (i) identifying core spatial entities (objects, events, fields, networks)"
+  },
+  {
+    "subject": "CoreSpatialEntity",
+    "relation": "includes",
+    "object": "SpatialNetwork",
+    "chunk": "completedocument1",
+    "context": "Answering a geo-analytical question often involves: (i) identifying core spatial entities (objects, events, fields, networks)"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "Buffering",
+    "chunk": "completedocument1",
+    "context": "(ii) selecting appropriate spatial operators (buffering, overlay, routing, aggregation)"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "Overlay",
+    "chunk": "completedocument1",
+    "context": "(ii) selecting appropriate spatial operators (buffering, overlay, routing, aggregation)"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "Routing",
+    "chunk": "completedocument1",
+    "context": "(ii) selecting appropriate spatial operators (buffering, overlay, routing, aggregation)"
+  },
+  {
+    "subject": "SpatialOperator",
+    "relation": "includes",
+    "object": "Aggregation",
+    "chunk": "completedocument1",
+    "context": "(ii) selecting appropriate spatial operators (buffering, overlay, routing, aggregation)"
+  },
+  {
+    "subject": "GisTool",
+    "relation": "includes",
+    "object": "postgis",
+    "chunk": "completedocument1",
+    "context": "(iv) grounding abstract instructions into concrete GIS tools (e.g., PostGIS, ArcGIS, QGIS)."
+  },
+  {
+    "subject": "GisTool",
+    "relation": "includes",
+    "object": "arcgis",
+    "chunk": "completedocument1",
+    "context": "(iv) grounding abstract instructions into concrete GIS tools (e.g., PostGIS, ArcGIS, QGIS)."
+  },
+  {
+    "subject": "GisTool",
+    "relation": "includes",
+    "object": "qgis",
+    "chunk": "completedocument1",
+    "context": "(iv) grounding abstract instructions into concrete GIS tools (e.g., PostGIS, ArcGIS, QGIS)."
+  },
+  {
+    "subject": "BuildingBlockOfSpatialInformation",
+    "relation": "includes",
+    "object": "Object",
+    "chunk": "completedocument1",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) and subsequent work by Scheider et al. (Scheider et al., 2020) identifies foundational building blocks of spatial information, such as Object, Field, Event and Network."
+  },
+  {
+    "subject": "BuildingBlockOfSpatialInformation",
+    "relation": "includes",
+    "object": "Field",
+    "chunk": "completedocument1",
+    "context": "Kuhn’s theory of core concepts (Kuhn, 2012) and subsequent work by Scheider et al. (Scheider et al., 2020) identifies foundational building blocks of spatial information, such as Object, Field, Event and Network."
+  }
+]

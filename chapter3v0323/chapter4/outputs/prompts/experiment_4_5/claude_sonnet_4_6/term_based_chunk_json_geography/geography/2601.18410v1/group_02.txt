@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Satellite",
+  "deployedAt",
+  "Altitude",
+  "SatelliteUser",
+  "movesWithin",
+  "CoverageArea",
+  "CellularUser",
+  "staysStillWithin",
+  "locatedIn",
+  "SatelliteComponent",
+  "GroundBaseStation",
+  "TerrestrialComponent",
+  "User",
+  "hasSpatialDistribution",
+  "SpatialDistribution",
+  "BaseStationAntennaArray",
+  "hasSpatialOrientation",
+  "DownTilt",
+  "serves",
+  "BaseStation",
+  "transmitsTo",
+  "sharesSubcarrierWith",
+  "HybridNetwork",
+  "hasEnvironment",
+  "PropagationEnvironment",
+  "synchronizesWith",
+  "Subcarrier",
+  "allocatedTo",
+  "interferesWith",
+  "connectedTo",
+  "contains",
+  "linksTo",
+  "directedTowards",
+  "HybridSatelliteTerrestrialNetwork",
+  "SatelliteNetwork",
+  "TerrestrialNetwork",
+  "university_minzuUniversityOfChina",
+  "city_beijing",
+  "country_china",
+  "university_tsinghua",
+  "university_durham",
+  "city_durham",
+  "country_uk",
+  "university_southeast",
+  "laboratory_purpleMountainLaboratories",
+  "city_nanjing",
+  "HybridSatelliteUavTerrestrialMaritimeNetwork",
+  "MaritimeNetwork",
+  "SatelliteLink",
+  "TerrestrialLink",
+  "Uav",
+  "AerialStation",
+  "TerrestrialBaseStation",
+  "SmartVehicle",
+  "TerrestrialTransmitterReceiverPair",
+  "PrimarySatelliteNetwork",
+  "SatelliteMulticastDownlink",
+  "TerrestrialDownlink",
+  "NonOrthogonalMultipleAccessUser",
+  "MobileWirelessService",
+  "MeteorologicalSatelliteService",
+  "TerrestrialMobileTerminal",
+  "SuSatelliteLink",
+  "BsCuLink",
+  "TransmitAntennaArray",
+  "MultipathPropagation",
+  "ChannelFastVariation",
+  "TerrestrialSystem",
+  "SecondaryUser",
+  "CommunicationLink",
+  "LinkCluster",
+  "CoarseGroup",
+  "CoarseCluster",
+  "FineCluster",
+  "ClusterCenter",
+  "SubFeatureVector",
+  "Su",
+  "BsCuLinkCluster",
+  "SpectrumSharingScheme",
+  "SuSatelliteLinkCluster"
+]
+
+Triples:
+[
+  {
+    "subject": "Satellite",
+    "relation": "deployedAt",
+    "object": "Altitude",
+    "chunk": "completedocument3",
+    "context": "The satellites are deployed at an altitude of H sat and serve N s satellite users (SUs) in the uplink via SU-satellite links."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "movesWithin",
+    "object": "CoverageArea",
+    "chunk": "completedocument3",
+    "context": "The SUs and CUs either stay still or move randomly within the coverage area of the network."
+  },
+  {
+    "subject": "CellularUser",
+    "relation": "movesWithin",
+    "object": "CoverageArea",
+    "chunk": "completedocument3",
+    "context": "The SUs and CUs either stay still or move randomly within the coverage area of the network."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "staysStillWithin",
+    "object": "CoverageArea",
+    "chunk": "completedocument3",
+    "context": "The SUs and CUs either stay still or move randomly within the coverage area of the network."
+  },
+  {
+    "subject": "CellularUser",
+    "relation": "staysStillWithin",
+    "object": "CoverageArea",
+    "chunk": "completedocument3",
+    "context": "The SUs and CUs either stay still or move randomly within the coverage area of the network."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "locatedIn",
+    "object": "SatelliteComponent",
+    "chunk": "completedocument3",
+    "context": "Satellite selection is also supported to adapt to the case when multiple satellites are available in the satellite component."
+  },
+  {
+    "subject": "GroundBaseStation",
+    "relation": "locatedIn",
+    "object": "TerrestrialComponent",
+    "chunk": "completedocument3",
+    "context": "For generality, either full or partial frequency reuse can be adopted among BSs in the terrestrial component."
+  },
+  {
+    "subject": "User",
+    "relation": "hasSpatialDistribution",
+    "object": "SpatialDistribution",
+    "chunk": "completedocument3",
+    "context": "Simulation results demonstrate that by link feature sketching, link diversity brought by the spatial distribution of the users could be well utilized for opportunistic spectrum sharing."
+  },
+  {
+    "subject": "BaseStationAntennaArray",
+    "relation": "hasSpatialOrientation",
+    "object": "DownTilt",
+    "chunk": "completedocument3",
+    "context": "Due to down tilt of the BS antenna arrays, interference from BS-CU links to SU-satellite links is ignored [8], [13]."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "serves",
+    "object": "SatelliteUser",
+    "chunk": "completedocument4",
+    "context": "|ˆR(sat) u|2is the receive antenna gain of the satellite serving SUu"
+  },
+  {
+    "subject": "BaseStation",
+    "relation": "transmitsTo",
+    "object": "CellularUser",
+    "chunk": "completedocument4",
+    "context": "|T(bs) i,r,v|2is that of BS(i, r)to CU(i, r, v)."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "sharesSubcarrierWith",
+    "object": "CellularUser",
+    "chunk": "completedocument4",
+    "context": "x(su) ˆui,r,vdenotes transmit signal of the SUˆu i,r,v that shares the same subcarrier with CU(i, r, v) simultaneously"
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "hasEnvironment",
+    "object": "PropagationEnvironment",
+    "chunk": "completedocument4",
+    "context": "Due to the diversity of propagation environment for the hybrid network, different channel models could be adopted for the links."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "synchronizesWith",
+    "object": "TerrestrialComponent",
+    "chunk": "completedocument4",
+    "context": "To reduce complexity and signaling overhead, it is assumed that time synchronization between the satellite and terrestrial components is only achieved at a coarse time scale∆τ."
+  },
+  {
+    "subject": "Subcarrier",
+    "relation": "allocatedTo",
+    "object": "BaseStation",
+    "chunk": "completedocument4",
+    "context": "denoteFgroups of subcarriers allocated to theFBSs in each FRC."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "interferesWith",
+    "object": "CellularUser",
+    "chunk": "completedocument4",
+    "context": "the SUˆu i,r,vthat interferes the BS-CU link for CU(i, r, v)can’t be known exactly."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "connectedTo",
+    "object": "Satellite",
+    "chunk": "completedocument4",
+    "context": "y(sat,su) u denotes received signal of the SU-satellite link for SUu"
+  },
+  {
+    "subject": "HybridNetwork",
+    "relation": "contains",
+    "object": "PropagationEnvironment",
+    "chunk": "completedocument5",
+    "context": "Due to diversity of the propagation environment in the hybrid network and random movement of the CUs and SUs, channels of the links may experience various fading processes across\nT= ∆τ."
+  },
+  {
+    "subject": "CellularUser",
+    "relation": "movesWithin",
+    "object": "HybridNetwork",
+    "chunk": "completedocument5",
+    "context": "Due to diversity of the propagation environment in the hybrid network and random movement of the CUs and SUs, channels of the links may experience various fading processes across\nT= ∆τ."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "movesWithin",
+    "object": "HybridNetwork",
+    "chunk": "completedocument5",
+    "context": "Due to diversity of the propagation environment in the hybrid network and random movement of the CUs and SUs, channels of the links may experience various fading processes across\nT= ∆τ."
+  },
+  {
+    "subject": "BaseStation",
+    "relation": "linksTo",
+    "object": "CellularUser",
+    "chunk": "completedocument5",
+    "context": "Accurate depiction of channel fading characteristics of the\nBS-CU, SU-satellite, and SU-CU interference links withH csi\npresented in (4) is critical for spectrum sharing based on (17)."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "linksTo",
+    "object": "Satellite",
+    "chunk": "completedocument5",
+    "context": "Accurate depiction of channel fading characteristics of the\nBS-CU, SU-satellite, and SU-CU interference links withH csi\npresented in (4) is critical for spectrum sharing based on (17)."
+  },
+  {
+    "subject": "SatelliteUser",
+    "relation": "interferesWith",
+    "object": "CellularUser",
+    "chunk": "completedocument5",
+    "context": "Accurate depiction of channel fading characteristics of the\nBS-CU, SU-satellite, and SU-CU interference links withH csi\npresented in (4) is critical for spectrum sharing based on (17)."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "serves",
+    "object": "SatelliteUser",
+    "chunk": "completedocument5",
+    "context": "If thejth available satellite is\nselected to serve SUu, thenζ u,j= 1, and otherwiseζ u,j= 0."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "directedTowards",
+    "object": "SatelliteUser",
+    "chunk": "completedocument5",
+    "context": "|R(sat)\nu,j|2is the receive antenna gain of thejth available\nsatellite towards SUu, and|T(cu,su)\ni,r,v,u,j |2is the off-boresight\ngain of the transmit antenna array of SUutowards CU\n(i, r, v)when it is served by thejth available satellite."
+  }
+]

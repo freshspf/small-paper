@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["ComputationalWorkflow","Emulator","ScenarioSpace","SensitivityAnalysis","ScenarioDatabase","ModelOutput","DynamicStochasticIntegratedAssessmentModel","Calibration","UncertaintyAnalysis","ModelComponent","ClosedLoopDecisionSupport","SequentialDecisionProblem","DecisionMaker","Intervention","ClimateDrivenHazard","EventBasedPhysicalImpactModel","InfrastructureSystemPerformanceSimulation","MultiModalTransport","Consequence","InterventionCost","DecisionStep","SimulatedYear","HazardRealization","DisruptionOutcome","StateRepresentation","ObjectiveSignal","SimulationBackbone","MarkovDecisionProcess","Agent","Step","State","Action","Transition","Reward","RainfallProjectionModel","FloodModel","TransportSimulation","DirectTransportImpact","TransportRelatedAdaptationPolicy","TrafficAssignmentZone"]
+
+Triples:
+[{"subject":"ReinforcementLearning","relation":"usedFor","object":"StormwaterControl"},{"subject":"ReinforcementLearning","relation":"usedFor","object":"EmergencyRouting"},{"subject":"ReinforcementLearning","relation":"hasLimitedUseIn","object":"FloodRiskPlanning"},{"subject":"CoastalFloodRiskManagement","relation":"uses","object":"DecisionInterval"},{"subject":"DecisionInterval","relation":"constrains","object":"AdaptationFlexibility"},{"subject":"AdaptationPathway","relation":"couples","object":"HazardEvolution"},{"subject":"AdaptationPathway","relation":"couples","object":"InfrastructureSystemImpact"},{"subject":"IntegratedAssessmentModel","relation":"couples","object":"ClimateSystem"},{"subject":"IntegratedAssessmentModel","relation":"couples","object":"HumanSystem"},{"subject":"IntegratedAssessmentModel","relation":"couples","object":"TechnologicalSystem"},{"subject":"TechnologicalSystem","relation":"includes","object":"EnergySystem"},{"subject":"HumanSystem","relation":"includes","object":"LandUse"},{"subject":"HumanSystem","relation":"includes","object":"Macroeconomy"},{"subject":"IntegratedAssessmentModel","relation":"produces","object":"ScenarioEnsemble"},{"subject":"IntegratedAssessmentModel","relation":"informs","object":"Assessment"},{"subject":"IntergovernmentalPanelOnClimateChange","relation":"conducts","object":"Assessment"},{"subject":"IntegratedAssessmentModel","relation":"isDifficultToEmbedIn","object":"ComputationalWorkflow"},{"subject":"ArtificialIntelligence","relation":"increasesAccessibilityOf","object":"IntegratedAssessmentModel"},{"subject":"MachineLearning","relation":"builds","object":"Emulator"},{"subject":"Emulator","relation":"approximates","object":"IntegratedAssessmentModel"},{"subject":"Emulator","relation":"enables","object":"ScenarioSpace"},{"subject":"Emulator","relation":"enables","object":"SensitivityAnalysis"},{"subject":"MachineLearning","relation":"trainedOn","object":"ScenarioDatabase"},{"subject":"MachineLearning","relation":"reproduces","object":"ModelOutput"},{"subject":"DeepLearning","relation":"usedToSolve","object":"DynamicStochasticIntegratedAssessmentModel"},{"subject":"ArtificialIntelligence","relation":"supports","object":"Calibration"},{"subject":"ArtificialIntelligence","relation":"supports","object":"UncertaintyAnalysis"},{"subject":"UncertaintyAnalysis","relation":"appliesTo","object":"ModelComponent"},{"subject":"ArtificialIntelligence","relation":"supports","object":"ClosedLoopDecisionSupport"},{"subject":"SequentialDecisionProblem","relation":"involves","object":"DecisionMaker"},{"subject":"DecisionMaker","relation":"selects","object":"Intervention"},{"subject":"Intervention","relation":"isSpatiallyDistributed","object":"True"},{"subject":"Intervention","relation":"evaluatedUnder","object":"ClimateDrivenHazard"},{"subject":"IntegratedAssessmentModel","relation":"couples","object":"ClimateDrivenForcing"},{"subject":"IntegratedAssessmentModel","relation":"couples","object":"HazardGeneration"},{"subject":"IntegratedAssessmentModel","relation":"couples","object":"EventBasedPhysicalImpactModel"},{"subject":"IntegratedAssessmentModel","relation":"couples","object":"InfrastructureSystemPerformanceSimulation"},{"subject":"InfrastructureSystemPerformanceSimulation","relation":"simulates","object":"MultiModalTransport"},{"subject":"IntegratedAssessmentModel","relation":"values","object":"Consequence"},{"subject":"IntegratedAssessmentModel","relation":"values","object":"InterventionCost"}]

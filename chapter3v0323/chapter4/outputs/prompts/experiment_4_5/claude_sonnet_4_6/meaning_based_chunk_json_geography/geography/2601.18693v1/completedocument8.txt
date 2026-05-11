@@ -1,0 +1,160 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument8",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument8
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+This is because angular
+momentum is more readily modified than energy, as it responds di-
+rectly to torques, whereas energy changes require coherent forces
+thataltertheorbitalspeed.Thisdifferenceisamplifiedbecausemost
+stellar stripping occurs near pericentre, where tidal torques primar-
+ily redirectparticle velocities, producinglarge reductionsin angular
+momentum with only modest changes in orbital energy.
+3.4 Energy redistribution during satellite accretion
+Wenextexaminetheredistributionoforbitalenergywithinthecluster
+during the interaction. Specifically, we track how orbital energy lost
+fromthesatellite’sorbitispartitionedbetweenthestrippedmaterial,
+the surviving satellite remnant, and the host halo.
+In Figure 6, the exchange of orbital energy between the satellite
+MNRAS000, 1–26 (2026)
+
+The phase-space distribution of ICL and DM7
+3.8 3.9 4.0 4.1 4.2
+ [km2 s2]
+×1060.81.01.21.51.82.02.22.5h [kpc km s1]
+×105
+=0.53
+Msat/Mhost=0.003
+Stars
+DM
+3.0 3.2 3.4 3.6 3.8 4.0 4.2 4.4 4.6
+ [km2 s2]
+×106-0.50.00.51.01.52.02.53.03.5h [kpc km s1]
+×105
+=0.53
+Msat/Mhost=0.031
+Stars
+DM
+2.5 3.0 3.5 4.0 4.5
+ [km2 s2]
+×1060.01.02.03.04.0h [kpc km s1]
+×105
+=0.53
+Msat/Mhost=0.064
+Stars
+DM
+1.0 2.0 3.0 4.0 5.0
+ [km2 s2]
+×1060.01.02.03.04.05.06.0h [kpc km s1]
+×105
+=0.53
+Msat/Mhost=0.282
+Stars
+DM
+Figure 4.Contour plots showing the final distributions of specific orbital energy (𝜀) and angular momentum (ℎ) for stars (green) and DM (purple) stripped
+fromthesatellitebytheendofthesimulation.Marginaldistributionsin𝜀andℎareshownalongthehorizontalandverticalaxes,respectively.Meanvaluesand
+1𝜎dispersionsareindicatedforstars(green)andDM(purple)errorbars.Thecolouredtracktracestheevolutionofthemean(𝜀,ℎ)ofstrippedparticles,from
+earlier(blue)tolater(red)strippingtimes.Aninteractiveversionoftheseplotsshowingthedistributionforallcombinationsofmassratioandorbitalcircularity
+can be found here: garrethmartin.github.io/interactive-profiles-ICL/index.html#energy-am.
+and the cluster is shown for a 1:3 merger with orbital circularity
+𝜂∼0.5.Thestackstrackhowthetotalorbitalenergy𝐸containedin
+eachsystemevolveswithtimesinceinfall,withthepanelsseparating
+the DM (top) and stellar (bottom) components. Each panel further
+dividestheenergyintomaterialassociatedwiththecentralgalaxyor
+clusterhalo,materialstillboundtothesatellite,andmaterialstripped
+from the satellite and now bound to the cluster.
+The inset shows the fractional change in the total energy of the
+DM and stars, allowing the net transfer to be seen more clearly.
+In the top panel, the orbital energy of the satellite DM transitions
+rapidly into the stripped component. The rise in the stripped contri-
+bution to the energy budget mirrors the decline in the satellite. For
+stripped stars (bottom panel), the behaviour is more gradual. The
+satellite stars lose energy early, well before the onset of significantstripping,reflectingthedeepeningofthepotentialalongtheinspiral.
+Only after most of the satellite DM has been removed do the stars
+begin to populate the stripped component, but this is not accompa-
+nied by any further significant decrease in their orbital energy. By a
+time of∼5Gyr the stars retain less energy than at the beginning of
+the simulation, with the principal reduction occurring early during
+the initial inspiral.
+Intheinsetplot,weshowthefractionalchangeinenergyoftheto-
+tal stellar and total DM component of the combined satellite-cluster
+system. We see that the reduction the total energy of the stars is
+accompanied by a corresponding increase in the total energy of the
+DM.Theplottedexampleinvolvesamajormerger,wherethestellar
+contribution is still large enough for such a transfer to be measured.
+However,atlowermassratios,whileasimilarreductioninstellaren-
+MNRAS000, 1–26 (2026)
+
+8G. Martin et al.
+0.00.20.40.60.81.0/DM
+All
+A = -0.326 ± 0.084
+B = 1.308 ± 0.080
+k = 1.344 ± 0.150
+r > 100 kpc
+A = 0.675 ± 0.010
+B = 0.320 ± 0.011
+k = 7.718 ± 0.792
+103
+102
+101
+100
+Msat/Mhost0.00.20.40.60.81.0h/hDM
+All
+A = 0.140 ± 0.043
+B = 0.763 ± 0.062
+k = 21.041 ± 5.337
+r > 100 kpc
+A = 0.282 ± 0.041
+B = 0.651 ± 0.070
+k = 33.558 ± 10.860
+Figure 5.Top: ratio of the mean specific orbital energy of stripped stars to
+that of stripped DM as a function of satellite–to–host mass ratio. Bottom:
+equivalent ratio for specific orbital angular momentum. Error bars show the
+1𝜎dispersionacrossvaluesoforbitalcircularity,weightedbythecircularity
+probability distribution.

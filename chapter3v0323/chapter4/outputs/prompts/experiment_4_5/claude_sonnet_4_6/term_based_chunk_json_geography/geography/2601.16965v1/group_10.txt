@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "role_subcond",
+  "restricts",
+  "CandidateEntity",
+  "role_cond",
+  "filters",
+  "IntermediateResult",
+  "transforms",
+  "role_support",
+  "computes",
+  "DerivedConcept",
+  "role_measure",
+  "represents",
+  "TargetOutput",
+  "precedes",
+  "operator_geocode",
+  "converts",
+  "TextualAddress",
+  "outputs",
+  "GeographicCoordinate",
+  "operator_batchGeocode",
+  "processes",
+  "PlaceNameList",
+  "operator_reverseGeocode",
+  "AddressString",
+  "operator_placeSearch",
+  "performs",
+  "SpatialSearch",
+  "centeredAt",
+  "concept_location",
+  "PlaceDetailsOperator",
+  "retrieves",
+  "Metadata",
+  "Place",
+  "hasAttribute",
+  "Name",
+  "Coordinates",
+  "Rating",
+  "OpeningHours",
+  "PlaceType",
+  "DirectionsOperator",
+  "Route",
+  "uses",
+  "TravelMode",
+  "includes",
+  "driving",
+  "walking",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "SpatialConcept",
+  "GeoflowGraphEdge",
+  "Transformation",
+  "FunctionalRole",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Routing",
+  "Aggregation",
+  "GisTool",
+  "postgis",
+  "arcgis",
+  "qgis",
+  "BuildingBlockOfSpatialInformation",
+  "Object",
+  "Field"
+]
+
+Triples:
+[
+  {
+    "subject": "role_subcond",
+    "relation": "restricts",
+    "object": "CandidateEntity",
+    "chunk": "completedocument10",
+    "context": "•SUBCOND: Preliminary constraints that restrict candidate entities (e.g., “within 500 meters of rivers”)."
+  },
+  {
+    "subject": "role_cond",
+    "relation": "filters",
+    "object": "IntermediateResult",
+    "chunk": "completedocument10",
+    "context": "•COND: Conditions that further filter or transform intermediate results."
+  },
+  {
+    "subject": "role_cond",
+    "relation": "transforms",
+    "object": "IntermediateResult",
+    "chunk": "completedocument10",
+    "context": "•COND: Conditions that further filter or transform intermediate results."
+  },
+  {
+    "subject": "role_support",
+    "relation": "computes",
+    "object": "DerivedConcept",
+    "chunk": "completedocument10",
+    "context": "•SUPPORT: Spatial structures or reference objects used to compute derived concepts (e.g., road networks, buffers)."
+  },
+  {
+    "subject": "role_measure",
+    "relation": "represents",
+    "object": "TargetOutput",
+    "chunk": "completedocument10",
+    "context": "• MEASURE: The target output of the analysis."
+  },
+  {
+    "subject": "role_subcond",
+    "relation": "precedes",
+    "object": "role_cond",
+    "chunk": "completedocument10",
+    "context": "Procedural roles follow a strict execution order defined as:\nSUBCOND≺COND≺SUPPORT≺MEASURE."
+  },
+  {
+    "subject": "role_cond",
+    "relation": "precedes",
+    "object": "role_support",
+    "chunk": "completedocument10",
+    "context": "Procedural roles follow a strict execution order defined as:\nSUBCOND≺COND≺SUPPORT≺MEASURE."
+  },
+  {
+    "subject": "role_support",
+    "relation": "precedes",
+    "object": "role_measure",
+    "chunk": "completedocument10",
+    "context": "Procedural roles follow a strict execution order defined as:\nSUBCOND≺COND≺SUPPORT≺MEASURE."
+  },
+  {
+    "subject": "operator_geocode",
+    "relation": "converts",
+    "object": "TextualAddress",
+    "chunk": "completedocument10",
+    "context": "geocode( t,a,r)Converts a textual address or place name tinto geographic coordinates (ϕ, λ) ."
+  },
+  {
+    "subject": "operator_geocode",
+    "relation": "outputs",
+    "object": "GeographicCoordinate",
+    "chunk": "completedocument10",
+    "context": "geocode( t,a,r)Converts a textual address or place name tinto geographic coordinates (ϕ, λ) ."
+  },
+  {
+    "subject": "operator_batchGeocode",
+    "relation": "processes",
+    "object": "PlaceNameList",
+    "chunk": "completedocument10",
+    "context": "batch_geocode( T,a)Batch variant that processes a list of place names T={t 1, . . . , t n}with shared anchor bias, returning a list of resolved locations."
+  },
+  {
+    "subject": "operator_reverseGeocode",
+    "relation": "converts",
+    "object": "GeographicCoordinate",
+    "chunk": "completedocument10",
+    "context": "reverse_geocode( ϕ,λ)Inverse operation that converts coordinates to a human-readable address string."
+  },
+  {
+    "subject": "operator_reverseGeocode",
+    "relation": "outputs",
+    "object": "AddressString",
+    "chunk": "completedocument10",
+    "context": "reverse_geocode( ϕ,λ)Inverse operation that converts coordinates to a human-readable address string."
+  },
+  {
+    "subject": "operator_placeSearch",
+    "relation": "performs",
+    "object": "SpatialSearch",
+    "chunk": "completedocument10",
+    "context": "place_search( c,ρ,τ,κ,rmin)Performs a spatial search centered at location cwithin radius ρmeters."
+  },
+  {
+    "subject": "operator_placeSearch",
+    "relation": "centeredAt",
+    "object": "concept_location",
+    "chunk": "completedocument10",
+    "context": "place_search( c,ρ,τ,κ,rmin)Performs a spatial search centered at location cwithin radius ρmeters."
+  },
+  {
+    "subject": "PlaceDetailsOperator",
+    "relation": "retrieves",
+    "object": "Metadata",
+    "chunk": "completedocument11",
+    "context": "place_details( p)Retrieves comprehensive meta-data for place p, including name, coordinates, rating, price level, opening hours (structured as weekly periods), phone number, and associated place types."
+  },
+  {
+    "subject": "Place",
+    "relation": "hasAttribute",
+    "object": "Name",
+    "chunk": "completedocument11",
+    "context": "place_details( p)Retrieves comprehensive meta-data for place p, including name, coordinates, rating, price level, opening hours (structured as weekly periods), phone number, and associated place types."
+  },
+  {
+    "subject": "Place",
+    "relation": "hasAttribute",
+    "object": "Coordinates",
+    "chunk": "completedocument11",
+    "context": "place_details( p)Retrieves comprehensive meta-data for place p, including name, coordinates, rating, price level, opening hours (structured as weekly periods), phone number, and associated place types."
+  },
+  {
+    "subject": "Place",
+    "relation": "hasAttribute",
+    "object": "Rating",
+    "chunk": "completedocument11",
+    "context": "place_details( p)Retrieves comprehensive meta-data for place p, including name, coordinates, rating, price level, opening hours (structured as weekly periods), phone number, and associated place types."
+  },
+  {
+    "subject": "Place",
+    "relation": "hasAttribute",
+    "object": "OpeningHours",
+    "chunk": "completedocument11",
+    "context": "place_details( p)Retrieves comprehensive meta-data for place p, including name, coordinates, rating, price level, opening hours (structured as weekly periods), phone number, and associated place types."
+  },
+  {
+    "subject": "Place",
+    "relation": "hasAttribute",
+    "object": "PlaceType",
+    "chunk": "completedocument11",
+    "context": "place_details( p)Retrieves comprehensive meta-data for place p, including name, coordinates, rating, price level, opening hours (structured as weekly periods), phone number, and associated place types."
+  },
+  {
+    "subject": "DirectionsOperator",
+    "relation": "computes",
+    "object": "Route",
+    "chunk": "completedocument11",
+    "context": "directions( o,d,m,W)Computes a route from origin oto destination dusing travel mode m∈ {driving,walking,transit,bicycling} ."
+  },
+  {
+    "subject": "Route",
+    "relation": "uses",
+    "object": "TravelMode",
+    "chunk": "completedocument11",
+    "context": "directions( o,d,m,W)Computes a route from origin oto destination dusing travel mode m∈ {driving,walking,transit,bicycling} ."
+  },
+  {
+    "subject": "TravelMode",
+    "relation": "includes",
+    "object": "driving",
+    "chunk": "completedocument11",
+    "context": "directions( o,d,m,W)Computes a route from origin oto destination dusing travel mode m∈ {driving,walking,transit,bicycling} ."
+  },
+  {
+    "subject": "TravelMode",
+    "relation": "includes",
+    "object": "walking",
+    "chunk": "completedocument11",
+    "context": "directions( o,d,m,W)Computes a route from origin oto destination dusing travel mode m∈ {driving,walking,transit,bicycling} ."
+  }
+]

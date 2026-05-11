@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "WorkloadW1",
+  "extendsWorkload",
+  "WorkloadW0",
+  "includesOperation",
+  "TrafficSignalReadWrite",
+  "hasSignalSwitchInterval",
+  "5 seconds",
+  "representsSimplified",
+  "SignalControlLoop",
+  "WorkloadW2",
+  "TrafficStateQuery",
+  "usesObservationFeature",
+  "QueueLength",
+  "usesPerformanceIndicator",
+  "Delay",
+  "RLTrainingLoop",
+  "RuntimeMicroBenchmark",
+  "conductedOn",
+  "SingleIntersectionNetwork",
+  "hasSimulationLength",
+  "3600 seconds",
+  "hasSimulationResolution",
+  "10",
+  "hasTotalSimulationSteps",
+  "36000",
+  "VissimWrapper",
+  "comparedWith",
+  "RawCOM",
+  "hasPerStepLatencyForWorkload",
+  "0.819 ms/step for W0",
+  "0.787 ms/step for W0",
+  "hasOverheadForWorkload",
+  "+4.041% for W0",
+  "0.828 ms/step for W1",
+  "0.889 ms/step for W1",
+  "-6.842% for W1",
+  "0.848 ms/step for W2",
+  "0.967 ms/step for W2",
+  "-12.267% for W2",
+  "hasSimulationStepThroughputForWorkload",
+  "1220.949 steps/s for W0",
+  "1270.496 steps/s for W0",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics",
+  "ComProgrammingInterface",
+  "RlFramework",
+  "framework_sumo_rl",
+  "RlEnvironment",
+  "library_gymnasium",
+  "library_pettingzoo",
+  "SingleAgentScenario"
+]
+
+Triples:
+[
+  {
+    "subject": "WorkloadW1",
+    "relation": "extendsWorkload",
+    "object": "WorkloadW0",
+    "chunk": "experiments2",
+    "context": "W1 — Step + TS Extends W0 by adding traffic signal read/write operations."
+  },
+  {
+    "subject": "WorkloadW1",
+    "relation": "includesOperation",
+    "object": "TrafficSignalReadWrite",
+    "chunk": "experiments2",
+    "context": "W1 — Step + TS Extends W0 by adding traffic signal read/write operations."
+  },
+  {
+    "subject": "WorkloadW1",
+    "relation": "hasSignalSwitchInterval",
+    "object": "5 seconds",
+    "chunk": "experiments2",
+    "context": "Every five seconds, the current phase is retrieved and switched to the next, representing a simplified signal control loop."
+  },
+  {
+    "subject": "WorkloadW1",
+    "relation": "representsSimplified",
+    "object": "SignalControlLoop",
+    "chunk": "experiments2",
+    "context": "Every five seconds, the current phase is retrieved and switched to the next, representing a simplified signal control loop."
+  },
+  {
+    "subject": "WorkloadW2",
+    "relation": "extendsWorkload",
+    "object": "WorkloadW1",
+    "chunk": "experiments2",
+    "context": "W2 — Step + TS + Eval Builds on W1 by incorporating traffic state and performance queries."
+  },
+  {
+    "subject": "WorkloadW2",
+    "relation": "includesOperation",
+    "object": "TrafficStateQuery",
+    "chunk": "experiments2",
+    "context": "W2 — Step + TS + Eval Builds on W1 by incorporating traffic state and performance queries."
+  },
+  {
+    "subject": "WorkloadW2",
+    "relation": "usesObservationFeature",
+    "object": "QueueLength",
+    "chunk": "experiments2",
+    "context": "Queue length is used as the observation feature, and delay is adopted as the performance indicator, representing a simplified RL training loop."
+  },
+  {
+    "subject": "WorkloadW2",
+    "relation": "usesPerformanceIndicator",
+    "object": "Delay",
+    "chunk": "experiments2",
+    "context": "Queue length is used as the observation feature, and delay is adopted as the performance indicator, representing a simplified RL training loop."
+  },
+  {
+    "subject": "WorkloadW2",
+    "relation": "representsSimplified",
+    "object": "RLTrainingLoop",
+    "chunk": "experiments2",
+    "context": "Queue length is used as the observation feature, and delay is adopted as the performance indicator, representing a simplified RL training loop."
+  },
+  {
+    "subject": "RuntimeMicroBenchmark",
+    "relation": "conductedOn",
+    "object": "SingleIntersectionNetwork",
+    "chunk": "experiments2",
+    "context": "The experiment was conducted on a Single-Intersection network with a simulation length of 3600 seconds and a resolution of 10 (36,000 simulation steps)."
+  },
+  {
+    "subject": "RuntimeMicroBenchmark",
+    "relation": "hasSimulationLength",
+    "object": "3600 seconds",
+    "chunk": "experiments2",
+    "context": "The experiment was conducted on a Single-Intersection network with a simulation length of 3600 seconds and a resolution of 10 (36,000 simulation steps)."
+  },
+  {
+    "subject": "RuntimeMicroBenchmark",
+    "relation": "hasSimulationResolution",
+    "object": "10",
+    "chunk": "experiments2",
+    "context": "The experiment was conducted on a Single-Intersection network with a simulation length of 3600 seconds and a resolution of 10 (36,000 simulation steps)."
+  },
+  {
+    "subject": "RuntimeMicroBenchmark",
+    "relation": "hasTotalSimulationSteps",
+    "object": "36000",
+    "chunk": "experiments2",
+    "context": "The experiment was conducted on a Single-Intersection network with a simulation length of 3600 seconds and a resolution of 10 (36,000 simulation steps)."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "comparedWith",
+    "object": "RawCOM",
+    "chunk": "experiments2",
+    "context": "To assess the runtime efficiency of the Vissim Wrapper, its performance is compared with Raw COM across standardized workloads."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasPerStepLatencyForWorkload",
+    "object": "0.819 ms/step for W0",
+    "chunk": "experiments2",
+    "context": "W0 Step-only 0.787±0.005 0.819±0.006 + 4.041%"
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "hasPerStepLatencyForWorkload",
+    "object": "0.787 ms/step for W0",
+    "chunk": "experiments2",
+    "context": "W0 Step-only 0.787±0.005 0.819±0.006 + 4.041%"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasOverheadForWorkload",
+    "object": "+4.041% for W0",
+    "chunk": "experiments2",
+    "context": "W0 Step-only 0.787±0.005 0.819±0.006 + 4.041%"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasPerStepLatencyForWorkload",
+    "object": "0.828 ms/step for W1",
+    "chunk": "experiments2",
+    "context": "W1 Step+TS 0.889±0.004 0.828±0.005 −6.842%"
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "hasPerStepLatencyForWorkload",
+    "object": "0.889 ms/step for W1",
+    "chunk": "experiments2",
+    "context": "W1 Step+TS 0.889±0.004 0.828±0.005 −6.842%"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasOverheadForWorkload",
+    "object": "-6.842% for W1",
+    "chunk": "experiments2",
+    "context": "W1 Step+TS 0.889±0.004 0.828±0.005 −6.842%"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasPerStepLatencyForWorkload",
+    "object": "0.848 ms/step for W2",
+    "chunk": "experiments2",
+    "context": "W2 Step+TS+Eval 0.967±0.004 0.848±0.005 −12.267%"
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "hasPerStepLatencyForWorkload",
+    "object": "0.967 ms/step for W2",
+    "chunk": "experiments2",
+    "context": "W2 Step+TS+Eval 0.967±0.004 0.848±0.005 −12.267%"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasOverheadForWorkload",
+    "object": "-12.267% for W2",
+    "chunk": "experiments2",
+    "context": "W2 Step+TS+Eval 0.967±0.004 0.848±0.005 −12.267%"
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "hasSimulationStepThroughputForWorkload",
+    "object": "1220.949 steps/s for W0",
+    "chunk": "experiments2",
+    "context": "W0 Step-only 1270.496 1220.949 0.961"
+  },
+  {
+    "subject": "RawCOM",
+    "relation": "hasSimulationStepThroughputForWorkload",
+    "object": "1270.496 steps/s for W0",
+    "chunk": "experiments2",
+    "context": "W0 Step-only 1270.496 1220.949 0.961"
+  }
+]

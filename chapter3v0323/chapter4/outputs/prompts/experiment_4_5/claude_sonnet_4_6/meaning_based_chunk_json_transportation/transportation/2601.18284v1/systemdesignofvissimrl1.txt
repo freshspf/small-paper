@@ -1,0 +1,132 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "systemdesignofvissimrl1",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: systemdesignofvissimrl1
+- section_title: System Design of VissimRL
+- page_start: 4
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+RL AgentVissimRL
+Gymnasium / 
+PettingZoo
+interfaceTraffic signalsEnvironment Controller
+COM InterfaceVissimAction
+State
+RewardObservation
+Action
+RewardVissim Wrapper
+EvaluationSignal ControlBasic Simulation- Vissim Wrapper - - RL Environment Framework -Fig. 5: Architecture of the VissimRL framework.
+III. SYSTEMDESIGN OFVISSIMRL
+The proposed VissimRL framework consists of two core
+components, the Vissim Wrapper and the RL Environment
+Framework, as shown in Figure 5. The Vissim Wrapper
+interacts with Vissim through the COM interface, covering
+essential functions such as simulation control, signal operation,
+and performance evaluation. The RL Environment Framework
+translates the interactions between Vissim and RL agents into
+RL components, namely states, actions, and rewards, while
+providing standardized interfaces (Gymnasium / PettingZoo
+APIs) to ensure seamless integration with mainstream RL
+algorithms.
+A. Vissim Wrapper
+The Vissim Wrapper is built on top of Vissim COM
+interface to simplify simulator interactions and lower the
+development barrier for RL integration. While the COM in-
+terface provides direct access to internal objects and methods,
+its complexity is evident from the Vissim 2025 document
+[13], which lists 276 object types and 4,164 attributes. The
+hierarchical structure and intricate attribute-access mechanism
+often result in high development costs. To address this, the
+Vissim Wrapper encapsulates low-level COM calls into an
+intuitive Python API and supports configuration-based setup of
+simulation environments, thereby reducing the complexity of
+implementation. It is also designed to be RL-friendly, enabling
+dynamic phase control and real-time access to traffic states and
+performance indicators.
+The advantage of the Vissim Wrapper is not only in hiding
+the complexity of COM, but also in its reusability and main-
+tainability. It can be applied across projects, and only minor
+adjustments are required when Vissim updates to ensure stable
+operation. The architecture of this component comprises three
+modules, whose functional designs and main interfaces are
+introduced in the following subsections.
+1) Basic Simulation:The Basic Simulation module is re-
+sponsible for creating and controlling the overall simulation
+environment, enabling rapid initialization through simple con-
+figuration. Users can specify the network and signal files,
+along with simulation parameters, which are automaticallyloaded and initialized by the Wrapper (see Appendix A-1
+for detailed configuration parameters). During execution, this
+module provides intuitive time-control operations, ensuring
+both reproducibility and flexibility. The simulation can be
+advanced according to the defined simulation resolution (e.g.,
+10 steps per second), allowing precise control of the simulation
+process. Its main functions are summarized in Table II.
+TABLE II: Basic simulation functions and their descriptions.
+Function Description
+vissim.start()Start simulation
+vissim.stop()Stop simulation
+vissim.step()Advance the simulation by one resolu-
+tion step
+vissim.step_one_sec()Advance the simulation by one second
+vissim.run_until(t)Run the simulation till the specified
+timet
+Note.Usevissim = VissimWrapper( **config)to create a simu-
+lation environment.
+2) Signal control:The Signal Control module manages
+intersection signal systems and synchronizes with agent de-
+cisions in real time. It supports querying current phase states
+and issuing phase-switching commands, ensuring consistency
+between simulation status and RL agent control. Through a
+unified and user-friendly interface, users can modify signal
+logic without delving into Vissim’s low-level signal object
+structures. Key functions are listed in Table III.
+3) Evaluation:The Evaluation module provides real-time
+calculation of traffic performance indicators, serving as quan-
+titative feedback for the RL environment. It supports both
+network-level and intersection-level metrics: network-level
+indicators include travel time, distance, and delay, while
+intersection-level indicators provide local information such as
+vehicle counts and queue lengths. The main functions are
+shown in Table IV.

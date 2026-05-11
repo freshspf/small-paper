@@ -1,0 +1,157 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: method1
+- section_title: Method
+- page_start: 2
+- page_end: 4
+
+INPUT TEXT CHUNK:
+ExoGS first employs AirExo-3, a low-cost exoskeleton
+(detailed in Sec. III-A), to capture accurate robot manipula-
+tion demonstrations without needing a real robot (detailed in
+Sec. III-B (1)). Based on these demonstrations, 3D Gaussian
+Splatting is utilized to replay and augment the demonstrated
+interactions (detailed in Sec. III-B (2)-(4)). Building upon this
+real-to-sim dataset, we further propose a novel plug-in module,
+Mask Adapter, to facilitate more effective sim-to-real transfer
+of visuomotor policies (detailed in Sec. III-C).
+A. Hardware Design: AirExo-3
+AirExo-3 extends prior low-cost exoskeleton-based demon-
+stration systems [22], [23] by improving kinematic accuracy
+and ease of deployment. The design of AirExo-3 targets the
+following objectives:
+•Ease of deployment: AirExo-3 supports accurate zero-
+position calibration and straightforward installation with-
+out specialized tools, enabled by a simplified mechanical
+design.
+•High accuracy: Unlike handheld devices such as
+UMI [24], AirExo-3 achieves robust and accurate motion
+tracking with millimeter-level accuracy via forward kine-
+matics using high-precision rotary encoders, remaining
+insensitive to visual conditions while enforcing robot-
+consistent kinematic constraints.
+•Ease of use: AirExo-3 enables intuitive, contact-rich
+manipulation through direct gripper interaction, while its
+lightweight design supports prolonged use with minimal
+operator fatigue.
+Fig. 2. Mechanical structure of the proposed data acquisition device. (a)
+Structural design of an individual joint module. (b) Overall structure of
+AirExo-3, consisting of seven articulated joints and a parallel gripper. (c)
+The target robotic platform used in this work.
+The structure of AirExo-3 is shown in Fig. 2. It is a serial
+link-joint chain geometrically matched to the target robot and
+equipped with a replaceable handheld gripper, sharing iden-
+tical kinematic parameters, joint limits, and gripper opening
+
+3
+range to ensure workspace consistency. All components are
+3D-printed with glass-fiber-reinforced nylon for a lightweight
+and robust design, with an optional spring-based suspension
+at Joint 4 to reduce operator effort.
+The core component of AirExo-3 is the joint module, which
+consists of a joint shaft, bearings, and a joint body housing
+a 12-bit miniature rotary encoder, as shown in Fig. 2 (a).
+Eight encoders are connected via a shared bus, enabling
+synchronized joint state acquisition at up to approximately 300
+Hz. The joint shaft defines the rotational limits, while cross-
+roller bearings connect the shaft and body, providing high
+stiffness and rotational accuracy. An established evaluation
+protocol for exoskeleton-based manipulation systems [23] is
+adopted to assess kinematic accuracy. The results demonstrate
+that AirExo-3 achieves an average end-effector positioning
+error of less than 1 mm.
+Limit slots are machined into the joint shaft, and a high-
+strength pin fixed to the joint body engages with the slot to
+define the joint’s angular limits. When the pin reaches the slot
+boundary, further rotation is mechanically prevented. The pin
+hole on the joint body also serves as a reference for zero-
+position calibration. Calibration is performed by mechanically
+locking the joint at its zero position using an extended pin and
+recording the corresponding encoder reading.
+Each joint incorporates a groove with a 3D-printed retaining
+ring to provide tunable passive damping, enabling stable and
+comfortable operation.
+B. 4D Data Generation and Augmentation
+Fig. 3. Overview of the pipeline for reconstructing manipulation demonstra-
+tions collected with AirExo-3 using 3D Gaussian representations. Camera-
+based object pose tracking and joint angle encoding from AirExo-3 are
+combined to generate robot motions, which, together with the reconstructed
+digital assets, allow the full manipulation process to be faithfully replayed in
+simulation.
+1) Manipulation Demonstration Collection with AirExo-3:
+Let the joint-angle vector of the robotic arm be denoted as
+q= [q 1, q2, . . . , q n]⊤, and let the gripper opening beg∈[0,1].Each demonstration trajectory can then be represented as a
+discrete-time sequence:
+τ={(qt, gt)}H
+t=1,(1)
+whereHdenotes the number of time steps.
+Since AirExo-3 is geometrically and kinematically identi-
+cal to the target robot, the collected joint statesqtcan be
+directly used for forward kinematics computation, enabling
+high-fidelity reproduction of manipulation trajectories in both
+real and simulated environments.
+Multiple calibrated Intel RealSense D415 cameras syn-
+chronously capture multi-view RGB-D observationsI=
+{I(k)
+t}H,K
+t=1,k=1, which are unified in a common world coor-
+dinate frame to provide geometric constraints for subsequent
+3D reconstruction and pose estimation.
+2) Digital Asset Generation via Multi-View Reconstruction:
+We adopt 3D Gaussian Splatting (3DGS) to digitize real-world
+scenes into editable simulation assets.

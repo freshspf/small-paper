@@ -1,0 +1,143 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument10",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument10
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+The resulting covariance between outputs
+𝑑and𝑑′at inputs𝑥and𝑥′is then modelled as a sum of two kernels
+(squared exponential and Matérn 5/2) acting on the physical input
+dimensions, each coupled to a coregionalisation matrix𝐵 𝑘:
+Cov(𝑦𝑑(𝑥), 𝑦𝑑′(𝑥′))=∑︁
+𝑘∈{SE,M52}𝑘input,𝑘(𝑥,𝑥′)[𝐵𝑘]𝑑,𝑑′.(6)
+Each coregionalisation matrix encodes how shared latent functions
+contribute to different outputs, while the input kernels control how
+these functions vary across parameter space. Kernel amplitudes,
+length scales, and coregionalisation weights are given weakly in-
+formative priors.
+Following identical methodology, we also employ a third model
+predicting the DM and stellar density of stripped stars and DM𝑦=
+𝜌DM,𝜌★	
+asafunctionofcluster-centricradius,satellite-to-cluster
+mass ratio and orbital circularity𝑥=
+log10𝑟,log10𝑀★,𝜂	
+.
+Forthemodelspredictingorbitalenergies,angularmomenta,and
+stripped fractions, we adopt a coregionalisation rank of two. This
+choice is sufficient to capture the dominant cross-output covariance
+presentinthesimulationdatawhileavoidingunnecessarydegeneracy
+inthecoregionalisationweights.Forthedensityprofilemodel,which
+predicts stellar and DM densities tracing the same underlying radial
+structure, we adopt a coregionalisation rank of one, reflecting the
+stronger coupling between the two outputs.
+4.1.2 Model fitting and validation
+WeperformBayesianinferenceonthehyperparametersofthemulti-
+output Gaussian process, including the kernel length scales and am-
+plitudes and the coregionalisation weights that control correlations
+between outputs. The latent functions themselves are never explic-
+itly fitted, as their contribution to the outputs is fully captured by
+the Gaussian process covariance. Inference is performed using the
+probabilisticprogrammingframeworkPyMC(Abril-Plaetal.2023).
+Approximateposteriorestimatesarefirstobtainedviaautomaticdif-
+ferentiation variational inference (ADVI). Multiple jittered draws
+from these ADVI derived posterior estimates are used to initialise
+tenindependentchainsofMCMCsamplingusingNUTS(Homan&
+Gelman 2014). Convergence is checked with standard diagnostics:
+Gelman-Rubinstatistic,effectivesamplesize,traceandautocorrela-
+tion plots, and posterior predictive checks.
+Posterior predictive quantities are obtained over a finely sampledgrid by drawing samples of the Gaussian process hyperparameters
+from their posterior distribution. For each hyperparameter draw, we
+compute the Gaussian process predictive mean𝜇and covarianceΣ
+at the target grid conditioned on the training data, and draw a single
+realisation from the corresponding multivariate normal distribution
+N(𝜇,Σ). Repeating this across 10,000 posterior draws produces an
+ensemble of plausible functions that captures hyperparameter un-
+certainty through the posterior samples and predictive uncertainty
+through the Gaussian process conditional.
+The full implementation of the LMC models, including
+priors, likelihoods and validation is publicly available at
+github.com/garrethmartin/interactive-profiles-ICL.
+4.2 Convolving across infall populations
+Totranslatethesingle-satellitepredictionstoexpectationsforawhole
+cluster, the modelled per-particle energies, angular momenta and
+strippedfractionsareconvolvedwithplausibleinfallingsatellitepop-
+ulations. Since the contribution of an individual satellite to the ICL
+andclusterDMhalodependsbothonthatsatellite’sinternalproper-
+tiesandonitsabundanceandorbitaldistribution,populationaverages
+canbeobtainedbyweightingthemodeloutputsbythestrippedmass
+contributed by satellites and by an assumed satellite stellar mass
+function and orbital circularity distribution.
+Toquantifyhowthemeanspecificenergyandangularmomentum
+ofstrippedstarsandDMdependonsatellitedemographics,wecon-
+volve the single-satellite model predictions with a grid of plausible
+satellite stellar mass functions𝜙(𝑀 ★)and orbital circularity distri-
+butions𝑝(𝜂). For each choice of𝜙(𝑀 ★)and𝑝(𝜂), the per-particle
+quantitiesareweightedbythestrippedmasscontributedbysatellites
+andintegratedovermassandcircularitytoyieldpopulation-averaged
+⟨𝜀⟩and⟨ℎ⟩.
+We vary (1) the stellar mass function of the infalling satellites,
+parameterised by a Schechter function (Schechter 1976),
+𝜙(𝑀★)∝𝑀★
+𝑀★𝛼
+exp−𝑀★
+𝑀★
+,(7)
+withlow-massslope𝛼andcharacteristicstellarmass𝑀★,and(2)the
+orbitalcircularitydistribution,whichwemodelasabetadistribution,
+𝑝(𝜂)∝𝜂𝑎−1(1−𝜂)𝑏−1
+Γ(𝑎)Γ(𝑏)
+Γ(𝑎+𝑏),(8)
+with parameters𝑎and𝑏controlling the skew towards low or high
+circularity respectively.
+4.2.1 Population parameter choices
+In order to define a range of plausible infalling galaxy stellar mass
+functions, we consider a range of mass function parameters in-
+formed by the four simulations described in Appendix E:TNG100,
+Horizon-AGN,Hydrangea, andTheThreeHundred. From each
+simulation we select clusters with𝑧=0halo masses in the range
+𝑀200=1014–1015M⊙asdescribedinmoredetailinBrownetal.,in
+prep.

@@ -1,0 +1,892 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "AmyloidBeta40",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "NeuronalDeath",
+  "ExtracellularAmyloidPlaque",
+  "IntracellularAmyloidBeta42",
+  "IntracellularDeposit",
+  "UbiquitinProteasomeSystem",
+  "MolecularGlue",
+  "SmallMolecule",
+  "E3Ligase",
+  "CRBN",
+  "VHL",
+  "MDM2",
+  "TernaryComplex",
+  "Ubiquitination",
+  "ProteasomalClearance",
+  "PROTAC",
+  "BifunctionalLinker",
+  "BloodBrainBarrier",
+  "BloodBrainBarrierPermeability",
+  "SecretaseInhibitor",
+  "ImmunotherapeuticStrategy",
+  "AutophagyEnhancement",
+  "ProteostasisEnhancement",
+  "OffTargetToxicity",
+  "CNSInflammation",
+  "HypoxiaSignaling",
+  "LigandDependentSubstrateRecruitment",
+  "P53",
+  "P53Regulator",
+  "ArtificialIntelligenceModel",
+  "GenerativeAIModel",
+  "SequenceBasedModel",
+  "SMILESRepresentation",
+  "SyntacticError",
+  "ChemicallyInvalidMolecule",
+  "VariationalAutoencoder",
+  "GenerativeAdversarialNetwork",
+  "JunctionTreeVariationalAutoencoder",
+  "LigaseConditionedJTVAE",
+  "GraphBasedModel",
+  "HierarchicalTree",
+  "ChemicallyMeaningfulSubstructure",
+  "DrugLikeMolecule",
+  "ChemicalRule",
+  "TorsionalAngle",
+  "BondRepresentation",
+  "ConformationalDynamics",
+  "ProteinSequenceEmbedding",
+  "AminoAcidSequence",
+  "BindingSiteResidue",
+  "BindingPattern",
+  "TargetSpecificMolecularGlue",
+  "BindingSite",
+  "SelectiveEngagement",
+  "TypeIAmyloidBeta42Filament",
+  "CryoEMStructure",
+  "HumanBrainTissue",
+  "HomoDecamericAssembly",
+  "SPShapedConformation",
+  "Aggregation",
+  "Stability",
+  "ExtracellularFibril",
+  "IntracellularOligomerizationProcess",
+  "ProteinPreparationWizard",
+  "Maestro",
+  "Epik",
+  "OPLS4ForceField",
+  "OPLS3eForceField",
+  "SiteMap",
+  "BindingPocket",
+  "PhysicochemicalCriterion",
+  "GeometricCriterion",
+  "CrystallographicStructure",
+  "LigandBindingInterface",
+  "Thalidomide",
+  "CanonicalMolecularGlueBindingSite",
+  "CoCrystallizedInhibitor",
+  "DruggableP53InteractingCleft",
+  "ADMETScreening",
+  "Absorption",
+  "Distribution",
+  "Metabolism",
+  "Excretion",
+  "Toxicity",
+  "VitasDatabase",
+  "ChEMBLDatabase",
+  "QikProp",
+  "ADMETToxModule",
+  "LipinskiRuleOfFive",
+  "VeberRule",
+  "IntestinalAbsorption",
+  "CYP450Inhibition",
+  "Hepatotoxicity",
+  "AMESMutagenicity",
+  "Glide",
+  "DockedComplex",
+  "RosettaFlexPepDock",
+  "DockingScore",
+  "MolecularDynamicsSimulation",
+  "DesmondSimulationEngine",
+  "TIP3PWater"
+]
+
+Triples:
+[
+  {
+    "subject": "AlzheimerDisease",
+    "relation": "isMarkedBy",
+    "object": "AmyloidBeta42"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "contributesTo",
+    "object": "SynapticDysfunction"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "contributesTo",
+    "object": "Neurodegeneration"
+  },
+  {
+    "subject": "IntracellularAmyloidBeta42",
+    "relation": "isEarlyDriverOf",
+    "object": "AlzheimerDisease"
+  },
+  {
+    "subject": "IntracellularAmyloidBeta42",
+    "relation": "isToxicDriverOf",
+    "object": "AlzheimerDisease"
+  },
+  {
+    "subject": "AlzheimerDisease",
+    "relation": "isCharacterizedBy",
+    "object": "CognitiveDecline"
+  },
+  {
+    "subject": "AlzheimerDisease",
+    "relation": "isCharacterizedBy",
+    "object": "NeuronalLoss"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "isDerivedFrom",
+    "object": "AmyloidPrecursorProtein"
+  },
+  {
+    "subject": "BetaSecretase",
+    "relation": "cleaves",
+    "object": "AmyloidPrecursorProtein"
+  },
+  {
+    "subject": "GammaSecretase",
+    "relation": "cleaves",
+    "object": "AmyloidPrecursorProtein"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "isAggregationProneComparedTo",
+    "object": "AmyloidBeta40"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "isMoreToxicThan",
+    "object": "AmyloidBeta40"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "forms",
+    "object": "IntracellularDeposit"
+  },
+  {
+    "subject": "IntracellularDeposit",
+    "relation": "precedes",
+    "object": "ExtracellularAmyloidPlaque"
+  },
+  {
+    "subject": "IntracellularDeposit",
+    "relation": "correlatesWith",
+    "object": "SynapticDysfunction"
+  },
+  {
+    "subject": "IntracellularDeposit",
+    "relation": "correlatesWith",
+    "object": "NeuronalDeath"
+  },
+  {
+    "subject": "SecretaseInhibitor",
+    "relation": "suffersFrom",
+    "object": "OffTargetToxicity"
+  },
+  {
+    "subject": "OffTargetToxicity",
+    "relation": "isDueTo",
+    "object": "BetaSecretase"
+  },
+  {
+    "subject": "OffTargetToxicity",
+    "relation": "isDueTo",
+    "object": "GammaSecretase"
+  },
+  {
+    "subject": "ImmunotherapeuticStrategy",
+    "relation": "facesIssueWith",
+    "object": "BloodBrainBarrier"
+  },
+  {
+    "subject": "ImmunotherapeuticStrategy",
+    "relation": "mayCause",
+    "object": "CNSInflammation"
+  },
+  {
+    "subject": "AutophagyEnhancement",
+    "relation": "isUsedToClear",
+    "object": "AmyloidBeta42"
+  },
+  {
+    "subject": "AutophagyEnhancement",
+    "relation": "isNonspecific",
+    "object": "CellularFunction"
+  },
+  {
+    "subject": "AutophagyEnhancement",
+    "relation": "mayCompromise",
+    "object": "CellularFunction"
+  },
+  {
+    "subject": "UbiquitinProteasomeSystem",
+    "relation": "offersAlternativeForDegrading",
+    "object": "IntracellularAmyloidBeta42"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "impedesRecognitionBy",
+    "object": "UbiquitinProteasomeSystem"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "isA",
+    "object": "SmallMolecule"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "inducesInteractionBetween",
+    "object": "E3Ligase"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "stabilizesInteractionBetween",
+    "object": "E3Ligase"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "facilitatesDegradationOf",
+    "object": "AmyloidBeta42"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "isDegradedThrough",
+    "object": "Ubiquitination"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "isClearedBy",
+    "object": "ProteasomalClearance"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "requiresNo",
+    "object": "BifunctionalLinker"
+  },
+  {
+    "subject": "PROTAC",
+    "relation": "requires",
+    "object": "BifunctionalLinker"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "mayEnhance",
+    "object": "BloodBrainBarrierPermeability"
+  },
+  {
+    "subject": "VHL",
+    "relation": "isCandidateFor",
+    "object": "TargetSpecificMolecularGlue"
+  },
+  {
+    "subject": "CRBN",
+    "relation": "isCandidateFor",
+    "object": "TargetSpecificMolecularGlue"
+  },
+  {
+    "subject": "MDM2",
+    "relation": "isCandidateFor",
+    "object": "TargetSpecificMolecularGlue"
+  },
+  {
+    "subject": "VHL",
+    "relation": "isAssociatedWith",
+    "object": "HypoxiaSignaling"
+  },
+  {
+    "subject": "CRBN",
+    "relation": "isKnownFor",
+    "object": "LigandDependentSubstrateRecruitment"
+  },
+  {
+    "subject": "MDM2",
+    "relation": "regulates",
+    "object": "P53"
+  },
+  {
+    "subject": "MDM2",
+    "relation": "isA",
+    "object": "P53Regulator"
+  },
+  {
+    "subject": "VHL",
+    "relation": "offers",
+    "object": "BindingPattern"
+  },
+  {
+    "subject": "CRBN",
+    "relation": "offers",
+    "object": "BindingPattern"
+  },
+  {
+    "subject": "MDM2",
+    "relation": "offers",
+    "object": "BindingPattern"
+  },
+  {
+    "subject": "ArtificialIntelligenceModel",
+    "relation": "enables",
+    "object": "DrugLikeMolecule"
+  },
+  {
+    "subject": "ArtificialIntelligenceModel",
+    "relation": "enables",
+    "object": "ADMETScreening"
+  },
+  {
+    "subject": "SequenceBasedModel",
+    "relation": "reliesOn",
+    "object": "SMILESRepresentation"
+  },
+  {
+    "subject": "SMILESRepresentation",
+    "relation": "suffersFrom",
+    "object": "SyntacticError"
+  },
+  {
+    "subject": "SyntacticError",
+    "relation": "leadsTo",
+    "object": "ChemicallyInvalidMolecule"
+  },
+  {
+    "subject": "VariationalAutoencoder",
+    "relation": "mayFailToGuarantee",
+    "object": "ChemicallyInvalidMolecule"
+  },
+  {
+    "subject": "GenerativeAdversarialNetwork",
+    "relation": "mayFailToGuarantee",
+    "object": "ChemicallyInvalidMolecule"
+  },
+  {
+    "subject": "JunctionTreeVariationalAutoencoder",
+    "relation": "isA",
+    "object": "GraphBasedModel"
+  },
+  {
+    "subject": "JunctionTreeVariationalAutoencoder",
+    "relation": "encodes",
+    "object": "HierarchicalTree"
+  },
+  {
+    "subject": "HierarchicalTree",
+    "relation": "contains",
+    "object": "ChemicallyMeaningfulSubstructure"
+  },
+  {
+    "subject": "JunctionTreeVariationalAutoencoder",
+    "relation": "enablesGenerationOf",
+    "object": "DrugLikeMolecule"
+  },
+  {
+    "subject": "JunctionTreeVariationalAutoencoder",
+    "relation": "preserves",
+    "object": "ChemicalRule"
+  },
+  {
+    "subject": "JunctionTreeVariationalAutoencoder",
+    "relation": "isWellSuitedFor",
+    "object": "DrugLikeMolecule"
+  },
+  {
+    "subject": "JunctionTreeVariationalAutoencoder",
+    "relation": "doesNotAccountFor",
+    "object": "TorsionalAngle"
+  },
+  {
+    "subject": "TorsionalAngle",
+    "relation": "isCriticalFor",
+    "object": "Stability"
+  },
+  {
+    "subject": "TorsionalAngle",
+    "relation": "isCriticalFor",
+    "object": "LigandReceptorInteraction"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "extends",
+    "object": "JunctionTreeVariationalAutoencoder"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "integrates",
+    "object": "TorsionalAngle"
+  },
+  {
+    "subject": "TorsionalAngle",
+    "relation": "isIntegratedInto",
+    "object": "BondRepresentation"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "captures",
+    "object": "ConformationalDynamics"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "generates",
+    "object": "DrugLikeMolecule"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "incorporates",
+    "object": "ProteinSequenceEmbedding"
+  },
+  {
+    "subject": "ProteinSequenceEmbedding",
+    "relation": "isDerivedFrom",
+    "object": "AminoAcidSequence"
+  },
+  {
+    "subject": "AminoAcidSequence",
+    "relation": "belongsTo",
+    "object": "BindingSiteResidue"
+  },
+  {
+    "subject": "BindingSiteResidue",
+    "relation": "belongsTo",
+    "object": "CRBN"
+  },
+  {
+    "subject": "BindingSiteResidue",
+    "relation": "belongsTo",
+    "object": "VHL"
+  },
+  {
+    "subject": "BindingSiteResidue",
+    "relation": "belongsTo",
+    "object": "MDM2"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "learns",
+    "object": "BindingPattern"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "enablesConditionalGenerationOf",
+    "object": "MolecularGlue"
+  },
+  {
+    "subject": "MolecularGlue",
+    "relation": "isOptimizedForForming",
+    "object": "TernaryComplex"
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "includes",
+    "object": "AmyloidBeta42"
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "includes",
+    "object": "E3Ligase"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "improves",
+    "object": "ChemicalRule"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "improves",
+    "object": "ConformationalDynamics"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "improves",
+    "object": "BindingPattern"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "optimizesFor",
+    "object": "SelectiveEngagement"
+  },
+  {
+    "subject": "LigaseConditionedJTVAE",
+    "relation": "supportsDegradationOf",
+    "object": "AmyloidBeta42"
+  },
+  {
+    "subject": "TypeIAmyloidBeta42Filament",
+    "relation": "isA",
+    "object": "CryoEMStructure"
+  },
+  {
+    "subject": "TypeIAmyloidBeta42Filament",
+    "relation": "isFrom",
+    "object": "HumanBrainTissue"
+  },
+  {
+    "subject": "TypeIAmyloidBeta42Filament",
+    "relation": "represents",
+    "object": "HomoDecamericAssembly"
+  },
+  {
+    "subject": "HomoDecamericAssembly",
+    "relation": "contains",
+    "object": "AmyloidBeta42"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "adopts",
+    "object": "SPShapedConformation"
+  },
+  {
+    "subject": "SPShapedConformation",
+    "relation": "isCrucialTo",
+    "object": "Aggregation"
+  },
+  {
+    "subject": "SPShapedConformation",
+    "relation": "isCrucialTo",
+    "object": "Stability"
+  },
+  {
+    "subject": "TypeIAmyloidBeta42Filament",
+    "relation": "depicts",
+    "object": "ExtracellularFibril"
+  },
+  {
+    "subject": "ExtracellularFibril",
+    "relation": "originatesFrom",
+    "object": "IntracellularOligomerizationProcess"
+  },
+  {
+    "subject": "ProteinPreparationWizard",
+    "relation": "isUsedIn",
+    "object": "Maestro"
+  },
+  {
+    "subject": "Epik",
+    "relation": "adjusts",
+    "object": "ProtonationState"
+  },
+  {
+    "subject": "ProteinPreparationWizard",
+    "relation": "uses",
+    "object": "OPLS4ForceField"
+  },
+  {
+    "subject": "SiteMap",
+    "relation": "identifies",
+    "object": "BindingPocket"
+  },
+  {
+    "subject": "BindingPocket",
+    "relation": "isBasedOn",
+    "object": "PhysicochemicalCriterion"
+  },
+  {
+    "subject": "BindingPocket",
+    "relation": "isBasedOn",
+    "object": "GeometricCriterion"
+  },
+  {
+    "subject": "VHL",
+    "relation": "hasStructureType",
+    "object": "CrystallographicStructure"
+  },
+  {
+    "subject": "CRBN",
+    "relation": "hasStructureType",
+    "object": "CrystallographicStructure"
+  },
+  {
+    "subject": "MDM2",
+    "relation": "hasStructureType",
+    "object": "CrystallographicStructure"
+  },
+  {
+    "subject": "VHL",
+    "relation": "offers",
+    "object": "LigandBindingInterface"
+  },
+  {
+    "subject": "LigandBindingInterface",
+    "relation": "isSuitableFor",
+    "object": "DockedComplex"
+  },
+  {
+    "subject": "CRBN",
+    "relation": "isResolvedWith",
+    "object": "Thalidomide"
+  },
+  {
+    "subject": "CRBN",
+    "relation": "reveals",
+    "object": "CanonicalMolecularGlueBindingSite"
+  },
+  {
+    "subject": "MDM2",
+    "relation": "features",
+    "object": "CoCrystallizedInhibitor"
+  },
+  {
+    "subject": "CoCrystallizedInhibitor",
+    "relation": "occupies",
+    "object": "DruggableP53InteractingCleft"
+  },
+  {
+    "subject": "ProteinPreparationWizard",
+    "relation": "prepares",
+    "object": "VHL"
+  },
+  {
+    "subject": "ProteinPreparationWizard",
+    "relation": "prepares",
+    "object": "CRBN"
+  },
+  {
+    "subject": "ProteinPreparationWizard",
+    "relation": "prepares",
+    "object": "MDM2"
+  },
+  {
+    "subject": "ProteinPreparationWizard",
+    "relation": "uses",
+    "object": "OPLS3eForceField"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "evaluates",
+    "object": "Absorption"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "evaluates",
+    "object": "Distribution"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "evaluates",
+    "object": "Metabolism"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "evaluates",
+    "object": "Excretion"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "evaluates",
+    "object": "Toxicity"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "isPerformedOn",
+    "object": "VitasDatabase"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "isPerformedOn",
+    "object": "ChEMBLDatabase"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "uses",
+    "object": "QikProp"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "uses",
+    "object": "ADMETToxModule"
+  },
+  {
+    "subject": "Compound",
+    "relation": "isFilteredBy",
+    "object": "LipinskiRuleOfFive"
+  },
+  {
+    "subject": "Compound",
+    "relation": "isFilteredBy",
+    "object": "VeberRule"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "predicts",
+    "object": "IntestinalAbsorption"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "predicts",
+    "object": "BloodBrainBarrierPermeability"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "predicts",
+    "object": "CYP450Inhibition"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "predicts",
+    "object": "Hepatotoxicity"
+  },
+  {
+    "subject": "ADMETScreening",
+    "relation": "predicts",
+    "object": "AMESMutagenicity"
+  },
+  {
+    "subject": "Compound",
+    "relation": "isRetainedIfMeeting",
+    "object": "PharmacokineticThreshold"
+  },
+  {
+    "subject": "Compound",
+    "relation": "isRetainedIfMeeting",
+    "object": "ToxicityThreshold"
+  },
+  {
+    "subject": "Compound",
+    "relation": "isDockedInto",
+    "object": "VHL"
+  },
+  {
+    "subject": "Compound",
+    "relation": "isDockedInto",
+    "object": "CRBN"
+  },
+  {
+    "subject": "Compound",
+    "relation": "isDockedInto",
+    "object": "MDM2"
+  },
+  {
+    "subject": "DockedComplex",
+    "relation": "isGeneratedUsing",
+    "object": "Glide"
+  },
+  {
+    "subject": "AmyloidBeta42",
+    "relation": "isAlignedNear",
+    "object": "E3Ligase"
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "isRefinedUsing",
+    "object": "RosettaFlexPepDock"
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "isEvaluatedBasedOn",
+    "object": "DockingScore"
+  },
+  {
+    "subject": "MolecularDynamicsSimulation",
+    "relation": "uses",
+    "object": "DesmondSimulationEngine"
+  },
+  {
+    "subject": "MolecularDynamicsSimulation",
+    "relation": "uses",
+    "object": "OPLS4ForceField"
+  },
+  {
+    "subject": "TernaryComplex",
+    "relation": "isSolvatedIn",
+    "object": "TIP3PWater"
+  }
+]

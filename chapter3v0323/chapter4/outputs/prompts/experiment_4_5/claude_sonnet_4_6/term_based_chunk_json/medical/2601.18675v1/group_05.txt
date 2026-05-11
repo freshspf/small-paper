@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "TemporalEmbeddingModel",
+  "generates",
+  "ClinicallyMeaningfulRepresentation",
+  "derivedFrom",
+  "LongitudinalElectronicHealthRecord",
+  "VanillaLSTM",
+  "evaluatedOn",
+  "CkdPatient",
+  "AttentionAugmentedLSTM",
+  "TLSTM",
+  "sourcedFrom",
+  "MimicIvDatabase",
+  "appliedTo",
+  "InIcuMortalityPrediction",
+  "produces",
+  "CkdStageSeparation",
+  "outperforms",
+  "TemporalEmbeddingLearning",
+  "supports",
+  "PatientRepresentation",
+  "providesBasisFor",
+  "DigitalPatientModel",
+  "model_behrt",
+  "targetsDomain",
+  "ElectronicHealthRecord",
+  "model_dipole",
+  "performsTask",
+  "DiagnosisPrediction",
+  "usesMethod",
+  "AttentionBasedBidirectionalRecurrentNeuralNetwork",
+  "DeepRepresentationLearning",
+  "analyzesData",
+  "PatientData",
+  "extractedFrom",
+  "InHospitalMortalityPrediction",
+  "usesData",
+  "ClinicalNote",
+  "TimeSeriesData",
+  "RiskPredictionModel",
+  "targetsPopulation",
+  "IntensiveCareUnitPatient",
+  "LongitudinalIrregularData",
+  "IrregularTimeSeriesPrediction",
+  "predictsOutcome",
+  "IntensiveCareUnitMortality",
+  "CardiovascularDiseaseRiskFactorPrediction",
+  "AttentionModuleBasedLstm",
+  "PatientSubtyping",
+  "TimeAwareLstmNetwork",
+  "ClinicalPredictionModel",
+  "SingleTask",
+  "RecurrentArchitecture",
+  "TemporalStructure",
+  "dataset_mimic_iv",
+  "ChronicKidneyDisease",
+  "VanillaLstm",
+  "AttentionAugmentedLstm",
+  "TimeAwareLstm",
+  "EmbeddingQuality",
+  "CkdStageClustering",
+  "StructuredEmbedding",
+  "CkdStageClassificationAccuracy",
+  "EmbeddingModel",
+  "EndToEndPredictor",
+  "DigitalTwin",
+  "IndividualPatient",
+  "DiseaseTrajectory",
+  "TherapyOption",
+  "PersonalisedCare",
+  "TaskSpecificModel",
+  "DiseaseProgression",
+  "MortalityPrediction",
+  "ReadmissionRisk",
+  "DenseVectorRepresentation",
+  "HighDimensionalInputData",
+  "DownstreamTask",
+  "Phenotyping",
+  "PhysiologicalState",
+  "LongShortTermMemoryNetwork",
+  "ClinicalOutcome"
+]
+
+Triples:
+[
+  {
+    "subject": "TemporalEmbeddingModel",
+    "relation": "generates",
+    "object": "ClinicallyMeaningfulRepresentation",
+    "chunk": "completedocument6",
+    "context": "In this study, we examined whether temporal embedding models can generate clinically meaningful representations from longitudinal electronic health records without sacrificing predictive performance."
+  },
+  {
+    "subject": "ClinicallyMeaningfulRepresentation",
+    "relation": "derivedFrom",
+    "object": "LongitudinalElectronicHealthRecord",
+    "chunk": "completedocument6",
+    "context": "In this study, we examined whether temporal embedding models can generate clinically meaningful representations from longitudinal electronic health records without sacrificing predictive performance."
+  },
+  {
+    "subject": "VanillaLSTM",
+    "relation": "evaluatedOn",
+    "object": "CkdPatient",
+    "chunk": "completedocument6",
+    "context": "By systematically comparing vanilla LSTM, attention-augmented LSTM, and T-LSTM architectures on CKD patients from the MIMIC-IV database, we demonstrated that explicitly modelling temporal intervals leads to more structured and discriminative embedding spaces."
+  },
+  {
+    "subject": "AttentionAugmentedLSTM",
+    "relation": "evaluatedOn",
+    "object": "CkdPatient",
+    "chunk": "completedocument6",
+    "context": "By systematically comparing vanilla LSTM, attention-augmented LSTM, and T-LSTM architectures on CKD patients from the MIMIC-IV database, we demonstrated that explicitly modelling temporal intervals leads to more structured and discriminative embedding spaces."
+  },
+  {
+    "subject": "TLSTM",
+    "relation": "evaluatedOn",
+    "object": "CkdPatient",
+    "chunk": "completedocument6",
+    "context": "By systematically comparing vanilla LSTM, attention-augmented LSTM, and T-LSTM architectures on CKD patients from the MIMIC-IV database, we demonstrated that explicitly modelling temporal intervals leads to more structured and discriminative embedding spaces."
+  },
+  {
+    "subject": "CkdPatient",
+    "relation": "sourcedFrom",
+    "object": "MimicIvDatabase",
+    "chunk": "completedocument6",
+    "context": "By systematically comparing vanilla LSTM, attention-augmented LSTM, and T-LSTM architectures on CKD patients from the MIMIC-IV database, we demonstrated that explicitly modelling temporal intervals leads to more structured and discriminative embedding spaces."
+  },
+  {
+    "subject": "TLSTM",
+    "relation": "appliedTo",
+    "object": "InIcuMortalityPrediction",
+    "chunk": "completedocument6",
+    "context": "For both intrinsic clustering analyses and extrinsic in-ICU mortality prediction, T-LSTM consistently produced clearer CKD stage separation and better predictive performance compared to attention-augmented LSTM and vanilla LSTM architectures."
+  },
+  {
+    "subject": "TLSTM",
+    "relation": "produces",
+    "object": "CkdStageSeparation",
+    "chunk": "completedocument6",
+    "context": "For both intrinsic clustering analyses and extrinsic in-ICU mortality prediction, T-LSTM consistently produced clearer CKD stage separation and better predictive performance compared to attention-augmented LSTM and vanilla LSTM architectures."
+  },
+  {
+    "subject": "TLSTM",
+    "relation": "outperforms",
+    "object": "AttentionAugmentedLSTM",
+    "chunk": "completedocument6",
+    "context": "For both intrinsic clustering analyses and extrinsic in-ICU mortality prediction, T-LSTM consistently produced clearer CKD stage separation and better predictive performance compared to attention-augmented LSTM and vanilla LSTM architectures."
+  },
+  {
+    "subject": "TLSTM",
+    "relation": "outperforms",
+    "object": "VanillaLSTM",
+    "chunk": "completedocument6",
+    "context": "For both intrinsic clustering analyses and extrinsic in-ICU mortality prediction, T-LSTM consistently produced clearer CKD stage separation and better predictive performance compared to attention-augmented LSTM and vanilla LSTM architectures."
+  },
+  {
+    "subject": "TemporalEmbeddingLearning",
+    "relation": "supports",
+    "object": "PatientRepresentation",
+    "chunk": "completedocument6",
+    "context": "Together, the findings suggest that temporal embedding learning offers a foundation for patient representations that support downstream tasks and provide a scalable basis for digital patient models, a step forward in MGM."
+  },
+  {
+    "subject": "TemporalEmbeddingLearning",
+    "relation": "providesBasisFor",
+    "object": "DigitalPatientModel",
+    "chunk": "completedocument6",
+    "context": "Together, the findings suggest that temporal embedding learning offers a foundation for patient representations that support downstream tasks and provide a scalable basis for digital patient models, a step forward in MGM."
+  },
+  {
+    "subject": "model_behrt",
+    "relation": "targetsDomain",
+    "object": "ElectronicHealthRecord",
+    "chunk": "completedocument7",
+    "context": "Li, Y ., Rao, S., Solares, J.R.A., Hassaine, A., Ramakrishnan, R., Canoy, D., Zhu, Y ., Rahimi, K. and Salimi-Khorshidi, G., 2020. BEHRT: trans- former for electronic health records."
+  },
+  {
+    "subject": "model_dipole",
+    "relation": "performsTask",
+    "object": "DiagnosisPrediction",
+    "chunk": "completedocument7",
+    "context": "Ma, F., Chitta, R., Zhou, J., You, Q., Sun, T. and Gao, J., 2017, August. Dipole: Diagnosis prediction in healthcare via attention-based bidirectional recurrent neural networks."
+  },
+  {
+    "subject": "DiagnosisPrediction",
+    "relation": "usesMethod",
+    "object": "AttentionBasedBidirectionalRecurrentNeuralNetwork",
+    "chunk": "completedocument7",
+    "context": "Ma, F., Chitta, R., Zhou, J., You, Q., Sun, T. and Gao, J., 2017, August. Dipole: Diagnosis prediction in healthcare via attention-based bidirectional recurrent neural networks."
+  },
+  {
+    "subject": "DeepRepresentationLearning",
+    "relation": "analyzesData",
+    "object": "PatientData",
+    "chunk": "completedocument7",
+    "context": "Si, Y ., Du, J., Li, Z., Jiang, X., Miller, T., Wang, F., Zheng, W.J. and Roberts, K., 2021. Deep representation learning of patient data from Electronic Health Records (EHR): A systematic review."
+  },
+  {
+    "subject": "PatientData",
+    "relation": "extractedFrom",
+    "object": "ElectronicHealthRecord",
+    "chunk": "completedocument7",
+    "context": "Si, Y ., Du, J., Li, Z., Jiang, X., Miller, T., Wang, F., Zheng, W.J. and Roberts, K., 2021. Deep representation learning of patient data from Electronic Health Records (EHR): A systematic review."
+  },
+  {
+    "subject": "InHospitalMortalityPrediction",
+    "relation": "usesData",
+    "object": "ClinicalNote",
+    "chunk": "completedocument7",
+    "context": "Deznabi, I., Iyyer, M. and Fiterau, M., 2021, August. Predicting in- hospital mortality by combining clinical notes with time-series data."
+  },
+  {
+    "subject": "InHospitalMortalityPrediction",
+    "relation": "usesData",
+    "object": "TimeSeriesData",
+    "chunk": "completedocument7",
+    "context": "Deznabi, I., Iyyer, M. and Fiterau, M., 2021, August. Predicting in- hospital mortality by combining clinical notes with time-series data."
+  },
+  {
+    "subject": "RiskPredictionModel",
+    "relation": "targetsPopulation",
+    "object": "IntensiveCareUnitPatient",
+    "chunk": "completedocument7",
+    "context": "Zheng, Z., Luo, J., Zhu, Y ., Du, L., Lan, L., Zhou, X., Yang, X. and Huang, S., 2025. Development and Validation of a Dynamic Real- Time Risk Prediction Model for Intensive Care Units Patients Based on Longitudinal Irregular Data: Multicenter Retrospective Study."
+  },
+  {
+    "subject": "RiskPredictionModel",
+    "relation": "usesData",
+    "object": "LongitudinalIrregularData",
+    "chunk": "completedocument7",
+    "context": "Zheng, Z., Luo, J., Zhu, Y ., Du, L., Lan, L., Zhou, X., Yang, X. and Huang, S., 2025. Development and Validation of a Dynamic Real- Time Risk Prediction Model for Intensive Care Units Patients Based on Longitudinal Irregular Data: Multicenter Retrospective Study."
+  },
+  {
+    "subject": "IrregularTimeSeriesPrediction",
+    "relation": "predictsOutcome",
+    "object": "IntensiveCareUnitMortality",
+    "chunk": "completedocument7",
+    "context": "Zhong, S., Wang, L.R., Zhan, Z., Ng, Y .Y . and Fan, X., 2025. A Hybrid Approach for Irregular-Time Series Prediction using Electronic Health Records: an Intensive Care Unit Mortality Case Study."
+  },
+  {
+    "subject": "IrregularTimeSeriesPrediction",
+    "relation": "usesData",
+    "object": "ElectronicHealthRecord",
+    "chunk": "completedocument7",
+    "context": "Zhong, S., Wang, L.R., Zhan, Z., Ng, Y .Y . and Fan, X., 2025. A Hybrid Approach for Irregular-Time Series Prediction using Electronic Health Records: an Intensive Care Unit Mortality Case Study."
+  },
+  {
+    "subject": "CardiovascularDiseaseRiskFactorPrediction",
+    "relation": "usesMethod",
+    "object": "AttentionModuleBasedLstm",
+    "chunk": "completedocument7",
+    "context": "Islam, M.S., Umran, H.M., Umran, S.M. and Karim, M., 2019, May. Intelligent healthcare platform: cardiovascular disease risk factors pre- diction using attention module based LSTM."
+  },
+  {
+    "subject": "PatientSubtyping",
+    "relation": "usesMethod",
+    "object": "TimeAwareLstmNetwork",
+    "chunk": "completedocument7",
+    "context": "Baytas, I.M., Xiao, C., Zhang, X., Wang, F., Jain, A.K. and Zhou, J., 2017, August. Patient subtyping via time-aware LSTM networks."
+  }
+]

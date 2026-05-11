@@ -1,0 +1,344 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "framework_vissimRL",
+  "framework_sumoRL",
+  "simulator_vissim",
+  "simulator_sumo",
+  "simulator_cityFlow",
+  "algorithm_ppo",
+  "algorithm_dqn",
+  "algorithm_mappo",
+  "component_vissimWrapper",
+  "component_rlEnvironmentFramework",
+  "component_basicSimulation",
+  "component_signalControl",
+  "component_evaluation",
+  "component_environmentController",
+  "component_trafficSignals",
+  "component_observation",
+  "component_action",
+  "component_reward",
+  "action_chooseNextPhase",
+  "action_switchNextOrNot",
+  "action_setPhaseDuration",
+  "metric_queueLength",
+  "metric_delay",
+  "metric_travelTime",
+  "metric_waitingTime",
+  "metric_throughput",
+  "metric_speed",
+  "network_singleIntersection",
+  "network_arterial3",
+  "network_dayuanInterchange",
+  "concept_trafficSignalControl",
+  "concept_trafficCongestion",
+  "concept_reinforcementLearning",
+  "concept_multiAgentControl",
+  "concept_singleAgentControl",
+  "interface_com",
+  "interface_gymnasium",
+  "interface_pettingZoo",
+  "concept_driverBehavior",
+  "concept_trafficPhase",
+  "concept_greenWave",
+  "concept_greenLightDuration"
+]
+
+Triples:
+[
+  {
+    "subject": "framework_vissimRL",
+    "relation": "integratesWith",
+    "object": "simulator_vissim"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "appliesTo",
+    "object": "concept_trafficSignalControl"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "usesAlgorithm",
+    "object": "algorithm_ppo"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "usesAlgorithm",
+    "object": "algorithm_dqn"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "usesAlgorithm",
+    "object": "algorithm_mappo"
+  },
+  {
+    "subject": "framework_sumoRL",
+    "relation": "integratesWith",
+    "object": "simulator_sumo"
+  },
+  {
+    "subject": "concept_trafficSignalControl",
+    "relation": "mitigatesCondition",
+    "object": "concept_trafficCongestion"
+  },
+  {
+    "subject": "concept_trafficSignalControl",
+    "relation": "managesSystem",
+    "object": "concept_trafficPhase"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "consistsOf",
+    "object": "component_vissimWrapper"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "consistsOf",
+    "object": "component_rlEnvironmentFramework"
+  },
+  {
+    "subject": "simulator_vissim",
+    "relation": "providesInterface",
+    "object": "interface_com"
+  },
+  {
+    "subject": "simulator_vissim",
+    "relation": "modelsBehavior",
+    "object": "concept_driverBehavior"
+  },
+  {
+    "subject": "component_vissimWrapper",
+    "relation": "encapsulatesInterface",
+    "object": "interface_com"
+  },
+  {
+    "subject": "component_vissimWrapper",
+    "relation": "consistsOf",
+    "object": "component_basicSimulation"
+  },
+  {
+    "subject": "component_vissimWrapper",
+    "relation": "consistsOf",
+    "object": "component_signalControl"
+  },
+  {
+    "subject": "component_vissimWrapper",
+    "relation": "consistsOf",
+    "object": "component_evaluation"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "supportsInterface",
+    "object": "interface_gymnasium"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "supportsInterface",
+    "object": "interface_pettingZoo"
+  },
+  {
+    "subject": "component_rlEnvironmentFramework",
+    "relation": "consistsOf",
+    "object": "component_environmentController"
+  },
+  {
+    "subject": "component_rlEnvironmentFramework",
+    "relation": "consistsOf",
+    "object": "component_trafficSignals"
+  },
+  {
+    "subject": "component_rlEnvironmentFramework",
+    "relation": "consistsOf",
+    "object": "component_observation"
+  },
+  {
+    "subject": "component_rlEnvironmentFramework",
+    "relation": "consistsOf",
+    "object": "component_action"
+  },
+  {
+    "subject": "component_rlEnvironmentFramework",
+    "relation": "consistsOf",
+    "object": "component_reward"
+  },
+  {
+    "subject": "component_action",
+    "relation": "providesOption",
+    "object": "action_chooseNextPhase"
+  },
+  {
+    "subject": "component_action",
+    "relation": "providesOption",
+    "object": "action_switchNextOrNot"
+  },
+  {
+    "subject": "component_action",
+    "relation": "providesOption",
+    "object": "action_setPhaseDuration"
+  },
+  {
+    "subject": "action_setPhaseDuration",
+    "relation": "allocatesTime",
+    "object": "concept_greenLightDuration"
+  },
+  {
+    "subject": "component_evaluation",
+    "relation": "calculatesMetric",
+    "object": "metric_queueLength"
+  },
+  {
+    "subject": "component_evaluation",
+    "relation": "calculatesMetric",
+    "object": "metric_delay"
+  },
+  {
+    "subject": "component_evaluation",
+    "relation": "calculatesMetric",
+    "object": "metric_travelTime"
+  },
+  {
+    "subject": "component_evaluation",
+    "relation": "calculatesMetric",
+    "object": "metric_waitingTime"
+  },
+  {
+    "subject": "component_evaluation",
+    "relation": "calculatesMetric",
+    "object": "metric_throughput"
+  },
+  {
+    "subject": "component_evaluation",
+    "relation": "calculatesMetric",
+    "object": "metric_speed"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "evaluatesOn",
+    "object": "network_singleIntersection"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "evaluatesOn",
+    "object": "network_arterial3"
+  },
+  {
+    "subject": "framework_vissimRL",
+    "relation": "evaluatesOn",
+    "object": "network_dayuanInterchange"
+  },
+  {
+    "subject": "network_singleIntersection",
+    "relation": "supportsScenario",
+    "object": "concept_singleAgentControl"
+  },
+  {
+    "subject": "network_arterial3",
+    "relation": "supportsScenario",
+    "object": "concept_multiAgentControl"
+  },
+  {
+    "subject": "network_arterial3",
+    "relation": "exhibitsPhenomenon",
+    "object": "concept_greenWave"
+  },
+  {
+    "subject": "concept_greenWave",
+    "relation": "reducesMetric",
+    "object": "metric_delay"
+  },
+  {
+    "subject": "component_reward",
+    "relation": "penalizesCondition",
+    "object": "metric_waitingTime"
+  },
+  {
+    "subject": "component_reward",
+    "relation": "encouragesMetric",
+    "object": "metric_throughput"
+  }
+]

@@ -1,0 +1,141 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+INPUT TEXT CHUNK:
+2024).
+©2026 The AuthorsarXiv:2601.18693v1  [astro-ph.GA]  26 Jan 2026
+
+2G. Martin et al.
+tersandprovidesacomplementarybaryonictracerofclustergrowth
+and dynamics (Cui et al. 2014). Because its spatial and kinematic
+distributions are set primarily by the cluster potential and the cu-
+mulativeaccretionhistoryofsatellites,theICLencodesinformation
+about both assembly processes and the properties of the underlying
+DM halo that dominates the matter content of the cluster (Gonzalez
+etal.2007,2013;Montes&Trujillo2019;Golden-Marxetal.2023,
+2025).
+Observationally,next-generationsurveyssuchasEuclid(Laureijs
+et al. 2011; Scaramella et al. 2022; Euclid Collaboration, Mellier
+et al. 2025) and LSST (Ivezić et al. 2019) will enable systematic
+ICL studies across large cluster samples to higher redshifts (e.g.
+Euclid Collaboration, Bellhouse et al. 2025).Euclidis forecast to
+detect ICL in tens of thousands of clusters up to𝑧=1.5, while
+LSST will reach𝜇=30–31 mag arcsec−2(3𝜎,10′′×10′′) (Martin
+et al. 2022; Brough et al. 2024; Englert et al. 2025). These datasets
+will enable direct comparison of ICL with weak lensing and X-ray
+observations, allowing ICL to trace halo properties and assembly
+histories. However, this requires careful understanding of how stars
+and DM are distributed during cluster assembly.
+A growing body of observational and theoretical work demon-
+stratesastrongcorrespondencebetweenthelarge-scalemorphology
+of the ICL and that of the cluster DM halo. For example, Montes &
+Trujillo (2019) showed that the projected shape of the ICL closely
+follows that of the lensing-derived total mass distribution inHubble
+Space TelescopeFrontier Fields clusters, while Ellien et al. (2025)
+showssimilarresultsusingEuclidEarlyReleaseObservations.Cos-
+mological simulations also report alignments between ICL and DM
+onlargescales(e.g.Yooetal.2024).Thiscorrespondenceindicates
+thattheICLtracesatleastsomeofthecluster’sdynamicalandspatial
+properties. However, detailed studies reveal that the relation is not
+one-to-one. Numerical simulations show that the ICL’s
+kinematicpropertiesdiffersystematicallyfromthoseofbothclus-
+ter galaxies and the underlying DM halo (Rudick et al. 2006, 2011;
+Dolagetal.2010)andoccupiessystematicallylowerorbitalenergies
+and higher anisotropies than the background DM halo, producing
+phase-space offsets that are sensitive to a cluster’s accretion history
+(Butler et al. 2025). These kinematic differences directly result in
+the ICL having significantly more compact radial density profiles
+thantheDM,asseeninbothobservationsandsimulations(Pillepich
+et al. 2018; Alonso Asensio et al. 2020; Chen et al. 2022; Diego
+etal.2023,2024;Contreras-Santosetal.2024,2025),implyingthat
+the underlying DM distribution cannot be straightforwardly inferred
+from naïve mappings between stellar and DM distributions.
+UnderstandingwhytheICLexhibitsthesedistinctivephase-space
+properties requires examining the physical mechanisms that govern
+stellar stripping. Butler et al. (2025) proposed physical explanations
+for these systematic differences, two of which we test in this work.
+First, the more extended DM component of infalling satellites is
+strippedmoreefficientlythanthecentrallyconcentratedstellarcom-
+ponent (e.g. Smith et al. 2016; Haggar et al. 2021). This naturally
+suggests that intracluster stars should occupy lower orbital energies
+and angular momenta than the DM stripped from the same systems.
+Second,dynamicalfrictionandtidaltorquescausemassivesatellites
+to lose orbital energy (Chandrasekhar 1943). While DM is pref-
+erentially removed at earlier times, the centrally concentrated stars
+can survive until later and are therefore deposited onto more tightly
+bound orbits.
+The resulting phase-space offsets between stripped stars and DM
+are therefore expected to vary with the relative efficiency of tidal
+stripping, dynamical friction and tidal torques in addition to themass,internalstructureandorbitalconfigurationofthesatellitesthat
+contribute to the ICL.
+These dependencies imply that using the ICL as a tracer of halo
+mass, shape, or dynamics requires more than a simple mapping be-
+tween stars and DM. Quantifying the strength and physical origin
+of the resulting spatial and phase-space offsets is a prerequisite for
+employingdiffusestarlightasaprecisionprobeofclusterDMhaloes
+with forthcomingEuclidand LSST data.
+The paper proceeds as follows. In Section 2 we describe the
+controlled𝑁-body simulations of satellites accreted into a clus-
+ter halo. Section 3 presents the results of these experiments and
+examines how the phase-space distributions and the resulting off-
+sets in specific energy and angular momentum depend on satellite
+mass ratio and orbital configuration.

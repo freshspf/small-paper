@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "StepFunction",
+  "sendsActionTo",
+  "TrafficSignalModule",
+  "CoreFunctionality",
+  "isSummarizedIn",
+  "TableV",
+  "InterfaceDefinition",
+  "Module",
+  "provides",
+  "StandardizedInterface",
+  "allowsInstantiationOf",
+  "RLEnvironment",
+  "SingleAgentScenario",
+  "usesInterface",
+  "gym.make",
+  "MultiAgentScenario",
+  "parallel_env",
+  "hasInstantiationMethod",
+  "acceptsParameter",
+  "ConfigurationParameter",
+  "SystemDesign",
+  "lowersBarrierFor",
+  "UsageBarrier",
+  "establishes",
+  "ReproducibleExperimentalFoundation",
+  "supportsProcess",
+  "ReinforcementLearningTraining",
+  "isListedIn",
+  "AppendixA-2",
+  "assignsTo",
+  "Intersection",
+  "assigns",
+  "IndependentController",
+  "manages",
+  "Phase",
+  "hasController",
+  "vissim_rl_framework",
+  "evaluates",
+  "choose_next_phase",
+  "switch_next_or_not",
+  "set_phase_duration",
+  "default_reward_function",
+  "computes",
+  "TrafficPerformanceMetric",
+  "internal_waiting_time",
+  "measures",
+  "VehicleWaitingTime",
+  "boundary_waiting_time",
+  "EntryPointWaitingTime",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "Delay",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel"
+]
+
+Triples:
+[
+  {
+    "subject": "StepFunction",
+    "relation": "sendsActionTo",
+    "object": "TrafficSignalModule",
+    "chunk": "systemdesignofvissimrl2",
+    "context": "During each decision step, the RL agent invokes thestep(actions)function, which sends theactionsto the corresponding Traffic Signals modules within VissimRL, advancing the simulation to the next decision point, and then returns updated observations, rewards computed from performance measures, as well as termination, truncation, and auxiliary information."
+  },
+  {
+    "subject": "CoreFunctionality",
+    "relation": "isSummarizedIn",
+    "object": "TableV",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "The core functionalities and interface definitions are summarized in Table V."
+  },
+  {
+    "subject": "InterfaceDefinition",
+    "relation": "isSummarizedIn",
+    "object": "TableV",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "The core functionalities and interface definitions are summarized in Table V."
+  },
+  {
+    "subject": "Module",
+    "relation": "provides",
+    "object": "StandardizedInterface",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "the module provides a simple and standardized interface, allowing users to instantiate the RL environment with a single line of code"
+  },
+  {
+    "subject": "StandardizedInterface",
+    "relation": "allowsInstantiationOf",
+    "object": "RLEnvironment",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "the module provides a simple and standardized interface, allowing users to instantiate the RL environment with a single line of code"
+  },
+  {
+    "subject": "SingleAgentScenario",
+    "relation": "usesInterface",
+    "object": "gym.make",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "For single-agent scenarios: gym.make( **config)"
+  },
+  {
+    "subject": "MultiAgentScenario",
+    "relation": "usesInterface",
+    "object": "parallel_env",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "For multi-agent scenarios: parallel_env( **config)"
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "hasInstantiationMethod",
+    "object": "gym.make",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "For single-agent scenarios: gym.make( **config)"
+  },
+  {
+    "subject": "RLEnvironment",
+    "relation": "hasInstantiationMethod",
+    "object": "parallel_env",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "For multi-agent scenarios: parallel_env( **config)"
+  },
+  {
+    "subject": "gym.make",
+    "relation": "acceptsParameter",
+    "object": "ConfigurationParameter",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "For single-agent scenarios: gym.make( **config)"
+  },
+  {
+    "subject": "parallel_env",
+    "relation": "acceptsParameter",
+    "object": "ConfigurationParameter",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "For multi-agent scenarios: parallel_env( **config)"
+  },
+  {
+    "subject": "SystemDesign",
+    "relation": "lowersBarrierFor",
+    "object": "UsageBarrier",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "This design significantly lowers the usage barrier and establishes a highly reproducible experimental foundation for subsequent RL training"
+  },
+  {
+    "subject": "SystemDesign",
+    "relation": "establishes",
+    "object": "ReproducibleExperimentalFoundation",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "This design significantly lowers the usage barrier and establishes a highly reproducible experimental foundation for subsequent RL training"
+  },
+  {
+    "subject": "ReproducibleExperimentalFoundation",
+    "relation": "supportsProcess",
+    "object": "ReinforcementLearningTraining",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "establishes a highly reproducible experimental foundation for subsequent RL training"
+  },
+  {
+    "subject": "ConfigurationParameter",
+    "relation": "isListedIn",
+    "object": "AppendixA-2",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "see Appendix A-2 for the complete list of configuration parameters"
+  },
+  {
+    "subject": "TrafficSignalModule",
+    "relation": "assignsTo",
+    "object": "Intersection",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "The Traffic Signals module assigns each intersection an independent controller to manage phase"
+  },
+  {
+    "subject": "TrafficSignalModule",
+    "relation": "assigns",
+    "object": "IndependentController",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "The Traffic Signals module assigns each intersection an independent controller to manage phase"
+  },
+  {
+    "subject": "IndependentController",
+    "relation": "manages",
+    "object": "Phase",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "The Traffic Signals module assigns each intersection an independent controller to manage phase"
+  },
+  {
+    "subject": "Intersection",
+    "relation": "hasController",
+    "object": "IndependentController",
+    "chunk": "systemdesignofvissimrl3",
+    "context": "The Traffic Signals module assigns each intersection an independent controller to manage phase"
+  },
+  {
+    "subject": "vissim_rl_framework",
+    "relation": "evaluates",
+    "object": "choose_next_phase",
+    "chunk": "experiments1",
+    "context": "The framework integrates Vissim with standardized RL interfaces to evaluate performance across three action designs (ChooseNextPhase, SwitchNextOrNot, andSetPhaseDuration) in both single- and multi-agent settings."
+  },
+  {
+    "subject": "vissim_rl_framework",
+    "relation": "evaluates",
+    "object": "switch_next_or_not",
+    "chunk": "experiments1",
+    "context": "The framework integrates Vissim with standardized RL interfaces to evaluate performance across three action designs (ChooseNextPhase, SwitchNextOrNot, andSetPhaseDuration) in both single- and multi-agent settings."
+  },
+  {
+    "subject": "vissim_rl_framework",
+    "relation": "evaluates",
+    "object": "set_phase_duration",
+    "chunk": "experiments1",
+    "context": "The framework integrates Vissim with standardized RL interfaces to evaluate performance across three action designs (ChooseNextPhase, SwitchNextOrNot, andSetPhaseDuration) in both single- and multi-agent settings."
+  },
+  {
+    "subject": "default_reward_function",
+    "relation": "computes",
+    "object": "TrafficPerformanceMetric",
+    "chunk": "experiments1",
+    "context": "DefaultRewardFunctionComputes a weighted combination of multiple traffic performance metrics"
+  },
+  {
+    "subject": "internal_waiting_time",
+    "relation": "measures",
+    "object": "VehicleWaitingTime",
+    "chunk": "experiments1",
+    "context": "- Internal waiting time Measures the time vehicles wait within the network"
+  },
+  {
+    "subject": "boundary_waiting_time",
+    "relation": "measures",
+    "object": "EntryPointWaitingTime",
+    "chunk": "experiments1",
+    "context": "- Boundary waiting time Measures the waiting time at network entry points"
+  }
+]

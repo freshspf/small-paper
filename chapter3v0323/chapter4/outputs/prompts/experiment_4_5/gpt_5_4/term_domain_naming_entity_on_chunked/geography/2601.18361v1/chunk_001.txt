@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["HighAltitudePlatformStation","LowEarthOrbitSatellite","TerrestrialNetwork","InternetOfThingsConnectivity","RemoteRegion","UnderservedRegion","TransmissionErasureProbability","HybridArchitecture","AerialInfrastructure","SpatialInfrastructure","TerrestrialInfrastructure","FixedRegion","ElevationAngle","Gateway","Device","FadingModel","TerrestrialCommunication","NonTerrestrialCommunication","LongRangeFrequencyHoppingSpreadSpectrum","RandomAccessUplinkTechnology","SparseTerrestrialNetwork","SatelliteBasedSystem","SpecificScenario","DeploymentCost","OperationalCost","NaturalDisaster","ConventionalInfrastructure","GlobalDigitalInclusion","BasicNetworkInfrastructure","GeographicConstraint","EconomicConstraint","PoliticalConstraint","AlternativeConnectivitySolution","HerdTracking","WildlifeTracking","ForestFireDetection","AgriculturalMonitoring","AquacultureMonitoring","OffshoreShipTracking","CargoMonitoring"]
+
+Triples:
+[{"subject":"HighAltitudePlatformStation","relation":"complements","object":"SparseTerrestrialNetwork"},{"subject":"HighAltitudePlatformStation","relation":"improvesPerformanceOf","object":"SatelliteBasedSystem"},{"subject":"NaturalDisaster","relation":"makesCompetitive","object":"HighAltitudePlatformStation"},{"subject":"HighAltitudePlatformStation","relation":"hasHigherCostThan","object":"LowEarthOrbitSatellite"},{"subject":"HighAltitudePlatformStation","relation":"hasHigherCostThan","object":"TerrestrialNetwork"},{"subject":"HighAltitudePlatformStation","relation":"hasCostComparableTo","object":"LowEarthOrbitSatellite"},{"subject":"HighAltitudePlatformStation","relation":"hasCostComparableTo","object":"TerrestrialNetwork"},{"subject":"RemoteRegion","relation":"lacks","object":"BasicNetworkInfrastructure"},{"subject":"UnderservedRegion","relation":"lacks","object":"BasicNetworkInfrastructure"},{"subject":"BasicNetworkInfrastructure","relation":"lacksDueTo","object":"GeographicConstraint"},{"subject":"BasicNetworkInfrastructure","relation":"lacksDueTo","object":"EconomicConstraint"},{"subject":"BasicNetworkInfrastructure","relation":"lacksDueTo","object":"PoliticalConstraint"},{"subject":"AlternativeConnectivitySolution","relation":"establishesConnectivityIn","object":"RemoteRegion"},{"subject":"AlternativeConnectivitySolution","relation":"enhances","object":"ExistingSystem"},{"subject":"AlternativeConnectivitySolution","relation":"complements","object":"ExistingSystem"},{"subject":"HerdTracking","relation":"isApplicationFor","object":"InternetOfThingsConnectivity"},{"subject":"WildlifeTracking","relation":"isApplicationFor","object":"InternetOfThingsConnectivity"},{"subject":"ForestFireDetection","relation":"isApplicationFor","object":"InternetOfThingsConnectivity"},{"subject":"AgriculturalMonitoring","relation":"isApplicationFor","object":"InternetOfThingsConnectivity"},{"subject":"AquacultureMonitoring","relation":"isApplicationFor","object":"InternetOfThingsConnectivity"},{"subject":"OffshoreShipTracking","relation":"isApplicationFor","object":"InternetOfThingsConnectivity"},{"subject":"CargoMonitoring","relation":"isApplicationFor","object":"InternetOfThingsConnectivity"},{"subject":"LowEarthOrbitSatellite","relation":"offers","object":"GlobalCoverage"},{"subject":"LowEarthOrbitSatellite","relation":"offers","object":"Scalability"},{"subject":"LowEarthOrbitSatellite","relation":"extends","object":"InternetOfThingsConnectivity"},{"subject":"LowEarthOrbitSatellite","relation":"providesWideCoveragePer","object":"Satellite"},{"subject":"LowEarthOrbitSatellite","relation":"enablesCommunicationWith","object":"RemoteRegion"},{"subject":"LowEarthOrbitSatellite","relation":"requires","object":"Constellation"},{"subject":"Constellation","relation":"ensures","object":"ContinuousService"},{"subject":"Device","relation":"coordinatesWith","object":"LowEarthOrbitSatellite"},{"subject":"LinkBudget","relation":"restrictsOperationOf","object":"Device"},{"subject":"IndoorEnvironment","relation":"restricts","object":"DeviceOperation"},{"subject":"AreaWithoutLineOfSight","relation":"restricts","object":"DeviceOperation"},{"subject":"LowEarthOrbitSatellite","relation":"covers","object":"LargePortionOfEarthSurface"},{"subject":"LowEarthOrbitSatellite","relation":"causes","object":"InterferenceChallenge"},{"subject":"InterferenceChallenge","relation":"occursIn","object":"MassiveIoTScenario"},{"subject":"HighAltitudePlatformStation","relation":"isAlternativeFor","object":"NonTerrestrialNetwork"},{"subject":"HighAltitudePlatformStation","relation":"operatesIn","object":"Stratosphere"},{"subject":"HighAltitudePlatformStation","relation":"hasAltitudeRange","object":"8To50Km"},{"subject":"HighAltitudePlatformStation","relation":"isCloserTo","object":"Ground"}]

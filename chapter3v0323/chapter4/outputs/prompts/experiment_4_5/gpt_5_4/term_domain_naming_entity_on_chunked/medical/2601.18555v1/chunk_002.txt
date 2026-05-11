@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["PincerMorphology","FemoralHeadAsphericity","AcetabularCoverage","PathologicalThreshold","FemoralHeadNeckJunction","AcetabularRim","AbnormalContact","Motion","FemoralHeadCentre","NeckAxisPoint","LateralAcetabularEdge","LateralCamPoint","FemoralNeckAxis","CamDeformityVector","VerticalAxis","AcetabularCoverageVector","ClinicalFeasibility","VolumetricAnalysis","ThreeDGeometricAnalysis","CrossModalityClinicalEquivalence","DiagnosticAccuracy","CamTypeImpingement","LocalisationAccuracy","LandmarkLocalisation","MeanRadialError","SuccessDetectionRate","ClinicalAngleAssessment","MeanAbsoluteError","IntraclassCorrelationCoefficient","MedianAbsoluteDifference","BlandAltmanAnalysis","DiagnosticPerformance","Sensitivity","Specificity","PositivePredictiveValue","NegativePredictiveValue","ConfusionMatrix","MatchedPatientCohort","PathologicalCohort","ClinicalEvidenceOfFAI"]
+
+Triples:
+[{"subject":"MatchedCohortValidationStudy","relation":"uses","object":"PairedMRIXRay"},{"subject":"StandardHeatmapRegressionArchitecture","relation":"isUsedIn","object":"MatchedCohortValidationStudy"},{"subject":"MatchedCohortValidationStudy","relation":"assesses","object":"CrossModalityClinicalEquivalence"},{"subject":"LandmarkDetectionOnXRay","relation":"hasBeenProvenEffectiveFor","object":"FemoroacetabularImpingement"},{"subject":"MRI","relation":"achieves","object":"EquivalentLocalisationAccuracy"},{"subject":"MRI","relation":"achieves","object":"EquivalentDiagnosticAccuracy"},{"subject":"EquivalentDiagnosticAccuracy","relation":"appliesTo","object":"CamTypeImpingement"},{"subject":"AutomatedLandmarkDetectionMethod","relation":"demonstrates","object":"ClinicalFeasibility"},{"subject":"ClinicalFeasibility","relation":"appliesTo","object":"FAIAssessment"},{"subject":"FAIAssessment","relation":"isPerformedIn","object":"CoronalView"},{"subject":"CoronalView","relation":"belongsTo","object":"ThreeDMRIVolume"},{"subject":"AutomatedLandmarkDetectionMethod","relation":"opensPossibilityFor","object":"VolumetricAnalysis"},{"subject":"VolumetricAnalysis","relation":"requires","object":"FurtherLandmark"},{"subject":"Result","relation":"supportsIntegrating","object":"AutomatedFAIAssessment"},{"subject":"AutomatedFAIAssessment","relation":"isIntegratedInto","object":"RoutineMRIWorkflow"},{"subject":"FAIAngleComputation","relation":"isFormulatedAs","object":"LandmarkDetectionProblem"},{"subject":"EachHip","relation":"hasAnnotatedKeypoint","object":"FemoralHeadCentre"},{"subject":"EachHip","relation":"hasAnnotatedKeypoint","object":"NeckAxisPoint"},{"subject":"EachHip","relation":"hasAnnotatedKeypoint","object":"LateralAcetabularEdge"},{"subject":"EachHip","relation":"hasAnnotatedKeypoint","object":"LateralCamPoint"},{"subject":"NeckAxisPoint","relation":"isLocatedAlong","object":"FemoralNeckCentreline"},{"subject":"LateralCamPoint","relation":"isLocationWhere","object":"FemoralHeadDeviatesFromSphericity"},{"subject":"OmegaAngle","relation":"isComputedAsAngleBetween","object":"FemoralNeckAxis"},{"subject":"OmegaAngle","relation":"isComputedAsAngleBetween","object":"CamDeformityVector"},{"subject":"FemoralNeckAxis","relation":"isDefinedBy","object":"FemoralHeadCentreToNeckAxisPoint"},{"subject":"CamDeformityVector","relation":"isDefinedBy","object":"FemoralHeadCentreToLateralCamPoint"},{"subject":"LateralCamPoint","relation":"isHardToPinpointBy","object":"Clinician"},{"subject":"OmegaAngle","relation":"isDifficultToCalculate","object":"BecauseOfLateralCamPoint"},{"subject":"LCEAngle","relation":"isCalculatedAsAngleBetween","object":"VerticalAxis"},{"subject":"LCEAngle","relation":"isCalculatedAsAngleBetween","object":"AcetabularCoverageVector"},{"subject":"AcetabularCoverageVector","relation":"isDefinedBy","object":"FemoralHeadCentreToLateralAcetabularEdge"},{"subject":"LCEAngle","relation":"quantifies","object":"LateralAcetabularOverhang"},{"subject":"HeatmapRegressionArchitecture","relation":"followsPracticeIn","object":"MedicalLandmarkDetection"},{"subject":"GroundTruthGaussianHeatmap","relation":"isCenteredAt","object":"AnnotatedLocation"},{"subject":"EncoderDecoderNetwork","relation":"isTrainedToPredict","object":"Heatmap"},{"subject":"EncoderDecoderNetwork","relation":"takesInput","object":"Image"},{"subject":"EncoderDecoderNetwork","relation":"minimizes","object":"NegativeLogLikelihoodLoss"},{"subject":"Inference","relation":"extracts","object":"LandmarkCoordinate"},{"subject":"LandmarkCoordinate","relation":"isExtractedAs","object":"SpatialArgmaxOfPredictedHeatmap"},{"subject":"TestTimeAugmentation","relation":"improves","object":"Robustness"}]

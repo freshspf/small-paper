@@ -1,0 +1,171 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument4
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+INPUT TEXT CHUNK:
+QUANTUM OPTIMIZATION METHODS
+To ﬁnd the ground energy and ground state (bitstring
+solution) of HMSSandHSCO, we apply the feedback-
+based quantum control algorithm (FALQON) [35] and
+a recent developed method imaginary-time evolution en-
+hanced FALQON (ITE-FALQON) [36].
+A. FALQON
+Unlike hybrid variational methods such as QAOA,
+which rely on repeated circuit executions combined with
+classical parameter optimization, FALQON determines
+its controlparametersdirectlyfromthe quantum dynam-
+ics. This eliminates the need for classical training and
+makes the method particularly eﬀective for constrained
+combinatorial problems with highly nonconvex energy
+landscapes.
+The quantum state evolves under a time-dependent
+Hamiltonian
+H(t) =Hp+β(t)Hd, (13)
+whereHpis the problem Hamiltonian, i.e., HMSS,HSCO,
+andHd=/summationtext
+iXiis a driver Hamiltonian that induces
+transitionsbetweencomputationalbasisstates. Allphar-
+macological information is contained in Hp; therefore, its
+ground state corresponds to the optimal drug combina-
+tion.
+The feedback mechanism adjusts the control ﬁeld
+β(t) =−i∝an}bracketle{tψ(t)|[Hd,Hp]|ψ(t)∝an}bracketri}htsuch that the expectation
+value
+C(t) =∝an}bracketle{tψ(t)|Hp|ψ(t)∝an}bracketri}ht, (14)
+decreases monotonically during the evolution. The up-
+date rule is determined by the instantaneous commuta-
+tor between HdandHp, which identiﬁes the direction
+of energy descent. In this way, FALQON implements a
+quantum analogue of gradient descent without explicitly
+computing gradients or optimizing multiple variational
+parameters.
+In practice, the evolution is discretized into a sequence
+ofalternatingapplicationsof HpandHd, withthecontrol
+ﬁeldupdated ateachstepthroughthefeedbackrule. The
+circuit depth therefore grows linearly with the number of
+time steps, making the algorithm robust to noise and
+suitable for near-term quantum hardware. In the DDI
+setting, this dynamical process naturally suppresses un-
+safe drug combinations while amplifying conﬁgurations
+that satisfy the MSS or SCO objectives.
+B. ITE-FALQON
+To further accelerate convergence toward the ground
+state and suppress residual excited-state components, weconsider an extension of FALQON based on imaginary-
+time evolution or ITE-FALQON [36]. In imaginary time,
+the state propagation is governed by the non-unitary
+transformation
+|ψ(τ+∆τ)∝an}bracketri}ht ∝e−∆τHp|ψ(τ)∝an}bracketri}ht,
+which acts as an energy ﬁlter.
+By expanding the state in the energy eigenbasis of
+Hp, imaginary-time evolution exponentially suppresses
+higher-energy components relative to the ground state.
+As the imaginary time τincreases, the state is progres-
+sivelyprojectedontothe lowest-energysubspace, thereby
+enhancing ground-state ﬁdelity.
+Within the ITE-FALQON framework, this energy-
+ﬁltering mechanism is combined with the feedback-
+controlled dynamics of FALQON. The resulting evolu-
+tion guides the system more directly toward the true
+ground state of the HMSSandHSCO, improving conver-
+gence speed and stability, particularly in cases where the
+energy spectrum is dense or near-degenerate [36].
+IV. IMPLEMENTATION DETAILS
+A. Model setup
+We construct a six-drug interaction network from clin-
+ically documented data, as shown in Fig. 1 and Tab. I.
+The drug set includes Ritonavir, Everolimus, Cabazi-
+taxel, Metformin, Erlotinib, and Topotecan, which cov-
+ers antiviral, oncological, and metabolic therapies and
+exhibits a range of harmful and synergistic interactions.
+This combination provides a compact yet representative
+testbedforDDIoptimization. Theinteractiongraphcon-
+tains weighted harmful edges, which introduce energetic
+penalties, and synergistic edges, which lower the energy
+of favorable combinations. This graph fully determines
+the Ising Hamiltonians used in the FALQON and ITE-
+FALQON simulations.
+All numerical simulations are performed using the
+Qiskit statevector backend. Each drug is encoded by a
+single qubit, and the corresponding Ising Hamiltonians
+areconstructedfromstandardPauli- ZandZZoperators
+according to HMSSandHSCO. The mixer Hamiltonian
+consists of a sum of single-qubit Pauli- Xoperators.
+The quantum evolution is discretized into Ttime
+steps. At each step, the control ﬁeld β(t) is updated
+using the FALQON feedback rule. For ITE-FALQON,
+an imaginary-time evolution step is applied after ev-
+ery two FALQON updates. The imaginary-time step
+size ∆τis chosen separately for each model to account
+for diﬀerences in energy scales. For the MSS problem,
+we use ∆τ= 0.1, while the SCO problem requires a
+smaller step size, ∆ τ= 0.01, to ensure numerical sta-
+bility. This smaller ∆ τis necessary because the SCO
+Hamiltonian includes a quadratic cardinality constraint,
+µ(/summationtext
+ixi−K)2, which leads to larger energy eigenvalues
+and all-to-all couplings.
+
+5
+After the ﬁnal evolution, measurements yield a prob-
+ability distribution over all bitstrings, where the most
+probable low-energy states correspond to candidate drug
+combinations satisfying the MSS or SCO criteria.
+B.

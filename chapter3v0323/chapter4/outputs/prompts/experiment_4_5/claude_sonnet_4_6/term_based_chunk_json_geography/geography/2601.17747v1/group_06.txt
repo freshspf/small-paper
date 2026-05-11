@@ -1,0 +1,298 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "module_stam",
+  "designedFor",
+  "SupervisedLearning",
+  "aggregates",
+  "BiTemporalStructuralInformation",
+  "module_crr",
+  "WeaklySupervisedLearning",
+  "suppresses",
+  "ArtificialChange",
+  "module_spci",
+  "developedFor",
+  "UnsupervisedLearning",
+  "utilizes",
+  "FoundationModelPrior",
+  "framework_unicd",
+  "evaluatedIn",
+  "RemoteSensingDynamicScenario",
+  "ChangeDetection",
+  "performedOn",
+  "HighResolutionImage",
+  "CnnTransformerNetwork",
+  "appliedTo",
+  "CroplandChangeDetection",
+  "MultispectralImagery",
+  "UnsupervisedChangeDetection",
+  "MultitemporalVhrImage",
+  "basedOn",
+  "DeepKernelPcaConvolutionalMappingNetwork",
+  "FullyConvolutionalChangeDetectionFramework",
+  "GenerativeAdversarialNetwork",
+  "WeaklySupervisedChangeDetection",
+  "RegionalSupervisedChangeDetection",
+  "MultiClassTokenTransformer",
+  "WeaklySupervisedSemanticSegmentation",
+  "EfficientModel",
+  "EffectivePrior",
+  "LandCoverChange",
+  "MultiTemporalRemoteSensingImage",
+  "LandResourceMonitoring",
+  "UrbanExpansionAnalysis",
+  "DisasterAssessment",
+  "AgriculturalMonitoring",
+  "model_uniCd",
+  "SupervisionAdaptiveFramework",
+  "SupervisedChangeDetectionTask",
+  "WeaklySupervisedChangeDetectionTask",
+  "UnsupervisedChangeDetectionTask",
+  "RemoteSensingPlatform",
+  "MultiTemporalObservationData",
+  "SurfaceDynamics",
+  "TimeSeriesComparison",
+  "TimeVaryingFeature",
+  "LandCoverEvolution",
+  "IlluminationChange",
+  "SeasonalEffect",
+  "RealChange",
+  "PseudoChange",
+  "NetworkArchitecture",
+  "ConvolutionalNeuralNetwork",
+  "Transformer",
+  "Mamba",
+  "VisualFoundationModel",
+  "VisionTask",
+  "model_sam",
+  "TaskSpecificAdaptation",
+  "ExplicitSupervisionSignal",
+  "TemporalChange",
+  "ComplexBackgroundVariation",
+  "SupervisedLearningParadigm",
+  "RemoteSensingChangeDetection",
+  "SupervisedCd",
+  "WeaklySupervisedCd",
+  "UnsupervisedCd",
+  "PixelLevelAnnotation",
+  "DeepSupervision",
+  "SelfAttention",
+  "ImageLevelAnnotation",
+  "RegionLevelAnnotation",
+  "ClassActivationMap",
+  "PotentialChangeArea"
+]
+
+Triples:
+[
+  {
+    "subject": "module_stam",
+    "relation": "designedFor",
+    "object": "SupervisedLearning",
+    "chunk": "conclusion1",
+    "context": "We design STAM for supervised learning to efficiently aggregate bi-temporal structural information."
+  },
+  {
+    "subject": "module_stam",
+    "relation": "aggregates",
+    "object": "BiTemporalStructuralInformation",
+    "chunk": "conclusion1",
+    "context": "We design STAM for supervised learning to efficiently aggregate bi-temporal structural information."
+  },
+  {
+    "subject": "module_crr",
+    "relation": "designedFor",
+    "object": "WeaklySupervisedLearning",
+    "chunk": "conclusion1",
+    "context": "For weakly-supervised learning, we design CRR to optimize the stable and separable change representations in latent space, thereby suppressing artificial changes and enhancing the structural integrity of change boundaries."
+  },
+  {
+    "subject": "module_crr",
+    "relation": "suppresses",
+    "object": "ArtificialChange",
+    "chunk": "conclusion1",
+    "context": "For weakly-supervised learning, we design CRR to optimize the stable and separable change representations in latent space, thereby suppressing artificial changes and enhancing the structural integrity of change boundaries."
+  },
+  {
+    "subject": "module_spci",
+    "relation": "developedFor",
+    "object": "UnsupervisedLearning",
+    "chunk": "conclusion1",
+    "context": "Simultaneously, SPCI is developed for unsupervised learning, It utilizes foundation model priors to generate usable proxy supervision signals on unlabeled data"
+  },
+  {
+    "subject": "module_spci",
+    "relation": "utilizes",
+    "object": "FoundationModelPrior",
+    "chunk": "conclusion1",
+    "context": "It utilizes foundation model priors to generate usable proxy supervision signals on unlabeled data, naturally transforming unsupervised tasks into optimizable weakly-supervised learning pathways."
+  },
+  {
+    "subject": "framework_unicd",
+    "relation": "evaluatedIn",
+    "object": "RemoteSensingDynamicScenario",
+    "chunk": "conclusion1",
+    "context": "Experiments demonstrate that the proposed method exhibits stable advantages under supervised, weakly-supervised, and unsupervised settings, validating UniCD’s robustness and generalization potential in complex remote sensing dynamic scenarios."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "performedOn",
+    "object": "HighResolutionImage",
+    "chunk": "conclusion1",
+    "context": "A deeply supervised attention metric based network for change detection of high-resolution images."
+  },
+  {
+    "subject": "CnnTransformerNetwork",
+    "relation": "appliedTo",
+    "object": "CroplandChangeDetection",
+    "chunk": "conclusion1",
+    "context": "A cnn-transformer network with multiscale context aggregation for fine-grained cropland change detection."
+  },
+  {
+    "subject": "ChangeDetection",
+    "relation": "performedOn",
+    "object": "MultispectralImagery",
+    "chunk": "conclusion1",
+    "context": "Slow feature analysis for change detection in multispectral imagery."
+  },
+  {
+    "subject": "UnsupervisedChangeDetection",
+    "relation": "appliedTo",
+    "object": "MultitemporalVhrImage",
+    "chunk": "conclusion2",
+    "context": "Unsupervised change detection in mul- temporal vhr images based on deep kernel pca convolu- tional mapping network."
+  },
+  {
+    "subject": "UnsupervisedChangeDetection",
+    "relation": "basedOn",
+    "object": "DeepKernelPcaConvolutionalMappingNetwork",
+    "chunk": "conclusion2",
+    "context": "Unsupervised change detection in mul- temporal vhr images based on deep kernel pca convolu- tional mapping network."
+  },
+  {
+    "subject": "FullyConvolutionalChangeDetectionFramework",
+    "relation": "utilizes",
+    "object": "GenerativeAdversarialNetwork",
+    "chunk": "conclusion2",
+    "context": "Fully convolutional change detection framework with gen- erative adversarial network for unsupervised, weakly su- pervised and regional supervised change detection."
+  },
+  {
+    "subject": "FullyConvolutionalChangeDetectionFramework",
+    "relation": "designedFor",
+    "object": "UnsupervisedChangeDetection",
+    "chunk": "conclusion2",
+    "context": "Fully convolutional change detection framework with gen- erative adversarial network for unsupervised, weakly su- pervised and regional supervised change detection."
+  },
+  {
+    "subject": "FullyConvolutionalChangeDetectionFramework",
+    "relation": "designedFor",
+    "object": "WeaklySupervisedChangeDetection",
+    "chunk": "conclusion2",
+    "context": "Fully convolutional change detection framework with gen- erative adversarial network for unsupervised, weakly su- pervised and regional supervised change detection."
+  },
+  {
+    "subject": "FullyConvolutionalChangeDetectionFramework",
+    "relation": "designedFor",
+    "object": "RegionalSupervisedChangeDetection",
+    "chunk": "conclusion2",
+    "context": "Fully convolutional change detection framework with gen- erative adversarial network for unsupervised, weakly su- pervised and regional supervised change detection."
+  },
+  {
+    "subject": "MultiClassTokenTransformer",
+    "relation": "designedFor",
+    "object": "WeaklySupervisedSemanticSegmentation",
+    "chunk": "conclusion2",
+    "context": "Multi-class token transformer for weakly supervised semantic segmentation."
+  },
+  {
+    "subject": "EfficientModel",
+    "relation": "designedFor",
+    "object": "WeaklySupervisedChangeDetection",
+    "chunk": "conclusion2",
+    "context": "Exploring effective priors and efficient models for weakly-supervised change detection."
+  },
+  {
+    "subject": "EffectivePrior",
+    "relation": "designedFor",
+    "object": "WeaklySupervisedChangeDetection",
+    "chunk": "conclusion2",
+    "context": "Exploring effective priors and efficient models for weakly-supervised change detection."
+  }
+]

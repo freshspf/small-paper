@@ -1,0 +1,244 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Photoexcitation spectroscopy of highly charged ions for application
+to astronomy using a compact electron beam ion trap (EBIT)
+at the synchrotron radiation facility SPring-8
+Leo HIRA TA1,2,3), Y uki AMANO2,3), Moto TOGAW A4,5), Hiroyuki A. SAKAUE6),
+Nobuyuki NAKAMURA7,3), Makoto SAW ADA8,3), Hiromasa SUZUKI 9,3), Masaki OURA10) and
+Hiroya Y AMAGUCHI2,1,3)
+1)Department of Physics, The University of Tokyo, 7-3-1 Hongo, Bunkyo-ku, Tokyo 113-0033, Japan
+2)Institute of Space and Astronautical Science (ISAS), Japan Aerospace Exploration Agency (JAXA), 3-1-1 Yoshinodai,
+Chuo-ku, Sagamihara 252-5210, Japan
+3)RIKEN Pioneering Research Institute, RIKEN, 2-1 Hirosawa, Wako 351-0198, Japan
+4)Max-Planck-Institut f¨ ur Kernphysik, Saupfercheckweg 1, 69117 Heidelberg, Germany
+5)European XFEL, Holzkoppel 4, 22869 Schenefeld, Germany
+6)National Institute for Fusion Science, National Institutes of Natural Sciences, 322-6 Oroshi-cho, Toki 509-5292, Japan
+7)Institute for Laser Science, The University of Electro-Communications, 1-5-1 Chofugaoka, Chofu 182-8585, Japan
+8)Department of Physics, Rikkyo University, 3-34-1 Nishi Ikebukuro, Toshima-ku, Tokyo 171-8501, Japan
+9)Faculty of Engineering, University of Miyazaki, 1-1 Gakuen Kibanadai-nishi, Miyazaki 889-2192 Japan
+10)RIKEN SPring-8 Center , RIKEN, 1-1-1 Kouto, Sayo, Hyogo 679-5148, Japan
+January 26, 2026
+In the past few decades, X-ray astronomy satellites equipped with grating spectrometers and microcalorime-
+ters have enabled high-resolution spectroscopic observations of astrophysical objects. The need for accurate
+atomic data has arose as we attempt detailed analysis of the high-resolution spectra they provide. This is be-
+cause current spectral models, which heavily rely on theoretical calculations, entail non-negligible uncertainties.
+We employ a plasma spectroscopy device called electron beam ion trap (EBIT) to experimentally obtain precise
+atomic data. An EBIT with a design that allows combined operation with synchrotron radiation facilities was
+developed based on the Heidelberg Compact EBIT and installed at ISAS /JAXA for this purpose. We conducted a
+spectroscopic experiment using the JAXA-EBIT at the synchrotron radiation facility SPring-8, and successfully
+obtained high-resolution spectra of the L ω resonance transition of Ne-like Fe 16+ ions, 3C, as well as the K ω
+resonance transition of He-like O 6+ ions. We also measured another Ne-like Fe 16+ Lω resonance transition, 3G,
+and constrained an upper limit of the oscillator strength ratio of 3G to 3C, using our experimental results. The
+experimental values obtained in this study will be applied to observational studies of astrophysical objects as a
+part of the plasma spectral modeling.
+Keywords: plasma spectroscopy, resonant photoexcitation, highly charged iron ion, electron beam ion trap
+(ebit), synchrotron radiation, atomic data, x-ray astronomy
+1 Introduction
+V arious astrophysical objects, including supernova rem-
+nants and galaxy clusters, consist of X-ray-emitting hot
+(→ 106↑8 K) plasma (e.g., [1]). XRISM [2] satellite’s
+spectrometer, Resolve [3], provides exceptional spectral
+resolution ∆E/E → 8 ↓ 10↑4 at 6 keV [4], resolving the
+ﬁne iron K-shell emission line structures (e.g., [5]). Such
+high resolving power enables us to perform precise diag-
+nostics of astrophysical plasmas, including detailed mea-
+surements of velocity structures [6, 7] and elemental abun-
+dances [8] of the astrophysical objects. The observed spec-
+tra are often analysed by comparing them with theoreti-
+cally synthesized spectra using plasma modeling frame-
+works such as AtomDB /APEC [9, 10], SPEX [11], and
+author’s e-mail: lhirata-6087@g.ecc.u-tokyo.ac.jp
+CHIANTI [12, 13]. The accuracy of the atomic data used
+in those frameworks is crucial for reliable plasma diagnos-
+tics using high-resolution spectra. However, currently used
+atomic data, which heavily rely on theoretical calculations,
+entail non-negligible uncertainties up to 30-40% depend-
+ing on the transitions [14]. Laboratory measurements are
+necessary to obtain precise values. To address this issue,
+we considered the use of an electron beam ion trap (EBIT)
+[15], an experimental apparatus designed to produce and
+trap highly charged ions (HCIs) using a monochromatic
+electron beam and to measure their X-ray emission.
+Since the development of the EBIT at Lawrence Liv-
+ermore National Laboratory (LLNL) in the 1980s, vari-
+ous experiments to measure atomic data have been car-
+ried out through spectroscopic observations of EBIT plas-
+mas using di ﬀerent types of EBITs operated at, for exam-
+B-13-00
+arXiv:2601.18311v1 [astro-ph.IM] 26 Jan 2026
+ple, LLNL, National Institute of Standards and Technology
+(NIST), and Max-Planck-Institut f ¨ur Kernphysik (MPIK).
+These experiments have targeted a variety of transitions
+in elements of astrophysical importance, including oxy-
+gen [16], silicon [17, 18], sulfur [18, 19], argon [20, 21],
+and iron [22, 23]. Thus far, such experiments have been
+conducted primarily with EBITs alone, where the emission
+from EBIT plasmas induced by electron-impact excitation
+and recombination was observed with crystal or grating
+spectrometers and microcalorimeters, allowing precise de-
+terminations of, for instance, line intensity ratios, centroid
+energies, and excitation cross sections, through passive
+spectroscopy (e.g., [22, 19, 24]). In recent years, the devel-
+opment of EBITs designed to allow synchrotron radiation
+to be injected into the trapped plasma, such as the FLASH-
+EBIT [25] and the Heidelberg Compact EBIT (HC-EBIT)
+[26], has enabled the reproduction of transitions driven by
+photon–ion interactions, such as resonant photoexcitation
+processes (e.g., [27, 28]) (Fig. 1). These processes are
+of crucial importance in astrophysical plasmas but could
+not be realized with EBITs alone. Moreover, by exploiting
+the high monochromaticity of synchrotron radiation, active
+spectroscopy—performed by scanning the incident photon
+energy—has become possible, providing excellent energy
+resolution surpassing that of existing X-ray spectrometers.
+K¨uhn et al. [29] has successfully obtained the oscillator
+strength ratio of two L-shell transition lines (referred to as
+3C and 3D) of highly charged iron ions, with a systematic
+uncertainty of ↔ 2%, using this technique.
+With the aim of making such an EBIT-based exper-
+imental technique capable of high-accuracy atomic data
+measurement for a wide variety of elements more acces-
+sible to the Japanese astronomical community, we devel-
+oped, in collaboration with MPIK, a compact EBIT based
+on the HC-EBIT design, which can be operated in con-
+junction with synchrotron radiation facilities. This de-
+vice, hereafter the JAXA-EBIT, was completed and in-
+stalled at ISAS /JAXA in 2022. The details of the spec-
+iﬁcations and performance of our device are reported in
+[30]. As a ﬁrst step of comprehensive atomic data mea-
+surement using the JAXA-EBIT, we focus on the L-shell
+transition lines of highly charged iron ions (also known as
+the Fe-L complex). The lines in the Fe-L complex are fre-
+quently highlighted in observational studies of galaxy clus-
+ters (e.g., [31, 32]) and supernova remnants (e.g., [33, 34]).
+In particular, we examine the resonance lines from the
+[2p5
+1/23d3/2]J=1 ↗ [2p6]J=0 (3C) and [2 p5
+3/23s1/2]J=1 ↗
+[2p6]J=0 (3G) transitions in Ne-like Fe16+ ions. These lines
+are one of the most prominent spectral features among
+the Fe-L complex that are useful in measuring various
+types of astrophysical properties thanks to their excellent
+photon statistics. However, the complexity of the multi-
+electron system obstructs precise theoretical calculations,
+and the intensity ratio of these two lines has been known
+to show discrepancies between observational, experimen-
+tal, and theoretical values [35, 36]. Such discrepancies are
+considered to result from the complicated eﬀect of electron
+collision, the quality of fundamental wave functions, and
+the accuracy of atomic data, such as oscillator strengths. A
+high-resolution photoexcitation spectroscopy of HCIs, us-
+ing the EBIT and synchrotron radiation together, can pro-
+vide precise measurements of the centroid energies and os-
+cillator strengths of these transitions.
+2 Experiment
+We aim to precisely measure the centroid energies as well
+as intensities of Ne-like Fe16+ 3C and 3G lines, and experi-
+mentally constrain the oscillator strength ratio of 3G to 3C
+(i.e., f3G/ f3C) within the precision of 10%; a typical pre-
+cision requirement for observational studies of astrophys-
+ical objects. Note that theoretically calculated oscillator
+strengths of Ne-like Fe 16+ 3C and 3G lines, provided in
+AtomDB based on [37], are 2.49 and 0.126, respectively.
+Therefore, we brought the JAXA-EBIT to the soft X-ray
+beamline BL17SU [38] at the synchrotron radiation facil-
+ity SPring-8 [39] and conducted a six-day beam-time ex-
+periment to perform active spectroscopy on the resonant
+photoexcitation processes of EBIT plasma.
+2.1 Experimental setup and technique
+A photograph of the experimental setup is shown in Figure
+2, and a schematic diagram of this experiment, along with
+main components of the setup, is presented in Figure 1. At
+the soft X-ray beamline BL17SU, the synchrotron radia-
+tion beam emitted from the helical-8 undulator (ID17) [40]
+is monochromatized by a grating monochromator [38, 41].
+BL17SU provides a photon beam with high monochro-
+maticity (∆E/E → 1 ↓ 10↑4) and ﬂux ( → 1011 photon/s) ac-
+cording to the nominal performances. The incident photon
+energy was calibrated prior to the beam-time by conduct-
+ing X-ray photoemission spectroscopy (XPS) measure-
+ment of 4 f electrons from the thin Au foil using an XPS
+apparatus, which was located downstream of our EBIT. A
+Kirkpatrick Baez (KB) mirror [42] system refocuses the
+photon beam at the position of the JAXA-EBIT trap region
+a few meters downstream.
+We connected the JAXA-EBIT to BL17SU branch-a
+through a di ﬀerential pumping system. Monochromatized
+synchrotron radiation was irradiated onto the HCIs pro-
+duced in the EBIT, and X-ray photons were resonantly ab-
+sorbed, inducing resonant photoexcitation, and re-emitted
+by the HCIs. These photons were detected by a silicon
+drift detector (SDD), equipped with a 500 nm thin alu-
+minum ﬁlter, mounted on the side of the central trap region.
+KETEK VITUS H150 SDD was employed in our experi-
+mental setup. VITUS H150’s circular detection surface is
+13.6 mm in diameter, with a collimated area of 143 mm 2
+and an absorption depth of 450 µm. Its operating tempera-
+B-13-01
+DIBSBDUFSJTUJD9SBZ
+JPOTP⒎BYJTFMFDUSPOHVONPOPDISPNBUPSHSBUJOHT
+USBQFMFDUSPEFTFMFDUSPODPMMFDUPS
+9SBZEFUFDUPS
+NPOPDISPNBUJ[FETZODISPUSPOSBEJBUJPO
+CFBNMJOFGBDJMJUJFT&#*5
+FMFDUSPOCFBNQPMBSJ[BUJPOWFSUJDBM
+FYJUTMJU
+Fig. 1 Schematic diagram showing the mechanism of HCI production and trapping inside the JAXA-EBIT, as well as the detection of
+the photons emitted from the resonant photoexcitation processes of HCIs irradiated with the monochromatic X-ray photons of the
+synchrotron radiation, which is introduced coaxially through the EBIT drift tube.
+BL17SU beamline spec Energy range : 225 − 2000 eV Monochromaticity : E/ΔE ~ 104
+Photon flux > 1011 photon/s Polarization : vertical
+4ZODISPUSPOQIPUPOCFBN
+)$*DMPVE
++"9"&#*5
+4%%
+: "(TDSFFO
+WJTJCMFTDJOUJMMBUJPOMJHIU
+%J⒎FSFOUJBMQVNQJOHTZTUFN
+'MVYNPOJUPS
+Fig. 2 Photograph of the JAXA-EBIT connected to BL17SU, SPring-8, with key components in our experimental setup.
+ture is typically around 228 K. To e ﬃciently detect the X-
+ray photons emitted by resonant photoexcitation processes,
+the SDD was mounted perpendicular to the beam axis and
+the polarization direction of the incident photon beam; in
+this experiment we only used the vertically polarized pho-
+ton beam. We change the incident photon energy step by
+step to search for resonance events. (Fig. 3; hereafter we
+call this method a scan.) By measuring the dependence of

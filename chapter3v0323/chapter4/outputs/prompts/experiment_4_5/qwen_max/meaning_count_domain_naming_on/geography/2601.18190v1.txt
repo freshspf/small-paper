@@ -1,0 +1,286 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Multi-Perspective Subimage CLIP with Keyword
+Guidance for Remote Sensing Image-Text Retrieval
+Yifan Li1, Shiying Wang 1,2,†, Jianqiang Huang 1,2,†
+1School of Computer Technology and Applications, Qinghai University, Xining, China
+2Qinghai Provincial Laboratory for Intelligent Computing and Application, Xining, China
+Abstract—Vision-Language Pre-training (VLP) models like
+CLIP have signiﬁcantly advanced Remote Sensing Image-Text
+Retrieval (RSITR). However, existing methods predominantly
+rely on coarse-grained global alignment, which often overlooks
+the dense, multi-scale semantics inherent in overhead imagery.
+Moreover, adapting these heavy models via full ﬁne-tuning
+incurs prohibitive computational costs and risks catastrophic
+forgetting. To address these challenges, we propose MPS-CLIP,
+a parameter-efﬁcient framework designed to shift the retrieval
+paradigm from global matching to keyword-guided ﬁne-grained
+alignment. Speciﬁcally, we leverage a Large Language Model
+(LLM) to extract core semantic keywords, guiding the Segment
+Anything Model (SamGeo) to generate semantically relevant
+sub-perspectives. To efﬁciently adapt the frozen backbone, we
+introduce a Gated Global Attention (G 2A) adapter, which cap-
+tures global context and long-range dependencies with mini-
+mal overhead. Furthermore, a Multi-Perspective Representation
+(MPR) module aggregates these local cues into robust multi-
+perspective embeddings. The framework is optimized via a
+hybrid objective combining multi-perspective contrastive and
+weighted triplet losses, which dynamically selects maximum-
+response perspectives to suppress noise and enforce precise
+semantic matching. Extensive experiments on the RSICD and
+RSITMD benchmarks demonstrate that MPS-CLIP achieves
+state-of-the-art performance with 35.18% and 48.40% mean
+Recall (mR), respectively, signiﬁcantly outperforming full ﬁne-
+tuning baselines and recent competitive methods. Code is avail-
+able at https://github.com/Lcrucial1f/MPS-CLIP.
+Index Terms —remote sensing, cross-modal retrieval, vision-
+language pre-training, multi-perspective representation learning
+I. I NTRODUCTION
+Remote Sensing Image-Text Retrieval (RSITR) bridges vi-
+sion and language modalities for retrieval tasks, underpinning
+applications such as urban planning [1]. However, distinct
+from natural scenes, remote sensing imagery features over-
+head perspectives and dense object distributions. Coupled
+with spatially complex textual descriptions, these attributes
+hinder existing methods from achieving ﬁne-grained semantic
+alignment.
+Early RSITR approaches primarily relied on training-from-
+scratch dual-stream architectures, adopting CNN backbones
+[2]–[5] and Transformer-style designs [6]–[11] to extract vi-
+sual and textual features. These representations were then
+aligned in a shared latent space via metric-learning objectives
+[2], [3], [6]. However, such methods were severely constrained
+by the limited scale of labeled RS datasets and the prevalent
+from-scratch training paradigm [2], [3], [8]. As a result,
+models were prone to overﬁtting and often struggled to capture
+intricate cross-modal semantic interactions in complex remote-
+sensing scenes [5], [7], [10].
+Recently, large-scale Vision-Language Pre-training models,
+represented by CLIP [12], have revolutionized the ﬁeld with
+their exceptional zero-shot transfer capabilities. Despite this
+progress, most existing CLIP-based RS methods still largely
+inherit the standard global image-text alignment paradigm
+[12]–[17]. While effective for natural images, this coarse-
+grained approach is ill-suited for RS imagery, where key
+semantics are often embedded in dense objects and their spatial
+relationships [3]–[5], [18]. By relying solely on global feature
+embeddings, these methods frequently overlook ﬁne-grained
+local cues, making it difﬁcult to distinguish hard samples that
+share similar backgrounds but differ in speciﬁc entity layouts
+[4], [5]. Moreover, adapting these heavy models creates a
+secondary challenge: the common full-parameter ﬁne-tuning
+strategy incurs high computational costs and poses signiﬁcant
+risks of overﬁtting and catastrophic forgetting, which moti-
+vates parameter-efﬁcient adaptation strategies [16], [19]–[22].
+To address these challenges, we propose MPS-CLIP , a
+keyword-guided multi-perspective framework designed to shift
+the retrieval paradigm from coarse-grained global matching
+to semantic-driven ﬁne-grained alignment, as shown in Fig.
+1. Speciﬁcally, we leverage a LLM to mine core semantic
+keywords, such as object categories and spatial relationships,
+which guide SamGeo [23] to generate semantically relevant
+sub-perspectives. For feature extraction, we employ CLIP with
+a novel Gated Global Attention (G 2A) adapter. This adapter
+utilizes the [CLS] token to efﬁciently capture global semantics
+with minimal computational overhead. Subsequently, a Multi-
+Perspective Representation (MPR) module performs deep fu-
+sion of global and local features. Finally, the framework is
+trained via a hybrid objective combining multi-perspective
+contrastive loss and weighted triplet loss to ensure robust
+feature alignment.
+We conducted extensive experiments on the RSICD and
+RSITMD benchmarks. Results demonstrate that MPS-CLIP
+achieves state-of-the-art (SOTA) performance with 35.18%
+and 48.40% mR, respectively, signiﬁcantly outperforming re-
+cent competitive methods and full ﬁne-tuning baselines.
+II. R ELA TED WORK
+A. Training-from-Scratch Methods
+Early RSITR approaches predominantly relied on dual-
+stream architectures training from scratch, employing CNNs
+arXiv:2601.18190v1 [cs.CV] 26 Jan 2026
+a viaduct with threeloops is built amongsome trees at the cornerof which is a series ofbuildings
+buildings
+SamGeo
+MPR
+Tuned
+Frozen
+Image Encoder
+...
+Text Transformer
+Text Transformer
+Text Transformer
+...
+ViT
+ViT
+ViT
+DeepSeek
+viaducttrees
+loops
+Fig. 1. The overall framework of MPS-CLIP . The architecture integrates DeepSeek and SamGeo for semantic-aware patch generation.
+and Transformer architectures to map visual and textual fea-
+tures into a shared space via metric learning. To address the
+unique challenges of remote sensing, such as scale variations
+and complex backgrounds, extensive research has focused on
+optimizing feature interaction and attention mechanisms. For
+instance, methods like LW-MCR [2], AMFMN [6], and MSA
+[9]introduced multiscale self-attention and dynamic ﬁltering
+to enhance feature robustness. Moving towards ﬁne-grained
+alignment, MSITA [3], SW AN [4], and SCA T-PRG [5] uti-
+lized techniques ranging from image-guided text alignment to
+pseudo-region generation to capture local details. Furthermore,
+to mitigate semantic ambiguity, works such as DOVE [8],
+IEFT [7], VGSGN [10], and KAMCL [11] incorporated prior
+knowledge and deep cross-modal interactions. Despite these
+architectural innovations, these methods are fundamentally
+constrained by their reliance on limited annotated datasets, of-
+ten resulting in restricted generalization capabilities compared
+to modern pre-training paradigms.
+B. Pre-training and Adaptation Methods
+The emergence of CLIP [12] has revolutionized retrieval
+tasks with its powerful zero-shot transferability. To bridge
+the domain gap between natural and remote sensing scenes,
+methods like SkyCLIP [13] and SingleLanguage [24] explored
+continual pre-training and multilingual adaptation. However,
+given the prohibitive costs of full ﬁne-tuning, Parameter-
+Efﬁcient Fine-Tuning (PEFT) has become the mainstream
+solution. General approaches like CLIP-Adapter [19] and
+Cross-modal Adapter [25] insert lightweight bottleneck layers,
+while RS-speciﬁc methods such as UniAdapter [14], PE-
+RSITR [15], and HarMA [16] further optimize efﬁciency
+through weight sharing or hierarchical designs. Although these
+adapter-based methods effectively reduce computational over-
+head, they largely inherit the coarse-grained global alignment
+paradigm of CLIP . Consequently, they often overlook the
+complex spatial structures and ﬁne-grained local semantics
+inherent in RS imagery, a limitation our proposed keyword-
+guided multi-perspective framework explicitly addresses.
+III. M ETHODS
+A. Overall Framework
+As illustrated in Fig. 1, MPS-CLIP builds upon the
+global alignment paradigm of CLIP by introducing a multi-
+perspective modeling mechanism that links text keywords to
+image sub-perspectives. The framework primarily consists of
+three core components: the Gated Global Attention Adapter
+(G2A), the Multi-Perspective Representation (MPR) module,
+and the multi-perspective loss function. Through this design,
+MPS-CLIP effectively enhances ﬁne-grained semantic align-
+ment capabilities in remote sensing scenarios.
+Speciﬁcally, given input text T → RL (where L denotes
+sequence length) and input image I → RC→H→W (where C
+is the number of channels, and H and W are the height and
+width), MPS-CLIP adopts distinct feature extraction strategies
+for text and images. On the text side, we utilize the CLIP text
+encoder ﬁne-tuned with the G 2A adapter to extract global text
+features Gt → RD , where D indicates the feature dimension.
+On the image side, the feature extraction process is divided
+into global and local branches. In the global branch, we
+employ the CLIP visual encoder ﬁne-tuned with the G 2A
+adapter to obtain global visual features Gv → RD . In the
+local branch, we ﬁrst use a LLM ( Deepseek V3.2 [26])
+to extract keywords K from text T and guide SamGeo [23]
+to generate a set of semantically relevant sub-perspectives
+{Ik | k =1 , 2,...,K }. Subsequently, these sub-perspectives
+are processed by the aforementioned ﬁne-tuned CLIP visual
+encoder to yield local visual features Gl → RD→K , where
+K represents the number of sub-perspectives. Next, we input
+the local features Gl into the MPR module to generate multi-
+perspective visual features Gm → RD→K .
+Finally, the model outputs the globally aligned feature pair
+(Gv , Gt) and the ﬁne-grained interactive feature set Gm to
+achieve multi-level cross-modal matching.
+B. CLIP Encoder with the G 2A Adapter
+To improve the transferability of global representations
+and multi-perspective interaction capability in remote sensing
+scenarios, we insert the G 2A adapter into the Transformer
+layers of CLIP . We freeze the backbone parameters and update
+only the G 2A adapter parameters to mitigate catastrophic
+forgetting. Let the input token features of a Transformer layer
+be x → RN →D , where N denotes the number of tokens. In the
+vision branch, N corresponds to the number of spatial patch
+tokens and an optional [CLS] token, while in the text branch
+it corresponds to the text sequence length.
+Attention
+Linear
+Linear
+GELU
+MLP GatedSum
+LinearSumGELU
+LinearAttention Sum
+Linear
+GELU
+MLP
+LinearGated Sum
+Attention
+Sum
+Attention
+LinearGELU
+Linear
+Sum
+Linear
+GELU
+Attention
+Linear
+Attention
+MLP
+GELU
+Linear
+Fig. 2. Architecture of the proposed G 2A adapter.
+As shown in Fig. 2, given the input token features x →
+RN →D , the proposed G 2A adapter ﬁrst projects x into a
+compact subspace via a bottleneck transformation, followed by
+global interaction in the low-dimensional space. Speciﬁcally,
+we obtain the compressed representation by
+z = ω(xW1 + b1), z → RN →d, (1)
+where W1 → RD→d, b1 → Rd are learnable parameters,
+d ↑ D, and ω(·) denotes the GELU activation. Next, we
+perform multi-head self-attention on z and apply a linear
+transformation:
+zattn =A t t n (z), zattn → RN →d, (2)
+ˆz = zattnW2 + b2, ˆz → RN →d, (3)
+where Attn(·) is the standard multi-head self-attention oper-
+ator over d channels, W2 → Rd→d and b2 → Rd. On top of ˆz,
+the adapter further enhances long-range dependency modeling
+by combining a global attention branch and a feed-forward
+branch, and keeps the output dimension unchanged to support
+residual learning:
+˜z = ˆz + MLP(Attn(ˆz)), ˜z → RN →d, (4)
+where MLP(·) denotes a position-wise feed-forward network
+mapping RN →d ↓ RN →d. To adaptively control the contribu-
+tion of the enhanced features, we introduce a learnable scalar

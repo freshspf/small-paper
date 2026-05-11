@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AdvancedSafetyTechnology",
+  "includes",
+  "AdvancedDriverAssistanceSystem",
+  "AutomatedDrivingSystem",
+  "ComprehensiveApproach",
+  "integrates",
+  "PublicPerception",
+  "InfrastructureReadiness",
+  "appliedTo",
+  "SystemDesign",
+  "SafeDeployment",
+  "dependsOn",
+  "SocialAcceptance",
+  "RoadInfrastructureAdaptability",
+  "CurrentStrategy",
+  "builtAround",
+  "RetrospectiveCrashData",
+  "RoadGeometry",
+  "impacts",
+  "RoadCrashSeverity",
+  "InfrastructureQuality",
+  "DriverBehaviour",
+  "RoadCrashOutcome",
+  "TraditionalAnalyticalMethod",
+  "BowTieAnalysis",
+  "FaultTreeAnalysis",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "BlackspotAnalysis",
+  "focusesOn",
+  "HistoricalCollisionData",
+  "SystemTheoreticAccidentModelAndProcesses",
+  "shiftsFocusFrom",
+  "LinearAccidentCausation",
+  "SystemTheoreticProcessAnalysis",
+  "incorporates",
+  "SystemThinking",
+  "enables",
+  "HazardIdentification",
+  "SafetyConstraintDefinition",
+  "TraditionalApproach",
+  "RoadSafetyBehaviour",
+  "ContinuousSystemLevelRiskMonitoring",
+  "RoadTrafficInjury",
+  "organization_departmentForTransport",
+  "organization_worldHealthOrganisation",
+  "SystemsApproach",
+  "RoadSafety",
+  "ComplexSocioTechnicalSystem",
+  "SystemComponent",
+  "RoadUser",
+  "Government",
+  "Infrastructure",
+  "VehicleManufacturer",
+  "RoadSystemDesign",
+  "SafeRoadUserBehaviour",
+  "SystemsTheory",
+  "WorkplaceSafety",
+  "InteractingFactor",
+  "Crash",
+  "RoadTransportSystem",
+  "ComplexSystem",
+  "stpa",
+  "austria_roadSafety",
+  "Gap",
+  "RoadSafetyInspectionProcess",
+  "RoadSafetyInspection",
+  "NonTenTRoad",
+  "HumanFactor",
+  "VehicleDynamic",
+  "RoadUserInteraction",
+  "RoadSafetyManagementProcess",
+  "rsiPractice_austria",
+  "HumanInteraction",
+  "VehicleInteraction",
+  "RoadInteraction",
+  "SafetyAnalysis",
+  "ContinuousMonitoring",
+  "OperationalAssurance"
+]
+
+Triples:
+[
+  {
+    "subject": "AdvancedSafetyTechnology",
+    "relation": "includes",
+    "object": "AdvancedDriverAssistanceSystem",
+    "chunk": "introduction1",
+    "context": "Reducing fatalities and increasing the survival rate in road transport remains a global challenge, despite the rapid deployment of advanced safety technologies such as Advanced Driver Assistance Systems (ADAS) and Automated Driving Systems (ADS)."
+  },
+  {
+    "subject": "AdvancedSafetyTechnology",
+    "relation": "includes",
+    "object": "AutomatedDrivingSystem",
+    "chunk": "introduction1",
+    "context": "Reducing fatalities and increasing the survival rate in road transport remains a global challenge, despite the rapid deployment of advanced safety technologies such as Advanced Driver Assistance Systems (ADAS) and Automated Driving Systems (ADS)."
+  },
+  {
+    "subject": "ComprehensiveApproach",
+    "relation": "integrates",
+    "object": "PublicPerception",
+    "chunk": "introduction1",
+    "context": "Achieving meaningful and measurable safety gain requires a comprehensive approach that integrates public perception and infrastructure readiness into every stage of system design and throughout the operational life cycle [ 1,2]."
+  },
+  {
+    "subject": "ComprehensiveApproach",
+    "relation": "integrates",
+    "object": "InfrastructureReadiness",
+    "chunk": "introduction1",
+    "context": "Achieving meaningful and measurable safety gain requires a comprehensive approach that integrates public perception and infrastructure readiness into every stage of system design and throughout the operational life cycle [ 1,2]."
+  },
+  {
+    "subject": "ComprehensiveApproach",
+    "relation": "appliedTo",
+    "object": "SystemDesign",
+    "chunk": "introduction1",
+    "context": "Achieving meaningful and measurable safety gain requires a comprehensive approach that integrates public perception and infrastructure readiness into every stage of system design and throughout the operational life cycle [ 1,2]."
+  },
+  {
+    "subject": "SafeDeployment",
+    "relation": "dependsOn",
+    "object": "SocialAcceptance",
+    "chunk": "introduction1",
+    "context": "The safe deployment of these technologies depends on social acceptance and the adaptability of existing road infrastructure, factors often overlooked in technical analyses."
+  },
+  {
+    "subject": "SafeDeployment",
+    "relation": "dependsOn",
+    "object": "RoadInfrastructureAdaptability",
+    "chunk": "introduction1",
+    "context": "The safe deployment of these technologies depends on social acceptance and the adaptability of existing road infrastructure, factors often overlooked in technical analyses."
+  },
+  {
+    "subject": "CurrentStrategy",
+    "relation": "builtAround",
+    "object": "RetrospectiveCrashData",
+    "chunk": "introduction1",
+    "context": "Persistence or rising Killed or Seriously Injured (KSI) statistics worldwide demonstrate that current strategies, often built around retrospective crash data, are not achieving the targeted reductions in harm [ 5,6]."
+  },
+  {
+    "subject": "RoadGeometry",
+    "relation": "impacts",
+    "object": "RoadCrashSeverity",
+    "chunk": "introduction1",
+    "context": "Multiple critical factors from road geometry, infrastructure quality and driver behaviour impact the severity of road crashes and their outcomes[ 1]."
+  },
+  {
+    "subject": "InfrastructureQuality",
+    "relation": "impacts",
+    "object": "RoadCrashSeverity",
+    "chunk": "introduction1",
+    "context": "Multiple critical factors from road geometry, infrastructure quality and driver behaviour impact the severity of road crashes and their outcomes[ 1]."
+  },
+  {
+    "subject": "DriverBehaviour",
+    "relation": "impacts",
+    "object": "RoadCrashSeverity",
+    "chunk": "introduction1",
+    "context": "Multiple critical factors from road geometry, infrastructure quality and driver behaviour impact the severity of road crashes and their outcomes[ 1]."
+  },
+  {
+    "subject": "RoadGeometry",
+    "relation": "impacts",
+    "object": "RoadCrashOutcome",
+    "chunk": "introduction1",
+    "context": "Multiple critical factors from road geometry, infrastructure quality and driver behaviour impact the severity of road crashes and their outcomes[ 1]."
+  },
+  {
+    "subject": "InfrastructureQuality",
+    "relation": "impacts",
+    "object": "RoadCrashOutcome",
+    "chunk": "introduction1",
+    "context": "Multiple critical factors from road geometry, infrastructure quality and driver behaviour impact the severity of road crashes and their outcomes[ 1]."
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "BowTieAnalysis",
+    "chunk": "introduction1",
+    "context": "Traditional analytical methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA), Event Tree Analysis (ETA), Failure Mode and Effects Analysis (FMEA), and Hazard and Operability Analysis (HAZOP), alongside road-specific approaches such as blackspot analysis[ 8], and crash-based statistical models, remain reactive and limited in scope."
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "FaultTreeAnalysis",
+    "chunk": "introduction1",
+    "context": "Traditional analytical methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA), Event Tree Analysis (ETA), Failure Mode and Effects Analysis (FMEA), and Hazard and Operability Analysis (HAZOP), alongside road-specific approaches such as blackspot analysis[ 8], and crash-based statistical models, remain reactive and limited in scope."
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "EventTreeAnalysis",
+    "chunk": "introduction1",
+    "context": "Traditional analytical methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA), Event Tree Analysis (ETA), Failure Mode and Effects Analysis (FMEA), and Hazard and Operability Analysis (HAZOP), alongside road-specific approaches such as blackspot analysis[ 8], and crash-based statistical models, remain reactive and limited in scope."
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "FailureModeAndEffectsAnalysis",
+    "chunk": "introduction1",
+    "context": "Traditional analytical methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA), Event Tree Analysis (ETA), Failure Mode and Effects Analysis (FMEA), and Hazard and Operability Analysis (HAZOP), alongside road-specific approaches such as blackspot analysis[ 8], and crash-based statistical models, remain reactive and limited in scope."
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "HazardAndOperabilityAnalysis",
+    "chunk": "introduction1",
+    "context": "Traditional analytical methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA), Event Tree Analysis (ETA), Failure Mode and Effects Analysis (FMEA), and Hazard and Operability Analysis (HAZOP), alongside road-specific approaches such as blackspot analysis[ 8], and crash-based statistical models, remain reactive and limited in scope."
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "BlackspotAnalysis",
+    "chunk": "introduction1",
+    "context": "Traditional analytical methods such as Bow-Tie Analysis, Fault Tree Analysis (FTA), Event Tree Analysis (ETA), Failure Mode and Effects Analysis (FMEA), and Hazard and Operability Analysis (HAZOP), alongside road-specific approaches such as blackspot analysis[ 8], and crash-based statistical models, remain reactive and limited in scope."
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "focusesOn",
+    "object": "HistoricalCollisionData",
+    "chunk": "introduction1",
+    "context": "They mainly focus on historical collision data and correlations, rather than the underlying systemic causes of risk [9–11]."
+  },
+  {
+    "subject": "SystemTheoreticAccidentModelAndProcesses",
+    "relation": "shiftsFocusFrom",
+    "object": "LinearAccidentCausation",
+    "chunk": "introduction1",
+    "context": "Recent developments in safety science, particularly the System-Theoretic Accident Model and Processes (STAMP) perspective, have helped shift the focus from linear accident causation to understanding accidents as emergent properties of complex socio-technical systems[ 15,16]."
+  },
+  {
+    "subject": "SystemTheoreticProcessAnalysis",
+    "relation": "incorporates",
+    "object": "SystemThinking",
+    "chunk": "introduction1",
+    "context": "STAMP-based method, such as System-Theoretic Process Analysis (STPA), incorporates system thinking to enable hazard identification and the definition of safety constraints across technical, human and organisational fac-tors."
+  },
+  {
+    "subject": "SystemTheoreticProcessAnalysis",
+    "relation": "enables",
+    "object": "HazardIdentification",
+    "chunk": "introduction1",
+    "context": "STAMP-based method, such as System-Theoretic Process Analysis (STPA), incorporates system thinking to enable hazard identification and the definition of safety constraints across technical, human and organisational fac-tors."
+  },
+  {
+    "subject": "SystemTheoreticProcessAnalysis",
+    "relation": "enables",
+    "object": "SafetyConstraintDefinition",
+    "chunk": "introduction1",
+    "context": "STAMP-based method, such as System-Theoretic Process Analysis (STPA), incorporates system thinking to enable hazard identification and the definition of safety constraints across technical, human and organisational fac-tors."
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "focusesOn",
+    "object": "RoadSafetyBehaviour",
+    "chunk": "introduction1",
+    "context": "Traditional approaches focus mainly on road safety behaviour, treating road safety as a transport issue."
+  }
+]

@@ -1,0 +1,128 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument15",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument15
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+The
+end-effector paths reveal agile whole-body behaviors enabled by configuration-space optimization, including coordinated base–
+arm reconfiguration and non-conservative twisting maneuvers that pass through narrow, highly non-convex regions. Additional
+visualizations from multiple viewpoints are available on the project website.
+TABLE II:Benchmark results under different obstacle densities.We report success rate (SR), average runtime, and the
+average traversed trajectory length ratio w.r.t. our method (Ours=1.00), separated into translational and rotational components.
+MethodsNumber of Obstacles: 80 Number of Obstacles: 100 Number of Obstacles: 120
+SR
+(%)Time
+(s)Ratio(↓)
+Trans RotSR
+(%)Time
+(s)Ratio(↓)
+Trans RotSR
+(%)Time
+(s)Ratio(↓)
+Trans Rot
+LocalDecomp86.40—1.49 3.3459.60—1.47 4.1056.40—1.45 3.45
+REMANI86.800.28581.23 2.15 61.500.30771.24 2.21 49.600.3292 1.332.22
+TopAY88.40 0.13931.49 2.7167.20 0.17761.51 2.7251.60 0.27271.47 2.78
+Ours92.400.17321.00 1.0088.400.24461.00 1.0086.800.28711.00 1.00
+Ours (TopAY-init) 98.00 0.13411.251.81 92.50 0.1641 1.28 1.92 91.60 0.1957 1.32 1.98
+*—denotes that the runtime isnot directly comparablebecause the method is asingle-step local controller.
+*Dark Greenhighlights the best results while Orange indicates the second-best. We report the runtime foralltrials, while the Ratio is computed only over
+successfultrajectories.
+*Ours (TopAY-init)initializes our solver with the discrete front-end paths produced by TopAY; if the front-end search fails, we fall back to the original
+baseline initialization, i.e., linear interpolation for the mobile base and an all-zero arm configuration.
+
+15
+Fig. 12: Real-world deployment of our planner.Top:in a laboratory obstacle course composed of stacked and overlapping blocks
+with limited clearance, the robot performs agile base–arm reconfiguration while traversing tight passages (t 1–t8).Bottom:in
+an office environment, the robot follows a multi-goal route (with an intermediate waypoint) through narrow corridors and
+furniture-dense areas (t 1–t12). Orange arrows show the direction of motion.
+whole-body trajectories from trivial initial guesses within a
+limited number of iterations, we evaluate two variants.Ours
+uses a naive initialization: linear interpolation for the base be-
+tween start and goal, with the arm fixed at the all-zero (upright)
+posture.Ours (TopAY-init)augments our GCDF-based solver
+with the first feasible front-end solution returned byTopAY
+as initialization, isolating and highlighting the strength of our
+numerical back end under strong initial guesses.
+Main Results.We evaluate each method by its success rate
+(with failure cases including collision, optimization failure,
+and stagnation) and computation time. To quantify trajectory
+conservativeness and smoothness, we report the configuration-
+space path-length ratio over successful trials, defined as each
+baseline’s trajectory length normalized by that of our method.
+Representative trajectories produced by our approach are vi-
+sualized in Fig. 11. Quantitative results are summarized in
+Table II, and the distribution of trajectory length ratios is
+further shown in Fig. 10.
+RRTconsistently failed to find a feasible solution within
+the allocated time, likely due to the high density of our
+experimental setup. We therefore omitRRTfrom Table II.
+The remaining results show that our method efficiently handles
+large-scale collision constraints across all difficulty levels and
+consistently achieves the highest success rates. In particular,
+Ours (TopAY-init)achieves the best robustness with the
+shortest runtime, underscoring a key practical insight: once
+the per-iteration cost (constraint evaluation, batching, and QP
+subproblem construction and solution) is optimized, the end-to-end runtime of an iterative solver is largely determined
+by the number of iterations required to reach a high-quality
+feasible solution. This iteration count is influenced not only
+by initialization quality, but also by the choice of collision
+constraints: well-posed constraints with informative local first-
+order geometry can dramatically accelerate convergence. In
+our case, GCDF enforces collision avoidance directly in con-
+figuration space and provides accurate local gradients, yielding
+more reliable descent directions and faster contraction toward
+feasibility. A stronger initialization, therefore, further reduces
+the iteration count and amplifies the benefit of a robust back-
+end optimizer, while the solver’s refinement capability remains
+essential for improving trajectory quality.
+For two-stage methods such asREMANIandTopAY, the
+hierarchical front-end search is typically fast when it succeeds;
+however, as obstacle density increases and the environment
+becomes more geometrically complex, front-end failures be-
+come frequent.

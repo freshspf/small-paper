@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "CoreConcept",
+  "defines",
+  "SpatialEntity",
+  "GeoFlowGraph",
+  "represents",
+  "ExecutableGeospatialWorkflow",
+  "consistsOf",
+  "ConceptNode",
+  "TransformationEdge",
+  "DirectedEdge",
+  "Transformation",
+  "Operator",
+  "realizes",
+  "takesInput",
+  "Concept",
+  "producesOutput",
+  "SpatialConceptSpace",
+  "contains",
+  "groundsInto",
+  "GeographicPrimitive",
+  "carries",
+  "TypeSignature",
+  "ValidTransformation",
+  "ComposabilityRule",
+  "FunctionalRole",
+  "encodes",
+  "ProceduralStructure",
+  "includes",
+  "ContextualRole",
+  "ProceduralRole",
+  "constrains",
+  "DataCollection",
+  "role_subcond",
+  "precedes",
+  "role_cond",
+  "role_support",
+  "role_measure",
+  "restricts",
+  "CandidateEntity",
+  "establishes",
+  "SpatialBasis",
+  "GeospatialReasoning",
+  "UrbanAnalytics",
+  "TransportationPlanning",
+  "DisasterResponse",
+  "spatial_agent",
+  "SpatialInformationScienceTheory",
+  "GeoAnalyticalQuestionAnswering",
+  "ConceptTransformationProblem",
+  "NaturalLanguageQuestion",
+  "ExecutableWorkflow",
+  "GeoflowGraph",
+  "DirectedAcyclicGraph",
+  "GeoflowGraphNode",
+  "SpatialConcept",
+  "GeoflowGraphEdge",
+  "CoreSpatialEntity",
+  "SpatialObject",
+  "SpatialEvent",
+  "SpatialField",
+  "SpatialNetwork",
+  "SpatialOperator",
+  "Buffering",
+  "Overlay",
+  "Routing",
+  "Aggregation",
+  "GisTool",
+  "postgis",
+  "arcgis",
+  "qgis",
+  "BuildingBlockOfSpatialInformation",
+  "Object",
+  "Field",
+  "Event",
+  "Network",
+  "Measure",
+  "Condition",
+  "Subcondition",
+  "Support",
+  "Extent"
+]
+
+Triples:
+[
+  {
+    "subject": "CoreConcept",
+    "relation": "defines",
+    "object": "SpatialEntity",
+    "chunk": "completedocument3",
+    "context": "This grounding process requires two complementary formalisms: core concepts that define what spatial entities exist, and functional roles that specify how they participate in analysis."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "represents",
+    "object": "ExecutableGeospatialWorkflow",
+    "chunk": "completedocument3",
+    "context": "Given a natural-language geo-analytical question q, our goal is to derive a GeoFlow Graph G that represents an executable geospatial workflow"
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "consistsOf",
+    "object": "ConceptNode",
+    "chunk": "completedocument3",
+    "context": "where G= (V, E, λ, ρ) consists of concept nodes V, transformation edges E⊆V×V , a concept labeling function λ:V→ C mapping nodes to spatial concepts (defined below based on spatial core concept theory), and a role assignment function ρ:V→ R assigning functional roles (defined below based on geo-analytical reasoning principles)."
+  },
+  {
+    "subject": "GeoFlowGraph",
+    "relation": "consistsOf",
+    "object": "TransformationEdge",
+    "chunk": "completedocument3",
+    "context": "where G= (V, E, λ, ρ) consists of concept nodes V, transformation edges E⊆V×V , a concept labeling function λ:V→ C mapping nodes to spatial concepts (defined below based on spatial core concept theory), and a role assignment function ρ:V→ R assigning functional roles (defined below based on geo-analytical reasoning principles)."
+  },
+  {
+    "subject": "DirectedEdge",
+    "relation": "represents",
+    "object": "Transformation",
+    "chunk": "completedocument3",
+    "context": "Each directed edge (vi, vj)∈E represents a transformation—a semantic change from one spatial concept to another (e.g., from a place name to coordinates via geocoding)."
+  },
+  {
+    "subject": "Operator",
+    "relation": "realizes",
+    "object": "Transformation",
+    "chunk": "completedocument4",
+    "context": "Each transformation is realized by anoperator ω∈Ω , a concrete computational function that takes input concepts and produces output concepts."
+  },
+  {
+    "subject": "Operator",
+    "relation": "takesInput",
+    "object": "Concept",
+    "chunk": "completedocument4",
+    "context": "Each transformation is realized by anoperator ω∈Ω , a concrete computational function that takes input concepts and produces output concepts."
+  },
+  {
+    "subject": "Operator",
+    "relation": "producesOutput",
+    "object": "Concept",
+    "chunk": "completedocument4",
+    "context": "Each transformation is realized by anoperator ω∈Ω , a concrete computational function that takes input concepts and produces output concepts."
+  },
+  {
+    "subject": "SpatialConceptSpace",
+    "relation": "contains",
+    "object": "CoreConcept",
+    "chunk": "completedocument4",
+    "context": "Here, we define the spatial concept space Cas a set ofcore conceptsthat ground semantic representations into geographic primitives (Kuhn, 2012): C= LOCATION,OBJECT,FIELD,EVENT, NETWORK,AMOUNT,PROPORTION (2)"
+  },
+  {
+    "subject": "CoreConcept",
+    "relation": "groundsInto",
+    "object": "GeographicPrimitive",
+    "chunk": "completedocument4",
+    "context": "Here, we define the spatial concept space Cas a set ofcore conceptsthat ground semantic representations into geographic primitives (Kuhn, 2012): C= LOCATION,OBJECT,FIELD,EVENT, NETWORK,AMOUNT,PROPORTION (2)"
+  },
+  {
+    "subject": "GeographicPrimitive",
+    "relation": "represents",
+    "object": "SpatialEntity",
+    "chunk": "completedocument4",
+    "context": "These seven primitives, widely recognized in geographic information theory, capture the fundamental building blocks of geographic phenomena and provide a vocabulary for representing spatial entities extracted from natural-language questions"
+  },
+  {
+    "subject": "CoreConcept",
+    "relation": "carries",
+    "object": "TypeSignature",
+    "chunk": "completedocument4",
+    "context": "Each concept c∈ C is not merely a label but carries associated type signatures, valid transformations, and composability rules."
+  },
+  {
+    "subject": "CoreConcept",
+    "relation": "carries",
+    "object": "ValidTransformation",
+    "chunk": "completedocument4",
+    "context": "Each concept c∈ C is not merely a label but carries associated type signatures, valid transformations, and composability rules."
+  },
+  {
+    "subject": "CoreConcept",
+    "relation": "carries",
+    "object": "ComposabilityRule",
+    "chunk": "completedocument4",
+    "context": "Each concept c∈ C is not merely a label but carries associated type signatures, valid transformations, and composability rules."
+  },
+  {
+    "subject": "CoreConcept",
+    "relation": "defines",
+    "object": "SpatialEntity",
+    "chunk": "completedocument4",
+    "context": "While core concepts definewhatspatial entities are, we also need to specifyhowthey participate in geo-analytical reasoning."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "encodes",
+    "object": "ProceduralStructure",
+    "chunk": "completedocument4",
+    "context": "To this end, we introduce functional rolesto explicitly encode the procedural structure of geo-analytical questions (Xu et al., 2023): R=( EXTENT,TEXTENT,SUBCOND, COND,SUPPORT,MEASURE) .(3)"
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "ContextualRole",
+    "chunk": "completedocument4",
+    "context": "We also distinguish betweencontextual roles (EXTENT, TEXTENT) andprocedural roles (SUBCOND, COND, SUPPORT, MEASURE)."
+  },
+  {
+    "subject": "FunctionalRole",
+    "relation": "includes",
+    "object": "ProceduralRole",
+    "chunk": "completedocument4",
+    "context": "We also distinguish betweencontextual roles (EXTENT, TEXTENT) andprocedural roles (SUBCOND, COND, SUPPORT, MEASURE)."
+  },
+  {
+    "subject": "ContextualRole",
+    "relation": "constrains",
+    "object": "DataCollection",
+    "chunk": "completedocument4",
+    "context": "Contextual roles constrain data collection but do not participate in the procedural ordering of transformations"
+  },
+  {
+    "subject": "role_subcond",
+    "relation": "precedes",
+    "object": "role_cond",
+    "chunk": "completedocument4",
+    "context": "For procedural roles, we define a precedence relation ≺derived from the execution semantics of geo-analytical workflows: SUBCOND≺COND≺SUPPORT≺MEASURE."
+  },
+  {
+    "subject": "role_cond",
+    "relation": "precedes",
+    "object": "role_support",
+    "chunk": "completedocument4",
+    "context": "For procedural roles, we define a precedence relation ≺derived from the execution semantics of geo-analytical workflows: SUBCOND≺COND≺SUPPORT≺MEASURE."
+  },
+  {
+    "subject": "role_support",
+    "relation": "precedes",
+    "object": "role_measure",
+    "chunk": "completedocument4",
+    "context": "For procedural roles, we define a precedence relation ≺derived from the execution semantics of geo-analytical workflows: SUBCOND≺COND≺SUPPORT≺MEASURE."
+  },
+  {
+    "subject": "role_subcond",
+    "relation": "restricts",
+    "object": "CandidateEntity",
+    "chunk": "completedocument4",
+    "context": "This ordering reflects the inherent structure of geo-analytical workflows: sub-conditions restrict candidate entities, conditions constrain supports, supports establish the spatial basis, and measurements are the final outputs."
+  },
+  {
+    "subject": "role_cond",
+    "relation": "constrains",
+    "object": "role_support",
+    "chunk": "completedocument4",
+    "context": "This ordering reflects the inherent structure of geo-analytical workflows: sub-conditions restrict candidate entities, conditions constrain supports, supports establish the spatial basis, and measurements are the final outputs."
+  },
+  {
+    "subject": "role_support",
+    "relation": "establishes",
+    "object": "SpatialBasis",
+    "chunk": "completedocument4",
+    "context": "This ordering reflects the inherent structure of geo-analytical workflows: sub-conditions restrict candidate entities, conditions constrain supports, supports establish the spatial basis, and measurements are the final outputs."
+  }
+]

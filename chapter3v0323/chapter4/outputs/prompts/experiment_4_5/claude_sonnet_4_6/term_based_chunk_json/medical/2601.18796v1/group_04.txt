@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_ctELM",
+  "generatesDocument",
+  "ClinicalTrialAbstract",
+  "describesEntity",
+  "ClinicalTrial",
+  "ConceptActivationVector",
+  "modifiesAttribute",
+  "DemographicSex",
+  "DemographicAge",
+  "EmbeddingLanguageModel",
+  "appliesToDomain",
+  "BiomedicalDomain",
+  "processesDocument",
+  "isInstanceOf",
+  "interpretsDocument",
+  "model_vec2text",
+  "basedOn",
+  "model_t5",
+  "model_ctelm",
+  "hasBaseModel",
+  "model_llama3",
+  "population_children",
+  "protectedUnder",
+  "rule_common_rule",
+  "population_pregnant_women",
+  "dataset_pubmed_200k_rct",
+  "usedFor",
+  "SequentialSentenceClassification",
+  "contains",
+  "MedicalAbstract",
+  "SourceCode",
+  "licensedUnder",
+  "license_mit",
+  "ClinicalNote",
+  "belongsTo",
+  "paper_invbert",
+  "publishedIn",
+  "journal_computationalLiteraryStudies",
+  "investigates",
+  "concept_contextualizedWordEmbeddings",
+  "paper_sentenceEmbeddingLeaks",
+  "hasAuthor",
+  "author_haoranLi",
+  "paper_towardsGeneralTextEmbeddings",
+  "author_zehanLi",
+  "paper_gEval",
+  "author_yangLiu",
+  "utilizes",
+  "concept_gpt4",
+  "paper_umap",
+  "author_lelandMcInnes",
+  "paper_distributedRepresentations",
+  "author_tomasMikolov",
+  "paper_mteb",
+  "author_niklasMuennighoff",
+  "ctelm",
+  "ClinicalTrialEmbedding",
+  "LargeLanguageModel",
+  "ConceptVector",
+  "Age",
+  "Sex",
+  "StudySubject",
+  "TextEmbedding",
+  "vec2text",
+  "ClinicallyMeaningfulDirection",
+  "ExpertValidatedDataset",
+  "Elm",
+  "Embedding",
+  "ShallowEmbedding",
+  "Token",
+  "NeuralNetwork",
+  "GenerativeEmbeddingInversionAttack",
+  "VectorEmbedding",
+  "TokenEmbeddingLayer",
+  "Vec2Text",
+  "EncoderDecoderTransformer",
+  "Inverter",
+  "Corrector",
+  "HypothesisText",
+  "Text"
+]
+
+Triples:
+[
+  {
+    "subject": "model_ctELM",
+    "relation": "generatesDocument",
+    "object": "ClinicalTrialAbstract",
+    "chunk": "completedocument7",
+    "context": "On the other hand, ctELM fools the experts 44% of the time, close to the theoretical limit of 50%, even though it is performing the more difficult task of generating hypothetical abstracts from novel (interpolated) embeddings."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "describesEntity",
+    "object": "ClinicalTrial",
+    "chunk": "completedocument7",
+    "context": "This shows that ctELM outputs are not only fluent but also describe clinically plausible trials with coherent scientific details."
+  },
+  {
+    "subject": "ConceptActivationVector",
+    "relation": "modifiesAttribute",
+    "object": "DemographicSex",
+    "chunk": "completedocument7",
+    "context": "Moving embeddings along a Concept Activation Vector for sex of trial subjects changes the observed sex in abstracts generated by ctELM ."
+  },
+  {
+    "subject": "ConceptActivationVector",
+    "relation": "modifiesAttribute",
+    "object": "DemographicAge",
+    "chunk": "completedocument7",
+    "context": "Moving embeddings along Concept Activation Vectors for age of trial subjects changes the observed age in abstracts generated by ctELM ."
+  },
+  {
+    "subject": "EmbeddingLanguageModel",
+    "relation": "appliesToDomain",
+    "object": "BiomedicalDomain",
+    "chunk": "completedocument7",
+    "context": "We show that Embedding Language Models (ELMs), formerly only demonstrated for the domain of film reviews and for proprietary models, generalize to the biomedical domain, specifically for embeddings of clinical trial abstracts, and that lightweight, open-source LLMs can be used as base models for ELMs."
+  },
+  {
+    "subject": "EmbeddingLanguageModel",
+    "relation": "processesDocument",
+    "object": "ClinicalTrialAbstract",
+    "chunk": "completedocument7",
+    "context": "We show that Embedding Language Models (ELMs), formerly only demonstrated for the domain of film reviews and for proprietary models, generalize to the biomedical domain, specifically for embeddings of clinical trial abstracts, and that lightweight, open-source LLMs can be used as base models for ELMs."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "isInstanceOf",
+    "object": "EmbeddingLanguageModel",
+    "chunk": "completedocument7",
+    "context": "We further provide the research community with an open-source architecture and training framework, and we use it to create ctELM , an ELM that can interpret embeddings of clinical trial abstracts."
+  },
+  {
+    "subject": "model_ctELM",
+    "relation": "interpretsDocument",
+    "object": "ClinicalTrialAbstract",
+    "chunk": "completedocument7",
+    "context": "We further provide the research community with an open-source architecture and training framework, and we use it to create ctELM , an ELM that can interpret embeddings of clinical trial abstracts."
+  },
+  {
+    "subject": "model_vec2text",
+    "relation": "basedOn",
+    "object": "model_t5",
+    "chunk": "completedocument8",
+    "context": "Second, though we explored fine-tuning Vec2Text, it is still not a perfect baseline since it is based on T5, which has fewer parameters than ctELM ’s Llama 3 base model."
+  },
+  {
+    "subject": "model_ctelm",
+    "relation": "hasBaseModel",
+    "object": "model_llama3",
+    "chunk": "completedocument8",
+    "context": "Second, though we explored fine-tuning Vec2Text, it is still not a perfect baseline since it is based on T5, which has fewer parameters than ctELM ’s Llama 3 base model."
+  },
+  {
+    "subject": "population_children",
+    "relation": "protectedUnder",
+    "object": "rule_common_rule",
+    "chunk": "completedocument8",
+    "context": "As an example of an ethical hazard, changing of study participants may introduce populations with further protections under Common Rule (such as children or pregnant women) that systems may not account for."
+  },
+  {
+    "subject": "population_pregnant_women",
+    "relation": "protectedUnder",
+    "object": "rule_common_rule",
+    "chunk": "completedocument8",
+    "context": "As an example of an ethical hazard, changing of study participants may introduce populations with further protections under Common Rule (such as children or pregnant women) that systems may not account for."
+  },
+  {
+    "subject": "dataset_pubmed_200k_rct",
+    "relation": "usedFor",
+    "object": "SequentialSentenceClassification",
+    "chunk": "completedocument8",
+    "context": "Pubmed 200k rct: a dataset for sequential sentence classification in medical abstracts."
+  },
+  {
+    "subject": "dataset_pubmed_200k_rct",
+    "relation": "contains",
+    "object": "MedicalAbstract",
+    "chunk": "completedocument8",
+    "context": "Pubmed 200k rct: a dataset for sequential sentence classification in medical abstracts."
+  },
+  {
+    "subject": "SourceCode",
+    "relation": "licensedUnder",
+    "object": "license_mit",
+    "chunk": "completedocument8",
+    "context": "We provide our code under the MIT license at https://github.com/BIDS-Xu-Lab/OpenELM."
+  },
+  {
+    "subject": "ClinicalNote",
+    "relation": "belongsTo",
+    "object": "BiomedicalDomain",
+    "chunk": "completedocument8",
+    "context": "As ELMs inherently train to specific data manifolds, it is not clear how well ctELM would generalize to other data from the biomedical domain (such as full articles or clinical notes), let alone data from other domains."
+  },
+  {
+    "subject": "paper_invbert",
+    "relation": "publishedIn",
+    "object": "journal_computationalLiteraryStudies",
+    "chunk": "completedocument9",
+    "context": "Invbert: Reconstructing text from contextualized word embeddings by inverting the bert pipeline.Journal of Computational Literary Studies, 2(1)."
+  },
+  {
+    "subject": "paper_invbert",
+    "relation": "investigates",
+    "object": "concept_contextualizedWordEmbeddings",
+    "chunk": "completedocument9",
+    "context": "Invbert: Reconstructing text from contextualized word embeddings by inverting the bert pipeline."
+  },
+  {
+    "subject": "paper_sentenceEmbeddingLeaks",
+    "relation": "hasAuthor",
+    "object": "author_haoranLi",
+    "chunk": "completedocument9",
+    "context": "Haoran Li, Mingshi Xu, and Yangqiu Song. 2023a. Sen- tence embedding leaks more information than you expect: Generative embedding inversion attack to recover the whole sentence."
+  },
+  {
+    "subject": "paper_towardsGeneralTextEmbeddings",
+    "relation": "hasAuthor",
+    "object": "author_zehanLi",
+    "chunk": "completedocument9",
+    "context": "Zehan Li, Xin Zhang, Yanzhao Zhang, Dingkun Long, Pengjun Xie, and Meishan Zhang. 2023b. Towards general text embeddings with multi-stage contrastive learning."
+  },
+  {
+    "subject": "paper_gEval",
+    "relation": "hasAuthor",
+    "object": "author_yangLiu",
+    "chunk": "completedocument9",
+    "context": "Yang Liu, Dan Iter, Yichong Xu, Shuohang Wang, Ruochen Xu, and Chenguang Zhu. 2023. G-eval: Nlg evaluation using gpt-4 with better human align- ment."
+  },
+  {
+    "subject": "paper_gEval",
+    "relation": "utilizes",
+    "object": "concept_gpt4",
+    "chunk": "completedocument9",
+    "context": "Yang Liu, Dan Iter, Yichong Xu, Shuohang Wang, Ruochen Xu, and Chenguang Zhu. 2023. G-eval: Nlg evaluation using gpt-4 with better human align- ment."
+  },
+  {
+    "subject": "paper_umap",
+    "relation": "hasAuthor",
+    "object": "author_lelandMcInnes",
+    "chunk": "completedocument9",
+    "context": "Leland McInnes, John Healy, Nathaniel Saul, and Lukas Grossberger. 2018. Umap: Uniform manifold ap- proximation and projection."
+  },
+  {
+    "subject": "paper_distributedRepresentations",
+    "relation": "hasAuthor",
+    "object": "author_tomasMikolov",
+    "chunk": "completedocument9",
+    "context": "Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg S Cor- rado, and Jeff Dean. 2013. Distributed representa- tions of words and phrases and their compositionality."
+  },
+  {
+    "subject": "paper_mteb",
+    "relation": "hasAuthor",
+    "object": "author_niklasMuennighoff",
+    "chunk": "completedocument9",
+    "context": "Niklas Muennighoff, Nouamane Tazi, Loic Magne, and Nils Reimers. 2023. Mteb: Massive text embedding benchmark."
+  }
+]

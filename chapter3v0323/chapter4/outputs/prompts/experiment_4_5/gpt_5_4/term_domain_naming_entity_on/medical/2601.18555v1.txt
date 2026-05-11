@@ -1,0 +1,1052 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "FemoroacetabularImpingement",
+  "HipDisorder",
+  "AngleMeasurement",
+  "ClinicalScreeningDecision",
+  "XRay",
+  "MRI",
+  "T1WeightedMRI",
+  "CoronalView",
+  "ThreeDMRIVolume",
+  "AnteroposteriorPelvicXRay",
+  "HipCondition",
+  "ImpingementArea",
+  "LandmarkDetection",
+  "AutomatedLandmarkDetection",
+  "HeatmapRegressionArchitecture",
+  "HeatmapRegressionModel",
+  "UNetPlusPlus",
+  "ResNet18Encoder",
+  "ImageNet",
+  "AdamW",
+  "ExponentialLRScheduler",
+  "NegativeLogLikelihoodLoss",
+  "TestTimeAugmentation",
+  "AffineTransform",
+  "IntensityJitter",
+  "MatchedCohortValidationStudy",
+  "Patient",
+  "PairedDataset",
+  "FAITTrial",
+  "ClinicalAssessment",
+  "Imaging",
+  "Treatment",
+  "EarlyIdentification",
+  "DegenerativeCartilageLoss",
+  "PrematureOsteoarthritis",
+  "HipReplacement",
+  "GeometricParameter",
+  "OmegaAngle",
+  "LCEAngle",
+  "CamMorphology",
+  "PincerMorphology",
+  "FemoralHeadAsphericity",
+  "AcetabularCoverage",
+  "PathologicalThreshold",
+  "FemoralHeadNeckJunction",
+  "AcetabularRim",
+  "AbnormalContact",
+  "Motion",
+  "FemoralHeadCentre",
+  "NeckAxisPoint",
+  "LateralAcetabularEdge",
+  "LateralCamPoint",
+  "FemoralNeckAxis",
+  "CamDeformityVector",
+  "VerticalAxis",
+  "AcetabularCoverageVector",
+  "ClinicalFeasibility",
+  "VolumetricAnalysis",
+  "ThreeDGeometricAnalysis",
+  "CrossModalityClinicalEquivalence",
+  "DiagnosticAccuracy",
+  "CamTypeImpingement",
+  "LocalisationAccuracy",
+  "LandmarkLocalisation",
+  "MeanRadialError",
+  "SuccessDetectionRate",
+  "ClinicalAngleAssessment",
+  "MeanAbsoluteError",
+  "IntraclassCorrelationCoefficient",
+  "MedianAbsoluteDifference",
+  "BlandAltmanAnalysis",
+  "DiagnosticPerformance",
+  "Sensitivity",
+  "Specificity",
+  "PositivePredictiveValue",
+  "NegativePredictiveValue",
+  "ConfusionMatrix",
+  "MatchedPatientCohort",
+  "PathologicalCohort",
+  "ClinicalEvidenceOfFAI",
+  "ImagingEvidenceOfFAI",
+  "SignificantOsteoarthritis",
+  "HipDysplasia",
+  "MiddleSlice",
+  "MidAcetabularCoronalPlane",
+  "AutomaticSliceSelection",
+  "OxfordUniversity",
+  "UKSite",
+  "Surgeon",
+  "Clinician"
+]
+
+Triples:
+[
+  {
+    "subject": "ClinicalScreeningDecision",
+    "relation": "isBasedOn",
+    "object": "AngleMeasurement"
+  },
+  {
+    "subject": "FemoroacetabularImpingement",
+    "relation": "isA",
+    "object": "HipDisorder"
+  },
+  {
+    "subject": "FemoroacetabularImpingement",
+    "relation": "isCharacterisedBy",
+    "object": "AbnormalContact"
+  },
+  {
+    "subject": "AbnormalContact",
+    "relation": "occursBetween",
+    "object": "FemoralHeadNeckJunction"
+  },
+  {
+    "subject": "AbnormalContact",
+    "relation": "occursAt",
+    "object": "AcetabularRim"
+  },
+  {
+    "subject": "AbnormalContact",
+    "relation": "occursDuring",
+    "object": "Motion"
+  },
+  {
+    "subject": "EarlyIdentification",
+    "relation": "isCriticalFor",
+    "object": "FemoroacetabularImpingement"
+  },
+  {
+    "subject": "UntreatedFemoroacetabularImpingement",
+    "relation": "accelerates",
+    "object": "DegenerativeCartilageLoss"
+  },
+  {
+    "subject": "UntreatedFemoroacetabularImpingement",
+    "relation": "predisposesTo",
+    "object": "PrematureOsteoarthritis"
+  },
+  {
+    "subject": "FemoroacetabularImpingement",
+    "relation": "isMainCauseOf",
+    "object": "HipReplacement"
+  },
+  {
+    "subject": "Imaging",
+    "relation": "isEssentialFor",
+    "object": "EarlyIdentification"
+  },
+  {
+    "subject": "Imaging",
+    "relation": "isEssentialFor",
+    "object": "Treatment"
+  },
+  {
+    "subject": "ClinicalAssessment",
+    "relation": "reliesOn",
+    "object": "OmegaAngle"
+  },
+  {
+    "subject": "ClinicalAssessment",
+    "relation": "reliesOn",
+    "object": "LCEAngle"
+  },
+  {
+    "subject": "OmegaAngle",
+    "relation": "quantifies",
+    "object": "FemoralHeadAsphericity"
+  },
+  {
+    "subject": "FemoralHeadAsphericity",
+    "relation": "indicates",
+    "object": "CamMorphology"
+  },
+  {
+    "subject": "LCEAngle",
+    "relation": "measures",
+    "object": "AcetabularCoverage"
+  },
+  {
+    "subject": "AcetabularCoverage",
+    "relation": "indicates",
+    "object": "PincerMorphology"
+  },
+  {
+    "subject": "OmegaAngle",
+    "relation": "hasPathologicalThreshold",
+    "object": "GreaterThan65Degree"
+  },
+  {
+    "subject": "LCEAngle",
+    "relation": "hasPathologicalThreshold",
+    "object": "GreaterThan40Degree"
+  },
+  {
+    "subject": "ClinicalPractice",
+    "relation": "reliesOn",
+    "object": "AnteroposteriorPelvicXRay"
+  },
+  {
+    "subject": "AnteroposteriorPelvicXRay",
+    "relation": "hasLimitation",
+    "object": "SingleViewPlaneProjection"
+  },
+  {
+    "subject": "FootToHipAlignment",
+    "relation": "affects",
+    "object": "AngleMeasurementPlane"
+  },
+  {
+    "subject": "PelvicTilt",
+    "relation": "affects",
+    "object": "AngleMeasurementPlane"
+  },
+  {
+    "subject": "AngleMeasurementPlaneVariation",
+    "relation": "canReach",
+    "object": "15Degree"
+  },
+  {
+    "subject": "AngleMeasurementPlaneVariation",
+    "relation": "canMisclassify",
+    "object": "BorderlineCase"
+  },
+  {
+    "subject": "MRI",
+    "relation": "canBeUsedToExtract",
+    "object": "GeometricFAIMetric"
+  },
+  {
+    "subject": "CoronalView",
+    "relation": "canContain",
+    "object": "FootToHipMisalignment"
+  },
+  {
+    "subject": "MisalignmentCorrectionMethod",
+    "relation": "corrects",
+    "object": "FootToHipMisalignment"
+  },
+  {
+    "subject": "LandmarkDetection",
+    "relation": "isFirstStepToward",
+    "object": "ThreeDGeometricAnalysis"
+  },
+  {
+    "subject": "DeepLearningBasedLandmarkDetection",
+    "relation": "hasBeenUsedIn",
+    "object": "MedicalImagingTask"
+  },
+  {
+    "subject": "AutomatedFAIAssessment",
+    "relation": "hasBeenDemonstratedOn",
+    "object": "XRay"
+  },
+  {
+    "subject": "NoPriorWork",
+    "relation": "hasValidated",
+    "object": "AutomatedFAIAssessmentOnMRI"
+  },
+  {
+    "subject": "NoPriorWork",
+    "relation": "hasCompared",
+    "object": "CrossModalityPerformanceOnMatchedCohort"
+  },
+  {
+    "subject": "MRI",
+    "relation": "offersAdvantageOver",
+    "object": "XRay"
+  },
+  {
+    "subject": "MRI",
+    "relation": "allowsCorrectionOf",
+    "object": "HipAlignment"
+  },
+  {
+    "subject": "MRI",
+    "relation": "allowsAssessmentOf",
+    "object": "ThreeDNatureOfImpingementArea"
+  },
+  {
+    "subject": "ThreeDNatureOfImpingementArea",
+    "relation": "canBeAssessedAcross",
+    "object": "MultipleSlice"
+  },
+  {
+    "subject": "ThreeDNatureOfImpingementArea",
+    "relation": "canBeAssessedThrough",
+    "object": "SingleVolumetricAssessment"
+  },
+  {
+    "subject": "MatchedCohortValidationStudy",
+    "relation": "includes",
+    "object": "89Patient"
+  },
+  {
+    "subject": "MatchedCohortValidationStudy",
+    "relation": "uses",
+    "object": "PairedMRIXRay"
+  },
+  {
+    "subject": "StandardHeatmapRegressionArchitecture",
+    "relation": "isUsedIn",
+    "object": "MatchedCohortValidationStudy"
+  },
+  {
+    "subject": "MatchedCohortValidationStudy",
+    "relation": "assesses",
+    "object": "CrossModalityClinicalEquivalence"
+  },
+  {
+    "subject": "LandmarkDetectionOnXRay",
+    "relation": "hasBeenProvenEffectiveFor",
+    "object": "FemoroacetabularImpingement"
+  },
+  {
+    "subject": "MRI",
+    "relation": "achieves",
+    "object": "EquivalentLocalisationAccuracy"
+  },
+  {
+    "subject": "MRI",
+    "relation": "achieves",
+    "object": "EquivalentDiagnosticAccuracy"
+  },
+  {
+    "subject": "EquivalentDiagnosticAccuracy",
+    "relation": "appliesTo",
+    "object": "CamTypeImpingement"
+  },
+  {
+    "subject": "AutomatedLandmarkDetectionMethod",
+    "relation": "demonstrates",
+    "object": "ClinicalFeasibility"
+  },
+  {
+    "subject": "ClinicalFeasibility",
+    "relation": "appliesTo",
+    "object": "FAIAssessment"
+  },
+  {
+    "subject": "FAIAssessment",
+    "relation": "isPerformedIn",
+    "object": "CoronalView"
+  },
+  {
+    "subject": "CoronalView",
+    "relation": "belongsTo",
+    "object": "ThreeDMRIVolume"
+  },
+  {
+    "subject": "AutomatedLandmarkDetectionMethod",
+    "relation": "opensPossibilityFor",
+    "object": "VolumetricAnalysis"
+  },
+  {
+    "subject": "VolumetricAnalysis",
+    "relation": "requires",
+    "object": "FurtherLandmark"
+  },
+  {
+    "subject": "Result",
+    "relation": "supportsIntegrating",
+    "object": "AutomatedFAIAssessment"
+  },
+  {
+    "subject": "AutomatedFAIAssessment",
+    "relation": "isIntegratedInto",
+    "object": "RoutineMRIWorkflow"
+  },
+  {
+    "subject": "FAIAngleComputation",
+    "relation": "isFormulatedAs",
+    "object": "LandmarkDetectionProblem"
+  },
+  {
+    "subject": "EachHip",
+    "relation": "hasAnnotatedKeypoint",
+    "object": "FemoralHeadCentre"
+  },
+  {
+    "subject": "EachHip",
+    "relation": "hasAnnotatedKeypoint",
+    "object": "NeckAxisPoint"
+  },
+  {
+    "subject": "EachHip",
+    "relation": "hasAnnotatedKeypoint",
+    "object": "LateralAcetabularEdge"
+  },
+  {
+    "subject": "EachHip",
+    "relation": "hasAnnotatedKeypoint",
+    "object": "LateralCamPoint"
+  },
+  {
+    "subject": "NeckAxisPoint",
+    "relation": "isLocatedAlong",
+    "object": "FemoralNeckCentreline"
+  },
+  {
+    "subject": "LateralCamPoint",
+    "relation": "isLocationWhere",
+    "object": "FemoralHeadDeviatesFromSphericity"
+  },
+  {
+    "subject": "OmegaAngle",
+    "relation": "isComputedAsAngleBetween",
+    "object": "FemoralNeckAxis"
+  },
+  {
+    "subject": "OmegaAngle",
+    "relation": "isComputedAsAngleBetween",
+    "object": "CamDeformityVector"
+  },
+  {
+    "subject": "FemoralNeckAxis",
+    "relation": "isDefinedBy",
+    "object": "FemoralHeadCentreToNeckAxisPoint"
+  },
+  {
+    "subject": "CamDeformityVector",
+    "relation": "isDefinedBy",
+    "object": "FemoralHeadCentreToLateralCamPoint"
+  },
+  {
+    "subject": "LateralCamPoint",
+    "relation": "isHardToPinpointBy",
+    "object": "Clinician"
+  },
+  {
+    "subject": "OmegaAngle",
+    "relation": "isDifficultToCalculate",
+    "object": "BecauseOfLateralCamPoint"
+  },
+  {
+    "subject": "LCEAngle",
+    "relation": "isCalculatedAsAngleBetween",
+    "object": "VerticalAxis"
+  },
+  {
+    "subject": "LCEAngle",
+    "relation": "isCalculatedAsAngleBetween",
+    "object": "AcetabularCoverageVector"
+  },
+  {
+    "subject": "AcetabularCoverageVector",
+    "relation": "isDefinedBy",
+    "object": "FemoralHeadCentreToLateralAcetabularEdge"
+  },
+  {
+    "subject": "LCEAngle",
+    "relation": "quantifies",
+    "object": "LateralAcetabularOverhang"
+  },
+  {
+    "subject": "HeatmapRegressionArchitecture",
+    "relation": "followsPracticeIn",
+    "object": "MedicalLandmarkDetection"
+  },
+  {
+    "subject": "GroundTruthGaussianHeatmap",
+    "relation": "isCenteredAt",
+    "object": "AnnotatedLocation"
+  },
+  {
+    "subject": "EncoderDecoderNetwork",
+    "relation": "isTrainedToPredict",
+    "object": "Heatmap"
+  },
+  {
+    "subject": "EncoderDecoderNetwork",
+    "relation": "takesInput",
+    "object": "Image"
+  },
+  {
+    "subject": "EncoderDecoderNetwork",
+    "relation": "minimizes",
+    "object": "NegativeLogLikelihoodLoss"
+  },
+  {
+    "subject": "Inference",
+    "relation": "extracts",
+    "object": "LandmarkCoordinate"
+  },
+  {
+    "subject": "LandmarkCoordinate",
+    "relation": "isExtractedAs",
+    "object": "SpatialArgmaxOfPredictedHeatmap"
+  },
+  {
+    "subject": "TestTimeAugmentation",
+    "relation": "improves",
+    "object": "Robustness"
+  },
+  {
+    "subject": "TestTimeAugmentation",
+    "relation": "averages",
+    "object": "HeatmapPredictionAcrossAugmentedView"
+  },
+  {
+    "subject": "PairedDataset",
+    "relation": "includes",
+    "object": "89Patient"
+  },
+  {
+    "subject": "Patient",
+    "relation": "underwent",
+    "object": "AnteroposteriorPelvicXRay"
+  },
+  {
+    "subject": "Patient",
+    "relation": "underwent",
+    "object": "MultipleHipMRI"
+  },
+  {
+    "subject": "AnteroposteriorPelvicXRay",
+    "relation": "isUsedFor",
+    "object": "FAIEvaluation"
+  },
+  {
+    "subject": "MultipleHipMRI",
+    "relation": "isUsedFor",
+    "object": "FAIEvaluation"
+  },
+  {
+    "subject": "PairedDataset",
+    "relation": "isCollectedAt",
+    "object": "OxfordUniversity"
+  },
+  {
+    "subject": "PairedDataset",
+    "relation": "isPartOf",
+    "object": "FAITTrial"
+  },
+  {
+    "subject": "PathologicalCohort",
+    "relation": "includes",
+    "object": "SubjectWithClinicalEvidenceOfFAI"
+  },
+  {
+    "subject": "PathologicalCohort",
+    "relation": "includes",
+    "object": "SubjectWithImagingEvidenceOfFAI"
+  },
+  {
+    "subject": "PathologicalCohort",
+    "relation": "excludes",
+    "object": "SignificantOsteoarthritis"
+  },
+  {
+    "subject": "PathologicalCohort",
+    "relation": "excludes",
+    "object": "HipDysplasia"
+  },
+  {
+    "subject": "Data",
+    "relation": "isAcquiredUsing",
+    "object": "SameProtocol"
+  },
+  {
+    "subject": "Data",
+    "relation": "isCollectedAcross",
+    "object": "MultipleUKSite"
+  },
+  {
+    "subject": "SomePatient",
+    "relation": "contributes",
+    "object": "MultipleTimePoint"
+  },
+  {
+    "subject": "MRI",
+    "relation": "uses",
+    "object": "T1WeightedCoronalAcquisition"
+  },
+  {
+    "subject": "T1WeightedCoronalAcquisition",
+    "relation": "consistsOf",
+    "object": "20Slice"
+  },
+  {
+    "subject": "T1WeightedCoronalAcquisition",
+    "relation": "hasSliceSpacing",
+    "object": "3.3mm"
+  },
+  {
+    "subject": "AllImage",
+    "relation": "isResizedOrPaddedTo",
+    "object": "512By512"
+  },
+  {
+    "subject": "AllImage",
+    "relation": "isMinMaxNormalisedTo",
+    "object": "ZeroToOneRange"
+  },
+  {
+    "subject": "AllAnnotation",
+    "relation": "isStandardisedTo",
+    "object": "MiddleSlice"
+  },
+  {
+    "subject": "MiddleSlice",
+    "relation": "hasIndex",
+    "object": "10"
+  },
+  {
+    "subject": "MiddleSlice",
+    "relation": "isIdentifiedThrough",
+    "object": "PilotAnalysis"
+  },
+  {
+    "subject": "PilotAnalysis",
+    "relation": "uses",
+    "object": "20Subject"
+  },
+  {
+    "subject": "MiddleSlice",
+    "relation": "correspondsTo",
+    "object": "MidAcetabularCoronalPlane"
+  },
+  {
+    "subject": "MidAcetabularCoronalPlane",
+    "relation": "shows",
+    "object": "FemoralHeadCentre"
+  },
+  {
+    "subject": "MidAcetabularCoronalPlane",
+    "relation": "shows",
+    "object": "NeckAxisPoint"
+  },
+  {
+    "subject": "MidAcetabularCoronalPlane",
+    "relation": "shows",
+    "object": "LateralAcetabularEdge"
+  },
+  {
+    "subject": "MidAcetabularCoronalPlane",
+    "relation": "shows",
+    "object": "LateralCamPoint"
+  },
+  {
+    "subject": "AutomaticSliceSelection",
+    "relation": "isInvestigatedIn",
+    "object": "FutureWork"
+  },
+  {
+    "subject": "AutomaticSliceSelection",
+    "relation": "eliminates",
+    "object": "ManualStandardisation"
+  },
+  {
+    "subject": "Training",
+    "relation": "includes",
+    "object": "AffineTransform"
+  },
+  {
+    "subject": "Training",
+    "relation": "includes",
+    "object": "IntensityJitter"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "hasTrainingValidationTestRatio",
+    "object": "65To10To25"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "isBalancedAcross",
+    "object": "OmegaAngleDistribution"
+  },
+  {
+    "subject": "KolmogorovSmirnovTesting",
+    "relation": "isUsedFor",
+    "object": "DataSplitBalancing"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "yields",
+    "object": "105TrainingImage"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "yields",
+    "object": "17ValidationImage"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "yields",
+    "object": "40TestImage"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "yields",
+    "object": "57TrainingPatient"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "yields",
+    "object": "8ValidationPatient"
+  },
+  {
+    "subject": "DataSplit",
+    "relation": "yields",
+    "object": "24TestPatient"
+  },
+  {
+    "subject": "UNetPlusPlus",
+    "relation": "hasEncoder",
+    "object": "ResNet18Encoder"
+  },
+  {
+    "subject": "ResNet18Encoder",
+    "relation": "isInitialisedFrom",
+    "object": "ImageNet"
+  },
+  {
+    "subject": "UNetPlusPlus",
+    "relation": "isTrainedIndependentlyOn",
+    "object": "MRIDataset"
+  },
+  {
+    "subject": "UNetPlusPlus",
+    "relation": "isTrainedIndependentlyOn",
+    "object": "XRayDataset"
+  },
+  {
+    "subject": "Optimisation",
+    "relation": "uses",
+    "object": "AdamW"
+  },
+  {
+    "subject": "Training",
+    "relation": "usesLoss",
+    "object": "NegativeLogLikelihoodLoss"
+  },
+  {
+    "subject": "Training",
+    "relation": "usesScheduler",
+    "object": "ExponentialLRScheduler"
+  },
+  {
+    "subject": "Training",
+    "relation": "usesBatchSize",
+    "object": "4"
+  },
+  {
+    "subject": "Training",
+    "relation": "uses",
+    "object": "EarlyStopping"
+  },
+  {
+    "subject": "Evaluation",
+    "relation": "covers",
+    "object": "LandmarkLocalisation"
+  },
+  {
+    "subject": "Evaluation",
+    "relation": "covers",
+    "object": "ClinicalAngleAssessment"
+  },
+  {
+    "subject": "Evaluation",
+    "relation": "covers",
+    "object": "DiagnosticPerformance"
+  },
+  {
+    "subject": "Metric",
+    "relation": "isComputedIndependentlyFor",
+    "object": "XRayTestSet"
+  },
+  {
+    "subject": "Metric",
+    "relation": "isComputedIndependentlyFor",
+    "object": "MRITestSet"
+  },
+  {
+    "subject": "ExperimentValue",
+    "relation": "isReportedAs",
+    "object": "MeanPlusMinusStandardDeviation"
+  },
+  {
+    "subject": "ExperimentValue",
+    "relation": "isAveragedAcross",
+    "object": "ThreeIndependentTrainingRun"
+  },
+  {
+    "subject": "LandmarkLocalisation",
+    "relation": "usesMetric",
+    "object": "MeanRadialError"
+  },
+  {
+    "subject": "LandmarkLocalisation",
+    "relation": "usesMetric",
+    "object": "SuccessDetectionRate"
+  },
+  {
+    "subject": "MeanRadialError",
+    "relation": "measures",
+    "object": "EuclideanDistanceBetweenPredictedAndGroundTruthLandmark"
+  },
+  {
+    "subject": "SuccessDetectionRate",
+    "relation": "measures",
+    "object": "PercentageOfLandmarksWithinRadius"
+  },
+  {
+    "subject": "ClinicalAngleAssessment",
+    "relation": "usesMetric",
+    "object": "MeanAbsoluteError"
+  },
+  {
+    "subject": "ClinicalAngleAssessment",
+    "relation": "usesMetric",
+    "object": "IntraclassCorrelationCoefficient"
+  },
+  {
+    "subject": "ClinicalAngleAssessment",
+    "relation": "usesMetric",
+    "object": "MedianAbsoluteDifference"
+  },
+  {
+    "subject": "ClinicalAngleAssessment",
+    "relation": "usesMetric",
+    "object": "BlandAltmanAnalysis"
+  },
+  {
+    "subject": "IntraclassCorrelationCoefficient",
+    "relation": "quantifies",
+    "object": "AbsoluteAgreement"
+  },
+  {
+    "subject": "IntraclassCorrelationCoefficient",
+    "relation": "partitionsVarianceInto",
+    "object": "BetweenSubjectVariability"
+  },
+  {
+    "subject": "IntraclassCorrelationCoefficient",
+    "relation": "partitionsVarianceInto",
+    "object": "BetweenRaterSystematicBias"
+  },
+  {
+    "subject": "IntraclassCorrelationCoefficient",
+    "relation": "partitionsVarianceInto",
+    "object": "ResidualError"
+  },
+  {
+    "subject": "BlandAltmanAnalysis",
+    "relation": "decomposes",
+    "object": "SystematicBias"
+  },
+  {
+    "subject": "BlandAltmanAnalysis",
+    "relation": "decomposes",
+    "object": "ProportionalBias"
+  },
+  {
+    "subject": "BlandAltmanAnalysis",
+    "relation": "decomposes",
+    "object": "RandomError"
+  },
+  {
+    "subject": "DiagnosticPerformance",
+    "relation": "appliesTo",
+    "object": "CamTypeImpingementDetection"
+  },
+  {
+    "subject": "CamTypeImpingementDetection",
+    "relation": "isDefinedBy",
+    "object": "OmegaAngleGreaterThan65Degree"
+  },
+  {
+    "subject": "DiagnosticPerformance",
+    "relation": "usesMetric",
+    "object": "Accuracy"
+  },
+  {
+    "subject": "DiagnosticPerformance",
+    "relation": "usesMetric",
+    "object": "Sensitivity"
+  },
+  {
+    "subject": "DiagnosticPerformance",
+    "relation": "usesMetric",
+    "object": "Specificity"
+  },
+  {
+    "subject": "DiagnosticPerformance",
+    "relation": "usesMetric",
+    "object": "PositivePredictiveValue"
+  },
+  {
+    "subject": "DiagnosticPerformance",
+    "relation": "usesMetric",
+    "object": "NegativePredictiveValue"
+  },
+  {
+    "subject": "DiagnosticPerformance",
+    "relation": "uses",
+    "object": "ConfusionMatrix"
+  },
+  {
+    "subject": "StandardHeatmapRegressionModel",
+    "relation": "achievesPerformanceOn",
+    "object": "T1WeightedMRI"
+  },
+  {
+    "subject": "T1WeightedMRI",
+    "relation": "hasMeanError",
+    "object": "2.98mm"
+  },
+  {
+    "subject": "XRay",
+    "relation": "hasMeanError",
+    "object": "3.02mm"
+  },
+  {
+    "subject": "StandardHeatmapRegressionModel",
+    "relation": "hasDiagnosticAccuracy",
+    "object": "87.5Percent"
+  },
+  {
+    "subject": "CoronalMRI",
+    "relation": "isSuccessfulModalityFor",
+    "object": "AutomatedFAIAssessment"
+  },
+  {
+    "subject": "MeasurementConventionallyTakenFromXRay",
+    "relation": "isExtendedTo",
+    "object": "CorrespondingSliceInThreeDMRIVolume"
+  },
+  {
+    "subject": "MeasurementExtension",
+    "relation": "enables",
+    "object": "SeamlessIntegrationIntoClinicalWorkflow"
+  },
+  {
+    "subject": "ValidatedTwoDFoundation",
+    "relation": "supportsFutureExtensionToward",
+    "object": "FullThreeDGeometricAnalysis"
+  },
+  {
+    "subject": "ValidatedTwoDFoundation",
+    "relation": "supportsFutureExtensionToward",
+    "object": "Prediction"
+  },
+  {
+    "subject": "MRI",
+    "relation": "achievesOverallMeanRadialError",
+    "object": "2.98PlusMinus0.23mm"
+  },
+  {
+    "subject": "XRay",
+    "relation": "achievesOverallMeanRadialError",
+    "object": "3.02PlusMinus0.10mm"
+  },
+  {
+    "subject": "MRI",
+    "relation": "closelyMatches",
+    "object": "XRayInOverallMeanRadialError"
+  },
+  {
+    "subject": "AutomatedLandmarkDetection",
+    "relation": "isSuccessfullyAppliedTo",
+    "object": "MRI"
+  }
+]

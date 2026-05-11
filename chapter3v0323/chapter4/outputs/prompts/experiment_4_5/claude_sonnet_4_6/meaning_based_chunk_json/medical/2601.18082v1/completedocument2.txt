@@ -1,0 +1,144 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument2
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+**INPUT TEXT CHUNK:**
+These challenges mo-
+tivate the exploration of alternative quantum strategies
+that can handle complex constraint structures without
+incurring large classical overhead.
+In this work, we introduce a quantum-control-based
+frameworkfor DDI-aware drug combination optimization
+based on the feedback-based quantum control algorithm
+(FALQON) [35] and its imaginary-time extension (ITE-
+FALQON) [36]. FALQON eliminates the classical outer-
+loop optimization of QAOA by employing an intrinsicarXiv:2601.18082v1  [quant-ph]  26 Jan 2026
+
+2
+feedback law that updates a single control ﬁeld using in-
+stantaneous quantum expectation values. The system
+evolves under a time-dependent Hamiltonian of the form
+H(t) =Hp+β(t)Hd, whereHpencodes the DDI-aware
+objective and Hdis a simple driver Hamiltonian. This
+feedback mechanism enforces a monotonic decrease of
+the objective energy, eﬀectively implementing quantum
+gradient descent without explicit gradient evaluation or
+multi-parameter tuning.
+Within this framework, we formulate two complemen-
+tary DDI optimization tasks. The ﬁrst is the Maximum
+Safe Subset (MSS) problem, which seeks the largest set
+of drugs that contains no harmful interactions and can
+be mapped to an Ising Hamiltonian with purely penal-
+izing couplings. The second is the Synergy-Constrained
+Optimization (SCO) problem, which augments the MSS
+model by incorporating synergy rewards and a cardinal-
+ityconstraint,therebycapturingthetrade-oﬀbetweenef-
+ﬁcacy, toxicity, and regimen size. Both objectives are en-
+coded as Ising Hamiltonians derived from clinically doc-
+umented interaction data obtained from sources such as
+Drugs.comandSYNERGxDB,withinteractionstrengths
+normalized to reﬂect relative severity or synergy.
+We demonstrate our approach on a six-drug network
+consisting of Ritonavir, Everolimus, Cabazitaxel, Met-
+formin, Erlotinib, and Topotecan. These drugs span
+distinct pharmacological classes and exhibit a complex
+structure of both harmful and synergistic interactions.
+We show that ITE-FALQON rapidly converges to low-
+energyconﬁgurationsoftheMSSandSCOHamiltonians,
+outperforming standard FALQON, and reliably identi-
+ﬁes clinically meaningful drug subsets. We further apply
+the method to a COVID-19 case study involving nine
+drug candidates. Our results highlight the advantages of
+feedback-based quantum control for constrained biomed-
+ical optimization problems. More broadly, they suggest
+that FALQON and related control-based algorithms of-
+fer a promising route toward quantum-assisted decision
+support for drug combination design.
+The paper is organized as follows. In Sec. II, we intro-
+duce the theoretical framework and deﬁne two comple-
+mentary DDI optimization tasks: MSS and SCO. Sec-
+tion III provides a brief overview of the optimization
+methods, including FALQON and ITE-FALQON. Nu-
+merical implementation details and benchmark results
+arepresentedinSec.IV.InSec.V,weapplyourapproach
+to a COVID-19 case study. Finally, Secs. VI and VII are
+devoted to discussion and conclusions, respectively.
+II. THEORETICAL FRAMEWORK
+In this section, we introduce the mathematical frame-
+work used to encode DDI data into an Ising Hamiltonian
+suitableforquantum optimization. We beginwith adrug
+library
+D={d1,d2,...,d n}, (1)0.58 
+0.75 0.60 
+0.70 0.90 0.39 0.95 0.55 
+0.65 
+0.80 
+harmful
+synergy 
+FIG. 1. Interaction graph of the six-drug network. Nodes
+represent individual drugs, while edges indicate pairwise in-
+teractions. Red edges denote harmful interactions and gree n
+edges denote synergistic interactions. Numbers on the edge s
+indicate the corresponding interaction weights.
+where each drug diis represented by a binary decision
+variablexi∈ {0,1},withxi= 1 indicating that drug iis
+included in the proposed combination and xi= 0 other-
+wise. A candidate multi-drug combination is represented
+by the bitstring x= (x1,...,x n).
+The DDI data are encoded in a weighted graph
+G= (D,Eharm∪Esyn), (2)
+where vertices represent drugs and edges denote either
+harmful (belong to a subset Eharm) or synergistic (belong
+to a subset Esyn) interactions. Eachedge ( i,j) is assigned
+a weight that quantiﬁes the clinical severity of a harmful
+interaction or the strength of a synergistic eﬀect. These
+valuesareextractedfromestablishedpharmacologicalre-
+sources, including Drugs.com and SYNERYxDB.ca and
+normalized to the interval [0 ,1]. In Fig. 1, we illustrate
+a graph of 6 drugs as summarized in Tab. I.
+TABLE I.

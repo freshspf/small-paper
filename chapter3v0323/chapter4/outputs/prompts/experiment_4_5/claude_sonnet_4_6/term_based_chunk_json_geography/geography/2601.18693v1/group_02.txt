@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "IntraclusterLight",
+  "hasProfile",
+  "CompactRadialDensityProfile",
+  "DarkMatterComponent",
+  "strippedMoreEfficientlyThan",
+  "StellarComponent",
+  "IntraclusterStar",
+  "occupies",
+  "LowerOrbitalEnergy",
+  "MassiveSatellite",
+  "loses",
+  "OrbitalEnergy",
+  "DiffuseStarlight",
+  "probes",
+  "ClusterDarkMatterHalo",
+  "Satellite",
+  "accretedInto",
+  "ClusterHalo",
+  "SatelliteGalaxy",
+  "comprises",
+  "hasSpatialDistribution",
+  "HernquistProfile",
+  "injectedInto",
+  "associatedWith",
+  "CentralGalaxy",
+  "gadget_4",
+  "isA",
+  "CosmologicalNBodyCode",
+  "SmoothedParticleHydrodynamicsCode",
+  "computes",
+  "GravitationalForce",
+  "usesAlgorithm",
+  "HierarchicalTreeAlgorithm",
+  "TreeComponent",
+  "employs",
+  "MultipoleExpansion",
+  "hasCriterion",
+  "AdaptiveOpeningCriterion",
+  "GravitationalSoftening",
+  "appliedUsing",
+  "CubicSplineKernel",
+  "DarkMatterParticle",
+  "hasSofteningLength",
+  "softening_length_200pc",
+  "StellarParticle",
+  "softening_length_50pc",
+  "injectedAtRadius",
+  "radius_R200",
+  "attainsMass",
+  "mass_10_14_5_M_sun",
+  "virgo_cluster",
+  "IntermediateMassCluster",
+  "respondsTo",
+  "InfallingSatellite",
+  "ClusterScaleHalo",
+  "growsVia",
+  "GradualAccretion",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris",
+  "country_france"
+]
+
+Triples:
+[
+  {
+    "subject": "IntraclusterLight",
+    "relation": "hasProfile",
+    "object": "CompactRadialDensityProfile",
+    "chunk": "completedocument2",
+    "context": "These kinematic differences directly result in the ICL having significantly more compact radial density profiles thantheDM,asseeninbothobservationsandsimulations(Pillepich et al. 2018; Alonso Asensio et al. 2020; Chen et al. 2022; Diego etal.2023,2024;Contreras-Santosetal.2024,2025),implyingthat the underlying DM distribution cannot be straightforwardly inferred from naïve mappings between stellar and DM distributions."
+  },
+  {
+    "subject": "DarkMatterComponent",
+    "relation": "strippedMoreEfficientlyThan",
+    "object": "StellarComponent",
+    "chunk": "completedocument2",
+    "context": "First, the more extended DM component of infalling satellites is strippedmoreefficientlythanthecentrallyconcentratedstellarcom-ponent (e.g. Smith et al. 2016; Haggar et al. 2021)."
+  },
+  {
+    "subject": "IntraclusterStar",
+    "relation": "occupies",
+    "object": "LowerOrbitalEnergy",
+    "chunk": "completedocument2",
+    "context": "This naturally suggests that intracluster stars should occupy lower orbital energies and angular momenta than the DM stripped from the same systems."
+  },
+  {
+    "subject": "MassiveSatellite",
+    "relation": "loses",
+    "object": "OrbitalEnergy",
+    "chunk": "completedocument2",
+    "context": "Second,dynamicalfrictionandtidaltorquescausemassivesatellites to lose orbital energy (Chandrasekhar 1943)."
+  },
+  {
+    "subject": "DiffuseStarlight",
+    "relation": "probes",
+    "object": "ClusterDarkMatterHalo",
+    "chunk": "completedocument2",
+    "context": "Quantifying the strength and physical origin of the resulting spatial and phase-space offsets is a prerequisite for employingdiffusestarlightasaprecisionprobeofclusterDMhaloes with forthcomingEuclidand LSST data."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "accretedInto",
+    "object": "ClusterHalo",
+    "chunk": "completedocument2",
+    "context": "In Section 2 we describe the controlled𝑁-body simulations of satellites accreted into a clus-ter halo."
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "comprises",
+    "object": "DarkMatterComponent",
+    "chunk": "completedocument3",
+    "context": "We begin by generating model satellite galaxies, each comprising both DM and stellar components with spatial distributions described by Hernquist (1990) profiles."
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "comprises",
+    "object": "StellarComponent",
+    "chunk": "completedocument3",
+    "context": "We begin by generating model satellite galaxies, each comprising both DM and stellar components with spatial distributions described by Hernquist (1990) profiles."
+  },
+  {
+    "subject": "DarkMatterComponent",
+    "relation": "hasSpatialDistribution",
+    "object": "HernquistProfile",
+    "chunk": "completedocument3",
+    "context": "We begin by generating model satellite galaxies, each comprising both DM and stellar components with spatial distributions described by Hernquist (1990) profiles."
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "injectedInto",
+    "object": "ClusterHalo",
+    "chunk": "completedocument3",
+    "context": "These satellites are subsequently in- jected with varying orbital configurations into a live cluster halo with an associated central galaxy."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "associatedWith",
+    "object": "CentralGalaxy",
+    "chunk": "completedocument3",
+    "context": "These satellites are subsequently in- jected with varying orbital configurations into a live cluster halo with an associated central galaxy."
+  },
+  {
+    "subject": "gadget_4",
+    "relation": "isA",
+    "object": "CosmologicalNBodyCode",
+    "chunk": "completedocument3",
+    "context": "We make use of Gadget-4, an open-source cosmological 𝑁-body and smoothed particle hydrodynamics code (Springel et al. 2021)."
+  },
+  {
+    "subject": "gadget_4",
+    "relation": "isA",
+    "object": "SmoothedParticleHydrodynamicsCode",
+    "chunk": "completedocument3",
+    "context": "We make use of Gadget-4, an open-source cosmological 𝑁-body and smoothed particle hydrodynamics code (Springel et al. 2021)."
+  },
+  {
+    "subject": "gadget_4",
+    "relation": "computes",
+    "object": "GravitationalForce",
+    "chunk": "completedocument3",
+    "context": "Gadget-4 computes gravitational forces using a hierarchical tree algorithm (Barnes & Hut 1986)."
+  },
+  {
+    "subject": "gadget_4",
+    "relation": "usesAlgorithm",
+    "object": "HierarchicalTreeAlgorithm",
+    "chunk": "completedocument3",
+    "context": "Gadget-4 computes gravitational forces using a hierarchical tree algorithm (Barnes & Hut 1986)."
+  },
+  {
+    "subject": "TreeComponent",
+    "relation": "employs",
+    "object": "MultipoleExpansion",
+    "chunk": "completedocument3",
+    "context": "The tree component employs a mul- tipole expansion with an adaptive opening criterion."
+  },
+  {
+    "subject": "MultipoleExpansion",
+    "relation": "hasCriterion",
+    "object": "AdaptiveOpeningCriterion",
+    "chunk": "completedocument3",
+    "context": "The tree component employs a mul- tipole expansion with an adaptive opening criterion."
+  },
+  {
+    "subject": "GravitationalSoftening",
+    "relation": "appliedUsing",
+    "object": "CubicSplineKernel",
+    "chunk": "completedocument3",
+    "context": "Gravitational softening is applied using a cubic spline kernel."
+  },
+  {
+    "subject": "DarkMatterParticle",
+    "relation": "hasSofteningLength",
+    "object": "softening_length_200pc",
+    "chunk": "completedocument3",
+    "context": "We adopt force softening lengths of 200 pc and 50 pc for DM and stellar particles, respectively."
+  },
+  {
+    "subject": "StellarParticle",
+    "relation": "hasSofteningLength",
+    "object": "softening_length_50pc",
+    "chunk": "completedocument3",
+    "context": "We adopt force softening lengths of 200 pc and 50 pc for DM and stellar particles, respectively."
+  },
+  {
+    "subject": "SatelliteGalaxy",
+    "relation": "injectedAtRadius",
+    "object": "radius_R200",
+    "chunk": "completedocument3",
+    "context": "We generate initial conditions in which a single satellite is injected at a radius of 𝑅 200 into a cluster halo that will attain a mass of 1014.5 M⊙ at 𝑧 = 0, characteristic of nearby intermediate-mass clusters such as the Virgo Cluster (e.g. McLaughlin 1999)."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "attainsMass",
+    "object": "mass_10_14_5_M_sun",
+    "chunk": "completedocument3",
+    "context": "We generate initial conditions in which a single satellite is injected at a radius of 𝑅 200 into a cluster halo that will attain a mass of 1014.5 M⊙ at 𝑧 = 0, characteristic of nearby intermediate-mass clusters such as the Virgo Cluster (e.g. McLaughlin 1999)."
+  },
+  {
+    "subject": "virgo_cluster",
+    "relation": "isA",
+    "object": "IntermediateMassCluster",
+    "chunk": "completedocument3",
+    "context": "We generate initial conditions in which a single satellite is injected at a radius of 𝑅 200 into a cluster halo that will attain a mass of 1014.5 M⊙ at 𝑧 = 0, characteristic of nearby intermediate-mass clusters such as the Virgo Cluster (e.g. McLaughlin 1999)."
+  },
+  {
+    "subject": "ClusterHalo",
+    "relation": "respondsTo",
+    "object": "InfallingSatellite",
+    "chunk": "completedocument3",
+    "context": "We adopt a cluster halo of fixed global mass, which responds self- consistently to the infalling satellite."
+  },
+  {
+    "subject": "ClusterScaleHalo",
+    "relation": "growsVia",
+    "object": "GradualAccretion",
+    "chunk": "completedocument3",
+    "context": "This assumes the cluster poten- tial evolves adiabatically, on long timescales compared to satellite orbital periods, a reasonable approximation for cluster-scale haloes whose late-time growth is dominated by gradual accretion rather than major mergers (Wechsler et al. 2002; Zhao et al. 2003; McBride et al. 2009)."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SurroundingVehicle",
+  "assignedTo",
+  "MaximumSpeed",
+  "sampledFrom",
+  "EmpiricallyMotivatedDistribution",
+  "ControlArchitecture",
+  "integrates",
+  "ReinforcementLearning",
+  "LowLevelController",
+  "MorlAgent",
+  "hasActionSpace",
+  "DiscreteActionSpace",
+  "includes",
+  "LongitudinalControl",
+  "LateralControl",
+  "LongitudinalAction",
+  "modifies",
+  "DesiredSpeed",
+  "DesiredTimeGap",
+  "LateralAction",
+  "initiates",
+  "LaneChange",
+  "triggers",
+  "LongitudinalController",
+  "computes",
+  "Acceleration",
+  "Deceleration",
+  "uses",
+  "HighwaySegment",
+  "hasLength",
+  "3000m",
+  "EgoTruck",
+  "hasMaximumSpeed",
+  "25m/s",
+  "hasMaximumAcceleration",
+  "0.1m/s2",
+  "hasMaximumDeceleration",
+  "6m/s2",
+  "RlAgent",
+  "chooses",
+  "HighLevelAction",
+  "LateralController",
+  "performedUsing",
+  "Lc2013Model",
+  "locatedIn",
+  "Sumo",
+  "Lane",
+  "hasWidth",
+  "3.2m",
+  "Truck",
+  "hasLateralSpeed",
+  "0.8m/s",
+  "AutonomousDriving",
+  "RealTimeDecisionMaking",
+  "requires",
+  "HeavyDutyTruck",
+  "LargeSize",
+  "HighFuelConsumption",
+  "LongBrakingDistance",
+  "hasCharacteristic",
+  "TraditionalApproach",
+  "RuleBasedArchitecture",
+  "OptimizationBasedControl",
+  "DataDrivenLearningMethod",
+  "reliesOn",
+  "RuleBasedSystem",
+  "HandCraftedDecisionRule",
+  "SafetyConstraint",
+  "VehicleBehavior",
+  "governs",
+  "DecisionTreeModel",
+  "GoalRecognition",
+  "TrajectoryPrediction",
+  "performs",
+  "ModelPredictiveControl",
+  "AutonomousVehicleManeuver",
+  "appliedTo",
+  "ControlPolicy",
+  "learns",
+  "DeepRlAgent"
+]
+
+Triples:
+[
+  {
+    "subject": "SurroundingVehicle",
+    "relation": "assignedTo",
+    "object": "MaximumSpeed",
+    "chunk": "trafficmodeling",
+    "context": "Each surrounding vehicle is assigned a maximum speed sampled from a empirically motivated dis- tribution."
+  },
+  {
+    "subject": "MaximumSpeed",
+    "relation": "sampledFrom",
+    "object": "EmpiricallyMotivatedDistribution",
+    "chunk": "trafficmodeling",
+    "context": "Each surrounding vehicle is assigned a maximum speed sampled from a empirically motivated dis- tribution."
+  },
+  {
+    "subject": "ControlArchitecture",
+    "relation": "integrates",
+    "object": "ReinforcementLearning",
+    "chunk": "detailedarchitecture",
+    "context": "The decision making and control architecture is hierarchical\nintegrating RL with low-level controllers as depicted in Fig-\nure 5."
+  },
+  {
+    "subject": "ControlArchitecture",
+    "relation": "integrates",
+    "object": "LowLevelController",
+    "chunk": "detailedarchitecture",
+    "context": "The decision making and control architecture is hierarchical\nintegrating RL with low-level controllers as depicted in Fig-\nure 5."
+  },
+  {
+    "subject": "MorlAgent",
+    "relation": "hasActionSpace",
+    "object": "DiscreteActionSpace",
+    "chunk": "detailedarchitecture",
+    "context": "The agent\nhas a discrete action space which includes high level deci-\nsions about longitudinal and lateral controls."
+  },
+  {
+    "subject": "DiscreteActionSpace",
+    "relation": "includes",
+    "object": "LongitudinalControl",
+    "chunk": "detailedarchitecture",
+    "context": "The agent\nhas a discrete action space which includes high level deci-\nsions about longitudinal and lateral controls."
+  },
+  {
+    "subject": "DiscreteActionSpace",
+    "relation": "includes",
+    "object": "LateralControl",
+    "chunk": "detailedarchitecture",
+    "context": "The agent\nhas a discrete action space which includes high level deci-\nsions about longitudinal and lateral controls."
+  },
+  {
+    "subject": "LongitudinalAction",
+    "relation": "modifies",
+    "object": "DesiredSpeed",
+    "chunk": "detailedarchitecture",
+    "context": "The longitudinal\nactions include changing the desired speed or desired timegap\nwith the vehicle."
+  },
+  {
+    "subject": "LongitudinalAction",
+    "relation": "modifies",
+    "object": "DesiredTimeGap",
+    "chunk": "detailedarchitecture",
+    "context": "The longitudinal\nactions include changing the desired speed or desired timegap\nwith the vehicle."
+  },
+  {
+    "subject": "LateralAction",
+    "relation": "initiates",
+    "object": "LaneChange",
+    "chunk": "detailedarchitecture",
+    "context": "Lateral actions include changing the lane to\nleft or right."
+  },
+  {
+    "subject": "LongitudinalAction",
+    "relation": "triggers",
+    "object": "LongitudinalController",
+    "chunk": "detailedarchitecture",
+    "context": "When one of the longitudinal action is chosen it trig-\ngers the longitudinal controller which compute the acceler-\nation/deceleration using the set desired speed and timegap."
+  },
+  {
+    "subject": "LongitudinalController",
+    "relation": "computes",
+    "object": "Acceleration",
+    "chunk": "detailedarchitecture",
+    "context": "When one of the longitudinal action is chosen it trig-\ngers the longitudinal controller which compute the acceler-\nation/deceleration using the set desired speed and timegap."
+  },
+  {
+    "subject": "LongitudinalController",
+    "relation": "computes",
+    "object": "Deceleration",
+    "chunk": "detailedarchitecture",
+    "context": "When one of the longitudinal action is chosen it trig-\ngers the longitudinal controller which compute the acceler-\nation/deceleration using the set desired speed and timegap."
+  },
+  {
+    "subject": "LongitudinalController",
+    "relation": "uses",
+    "object": "DesiredSpeed",
+    "chunk": "detailedarchitecture",
+    "context": "When one of the longitudinal action is chosen it trig-\ngers the longitudinal controller which compute the acceler-\nation/deceleration using the set desired speed and timegap."
+  },
+  {
+    "subject": "HighwaySegment",
+    "relation": "hasLength",
+    "object": "3000m",
+    "chunk": "detailedarchitecture",
+    "context": "Length of highway segment (l road) 3000 m"
+  },
+  {
+    "subject": "EgoTruck",
+    "relation": "hasMaximumSpeed",
+    "object": "25m/s",
+    "chunk": "detailedarchitecture",
+    "context": "Maximum speed of ego truck 25 m/s"
+  },
+  {
+    "subject": "EgoTruck",
+    "relation": "hasMaximumAcceleration",
+    "object": "0.1m/s2",
+    "chunk": "detailedarchitecture",
+    "context": "Maximum acceleration of ego truck 0.1m/s2"
+  },
+  {
+    "subject": "EgoTruck",
+    "relation": "hasMaximumDeceleration",
+    "object": "6m/s2",
+    "chunk": "detailedarchitecture",
+    "context": "Maximum deceleration of ego truck 6m/s2"
+  },
+  {
+    "subject": "RlAgent",
+    "relation": "chooses",
+    "object": "HighLevelAction",
+    "chunk": "detailedarchitecture",
+    "context": "This process\ncontinues for a total duration of 1s, after which the RL agent\nchooses the next high level action."
+  },
+  {
+    "subject": "MorlAgent",
+    "relation": "chooses",
+    "object": "LateralAction",
+    "chunk": "detailedarchitecture",
+    "context": "If a lateral action is chosen\nby the agent, the lateral controller initiates the lane change."
+  },
+  {
+    "subject": "LateralController",
+    "relation": "initiates",
+    "object": "LaneChange",
+    "chunk": "detailedarchitecture",
+    "context": "If a lateral action is chosen\nby the agent, the lateral controller initiates the lane change."
+  },
+  {
+    "subject": "LaneChange",
+    "relation": "performedUsing",
+    "object": "Lc2013Model",
+    "chunk": "detailedarchitecture",
+    "context": "Lane change is performed using the default LC2013 lane\nchange model [Erdmann, 2014 ]in SUMO."
+  },
+  {
+    "subject": "Lc2013Model",
+    "relation": "locatedIn",
+    "object": "Sumo",
+    "chunk": "detailedarchitecture",
+    "context": "Lane change is performed using the default LC2013 lane\nchange model [Erdmann, 2014 ]in SUMO."
+  },
+  {
+    "subject": "Lane",
+    "relation": "hasWidth",
+    "object": "3.2m",
+    "chunk": "detailedarchitecture",
+    "context": "The lane width is\nset to3.2mand the lateral speed of the truck is set to0.8m/s."
+  },
+  {
+    "subject": "Truck",
+    "relation": "hasLateralSpeed",
+    "object": "0.8m/s",
+    "chunk": "detailedarchitecture",
+    "context": "The lane width is\nset to3.2mand the lateral speed of the truck is set to0.8m/s."
+  }
+]

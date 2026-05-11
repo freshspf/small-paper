@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[]
+
+Triples:
+[{"subject":"V","relation":"isAtMost","object":"N"},{"subject":"Experiment","relation":"follows","object":"SetupPhase"},{"subject":"Experiment","relation":"follows","object":"WorkloadPhase"},{"subject":"Experiment","relation":"follows","object":"CooldownPhase"},{"subject":"SetupPhase","relation":"lasts","object":"100Seconds"},{"subject":"SetupPhase","relation":"hasTransactions","object":"NoTransactions"},{"subject":"WorkloadPhase","relation":"lasts","object":"100Seconds"},{"subject":"WorkloadPhase","relation":"includes","object":"TransactionSending"},{"subject":"CooldownPhase","relation":"lasts","object":"100Seconds"},{"subject":"CooldownPhase","relation":"hasTransactions","object":"NoTransactions"},{"subject":"CooldownPhase","relation":"allows","object":"RemainingTransactionsToCommit"},{"subject":"5Clients","relation":"send","object":"Transaction"},{"subject":"Transaction","relation":"sentTo","object":"First5Validators"},{"subject":"TargetLoad","relation":"distributedEquallyAmong","object":"Client"},{"subject":"40TPSPerClient","relation":"totals","object":"200TPS"},{"subject":"Transaction","relation":"sentTo","object":"SingleNode"},{"subject":"SingleNode","relation":"queriedFor","object":"Finality"},{"subject":"FinalityQuery","relation":"uses","object":"BlockStreaming"},{"subject":"FinalityQuery","relation":"uses","object":"Polling"},{"subject":"VirtualMachineResource","relation":"mimics","object":"CommodityComputer"},{"subject":"CommodityComputer","relation":"runBy","object":"Individual"},{"subject":"BandwidthMonitoringSystem","relation":"captures","object":"TrafficUsage"},{"subject":"TrafficUsage","relation":"occursBetween","object":"BlockchainNode"},{"subject":"TrafficUsage","relation":"occursBetween","object":"Client"},{"subject":"BandwidthMonitoringSystem","relation":"provides","object":"PairwiseMeasurement"},{"subject":"PairwiseMeasurement","relation":"measuresTrafficExchangedBetween","object":"Node"},{"subject":"BandwidthMonitoringSystem","relation":"utilizes","object":"STABLObserverProcess"},{"subject":"STABLObserverProcess","relation":"runsOn","object":"BlockchainVM"},{"subject":"BandwidthMonitoringSystem","relation":"reliesOn","object":"LinuxIptablesFirewallInfrastructure"},{"subject":"LinuxIptablesFirewallInfrastructure","relation":"performs","object":"PacketAccounting"},{"subject":"PacketAccounting","relation":"is","object":"NonIntrusive"},{"subject":"CloudProvider","relation":"has","object":"HighEgressTariff"},{"subject":"HighEgressTariff","relation":"rendersEconomicallyNonViable","object":"HighPerformanceNode"},{"subject":"SingleValidator","relation":"mayIncurMonthlyCostExceeding","object":"US8000"},{"subject":"MonthlyCost","relation":"causedBy","object":"MisalignedBillingModel"},{"subject":"StructuralInefficiency","relation":"necessitatesPivotToward","object":"BareMetalProvider"},{"subject":"BareMetalProvider","relation":"has","object":"UnmeteredAllowance"},{"subject":"UnmeteredAllowance","relation":"avoids","object":"HyperscalerEgressTrap"},{"subject":"ModernHighThroughputArchitecture","relation":"shifts","object":"ValidatorEconomics"},{"subject":"ValidatorEconomics","relation":"from","object":"StaticCapitalExpenditures"}]

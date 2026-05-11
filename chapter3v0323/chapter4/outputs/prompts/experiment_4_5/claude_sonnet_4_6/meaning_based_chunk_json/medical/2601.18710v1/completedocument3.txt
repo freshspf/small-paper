@@ -1,0 +1,138 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 5
+
+**INPUT TEXT CHUNK:**
+However, that cannot be done in
+a quantum system because: 1) measuring those values stops
+the computation (collapses the wave function) and 2) there is
+no known quantum algorithm that can efficiently optimize a
+cost function. VQC gets around these problems to do QML
+by using a hybrid system that consists of a quantum unit
+linked to a classical unit. The quantum unit computes the
+results that depend on its input and a classical parameter.
+The classical unit sends values of that classical parameter to
+the quantum unit and keeps track of the outputs it receives
+from the quantum unit. To train the system, the classical
+unit iteratively uses those results to find the optimal classical
+parameter that produces the correct values of the quantum
+outputs from the given values of the inputs in the training
+set [6].
+The VQC is implemented with 4 qubits and
+evaluated using classical simulation via Qiskit 0.39.0
+(https://qiskit.org), IBM’s open-source quantum
+computing framework. This simulation establishes
+performance baselines prior to deployment on actual
+NISQ hardware. Input features are reduced from 20 to 4
+dimensions via Principal Component Analysis (PCA retaining
+
+TABLE I
+DETAILED20-DIMENSIONAL FEATURE ENGINEERING FOREPANDVQCINPUT. EACH FEATURE IS COMPUTED FROM64×64GRAYSCALE BLOOD CELL
+IMAGES.
+Category Feature Name Description
+Intensity StatisticsMean intensity Average pixel intensity across image
+Std intensity Standard deviation of pixel intensities
+Min intensity Minimum pixel intensity value
+Max intensity Maximum pixel intensity value
+Median intensity Median pixel intensity
+GLCM TexturesContrast Local intensity variations in GLCM
+Dissimilarity Difference between pixel pairs
+Homogeneity Closeness of GLCM distribution to diagonal
+Energy Sum of squared GLCM elements
+Correlation Linear dependency of gray levels
+MorphologyArea Number of pixels in cell region
+Perimeter Boundary length of cell region
+Eccentricity Ratio of focal distance to major axis length
+Solidity Ratio of region area to convex hull area
+Edge MetricsEdge density Proportion of edge pixels (Sobel filter)
+Mean edge strength Average magnitude of edge responses
+Edge variation Standard deviation of edge magnitudes
+FFT FrequencyLow freq. energy Energy in low-frequency components
+High freq. energy Energy in high-frequency components
+Freq. centroid Centroid of frequency spectrum
+95% variance) and rescaled to [0, 2π] to match rotation gate
+domains.
+We employ a ZZFeatureMap for quantum data encoding,
+which creates entanglement between all qubit pairs through
+second-order Pauli-Z expansions, and a shallow hardware-
+efficient RealAmplitudes ansatz (2 layers, 8 trainable parame-
+ters). [12]. This shallow circuit design (depth 12) is optimized
+for NISQ devices with limited coherence times.
+Training Procedure:VQC training uses a classical-
+quantum hybrid approach because direct backpropagation
+through quantum circuits is impossible—measuring interme-
+diate qubit states to compute gradients collapses the quantum
+wave function, destroying the superposition and entanglement
+that provide quantum computational advantages. Instead, train-
+ing proceeds iteratively: (1) the quantum circuit is executed
+with current parameter values, (2) the output qubit is measured
+to obtain expectation value⟨Z 0⟩, (3) a loss function (mean
+squared error between⟨Z 0⟩and target labels) is computed
+classically, (4) the classical optimizer (COBYLA, gradient-
+free) proposes new parameter values, and (5) steps 1–4 repeat
+for 200 iterations. This classical optimization loop treats the
+quantum circuit as a black-box function, avoiding quantum
+gradient computation entirely while still enabling parameter
+learning.
+Classification employs an expectation-value measurement
+on the first qubit (⟨Z 0⟩), thresholded at zero for binary label
+assignment.
+D. Equilibrium Propagation Model
+Overview:EP provides a different approach to QML,
+implemented on Hopfield neural networks, where each node
+is connected to all the other nodes and where the weights
+connecting the nodes are symmetric, that is,w i,j=w j,i.
+Some nodes are assigned to be input nodes and others as
+output nodes. The training will change the connection weightsto produce the correct values of the outputs from the given
+values of the inputs in the training set. Since all the nodes
+are connected, and always active, there is no way to fix and
+hold constant the output nodes, as would be done during each
+iteration in backpropagation to determine the cost function.
+Instead, the values of the input nodes are fixed and the values
+of the output nodes are slowly adjusted by small amounts,
+”nudged”, toward the values in the training set.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SU",
+  "sharesSubcarrierWith",
+  "CU",
+  "location_107E_40N",
+  "hasLongitude",
+  "107E",
+  "hasLatitude",
+  "40N",
+  "location_125E_40N",
+  "125E",
+  "AverageSumRateCU",
+  "increasesBy",
+  "300percent",
+  "FrequencyReuseFactor_F4",
+  "comparedTo",
+  "FrequencyReuseFactor_F1",
+  "SpectrumSharingFramework",
+  "implements",
+  "LinkScheduling",
+  "PowerControl",
+  "maximizes",
+  "AverageSumRate",
+  "ensures",
+  "QualityOfService",
+  "supports",
+  "SatelliteSelection",
+  "adaptsTo",
+  "SatelliteComponent",
+  "FrequencyReuse",
+  "adoptedAmong",
+  "BaseStation",
+  "locatedIn",
+  "TerrestrialComponent",
+  "SpectrumSharingScheme",
+  "basedOn",
+  "LinkFeatureSketching",
+  "HierarchicalLinkClustering",
+  "TransmitPowerOptimization",
+  "aidedBy",
+  "MonteCarloApproximation",
+  "SuccessiveApproximation",
+  "utilizes",
+  "SpatialDistribution",
+  "enables",
+  "OpportunisticSpectrumSharing",
+  "impacts",
+  "StatisticalCSI",
+  "achieves",
+  "PerformanceGain",
+  "constrainedBy",
+  "InterLinkInterference",
+  "HybridSatelliteTerrestrialNetwork",
+  "SatelliteNetwork",
+  "TerrestrialNetwork",
+  "university_minzuUniversityOfChina",
+  "city_beijing",
+  "country_china",
+  "university_tsinghua",
+  "university_durham",
+  "city_durham",
+  "country_uk",
+  "university_southeast",
+  "laboratory_purpleMountainLaboratories",
+  "city_nanjing",
+  "User",
+  "HybridSatelliteUavTerrestrialMaritimeNetwork",
+  "MaritimeNetwork",
+  "SatelliteLink",
+  "TerrestrialLink",
+  "Satellite",
+  "Uav",
+  "AerialStation",
+  "TerrestrialBaseStation",
+  "SmartVehicle",
+  "TerrestrialTransmitterReceiverPair",
+  "PrimarySatelliteNetwork",
+  "SatelliteMulticastDownlink",
+  "TerrestrialDownlink",
+  "NonOrthogonalMultipleAccessUser",
+  "MobileWirelessService"
+]
+
+Triples:
+[
+  {
+    "subject": "SU",
+    "relation": "sharesSubcarrierWith",
+    "object": "CU",
+    "chunk": "completedocument13",
+    "context": "through loosening the assumption of full occupation of the same set of subcarriers by both SUs and CUs across the whole serving time."
+  },
+  {
+    "subject": "location_107E_40N",
+    "relation": "hasLongitude",
+    "object": "107E",
+    "chunk": "completedocument13",
+    "context": "With their sub-satellite points being located at(107◦E,40◦N)and(125◦E,40◦N), the two satellites are similar in strength of the SU-satellite links for the SUs."
+  },
+  {
+    "subject": "location_107E_40N",
+    "relation": "hasLatitude",
+    "object": "40N",
+    "chunk": "completedocument13",
+    "context": "With their sub-satellite points being located at(107◦E,40◦N)and(125◦E,40◦N), the two satellites are similar in strength of the SU-satellite links for the SUs."
+  },
+  {
+    "subject": "location_125E_40N",
+    "relation": "hasLongitude",
+    "object": "125E",
+    "chunk": "completedocument13",
+    "context": "With their sub-satellite points being located at(107◦E,40◦N)and(125◦E,40◦N), the two satellites are similar in strength of the SU-satellite links for the SUs."
+  },
+  {
+    "subject": "location_125E_40N",
+    "relation": "hasLatitude",
+    "object": "40N",
+    "chunk": "completedocument13",
+    "context": "With their sub-satellite points being located at(107◦E,40◦N)and(125◦E,40◦N), the two satellites are similar in strength of the SU-satellite links for the SUs."
+  },
+  {
+    "subject": "AverageSumRateCU",
+    "relation": "increasesBy",
+    "object": "300percent",
+    "chunk": "completedocument13",
+    "context": "the average sum rate of the CUs increases by about300%in Fig. 10 compared to Fig. 3 due to the full frequency reuse among BS-CU links"
+  },
+  {
+    "subject": "FrequencyReuseFactor_F4",
+    "relation": "comparedTo",
+    "object": "FrequencyReuseFactor_F1",
+    "chunk": "completedocument13",
+    "context": "It can be seen from Fig. 10 that there is an obvious decrease in the performance gain achieved by the proposed scheme forF= 1compared toF= 4as shown in Fig. 3."
+  },
+  {
+    "subject": "SpectrumSharingFramework",
+    "relation": "implements",
+    "object": "LinkScheduling",
+    "chunk": "completedocument14",
+    "context": "A time-scale-adaptable spectrum sharing framework has been proposed, in which joint link scheduling and power control are implemented for maximization of the average sum rate of the network while ensuring QoS for both CUs and SUs."
+  },
+  {
+    "subject": "SpectrumSharingFramework",
+    "relation": "implements",
+    "object": "PowerControl",
+    "chunk": "completedocument14",
+    "context": "A time-scale-adaptable spectrum sharing framework has been proposed, in which joint link scheduling and power control are implemented for maximization of the average sum rate of the network while ensuring QoS for both CUs and SUs."
+  },
+  {
+    "subject": "SpectrumSharingFramework",
+    "relation": "maximizes",
+    "object": "AverageSumRate",
+    "chunk": "completedocument14",
+    "context": "joint link scheduling and power control are implemented for maximization of the average sum rate of the network while ensuring QoS for both CUs and SUs."
+  },
+  {
+    "subject": "SpectrumSharingFramework",
+    "relation": "ensures",
+    "object": "QualityOfService",
+    "chunk": "completedocument14",
+    "context": "joint link scheduling and power control are implemented for maximization of the average sum rate of the network while ensuring QoS for both CUs and SUs."
+  },
+  {
+    "subject": "SpectrumSharingFramework",
+    "relation": "supports",
+    "object": "SatelliteSelection",
+    "chunk": "completedocument14",
+    "context": "Satellite selection is supported to adapt to the case when multiple satellites are available in the satellite component."
+  },
+  {
+    "subject": "SatelliteSelection",
+    "relation": "adaptsTo",
+    "object": "SatelliteComponent",
+    "chunk": "completedocument14",
+    "context": "Satellite selection is supported to adapt to the case when multiple satellites are available in the satellite component."
+  },
+  {
+    "subject": "FrequencyReuse",
+    "relation": "adoptedAmong",
+    "object": "BaseStation",
+    "chunk": "completedocument14",
+    "context": "both full and partial frequency reuse could be adopted among BSs in the terrestrial component."
+  },
+  {
+    "subject": "FrequencyReuse",
+    "relation": "locatedIn",
+    "object": "TerrestrialComponent",
+    "chunk": "completedocument14",
+    "context": "both full and partial frequency reuse could be adopted among BSs in the terrestrial component."
+  },
+  {
+    "subject": "SpectrumSharingScheme",
+    "relation": "basedOn",
+    "object": "LinkFeatureSketching",
+    "chunk": "completedocument14",
+    "context": "a low-complexity spectrum sharing scheme has been proposed based on link-feature-sketching-aided hierarchical link clustering and Monte-Carlo-and-successive-approximation-aided transmit power optimization."
+  },
+  {
+    "subject": "SpectrumSharingScheme",
+    "relation": "basedOn",
+    "object": "HierarchicalLinkClustering",
+    "chunk": "completedocument14",
+    "context": "a low-complexity spectrum sharing scheme has been proposed based on link-feature-sketching-aided hierarchical link clustering and Monte-Carlo-and-successive-approximation-aided transmit power optimization."
+  },
+  {
+    "subject": "SpectrumSharingScheme",
+    "relation": "basedOn",
+    "object": "TransmitPowerOptimization",
+    "chunk": "completedocument14",
+    "context": "a low-complexity spectrum sharing scheme has been proposed based on link-feature-sketching-aided hierarchical link clustering and Monte-Carlo-and-successive-approximation-aided transmit power optimization."
+  },
+  {
+    "subject": "TransmitPowerOptimization",
+    "relation": "aidedBy",
+    "object": "MonteCarloApproximation",
+    "chunk": "completedocument14",
+    "context": "a low-complexity spectrum sharing scheme has been proposed based on link-feature-sketching-aided hierarchical link clustering and Monte-Carlo-and-successive-approximation-aided transmit power optimization."
+  },
+  {
+    "subject": "TransmitPowerOptimization",
+    "relation": "aidedBy",
+    "object": "SuccessiveApproximation",
+    "chunk": "completedocument14",
+    "context": "a low-complexity spectrum sharing scheme has been proposed based on link-feature-sketching-aided hierarchical link clustering and Monte-Carlo-and-successive-approximation-aided transmit power optimization."
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "utilizes",
+    "object": "SpatialDistribution",
+    "chunk": "completedocument14",
+    "context": "by link feature sketching, the spatial distribution of the CUs and SUs could be well utilized for opportunistic spectrum sharing via its impact on statistical CSI of the links."
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "enables",
+    "object": "OpportunisticSpectrumSharing",
+    "chunk": "completedocument14",
+    "context": "by link feature sketching, the spatial distribution of the CUs and SUs could be well utilized for opportunistic spectrum sharing via its impact on statistical CSI of the links."
+  },
+  {
+    "subject": "SpatialDistribution",
+    "relation": "impacts",
+    "object": "StatisticalCSI",
+    "chunk": "completedocument14",
+    "context": "the spatial distribution of the CUs and SUs could be well utilized for opportunistic spectrum sharing via its impact on statistical CSI of the links."
+  },
+  {
+    "subject": "SpectrumSharingScheme",
+    "relation": "achieves",
+    "object": "PerformanceGain",
+    "chunk": "completedocument14",
+    "context": "The proposed scheme promises a significant performance gain even under strict inter-link interference constraints."
+  },
+  {
+    "subject": "PerformanceGain",
+    "relation": "constrainedBy",
+    "object": "InterLinkInterference",
+    "chunk": "completedocument14",
+    "context": "The proposed scheme promises a significant performance gain even under strict inter-link interference constraints."
+  }
+]

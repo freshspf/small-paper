@@ -1,0 +1,110 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experimentalsettings",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experimentalsettings
+- section_title: Experimental Settings
+- page_start: 3
+- page_end: 3
+
+**INPUT TEXT CHUNK:**
+In this section, we explain how we deploy blockchain
+protocols and measure their bandwidth consumption.
+3.1 Distributed system setup
+Our experimental setup consists of a distributed sys-
+tem of 25 VMs running Ubuntu 24.04.1 LTS on top of
+a Proxmox cluster of physical servers, each equipped
+with 4x AMD Opteron 6378 16-core CPUs running at
+2.40 GHz, 256 GB of RAM, and 10 GbE NICs. Each ex-
+periment runs a blockchain protocol with 5 client VMs
+and 20 blockchain node VMs. For the blockchain proto-
+cols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche
+C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave
+v2.0.20.
+This 25-node setup is justified by recent studies [26]
+that confirmed that evaluations at small scale in con-
+trolled environments can accurately reproduce perfor-
+mance trends observed in geo-distributed settings. We
+defineNas the total number of blockchain nodes in the
+network, andVas the size of the subset of validators par-
+ticipating in consensus such thatN,V∈ {5, 10, 15, 20},
+V≤N.
+All experiments follow a fixed timeline: a 100 s “Setup”
+phase with no transactions, a 100 s “Workload” phase
+where transactions are sent, and a 100 s “Cooldown”
+phase with no transactions, allowing remaining transac-
+tions to commit. During the Workload phase, the 5 clients
+send transactions to the first 5 validators. The target load
+is distributed equally among clients (e.g., 40 TPS each
+for a total of 200 TPS). Each transaction is sent to a sin-
+gle node, which is then queried for finality using block
+streaming or polling.
+The resources of each VM mimics intentionally the re-
+sources of a commodity computer run by an individ-
+ual in a blockchain network. Note that this specifica-
+tion is lower than what some blockchains typically rec-
+ommend, including Aptos [2], Avalanche [27] or Red-
+belly [30], however, strict hardware requirements on re-
+mote nodes remain hard to enforce and a unique config-
+uration is necessary for our comparison.
+3.2 Measuring peer-to-peer bandwidth
+We implemented a fine-grained bandwidth monitoring
+system to capture traffic usage between blockchain nodes
+and clients. Our approach provides pairwise measure-
+ments of the traffic exchanged between each node in the
+network. The system utilizes STABLobserver processes
+running on blockchain VMs and relies on the Linux
+iptablesfirewall infrastructure to perform non-intrusive
+packet accounting.
+For each node under observation, we programmati-
+cally install a set ofiptablesrules. These rules create cus-
+tom accounting chains that contain a specific rule for ev-
+ery other peer in the experiment. Each rule is configuredto match packets based on their source (for incoming traf-
+fic) or destination (for outgoing traffic) IP address.
+A monitoring script then periodically queries the byte
+counters associated with each of these per-peer rules and
+immediately resets them to zero. This process yields a
+time series where each data point represents the average
+transmission (TX) and reception (RX) rate over the pre-
+ceding interval, allowing us to precisely analyze network
+behavior.

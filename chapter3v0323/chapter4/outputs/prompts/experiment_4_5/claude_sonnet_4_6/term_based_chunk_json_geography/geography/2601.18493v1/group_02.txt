@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Hospital",
+  "isTypeOf",
+  "DamagedBuilding",
+  "BuildingUse",
+  "directlyInfluences",
+  "DisasterResponsePriority",
+  "RemoteSensing",
+  "supports",
+  "DisasterAssessment",
+  "DamageMapping",
+  "ChangeAnalysis",
+  "xBD",
+  "DisasterAssessmentDataset",
+  "BRIGHT",
+  "FloodNet",
+  "provides",
+  "PreEventImagery",
+  "PostEventImagery",
+  "DamageAnnotation",
+  "coversMultiple",
+  "Hazard",
+  "treatsAs",
+  "BuildingAsSingleClass",
+  "emphasizes",
+  "SceneLevelLabel",
+  "SatelliteImagery",
+  "DisasterResponse",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "EmergencyCoordinationAgency",
+  "BuildingLevelAssessment",
+  "Triage",
+  "ResourceAllocation",
+  "RiskMitigation",
+  "INSARAG",
+  "FEMA",
+  "PhysicalDamage",
+  "School",
+  "IndustrialFacility",
+  "ResidentialShelter",
+  "MedicalSurgeCapacity",
+  "ShelterAvailability",
+  "SearchAndRescuePlanning",
+  "InfrastructureRestoration",
+  "BuildingFunction",
+  "LargeScaleHazard",
+  "LinköpingUniversity",
+  "Vantor",
+  "ComputerVisionLaboratory",
+  "Dataset",
+  "Building",
+  "FunctionAwareEvaluation",
+  "InstanceLevelEvaluation",
+  "StructuredReporting",
+  "HumanitarianAssessment",
+  "agency_FEMA",
+  "agency_INSARAG",
+  "PostDisasterAssessment",
+  "benchmark_DisasterInsight",
+  "dataset_xBD",
+  "SatelliteImage",
+  "HighSpatialResolutionSensor",
+  "DisasterEvent",
+  "BuildingCenteredInstance",
+  "PreDisasterImagePatch",
+  "PostDisasterImagePatch",
+  "BoundingBoxCoordinate",
+  "DamageLevel",
+  "BuildingInstance",
+  "FunctionalSemantic",
+  "dataset_OpenStreetMap",
+  "OSM",
+  "VolunteeredGeographicInformation",
+  "BuildingFootprint",
+  "BuildingPolygon",
+  "GeographicCoordinate",
+  "BuildingTag",
+  "FunctionalBuildingCategory",
+  "ResidentialBuilding"
+]
+
+Triples:
+[
+  {
+    "subject": "Hospital",
+    "relation": "isTypeOf",
+    "object": "DamagedBuilding",
+    "chunk": "introduction",
+    "context": "such as whether a damaged building serves as a hospital, school, industrial facility, or residential shelter"
+  },
+  {
+    "subject": "BuildingUse",
+    "relation": "directlyInfluences",
+    "object": "DisasterResponsePriority",
+    "chunk": "introduction",
+    "context": "responders must assess the function and use of affected structures, such as whether a damaged building serves as a hospital, school, industrial facility, or residential shelter, as these directly influence priorities including medical surge capacity, shelter availability, search-and-rescue planning, and infrastructure restoration."
+  },
+  {
+    "subject": "RemoteSensing",
+    "relation": "supports",
+    "object": "DisasterAssessment",
+    "chunk": "relatedwork",
+    "context": "Remote sensing (RS) datasets support automated disaster assessment through damage mapping and change analysis."
+  },
+  {
+    "subject": "RemoteSensing",
+    "relation": "supports",
+    "object": "DamageMapping",
+    "chunk": "relatedwork",
+    "context": "Remote sensing (RS) datasets support automated disaster assessment through damage mapping and change analysis."
+  },
+  {
+    "subject": "RemoteSensing",
+    "relation": "supports",
+    "object": "ChangeAnalysis",
+    "chunk": "relatedwork",
+    "context": "Remote sensing (RS) datasets support automated disaster assessment through damage mapping and change analysis."
+  },
+  {
+    "subject": "xBD",
+    "relation": "isTypeOf",
+    "object": "DisasterAssessmentDataset",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "isTypeOf",
+    "object": "DisasterAssessmentDataset",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "isTypeOf",
+    "object": "DisasterAssessmentDataset",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "xBD",
+    "relation": "provides",
+    "object": "PreEventImagery",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "xBD",
+    "relation": "provides",
+    "object": "PostEventImagery",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "provides",
+    "object": "PreEventImagery",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "provides",
+    "object": "PostEventImagery",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "provides",
+    "object": "PreEventImagery",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "provides",
+    "object": "PostEventImagery",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "xBD",
+    "relation": "provides",
+    "object": "DamageAnnotation",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "provides",
+    "object": "DamageAnnotation",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "provides",
+    "object": "DamageAnnotation",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "xBD",
+    "relation": "coversMultiple",
+    "object": "Hazard",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "coversMultiple",
+    "object": "Hazard",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "coversMultiple",
+    "object": "Hazard",
+    "chunk": "relatedwork",
+    "context": "xBD [4], BRIGHT [2], and FloodNet [3] provide pre- and post-event imagery with damage annotations across multiple hazards."
+  },
+  {
+    "subject": "xBD",
+    "relation": "treatsAs",
+    "object": "BuildingAsSingleClass",
+    "chunk": "relatedwork",
+    "context": "but largely treat buildings as a single class and emphasize scene-level labels."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "treatsAs",
+    "object": "BuildingAsSingleClass",
+    "chunk": "relatedwork",
+    "context": "but largely treat buildings as a single class and emphasize scene-level labels."
+  },
+  {
+    "subject": "FloodNet",
+    "relation": "treatsAs",
+    "object": "BuildingAsSingleClass",
+    "chunk": "relatedwork",
+    "context": "but largely treat buildings as a single class and emphasize scene-level labels."
+  },
+  {
+    "subject": "xBD",
+    "relation": "emphasizes",
+    "object": "SceneLevelLabel",
+    "chunk": "relatedwork",
+    "context": "but largely treat buildings as a single class and emphasize scene-level labels."
+  },
+  {
+    "subject": "BRIGHT",
+    "relation": "emphasizes",
+    "object": "SceneLevelLabel",
+    "chunk": "relatedwork",
+    "context": "but largely treat buildings as a single class and emphasize scene-level labels."
+  }
+]

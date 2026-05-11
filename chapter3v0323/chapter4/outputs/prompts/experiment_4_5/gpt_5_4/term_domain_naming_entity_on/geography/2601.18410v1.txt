@@ -1,0 +1,939 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "HybridSatelliteTerrestrialNetwork",
+  "SatelliteNetwork",
+  "TerrestrialWirelessNetwork",
+  "SatelliteLink",
+  "TerrestrialLink",
+  "SpectrumSharing",
+  "TimeScaleAdaptableSpectrumSharingFramework",
+  "SatelliteTerrestrialCooperationTimeScale",
+  "TimeSlottedSubcarrier",
+  "Subcarrier",
+  "TimeSlot",
+  "BaseStation",
+  "Satellite",
+  "User",
+  "SpatialDistribution",
+  "LinkFeatureSketching",
+  "HierarchicalLinkClustering",
+  "MonteCarloAndSuccessiveApproximationAidedTransmitPowerOptimization",
+  "TransmitPowerOptimization",
+  "LinkScheduling",
+  "PowerControl",
+  "StatisticalChannelStateInformation",
+  "InstantaneousChannelStateInformation",
+  "AverageSumRate",
+  "QualityOfService",
+  "InterLinkInterferenceConstraint",
+  "FrequencyReuse",
+  "FullFrequencyReuse",
+  "PartialFrequencyReuse",
+  "NetworkWideTimeSynchronization",
+  "CoarseNetworkWideTimeSynchronization",
+  "FineTimeSynchronization",
+  "ResourceBlock",
+  "FrequencyDomain",
+  "TimeDomain",
+  "LinkDelay",
+  "SatelliteComponent",
+  "TerrestrialComponent",
+  "UserDiversity",
+  "SpectrumScarcity",
+  "SixthGenerationEra",
+  "RadioMap",
+  "PathLoss",
+  "Shadowing",
+  "ChannelGainMean",
+  "ChannelGainVariance",
+  "MeteorologicalSatelliteService",
+  "MobileWirelessService",
+  "PrimarySatelliteNetwork",
+  "PrimarySatelliteReceiverLink",
+  "UnmannedAerialVehicle",
+  "AerialStation",
+  "SmartVehicle",
+  "MmWaveFrequencyBand",
+  "MaritimeNetwork",
+  "GroupedTimeSliceAllocation",
+  "LinkCluster",
+  "MixedIntegerProgrammingProblem",
+  "TimeDomainOptimization",
+  "JointTimeFrequencySpectrumSharing",
+  "SatelliteSelection",
+  "Beam",
+  "Channel",
+  "OutageProbability",
+  "DynamicSpectrumAccess",
+  "Beamforming",
+  "PowerAllocation",
+  "UserAssociation",
+  "TrajectoryControl",
+  "EnergyEfficientPowerAllocation",
+  "LargeScaleCSI",
+  "AutonomousResourceManagementArchitecture",
+  "ThreeLevelResourceManagementClosedLoop",
+  "TwoTimescaleHierarchicalBandwidthAllocationAlgorithm",
+  "MultiBeamSatelliteNetwork",
+  "ArtificialIntelligenceCentricManagement",
+  "InterferenceLink",
+  "TerrestrialMT",
+  "GroundBS",
+  "Fig1Network",
+  "J",
+  "M"
+]
+
+Triples:
+[
+  {
+    "subject": "HybridSatelliteTerrestrialNetwork",
+    "relation": "combines",
+    "object": "SatelliteNetwork"
+  },
+  {
+    "subject": "HybridSatelliteTerrestrialNetwork",
+    "relation": "combines",
+    "object": "TerrestrialWirelessNetwork"
+  },
+  {
+    "subject": "CooperationBetweenSatelliteAndTerrestrialWirelessNetwork",
+    "relation": "promises",
+    "object": "UbiquitousCommunicationsCoverage"
+  },
+  {
+    "subject": "SpectrumSharing",
+    "relation": "isStudiedFor",
+    "object": "HybridSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "SatelliteLink",
+    "relation": "share",
+    "object": "TimeSlottedSubcarrier"
+  },
+  {
+    "subject": "TerrestrialLink",
+    "relation": "share",
+    "object": "TimeSlottedSubcarrier"
+  },
+  {
+    "subject": "SatelliteLink",
+    "relation": "shareOpportunisticallyWith",
+    "object": "TerrestrialLink"
+  },
+  {
+    "subject": "TimeScaleAdaptableSpectrumSharingFramework",
+    "relation": "isBasedOn",
+    "object": "SatelliteTerrestrialCooperationTimeScale"
+  },
+  {
+    "subject": "SatelliteTerrestrialCooperationTimeScale",
+    "relation": "canBeAdjustedAccordingTo",
+    "object": "PracticalRequirement"
+  },
+  {
+    "subject": "BaseStation",
+    "relation": "canAdopt",
+    "object": "FullFrequencyReuse"
+  },
+  {
+    "subject": "BaseStation",
+    "relation": "canAdopt",
+    "object": "PartialFrequencyReuse"
+  },
+  {
+    "subject": "SatelliteSelection",
+    "relation": "isSupportedWhen",
+    "object": "MultipleSatelliteAvailable"
+  },
+  {
+    "subject": "LinkScheduling",
+    "relation": "reliesOn",
+    "object": "StatisticalChannelStateInformation"
+  },
+  {
+    "subject": "PowerControl",
+    "relation": "reliesOn",
+    "object": "StatisticalChannelStateInformation"
+  },
+  {
+    "subject": "LinkScheduling",
+    "relation": "isJointlyOptimizedWith",
+    "object": "PowerControl"
+  },
+  {
+    "subject": "JointLinkSchedulingAndPowerControl",
+    "relation": "maximize",
+    "object": "AverageSumRate"
+  },
+  {
+    "subject": "JointLinkSchedulingAndPowerControl",
+    "relation": "ensure",
+    "object": "QualityOfService"
+  },
+  {
+    "subject": "LowComplexitySpectrumSharingScheme",
+    "relation": "isBasedOn",
+    "object": "HierarchicalLinkClustering"
+  },
+  {
+    "subject": "LowComplexitySpectrumSharingScheme",
+    "relation": "isBasedOn",
+    "object": "MonteCarloAndSuccessiveApproximationAidedTransmitPowerOptimization"
+  },
+  {
+    "subject": "HierarchicalLinkClustering",
+    "relation": "isAidedBy",
+    "object": "LinkFeatureSketching"
+  },
+  {
+    "subject": "SimulationResult",
+    "relation": "demonstrate",
+    "object": "LinkFeatureSketchingUtilizesLinkDiversity"
+  },
+  {
+    "subject": "LinkDiversity",
+    "relation": "isBroughtBy",
+    "object": "SpatialDistribution"
+  },
+  {
+    "subject": "SpatialDistribution",
+    "relation": "isOf",
+    "object": "User"
+  },
+  {
+    "subject": "LowComplexitySpectrumSharingScheme",
+    "relation": "provides",
+    "object": "SignificantPerformanceGain"
+  },
+  {
+    "subject": "SignificantPerformanceGain",
+    "relation": "occursUnder",
+    "object": "StrictInterLinkInterferenceConstraint"
+  },
+  {
+    "subject": "HybridSatelliteTerrestrialNetwork",
+    "relation": "isSolutionFor",
+    "object": "UbiquitousCommunicationCoverage"
+  },
+  {
+    "subject": "HybridSatelliteTerrestrialNetwork",
+    "relation": "isRelevantIn",
+    "object": "SixthGenerationEra"
+  },
+  {
+    "subject": "SpectrumScarcity",
+    "relation": "motivates",
+    "object": "SpectrumSharing"
+  },
+  {
+    "subject": "Spectrum",
+    "relation": "isUtilizedInTermsOf",
+    "object": "ResourceBlock"
+  },
+  {
+    "subject": "ResourceBlock",
+    "relation": "consistsOf",
+    "object": "Subcarrier"
+  },
+  {
+    "subject": "ResourceBlock",
+    "relation": "consistsOf",
+    "object": "TimeSlot"
+  },
+  {
+    "subject": "SpectrumSharing",
+    "relation": "canBeCarriedOutIn",
+    "object": "FrequencyDomain"
+  },
+  {
+    "subject": "SpectrumSharing",
+    "relation": "canBeCarriedOutIn",
+    "object": "TimeDomain"
+  },
+  {
+    "subject": "FrequencyDomain",
+    "relation": "operatesOver",
+    "object": "Subcarrier"
+  },
+  {
+    "subject": "TimeDomain",
+    "relation": "operatesOver",
+    "object": "TimeSlot"
+  },
+  {
+    "subject": "SpectrumSharing",
+    "relation": "fullyExploits",
+    "object": "LinkDiversity"
+  },
+  {
+    "subject": "SpectrumSharing",
+    "relation": "achieves",
+    "object": "HigherSpectrumEfficiency"
+  },
+  {
+    "subject": "SatelliteTerrestrialSpectrumSharingInTimeDomain",
+    "relation": "requires",
+    "object": "SynchronizationBetweenLinks"
+  },
+  {
+    "subject": "SynchronizationBetweenLinks",
+    "relation": "isFundamentalPrerequisiteFor",
+    "object": "SatelliteTerrestrialSpectrumSharingInTimeDomain"
+  },
+  {
+    "subject": "LinkDelay",
+    "relation": "differsBetween",
+    "object": "SatelliteComponent"
+  },
+  {
+    "subject": "LinkDelay",
+    "relation": "differsBetween",
+    "object": "TerrestrialComponent"
+  },
+  {
+    "subject": "DifferenceBetweenLinkDelays",
+    "relation": "makesChallenging",
+    "object": "FineTimeSynchronization"
+  },
+  {
+    "subject": "FineTimeSynchronization",
+    "relation": "isNetworkWide",
+    "object": "HybridSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "FineTimeSynchronization",
+    "relation": "operatesOver",
+    "object": "MsLevelTimeSlot"
+  },
+  {
+    "subject": "SpectrumSharingInTimeDomain",
+    "relation": "isMoreDifficultThan",
+    "object": "SpectrumSharingInFrequencyDomain"
+  },
+  {
+    "subject": "FineOverCoarseScheme",
+    "relation": "wasProposedFor",
+    "object": "HybridSatelliteUAVTerrestrialMaritimeNetwork"
+  },
+  {
+    "subject": "FineOverCoarseScheme",
+    "relation": "isBasedOn",
+    "object": "LinkScheduling"
+  },
+  {
+    "subject": "LinkClustering",
+    "relation": "supports",
+    "object": "GroupedTimeSliceAllocation"
+  },
+  {
+    "subject": "GroupedTimeSliceAllocation",
+    "relation": "isFor",
+    "object": "LinkCluster"
+  },
+  {
+    "subject": "SatelliteTerrestrialSynchronization",
+    "relation": "needsToBeAchievedCoarselyAt",
+    "object": "LargeTimeScale"
+  },
+  {
+    "subject": "LargeTimeScale",
+    "relation": "isLargerThan",
+    "object": "MsLevelTimeSlot"
+  },
+  {
+    "subject": "SpectrumSharingBasedOnCoarseNetworkWideTimeSynchronization",
+    "relation": "isPreferredIn",
+    "object": "PracticalApplication"
+  },
+  {
+    "subject": "SpectrumSharingBasedOnCoarseNetworkWideTimeSynchronization",
+    "relation": "has",
+    "object": "LowLinkOrchestratingComplexity"
+  },
+  {
+    "subject": "SpectrumSharingBasedOnCoarseNetworkWideTimeSynchronization",
+    "relation": "has",
+    "object": "LowSignalingOverhead"
+  },
+  {
+    "subject": "ExistingWorks",
+    "relation": "mostlyFocusOn",
+    "object": "FrequencyDomain"
+  },
+  {
+    "subject": "ExistingWorks",
+    "relation": "doNotFullyExploit",
+    "object": "TimeDomainDiversity"
+  },
+  {
+    "subject": "JointTimeFrequencySpectrumSharing",
+    "relation": "isExploredFor",
+    "object": "HybridSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "JointTimeFrequencySpectrumSharing",
+    "relation": "uses",
+    "object": "CoarseNetworkWideTimeSynchronization"
+  },
+  {
+    "subject": "ThisWork",
+    "relation": "implements",
+    "object": "JointLinkSchedulingAndPowerControl"
+  },
+  {
+    "subject": "ThisWork",
+    "relation": "considers",
+    "object": "SatelliteSelection"
+  },
+  {
+    "subject": "SatelliteSelection",
+    "relation": "adaptsTo",
+    "object": "MultipleSatelliteAvailable"
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "isUtilizedFor",
+    "object": "LinkScheduling"
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "isUtilizedFor",
+    "object": "PowerControl"
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "improves",
+    "object": "ImplementationEfficiency"
+  },
+  {
+    "subject": "SatelliteTerrestrialCooperationTimeScale",
+    "relation": "canBeAdjustedFlexiblyAccordingTo",
+    "object": "PracticalRequirement"
+  },
+  {
+    "subject": "TerrestrialComponent",
+    "relation": "supports",
+    "object": "FullFrequencyReuse"
+  },
+  {
+    "subject": "TerrestrialComponent",
+    "relation": "supports",
+    "object": "PartialFrequencyReuse"
+  },
+  {
+    "subject": "FrequencyDomainSpectrumSharing",
+    "relation": "wasStudiedFor",
+    "object": "HybridSatelliteUAVTerrestrialNetwork"
+  },
+  {
+    "subject": "FrequencyDomainSpectrumSharing",
+    "relation": "uses",
+    "object": "InstantaneousChannelStateInformation"
+  },
+  {
+    "subject": "ResourceAllocation",
+    "relation": "includes",
+    "object": "Beam"
+  },
+  {
+    "subject": "ResourceAllocation",
+    "relation": "includes",
+    "object": "Power"
+  },
+  {
+    "subject": "ResourceAllocation",
+    "relation": "includes",
+    "object": "Channel"
+  },
+  {
+    "subject": "ResourceAllocation",
+    "relation": "isOptimizedFor",
+    "object": "CognitiveSatelliteLink"
+  },
+  {
+    "subject": "CognitiveSatelliteLink",
+    "relation": "isUnderConstraintOnInterferenceCausedTo",
+    "object": "IncumbentTerrestrialNetwork"
+  },
+  {
+    "subject": "OutageProbability",
+    "relation": "wasDerivedFor",
+    "object": "HybridSatelliteTerrestrialSystem"
+  },
+  {
+    "subject": "MultipleTerrestrialTransmitterReceiverPair",
+    "relation": "cooperateWith",
+    "object": "PrimarySatelliteNetwork"
+  },
+  {
+    "subject": "CooperationBetweenMultipleTerrestrialTransmitterReceiverPairAndPrimarySatelliteNetwork",
+    "relation": "isFor",
+    "object": "DynamicSpectrumAccess"
+  },
+  {
+    "subject": "Beamforming",
+    "relation": "isJointlyOptimizedWith",
+    "object": "PowerAllocation"
+  },
+  {
+    "subject": "BeamformingAndPowerAllocation",
+    "relation": "maximize",
+    "object": "SumRate"
+  },
+  {
+    "subject": "SatelliteMulticastDownlink",
+    "relation": "share",
+    "object": "MmWaveFrequencyBand"
+  },
+  {
+    "subject": "TerrestrialDownlink",
+    "relation": "share",
+    "object": "MmWaveFrequencyBand"
+  },
+  {
+    "subject": "TerrestrialDownlink",
+    "relation": "serves",
+    "object": "NonOrthogonalMultipleAccessUserGroup"
+  },
+  {
+    "subject": "PrimarySatelliteReceiverLink",
+    "relation": "isPresentIn",
+    "object": "SmartVehicleSupportScenario"
+  },
+  {
+    "subject": "MultipleUnmannedAerialVehicle",
+    "relation": "have",
+    "object": "AerialStation"
+  },
+  {
+    "subject": "TerrestrialBaseStation",
+    "relation": "supports",
+    "object": "SmartVehicle"
+  },
+  {
+    "subject": "UserAssociation",
+    "relation": "isJointlyOptimizedWith",
+    "object": "PowerOptimization"
+  },
+  {
+    "subject": "UserAssociation",
+    "relation": "isJointlyOptimizedWith",
+    "object": "TrajectoryControl"
+  },
+  {
+    "subject": "PowerOptimization",
+    "relation": "isJointlyOptimizedWith",
+    "object": "TrajectoryControl"
+  },
+  {
+    "subject": "OptimizationOverTimeSlot",
+    "relation": "wasOnlyFor",
+    "object": "UnmannedAerialVehicleLink"
+  },
+  {
+    "subject": "OptimizationOverTimeSlot",
+    "relation": "wasOnlyFor",
+    "object": "TerrestrialLink"
+  },
+  {
+    "subject": "PrimarySatelliteReceiverLink",
+    "relation": "occupiesStatically",
+    "object": "FrequencyBand"
+  },
+  {
+    "subject": "PrimarySatelliteReceiverLink",
+    "relation": "occupiesStaticallyAllTheTime",
+    "object": "FrequencyBand"
+  },
+  {
+    "subject": "InstantaneousChannelStateInformation",
+    "relation": "isDifficultToObtainFor",
+    "object": "AllLink"
+  },
+  {
+    "subject": "DifficultyInObtainingInstantaneousCSI",
+    "relation": "isDueTo",
+    "object": "FastVariation"
+  },
+  {
+    "subject": "DifficultyInObtainingInstantaneousCSI",
+    "relation": "isDueTo",
+    "object": "LargeDelayOfSatelliteLink"
+  },
+  {
+    "subject": "SpectrumSharingBasedOnStatisticalCSI",
+    "relation": "wasAddressedFor",
+    "object": "HybridSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "RadioMap",
+    "relation": "providesInformationOf",
+    "object": "PathLoss"
+  },
+  {
+    "subject": "RadioMap",
+    "relation": "providesInformationOf",
+    "object": "Shadowing"
+  },
+  {
+    "subject": "PowerAllocation",
+    "relation": "wasProposedFor",
+    "object": "HybridNetworkWithSatelliteTerrestrialSpectrumSharing"
+  },
+  {
+    "subject": "UserScheduling",
+    "relation": "wasProposedFor",
+    "object": "HybridNetworkWithSatelliteTerrestrialSpectrumSharing"
+  },
+  {
+    "subject": "InterferenceLink",
+    "relation": "hasAvailableStatistic",
+    "object": "ChannelGainMean"
+  },
+  {
+    "subject": "InterferenceLink",
+    "relation": "hasAvailableStatistic",
+    "object": "ChannelGainVariance"
+  },
+  {
+    "subject": "ResourceScheduling",
+    "relation": "wasDiscussedFor",
+    "object": "MobileWirelessService"
+  },
+  {
+    "subject": "ResourceScheduling",
+    "relation": "wasDiscussedFor",
+    "object": "MeteorologicalSatelliteService"
+  },
+  {
+    "subject": "MobileWirelessService",
+    "relation": "shareSameFrequencyBandWith",
+    "object": "MeteorologicalSatelliteService"
+  },
+  {
+    "subject": "EnergyEfficientPowerAllocation",
+    "relation": "wasInvestigatedFor",
+    "object": "CognitiveSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "EnergyEfficientPowerAllocation",
+    "relation": "isUnderConstraintOf",
+    "object": "StatisticalInterferenceConstraint"
+  },
+  {
+    "subject": "EnergyEfficientPowerAllocation",
+    "relation": "isUnderConstraintOf",
+    "object": "InstantaneousInterferenceConstraint"
+  },
+  {
+    "subject": "StatisticalInterferenceConstraint",
+    "relation": "isImposedBy",
+    "object": "PrimaryTerrestrialLink"
+  },
+  {
+    "subject": "InstantaneousInterferenceConstraint",
+    "relation": "isImposedBy",
+    "object": "PrimaryTerrestrialLink"
+  },
+  {
+    "subject": "DoubleTargetSpectrumSharingScheme",
+    "relation": "isProposedFor",
+    "object": "HybridSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "DoubleTargetSpectrumSharingScheme",
+    "relation": "isBasedOn",
+    "object": "LargeScaleCSI"
+  },
+  {
+    "subject": "DoubleTargetSpectrumSharingScheme",
+    "relation": "maximizes",
+    "object": "NumberOfServedTerrestrialMT"
+  },
+  {
+    "subject": "DoubleTargetSpectrumSharingScheme",
+    "relation": "maximizes",
+    "object": "AverageSumTransmissionRate"
+  },
+  {
+    "subject": "TransmissionCharacteristicOfSatelliteLink",
+    "relation": "wasAssumedToStayInvariantIn",
+    "object": "PreviousStatisticalCSIWorks"
+  },
+  {
+    "subject": "PreviousStatisticalCSIWorks",
+    "relation": "didNotConsider",
+    "object": "OptimizationAcrossTimeForSatelliteComponent"
+  },
+  {
+    "subject": "TimeDomainOptimizationForSatelliteTerrestrialCooperation",
+    "relation": "requiresSelectionOf",
+    "object": "BasicTimeScale"
+  },
+  {
+    "subject": "BasicTimeScale",
+    "relation": "needsToBeSelectedAccordingTo",
+    "object": "SpecificNetworkScenario"
+  },
+  {
+    "subject": "AutonomousResourceManagementArchitecture",
+    "relation": "isProposedFor",
+    "object": "SixthGenerationSatelliteTerrestrialIntegratedNetwork"
+  },
+  {
+    "subject": "AutonomousResourceManagementArchitecture",
+    "relation": "designs",
+    "object": "ThreeLevelResourceManagementClosedLoop"
+  },
+  {
+    "subject": "TimeScaleForImplementationOfResourceManagement",
+    "relation": "is",
+    "object": "FundamentalIssue"
+  },
+  {
+    "subject": "TwoTimescaleHierarchicalBandwidthAllocationAlgorithm",
+    "relation": "isProposedFor",
+    "object": "MultiBeamSatelliteNetwork"
+  },
+  {
+    "subject": "TwoTimescaleHierarchicalBandwidthAllocationAlgorithm",
+    "relation": "isBasedOn",
+    "object": "MultiAgentDeepReinforcementLearning"
+  },
+  {
+    "subject": "TwoTimescaleHierarchicalBandwidthAllocationAlgorithm",
+    "relation": "tackles",
+    "object": "DifferentiatedTimeGranularityResourceSchedulingRequirement"
+  },
+  {
+    "subject": "ThisPaper",
+    "relation": "focusesOn",
+    "object": "StatisticalCSIBasedSpectrumSharing"
+  },
+  {
+    "subject": "StatisticalCSIBasedSpectrumSharing",
+    "relation": "isFor",
+    "object": "HybridSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "SatelliteLink",
+    "relation": "shareSameGroupOf",
+    "object": "TimeSlottedSubcarrier"
+  },
+  {
+    "subject": "TerrestrialLink",
+    "relation": "shareSameGroupOf",
+    "object": "TimeSlottedSubcarrier"
+  },
+  {
+    "subject": "ThisWork",
+    "relation": "considers",
+    "object": "JointTimeFrequencyCoordination"
+  },
+  {
+    "subject": "JointTimeFrequencyCoordination",
+    "relation": "isAmong",
+    "object": "SatelliteLink"
+  },
+  {
+    "subject": "JointTimeFrequencyCoordination",
+    "relation": "isAmong",
+    "object": "TerrestrialLink"
+  },
+  {
+    "subject": "TimeScaleAdaptableSpectrumSharingFramework",
+    "relation": "isBasedOn",
+    "object": "CoarseNetworkWideTimeSynchronization"
+  },
+  {
+    "subject": "JointLinkSchedulingAndPowerControl",
+    "relation": "isImplementedBasedOn",
+    "object": "StatisticalChannelStateInformation"
+  },
+  {
+    "subject": "SatelliteSelection",
+    "relation": "isSupportedIn",
+    "object": "SatelliteComponent"
+  },
+  {
+    "subject": "SatelliteComponent",
+    "relation": "canHave",
+    "object": "MultipleSatellite"
+  },
+  {
+    "subject": "TerrestrialComponent",
+    "relation": "contains",
+    "object": "BaseStation"
+  },
+  {
+    "subject": "LinkFeature",
+    "relation": "isDesignedFor",
+    "object": "LinkScheduling"
+  },
+  {
+    "subject": "LinkFeature",
+    "relation": "isDesignedFor",
+    "object": "PowerControl"
+  },
+  {
+    "subject": "LinkFeature",
+    "relation": "follows",
+    "object": "DivideAndConquerPrinciple"
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "decouples",
+    "object": "LinkScheduling"
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "decouplesFrom",
+    "object": "PowerControl"
+  },
+  {
+    "subject": "HierarchicalLinkClusteringScheme",
+    "relation": "isProposedFor",
+    "object": "LinkScheduling"
+  },
+  {
+    "subject": "HierarchicalLinkClusteringScheme",
+    "relation": "operatesUnder",
+    "object": "TimeScaleAdaptableSpectrumSharingFramework"
+  },
+  {
+    "subject": "MixedIntegerProgrammingProblem",
+    "relation": "isFormulatedIn",
+    "object": "ThisWork"
+  },
+  {
+    "subject": "LowComplexitySpectrumSharingScheme",
+    "relation": "isProposedIn",
+    "object": "ThisWork"
+  },
+  {
+    "subject": "LinkFeatureSketching",
+    "relation": "utilizes",
+    "object": "LinkDiversity"
+  },
+  {
+    "subject": "LinkDiversity",
+    "relation": "isBroughtBy",
+    "object": "SpatialDistributionOfUser"
+  },
+  {
+    "subject": "LowComplexitySpectrumSharingScheme",
+    "relation": "supports",
+    "object": "OpportunisticSpectrumSharing"
+  },
+  {
+    "subject": "HybridSatelliteTerrestrialNetwork",
+    "relation": "has",
+    "object": "Satellite"
+  },
+  {
+    "subject": "HybridSatelliteTerrestrialNetwork",
+    "relation": "has",
+    "object": "GroundBS"
+  },
+  {
+    "subject": "Fig1Network",
+    "relation": "isA",
+    "object": "HybridSatelliteTerrestrialNetwork"
+  },
+  {
+    "subject": "Fig1Network",
+    "relation": "hasNumberOfSatellite",
+    "object": "J"
+  },
+  {
+    "subject": "Fig1Network",
+    "relation": "hasNumberOfGroundBS",
+    "object": "M"
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "blockchain_solana",
+  "consumes",
+  "HighestAbsoluteBandwidth",
+  "blockchain_algorand",
+  "consumesMoreThan",
+  "blockchain_redbelly",
+  "framework_blockbench",
+  "standardizes",
+  "Throughput",
+  "framework_hyperledgerCaliper",
+  "Latency",
+  "framework_gromit",
+  "addresses",
+  "AdHocTestingLimitation",
+  "EvaluationFramework",
+  "prioritizes",
+  "ExecutionCapacity",
+  "treatsAsSecondary",
+  "NetworkLayer",
+  "framework_diablo",
+  "isolates",
+  "BandwidthConsumption",
+  "system_bitcoin",
+  "exhibits",
+  "PropagationDelay",
+  "protocol_graphene",
+  "isA",
+  "BandwidthOptimizationProtocol",
+  "protocol_compactBlocks",
+  "minimizes",
+  "NetworkTraffic",
+  "system_solana",
+  "DataRedundancy",
+  "protocol_hotstuff",
+  "possesses",
+  "LinearCommunicationComplexity",
+  "TheoreticalBound",
+  "failsToPredict",
+  "RealWorldBehavior",
+  "QuadraticComplexity",
+  "achieves",
+  "BetterPerformance",
+  "balancesAcross",
+  "WanRoute",
+  "DenseNetworkTopology",
+  "improves",
+  "Performance",
+  "correlatesWith",
+  "HigherEnergyUsage",
+  "RedundancyHeavyArchitecture",
+  "system_redbelly",
+  "LeanTrafficProfile",
+  "isInstanceOf",
+  "Layer1Blockchain",
+  "blockchain_aptos",
+  "blockchain_avalanche",
+  "BlockchainTechnology",
+  "NetworkingProtocol",
+  "Validator",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss"
+]
+
+Triples:
+[
+  {
+    "subject": "blockchain_solana",
+    "relation": "consumes",
+    "object": "HighestAbsoluteBandwidth",
+    "chunk": "consumptionvariationwithtps",
+    "context": "Solana consistently consumes the highest absolute bandwidth, ranging from approximately 4.7 GiB (4,905,820 KiB) at 100 TPS down to 2.3 GiB (2,387,814 KiB) at 500 TPS."
+  },
+  {
+    "subject": "blockchain_algorand",
+    "relation": "consumesMoreThan",
+    "object": "blockchain_redbelly",
+    "chunk": "consumptionvariationwithtps",
+    "context": "Notably, in terms of absolute bandwidth, Algorand consistently consumes more than Redbelly across all data points (e.g., at 100 TPS: Algorand≈3.6 GiB vs. Redbelly≈2.1 GiB)."
+  },
+  {
+    "subject": "framework_blockbench",
+    "relation": "standardizes",
+    "object": "Throughput",
+    "chunk": "relatedwork",
+    "context": "Existing frameworks like Blockbench [17] and Hyperledger Caliper [24] standard-ize the evaluation of throughput, latency, and fault toler- ance."
+  },
+  {
+    "subject": "framework_hyperledgerCaliper",
+    "relation": "standardizes",
+    "object": "Latency",
+    "chunk": "relatedwork",
+    "context": "Existing frameworks like Blockbench [17] and Hyperledger Caliper [24] standard-ize the evaluation of throughput, latency, and fault toler- ance."
+  },
+  {
+    "subject": "framework_gromit",
+    "relation": "addresses",
+    "object": "AdHocTestingLimitation",
+    "chunk": "relatedwork",
+    "context": "Gromit [28] further addresses ad-hoc testing limi- tations."
+  },
+  {
+    "subject": "EvaluationFramework",
+    "relation": "prioritizes",
+    "object": "ExecutionCapacity",
+    "chunk": "relatedwork",
+    "context": "However, these frameworks prioritize execution capacity (TPS) and treat the network layer as secondary."
+  },
+  {
+    "subject": "EvaluationFramework",
+    "relation": "treatsAsSecondary",
+    "object": "NetworkLayer",
+    "chunk": "relatedwork",
+    "context": "However, these frameworks prioritize execution capacity (TPS) and treat the network layer as secondary."
+  },
+  {
+    "subject": "framework_diablo",
+    "relation": "isolates",
+    "object": "BandwidthConsumption",
+    "chunk": "relatedwork",
+    "context": "Our work builds upon Diablo [19] and STABL[20] to rig- orously isolate bandwidth consumption, a critical metric overlooked by execution-focused benchmarks."
+  },
+  {
+    "subject": "system_bitcoin",
+    "relation": "exhibits",
+    "object": "PropagationDelay",
+    "chunk": "relatedwork",
+    "context": "Early studies analyzed propagation delays in Bitcoin [14], leading to bandwidth optimization protocols like Graphene [29], Compact Blocks [10], and the BloXroute [25] Layer-0 CDN."
+  },
+  {
+    "subject": "protocol_graphene",
+    "relation": "isA",
+    "object": "BandwidthOptimizationProtocol",
+    "chunk": "relatedwork",
+    "context": "Early studies analyzed propagation delays in Bitcoin [14], leading to bandwidth optimization protocols like Graphene [29], Compact Blocks [10], and the BloXroute [25] Layer-0 CDN."
+  },
+  {
+    "subject": "protocol_compactBlocks",
+    "relation": "isA",
+    "object": "BandwidthOptimizationProtocol",
+    "chunk": "relatedwork",
+    "context": "Early studies analyzed propagation delays in Bitcoin [14], leading to bandwidth optimization protocols like Graphene [29], Compact Blocks [10], and the BloXroute [25] Layer-0 CDN."
+  },
+  {
+    "subject": "BandwidthOptimizationProtocol",
+    "relation": "minimizes",
+    "object": "NetworkTraffic",
+    "chunk": "relatedwork",
+    "context": "While these works propose techniques to minimize traffic, our paper provides a comparative measurement of modern Layer-1 protocols."
+  },
+  {
+    "subject": "system_solana",
+    "relation": "prioritizes",
+    "object": "DataRedundancy",
+    "chunk": "relatedwork",
+    "context": "We reveal that contempo- rary systems like Solana often prioritize data redundancy over the bandwidth efficiency emphasized in earlier Bit- coin and Ethereum research."
+  },
+  {
+    "subject": "protocol_hotstuff",
+    "relation": "possesses",
+    "object": "LinearCommunicationComplexity",
+    "chunk": "relatedwork",
+    "context": "While theoretical literature favors linear communica- tion complexity (O(n)) protocols like HotStuff [38] over quadratic BFT implementations [5], theoretical bounds often fail to predict real-world behavior."
+  },
+  {
+    "subject": "TheoreticalBound",
+    "relation": "failsToPredict",
+    "object": "RealWorldBehavior",
+    "chunk": "relatedwork",
+    "context": "While theoretical literature favors linear communica- tion complexity (O(n)) protocols like HotStuff [38] over quadratic BFT implementations [5], theoretical bounds often fail to predict real-world behavior."
+  },
+  {
+    "subject": "QuadraticComplexity",
+    "relation": "achieves",
+    "object": "BetterPerformance",
+    "chunk": "relatedwork",
+    "context": "By con- trast, Voron and Gramoli [35] showed empirically that quadratic complexity can achieve significantly better per- formance when well balanced across a quadratic num- ber of routes of a WAN."
+  },
+  {
+    "subject": "QuadraticComplexity",
+    "relation": "balancesAcross",
+    "object": "WanRoute",
+    "chunk": "relatedwork",
+    "context": "By con- trast, Voron and Gramoli [35] showed empirically that quadratic complexity can achieve significantly better per- formance when well balanced across a quadratic num- ber of routes of a WAN."
+  },
+  {
+    "subject": "DenseNetworkTopology",
+    "relation": "improves",
+    "object": "Performance",
+    "chunk": "relatedwork",
+    "context": "Di Perna et al. [15] showed that dense network topologies improve performance under load, a finding correlated with higher energy usage [16]."
+  },
+  {
+    "subject": "DenseNetworkTopology",
+    "relation": "correlatesWith",
+    "object": "HigherEnergyUsage",
+    "chunk": "relatedwork",
+    "context": "Di Perna et al. [15] showed that dense network topologies improve performance under load, a finding correlated with higher energy usage [16]."
+  },
+  {
+    "subject": "system_solana",
+    "relation": "possesses",
+    "object": "RedundancyHeavyArchitecture",
+    "chunk": "relatedwork",
+    "context": "Our empirical results confirm this divergence between redundancy-heavy architectures like Solana and the lean traffic profiles of Redbelly."
+  },
+  {
+    "subject": "system_redbelly",
+    "relation": "possesses",
+    "object": "LeanTrafficProfile",
+    "chunk": "relatedwork",
+    "context": "Our empirical results confirm this divergence between redundancy-heavy architectures like Solana and the lean traffic profiles of Redbelly."
+  },
+  {
+    "subject": "blockchain_algorand",
+    "relation": "isInstanceOf",
+    "object": "Layer1Blockchain",
+    "chunk": "conclusion",
+    "context": "To this end, we measured empirically the traffic of five major layer-1 blockchains Algorand, Aptos, Avalanche, Redbelly, and Solana."
+  },
+  {
+    "subject": "blockchain_aptos",
+    "relation": "isInstanceOf",
+    "object": "Layer1Blockchain",
+    "chunk": "conclusion",
+    "context": "To this end, we measured empirically the traffic of five major layer-1 blockchains Algorand, Aptos, Avalanche, Redbelly, and Solana."
+  },
+  {
+    "subject": "blockchain_avalanche",
+    "relation": "isInstanceOf",
+    "object": "Layer1Blockchain",
+    "chunk": "conclusion",
+    "context": "To this end, we measured empirically the traffic of five major layer-1 blockchains Algorand, Aptos, Avalanche, Redbelly, and Solana."
+  },
+  {
+    "subject": "blockchain_redbelly",
+    "relation": "isInstanceOf",
+    "object": "Layer1Blockchain",
+    "chunk": "conclusion",
+    "context": "To this end, we measured empirically the traffic of five major layer-1 blockchains Algorand, Aptos, Avalanche, Redbelly, and Solana."
+  }
+]

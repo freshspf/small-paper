@@ -1,0 +1,110 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument11",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument11
+- section_title: Complete Document
+- page_start: 1
+- page_end: 31
+
+**INPUT TEXT CHUNK:**
+The funders had 
+no role in the design of the study; in the collection, analyses, or interpretation of 
+data; in the writing of the manuscript; or in the decision to publish the results.  
+ 
+References  
+1. Selkoe, D.J.; Hardy, J. The amyloid hypothesis of Alzheimer's disease at 25 years. EMBO Mol Med 2016 , 8, 
+595-608, doi:10.15252/emmm.201606210.  
+2. Hoe, H.S.; Lee, H.K.; Pak, D.T. The upside of APP at synapses. CNS Neurosci Ther 2012 , 18, 47-56, 
+doi:10.1111/j.1755 -5949.2010.00221.x.  
+3. Haass, C.; Selkoe, D.J. Soluble protein oligomers in neurodegeneration: lessons from the Alzheimer's amyloid 
+beta-peptide. Nat Rev Mol Cell Biol 2007 , 8, 101 -112, doi:10.1038/nrm2101.  
+4. Koch, L. Non -coding RNA: A protective role for TERRA at telomeres. Nat Rev Genet 2017 , 18, 453, 
+doi:10.1038/nrg.2017.58.  
+5. Li, Y.; Schindler, S.E.; Bollinger, J.G.; Ovod, V.; Mawuenyega, K.G.; Weiner, M.W.; Shaw, L.M.; Masters, 
+C.L.; Fowler, C.J.; Trojanowski, J.Q., et al. Validation of Plasma Amyloid -beta 42/40 for Detecting 
+Alzheimer Disease Amyloid Plaques. Neurology 2022 , 98, e688 -e699, doi:10.1212/WNL.0000000000013211.  
+6. Hampel, H.; Hardy, J.; Blennow, K.; Chen, C.; Perry, G.; Kim, S.H.; Villemagne, V.L.; Aisen, P.; 
+Vendruscolo, M.; Iwatsubo, T., et al. The Amyloid -β Pathway in Alzheimer’s Disease. Molecular Psychiatry 
+2021 , 26, 5481 -5503, doi:10.1038/s41380 -021-01249 -0. 
+7. Lu, M.; Williamson, N.; Mishra, A.; Michel, C.H.; Kaminski, C.F.; Tunnacliffe, A.; Kaminski Schierle, G.S. 
+Structural progression of amyloid -beta Arctic mutant aggregation in cells revealed by multiparametric 
+imaging. The Journal of biological chemistry 2019 , 294, 1478 -1487, doi:10.1074/jbc.RA118.004511.
+
+Biomolecules 2025 , 15, 849 17 of 31  
+8. Lin, J.Y.; Wang, W.A.; Zhang, X.; Liu, H.Y.; Zhao, X.L.; Huang, F.D. Intraneuronal accumulation of 
+Abeta42 induces age -dependent slowing of neuronal transmission in Drosophila. Neurosci Bull 2014 , 30, 185 -
+190, doi:10.1007/s12264 -013-1409 -9. 
+9. Zeidel, M.L.; Hammond, T.; Botelho, B.; Harris, H.W., Jr. Functional and structural characterization of 
+endosomes from toad bladder epithelial cells. Am J Physiol 1992 , 263, F62 -76, 
+doi:10.1152/ajprenal.1992.263.1.F62.  
+10. Hardy, J.A.; Higgins, G.A. Alzheimer's disease: the amyloid cascade hypothesis. Science 1992 , 256, 184 -185, 
+doi:10.1126/science.1566067.  
+11. Imbimbo, B.P.; Panza, F.; Frisardi, V.; Solfrizzi, V.; D'Onofrio, G.; Logroscino, G.; Seripa, D.; Pilotto, A. 
+Therapeutic intervention for Alzheimer's disease with gamma -secretase inhibitors: still a viable option? Expert 
+Opin Investig Drugs 2011 , 20, 325 -341, doi:10.1517/13543784.2011.550572.  
+12. Sevigny, J.; Suhy, J.; Chiao, P.; Chen, T.; Klein, G.; Purcell, D.; Oh, J.; Verma, A.; Sampat, M.; Barakos, J. 
+Amyloid PET Screening for Enrichment of Early -Stage Alzheimer Disease Clinical Trials: Experience in a 
+Phase 1b Clinical Trial. Alzheimer Dis Assoc Disord 2016 , 30, 1-7, doi:10.1097/WAD.0000000000000144.  
+13. van Dyck, C.H.; Swanson, C.J.; Aisen, P.; Bateman, R.J.; Chen, C.; Gee, M.; Kanekiyo, M.; Li, D.; 
+Reyderman, L.; Cohen, S., et al. Lecanemab in Early Alzheimer's Disease. N Engl J Med 2023 , 388, 9-21, 
+doi:10.1056/NEJMoa2212948.  
+14. Menzies, F.M.; Fleming, A.; Caricasole, A.; Bento, C.F.; Andrews, S.P.; Ashkenazi, A.; Fullgrabe, J.; 
+Jackson, A.; Jimenez Sanchez, M.; Karabiyik, C., et al. Autophagy and Neurodegeneration: Pathogenic 
+Mechanisms and Therapeutic Opportunities. Neuron 2017 , 93, 1015 -1034, doi:10.1016/j.neuron.2017.01.022.  
+15. Elsworthy, R.J.; Crowe, J.A.; King, M.C.; Dunleavy, C.; Fisher, E.; Ludlam, A.; Parri, H.R.; Hill, E.J.; 
+Aldred, S. The effect of citalopram treatment on amyloid -beta precursor protein processing and oxidative 
+stress in human hNSC -derived neurons. Transl Psychiatry 2022 , 12, 285, doi:10.1038/s41398 -022-02050 -5. 
+16. Chung, C.W.; Stephens, A.D.; Konno, T.; Ward, E.; Avezov, E.; Kaminski, C.F.; Hassanali, A.A.; Kaminski 
+Schierle, G.S. Intracellular Abeta42 Aggregation Leads to Cellular Thermogenesis. J Am Chem Soc 2022 , 
+144, 10034 -10041, doi:10.1021/jacs.2c03599.  
+17. Ohyagi, Y.; Tsuruta, Y.; Motomura, K.; Miyoshi, K.; Kikuchi, H.; Iwaki, T.; Taniwaki, T.; Kira, J. 
+Intraneuronal amyloid beta42 enhanced by heating but counteracted by formic acid. J Neurosci Methods 2007 , 
+159, 134 -138, doi:10.1016/j.jneumeth.2006.06.010.  
+18. Kitajima, Y.; Yoshioka, K.; Suzuki, N. The ubiquitin -proteasome system in regulation of the skeletal muscle 
+homeostasis and atrophy: from basic science to disorders. The Journal of Physiological Sciences 2020 , 70, 40, 
+doi:10.1186/s12576 -020-00768 -9. 
+19. Zhang, Y.; Chen, H.; Li, R.; Sterling, K.; Song, W. Amyloid β -based therapy for Alzheimer’s disease: 
+challenges, successes and future. Signal Transduction and Targeted Therapy 2023 , 8, 248, 
+doi:10.1038/s41392 -023-01484 -7. 
+20. Wertz, I.E.; Wang, X. From Discovery to Bedside: Targeting the Ubiquitin System.

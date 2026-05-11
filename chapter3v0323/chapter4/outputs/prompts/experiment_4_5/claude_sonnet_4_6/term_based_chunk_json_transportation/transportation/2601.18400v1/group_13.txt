@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Aptos",
+  "hasNonValidatorOriginatingBandwidth",
+  "bandwidth_aptos_nonvalidator_200KiB",
+  "ConsensusCommittee",
+  "bearsBandwidthBurden",
+  "BandwidthConsumption",
+  "Algorand",
+  "exhibitsValidatorCommunicationPattern",
+  "ValidatorGroup",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "hasNetworkTopology",
+  "FullMeshTopology",
+  "allowsCommunicationBetween",
+  "NonValidatorNode",
+  "restrictsCommunicationBetween",
+  "allowsValidatorSendToNonValidator",
+  "hasNonValidatorRole",
+  "PassiveReceiver",
+  "hasNegligibleTrafficFrom",
+  "usesDisseminationStrategy",
+  "DisseminationStrategy",
+  "dependsOn",
+  "ValidatorToNetworkRatio",
+  "broadcastsToAllNonValidators",
+  "shiftsStrategyToReduce",
+  "BandwidthOverhead",
+  "usesSelectiveCommunicationIn",
+  "configuration_15node_10validator",
+  "hasDenseTopRightQuadrantIn",
+  "configuration_10node_5validator",
+  "configuration_20node_5validator",
+  "Validator",
+  "communicatesHeavilyWith",
+  "achieves",
+  "Consensus",
+  "isOutlierAmong",
+  "Blockchain",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "ValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap",
+  "RedundancyStrategy",
+  "CommunicationPattern",
+  "PollingProtocol",
+  "WebSocketProtocol",
+  "FullBlockDownload",
+  "HashComparison",
+  "RoleSegregation",
+  "NetworkRobustness",
+  "BlockchainProtocol",
+  "BlockchainNetwork",
+  "AlgorandNetwork",
+  "AvalancheNetwork",
+  "AptosNetwork",
+  "RedbellyNetwork",
+  "SolanaNetwork",
+  "Node",
+  "ConsensusProtocol"
+]
+
+Triples:
+[
+  {
+    "subject": "Aptos",
+    "relation": "hasNonValidatorOriginatingBandwidth",
+    "object": "bandwidth_aptos_nonvalidator_200KiB",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "whereas traffic originating from non-validator nodes often drops to the low hundreds (e.g., ≈200 KiB)"
+  },
+  {
+    "subject": "ConsensusCommittee",
+    "relation": "bearsBandwidthBurden",
+    "object": "BandwidthConsumption",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "illustrating a highly centralized bandwidth burden on the consensus committee."
+  },
+  {
+    "subject": "Algorand",
+    "relation": "exhibitsValidatorCommunicationPattern",
+    "object": "ValidatorGroup",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "For Algorand, Aptos, Avalanche, and Redbelly, the top-left V×V sub-matrix is consistently dense and bright, confirming that validators communicate heavily among themselves to achieve consensus."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "exhibitsValidatorCommunicationPattern",
+    "object": "ValidatorGroup",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "For Algorand, Aptos, Avalanche, and Redbelly, the top-left V×V sub-matrix is consistently dense and bright, confirming that validators communicate heavily among themselves to achieve consensus."
+  },
+  {
+    "subject": "Avalanche",
+    "relation": "exhibitsValidatorCommunicationPattern",
+    "object": "ValidatorGroup",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "For Algorand, Aptos, Avalanche, and Redbelly, the top-left V×V sub-matrix is consistently dense and bright, confirming that validators communicate heavily among themselves to achieve consensus."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "exhibitsValidatorCommunicationPattern",
+    "object": "ValidatorGroup",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "For Algorand, Aptos, Avalanche, and Redbelly, the top-left V×V sub-matrix is consistently dense and bright, confirming that validators communicate heavily among themselves to achieve consensus."
+  },
+  {
+    "subject": "Solana",
+    "relation": "hasNetworkTopology",
+    "object": "FullMeshTopology",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "in the 10-5 configuration, the heatmap is uniformly populated, indicating a full mesh topology where every node, regardless of its role, exchanges data with every other node."
+  },
+  {
+    "subject": "Solana",
+    "relation": "allowsCommunicationBetween",
+    "object": "NonValidatorNode",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "It is the only blockchain where the non-validator nodes communicate directly with other non-validator nodes (the bottom-right quadrant of the heatmaps)."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "restrictsCommunicationBetween",
+    "object": "NonValidatorNode",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "non-validator nodes do not communicate with each other. This is evident in the 10-5 matrices for Avalanche and Redbelly, where the bottom-right 5×5 sub-matrix is largely empty."
+  },
+  {
+    "subject": "Avalanche",
+    "relation": "restrictsCommunicationBetween",
+    "object": "NonValidatorNode",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "non-validator nodes do not communicate with each other. This is evident in the 10-5 matrices for Avalanche and Redbelly, where the bottom-right 5×5 sub-matrix is largely empty."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "allowsValidatorSendToNonValidator",
+    "object": "NonValidatorNode",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "While validators send data to non-validators (top-right quadrant) and receive data from them (bottom-left quadrant), non-validator nodes do not communicate with each other."
+  },
+  {
+    "subject": "Avalanche",
+    "relation": "allowsValidatorSendToNonValidator",
+    "object": "NonValidatorNode",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "While validators send data to non-validators (top-right quadrant) and receive data from them (bottom-left quadrant), non-validator nodes do not communicate with each other."
+  },
+  {
+    "subject": "Algorand",
+    "relation": "hasNonValidatorRole",
+    "object": "PassiveReceiver",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "Non-validator nodes act almost exclusively as passive receivers or pull-based clients."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "hasNonValidatorRole",
+    "object": "PassiveReceiver",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "Non-validator nodes act almost exclusively as passive receivers or pull-based clients."
+  },
+  {
+    "subject": "Algorand",
+    "relation": "hasNegligibleTrafficFrom",
+    "object": "NonValidatorNode",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "In Algorand's 10-5 configuration, while validators send data to non-validators (rows 0-4 to columns 5-9), the traffic from non-validators back to validators is negligible, and traffic between non-validators is non-existent."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "usesDisseminationStrategy",
+    "object": "DisseminationStrategy",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "Fig. 4 reveals a dynamic dissemination strategy in Aptos that depends on the ratio of validators to the total network size."
+  },
+  {
+    "subject": "DisseminationStrategy",
+    "relation": "dependsOn",
+    "object": "ValidatorToNetworkRatio",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "Fig. 4 reveals a dynamic dissemination strategy in Aptos that depends on the ratio of validators to the total network size."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "broadcastsToAllNonValidators",
+    "object": "NonValidatorNode",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "In configurations where the number of validators is small relative to the network size, validators appear to broadcast to all non-validators."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "shiftsStrategyToReduce",
+    "object": "BandwidthOverhead",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "as the number of validators increases, Aptos shifts strategy to reduce bandwidth overhead."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "usesSelectiveCommunicationIn",
+    "object": "configuration_15node_10validator",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "In the 15-node, 10-validator configuration, the top-right quadrant becomes sparse. Specific validators only communicate with specific non-validator nodes rather than broadcasting to the entire set."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "hasDenseTopRightQuadrantIn",
+    "object": "configuration_10node_5validator",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "in the 10-5 configuration and 20-5 configuration, the top-right quadrants are dense, showing that the 5 validators are sending data to all 5 (or 15) non-validator nodes."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "hasDenseTopRightQuadrantIn",
+    "object": "configuration_20node_5validator",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "in the 10-5 configuration and 20-5 configuration, the top-right quadrants are dense, showing that the 5 validators are sending data to all 5 (or 15) non-validator nodes."
+  },
+  {
+    "subject": "Validator",
+    "relation": "communicatesHeavilyWith",
+    "object": "Validator",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "the top-left V×V sub-matrix is consistently dense and bright, confirming that validators communicate heavily among themselves to achieve consensus."
+  },
+  {
+    "subject": "Validator",
+    "relation": "achieves",
+    "object": "Consensus",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "confirming that validators communicate heavily among themselves to achieve consensus."
+  },
+  {
+    "subject": "Solana",
+    "relation": "isOutlierAmong",
+    "object": "Blockchain",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "As observed, Solana is the unique outlier."
+  }
+]

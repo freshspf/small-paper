@@ -1,0 +1,110 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: appendix2
+- section_title: APPENDIX
+- page_start: 12
+- page_end: 15
+
+INPUT TEXT CHUNK:
+In climate science, where a perfect one-to-one match in geospatial grids is
+often not expected, the alignment of the probability distributions becomes a more crucial evaluation
+criterion. A strong correspondence between the predicted and true PDFs indicates that the model is
+not merely a regression function for individual data points but is capable of generalizing the data’s
+generative process. This is crucial for capturing the system’s overall statistical behavior, including
+the frequency and likelihood of different outcome magnitudes. The PhysE-Inv model successfully
+3.0
+ 2.5
+ 2.0
+ 1.5
+ 1.0
+ 0.5
+ 0.0 0.5
+Deviation0.00.20.40.60.8PDFProbability Density Function (PDF)
+Truth
+PhysE-Inv
+Figure 6: PDF of mean snow depth anomalies for true values and PhysE-Inv predictions.
+captures the unimodal nature of the measured deviations in the ground truth distribution (Fig. 6).
+14
+
+Published as a conference paper at ICLR 2026
+By incorporating physics encoding, it captures real-world variabilities, reducing prediction error and
+producing more physically consistent and robust predictions.
+A.6 IMPLEMENTATION
+Table 4: Model Training and Architectural Hyperparameters
+Category Details
+Data and Setup
+Input Feature Snow density field (time series)
+Target Normalized snow depth proxy
+Input/Target Shapes [Batch size, Sequence Length, Features]
+TrainX/YShape[8757,10,1]
+TestX/YShape[2183,10,1]
+Supervision Strategy Prediction at the final time step (t= 10)
+Optimization
+Loss Function Mean Squared Error (MSE)
+Optimizer Adam,η= 0.0005
+Batch Size 16
+Training Epochs 500
+Implementation / Hardware PyTorch on NVIDIA V100 GPU
+Architecture
+Encoder/Decoder 2-layer LSTM (64 hidden units)
+LSTM Dropout Rate 0.4
+Attention Mechanism 4-headed self-attention
+Prediction Head Fully connected layer
+Physical Parameter Head 3-layer FFN with ReLU
+Output Transformation Ensures stable parameter ranges
+15.

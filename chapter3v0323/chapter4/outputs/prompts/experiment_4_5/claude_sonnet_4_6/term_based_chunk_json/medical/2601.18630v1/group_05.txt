@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "model_llama31",
+  "exhibitsWeaknessIn",
+  "attribute_empathy",
+  "model_qwen3",
+  "attribute_guidance",
+  "attribute_informativeness",
+  "concept_cognitiveAffectiveGap",
+  "impactsTrustworthinessOf",
+  "concept_mentalHealthLlm",
+  "concept_therapeuticBreakdown",
+  "occursInContextOf",
+  "attribute_safety",
+  "isA",
+  "CognitiveAttribute",
+  "attribute_interpretation",
+  "model_gpt4o",
+  "ClosedWeightModel",
+  "model_gpt4oMini",
+  "model_gemini2_0Flash",
+  "model_claude3_5Haiku",
+  "ClosedSourceModel",
+  "OpenWeightModel",
+  "model_deepseekQwen",
+  "model_llama3_1",
+  "OpenSourceModel",
+  "model_qwen2_5",
+  "case_representative",
+  "involvesSymptom",
+  "symptom_derealization",
+  "symptom_intrusiveThoughts",
+  "user",
+  "hasSymptom",
+  "symptom_emotionalDetachment",
+  "symptom_fearOfLosingControl",
+  "demonstrated",
+  "model_deepseekLlama",
+  "produces",
+  "EmotionallyNeutralResponse",
+  "failsToGenerate",
+  "CoherentReply",
+  "LargeLanguageModel",
+  "maintains",
+  "CognitiveReliability",
+  "lacks",
+  "AffectiveAttunement",
+  "HumanGroundedEvaluation",
+  "evaluates",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern",
+  "SocialMediaPlatform",
+  "platform_reddit",
+  "CounselingConversation",
+  "dataset_mentalChat16k",
+  "dataset_emoCare",
+  "dataset_counselChat",
+  "MentalHealthScreening",
+  "condition_depression",
+  "condition_suicideRisk",
+  "MentalHealthCondition"
+]
+
+Triples:
+[
+  {
+    "subject": "model_llama31",
+    "relation": "exhibitsWeaknessIn",
+    "object": "attribute_empathy",
+    "chunk": "completedocument6",
+    "context": "As shown in Figure 2, closed-source models (GPT-4o, Gemini 2.0-Flash) form near-circular profiles with strongSafety,Interpretation, andInformative-ness, whereas open-source models (Llama-3.1, DeepSeek-LLaMA) skew toward cognitive axes and taper on affective ones (Empathy,Helpfulness)."
+  },
+  {
+    "subject": "model_qwen3",
+    "relation": "exhibitsWeaknessIn",
+    "object": "attribute_guidance",
+    "chunk": "completedocument6",
+    "context": "Notably, Qwen-3 represents a clear outlier with substantially lower Guidance (2.46) and Informativeness (3.19) scores, suggesting earlier-generation or under-optimized performance."
+  },
+  {
+    "subject": "model_qwen3",
+    "relation": "exhibitsWeaknessIn",
+    "object": "attribute_informativeness",
+    "chunk": "completedocument6",
+    "context": "Notably, Qwen-3 represents a clear outlier with substantially lower Guidance (2.46) and Informativeness (3.19) scores, suggesting earlier-generation or under-optimized performance."
+  },
+  {
+    "subject": "concept_cognitiveAffectiveGap",
+    "relation": "impactsTrustworthinessOf",
+    "object": "concept_mentalHealthLlm",
+    "chunk": "completedocument6",
+    "context": "Bridging this cognitive-affective gap is central to trustworthy mental-health LLMs."
+  },
+  {
+    "subject": "concept_therapeuticBreakdown",
+    "relation": "occursInContextOf",
+    "object": "concept_mentalHealthLlm",
+    "chunk": "completedocument6",
+    "context": "Beyond performance variation, it is equally critical to un-derstand where and why therapeutic breakdowns occur."
+  },
+  {
+    "subject": "attribute_safety",
+    "relation": "isA",
+    "object": "CognitiveAttribute",
+    "chunk": "completedocument7",
+    "context": "Across all models,cognitive attributes—SafetyandInterpretation—show near-ceiling reliability, with more than 90% of responses rated≥4."
+  },
+  {
+    "subject": "attribute_interpretation",
+    "relation": "isA",
+    "object": "CognitiveAttribute",
+    "chunk": "completedocument7",
+    "context": "Across all models,cognitive attributes—SafetyandInterpretation—show near-ceiling reliability, with more than 90% of responses rated≥4."
+  },
+  {
+    "subject": "model_gpt4o",
+    "relation": "isA",
+    "object": "ClosedWeightModel",
+    "chunk": "completedocument7",
+    "context": "Top-tier closed-weight models such as GPT-4o, GPT-4o-Mini, and Gemini 2.0-Flash maintained the lowest over-all failure incidence (≤10%), though Claude-3.5-Haiku showed higher rates (24.7%) despite being closed-source."
+  },
+  {
+    "subject": "model_gpt4oMini",
+    "relation": "isA",
+    "object": "ClosedWeightModel",
+    "chunk": "completedocument7",
+    "context": "Top-tier closed-weight models such as GPT-4o, GPT-4o-Mini, and Gemini 2.0-Flash maintained the lowest over-all failure incidence (≤10%), though Claude-3.5-Haiku showed higher rates (24.7%) despite being closed-source."
+  },
+  {
+    "subject": "model_gemini2_0Flash",
+    "relation": "isA",
+    "object": "ClosedWeightModel",
+    "chunk": "completedocument7",
+    "context": "Top-tier closed-weight models such as GPT-4o, GPT-4o-Mini, and Gemini 2.0-Flash maintained the lowest over-all failure incidence (≤10%), though Claude-3.5-Haiku showed higher rates (24.7%) despite being closed-source."
+  },
+  {
+    "subject": "model_claude3_5Haiku",
+    "relation": "isA",
+    "object": "ClosedSourceModel",
+    "chunk": "completedocument7",
+    "context": "Top-tier closed-weight models such as GPT-4o, GPT-4o-Mini, and Gemini 2.0-Flash maintained the lowest over-all failure incidence (≤10%), though Claude-3.5-Haiku showed higher rates (24.7%) despite being closed-source."
+  },
+  {
+    "subject": "model_qwen3",
+    "relation": "isA",
+    "object": "OpenWeightModel",
+    "chunk": "completedocument7",
+    "context": "In contrast, open-weight systems likeQwen-3andDeepSeek-Qwenexhibited extreme asymmetry—exceeding 60% low-score rates inGuidanceandInformativenesswhile retaining relatively safe output and overall 18%-24% scores≤3)."
+  },
+  {
+    "subject": "model_deepseekQwen",
+    "relation": "isA",
+    "object": "OpenWeightModel",
+    "chunk": "completedocument7",
+    "context": "In contrast, open-weight systems likeQwen-3andDeepSeek-Qwenexhibited extreme asymmetry—exceeding 60% low-score rates inGuidanceandInformativenesswhile retaining relatively safe output and overall 18%-24% scores≤3)."
+  },
+  {
+    "subject": "model_llama3_1",
+    "relation": "isA",
+    "object": "OpenSourceModel",
+    "chunk": "completedocument7",
+    "context": "Llama-3.1 is the only open-source model that maintained a low (score≤3) with 9.8% similar to the closed mod-els."
+  },
+  {
+    "subject": "model_qwen2_5",
+    "relation": "isA",
+    "object": "OpenSourceModel",
+    "chunk": "completedocument7",
+    "context": "However, even for Safety, some open-source models show concerning rates (Qwen-2.5: 10.0%, Qwen-3: 8.2%), indicating a measurable risk of generating potentially unsuitable or slightly misleading advice."
+  },
+  {
+    "subject": "case_representative",
+    "relation": "involvesSymptom",
+    "object": "symptom_derealization",
+    "chunk": "completedocument7",
+    "context": "To further illustrate therapeutic risk patterns, we examined a representative case involving derealization and intrusive thoughts."
+  },
+  {
+    "subject": "case_representative",
+    "relation": "involvesSymptom",
+    "object": "symptom_intrusiveThoughts",
+    "chunk": "completedocument7",
+    "context": "To further illustrate therapeutic risk patterns, we examined a representative case involving derealization and intrusive thoughts."
+  },
+  {
+    "subject": "user",
+    "relation": "hasSymptom",
+    "object": "symptom_emotionalDetachment",
+    "chunk": "completedocument7",
+    "context": "The user described a persistent sense that reality feels “fake,” emotional detachment, and fears of losing control or harming others:"
+  },
+  {
+    "subject": "user",
+    "relation": "hasSymptom",
+    "object": "symptom_fearOfLosingControl",
+    "chunk": "completedocument7",
+    "context": "The user described a persistent sense that reality feels “fake,” emotional detachment, and fears of losing control or harming others:"
+  },
+  {
+    "subject": "model_gemini2_0Flash",
+    "relation": "demonstrated",
+    "object": "attribute_empathy",
+    "chunk": "completedocument7",
+    "context": "Closed-weight systems such asGem-ini 2.0-Flash,GPT-4o, andGPT-4o-Minidemonstrated the strongest balance between empathy, interpretive clarity, and clinical accuracy, receiving near-perfect ratings across all six therapeutic attributes."
+  },
+  {
+    "subject": "model_deepseekLlama",
+    "relation": "produces",
+    "object": "EmotionallyNeutralResponse",
+    "chunk": "completedocument8",
+    "context": "In contrast, open-weight mod-els (DeepSeek-LLaMA,DeepSeek-Qwen,Llama-3.1, and Qwen-3) produced emotionally neutral but technically cor-rect responses, whileQwen-2.5failed to generate a coher-ent reply."
+  },
+  {
+    "subject": "model_qwen2_5",
+    "relation": "failsToGenerate",
+    "object": "CoherentReply",
+    "chunk": "completedocument8",
+    "context": "In contrast, open-weight mod-els (DeepSeek-LLaMA,DeepSeek-Qwen,Llama-3.1, and Qwen-3) produced emotionally neutral but technically cor-rect responses, whileQwen-2.5failed to generate a coher-ent reply."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "maintains",
+    "object": "CognitiveReliability",
+    "chunk": "completedocument8",
+    "context": "This case typifies a recurring failure mode: mod-els that maintain cognitive reliability and safety yet lack af-fective attunement—responses that are factually correct but convey minimal warmth or relational understanding."
+  },
+  {
+    "subject": "LargeLanguageModel",
+    "relation": "lacks",
+    "object": "AffectiveAttunement",
+    "chunk": "completedocument8",
+    "context": "This case typifies a recurring failure mode: mod-els that maintain cognitive reliability and safety yet lack af-fective attunement—responses that are factually correct but convey minimal warmth or relational understanding."
+  },
+  {
+    "subject": "HumanGroundedEvaluation",
+    "relation": "evaluates",
+    "object": "LargeLanguageModel",
+    "chunk": "completedocument8",
+    "context": "This study presents a human-grounded evaluation of nine large language models (LLMs) across 500 counseling con-versations."
+  }
+]

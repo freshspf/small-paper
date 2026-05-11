@@ -1,0 +1,103 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "discussion",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: discussion
+- section_title: Discussion
+- page_start: 6
+- page_end: 6
+
+**INPUT TEXT CHUNK:**
+5.1 Stakeholders and practical impact
+This work is part of long-running collaboration with Copen-
+hagen, Esbjerg and Odense Municipalities, as well as the
+Paris region transport operator (RATP), with the goal of sup-
+porting long-horizon adaptation planning where decisions are
+sequential, spatially coupled, and evaluated under deep cli-
+mate uncertainty. The framework is intended as adecision-
+supporttool: it enables systematic stress-testing of multi-
+ple and alternative intervention portfolios, quantifies trade-
+offs between investment and avoided transport disruption,
+and produces interpretable spatial-temporal adaptation path-
+ways that can be compared against planning priorities and
+constraints. Beyond the Copenhagen case study here demon-
+strated, the same IAM+RL structure is being instantiated
+with alternative hazard (i.e., other weather event types), im-
+pact (e.g., other urban systems beyond transport), or valu-
+ation modules (e.g., private and social costs, health-related
+impacts), in the above-mentioned cities.5.2 Methodological implications
+Methodologically, the results show that reinforcement learn-
+ing can learn non-trivial, long-horizon policies in a coupled
+hazard–transport setting with high-dimensional spatial state
+and delayed consequences. The learned strategies differ from
+simplistic baselines by jointly timing and placing interven-
+tions, balancing upfront investment and maintenance against
+avoided damage, delay, and cancellation costs. To illustrate
+this point, Figure 4 shows an example of a possible adapta-
+tion pathway for Copenhagen, across time. Importantly, how-
+ever, the framework should be interpreted as an exploratory
+engine for generating and evaluatingcollectionsof adaptive
+pathways, rather than as a prescriptive optimizer that outputs
+a single “best” plan for a single scenario. In practice, we can
+provide a distribution of such pathways that can be further
+inspected in search for global robustness plans (e.g. ”imple-
+menting actionAbefore timetin zoneZis be optimal in
+X%of the analysed scenarios”).
+5.3 Limitations and ethics
+Several limitations are inherent to simulation-based decision
+support. First, outcomes depend on modeling assumptions in
+the hazard, transport, and valuation modules; results should
+therefore be read as conditional on the modeled dynamics
+rather than as forecasts. Second, our climate uncertainty
+treatment uses three discrete scenarios and does not represent
+probabilistic trajectories or belief updating over time. Third,
+training remains computationally intensive, constraining the
+size of the action space and the number of scenarios that can
+be explored.
+From an ethics and governance perspective, the framework
+optimizes a monetized objective and may omit distributional
+impacts (e.g., equity, accessibility for vulnerable groups) un-
+less explicitly modeled. Any practical use should therefore
+incorporate additional objectives and constraints, and be em-
+bedded in a stakeholder process to ensure transparency, ac-
+countability, and alignment with public values.

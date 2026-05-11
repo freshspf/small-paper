@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PerLinkBandwidth",
+  "variesAcross",
+  "Blockchain",
+  "ValidatorSet",
+  "suggestsApproach",
+  "Sharding",
+  "GossipApproach",
+  "blockchain_solana",
+  "increasesBandwidthWith",
+  "Node",
+  "requiresCommunicationBetween",
+  "createsTopology",
+  "MeshTopology",
+  "blockchain_algorand",
+  "dependsOn",
+  "Validator",
+  "blockchain_redbelly",
+  "blockchain_aptos",
+  "growsBandwidthWith",
+  "blockchain_avalanche",
+  "classifiedAs",
+  "category_nodeDependent",
+  "category_validatorDependent",
+  "category_hybrid",
+  "SendingRate",
+  "impacts",
+  "BandwidthConsumption",
+  "Experiment",
+  "maintainsConstant",
+  "WorkloadSize",
+  "TargetTps",
+  "scalesInverselyWith",
+  "ExperimentDuration",
+  "decreasesWithIncreaseIn",
+  "BackgroundTraffic",
+  "includes",
+  "Heartbeat",
+  "EmptyBlockProposal",
+  "ConsensusMaintenance",
+  "inflates",
+  "TotalFootprint",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap",
+  "RedundancyStrategy",
+  "CommunicationPattern",
+  "PollingProtocol",
+  "WebSocketProtocol",
+  "FullBlockDownload",
+  "HashComparison",
+  "RoleSegregation",
+  "NetworkRobustness",
+  "BlockchainProtocol"
+]
+
+Triples:
+[
+  {
+    "subject": "PerLinkBandwidth",
+    "relation": "variesAcross",
+    "object": "Blockchain",
+    "chunk": "consumptionskewnessoverscale1",
+    "context": "The raw data reveals significant disparities in the magnitude of data exchange across the different protocols."
+  },
+  {
+    "subject": "ValidatorSet",
+    "relation": "suggestsApproach",
+    "object": "Sharding",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "This suggests a sharding or ran-\ndomized gossip approach to dissemination when the val-\nidator set is large, likely to prevent bandwidth saturation\non individual nodes."
+  },
+  {
+    "subject": "ValidatorSet",
+    "relation": "suggestsApproach",
+    "object": "GossipApproach",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "This suggests a sharding or ran-\ndomized gossip approach to dissemination when the val-\nidator set is large, likely to prevent bandwidth saturation\non individual nodes."
+  },
+  {
+    "subject": "blockchain_solana",
+    "relation": "increasesBandwidthWith",
+    "object": "Node",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "We can clearly see from Fig. 5 thatS Solana bandwidth\nconsumption increases primarily with the number of\nnodes, regardless of the number of validators."
+  },
+  {
+    "subject": "blockchain_solana",
+    "relation": "requiresCommunicationBetween",
+    "object": "Node",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "This confirms that Solana requires all\nnodes to communicate with each other, creating a high-\nbandwidth mesh topology dependent on the network\nsize rather than the validator set size."
+  },
+  {
+    "subject": "blockchain_solana",
+    "relation": "createsTopology",
+    "object": "MeshTopology",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "This confirms that Solana requires all\nnodes to communicate with each other, creating a high-\nbandwidth mesh topology dependent on the network\nsize rather than the validator set size."
+  },
+  {
+    "subject": "blockchain_algorand",
+    "relation": "dependsOn",
+    "object": "Validator",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "In contrast, blockchainsb∈ {Algorand,Redbelly}the\nbandwidthS bdepend almost entirely on the number of\nvalidators."
+  },
+  {
+    "subject": "blockchain_redbelly",
+    "relation": "dependsOn",
+    "object": "Validator",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "In contrast, blockchainsb∈ {Algorand,Redbelly}the\nbandwidthS bdepend almost entirely on the number of\nvalidators."
+  },
+  {
+    "subject": "blockchain_aptos",
+    "relation": "growsBandwidthWith",
+    "object": "Validator",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "Finally, in two blockchains, Aptos and Avalanche, the\nbandwidth consumption grows with both the number of\nvalidators and the number of nodes."
+  },
+  {
+    "subject": "blockchain_aptos",
+    "relation": "growsBandwidthWith",
+    "object": "Node",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "Finally, in two blockchains, Aptos and Avalanche, the\nbandwidth consumption grows with both the number of\nvalidators and the number of nodes."
+  },
+  {
+    "subject": "blockchain_avalanche",
+    "relation": "growsBandwidthWith",
+    "object": "Validator",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "Finally, in two blockchains, Aptos and Avalanche, the\nbandwidth consumption grows with both the number of\nvalidators and the number of nodes."
+  },
+  {
+    "subject": "blockchain_avalanche",
+    "relation": "growsBandwidthWith",
+    "object": "Node",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "Finally, in two blockchains, Aptos and Avalanche, the\nbandwidth consumption grows with both the number of\nvalidators and the number of nodes."
+  },
+  {
+    "subject": "blockchain_solana",
+    "relation": "classifiedAs",
+    "object": "category_nodeDependent",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "1.Node-dependent (Solana)Bandwidth consumption\nincreases with the total network size (N), indicating\na topology where all nodes propagate data heavily."
+  },
+  {
+    "subject": "blockchain_algorand",
+    "relation": "classifiedAs",
+    "object": "category_validatorDependent",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "2.Validator-dependent (Algorand and Redbelly)\nBandwidth consumption increases primarily with\nthe size of the consensus committee (V)."
+  },
+  {
+    "subject": "blockchain_redbelly",
+    "relation": "classifiedAs",
+    "object": "category_validatorDependent",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "2.Validator-dependent (Algorand and Redbelly)\nBandwidth consumption increases primarily with\nthe size of the consensus committee (V)."
+  },
+  {
+    "subject": "blockchain_avalanche",
+    "relation": "classifiedAs",
+    "object": "category_hybrid",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "3.Hybrid (Avalanche and Aptos)Bandwidth con-\nsumption increases with bothNandV, suggesting\na topology where non-validator nodes participate in\npropagation."
+  },
+  {
+    "subject": "blockchain_aptos",
+    "relation": "classifiedAs",
+    "object": "category_hybrid",
+    "chunk": "consumptionskewnessoverscale2",
+    "context": "3.Hybrid (Avalanche and Aptos)Bandwidth con-\nsumption increases with bothNandV, suggesting\na topology where non-validator nodes participate in\npropagation."
+  },
+  {
+    "subject": "SendingRate",
+    "relation": "impacts",
+    "object": "BandwidthConsumption",
+    "chunk": "consumptionvariationwithtps",
+    "context": "Below, we vary this sending rate to observe how it impacts bandwidth consumption."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "maintainsConstant",
+    "object": "WorkloadSize",
+    "chunk": "consumptionvariationwithtps",
+    "context": "To this end, we conducted a set of experiments where the total workload size was kept constant at approximately 20,000 transactions."
+  },
+  {
+    "subject": "TargetTps",
+    "relation": "scalesInverselyWith",
+    "object": "ExperimentDuration",
+    "chunk": "consumptionvariationwithtps",
+    "context": "The workload was fixed at 20,000 total transactions per run, with experiment duration scaling inversely to TPS (200 s down to 40 s)."
+  },
+  {
+    "subject": "BandwidthConsumption",
+    "relation": "decreasesWithIncreaseIn",
+    "object": "TargetTps",
+    "chunk": "consumptionvariationwithtps",
+    "context": "A consistent trend is visible across all protocols: total bandwidth consumption decreases as TPS increases."
+  },
+  {
+    "subject": "BackgroundTraffic",
+    "relation": "includes",
+    "object": "Heartbeat",
+    "chunk": "consumptionvariationwithtps",
+    "context": "At lower TPS (longer duration), “background” traffic, such as heartbeats, empty block proposals, and consensus maintenance, accumulates, inflating the total footprint."
+  },
+  {
+    "subject": "BackgroundTraffic",
+    "relation": "includes",
+    "object": "EmptyBlockProposal",
+    "chunk": "consumptionvariationwithtps",
+    "context": "At lower TPS (longer duration), “background” traffic, such as heartbeats, empty block proposals, and consensus maintenance, accumulates, inflating the total footprint."
+  },
+  {
+    "subject": "BackgroundTraffic",
+    "relation": "includes",
+    "object": "ConsensusMaintenance",
+    "chunk": "consumptionvariationwithtps",
+    "context": "At lower TPS (longer duration), “background” traffic, such as heartbeats, empty block proposals, and consensus maintenance, accumulates, inflating the total footprint."
+  },
+  {
+    "subject": "BackgroundTraffic",
+    "relation": "inflates",
+    "object": "TotalFootprint",
+    "chunk": "consumptionvariationwithtps",
+    "context": "At lower TPS (longer duration), “background” traffic, such as heartbeats, empty block proposals, and consensus maintenance, accumulates, inflating the total footprint."
+  }
+]

@@ -1,0 +1,1222 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SystemsThinkingApproach",
+  "STPA",
+  "RoadSafety",
+  "RoadSafetyInterventionDesign",
+  "CaseStudy",
+  "UKDepartmentForTransport",
+  "GreatBritain",
+  "RoadDeath",
+  "AdvancedMobilitySystem",
+  "RoadInfrastructure",
+  "SevereCollision",
+  "SafeSystemApproach",
+  "SystemsThinking",
+  "SocioTechnicalSystem",
+  "Risk",
+  "FatalOutcome",
+  "Stakeholder",
+  "Interaction",
+  "Assumption",
+  "SystemLifecycle",
+  "UnitedKingdomRoadNetwork",
+  "KPI",
+  "RoadSafetyMonitoring",
+  "RoadTransport",
+  "AdvancedSafetyTechnology",
+  "AdvancedDriverAssistanceSystem",
+  "AutomatedDrivingSystem",
+  "PublicPerception",
+  "InfrastructureReadiness",
+  "Technology",
+  "People",
+  "SocialAcceptance",
+  "RoadTrafficInjury",
+  "KilledOrSeriouslyInjuredStatistic",
+  "RoadGeometry",
+  "InfrastructureQuality",
+  "DriverBehaviour",
+  "RoadCrash",
+  "BowTieAnalysis",
+  "FaultTreeAnalysis",
+  "EventTreeAnalysis",
+  "FailureModeAndEffectsAnalysis",
+  "HazardAndOperabilityAnalysis",
+  "BlackspotAnalysis",
+  "CrashBasedStatisticalModel",
+  "HistoricalCollisionData",
+  "FeedbackLoop",
+  "EmergentProperty",
+  "SystemLevelRiskMonitoring",
+  "STAMP",
+  "HazardIdentification",
+  "SafetyConstraint",
+  "HumanFactor",
+  "OrganisationalFactor",
+  "RoadSafetyReport",
+  "DepartmentForTransport",
+  "Policymaker",
+  "Researcher",
+  "RoadUser",
+  "Government",
+  "VehicleManufacturer",
+  "TransportSafetyManagement",
+  "SafeRoadUserBehaviour",
+  "AustriaRoadSafety",
+  "RoadSafetyInspectionProcess",
+  "HumanVehicleRoadInteraction",
+  "TEN-TNetwork",
+  "NonTENTRoad",
+  "RoadSafetyManagementProcess",
+  "Recommendation",
+  "Procedure",
+  "RegulatorySupport",
+  "ContinuousOperationalMonitoring",
+  "AssumptionBasedLeadingIndicator",
+  "Metric",
+  "EarlyWarningSignAnalysis",
+  "EWaSAP",
+  "EarlyWarningSign",
+  "DrinkingWaterTreatmentWorks",
+  "Sensor",
+  "AwarenessAction",
+  "MonitoringBurden",
+  "Audit",
+  "PassFailRate",
+  "SystemsEngineering",
+  "ContinuousSafetyAssurance",
+  "LifecycleGovernance",
+  "ConfigurationManagement",
+  "Verification",
+  "Validation",
+  "Traceability",
+  "Deployment",
+  "Operation",
+  "SystemBehaviour",
+  "SafetyDecision",
+  "Regulation",
+  "UserBehaviour",
+  "PerceivableAssumption",
+  "NonPerceivableAssumption",
+  "OperationalIndicator",
+  "CalibrationRange",
+  "SensorAccuracy",
+  "IndirectVerification",
+  "PeriodicValidation",
+  "Documentation"
+]
+
+Triples:
+[
+  {
+    "subject": "SystemsThinkingApproach",
+    "relation": "inspiredBy",
+    "object": "STPA"
+  },
+  {
+    "subject": "SystemsThinkingApproach",
+    "relation": "appliedTo",
+    "object": "RoadSafetyInterventionDesign"
+  },
+  {
+    "subject": "RoadSafetyInterventionDesign",
+    "relation": "describedAs",
+    "object": "CaseStudy"
+  },
+  {
+    "subject": "UKDepartmentForTransport",
+    "relation": "releasedStatisticFor",
+    "object": "GreatBritain"
+  },
+  {
+    "subject": "GreatBritain",
+    "relation": "recorded",
+    "object": "RoadDeath"
+  },
+  {
+    "subject": "AdvancedMobilitySystem",
+    "relation": "notSufficientFor",
+    "object": "ImprovedRoadSafetyOutcome"
+  },
+  {
+    "subject": "RoadInfrastructure",
+    "relation": "notEquippedToPrevent",
+    "object": "SevereCollision"
+  },
+  {
+    "subject": "SafeSystemApproach",
+    "relation": "demands",
+    "object": "SystemsThinking"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "appliedIn",
+    "object": "IntegratedHolisticManner"
+  },
+  {
+    "subject": "RoadSafety",
+    "relation": "managedAs",
+    "object": "SocioTechnicalSystem"
+  },
+  {
+    "subject": "Risk",
+    "relation": "evolvesIn",
+    "object": "SocioTechnicalSystem"
+  },
+  {
+    "subject": "Risk",
+    "relation": "requires",
+    "object": "ContinuousMonitoring"
+  },
+  {
+    "subject": "SystemsThinkingApproach",
+    "relation": "identifies",
+    "object": "FatalOutcomeContributingFactor"
+  },
+  {
+    "subject": "SystemsThinkingApproach",
+    "relation": "mitigates",
+    "object": "FatalOutcomeContributingFactor"
+  },
+  {
+    "subject": "Framework",
+    "relation": "hasStep",
+    "object": "ListStakeholders"
+  },
+  {
+    "subject": "Framework",
+    "relation": "hasStep",
+    "object": "ModelStakeholderInteractions"
+  },
+  {
+    "subject": "Framework",
+    "relation": "hasStep",
+    "object": "ListAssumptions"
+  },
+  {
+    "subject": "Framework",
+    "relation": "hasStep",
+    "object": "MonitorAssumptions"
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "influences",
+    "object": "RoadSafety"
+  },
+  {
+    "subject": "Interaction",
+    "relation": "occursBetween",
+    "object": "Stakeholder"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "identifiedAsFactorFor",
+    "object": "Fatality"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "monitoredThroughout",
+    "object": "SystemLifecycle"
+  },
+  {
+    "subject": "SystemsThinkingApproach",
+    "relation": "appliedTo",
+    "object": "UnitedKingdomRoadNetwork"
+  },
+  {
+    "subject": "Study",
+    "relation": "provides",
+    "object": "ActionableGuidance"
+  },
+  {
+    "subject": "Study",
+    "relation": "provides",
+    "object": "KPICategory"
+  },
+  {
+    "subject": "Stakeholder",
+    "relation": "implements",
+    "object": "RoadSafetyMonitoring"
+  },
+  {
+    "subject": "RoadSafetyMonitoring",
+    "relation": "eliminates",
+    "object": "UnreasonableRoadSafetyRisk"
+  },
+  {
+    "subject": "RoadTransport",
+    "relation": "faces",
+    "object": "GlobalChallenge"
+  },
+  {
+    "subject": "AdvancedSafetyTechnology",
+    "relation": "includes",
+    "object": "AdvancedDriverAssistanceSystem"
+  },
+  {
+    "subject": "AdvancedSafetyTechnology",
+    "relation": "includes",
+    "object": "AutomatedDrivingSystem"
+  },
+  {
+    "subject": "AdvancedDriverAssistanceSystem",
+    "relation": "hasAbbreviation",
+    "object": "ADAS"
+  },
+  {
+    "subject": "AutomatedDrivingSystem",
+    "relation": "hasAbbreviation",
+    "object": "ADS"
+  },
+  {
+    "subject": "AdvancedSafetyTechnology",
+    "relation": "promotedFor",
+    "object": "RoadSafetyImprovement"
+  },
+  {
+    "subject": "ReductionInSeriousAndFatalCrash",
+    "relation": "notMaterialisedFrom",
+    "object": "AdvancedSafetyTechnology"
+  },
+  {
+    "subject": "MeaningfulSafetyGain",
+    "relation": "requires",
+    "object": "ComprehensiveApproach"
+  },
+  {
+    "subject": "ComprehensiveApproach",
+    "relation": "integrates",
+    "object": "PublicPerception"
+  },
+  {
+    "subject": "ComprehensiveApproach",
+    "relation": "integrates",
+    "object": "InfrastructureReadiness"
+  },
+  {
+    "subject": "PublicPerception",
+    "relation": "integratedInto",
+    "object": "SystemDesign"
+  },
+  {
+    "subject": "InfrastructureReadiness",
+    "relation": "integratedInto",
+    "object": "SystemDesign"
+  },
+  {
+    "subject": "PublicPerception",
+    "relation": "integratedThroughout",
+    "object": "OperationalLifecycle"
+  },
+  {
+    "subject": "InfrastructureReadiness",
+    "relation": "integratedThroughout",
+    "object": "OperationalLifecycle"
+  },
+  {
+    "subject": "EssentialInteraction",
+    "relation": "occursBetween",
+    "object": "People"
+  },
+  {
+    "subject": "EssentialInteraction",
+    "relation": "occursBetween",
+    "object": "Technology"
+  },
+  {
+    "subject": "EssentialInteraction",
+    "relation": "occursBetween",
+    "object": "RoadInfrastructure"
+  },
+  {
+    "subject": "NeglectingEssentialInteraction",
+    "relation": "undermines",
+    "object": "AutomationBenefit"
+  },
+  {
+    "subject": "NeglectingEssentialInteraction",
+    "relation": "introduces",
+    "object": "NewRisk"
+  },
+  {
+    "subject": "NewRisk",
+    "relation": "increasesLikelihoodOf",
+    "object": "SeriousIncident"
+  },
+  {
+    "subject": "NewRisk",
+    "relation": "increasesLikelihoodOf",
+    "object": "FatalIncident"
+  },
+  {
+    "subject": "SafeDeployment",
+    "relation": "dependsOn",
+    "object": "SocialAcceptance"
+  },
+  {
+    "subject": "SafeDeployment",
+    "relation": "dependsOn",
+    "object": "RoadInfrastructureAdaptability"
+  },
+  {
+    "subject": "WorldHealthOrganisation",
+    "relation": "reports",
+    "object": "RoadTrafficInjuryDeathStatistic"
+  },
+  {
+    "subject": "RoadTrafficInjury",
+    "relation": "causes",
+    "object": "Disability"
+  },
+  {
+    "subject": "KilledOrSeriouslyInjuredStatistic",
+    "relation": "demonstrates",
+    "object": "CurrentStrategyIneffectiveness"
+  },
+  {
+    "subject": "CurrentStrategy",
+    "relation": "builtAround",
+    "object": "RetrospectiveCrashData"
+  },
+  {
+    "subject": "RoadGeometry",
+    "relation": "impacts",
+    "object": "RoadCrashSeverity"
+  },
+  {
+    "subject": "InfrastructureQuality",
+    "relation": "impacts",
+    "object": "RoadCrashSeverity"
+  },
+  {
+    "subject": "DriverBehaviour",
+    "relation": "impacts",
+    "object": "RoadCrashSeverity"
+  },
+  {
+    "subject": "RoadGeometry",
+    "relation": "impacts",
+    "object": "RoadCrashOutcome"
+  },
+  {
+    "subject": "InfrastructureQuality",
+    "relation": "impacts",
+    "object": "RoadCrashOutcome"
+  },
+  {
+    "subject": "DriverBehaviour",
+    "relation": "impacts",
+    "object": "RoadCrashOutcome"
+  },
+  {
+    "subject": "Strategy",
+    "relation": "failsToAddress",
+    "object": "CombinedEffectOfCriticalFactor"
+  },
+  {
+    "subject": "Strategy",
+    "relation": "failsToAddress",
+    "object": "EvolvingEffectOfCriticalFactor"
+  },
+  {
+    "subject": "NewTechnologyIntroduction",
+    "relation": "changes",
+    "object": "CriticalFactorEffect"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "BowTieAnalysis"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "FaultTreeAnalysis"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "EventTreeAnalysis"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "FailureModeAndEffectsAnalysis"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "HazardAndOperabilityAnalysis"
+  },
+  {
+    "subject": "RoadSpecificApproach",
+    "relation": "includes",
+    "object": "BlackspotAnalysis"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "includes",
+    "object": "CrashBasedStatisticalModel"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "is",
+    "object": "Reactive"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "limitedBy",
+    "object": "Scope"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "focusesOn",
+    "object": "HistoricalCollisionData"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "focusesOn",
+    "object": "Correlation"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "doesNotFocusOn",
+    "object": "SystemicCauseOfRisk"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "assumes",
+    "object": "StaticRisk"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "assumes",
+    "object": "PredictableRisk"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "overlooks",
+    "object": "FeedbackLoop"
+  },
+  {
+    "subject": "TraditionalAnalyticalMethod",
+    "relation": "overlooks",
+    "object": "EmergentProperty"
+  },
+  {
+    "subject": "FeedbackLoop",
+    "relation": "arisesFrom",
+    "object": "StakeholderInteraction"
+  },
+  {
+    "subject": "EmergentProperty",
+    "relation": "arisesFrom",
+    "object": "StakeholderInteraction"
+  },
+  {
+    "subject": "FatalityAndInjuryReductionStagnation",
+    "relation": "signalsNeedFor",
+    "object": "SystemLevelRiskMonitoring"
+  },
+  {
+    "subject": "RiskMonitoringApproach",
+    "relation": "shiftsFrom",
+    "object": "RetrospectiveCrashDataAnalysis"
+  },
+  {
+    "subject": "RiskMonitoringApproach",
+    "relation": "shiftsToward",
+    "object": "ContinuousSystemLevelRiskMonitoring"
+  },
+  {
+    "subject": "STAMP",
+    "relation": "shiftsFocusFrom",
+    "object": "LinearAccidentCausation"
+  },
+  {
+    "subject": "STAMP",
+    "relation": "shiftsFocusTo",
+    "object": "AccidentAsEmergentProperty"
+  },
+  {
+    "subject": "Accident",
+    "relation": "viewedAs",
+    "object": "EmergentProperty"
+  },
+  {
+    "subject": "EmergentProperty",
+    "relation": "belongsTo",
+    "object": "ComplexSocioTechnicalSystem"
+  },
+  {
+    "subject": "STPA",
+    "relation": "incorporates",
+    "object": "SystemsThinking"
+  },
+  {
+    "subject": "STPA",
+    "relation": "enables",
+    "object": "HazardIdentification"
+  },
+  {
+    "subject": "STPA",
+    "relation": "enables",
+    "object": "SafetyConstraintDefinition"
+  },
+  {
+    "subject": "SafetyConstraint",
+    "relation": "appliesAcross",
+    "object": "TechnicalFactor"
+  },
+  {
+    "subject": "SafetyConstraint",
+    "relation": "appliesAcross",
+    "object": "HumanFactor"
+  },
+  {
+    "subject": "SafetyConstraint",
+    "relation": "appliesAcross",
+    "object": "OrganisationalFactor"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "reveals",
+    "object": "PotentialFailure"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "doesNotGuarantee",
+    "object": "AssumptionValidityAfterDeployment"
+  },
+  {
+    "subject": "RoadSystem",
+    "relation": "adaptsTo",
+    "object": "TechnologicalChange"
+  },
+  {
+    "subject": "RoadSystem",
+    "relation": "adaptsTo",
+    "object": "BehaviouralChange"
+  },
+  {
+    "subject": "RoadSystem",
+    "relation": "adaptsTo",
+    "object": "PolicyChange"
+  },
+  {
+    "subject": "AssumptionValidityMaintenance",
+    "relation": "insufficientlyAddressedIn",
+    "object": "LifecycleManagement"
+  },
+  {
+    "subject": "RoadSafetyReport",
+    "relation": "highlights",
+    "object": "PersistentInjuryReductionIssue"
+  },
+  {
+    "subject": "DepartmentForTransport",
+    "relation": "reports",
+    "object": "NoSignificantReductionInSeriousInjury"
+  },
+  {
+    "subject": "RoadSafetyProgrammeInvestment",
+    "relation": "notDelivered",
+    "object": "FatalityReductionProgress"
+  },
+  {
+    "subject": "GlobalRoadSafetyEstimate",
+    "relation": "mismatches",
+    "object": "LocalRoadSafetyData"
+  },
+  {
+    "subject": "MismatchBetweenEstimateAndData",
+    "relation": "creates",
+    "object": "Uncertainty"
+  },
+  {
+    "subject": "Uncertainty",
+    "relation": "affects",
+    "object": "Policymaker"
+  },
+  {
+    "subject": "Uncertainty",
+    "relation": "affects",
+    "object": "Researcher"
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "focusesOn",
+    "object": "RoadSafetyBehaviour"
+  },
+  {
+    "subject": "TraditionalApproach",
+    "relation": "treatsAs",
+    "object": "TransportIssue"
+  },
+  {
+    "subject": "SystemsApproach",
+    "relation": "considers",
+    "object": "RoadSafetyAsEmergentProperty"
+  },
+  {
+    "subject": "RoadSafety",
+    "relation": "isPropertyOf",
+    "object": "ComplexSocioTechnicalSystem"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "enablesInteractionBetween",
+    "object": "RoadUser"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "enablesInteractionBetween",
+    "object": "Government"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "enablesInteractionBetween",
+    "object": "RoadInfrastructure"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "enablesInteractionBetween",
+    "object": "VehicleManufacturer"
+  },
+  {
+    "subject": "SystemsThinking",
+    "relation": "usedFor",
+    "object": "RoadSafetyManagement"
+  },
+  {
+    "subject": "SafeSystemApproach",
+    "relation": "facesChallengeFrom",
+    "object": "InadequateRoadSystemDesign"
+  },
+  {
+    "subject": "InadequateRoadSystemDesign",
+    "relation": "hinders",
+    "object": "SafeRoadUserBehaviour"
+  },
+  {
+    "subject": "SystemsTheory",
+    "relation": "uncovers",
+    "object": "InteractingFactor"
+  },
+  {
+    "subject": "InteractingFactor",
+    "relation": "contributesTo",
+    "object": "Crash"
+  },
+  {
+    "subject": "InteractingFactor",
+    "relation": "existsAcross",
+    "object": "RoadTransportSystemLevel"
+  },
+  {
+    "subject": "RoadTransportSystem",
+    "relation": "displays",
+    "object": "ComplexSystemCharacteristic"
+  },
+  {
+    "subject": "RoadTransportSystem",
+    "relation": "displays",
+    "object": "DriftIntoFailureCharacteristic"
+  },
+  {
+    "subject": "ComplexityTheoryBasedModel",
+    "relation": "supports",
+    "object": "ImprovedRoadSafetyEffort"
+  },
+  {
+    "subject": "STPA",
+    "relation": "appliedTo",
+    "object": "AustriaRoadSafety"
+  },
+  {
+    "subject": "STPA",
+    "relation": "exposesGapIn",
+    "object": "RoadSafetyInspectionProcess"
+  },
+  {
+    "subject": "RoadSafetyInspectionProcess",
+    "relation": "hasLimitedTreatmentOf",
+    "object": "HumanVehicleRoadInteraction"
+  },
+  {
+    "subject": "ImprovementArea",
+    "relation": "extends",
+    "object": "RoadSafetyInspectionBeyondTEN-TNetwork"
+  },
+  {
+    "subject": "RoadSafetyInspectionProcess",
+    "relation": "shouldExtendTo",
+    "object": "NonTENTRoad"
+  },
+  {
+    "subject": "RoadSafetyInspectionProcess",
+    "relation": "shouldBroadenScopeToInclude",
+    "object": "HumanFactor"
+  },
+  {
+    "subject": "RoadSafetyInspectionProcess",
+    "relation": "shouldBroadenScopeToInclude",
+    "object": "VehicleDynamics"
+  },
+  {
+    "subject": "RoadSafetyInspectionProcess",
+    "relation": "shouldBroadenScopeToInclude",
+    "object": "RoadUserInteraction"
+  },
+  {
+    "subject": "STPA",
+    "relation": "shouldApplyWithin",
+    "object": "RoadSafetyManagementProcess"
+  },
+  {
+    "subject": "RoadSafetyInspectionPracticeInAustria",
+    "relation": "is",
+    "object": "Reactive"
+  },
+  {
+    "subject": "InspectionBoundary",
+    "relation": "excludes",
+    "object": "HumanInteraction"
+  },
+  {
+    "subject": "InspectionBoundary",
+    "relation": "excludes",
+    "object": "VehicleInteraction"
+  },
+  {
+    "subject": "InspectionBoundary",
+    "relation": "excludes",
+    "object": "RoadInteraction"
+  },
+  {
+    "subject": "RoadSafetyInspectionProcess",
+    "relation": "missing",
+    "object": "FeedbackLoop"
+  },
+  {
+    "subject": "ClosedLoopMonitoring",
+    "relation": "ensuresImplementationOf",
+    "object": "Recommendation"
+  },
+  {
+    "subject": "ImprovementImplementation",
+    "relation": "requires",
+    "object": "Procedure"
+  },
+  {
+    "subject": "ImprovementImplementation",
+    "relation": "requires",
+    "object": "RegulatorySupport"
+  },
+  {
+    "subject": "SystemsApproach",
+    "relation": "provides",
+    "object": "ValuableInsight"
+  },
+  {
+    "subject": "SystemsApproach",
+    "relation": "highlights",
+    "object": "ImprovementArea"
+  },
+  {
+    "subject": "NewFramework",
+    "relation": "neededFor",
+    "object": "OngoingOperationalAssurance"
+  },
+  {
+    "subject": "OngoingOperationalAssurance",
+    "relation": "requires",
+    "object": "ContinuousMonitoringOfAssumption"
+  },
+  {
+    "subject": "STPA",
+    "relation": "remains",
+    "object": "DesignHazardAnalysis"
+  },
+  {
+    "subject": "STPA",
+    "relation": "doesNotPrescribe",
+    "object": "RunTimeMonitoringFramework"
+  },
+  {
+    "subject": "STPA",
+    "relation": "hasRoleAt",
+    "object": "DesignTime"
+  },
+  {
+    "subject": "ContinuousOperationalMonitoring",
+    "relation": "requires",
+    "object": "AdditionalAssuranceStep"
+  },
+  {
+    "subject": "AssumptionBasedLeadingIndicator",
+    "relation": "guides",
+    "object": "AssumptionIdentification"
+  },
+  {
+    "subject": "AssumptionBasedLeadingIndicator",
+    "relation": "guides",
+    "object": "AssumptionMonitoring"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "monitoredAcross",
+    "object": "EntireLifecycle"
+  },
+  {
+    "subject": "AssumptionBasedLeadingIndicator",
+    "relation": "doesNotSpecify",
+    "object": "Metric"
+  },
+  {
+    "subject": "AssumptionBasedLeadingIndicator",
+    "relation": "doesNotEstablish",
+    "object": "ContinuousOperationalMonitoringMechanism"
+  },
+  {
+    "subject": "EWaSAP",
+    "relation": "extends",
+    "object": "STPA"
+  },
+  {
+    "subject": "EWaSAP",
+    "relation": "basedOn",
+    "object": "EarlyWarningSign"
+  },
+  {
+    "subject": "EWaSAP",
+    "relation": "helpsIdentify",
+    "object": "ObservableEarlyWarningSign"
+  },
+  {
+    "subject": "EWaSAP",
+    "relation": "supportsConfigurationOf",
+    "object": "Sensor"
+  },
+  {
+    "subject": "EWaSAP",
+    "relation": "supportsConfigurationOf",
+    "object": "AwarenessAction"
+  },
+  {
+    "subject": "Sensor",
+    "relation": "perceives",
+    "object": "EarlyWarningSign"
+  },
+  {
+    "subject": "AwarenessAction",
+    "relation": "supports",
+    "object": "SignalTransmission"
+  },
+  {
+    "subject": "Signal",
+    "relation": "monitoredBy",
+    "object": "Stakeholder"
+  },
+  {
+    "subject": "EWaSAPCaseStudy",
+    "relation": "conductedAt",
+    "object": "DrinkingWaterTreatmentWorks"
+  },
+  {
+    "subject": "EWaSAPProcess",
+    "relation": "startsFrom",
+    "object": "EstablishedSTPA"
+  },
+  {
+    "subject": "EWaSAPProcess",
+    "relation": "identifies",
+    "object": "ViolationIndicatingSign"
+  },
+  {
+    "subject": "EWaSAPProcess",
+    "relation": "identifies",
+    "object": "SensorCapableSystem"
+  },
+  {
+    "subject": "EWaSAPProcess",
+    "relation": "identifies",
+    "object": "Stakeholder"
+  },
+  {
+    "subject": "EWaSAP",
+    "relation": "produces",
+    "object": "LargeNumberOfEarlyWarningSign"
+  },
+  {
+    "subject": "LargeNumberOfEarlyWarningSign",
+    "relation": "creates",
+    "object": "ManagementComplexity"
+  },
+  {
+    "subject": "NonPerceivableAssumption",
+    "relation": "requires",
+    "object": "ComplementaryAssuranceMechanism"
+  },
+  {
+    "subject": "ComplementaryAssuranceMechanism",
+    "relation": "includes",
+    "object": "Audit"
+  },
+  {
+    "subject": "ComplementaryAssuranceMechanism",
+    "relation": "includes",
+    "object": "PassFailRate"
+  },
+  {
+    "subject": "ComplementaryAssuranceMechanism",
+    "relation": "keeps",
+    "object": "MonitoringBurdenTractable"
+  },
+  {
+    "subject": "Paper",
+    "relation": "proposesIntegrationOf",
+    "object": "SystemsThinking"
+  },
+  {
+    "subject": "Paper",
+    "relation": "proposesIntegrationOf",
+    "object": "SystemsEngineering"
+  },
+  {
+    "subject": "SystemsThinkingAndEngineeringIntegration",
+    "relation": "enables",
+    "object": "ContinuousSafetyAssurance"
+  },
+  {
+    "subject": "ContinuousSafetyAssurance",
+    "relation": "spans",
+    "object": "EntireLifecycle"
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "LifecycleGovernance"
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "ConfigurationManagement"
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "Verification"
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "Validation"
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "introduces",
+    "object": "Traceability"
+  },
+  {
+    "subject": "Traceability",
+    "relation": "links",
+    "object": "HazardIdentification"
+  },
+  {
+    "subject": "Traceability",
+    "relation": "links",
+    "object": "Deployment"
+  },
+  {
+    "subject": "Traceability",
+    "relation": "links",
+    "object": "Operation"
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "provides",
+    "object": "MechanismToMonitorSystemBehaviour"
+  },
+  {
+    "subject": "SystemsEngineering",
+    "relation": "provides",
+    "object": "MechanismToValidateAssumption"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "underlies",
+    "object": "System"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "underlies",
+    "object": "Policy"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "underlies",
+    "object": "SafetyDecision"
+  },
+  {
+    "subject": "ContinuousValidation",
+    "relation": "ensuresValidityOf",
+    "object": "Assumption"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "changesWith",
+    "object": "TechnologyEvolution"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "changesWith",
+    "object": "RegulationEvolution"
+  },
+  {
+    "subject": "Assumption",
+    "relation": "changesWith",
+    "object": "UserBehaviourEvolution"
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "monitors",
+    "object": "PerceivableAssumption"
+  },
+  {
+    "subject": "ProposedApproach",
+    "relation": "monitors",
+    "object": "NonPerceivableAssumption"
+  },
+  {
+    "subject": "PerceivableAssumption",
+    "relation": "observedThrough",
+    "object": "OperationalIndicator"
+  },
+  {
+    "subject": "PerceivableAssumption",
+    "relation": "measuredThrough",
+    "object": "OperationalIndicator"
+  },
+  {
+    "subject": "OperationalIndicator",
+    "relation": "includes",
+    "object": "CalibrationRange"
+  },
+  {
+    "subject": "OperationalIndicator",
+    "relation": "includes",
+    "object": "SensorAccuracy"
+  },
+  {
+    "subject": "NonPerceivableAssumption",
+    "relation": "cannotBeDirectlyObserved",
+    "object": "True"
+  },
+  {
+    "subject": "NonPerceivableAssumption",
+    "relation": "requires",
+    "object": "IndirectVerification"
+  },
+  {
+    "subject": "NonPerceivableAssumption",
+    "relation": "requires",
+    "object": "PeriodicValidation"
+  },
+  {
+    "subject": "PeriodicValidation",
+    "relation": "performedThrough",
+    "object": "Audit"
+  },
+  {
+    "subject": "PeriodicValidation",
+    "relation": "performedThrough",
+    "object": "Documentation"
+  }
+]

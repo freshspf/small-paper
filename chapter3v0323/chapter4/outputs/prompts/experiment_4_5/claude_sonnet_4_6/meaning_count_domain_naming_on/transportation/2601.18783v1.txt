@@ -1,0 +1,701 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Multi-Objective Reinforcement Learning for Efﬁcient Tactical Decision Making
+for Trucks in Highway Trafﬁc
+Deepthi Pathare1,3 , Leo Laine2,3 , Morteza Haghir Chehreghani1
+1Department of Computer Science and Engineering, Chalmers University of Technology and University
+of Gothenburg, Sweden
+2Department of Mechanics and Maritime Sciences, Chalmers University of Technology, Sweden
+3Safe and Efﬁcient Driving, V olvo Group of Trucks Technology, Sweden
+pathare@chalmers.se
+Abstract
+Balancing safety, efﬁciency, and operational costs
+in highway driving poses a challenging decision-
+making problem for heavy-duty vehicles. A cen-
+tral difﬁculty is that conventional scalar reward for-
+mulations, obtained by aggregating these compet-
+ing objectives, often obscure the structure of their
+trade-offs. We present a Proximal Policy Optimiza-
+tion based multi-objective reinforcement learning
+framework that learns a continuous set of policies
+explicitly representing these trade-offs and evalu-
+ates it on a scalable simulation platform for tactical
+decision making in trucks. The proposed approach
+learns a continuous set of Pareto-optimal policies
+that capture the trade-offs among three conﬂicting
+objectives: safety, quantiﬁed in terms of collisions
+and successful completion; energy efﬁciency and
+time efﬁciency, quantiﬁed using energy cost and
+driver cost, respectively. The resulting Pareto fron-
+tier is smooth and interpretable, enabling ﬂexibility
+in choosing driving behavior along different con-
+ﬂicting objectives. This framework allows seam-
+less transitions between different driving policies
+without retraining, yielding a robust and adaptive
+decision-making strategy for autonomous trucking
+applications.
+1 Introduction
+Autonomous driving requires real-time decision-making un-
+der uncertainty, where multiple conﬂicting objectives must
+be simultaneously balanced [Campbell et al. , 2010; Abdal-
+laoui et al., 2023]. For heavy-duty trucks, this challenge be-
+comes even more pronounced due to their large size, high fuel
+consumption, long braking distances, and the severe conse-
+quences that can result from even minor control errors [Zhang
+et al., 2020; Engstr ¨om et al., 2018]. Designing control archi-
+tectures that can adaptively manage these trade-offs, priori-
+tizing safety in dense trafﬁc and fuel economy on open high-
+ways, and benchmarking them in controlled simulations are
+therefore essential for the reliable and economically viable
+deployment of autonomous trucks [Schwarting et al. , 2018;
+Eleonora et al., 2023].
+Traditional approaches to modeling autonomous driving
+have relied on rule-based architectures, optimization-based
+control, and data-driven learning methods. Early rule-based
+systems relied on hand-crafted decision rules and safety con-
+straints to govern vehicle behavior and ensure compliance
+with trafﬁc rules, offering strong interpretability and real-time
+performance but limited adaptability to complex or rapidly
+changing trafﬁc scenarios [Paden et al. , 2016 ]. More re-
+cent work has explored the use of interpretable decision-
+tree models for speciﬁc sub-tasks such as goal recognition
+and trajectory prediction, enabling fast inference and for-
+mal veriﬁcation of prediction behavior [Brewitt et al., 2021].
+Optimization-based frameworks, most notably Model Predic-
+tive Control (MPC) [Isaksson Palmqvist, 2016 ], have also
+been applied to autonomous vehicle maneuvers [Nilsson et
+al., 2015; Musa et al. , 2021 ]. While these methods perform
+well in motion-planning tasks, they often require accurate
+models of the environment and struggle to scale with the in-
+creasing complexity of real-world trafﬁc.
+A number of these challenges have been mitigated through
+Reinforcement Learning (RL), which has emerged as a
+promising alternative capable of learning control policies di-
+rectly from interactions with trafﬁc environments. Deep RL
+agents have demonstrated strong performance in tasks such as
+lane changing, merging, and adaptive cruise control, discov-
+ering policies that can outperform hand-crafted control strate-
+gies in complex and dynamic highway environments [Kiran
+et al., 2022; Hoel et al., 2020; Pathare et al., 2023]. However,
+most RL approaches in autonomous driving rely on a single
+scalar reward function that combines multiple objectives such
+as safety, comfort, and energy efﬁciency. Although this sim-
+pliﬁcation facilitates training, it constrains the learned policy
+to a ﬁxed trade-off between objectives.
+A recent study [Pathare et al. , 2026 ] has investigated this
+paradigm in detail for heavy duty vehicles. It showed that
+deep reinforcement learning can be applied effectively to tac-
+tical decision making for autonomous trucks for lane chang-
+ing and adaptive cruise control in highway trafﬁc simulations.
+The authors propose a hierarchical control architecture where
+RL handles high-level tactical decisions using reward func-
+tions incorporating safety, efﬁciency, and total operational
+cost, while low-level control is managed by physics-based
+models. While this study established the practical feasibil-
+ity of RL for tactical driving, it also reveals a key limitation:
+arXiv:2601.18783v1 [cs.LG] 26 Jan 2026
+achieving optimal performance using a single scalar reward
+is challenging. Agents learn stable behaviors with simpler,
+safety-focused rewards but struggle when the reward must
+jointly capture safety, efﬁciency, and operational costs. Simi-
+lar challenges have also been reported in other studies, where
+competing objectives are difﬁcult to balance within a single
+reward signal and lead to poor generalization [Abouelazm et
+al., 2024; Knox et al., 2023].
+Multi-Objective Reinforcement Learning (MORL) can
+potentially address this problem by explicitly optimizing
+multiple objectives without collapsing them into a single
+scalar. See Appendix A for a review of various MORL
+methods including evolutionary optimization and preference-
+conditioned methods.
+In the broader autonomous driving literature, MORL has
+been applied to explicitly balance competing objectives. For
+example, the paper [He and Lv, 2023 ] proposed an Actor-
+Critic MORL for user-preference-conditioned decision-
+making that trades off the energy consumption and travel ef-
+ﬁciency. MORL for highway decision making has been pro-
+posed in [Xu et al. , 2018 ], and Ref. [Surmann et al. , 2025 ]
+demonstrate adaptive MORL policies that adjust to user pref-
+erences. Although these studies demonstrate the potential
+of MORL for balancing multiple objectives, they focus pri-
+marily on passenger vehicles and overlook the speciﬁc opera-
+tional challenges of heavy-duty trucks. These challenges be-
+come especially signiﬁcant when realistic reward functions,
+such as Total Cost of Operation (TCOP), are considered.
+In this paper, we address this gap by developing a multi-
+objective reinforcement learning framework speciﬁcally tai-
+lored for heavy-duty vehicles. Our approach builds on the
+Generalized Policy Improvement with Linear Support (GPI-
+LS) framework introduced by Alegre et al. [Alegre et al. ,
+2023], which formulates preference prioritization as a prin-
+cipled optimization problem with theoretical guarantees and
+achieves faster convergence and higher utility across multi-
+ple objectives than prior MORL methods. We extend this
+GPI-based prioritization, originally implemented in a value-
+based RL setting, to a policy-gradient approach and apply it
+to the multi-objective tactical decision-making problem for
+trucks. Proximal Policy Optimization (PPO) is used as the
+underlying RL algorithm due to its proven performance in
+tactical driving tasks [Pathare et al. , 2023 ] and many other
+domains such as ﬁne-tuning Large Language Models. To han-
+dle multiple objectives, we develop a multi-objective PPO
+(MOPPO) architecture with a vector-valued critic and per-
+objective action logits, applying scalarization only at the loss
+level. This design preserves the individual structure of each
+objective during learning, facilitates efﬁcient policy improve-
+ment across different preference conﬁgurations, and allows
+the reuse of experiences collected under varying trade-off set-
+tings, making learning both stable and sample-efﬁcient.
+We validate the proposed framework on a realistic high-
+way driving task involving adaptive cruise control and lane
+change decision making for an autonomous truck. The prob-
+lem is formulated with three inherently conﬂicting objectives,
+namely, safety, time efﬁciency and energy efﬁciency, reﬂect-
+ing operational priorities in commercial trucking. Using a
+high-ﬁdelity microscopic trafﬁc simulator, we demonstrate
+that the proposed method efﬁciently approximates the con-
+vex coverage set of the Pareto frontier and enables dynamic,
+preference-aware policy selection. The proposed MORL
+framework and the custom RL environment for autonomous
+truck driving are released as open source, enabling repro-
+ducibility and facilitating future research in multi-objective
+decision making and autonomous truck driving.
+2 Problem Formulation
+2.1 Decision Making in Trafﬁc Environment
+We study the problem of tactical decision making for a heavy-
+duty truck in a stochastic highway environment, with multi-
+ple conﬂicting objectives. Tactical decisions include adaptive
+cruise control and lane changes, and with the objectives to
+balance safety, time efﬁciency, and energy efﬁciency.
+The environment is implemented using the open-source
+trafﬁc simulator SUMO (Simulation of Urban MObility),
+which provides realistic microscopic vehicle dynamics. The
+simulation consists of a three-lane highway segment popu-
+lated by mixed trafﬁc, including passenger cars and trucks.
+The ego vehicle is modeled as a tractor–semitrailer combina-
+tion with realistic dynamics. To maintain a stationary traf-
+ﬁc distribution around the ego vehicle, a moving window is
+used, with vehicles dynamically re-spawned at the bound-
+aries. Trafﬁc density is varied across experiments to assess
+robustness under different congestion levels. Additional de-
+tails of trafﬁc modeling with parameters and illustrations are
+provided in Appendix B.
+2.2 Multi-Objective Reinforcement Learning
+The tactical decision-making problem is inherently multi-
+objective: strategies that improve travel time often increase
+energy consumption or safety risk, while conservative driv-
+ing may degrade operational efﬁciency. To explicitly capture
+these trade-offs, we formulate the problem within a multi-
+objective reinforcement learning (MORL) framework.
+The environment is modeled as a Multi-Objective Markov
+Decision Process (MOMDP), deﬁned by the tuple M =
+(S, A,p ,ω , r) where S and A denote the state and action
+spaces, respectively, and p(·|s, a) is the transition probabil-
+ity distribution over next states given the current state–action
+pair (s, a). The reward function r : S→A→S ↑ Rd is
+vector-valued, with d components corresponding to distinct
+objectives. The agent’s experience thus consists of transitions
+(st,a t,s t+1, rt+1), where rt =( r(1)
+t ,...,r (d)
+t ) quantiﬁes the
+instantaneous contributions to each objective. ω ↓ [0, 1) is a
+discount factor.
+A policy ε : S↑A deﬁnes the agent’s decision rule,
+mapping states to actions, and value function of the policy is
+deﬁned as,
+Vω (s)= Eω
+[ →∑
+t=0
+ωtrt+1 | st = s
+. (1)
+where the value function Vω (s) ↓ Rd is vector valued.
+Optimality is deﬁned in terms of Pareto dominance: a pol-
+icy ε↑ dominates ε if it performs at least as well in all ob-
+jectives and strictly better in at least one. The set of non-
+dominated value vectors forms the Pareto frontier, represent-
+ing all achievable trade-offs beyond which improvement in
+one objective necessarily degrades another. MORL aims to
+approximate this frontier rather than identifying a single op-
+timal policy.
+User preferences are incorporated via a scalarization func-
+tion or utility function, u : Rd ↑ R, which maps the multi-
+objective value vector to a scalar utility according to user-
+deﬁned preferences. We adopt linear scalarization,
+u(Vω ; w)= w↓ Vω =
+i=1
+wiV ω
+i , (2)
+where the weight vector w lies on the unit simplex. Each
+weight vector deﬁnes a single-objective optimization problem
+with scalarized rewards rw(s, a, s↑)= w↓ r(s, a, s↑). The set
+of policies that maximize the scalarized return for some w
+forms the Convex Hull (CH), and the minimal subset con-
+taining one optimal policy per weight vector is the Convex
+Coverage Set (CCS), providing a compact approximation of
+all linearly Pareto-optimal solutions.
+This formalism provides a general foundation for multi-
+objective learning. It allows policies to be optimized accord-
+ing to different user-deﬁned trade-offs, facilitates the quan-
+tiﬁcation of competing objectives, and offers a structured ap-
+proach to characterize and navigate Pareto-efﬁcient behaviors
+in complex systems.
+2.3 Reinforcement Learning Environment
+The overall architecture integrates MORL with model-based
+low-level controllers, ensuring both strategic adaptability and
+safety. The MORL agent performs high-level tactical deci-
+sions, such as initiating lane changes or adjusting desired
+speed and time gaps. Low-level controllers execute these
+commands using established models: the Intelligent Driver
+Model (IDM) for longitudinal control and the LC2013 model
+for lateral maneuvers. This hierarchical structure ensures
+dynamically feasible policies and mitigates uncertainty in
+safety-critical decisions. Full details of the architecture,
+action space, and observation space are provided in Ap-
+pendix C.
+The agent optimizes three primary objectives that reﬂect
+the essential trade-off in highway driving between safety,
+time efﬁciency and energy efﬁciency:
+1. Safety: Avoid collisions and successfully reach the tar-
+get within a ﬁnite horizon.
+2. Time Efﬁciency: Minimize the driver cost, which is a
+function of travel time, encouraging the agent to reach
+the target as quickly as possible.
+3. Energy Efﬁciency: Minimize the energy cost, encour-
+aging the agent to adopt energy efﬁcient driving maneu-
+vers.
+These objectives jointly deﬁne a three-dimensional reward
+vector given by:
+rt =[ Itar Rtar ↔ IcPc, ↔Cdr !t, ↔Celet]T (3)
+where I is an indicator function, Rtar is the reward for reach-
+ing the target, Pc is the penalty for collision, Cdr is the driver
+cost per second, !t is the duration of a timestep, Cel is the
+energy cost per kwh and et is the energy consumed in kwh at
+time step t. Detailed computations and parameter values are
+provided in Appendix D.
+3 Methodology
+3.1 GPI-Based Multi-Objective Reinforcement
+Learning
+The procedure presented in Algorithm 1 iteratively constructs
+a set of policies ”= {ε(a|s, w)} whose associated value
+vectors V approximate the CCS. At each iteration, the algo-
+rithm selects a weight vector w and learns a policy εw that
+optimizes the corresponding scalarized objective. The result-
+ing policy and its value vector are then added to the exist-
+ing sets, progressively reﬁning the approximation of the CCS.
+This procedure extends the GPI-LS framework in [Alegre et
+al., 2023] to a policy-gradient RL setting.
+Algorithm 1 GPI Linear Support (GPI-LS) with Multi-
+Objective PPO
+Require: MOMDP M
+1: Initialize: Weight support M ↗ {} , V alue vectors V↗
+2: (εw,v ωw ) ↗ MOPPO(w =[ 1, 0,..., 0]↓ )
+3: V↗{ vωw }, M↗{ w}
+4: for i =1 to N do
+5: Wcorner ↗ CornerWeights(V) \M
+6: w ↗ arg maxw↔Wcorner (ˆvopt
+w ↔ maxω↔! vω
+7: M↑↗ Unique
+M↘ TopK(Wcorner) ↘{ w}
+8: (εw,v ωw , done) ↗ MOPPO(w, M↑)
+9: Add {w↑↓M ↑} to M and {vωw→ | w↑↓M ↑} to V
+10: V, M↗ RemoveDominated(V, M)
+11: end for
+Weight selection in each iteration is guided by the concept
+of corner weights [Alegre et al. , 2023 ]. Let V = {vωi }n
+i=1
+denote the set of multi-objective value vectors corresponding
+to n trained policies. The corner weights Wcorner ≃ Rd are
+obtained from the vertices of a polyhedron P deﬁned as:
+P =
+x ↓ Rd+1
+⏐⏐⏐⏐⏐ V+x ⇐ 0,
+wi =1 ,w i ⇒ 0, ⇑i
+(4)
+where V+ is a matrix whose rows store the elements of V,
+augmented by a column vector of ↔1s. Each vector x =
+(w1,...,w d,v w) in P corresponds to a candidate weight vec-
+tor w and its scalarized value vw.
+Intuitively, corner weights are the weight vectors for which
+the policy selected in the maximization maxω↔! vω
+w changes.
+These are weight vectors for which two or more policies in
+” share the same value with respect to the above-mentioned
+maximization.
+Let ”= {εi}n
+i=1 be a set of n policies with correspond-
+ing value vectors V = {vωi }n
+i=1. Let !(w, ”) = v↗
+w ↔
+maxω↔! vω
+w be the utility loss of weight vector w ↓W given
+the policy set ”; that is, the difference between the value of
+the optimal policy for w and the value that can be obtained
+if using one of the policies in ” for solving w. Then, a
+weight vector w ↓ arg maxw↔W !(w, ”) is one of the cor-
+ner weights of V.
+We estimate the optimal policy for computing above utility
+loss using Generalized Policy Improvement (GPI) [Barreto et
+al., 2017]. For value-based algorithms, GPI policy is deﬁned
+as:
+εGPI(s; w) ↓ arg max
+a↔A
+max
+ω↔!
+w(s, a) (5)
+In our PPO-based setting, each policy ε outputs action log-
+its rather than Q-values. Therefore, instead of estimating op-
+timal policy based on scalarized action-values, we estimate it
+based on scalarized action logits derived from the PPO policy
+networks as given below:
+ˆεopt(s; w) ↓ arg max
+a↔A
+max
+ω↔!
+z(a | s, w) (6)
+We iteratively select the corner weight w ↓W corner that
+guarantees maximum possible improvement given by:
+w ↗ arg max
+w↔Wcorner
+ˆvopt
+w ↔ max
+ω↔!
+(7)
+where ˆvopt
+w is the scalarized value of estimated optimal pol-
+icy. Then, the policy is updated using this w to maximize the
+scalarized return.
+We choose PPO-based framework to optimize the policy
+εw at every iteration as described in the following section.
+3.2 Multi-Objective Proximal Policy Optimization
+(MOPPO)
+In Algorithm 2, we extend the PPO [Schulman et al. , 2017 ]
+to handle multi-objective learning by incorporating weight-
+conditioned actor and critic networks. Our algorithm follows
+the standard clipped PPO update, but modiﬁes the policy and
+value function estimation to support multi-dimensional re-
+wards and scalarization using weight vectors. See Figure 1
+for a schematic overview of the proposed MOPPO frame-
+work. It consists of the following:
+1. Weight-conditioned feature extraction: The observa-
+tion features and the user-speciﬁed preference vector
+w ↓ Rd are independently encoded using multi-layer
+perceptrons (MLPs), and their resulting feature repre-
+sentations are combined element-wise. This condition-
+ing mechanism modulates the state representation ac-
+cording to the preference vector, activating different fea-
+ture subspaces and allowing the policy network to adapt
+its behavior to the speciﬁed trade-off weights.
+2. Multi-objective actor: The actor outputs a set of ac-
+tion logits Z(a | s) ↓ R|A|↘ d, one per reward dimension.
+These logits are scalarized by w to obtain a single dis-
+tribution over actions, from which actions are sampled.
+3. Action Masking: The policy employs an action-
+masking mechanism conditioned on the current state to
+prevent invalid decisions and limit exploration to feasi-
+ble actions. This approach helps stabilize training and
+improves sample efﬁciency. The environment provides
+Algorithm 2 Multi-Objective PPO Training (Single Iteration)
+Require: policy parameters ω, value parameters ε, selected
+corner weight w, set of top K corner weights W, steps
+per iteration NS
+1: Initialize: replay buffer D↗⇓ , wt ↗ w
+2: for each environment step t =1 ,...,N S do
+3: Sample action at ⇔ εε(a | st, wt) and estimate value
+vt = Vϑ (st, wt)
+4: Execute at in the environment to obtain
+(rt,s t+1, donet)
+5: Store (st,a t, log εε(at | st, wt), rt, donet, vt, wt)
+in D
+6: if episode terminates then
+7: Sample new wt ⇔W and reset environment
+8: end if
+9: end for
+10: Compute vector advantage estimates ˆAt using
+GAE(ω, ϑ )
+11: Scalarize advantages: A(s)
+t = w↓
+t ˆAt = ∑d
+i=1 wt,i ˆAt,i
+12: for each update epoch do
+13: Sample minibatches from D and update (ϖ, ϱ) by
+minimizing:
+LCLIP+VF+S
+t (ω, ε)= LCLIP
+t (ω)+ c1LVF
+t (ε) ↔ c2S(εω)
+14: end for
+15: Output: Updated policy εω and value function Vε
+a binary mask identifying valid and feasible actions, and
+logits corresponding to infeasible actions are assigned
+a large negative value prior to the softmax operation,
+ensuring their selection probability becomes effectively
+zero.
+4. Multi-objective critic: The critic outputs a vector-
+valued estimate V (s) ↓ Rd, predicting the expected re-
+turn for each reward dimension.
+5. Rollout Buffer: At each iteration, MOPPO trains the
+network based on the selected corner weight wt that
+gives maximum improvement as mentioned in Section
+3.1 along with top K other corner weights. The algo-
+rithm interacts with the environment to gather trajec-
+tories conditioned on a weight, either the selected cor-
+ner weight wt or a weight vector sampled uniformly
+from W, each with probability 0.5. Each transition
+(st,a t, log ε(at|st, wt), rt, donet, V(st), wt) is stored
+in a rollout buffer. The collected data are then used to
+compute the objective function and update the networks
+as described next.
+6. Optimization: The trainable parameters of the policy
+and value networks, denoted by ω and ε, are updated by
+minimizing the PPO-style objective:
+LCLIP+VF+S
+t (ω, ε)= LCLIP
+t (ω)+ c1LVF
+t (ε) ↔ c2S(εω)
+(8)
+where LCLIP
+t (ω) is the clipped surrogate objective,
+LVF
+t (ε) is the squared-error value loss, S(εω) denotes
+entropy bonus, and c1,c 2 are weighting coefﬁcients for
+Weight
+𝒘∈ℝ𝐷
+State𝑠
+Conditioned
+Features Actor
+Critic
+Action logits
+𝒁∈ℝ𝐴×𝐷
+Value estimate
+𝑽∈ℝ𝐷
+Rollout Buffer
+Action𝑎
+Reward r ∈ℝ𝐷, done
+𝜋(𝑎|𝑠,𝒘)
+Experienceminibatch
+Update
+networks
+Masked
+logits𝒁′
+Action
+Masking
+Action mask
+(m|𝑠)
+OptimizerComputePPO loss
+GPI based
+Weight
+selection
+Traffic Environment
+WeightEncoder
+Scalarization
+𝑨𝒘=∑ᵢ𝑤ᵢÂ𝒊
+Softmax
+𝑒𝑥𝑝Ƹ𝑧𝑎
+∑𝑎′𝑒𝑥𝑝(Ƹ𝑧𝑎′)
+Scalarization
+Ƹ𝑧𝑎∈𝑨=𝒘ᵀ𝒛𝑎
+=∑ᵢ𝑤ᵢ𝑧𝑎,𝑖
+StateEncoder
+Compute
+Advantage෡𝑨
+viaGAE
+Figure 1: Multi-Objective PPO Framework.
+the value loss and entropy bonus, respectively.
+LCLIP
+t (ω)= E
+min
+ςt(ω) A(s)
+t ,
+clip
+ςt(ω), 1 ↔ φ,1+ φ
+A(s)
+(9)
+where
+ςt(ω)= εω(at | st, wt)
+εωold (at | st, wt) ,A (s)
+t = w↓
+t ˆAt. (10)
+The vector ˆAt ↓ Rd denotes the multi-objective advan-
+tage computed using Generalized Advantage Estimation
+(GAE-ϑ) [Schulman et al., 2015].
+3.3 Safety Filter for Lane Changes via Action
+Masking
+To ensure that the ego vehicle performs lane changes only
+when it is safe to do so, we propose a rule-based safety ﬁl-
+ter based on time-gap and braking-feasibility constraints. A
+lane change action from the ego’s current lane ↼ego to a tar-
+get lane ↼target is permitted only if sufﬁcient longitudinal gaps
+exist both ahead of and behind the ego vehicle in target lane.
+The lane change action is masked out otherwise as described
+in Section 3. A lane change to left when ego vehicle is on the
+left-most lane and a lane change to right when vehicle is on
+the right-most lane are also ﬁltered out.
+We evaluate the safety of a candidate lane change using
+a kinematic, gap-based safety ﬁlter that explicitly accounts
+for ﬁnite vehicle dimensions, relative velocities, and the fact
+that the ego vehicle occupies both the current and target lanes
+during the maneuver. All longitudinal distances are measured
+between front bumpers unless stated otherwise.
+The lane change duration is given by
+Tlc = wlane
+vlat
+where wlane is the lane width and vlat is the lateral speed of
+the ego vehicle. Due to the ﬁnite vehicle width wego, the ego
+vehicle enters the target lane at
+tenter = wlane ↔ wego
+2vlat
+and fully exits the current lane at
+texit = wlane + wego
+2vlat
+The minimum required gap to a leading vehicle is
+smin(v, !v)= s0 + max
+0,T safev + v!v
+2↖amaxbsafe
+as deﬁned in Intelligent Driver Model. Here, a minimum
+standstill gap s0 and desired time headway Tsafe are used to
+deﬁne safety margins. v is the follower speed, !v is relative
+speed with the leading vehicle, amax and bsafe denote maxi-
+mum acceleration and comfortable deceleration respectively.
+From the observation of environment, we identify the near-
+est leading and following vehicles in both the current and tar-
+get lanes. A lane change is permitted only if all of the follow-
+ing conditions hold:
+1. Front gap in current lane: Let sfront,cur be the distance
+to the leading vehicle in the current lane. The gap must
+remain safe until the ego fully exits the current lane:
+sfront,cur↔(vego↔vfront,cur) texit ⇒ smin(vego,v ego↔vfront,cur).
+2. Front gap in target lane: Let sfront,tar denote the distance
+to the leading vehicle in the target lane. The gap must be
+safe both when the ego enters the target lane and at the
+end of the maneuver:
+sfront,tar↔(vego↔vfront,tar) tenter ⇒ smin(vego,v ego↔vfront,tar),
+and
+sfront,tar ↔(vego ↔vfront,tar) Tlc ⇒ smin(vego,v ego ↔vfront,tar).
+3. Rear gap in target lane: Let srear,target be the distance from
+the ego to the following vehicle in the target lane. The
+gap at lane entry must satisfy
+srear,tar +(vrear,tar ↔vego) tenter ⇒ smin(vrear,tar,v rear ↔vego).
+4. Rear-vehicle braking feasibility: If the rear vehicle is
+faster than the ego (vrear,tar >v ego), we estimate the time-
+to-collision
+TTC = srear,tar
+vrear,tar ↔ vego
+If TTC <T lc, the required deceleration to avoid colli-
+sion is approximated as
+areq = vrear,tar ↔ vego
+max(TTC ↔ tenter,φ) ,
+where φ is a small constant for numerical stability. The
+lane change is allowed only if areq ⇐ bsafe.
+The lane change is executed only when all the above con-
+straints are satisﬁed, introducing a conservative safety ﬁlter
+that enforces feasible merging conditions, thereby reducing
+the risk of collisions.
+4 Experimental Results
+In this section, we present results from experiments con-
+ducted using the proposed MORL framework in a custom
+multi-objective RL environment that we developed for truck
+driving in a highway simulation. Our GPI-LS MOPPO algo-
+rithm is implemented on top of the MORL-Baselines toolkit
+[Felten et al., 2023]. The implementations of MORL and the
+environment are provided as open-source 1.
+We begin by examining the trade-offs learned by the agent
+under varying trafﬁc densities. Figure 2 shows the Pareto-
+optimal policies for zero, medium, and high trafﬁc scenarios.
+1Source Code: https://github.com/deepthi-pathare/morl and
+sumo gym env/
+Each Pareto front is obtained by evaluating the trained agent
+over 500 equally spaced weight vectors, averaged across 5
+episodes. The resulting Pareto-optimal policies illustrate the
+trade-offs between energy cost and driver cost, as well as their
+corresponding successful completion rates. For medium traf-
+ﬁc density, we use 0.015 vehicles per meter, which corre-
+sponds to 7 vehicles (6 cars and 1 truck) based on the cho-
+sen moving window size and heterogeneous vehicle ratio re-
+ported in Table 1 in Appendix B. For high trafﬁc density,
+we use 0.03 vehicles per meter, corresponding to 13 vehicles
+(11 cars and 2 trucks). Across all trafﬁc settings, a clear and
+interpretable Pareto structure emerges, demonstrating that the
+learned policies successfully capture the fundamental conﬂict
+between energy cost and driver cost. Notably, the failure rate
+is zero for all policies across all trafﬁc conditions considered,
+with success deﬁned as reaching the target within the ﬁnite
+episode horizon.
+In the zero-trafﬁc scenario, the environment dynamics and
+initial conditions are deterministic, so reachability is a de-
+terministic property of a policy: for a ﬁxed policy, episodes
+either always succeed or always fail. The absence of non-
+dominated policies in the intermediate region of the Pareto
+front arises from the structure of the cost function and the
+speed–cost relationship in the obstacle-free setting. In par-
+ticular, reducing cruising speed from the high-speed regime
+leads to a rapid increase in driver cost due to longer travel
+time, while yielding only marginal reductions in energy cost,
+as energy consumption varies weakly with speed in this
+range. Consequently, policies that operate at intermediate
+speeds incur substantially higher driver cost without achiev-
+ing proportional energy savings and are therefore dominated
+by faster cruising policies that achieve similar energy cost
+with lower driver cost. As a result, no Pareto-optimal solu-
+tions emerge in the intermediate region of the cost space.
+In contrast, when trafﬁc is present, interactions with other
+vehicles impose state-dependent speed constraints that intro-
+duce variability in both travel time and energy usage. Even
+policies with similar average speeds can experience differ-
+ent patterns of acceleration, deceleration, and lane changes,
+resulting in a wider range of achievable cost combinations.
+This breaks the near-deterministic mapping between speed
+and cost observed in the zero-trafﬁc case and produces multi-
+ple non-dominated policies spanning a broader region of the
+Pareto front. The successful completion rate remains high
+for a wide range of trade-offs, indicating that the policies can
+balance driver and energy costs without compromising the
+feasibility of the task.
+Figure 3 compares the average speed and correspond-
+ing cost values of Pareto-optimal policies that achieved a
+100% successful completion rate against the analytical op-
+timal speed and cost obtained under the constant-speed as-
+sumption. A detailed graph of the analytical results that il-
+lustrates how the cost values vary as a function of the speed
+is given in Appendix E. The analysis indicates that the op-
+timal constant speed is 24.04 m/s, yielding a minimum total
+cost of 3.68 euros for a distance of 3000 meters (0.0012 eu-
+ros/m). In the zero-trafﬁc scenario, the learned policies ap-
+proximately match the analytical baseline, as the absence of
+interactions allows the truck to maintain a speed with mini-

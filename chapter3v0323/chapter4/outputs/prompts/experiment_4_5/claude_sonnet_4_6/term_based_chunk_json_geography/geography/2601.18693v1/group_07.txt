@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Star",
+  "strippedFrom",
+  "Satellite",
+  "DarkMatter",
+  "HaloMass",
+  "associatedWith",
+  "StrippedMass",
+  "locatedOutside",
+  "region_100kpc",
+  "StellarMass",
+  "entersRegion",
+  "Icl",
+  "depositedInto",
+  "CentralRegion",
+  "partOf",
+  "Cluster",
+  "DiffuseIcl",
+  "locatedAt",
+  "LargeRadii",
+  "HigherMassInfaller",
+  "shapes",
+  "PhaseSpaceDistribution",
+  "distributedAcross",
+  "CentralComponent",
+  "AccretedMaterial",
+  "originatesFrom",
+  "AccretedComponent",
+  "contributesTo",
+  "DarkMatterMass",
+  "doubledMassThrough",
+  "SatelliteAccretion",
+  "SpecificEnergy",
+  "determines",
+  "TimeAveragedRadius",
+  "AngularMomentum",
+  "establishes",
+  "RadialDensityProfile",
+  "OrbitalEnergy",
+  "sets",
+  "ApocentricScale",
+  "controls",
+  "OrbitInwardExtent",
+  "Energy",
+  "fixes",
+  "OuterScale",
+  "OrbitDepth",
+  "CentralGalaxyContribution",
+  "declinesFrom",
+  "ClusterCentre",
+  "Profile",
+  "approaches",
+  "ProfileOfAccretedMaterial",
+  "StellarToDmDensityRatio",
+  "governedBy",
+  "DistributionOfStrippedSatelliteDebris",
+  "dependsOn",
+  "PropertiesOfInfallingSatellitePopulation",
+  "LocalLogarithmicSlope",
+  "measuredBetween",
+  "Region100KpcAndR200",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis"
+]
+
+Triples:
+[
+  {
+    "subject": "Star",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument11",
+    "context": "For a given stellar mass function𝜙(𝑀 ★)and orbital circularity dis- tribution𝑝(𝜂),wecomputepopulation-averagedspecificenergiesof stripped stars and DM by summing over the contributions from all satellites, weighted simultaneously by (i) the amount of mass stripped fromeachsatellite"
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument11",
+    "context": "For a given stellar mass function𝜙(𝑀 ★)and orbital circularity dis- tribution𝑝(𝜂),wecomputepopulation-averagedspecificenergiesof stripped stars and DM by summing over the contributions from all satellites, weighted simultaneously by (i) the amount of mass stripped fromeachsatellite"
+  },
+  {
+    "subject": "HaloMass",
+    "relation": "associatedWith",
+    "object": "Satellite",
+    "chunk": "completedocument11",
+    "context": "Here𝑀 ℎ(𝑀★)de- notes the halo mass associated with a satellite of stellar mass𝑀 ★ and𝑓 stripdenotes the stripped fraction of the specified component."
+  },
+  {
+    "subject": "StrippedMass",
+    "relation": "locatedOutside",
+    "object": "region_100kpc",
+    "chunk": "completedocument11",
+    "context": "For the latter,𝑓 stripdenotes only the strippedmassoutsideof100kpcasafractionofthesatellite’sinfall mass."
+  },
+  {
+    "subject": "StellarMass",
+    "relation": "entersRegion",
+    "object": "Icl",
+    "chunk": "completedocument11",
+    "context": "We further define the normalised progenitor stellar mass contri- bution function,𝑝(𝑀 ★|strip,★), which quantifies the amount of stellar mass entering the ICL per bin of satellite infall stellar mass, normalised by the total stripped stellar mass."
+  },
+  {
+    "subject": "StellarMass",
+    "relation": "depositedInto",
+    "object": "CentralRegion",
+    "chunk": "completedocument12",
+    "context": "This difference reflects the rapid orbital decay of the most massive satellites, whose stellar mass is preferentially de- posited into the central regions of the cluster, enhancing the cen- tral component relative to the diffuse ICL at large radii, as seen in Figure 5."
+  },
+  {
+    "subject": "CentralRegion",
+    "relation": "partOf",
+    "object": "Cluster",
+    "chunk": "completedocument12",
+    "context": "This difference reflects the rapid orbital decay of the most massive satellites, whose stellar mass is preferentially de- posited into the central regions of the cluster, enhancing the cen- tral component relative to the diffuse ICL at large radii, as seen in Figure 5."
+  },
+  {
+    "subject": "DiffuseIcl",
+    "relation": "locatedAt",
+    "object": "LargeRadii",
+    "chunk": "completedocument12",
+    "context": "This difference reflects the rapid orbital decay of the most massive satellites, whose stellar mass is preferentially de- posited into the central regions of the cluster, enhancing the cen- tral component relative to the diffuse ICL at large radii, as seen in Figure 5."
+  },
+  {
+    "subject": "HigherMassInfaller",
+    "relation": "shapes",
+    "object": "PhaseSpaceDistribution",
+    "chunk": "completedocument12",
+    "context": "These higher-mass infallers therefore primarily shape the cluster-scale phase-space distributions of both the ICL and central component."
+  },
+  {
+    "subject": "PhaseSpaceDistribution",
+    "relation": "distributedAcross",
+    "object": "CentralComponent",
+    "chunk": "completedocument12",
+    "context": "These higher-mass infallers therefore primarily shape the cluster-scale phase-space distributions of both the ICL and central component."
+  },
+  {
+    "subject": "AccretedMaterial",
+    "relation": "originatesFrom",
+    "object": "Satellite",
+    "chunk": "completedocument12",
+    "context": "Threedistinctcomponentsareshown:accretedmaterialfromsatel- lites,thecentralclusterandhalostars,andthecombinedcentraland accreted stars and DM."
+  },
+  {
+    "subject": "AccretedComponent",
+    "relation": "contributesTo",
+    "object": "DarkMatterMass",
+    "chunk": "completedocument13",
+    "context": "To construct the combined ac- cretedandcentralratio,wethenassumethattheaccretedandcentral components contribute equal amounts of DM mass, corresponding to a scenario in which the cluster has doubled its mass through the accretion of satellites, while allowing the stellar mass contributions of the two components to differ."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "doubledMassThrough",
+    "object": "SatelliteAccretion",
+    "chunk": "completedocument13",
+    "context": "To construct the combined ac- cretedandcentralratio,wethenassumethattheaccretedandcentral components contribute equal amounts of DM mass, corresponding to a scenario in which the cluster has doubled its mass through the accretion of satellites, while allowing the stellar mass contributions of the two components to differ."
+  },
+  {
+    "subject": "SpecificEnergy",
+    "relation": "determines",
+    "object": "TimeAveragedRadius",
+    "chunk": "completedocument13",
+    "context": "In an NFW-like potential, the time-averaged radius is jointly deter- mined by the specific energy and angular momentum of the orbit."
+  },
+  {
+    "subject": "AngularMomentum",
+    "relation": "determines",
+    "object": "TimeAveragedRadius",
+    "chunk": "completedocument13",
+    "context": "In an NFW-like potential, the time-averaged radius is jointly deter- mined by the specific energy and angular momentum of the orbit."
+  },
+  {
+    "subject": "PhaseSpaceDistribution",
+    "relation": "establishes",
+    "object": "RadialDensityProfile",
+    "chunk": "completedocument13",
+    "context": "The radial density profiles of the DM and ICL are therefore established bytheirrespectivephase-spacedistributions."
+  },
+  {
+    "subject": "OrbitalEnergy",
+    "relation": "sets",
+    "object": "ApocentricScale",
+    "chunk": "completedocument13",
+    "context": "Orbitalenergyprimar- ily sets the apocentric scale, where the radial motion is slowest and the orbit contributes most strongly to the density, while differences in angular momentum control the orbit’s inward extent."
+  },
+  {
+    "subject": "AngularMomentum",
+    "relation": "controls",
+    "object": "OrbitInwardExtent",
+    "chunk": "completedocument13",
+    "context": "Orbitalenergyprimar- ily sets the apocentric scale, where the radial motion is slowest and the orbit contributes most strongly to the density, while differences in angular momentum control the orbit’s inward extent."
+  },
+  {
+    "subject": "Energy",
+    "relation": "fixes",
+    "object": "OuterScale",
+    "chunk": "completedocument13",
+    "context": "The time- averagedradius⟨𝑟⟩isthussetbythecombinedeffectofenergyfixing the outer scale of the orbit and angular momentum determining the depth of the orbit."
+  },
+  {
+    "subject": "AngularMomentum",
+    "relation": "determines",
+    "object": "OrbitDepth",
+    "chunk": "completedocument13",
+    "context": "The time- averagedradius⟨𝑟⟩isthussetbythecombinedeffectofenergyfixing the outer scale of the orbit and angular momentum determining the depth of the orbit."
+  },
+  {
+    "subject": "CentralGalaxyContribution",
+    "relation": "declinesFrom",
+    "object": "ClusterCentre",
+    "chunk": "completedocument13",
+    "context": "Furtherfromthecentreofthecluster,thecontributionofthecen- tral galaxy declines significantly."
+  },
+  {
+    "subject": "Profile",
+    "relation": "approaches",
+    "object": "ProfileOfAccretedMaterial",
+    "chunk": "completedocument14",
+    "context": "profile (dashed line) increasingly diverges from the cluster halo plus central galaxy profile (dot-dashed), and instead approaches the profile of the accreted material (dotted)."
+  },
+  {
+    "subject": "StellarToDmDensityRatio",
+    "relation": "governedBy",
+    "object": "DistributionOfStrippedSatelliteDebris",
+    "chunk": "completedocument14",
+    "context": "Beyond ∼100 kpc, the stellar–to–DM density ratio is therefore primarily governed by the distribution of stripped satellite debris, with the central contribution becoming subdominant."
+  },
+  {
+    "subject": "StellarToDmDensityRatio",
+    "relation": "dependsOn",
+    "object": "PropertiesOfInfallingSatellitePopulation",
+    "chunk": "completedocument14",
+    "context": "The stellar–to–DM density ratio shows a pronounced dependence on the properties of the infalling satellite population."
+  },
+  {
+    "subject": "LocalLogarithmicSlope",
+    "relation": "measuredBetween",
+    "object": "Region100KpcAndR200",
+    "chunk": "completedocument14",
+    "context": "In particular, variations in the satellite stellar mass function lead to substantial changes in the ratio, with the local logarithmic slope of 𝜌★/𝜌DM, measured between 100 kpc and 𝑅 200, ranging from -0.54 to -1.28 across the parameter space."
+  }
+]

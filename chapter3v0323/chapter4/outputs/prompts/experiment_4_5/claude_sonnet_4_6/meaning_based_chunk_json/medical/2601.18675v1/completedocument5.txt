@@ -1,0 +1,138 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument5",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument5
+- section_title: Complete Document
+- page_start: 1
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+Similarly, AUPRC values increased from 0.82–0.83
+
+TABLE II
+DAVIES-BOULDININDEX(DBI)AND DOWNSTREAM ACCURACY ONCKDSTAGE CLASSIFICATION ACROSS5FOLDS FOR THE THREE MODEL
+ARCHITECTURES.
+Fold LSTM Attention-augmented LSTM T-LSTM
+DBI Accuracy DBI Accuracy DBI Accuracy
+0 51.37 0.59 5.57 0.68 17.90 0.70
+1 6.95 0.58 70.85 0.70 9.80 0.74
+2 10.88 0.64 9.93 0.68 14.02 0.72
+3 4.17 0.64 6.71 0.66 4.32 0.77
+4 5.89 0.71 10.55 0.66 3.51 0.80
+Mean±SD 15.85±20.01 0.63±0.05 20.72±28.10 0.68±0.02 9.91±6.18 0.74±0.04
+Fig. 3. t-SNE visualisation of embedding spaces separated by classes 0-7 based on ICD codes for CKD stages. (a) Embedding space of vanilla LSTM. (b)
+Embedding space of attention-augmented LSTM. (c) Embedding space of T-LSTM.
+TABLE III
+COMPARISON OF IN-ICUMORTALITY PREDICTION ACROSS THE THREE MODEL ARCHITECTURES(5-FOLD AVERAGE). DIRECT PREDICTION REFERS TO
+MODELS TRAINED IN A DIRECT END-TO-END PREDICTOR CONFIGURATION,WHILE DOWNSTREAMLRREFERS TO MODELS TRAINED AS EMBEDDING
+MODELS WITH A LOGISTIC REGRESSION PREDICTION HEAD.
+Model Direct prediction Downstream LR
+AUROC Accuracy AUPRC AUROC Accuracy AUPRC
+LSTM 0.88 0.740.830.890.830.89
+Attention-augmented LSTM0.890.72 0.820.900.82 0.89
+T-LSTM 0.880.750.820.900.820.90
+in the end-to-end predictor configuration to 0.89–0.90 in the
+embedding model with logistic regression configuration. Over-
+all, the findings indicate that learning patient embeddings as an
+intermediate objective leads to better downstream prediction
+than direct end-to-end training across all three architectures.
+Furthermore, the T-LSTM achieved the strongest and most
+consistent performance across evaluation metrics.
+IV. DISCUSSION
+The intrinsic evaluation indicates that the T-LSTM model
+produces the most coherent embedding space with respect to
+CKD stage differentiation, which highlights the importance
+of explicitly modelling irregular temporal intervals in longi-
+tudinal clinical data. Among the three architectures, T-LSTM
+achieved the highest CKD stage classification accuracy (0.74)
+and the lowest Davies–Bouldin Index (DBI; 9.91 compared to
+20.72 for attention-augmented LSTM and 15.85 for vanillaLSTM), which suggests improved cluster compactness and
+separability.
+The findings show that incorporating temporal information
+directly into the recurrent dynamics leads to more struc-
+tured and clinically meaningful embeddings. The attention-
+augmented outperformed the vanilla LSTM in terms of clas-
+sification accuracy (0.67 vs. 0.63), however, its DBI exhibited
+greater variability across folds. The variability suggests that
+while attention mechanisms enhanced discriminative perfor-
+mance, they may also introduce instability in the learnt em-
+bedding structure, potentially due to over-emphasising specific
+temporal segments [33]. Visual inspection of the t-SNE pro-
+jections further revealed that early-stage and unspecified CKD
+cases were more diffusely distributed in the embedding space,
+a pattern that is clinically plausible given the inherent diag-
+nostic ambiguity associated with these categories. In contrast,
+well-defined CKD stages formed tighter clusters, which un-
+
+derscores the influence of diagnostic clarity on representation
+learning in clinical settings.
+In the extrinsic evaluation, the embedding model configu-
+ration coupled with a downstream logistic regression classi-
+fier consistently outperformed the corresponding end-to-end
+prediction models across all three architectures in the in-ICU
+mortality prediction task. The result demonstrates that extract-
+ing and classifying on learnt embedding can yield superior
+performance, likely because of the induced implicit knowledge
+of CKD stages allows the downstream classifier to better ex-
+ploit the latent features. Importantly, the finding also provides
+indirect evidence of the quality of the learnt embeddings. In
+the in-ICU mortality setting, the performance of T-LSTM and
+attention-augmented LSTM was comparable, which may be
+attributed to the relatively unambiguous nature of the mortality
+outcome compared to CKD stage classification. Nevertheless,
+T-LSTM exhibited more robust performance across both in-
+trinsic and extrinsic tasks, suggesting greater generalisability
+across heterogeneous clinical objectives.
+A. Limitations
+This study has some limitations that warrant consideration.
+First, the models were evaluated on a single cohort, which may
+limit generalisability of the learnt embeddings to other clinical
+populations, institutions, or data protocols. Second, while
+intrinsic evaluations using clustering metrics and visualisations
+provide useful insights into latent space organisation, they
+remain indirect proxies for clinical relevant and may not
+fully capture all clinically meaningful factors [35]. Third, the
+embedding models were trained in a supervised manner (i.e.,
+learning to differentiate between CKD stages), and therefore
+the resulting representations are not strictly task-agnostic.

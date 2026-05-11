@@ -1,0 +1,139 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument6",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument6
+- section_title: Complete Document
+- page_start: 1
+- page_end: 11
+
+**INPUT TEXT CHUNK:**
+(b) ITE-FALQON further sharpens this dis-
+tribution, projecting almost entirely onto the same two de-
+generate MSS solutions. The shaded graphs depict the corre-
+sponding drug subsets.
+ITE-FALQON algorithm and compare two target sizes,
+K= 3 andK= 4, why we ﬁx γ= 2.5 andµ= 5.
+Figure 4 summarizes the SCO performance. Fig. 4(a)
+shows the time evolution of the energy E(t) =
+∝an}bracketle{tψ(t)|HSCO|ψ(t)∝an}bracketri}ht. In both cases of K, the energy rapidly
+decreasesand stabilizes within a shortoptimization time,
+indicating eﬃcient suppression of excited-state contribu-
+tions. The diﬀerence in the ﬁnal energy reﬂects the im-
+posed cardinality constraint: increasing Kshifts the op-
+timal energy upward due to the largernumber of selected
+drugs and the associated interaction terms.
+Figure 4 (b, c) show the ﬁnal measurement probabil-
+ity distributions for K= 3 andK= 4, respectively. In
+both cases, the dynamics concentrate almost entirely on
+a single bitstring, demonstrating that the optimization
+uniquely selects a dominant optimal solution. The cor-
+responding interaction graphs highlight that the selected
+drug subsets simultaneously satisfy the size constraint,
+avoidharmful internal interactions, and preferentiallyin-
+clude synergistic pairs.
+These results show that the SCO formulation reliably
+extracts clinically interpretable drug combinations. The
+dominant bitstrings correspond to subsets that are in-
+ternally consistent with known DDI structure, while the
+changes observed between K= 3 andK= 4 directly re-ﬂect the underlying pharmacologicalconstraints encoded
+in the interaction network.
+V. COVID-19 CASE STUDY
+During the early stages of the COVID-19 pandemic,
+many drugs were tested in clinical trials to ﬁnd eﬀec-
+tive combinations against SARS-CoV-2. Because a large
+number of possible drug combinations were proposed,
+identifying the best subsets quickly became a challenging
+combinatorial optimization problem. Motivated by this
+challenge, we apply the ITE-FALQONmethod to apanel
+of nine drugs to examine whether clinically eﬀective drug
+subsets can be recovered by minimizing a Hamiltonian
+constructed from pairwise drug interactions.
+The drugs are grouped into three functional classes:
+viral replication inhibitors, entry and post-translational
+inhibitors, and immune response regulators. The diver-
+sity of these mechanisms leads to both cooperative and
+conﬂicting interactions, creating a complex optimization
+landscape that is well suited for benchmarking the ITE-
+FALQON framework. Table II summarizes the phar-
+macological mechanisms and abbreviations used for each
+drug in this study.
+Pairwise synergy and harmful interaction weights were
+obtained from the Liverpool COVID-19 Drug Interac-
+tion database and supporting pharmacological studies.
+These weights were normalized to the range [0 ,1], where
+strongly complementary antiviral pairs were assigned
+high synergy, and harmful interactions were identiﬁed
+based on reported adverse eﬀects (see Table III). For
+example, Remdesivir and Ribavirin show synergistic an-
+tiviral activity and are therefore assigned a high synergy
+weight, whereas the combination of Remdesivir and Hy-
+droxychloroquine is known to reduce antiviral eﬃcacy
+and is classiﬁed as harmful. The interaction graph is
+shown in Fig. 5.
+This procedure encodes the known drug interaction
+structure directly into the Hamiltonian while remain-
+ing robust to uncertainties in quantitative interaction
+strengths. Importantly, the optimization relies only
+on pairwise interactions, with no higher-order terms or
+training data introduced.
+A. MSS Results
+When applying the MSS Hamiltonian to this drug set,
+weobserveacleardependence ofthelow-energysolutions
+on the penalty factor α. For relatively small values of α
+(e.g.,α=2.5), the optimalsolutionsis {RDV, RBV,PAX,
+NTZ, MOV, FPV, DEX }, which still contains harmful
+terms, such as the PAX-DEX pair because the energy
+of adding a new drug can outweigh the penalty imposed
+by a harmful interaction. As a result, the algorithm ac-
+cepts a trade-oﬀ between maximizing the subset size and
+tolerating limited safety violations.
+
+7
+(a) (b) (c) 
+FIG. 4. SCO results obtained using ITE-FALQON. (a) Energy co nvergence for target cardinalities K= 3 and K= 4. (b, c)
+Final measurement probability distributions and correspo nding interaction graphs for K= 3 and K= 4, respectively. In both
+cases, the dynamics concentrate almost entirely on a single dominant bitstring, indicating a unique optimal drug combi nation.
+The inset graphs visualize the selected subsets and their in ternal interactions, illustrating the balance between syn ergistic
+beneﬁt and interaction risk as the cardinality constraint i s increased.
+TABLE II. Classiﬁcation and mechanism of action for 9 drugs i ncluded in the COVID-19repurposing case study.

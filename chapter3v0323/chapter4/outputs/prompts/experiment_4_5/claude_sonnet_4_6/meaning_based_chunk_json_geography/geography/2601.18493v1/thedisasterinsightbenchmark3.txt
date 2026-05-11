@@ -1,0 +1,109 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "thedisasterinsightbenchmark3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: thedisasterinsightbenchmark3
+- section_title: The DisasterInsight Benchmark
+- page_start: 3
+- page_end: 7
+
+**INPUT TEXT CHUNK:**
+In contrast, object-level
+tasks such as building-function and damage-level classification operate directly on individual
+building instances using bounding-box inputs.
+DisasterInsight defines a structured report generation task in which models are required to
+produce two narratives per instance: (i) a short summary describing immediately observable
+impacts, and (ii) a longer analysis providing expanded, response-relevant context. Both outputs
+follow professional reporting conventions used by humanitarian assessment guidelines, focusing
+on observable damage, structural condition, and situational considerations.
+6
+
+3.6 Ground-Truth Report Generation and LLM Selection
+Ground-truth reports in DisasterInsight are generated using a large language model under strict
+groundingandcontentconstraints, reflectingtheroleofnarrativesituationreportsinoperational
+disaster response. To account for different response phases, each building instance is associated
+with two report types: a short-form summary for rapid situational awareness and a long-form
+narrative supporting risk assessment and response planning, each governed by complementary
+constraints.
+Short reports provide a compact, strictly descriptive overview of observable impacts, while
+longreportsexpandthenarrativetoincludesafetyrisks,humanitarianimplications,andrecovery
+considerations. Both formats are required to remain grounded in pre- and post-disaster imagery,
+avoid unverified details, and maintain a professional tone consistent with humanitarian reporting
+practices.
+To generate ground-truth reports, several instruction-tuned large language models were eval-
+uated, including Qwen3-30B-A3B-Instruct [12], DeepSeek-V3.1 [23], GPT-OSS-20B [24], and
+Llama 3.3 70B Instruct [25]. Among these, Llama 3.3 70B Instruct demonstrated the strongest
+adherencetogroundingconstraints, basedonempiricalevaluationofhallucinationfrequencyand
+consistency with provided visual inputs, and was therefore selected to generate all ground-truth
+reports in DisasterInsight.
+Report-generation prompts instruct the model to assume the role of an experienced disaster
+response analyst and to rely exclusively on the provided visual inputs and metadata. Each
+prompt requests both short- and long-form reports for the same instance, ensuring consistent
+and interpretable outputs. Analysis of the generated reports using word cloud visualizations in
+Fig. 2(a,b) shows that short reports are dominated by concise, damage-focused terms reflecting
+rapid situational awareness, while long reports exhibit a broader vocabulary emphasizing safety
+risks, humanitarian impacts, and recovery considerations. This contrast confirms that the two
+formatsencodedistinctnarrativeobjectivesratherthansimplelengthvariations. Representative
+prompt templates will be released with the dataset and code.
+3.7 DI-Chat: Domain-Adapted Instruction-Tuned Baselines
+To complement the DisasterInsight benchmark and enable domain-adapted evaluation, DI-Chat
+is introduced as an instruction-tuned baseline derived from DisasterInsight. DI-Chat is not a
+standalone architecture, but a general instruction fine-tuning framework that adapts existing
+vision–language models to disaster-specific tasks using the structured instructions and annota-
+tions provided by the benchmark.
+In this work, DI-Chat is instantiated on multiple vision–language backbones, including
+TeoChat and Qwen2.5-VL, resulting in two baseline models denoted as DI-Chat (TeoChat) and
+DI-Chat (Qwen2.5-VL). Both variants are fine-tuned using parameter-efficient Low-Rank Adap-
+tation (LoRA) on the training split of DisasterInsight, following a multimodal instruction-tuning
+paradigm similar to Video-LLaVA-style training.
+These baselines serve two purposes: (i) to establish strong, domain-adapted reference models
+for disaster-oriented vision–language understanding, and (ii) to systematically study the impact
+of domain-specific instruction tuning across classification, counting, and structured report gen-
+eration tasks.
+3.8 Evaluation Metrics
+For classification tasks, we report macro-averaged F1 (%) to account for severe class imbalance
+across building functions, damage levels, and disaster types, and accuracy for completeness. For
+damage-level classification, which follows an ordinal severity structure, we additionally report
+ordinal mean absolute error (MAE) to reflect the magnitude of misclassification errors [26]. For
+building counting, we report MAE and RMSE.
+7.

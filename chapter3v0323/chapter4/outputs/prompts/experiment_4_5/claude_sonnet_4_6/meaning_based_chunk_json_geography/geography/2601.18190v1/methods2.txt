@@ -1,0 +1,127 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "methods2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: methods2
+- section_title: Methods
+- page_start: 2
+- page_end: 3
+
+**INPUT TEXT CHUNK:**
+Next, we
+perform multi-head self-attention onzand apply a linear
+transformation:
+zattn= Attn(z),z attn∈RN×d,(2)
+ˆz=z attnW2+b2, ˆz∈RN×d,(3)
+whereAttn(·)is the standard multi-head self-attention oper-
+ator overdchannels,W 2∈Rd×dandb 2∈Rd. On top of ˆz,
+the adapter further enhances long-range dependency modeling
+by combining a global attention branch and a feed-forward
+branch, and keeps the output dimension unchanged to support
+residual learning:
+ez=ˆz+ MLP(Attn( ˆz)), ez∈RN×d,(4)
+whereMLP(·)denotes a position-wise feed-forward network
+mappingRN×d→RN×d. To adaptively control the contribu-
+tion of the enhanced features, we introduce a learnable scalar
+gate:
+zgate=σ(γ) ez,z gate∈RN×d,(5)
+whereγis a learnable parameter andσ(·)is the Sigmoid
+function. Finally, the gated features are projected back to the
+original feature dimension and added to the input via a residual
+connection:
+xup=zgateW3+b3,x up∈RN×D,(6)
+x′=x+x up,x′∈RN×D,(7)
+whereW 3∈Rd×Dandb 3∈RDare learnable parameters.C. Multi-Perspective Representation (MPR) Module
+In remote sensing, keyword-guided sub-perspectives
+{Ik}K
+k=1 contain both complementary cues and redundant
+noise, so independently aligning each sub-perspective
+is sensitive to scale changes, background clutter, and
+segmentation bias, hurting fine-grained semantic matching.
+We therefore propose the Multi-Perspective Representation
+(MPR) module, which aggregates correlated sub-perspectives
+into a robust local semantic summary, then projects it into
+complementary multi-perspective embeddings to support
+keyword-driven multi-granularity interaction alignment. MPR
+outputs multi-perspective visual featuresG mfor fine-grained
+matching.
+Specifically, we first aggregateG lto obtain a local semantic
+summarye∈RD:
+e=1
+KKX
+k=1Gl,k,(8)
+whereG l,kdenotes thekth sub perspective vector ofG l. Next,
+the MPR module mapseintoKcomplementary semantic
+subspaces usingKtwo layer MLP heads with independent
+parameters (Linear, GELU, Linear, optional Dropout). Thekth
+head is computed as
+v′
+k=W k,2ϕ(W k,1e+b k,1) +b k,2, k= 1, . . . , K,(9)
+whereW k,1andW k,2are the weight matrices, andb k,1
+andb k,2are the bias vectors of thekth MLP head. We then
+applyL 2normalization to each perspective vector to improve
+comparability and numerical stability in contrastive learning:
+vk=v′
+k
+∥v′
+k∥2+ε, k= 1, . . . , K.(10)
+Finally, the output multi-perspective visual representation is
+Gm={v 1, . . . ,v K}.(11)
+D. Multi Perspective Learning Objectives
+To enhance both global semantic consistency and keyword-
+driven fine-grained alignment for remote-sensing cross-modal
+retrieval, we define multi-perspective objectives on the glob-
+ally aligned pair(G v,Gt)and the interaction between the
+global text embedding and multi-perspective semantic features
+(Gt,Gm). This preserves CLIP’s global discrimination while
+treating local multi-perspective representations as selectable
+semantic evidence. We select the maximum-response perspec-
+tive and apply similarity-adaptive weighting (λ MPCandλ MPT)
+to suppress redundant/noisy perspectives, reducing semantic
+dilution and providing more stable supervision for fine-grained
+matching. The overall objective is:
+L=L Base+λ MPCLMPC+λ MPTLMPT.(12)
+Base Loss.For the global feature pair(G v,Gt), we adopt
+CLIP bidirectional contrastive loss and a weighted triplet loss
+to improve cross modal discriminability within a batch and
+enforce ranking constraints [16]..

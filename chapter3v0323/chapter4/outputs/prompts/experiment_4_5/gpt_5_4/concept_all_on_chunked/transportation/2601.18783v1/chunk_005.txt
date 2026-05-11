@@ -1,0 +1,91 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic triples.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use only normalized terms from the input.
+   - Do not invent new terms unless absolutely necessary.
+   - Do not introduce external background knowledge.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by context.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf only when a subclass relation is explicit or strongly implied.
+   - Avoid overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Only assign domain/range when the subject/object types are clear from normalized terms and updated triples.
+   - Avoid speculative domain/range assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication
+   - Prefer fewer but higher-confidence axioms
+   - Keep results logically coherent
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[{"term":"applies","type":"Property"},{"term":"includes","type":"Property"},{"term":"handles","type":"Property"},{"term":"incorporates","type":"Property"},{"term":"TrafficSimulator","type":"Class"},{"term":"ConvexCoverageSet","type":"Class"},{"term":"PreferenceAwarePolicySelection","type":"Class"},{"term":"OpenSource","type":"Class"},{"term":"TrafficDecisionMaking","type":"Class"},{"term":"sumo","type":"Instance"},{"term":"SUMO","type":"Class"},{"term":"VehicleDynamics","type":"Class"},{"term":"HighwaySegment","type":"Class"},{"term":"MixedTraffic","type":"Class"},{"term":"PassengerCar","type":"Class"},{"term":"EgoVehicle","type":"Class"},{"term":"TractorSemitrailer","type":"Class"},{"term":"MovingWindow","type":"Class"},{"term":"Boundary","type":"Class"},{"term":"TrafficDensity","type":"Class"},{"term":"CongestionLevel","type":"Class"},{"term":"TrafficModeling","type":"Class"},{"term":"MultiObjectiveMarkovDecisionProcess","type":"Class"},{"term":"Tuple","type":"Class"},{"term":"StateSpace","type":"Class"},{"term":"ActionSpace","type":"Class"},{"term":"TransitionProbabilityDistribution","type":"Class"},{"term":"Reward","type":"Class"},{"term":"DiscountFactor","type":"Class"},{"term":"StateActionPair","type":"Class"},{"term":"ValueFunction","type":"Class"},{"term":"ParetoDominance","type":"Class"},{"term":"NonDominatedValueVector","type":"Class"},{"term":"ScalarizationFunction","type":"Class"},{"term":"UtilityFunction","type":"Class"}]
+
+Triples:
+[{"subject":"TrafficDecisionMaking","relation":"studies","object":"TacticalDecisionMaking"},{"subject":"TacticalDecisionMaking","relation":"forVehicleType","object":"HeavyDutyTruck"},{"subject":"TacticalDecisionMaking","relation":"occursIn","object":"StochasticHighwayEnvironment"},{"subject":"TacticalDecisionMaking","relation":"balances","object":"Safety"},{"subject":"TacticalDecisionMaking","relation":"balances","object":"TimeEfficiency"},{"subject":"TacticalDecisionMaking","relation":"balances","object":"EnergyEfficiency"},{"subject":"TrafficEnvironment","relation":"implementedUsing","object":"sumo"},{"subject":"sumo","relation":"expandsTo","object":"SimulationOfUrbanMobility"},{"subject":"sumo","relation":"provides","object":"VehicleDynamics"},{"subject":"Simulation","relation":"consistsOf","object":"ThreeLaneHighwaySegment"},{"subject":"ThreeLaneHighwaySegment","relation":"populatedBy","object":"MixedTraffic"},{"subject":"MixedTraffic","relation":"includes","object":"PassengerCar"},{"subject":"MixedTraffic","relation":"includes","object":"Truck"},{"subject":"EgoVehicle","relation":"modeledAs","object":"TractorSemitrailerCombination"},{"subject":"TractorSemitrailerCombination","relation":"has","object":"RealisticDynamics"},{"subject":"MovingWindow","relation":"usedFor","object":"StationaryTrafficDistribution"},{"subject":"StationaryTrafficDistribution","relation":"locatedAround","object":"EgoVehicle"},{"subject":"Vehicle","relation":"respawnedAt","object":"Boundary"},{"subject":"TrafficDensity","relation":"variedAcross","object":"Experiment"},{"subject":"TrafficDensity","relation":"assesses","object":"Robustness"},{"subject":"Robustness","relation":"evaluatedUnder","object":"CongestionLevel"},{"subject":"DecisionProblem","relation":"formulatedAs","object":"MultiObjectiveMarkovDecisionProcess"},{"subject":"MultiObjectiveMarkovDecisionProcess","relation":"definedBy","object":"MDPComponentTuple"},{"subject":"MDPComponentTuple","relation":"hasComponent","object":"StateSpace"},{"subject":"MDPComponentTuple","relation":"hasComponent","object":"ActionSpace"},{"subject":"MDPComponentTuple","relation":"hasComponent","object":"TransitionProbabilityDistribution"},{"subject":"MDPComponentTuple","relation":"hasComponent","object":"DiscountFactor"},{"subject":"MDPComponentTuple","relation":"hasComponent","object":"RewardVector"},{"subject":"TransitionProbabilityDistribution","relation":"definesNextStateGiven","object":"StateActionPair"},{"subject":"RewardVector","relation":"hasForm","object":"VectorValued"},{"subject":"RewardVector","relation":"hasComponentFor","object":"Objective"},{"subject":"AgentExperience","relation":"consistsOf","object":"Transition"},{"subject":"Transition","relation":"includes","object":"RewardVector"},{"subject":"RewardVector","relation":"quantifies","object":"ObjectiveContribution"},{"subject":"DiscountFactor","relation":"hasRange","object":"unitIntervalHalfOpen"}]

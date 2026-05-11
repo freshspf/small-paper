@@ -1,0 +1,142 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument20
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+Lambert, “V oxel-grid based convex decomposition of
+3D space for safe corridor generation,”Journal of Intelligent & Robotic
+Systems, vol. 105, no. 4, p. 87, 2022.
+[61] J. Arrizabalaga, Z. Manchester, and M. Ryll, “Differentiable collision-
+free parametric corridors,” in2024 IEEE International Conference on
+Intelligent Robots and Systems (IROS), 2024, pp. 1839–1846.
+[62] V . Kurtz and H. Lin, “Temporal logic motion planning with convex
+optimization via graphs of convex sets,”IEEE Transactions on Robotics,
+vol. 39, no. 5, pp. 3791–3804, 2023.
+[63] Y . Suh, J. Kang, and D. Lee, “A fast and safe motion planning algorithm
+in cluttered environment using maximally occupying convex space,” in
+2020 20th International Conference on Control, Automation and Systems
+(ICCAS), 2020, pp. 173–178.
+[64] J. Tordesillas, B. T. Lopez, M. Everett, and J. P. How, “FASTER: Fast
+and safe trajectory planner for navigation in unknown environments,”
+IEEE Transactions on Robotics, vol. 38, no. 2, pp. 922–938, 2021.
+[65] H. Dai, A. Amice, P. Werner, A. Zhang, and R. Tedrake, “Certified
+polyhedral decompositions of collision-free configuration space,”The
+International Journal of Robotics Research, vol. 43, no. 9, pp. 1322–
+1341, 2024.
+[66] T. Oelerich, C. Hartl-Nesic, F. Beck, and A. Kugi, “Boundplanner: A
+convex-set-based approach to bounded manipulator trajectory planning,”
+IEEE Robotics and Automation Letters, vol. 10, no. 6, pp. 5393–5400,
+2025.
+[67] R. Deits and R. Tedrake, “Efficient mixed-integer planning for uavs
+in cluttered environments,” in2015 IEEE International Conference on
+Robotics and Automation (ICRA), 2015, pp. 42–49.[68] D. Mellinger and V . Kumar, “Minimum snap trajectory generation and
+control for quadrotors,” in2011 IEEE International Conference on
+Robotics and Automation (ICRA), 2011, pp. 2520–2525.
+[69] J. Ma, Z. Cheng, X. Zhang, M. Tomizuka, and T. H. Lee, “Alternat-
+ing direction method of multipliers for constrained iterative LQR in
+autonomous driving,”IEEE Transactions on Intelligent Transportation
+Systems, vol. 23, no. 12, pp. 23 031–23 042, 2022.
+[70] A. Thirugnanam, J. Zeng, and K. Sreenath, “Safety-critical control and
+planning for obstacle avoidance between polytopes with control barrier
+functions,” in2022 IEEE International Conference on Robotics and
+Automation (ICRA), 2022, pp. 286–292.
+[71] J. Tordesillas and J. P. How, “MADER: Trajectory planner in multiagent
+and dynamic environments,”IEEE Transactions on Robotics, vol. 38,
+no. 1, pp. 463–476, 2022.
+[72] S. H. Nair, E. H. Tseng, and F. Borrelli, “Collision avoidance for
+dynamic obstacles with uncertain predictions using model predictive
+control,” in2022 IEEE 61st Conference on Decision and Control (CDC),
+2022, pp. 5267–5272.
+[73] A. Mari ´c, Y . Li, and S. Calinon, “Online learning of continuous
+signed distance fields using piecewise polynomials,”IEEE Robotics and
+Automation Letters, vol. 9, no. 6, pp. 6020–6026, 2024.
+[74] J. J. Park, P. Florence, J. Straub, R. Newcombe, and S. Lovegrove,
+“DeepSDF: Learning continuous signed distance functions for shape
+representation,” in2019 IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR), 2019, pp. 165–174.
+[75] H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, “V oxblox:
+Incremental 3D Euclidean signed distance fields for on-board mav
+planning,” in2017 IEEE International Conference on Intelligent Robots
+and Systems (IROS), 2017, pp. 1366–1373.
+[76] X. Zhong, Y . Pan, J. Behley, and C. Stachniss, “SHINE-mapping:
+Large-scale 3D mapping using sparse hierarchical implicit neural rep-
+resentations,” in2023 IEEE International Conference on Robotics and
+Automation (ICRA), 2023, pp. 8371–8377.
+[77] J. Ortiz, A. Clegg, J. Dong, E. Sucar, D. Novotny, M. Zollhoefer, and
+M. Mukadam, “iSDF: Real-time neural signed distance fields for robot
+perception,” inRobotics: Science and Systems (RSS), 2022.
+[78] M. Bhardwaj, B. Sundaralingam, A. Mousavian, N. D. Ratliff, D. Fox,
+F. Ramos, and B. Boots, “STORM: An integrated framework for
+fast joint-space model-predictive control for reactive manipulation,” in
+Conference on Robot Learning (CoRL), 2022, pp. 750–759.
+[79] V . Vasilopoulos, S. Garg, J. Huh, B. Lee, and V . Isler, “HIO-SDF:
+Hierarchical incremental online signed distance fields,” in2024 IEEE
+International Conference on Robotics and Automation (ICRA), 2024,
+pp. 17 537–17 543.
+[80] M. Koptev, N. Figueroa, and A. Billard, “Reactive collision-free motion
+generation in joint space via dynamical systems and sampling-based
+MPC,”The International Journal of Robotics Research, vol. 43, no. 13,
+pp. 2049–2069, 2024.
+[81] B. Liu, G. Jiang, F. Zhao, and X. Mei, “Collision-free motion generation
+based on stochastic optimization and composite signed distance field
+networks of articulated robot,”IEEE Robotics and Automation Letters,
+vol. 8, no. 11, pp. 7082–7089, 2023.
+[82] X. Zhu, Y . Xin, S. Li, H. Liu, C. Xia, and B.

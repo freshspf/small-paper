@@ -1,0 +1,144 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument6",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument6
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+Ex-
+isting methods address this in two principal ways: kinematic-
+chain-based models explicitly propagate fixed link-wise SDFs
+through forward kinematics, whereas end-to-end learning ap-
+proaches embed geometry and kinematics into a single joint-
+dependent distance function. Methods such as [42], [81], [82],
+
+5
+[83] explicitly encode link geometries and compose them
+along the known kinematic chain, preserving geometric fidelity
+and yielding well-structured derivatives from task space to
+joint space, which is advantageous in scenarios with tight
+clearances and detailed contact reasoning. In contrast, end-
+to-end neural approaches learn a single implicit model that
+maps joint configurations and workspace points directly to
+distances and gradients [40], [41]. These models trade some
+geometric accuracy for highly efficient, uniform inference,
+making them suitable for high-frequency reactive control and
+large-scale motion generation where many distance queries
+must be evaluated online. In both cases, representing the robot
+as a distance field yields a unified, differentiable representation
+for reasoning about self-collision, contact, and clearance.
+While most distance-field methods operate in task space,
+there is increasing interest in lifting distance reasoning directly
+to configuration space. CDF [43] defines a scalar field over
+joint configurations, where the value at each configuration
+equals the minimal joint motion required to reach the col-
+lision manifold, with its gradient providing the corresponding
+avoidance direction. In contrast to task-space SDFs, CDF
+satisfies an eikonal property in configuration space: its level
+sets are uniformly spaced, and its gradient has unit norm and
+consistently points away from the collision set. This eliminates
+distortions or vanishing gradients induced by the nonlinear
+mapping between task space and joint space, and enables one-
+step gradient projection for inverse kinematics. Consequently,
+motion generation schemes built around distance fields can
+be applied directly in joint space by replacing a workspace
+SDF with a joint-space CDF. Building on this idea, subsequent
+work has leveraged CDF for motion planning and control by
+integrating it with barrier-function formulations [84], gradient-
+based trajectory optimization [85], and model predictive path
+integral control [86], highlighting CDF as an effective rep-
+resentation for efficient and safe motion generation in joint
+space. However, these approaches focus primarily on fixed-
+base manipulators, and CDF for mobile manipulators where
+the configuration space couples Euclidean base motion with
+joint orientations, have not yet been systematically explored.
+Moreover, efficient and robust numerical solvers capable of
+handling such structured, implicitly defined constraints are still
+lacking, limiting the practicality of existing methods.
+III. NEURALCONFIGURATIONSPACEDISTANCEFIELD
+FORMOBILEMANIPULATORS
+A. Preliminaries
+Let us first recall the original definition of CDF.
+1) Signed Distance Field:Before introducing the definition
+of CDF, we first examine SDF, a widely adopted concept in
+collision checking and avoidance tasks, as it helps illuminate
+the advantages of CDF.
+SDF was originally defined in task space as the distance
+from a query pointpto the boundary of a setΩ, with positive
+and negative signs indicating whether the point lies outside
+or insideΩ, respectively. As illustrated in Fig. 2-left, this
+concept has been extended to represent the distance betweena workspace pointpand the robot surface, denoted as∂r, at
+a given configurationq:
+fs(p,q) =±min
+p′∈∂r(q)∥p′−p∥.(1)
+While the signed distancef smaintains Euclidean properties in
+workspace (or task space), the forward kinematics embedded
+in the manifold constraintp′∈∂r(q)introduces significant
+nonlinearity in configuration space, where the optimization is
+conducted.
+풑′
+풑
+풒 풒풒′풑퐒퐃퐅 퐂퐃퐅
+푓￿
+푓￿=||풑￿−풑|| 푓￿=||풒￿−풒||푓￿
+Fig. 2: Illustration of SDF (left) and CDF (right) for a
+query pointpat configurationq. SDF measures the task-
+space distance frompto the nearest pointp′on the robot
+surface, as defined in (1). In contrast, CDF measures the
+configuration-space (angular) distance fromqto the nearest
+contact configurationq′on the zero-level set induced byp, as
+defined in (3).
+2) Configuration Space Distance Field:We now present
+the concept of CDF. In contrast to the minimum distance in
+task space as defined in (1), CDF is defined as the minimum
+distance in configuration space. Specifically, for an articulated
+robotic system with pure rotational joints, this represents the
+minimum distance in radius [43], as illustrated in Fig. 2-right.
+First, we define the zero-level configuration set for a given
+workspace pointpas:
+Z(p) ={q|f s(p,q) = 0},(2)
+where, based on the SDF definition in (1),Zrepresents the
+set of all configurations whereplies on the robot surface.

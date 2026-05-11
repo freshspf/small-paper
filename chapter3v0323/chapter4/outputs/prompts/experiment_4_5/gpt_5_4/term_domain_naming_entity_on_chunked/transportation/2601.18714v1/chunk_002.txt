@@ -1,0 +1,90 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+["MinkUNeXt","MatryoshkaRepresentationLearning","TrainingStrategy","EmbeddingSize","DescriptorSlice","OutputDescriptor","RealTimeDeployment","AgriculturalLocalization","LightweightLPRNetwork","AgriculturalRobotics","MultiLossStrategy","ArchitecturalSimplification","LowDimensionalDescriptor","RealTimeConstraint","ReducedLayerComplexity","DescriptorDimensionality","PruningStrategy","LivoxLiDARSensor","LowCostInputData","LowResolutionInputData","CrossSeasonScenario","Month","PhenologicalCycle","Benchmark","LongTermVineyardDataset","VelodyneLiDARSensor","Uniformity","CropDevelopmentalStage","VegetationDensity","RobotFieldOfVision","VineyardRow","VisionLocalization","PathDetectionFramework","RGBDImageSource","Traversability","LocalizationSolution","VineyardRowEndLocation","DepthMap","MobileNet","Object"]
+
+Triples:
+[{"subject":"MinkUNeXtVINE","relation":"prunes","object":"inefficient_layer"},{"subject":"MinkUNeXtVINE","relation":"enforces","object":"lower_dimensional_output"},{"subject":"pruning_inefficient_layer","relation":"lowers","object":"parameter_count"},{"subject":"pruning_inefficient_layer","relation":"lowers","object":"latency"},{"subject":"MinkUNeXtVINE","relation":"coupledWith","object":"MatryoshkaRepresentationLearning"},{"subject":"MatryoshkaRepresentationLearning","relation":"isA","object":"TrainingStrategy"},{"subject":"MatryoshkaRepresentationLearning","relation":"enforcesStructureAt","object":"EmbeddingSize"},{"subject":"MatryoshkaRepresentationLearning","relation":"uses","object":"weighted_summation_of_descriptor_slice"},{"subject":"weighted_summation_of_descriptor_slice","relation":"actsOn","object":"DescriptorSlice"},{"subject":"resulting_framework","relation":"offers","object":"scalable_solution"},{"subject":"resulting_framework","relation":"offers","object":"efficient_solution"},{"subject":"resulting_framework","relation":"designedFor","object":"RealTimeDeployment"},{"subject":"resulting_framework","relation":"usedFor","object":"AgriculturalLocalization"},{"subject":"MinkUNeXtVINE","relation":"isA","object":"LightweightLPRNetwork"},{"subject":"LightweightLPRNetwork","relation":"designedFor","object":"AgriculturalRobotics"},{"subject":"MinkUNeXtVINE","relation":"leverages","object":"MultiLossStrategy"},{"subject":"MinkUNeXtVINE","relation":"leverages","object":"ArchitecturalSimplification"},{"subject":"MinkUNeXtVINE","relation":"produces","object":"LowDimensionalDescriptor"},{"subject":"LowDimensionalDescriptor","relation":"suitableFor","object":"RealTimeConstraint"},{"subject":"analysis","relation":"investigates","object":"synergy_between_mrl_and_reduced_layer_complexity"},{"subject":"analysis","relation":"investigates","object":"DescriptorDimensionality"},{"subject":"PruningStrategy","relation":"provesEffectiveFor","object":"LivoxLiDARSensor"},{"subject":"LivoxLiDARSensor","relation":"hasCostLevel","object":"low_cost"},{"subject":"LivoxLiDARSensor","relation":"hasResolutionLevel","object":"low_resolution"},{"subject":"MinkUNeXtVINE","relation":"validatedIn","object":"CrossSeasonScenario"},{"subject":"CrossSeasonScenario","relation":"testsRobustnessOf","object":"MinkUNeXtVINE"},{"subject":"CrossSeasonScenario","relation":"spans","object":"Month"},{"subject":"CrossSeasonScenario","relation":"spans","object":"Season"},{"subject":"Month","relation":"conformsTo","object":"PhenologicalCycle"},{"subject":"Benchmark","relation":"covers","object":"LiDARPlaceRecognition"},{"subject":"Benchmark","relation":"uses","object":"LongTermVineyardDataset"},{"subject":"comparison","relation":"evaluatesImpactOf","object":"MinkUNeXtVINE"},{"subject":"comparison","relation":"compares","object":"LivoxLiDARSensor"},{"subject":"comparison","relation":"compares","object":"VelodyneLiDARSensor"},{"subject":"AgriculturalEnvironment","relation":"characterizedBy","object":"Uniformity"},{"subject":"AgriculturalEnvironment","relation":"characterizedBy","object":"seasonal_variability"},{"subject":"AgriculturalEnvironment","relation":"undergoesChangeBy","object":"CropDevelopmentalStage"},{"subject":"high_vegetation_density","relation":"occursWithin","object":"field"},{"subject":"high_vegetation_density","relation":"impedes","object":"robotic_vision_system_functionality"},{"subject":"VineyardEnvironment","relation":"characterizedBy","object":"dense_foliage"}]

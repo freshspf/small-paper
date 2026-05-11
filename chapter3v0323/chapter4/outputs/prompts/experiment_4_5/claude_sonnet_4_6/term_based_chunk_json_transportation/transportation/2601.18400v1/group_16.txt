@@ -1,0 +1,256 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "blockchain_solana",
+  "isInstanceOf",
+  "Layer1Blockchain",
+  "generates",
+  "NetworkTraffic",
+  "TransportProtocol",
+  "impacts",
+  "Bandwidth",
+  "BlockPropagationStrategy",
+  "protocol_polling",
+  "protocol_webSockets",
+  "consumesMoreBandwidthThan",
+  "blockchain_algorand",
+  "impactedBy",
+  "Redundancy",
+  "blockchain_aptos",
+  "suffersFrom",
+  "IdleOverhead",
+  "scalesWith",
+  "NetworkSize",
+  "ValidatorCount",
+  "blockchain_redbelly",
+  "project_250101739",
+  "supportedBy",
+  "funding_arcDiscoveryProject",
+  "BlockchainTechnology",
+  "NetworkingProtocol",
+  "BandwidthConsumption",
+  "Validator",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Algorand",
+  "Aptos",
+  "Avalanche",
+  "Redbelly",
+  "Solana",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap",
+  "RedundancyStrategy",
+  "CommunicationPattern",
+  "PollingProtocol",
+  "WebSocketProtocol",
+  "FullBlockDownload",
+  "HashComparison",
+  "RoleSegregation",
+  "NetworkRobustness",
+  "BlockchainProtocol",
+  "BlockchainNetwork",
+  "AlgorandNetwork",
+  "AvalancheNetwork",
+  "AptosNetwork",
+  "RedbellyNetwork",
+  "SolanaNetwork",
+  "Node",
+  "ConsensusProtocol",
+  "GossipProtocol",
+  "TCPConnection",
+  "UDPProtocol",
+  "QUICProtocol",
+  "WebSocket",
+  "Transaction",
+  "Block",
+  "Mempool",
+  "Proposer",
+  "Leader",
+  "Stake"
+]
+
+Triples:
+[
+  {
+    "subject": "blockchain_solana",
+    "relation": "isInstanceOf",
+    "object": "Layer1Blockchain",
+    "chunk": "conclusion",
+    "context": "To this end, we measured empirically the traffic of five major layer-1 blockchains Algorand, Aptos, Avalanche, Redbelly, and Solana."
+  },
+  {
+    "subject": "Layer1Blockchain",
+    "relation": "generates",
+    "object": "NetworkTraffic",
+    "chunk": "conclusion",
+    "context": "To this end, we measured empirically the traffic of five major layer-1 blockchains Algorand, Aptos, Avalanche, Redbelly, and Solana."
+  },
+  {
+    "subject": "TransportProtocol",
+    "relation": "impacts",
+    "object": "Bandwidth",
+    "chunk": "conclusion",
+    "context": "Our results show that transport protocols (polling vs. WebSockets) and block propagation strategies impact bandwidth more than transaction size."
+  },
+  {
+    "subject": "BlockPropagationStrategy",
+    "relation": "impacts",
+    "object": "Bandwidth",
+    "chunk": "conclusion",
+    "context": "Our results show that transport protocols (polling vs. WebSockets) and block propagation strategies impact bandwidth more than transaction size."
+  },
+  {
+    "subject": "protocol_polling",
+    "relation": "isInstanceOf",
+    "object": "TransportProtocol",
+    "chunk": "conclusion",
+    "context": "Our results show that transport protocols (polling vs. WebSockets) and block propagation strategies impact bandwidth more than transaction size."
+  },
+  {
+    "subject": "protocol_webSockets",
+    "relation": "isInstanceOf",
+    "object": "TransportProtocol",
+    "chunk": "conclusion",
+    "context": "Our results show that transport protocols (polling vs. WebSockets) and block propagation strategies impact bandwidth more than transaction size."
+  },
+  {
+    "subject": "blockchain_solana",
+    "relation": "consumesMoreBandwidthThan",
+    "object": "blockchain_algorand",
+    "chunk": "conclusion",
+    "context": "Solana consumes up to 58% more bandwidth than Algorand due to redun- dancy, while Aptos suffers from high idle overhead."
+  },
+  {
+    "subject": "blockchain_solana",
+    "relation": "impactedBy",
+    "object": "Redundancy",
+    "chunk": "conclusion",
+    "context": "Solana consumes up to 58% more bandwidth than Algorand due to redun- dancy, while Aptos suffers from high idle overhead."
+  },
+  {
+    "subject": "blockchain_aptos",
+    "relation": "suffersFrom",
+    "object": "IdleOverhead",
+    "chunk": "conclusion",
+    "context": "Solana consumes up to 58% more bandwidth than Algorand due to redun- dancy, while Aptos suffers from high idle overhead."
+  },
+  {
+    "subject": "blockchain_solana",
+    "relation": "scalesWith",
+    "object": "NetworkSize",
+    "chunk": "conclusion",
+    "context": "Cru- cially, Solana scales with network size, whereas Algorand and Redbelly scale with validator count."
+  },
+  {
+    "subject": "blockchain_algorand",
+    "relation": "scalesWith",
+    "object": "ValidatorCount",
+    "chunk": "conclusion",
+    "context": "Cru- cially, Solana scales with network size, whereas Algorand and Redbelly scale with validator count."
+  },
+  {
+    "subject": "blockchain_redbelly",
+    "relation": "scalesWith",
+    "object": "ValidatorCount",
+    "chunk": "conclusion",
+    "context": "Cru- cially, Solana scales with network size, whereas Algorand and Redbelly scale with validator count."
+  },
+  {
+    "subject": "project_250101739",
+    "relation": "supportedBy",
+    "object": "funding_arcDiscoveryProject",
+    "chunk": "conclusion",
+    "context": "This research is supported under Australian Research Council Discovery Project funding scheme (project num- ber 250101739) entitled “Fair Ordering of Decentralised Access to Resources”."
+  }
+]

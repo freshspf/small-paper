@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "process_heating",
+  "enhances",
+  "protein_intraneuronal_amyloid_beta42",
+  "chemical_formic_acid",
+  "counteracts",
+  "system_ubiquitin_proteasome",
+  "regulates",
+  "process_skeletal_muscle_homeostasis",
+  "pathology_skeletal_muscle_atrophy",
+  "therapy_amyloid_beta_based",
+  "treats",
+  "disease_alzheimers_disease",
+  "chemical_oligomers",
+  "impairs",
+  "cellular_component_proteasome",
+  "associatedWith",
+  "disease_neurodegenerative_disease",
+  "chemical_molecular_glue_degrader",
+  "targets",
+  "protein_nf_kappab",
+  "enzyme_e3_ligases",
+  "implicatedIn",
+  "chemical_tools",
+  "modulates",
+  "technology_artificial_intelligence",
+  "assists",
+  "process_drug_screening",
+  "usedIn",
+  "process_drug_discovery",
+  "substance_extracellular_polymeric_substances",
+  "originatesFrom",
+  "biological_entity_endodontic_biofilms",
+  "chemical_vascular_endothelial_growth_factor_receptor_2_inhibitors",
+  "inhibits",
+  "protein_vascular_endothelial_growth_factor_receptor_2",
+  "chemical_histamine_h1_inhibitors",
+  "protein_histamine_h1",
+  "intracellular_amyloid_beta",
+  "interactsToxicallyWith",
+  "apolipoprotein_e",
+  "host_micro_rna",
+  "virus",
+  "natural_compound",
+  "human_complement_component_5a_receptor",
+  "eosinopenia",
+  "indicatesPrognosisFor",
+  "copd_exacerbation",
+  "neutrophil_to_lymphocyte_count_ratio",
+  "von_hippel_lindau",
+  "functionsAs",
+  "e3_ligase",
+  "cereblon",
+  "mouse_double_minute_2_homolog",
+  "binding_site",
+  "locatedOn",
+  "amyloid_beta_42_peptide",
+  "BindingPocket",
+  "guides",
+  "StructureBasedLigandDesign",
+  "AlzheimerDisease",
+  "AmyloidBeta42",
+  "SynapticDysfunction",
+  "Neurodegeneration",
+  "IntracellularAmyloidBeta42",
+  "DiseaseProgression",
+  "MolecularGlue",
+  "UbiquitinProteasomeSystem",
+  "E3Ligase",
+  "Crbn",
+  "Vhl",
+  "Mdm2",
+  "CognitiveDecline",
+  "NeuronalLoss",
+  "AmyloidBeta42Peptide",
+  "AmyloidPrecursorProtein",
+  "BetaSecretase",
+  "GammaSecretase",
+  "IntracellularDeposit",
+  "ExtracellularAmyloidPlaque",
+  "NeuronalDeath"
+]
+
+Triples:
+[
+  {
+    "subject": "process_heating",
+    "relation": "enhances",
+    "object": "protein_intraneuronal_amyloid_beta42",
+    "chunk": "completedocument11",
+    "context": "17. Ohyagi, Y.; Tsuruta, Y.; Motomura, K.; Miyoshi, K.; Kikuchi, H.; Iwaki, T.; Taniwaki, T.; Kira, J. Intraneuronal amyloid beta42 enhanced by heating but counteracted by formic acid."
+  },
+  {
+    "subject": "chemical_formic_acid",
+    "relation": "counteracts",
+    "object": "protein_intraneuronal_amyloid_beta42",
+    "chunk": "completedocument11",
+    "context": "17. Ohyagi, Y.; Tsuruta, Y.; Motomura, K.; Miyoshi, K.; Kikuchi, H.; Iwaki, T.; Taniwaki, T.; Kira, J. Intraneuronal amyloid beta42 enhanced by heating but counteracted by formic acid."
+  },
+  {
+    "subject": "system_ubiquitin_proteasome",
+    "relation": "regulates",
+    "object": "process_skeletal_muscle_homeostasis",
+    "chunk": "completedocument11",
+    "context": "18. Kitajima, Y.; Yoshioka, K.; Suzuki, N. The ubiquitin -proteasome system in regulation of the skeletal muscle homeostasis and atrophy: from basic science to disorders."
+  },
+  {
+    "subject": "system_ubiquitin_proteasome",
+    "relation": "regulates",
+    "object": "pathology_skeletal_muscle_atrophy",
+    "chunk": "completedocument11",
+    "context": "18. Kitajima, Y.; Yoshioka, K.; Suzuki, N. The ubiquitin -proteasome system in regulation of the skeletal muscle homeostasis and atrophy: from basic science to disorders."
+  },
+  {
+    "subject": "therapy_amyloid_beta_based",
+    "relation": "treats",
+    "object": "disease_alzheimers_disease",
+    "chunk": "completedocument11",
+    "context": "19. Zhang, Y.; Chen, H.; Li, R.; Sterling, K.; Song, W. Amyloid β -based therapy for Alzheimer’s disease: challenges, successes and future."
+  },
+  {
+    "subject": "chemical_oligomers",
+    "relation": "impairs",
+    "object": "cellular_component_proteasome",
+    "chunk": "completedocument12",
+    "context": "A common mechanism of proteasome impairment by neurodegenerative disease -associated oligomers."
+  },
+  {
+    "subject": "chemical_oligomers",
+    "relation": "associatedWith",
+    "object": "disease_neurodegenerative_disease",
+    "chunk": "completedocument12",
+    "context": "A common mechanism of proteasome impairment by neurodegenerative disease -associated oligomers."
+  },
+  {
+    "subject": "chemical_molecular_glue_degrader",
+    "relation": "targets",
+    "object": "protein_nf_kappab",
+    "chunk": "completedocument12",
+    "context": "Chemoproteomics -enabled discovery of a covalent molecular glue degrader targeting NF -kappaB."
+  },
+  {
+    "subject": "enzyme_e3_ligases",
+    "relation": "implicatedIn",
+    "object": "disease_alzheimers_disease",
+    "chunk": "completedocument12",
+    "context": "Exploration of Aberrant E3 Ligases Implicated in Alzheimer's Disease and Development of Chemical Tools to Modulate Their Function."
+  },
+  {
+    "subject": "chemical_tools",
+    "relation": "modulates",
+    "object": "enzyme_e3_ligases",
+    "chunk": "completedocument12",
+    "context": "Exploration of Aberrant E3 Ligases Implicated in Alzheimer's Disease and Development of Chemical Tools to Modulate Their Function."
+  },
+  {
+    "subject": "technology_artificial_intelligence",
+    "relation": "assists",
+    "object": "process_drug_screening",
+    "chunk": "completedocument12",
+    "context": "Advances in Artificial Intelligence (AI) -assisted approaches in drug screening."
+  },
+  {
+    "subject": "technology_artificial_intelligence",
+    "relation": "usedIn",
+    "object": "process_drug_discovery",
+    "chunk": "completedocument12",
+    "context": "Artificial intelligence in drug discovery and development."
+  },
+  {
+    "subject": "substance_extracellular_polymeric_substances",
+    "relation": "originatesFrom",
+    "object": "biological_entity_endodontic_biofilms",
+    "chunk": "completedocument12",
+    "context": "Biochemical characterization of extracellular polymeric substances from endodontic biofilms."
+  },
+  {
+    "subject": "chemical_vascular_endothelial_growth_factor_receptor_2_inhibitors",
+    "relation": "inhibits",
+    "object": "protein_vascular_endothelial_growth_factor_receptor_2",
+    "chunk": "completedocument12",
+    "context": "Discovery of Vascular Endothelial Growth Factor Receptor 2 Inhibitors Employing Junction Tree Variational Autoencoder with Bayesian Optimization  and Gradient Ascent."
+  },
+  {
+    "subject": "chemical_histamine_h1_inhibitors",
+    "relation": "inhibits",
+    "object": "protein_histamine_h1",
+    "chunk": "completedocument12",
+    "context": "Generative Molecular Design and Experimental Validation of Selective Histamine H1 Inhibitors."
+  },
+  {
+    "subject": "intracellular_amyloid_beta",
+    "relation": "interactsToxicallyWith",
+    "object": "apolipoprotein_e",
+    "chunk": "completedocument13",
+    "context": "A Toxicogenic Interaction between Intracellular Amyloid -beta and Apolipoprotein -E."
+  },
+  {
+    "subject": "host_micro_rna",
+    "relation": "targets",
+    "object": "virus",
+    "chunk": "completedocument13",
+    "context": "ViTa: prediction of host microRNAs targets on viruses."
+  },
+  {
+    "subject": "natural_compound",
+    "relation": "inhibits",
+    "object": "human_complement_component_5a_receptor",
+    "chunk": "completedocument13",
+    "context": "Identification of novel natural compound inhibitors for human complement component 5a receptor by homology modeling and virtual screening."
+  },
+  {
+    "subject": "eosinopenia",
+    "relation": "indicatesPrognosisFor",
+    "object": "copd_exacerbation",
+    "chunk": "completedocument13",
+    "context": "Eosinopenia and neutrophil -to-lymphocyte count ratio as prognostic factors in exacerbation of COPD."
+  },
+  {
+    "subject": "neutrophil_to_lymphocyte_count_ratio",
+    "relation": "indicatesPrognosisFor",
+    "object": "copd_exacerbation",
+    "chunk": "completedocument13",
+    "context": "Eosinopenia and neutrophil -to-lymphocyte count ratio as prognostic factors in exacerbation of COPD."
+  },
+  {
+    "subject": "von_hippel_lindau",
+    "relation": "functionsAs",
+    "object": "e3_ligase",
+    "chunk": "completedocument13",
+    "context": "Prepared 3D structures of representative E3 ligases used in this study, highlighting bound ligands in green stick representation . (a) von Hippel -Lindau (VHL), (b) Cereblon (CRBN), and (c) Mouse Double Minute 2  homolog (MDM2)."
+  },
+  {
+    "subject": "cereblon",
+    "relation": "functionsAs",
+    "object": "e3_ligase",
+    "chunk": "completedocument13",
+    "context": "Prepared 3D structures of representative E3 ligases used in this study, highlighting bound ligands in green stick representation . (a) von Hippel -Lindau (VHL), (b) Cereblon (CRBN), and (c) Mouse Double Minute 2  homolog (MDM2)."
+  },
+  {
+    "subject": "mouse_double_minute_2_homolog",
+    "relation": "functionsAs",
+    "object": "e3_ligase",
+    "chunk": "completedocument13",
+    "context": "Prepared 3D structures of representative E3 ligases used in this study, highlighting bound ligands in green stick representation . (a) von Hippel -Lindau (VHL), (b) Cereblon (CRBN), and (c) Mouse Double Minute 2  homolog (MDM2)."
+  },
+  {
+    "subject": "binding_site",
+    "relation": "locatedOn",
+    "object": "amyloid_beta_42_peptide",
+    "chunk": "completedocument13",
+    "context": "Predicted binding sites (BS) on the amyloid beta 42 (Aβ42) peptide using Schrödinger SiteMap ."
+  },
+  {
+    "subject": "BindingPocket",
+    "relation": "guides",
+    "object": "StructureBasedLigandDesign",
+    "chunk": "completedocument14",
+    "context": "(d) Atomic -level representation of the selected binding pocket, showing detailed residue arrangement and pocket archit ecture to guide structure -based ligand design."
+  }
+]

@@ -1,0 +1,116 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "results3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: results3
+- section_title: Results
+- page_start: 8
+- page_end: 16
+
+**INPUT TEXT CHUNK:**
+Specifically, in the low false positive rate
+region (FPR < 0.1), SDA-QEC’s true positive rate exceeds 95%, meaning that while
+maintaining high specificity (misclassifying fewer than 10 out of 100 negative samples),
+the model can still detect over 95% of true patients. This characteristic is crucial in
+clinical screening scenarios—screening tasks require minimizing false positives (avoiding
+unnecessary further examinations) while maintaining high sensitivity (avoiding missed
+diagnoses). SDA-QEC’s ROC curve perfectly satisfies this requirement.
+ResNet18’s ROC curve is slightly below SDA-QEC, in a suboptimal position with
+AUC of 0.9844, a gap of only 0.0034. However, its confidence interval is noticeably wider,
+especiallyaroundFPR=0.05,wheretheTPRupperandlowerboundsspanapproximately
+0.05 (from 0.93 to 0.98), indicating ResNet18’s performance is more sensitive to test set
+sample selection. This instability may stem from ResNet18’s larger parameter count
+(approximately 11.2M) exhibiting slight overfitting on small-sample medical datasets,
+leading to greater performance fluctuation across different data subsets.
+MobileNetV2 and DenseNet121’s ROC curves occupy middle positions with AUCs
+of 0.9272 and 0.9506 respectively, with further expanded confidence intervals. Mo-
+bileNetV2’s curve is relatively smooth in the middle threshold region (around FPR=0.2)
+but rises slowly in the low FPR region, indicating insufficient sensitivity under high
+specificity requirements. DenseNet121’s curve presents irregular sawtooth fluctuations,
+reflecting unstable performance at different thresholds. Wide confidence intervals for
+both suggest substantial performance fluctuation under different test set partitions or
+11
+
+data perturbations, making them unsuitable for direct clinical decision-making applica-
+tion.
+VGG16’s ROC curve most closely approximates a random classifier (diagonal dashed
+line) with AUC of only 0.8119 and an extremely wide confidence interval covering the
+range from 0.75 to 0.87. This enormous uncertainty indicates that VGG16’s perfor-
+mance highly depends on specific test sample composition, potentially approaching 0.87
+(marginally acceptable) on some data subsets but dropping as low as 0.75 (approaching
+random) on others, completely failing to meet clinical application stability requirements.
+From curve shape, VGG16 only achieves high TPR (>0.9) in high FPR regions (>0.5),
+meaning the model can only ensure high sensitivity when tolerating large numbers of
+false positives, consistent with extreme bias observed in confusion matrices.
+3.4 Three-DimensionalPerformanceSpaceandMulti-Dimensional
+Radar Chart Comprehensive Evaluation
+Medical image diagnosis task performance evaluation requires comprehensive consid-
+eration of multiple dimensional metrics; a single metric (such as accuracy) often cannot
+fully reflect a model’s clinical applicability. The center panel of Figure 2 displays the
+positions of five models in the Accuracy-AUC-F1 three-dimensional space, where each
+model corresponds to a colored sphere. Sphere size represents standard deviation esti-
+mated through Bootstrap (i.e., performance uncertainty), and sphere position closer to
+the upper-right-rear (high accuracy, high AUC, high F1) indicates better comprehensive
+performance.
+From the 3D performance space in the center of Figure 2, we observe:
+SDA-QEC is located in the upper-right-rear of the space, with all three coordi-
+nate values approaching 1.0 (accuracy 0.9833, AUC 0.9878, F1 0.9833), and the smallest
+sphere, indicating not only top-level achievement across three core metrics but also ex-
+tremely stable performance. The semi-transparent confidence region around the sphere
+(representing1standarddeviationrange)isbarelyvisible, furtherconfirmingSDA-QEC’s
+robustness.
+ResNet18 is positioned near but slightly below SDA-QEC, with coordinate values
+of 0.95, 0.9844, and 0.9499 respectively, and a slightly larger sphere. This indicates
+ResNet18,whilehavingexcellentperformance,isslightlyinferiortoSDA-QECinstability.
+MobileNetV2 and DenseNet121 occupy the middle region of the space, with accura-
+cies of 0.8417 and 0.8083 respectively, and significantly enlarged spheres. DenseNet121’s
+spherenotablysinksintheF1dimension(F1=0.8044), reflectingitsdifficultyinbalancing
+precision and recall.
+VGG16 is located in the lower-left-front of the space, with coordinate values of
+0.6083, 0.8119, and 0.5374 respectively, and the largest, elongated ellipsoidal sphere.
+This extremely large confidence region indicates VGG16’s performance is highly unstable,
+with fluctuations reaching 20-30 percentage points across different test sets, rendering it
+completely unreliable.
+The right panel of Figure 2 presents a seven-dimensional radar chart further expand-
+ing performance evaluation dimensions, including accuracy, AUC, F1, precision, recall,
+sensitivity, and specificity.

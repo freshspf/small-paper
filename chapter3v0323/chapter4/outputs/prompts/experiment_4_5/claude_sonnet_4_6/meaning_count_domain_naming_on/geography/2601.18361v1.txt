@@ -1,0 +1,936 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Integrating HAPS, LEO, and Terrestrial Networks: A
+Cost-Performance Study for IoT Connectivity
+Jean Michel de Souza Sant’Ana, Felipe Augusto Tondo, Nurul Huda Mahmood, Aamir Mahmood.
+Abstract—This work evaluates the potential of High-Altitude
+Platform Stations (HAPS) and Low Earth Orbit (LEO) satellites
+as alternative or complementary systems to enhance Internet
+of Things (IoT) connectivity. We first analyze the transmission
+erasure probability under different connectivity configurations,
+including only HAPS or LEO satellites, as well as hybrid
+architectures that integrate both aerial/spatial and terrestrial
+infrastructures. To make the analysis more realistic, we con-
+sidered movement of LEO satellites regarding a fixed region,
+elevation angle between gateway and devices, and different fading
+models for terrestrial and non-terrestrial communication. We
+also analyze LR-FHSS (Long-Range Frequency Hopping Spread
+Spectrum) random access uplink technology as a potential use
+case for IoT connectivity, showing the scalability impact of the
+scenarios. The simulation results demonstrate that HAPS can
+effectively complement sparse terrestrial networks and improve
+the performance of satellite-based systems in specific scenarios.
+Furthermore, considering the deployment and operational costs,
+respectively, CAPEX and OPEX, the economic analysis reveals
+that although HAPS exhibits higher costs, these remain within a
+comparable order of magnitude to LEO and terrestrial deploy-
+ments. In addition, specific use cases, such as natural disasters,
+transform HAPS into a competitive technology for conventional
+infrastructures.
+Keywords—Internet of Things (IoT), Non-terrestrial networks
+(NTNs), High-Altitude Platform Stations (HAPS), Low Earth Orbit
+(LEO) satellite.
+I. INTRODUCTION
+Expanding Internet of Things (IoT) connectivity to remote
+and underserved regions remains a major challenge to achieve
+global digital inclusion [1]. Areas lacking basic network infras-
+tructure, due to geographic, economic, or political constraints,
+require alternative connectivity solutions that can establish
+connectivity where none exists or enhance and complement
+existing systems. Typical applications include herd and wildlife
+tracking [2], forest fire detection [3], agricultural and aquacul-
+ture monitoring, offshore ship tracking [4], and cargo moni-
+toring [5].
+J. M. S. Sant’Ana and N. H. Mahmood are with the Cen-
+tre for Wireless Communications (CWC), University of Oulu, Finland
+({Jean.DeSouzaSantana, NurulHuda.Mahmood}@oulu.fi).
+F. A. Tondo is with the Federal University of Santa Catarina (UFSC),
+Florianpolis, SC, Brazil. (felipe.tondo@posgrad.ufsc.br).
+A. Mahmood is with the Department of Computer and Electri-
+cal Engineering, Mid Sweden University, 851 70 Sundsvall, Sweden
+(aamir.mahmood@miun.se).
+This research was partially supported in Finland and Sweden by the
+European Union through the Interreg Aurora project ENSURE-6G (Grant
+Number: 20361812); in Finland by the Research Council of Finland through
+the project 6G Flagship (Grant Number: 369116); and in Brazil by the PIPD
+CAPES-UFSC (88887.103181/2025-00).
+As a potential solution, Low Earth Orbit (LEO) satellites
+offer global coverage and scalability [6]. Their reduced costs
+and recent technological advancements make them an attrac-
+tive option for extending IoT connectivity. They provide wide
+coverage per satellite, and their non-stationary orbits enable
+communication with remote regions. However, a large con-
+stellation is required to ensure continuous service and, in most
+cases, devices must coordinate with the satellites to determine
+when transmission opportunities occur [7]. Furthermore, the
+link budget can restrict device operation, especially in indoor
+environments or areas without line-of-sight, where higher an-
+tenna gains, transmission power, or specific configurations may
+be needed to maintain reliable communication. Furthermore,
+since LEO satellites simultaneously cover large portions of the
+Earth’s surface due to their high orbital altitude, they can lead
+to interference challenges in massive IoT scenarios [8].
+Another alternative for non-terrestrial networks (NTN) is
+the High Altitude Platform (HAPS) mounted network, which
+is a quasi-stationary aerial system operating in the stratosphere,
+typically between 8 and 50 km of altitude [9]. Positioned
+above weather disturbances, yet much closer to the ground
+than satellites, HAPS can provide direct communication links
+to IoT devices with a more favorable link budget and lower
+round trip time (RTT) latencies. These characteristics allow
+for intermittent or regional coverage, eliminate the need for
+gateway synchronization, and offer greater flexibility compared
+to terrestrial base stations (BS). Recent developments, such
+as SoftBank’s Sunglider [10] and Aaltos Zephyr [11], have
+demonstrated the feasibility of multi-week autonomous solar-
+powered operation, with both companies planning to begin
+commercial services in 2026. However, the technology remains
+at an early stage of maturity, with limited large-scale deploy-
+ments and cost structures that are still difficult to estimate.
+In addition, multiple platforms may be required to provide
+coverage in very sparse or geographically dispersed regions.
+In this work, we conduct a comparative evaluation of HAPS
+and LEO satellite systems for IoT connectivity in remote re-
+gions. We also analyze their performance when integrated with
+existing terrestrial infrastructure. Furthermore, both solutions
+are compared to terrestrial networks in sparse and moderately
+deployed gateway scenarios. The main contributions of this
+work are as follows.
+•A simulation framework for comparing HAPS, LEO
+satellites, and terrestrial networks in remote areas, each
+with its own spatial deployment and channel model.
+•An analysis of the success probability for IoT devices
+communicating directly with HAPS and LEO satellites.
+•An evaluation of hybrid scenarios in which a sparse
+terrestrial network is complemented by either a HAPS
+arXiv:2601.18361v1 [cs.NI] 26 Jan 2026
+or a LEO satellite.
+•A cost assessment comparing the deployment of HAPS
+and the utilization of commercial LEO constellation
+services.
+The remainder of this paper is organized as follows. In
+Section II, we present the state of the art literature on HAPS
+and LEO satellite as solutions for remote IoT connectivity. In
+Section III, we present all the aspects and considerations of the
+system model used in this work, while in Section IV, we ana-
+lyze and discuss the simulations and numerical results. Finally,
+we aggregate our thoughts and conclusions in Section V.
+II. LITERATURE ONHAPSANDLEOSATELLITES FOR
+IOT
+HAPS are quasi-stationary aerial communication platforms
+that operate in the stratosphere, typically between 8 and 50
+km in altitude. They provide wide-area wireless coverage
+by hosting cellular BS as transmitters or relays, the first
+of which is particularly interesting for direct-to-device com-
+munication. Moreover, HAPS platforms are either aerostatic
+(e.g., balloons) or aerodynamic (e.g., solar-powered fixed-wing
+aircraft). Real-world trials and commercial initiatives include
+SoftBank (previously by HAPSMobile) [10], Aalto (previously
+by Airbus) [11] and World Mobile (previously by Stratospheric
+Platforms Limited) [12], both of which have demonstrated
+long-endurance flights and high-bandwidth communications.
+For example, SoftBanks Sunglider achieved a multi-week
+stratospheric flight while supporting LTE connectivity. World
+Mobile has demonstrated direct-to-device 5G capability using a
+hydrogen-powered platform. Aalto for example holds a record
+of 67 days flight with its Zephyr platform. These platforms
+are designed for long missions (weeks to months) and integrate
+with terrestrial and satellite networks as part of a multi-layered
+NTN architecture. In terms of deployment, HAPS have been
+studied and proposed for coverage restoration during disasters
+(e.g., Germany floods, Japan earthquake), rural broadband
+in regions like Hokkaido (Japan), and offshore applications
+including cruise ship coverage and remote oil platforms [13].
+The literature on HAPS systems has grown significantly,
+particularly in the context of 6G and NTN integration. The
+authors in [14] provide a comprehensive overview of HAPS as
+a key enabler of vertical heterogeneous networks, emphasizing
+its ability to provide high-capacity, low-latency coverage over
+large areas. The paper outlines how HAPS can serve in
+access and backhaul roles, interacting with both terrestrial and
+satellite layers, and identifies use cases such as emergency
+response, rural broadband, and intelligent transportation. The
+work in [15] focuses on the architectural roles of HAPS in
+the NTN nexus, presenting quantitative analyzes of routing
+latency, coverage probability, and energy efficiency in HAPS-
+assisted ad hoc and cell-free architectures. Their results show
+significant performance improvements when HAPS are used as
+relays or as coordination centers in UA V networks. The HAPS
+Alliance has released a detailed white paper comparing HAPS,
+LEO, and GEO satellite capabilities in terms of link capacity,
+latency, beam coverage, and integration models. It highlights
+that HAPS can offer 550 Gbps throughput at low latency (<10
+ms) and serve over 100 active beams, enabling efficient support
+for large-scale IoT and mobile broadband deployments [13].
+Kurt et al. [9] provide a historical and technical survey of
+HAPS, detailing its evolution from concept to recent trials
+and its potential role as a super macro base station (SMBS).
+They analyze the implications for spectrum management, back-
+haul design, and large-scale deployment feasibility, including
+challenges related to outage probability and energy sourcing.
+Moreover, the work in [16] also mentions the use of HAPS as
+flying BS as a solution for IoT applications in remote regions.
+Several technical works in IoT scenarios focus on the role
+of HAPS as a relay to a backbone, either from terrestrial or
+UA V-mounted gateways [17], [18]. Works regarding HAPS as
+sole BSs are not as common. We can highlight [19], where
+the authors assume a moving HAPS hovering over a certain
+area. They propose a wake-up mechanism to the LoRaW AN
+protocol such that devices transmit whenever the HAPS is in
+coverage and sleep otherwise. Moreover, the authors in [20],
+[21] evaluate the performance of LoRa network considering a
+HAPS-mounted gateway, taking into account several aspects
+such as altitude, transmission power, and collisions between
+transmissions. However, important gaps persist in the literature.
+To the best of our knowledge, only a few studies address HAPS
+for direct IoT communication, and none provide comparative
+analyzes against LEO satellite and terrestrial IoT coverage.
+Furthermore, this is the first work to evaluate coverage in
+combined architectures while also addressing a cost evaluation
+on top of it.
+Low Earth Orbit (LEO) satellites are the most prominent
+component of modern NTNs in the context of IoT, offer-
+ing services from altitudes ranging between 500 and 1,500
+km [22]. Their close proximity to Earth enables round-trip
+latencies in the 25 to 50 ms range, making them suitable
+for a diverse range of IoT applications [6]. This positions
+LEO satellites as a viable alternative to traditional terrestrial
+networks in remote and underserved areas, where other tech-
+nologies are impractical due to higher costs. Different from
+HAPS, there is an extensive literature on LEO satellites for IoT
+scenarios, as well as several private initiatives with commercial
+products, showing it as a much more mature alternative. An
+example is Lacuna Space, which is expanding its satellite IoT
+connectivity with a constellation of sixteen LEOs under the
+agreement with Spire Global Data and Analytics [23]. Despite
+advances in satellite communications, several issues remain
+unresolved or require further investigation for massive IoT
+data collection. For example, due to the satellite speed, the
+Doppler phenomenon may work as a barrier, which compro-
+mises Direct-to-Satellite (DtS) system performance. In [24],
+the authors investigate and propose a novel Doppler solution by
+broadcasting a short Doppler beacon that allows IoT devices to
+estimate and compensate for the Doppler shift before initiating
+the uplink transmission phase. Although the results confirm
+the feasibility of mitigating Doppler effects, several challenges
+remain with regard to key parameters, such as optimal beacon
+design. Following the mobility perspective, temporal synchro-
+nization between IoT devices and satellites is also considered
+a major challenge in DtS-IoT networks [25]. The authors
+in [26] proposed new algorithms that allow IoT devices to
+predict satellite visibility windows without relying on Internet
+connectivity, thus facilitating node-to-satellite synchronization.
+Based on the fact that IoT devices can be aware of satellite
+trajectories, the authors in [27] introduced advanced strategies
+for DtS-IoT using power domain Non-Orthogonal Multiple
+Access (NOMA) in the uplink, with fixed or adaptive transmit
+power. In addition, companies such as Lacuna Space employ
+predictive techniques to mitigate synchronization issues in
+various remote scenarios, including agriculture, environmental
+monitoring, utilities and metering, and maritime connectiv-
+ity [28]. The operational concept assumes that satellites broad-
+cast beacons or control messages to synchronize device timing
+during low-power modes [29]. Another important aspect is
+the design of satellite constellations. The architecture of LEO
+systems is inherently dependent on large-scale constellations
+composed of hundreds to thousands of satellites in coordinated
+orbits [30], [31].
+From an economic perspective, studies have been con-
+ducted to investigate the viability of using LEO satellites
+as a potential solution to connect remote areas. The authors
+in [32] conducted a technical and economic evaluation of these
+three constellations, estimating the cost of a single satellite at
+approximately US$ 0.6 million, US$ 5.6 million, and US$ 3
+million for Starlink, OneWeb, and Kuiper, respectively. It is
+also reasonable to consider that other technologies could be
+integrated into this scenario to provide better communication
+conditions. Moreover, authors in [33] perform a total cost-of-
+ownership (TCO) analysis for three non-terrestrial connectivity
+technologies: LEO satellite constellations, HAPS, and UA Vs.
+The paper highlights that although HAPS has higher upfront
+costs, its longer operational lifetime (20 years vs 5 years
+for LEO satellites) helps narrow the annualized cost gap.
+However, LEO satellites still benefit from being a more mature
+technology and show smaller overall costs.
+III. SYSTEM MODEL
+In this section, we introduce the system model and the
+performance metrics to compare the suitability of HAPS and
+LEO satellites for remote IoT connectivity. Figure 1 illustrates
+an example of several application scenarios, with IoT devices
+transmitting to terrestrial gateways, HAPS, or LEO satellites.
+Further, they would relay the information to a ground station
+backbone or directly to a network server. Note that, for the
+sake of common notation, we show angles, such as elevation
+angle and orbit inclination, in degrees. However, all equations
+are set in radians.
+A. Spatial Deployment Model
+First, we start by modeling the distribution of devices and
+BSs. We assume that theNdevices are distributed at random
+in a circular area of radiusR.
+The HAPS is considered stationary on top of the center of
+the circular region, at altitudeh H. The distance from a given
+deviceiat position(x i, yi)to the HAPS is
+dH =
+i +y 2
+i +h 2
+H,(1)
+assuming that the devices are at ground level(z i = 0).
+Moreover, the elevation angle between the device and HAPS
+is given in radians by
+αH = arcsin
+ hHRe −(x 2
+i +y 2
+i )q 
+i +y 2
+i +R 2e
+i +y 2
+i +h 2
+ ,(2)
+whereR e ≈6.3781×10 6 m is the mean equatorial radius of
+Earth.
+For the satellite, we assume a large enough constellation so
+that there is always one and only one satellite in coverage,
+with a minimum elevation angleα 0. We also assume a fixed
+altitudeh S, orbit inclination ofi o = 60degrees and circular
+orbit. The period in which one satellite is in coverage is called
+a lap. The duration of each lapt c is modeled as a random
+variable, with its PDF given as [34]
+fT (tc) =
+ωcosγ 0 tan(ωtc)
+cos2(ωtc)−cos 2 γ0
+,0< t c ≤T m,
+0,elsewhere,
+(3)
+whereω= (ω s −ω e cos(io))/2, withω s =
+µe/r3
+S is the
+angular velocity of the satellite,µ e = 3.986004418×10 14
+m3/s2 is Earth’s gravitational parameter,r S =h S +R e is the
+satellite altitude from central Earth. Moreover,w e = 2π/Ts is
+Earth’s rotation angular velocity, andT s = 86164.1s is the
+sidereal day time. We also have
+γ0 = arccos
+ Re
+Re +h S
+cosα 0
+−α 0,(4)
+as Earth’s central angle corresponding to the minimum eleva-
+tion angleα 0, whereh S is the satellite altitude. Finally, we
+have thatT m = max(t c) =γ 0/ωas the maximum coverage
+time per satellite lap. With the duration of a lap, we can
+calculate the elevation angle relative to the origin point of
+the circular region as a function of time during the given lap
+t∈(0, t c)as
+αS0(t) = arctan
+rS cos
+2 −ωt c
++γ0 −ωt c
+−Re
+rS sin
+2 −ωt c
++γ 0 −ωt c
+.(5)
+Note that all variables that depend onα S0 are time-dependent,
+but we decided to omit them from now on for the sake of
+clarity. To calculate the performance metrics of a given device,
+we first calculate the satellite position vector as
+xc =h S cos(αS0 cosψ),(6)
+yc =h S cos(αS0 sinψ),(7)
+zc =h S sin(αS0),(8)
+whereψ∼U[0,360)is the azimuth angle at the central point,
+which is different for each satellite lap. Thus, by the Cartesian-
+to-spherical relation, the elevation angle between the satellite
+and a given deviceiat position(x i, yi),
+αS = arctan2
+zcp
+xc −x i)2 + (yc −y i)2
+.(9)
+(a) Terrestrial Network (TN).
+(b) HAPS-based NTN.
+(c) Satellite-based NTN.
+(d) All architectures.
+Figure 1: The illustration of the proposed architectures comprises TNs and NTNs networks, as well as the Ground Station and
+the Network Server components.
+Figure 2: The illustration of the NTN network geometry, which
+is composed by the device coordinates(x i, yi, zi), elevation
+angleα, altitudehand the distanced S.
+Finally, the distance between the satellite and the given device
+dS =
+(xc −x i)2 + (yc −y i)2 +z 2c .(10)
+Figure 2 depicts the basic geometry of the system model.
+Note that although shown as a plane, we take into account
+the effect of a spherical earth when calculating distances and
+angles.
+For the terrestrial network, we assume thatMground BSs
+are deployed in the circular area at random, such that each
+BS is separated by a minimum ofskm. The separation is
+to avoid a concentration of BSs in one unique region, which
+affects the simulation convergence. In addition, we chooses
+small enough so thats/2represents a reasonable distance for
+a communication to occur, so that we do not create artificial
+regions or coverage gaps where communication would fail.
+Finally, we also consider an annular guard region, with inner
+radius ofRand outer radius ofR+R g, where we deployM g
+BSs, so that devices on the border of the circular region do
+not suffer from the border effect. The number of BSs in the
+guard regionM g can be defined as
+Mg = round
+ Rg
+2 + Rg
+,(11)
+so that we maintain the same density of BSs in both regions.
+For simulation tractability, we round it to the nearest integer.
+Given a deviceiand a terrestrial BSj, at positions(x i, yi)
+and(x j, yj), the distance between them is given by
+dTj =
+(xi −x j)2 + (yi −y j)2.(12)
+B. Channel model
+We define two different channel models, one for the HAPS
+and LEO satellite, and another for the terrestrial network. For
+both cases, we assume that all devices use the same transmit
+powerp t and carrier frequencyf c. Thus, the received power
+of a single transmission at the gateway from deviceiis given
+rx =p t g(di)|r| 2,(13)
+whereg(d i)is the distance-dependent path loss andrmodels
+the fading and other effects, both of which depend on whether
+the communication is through a terrestrial network or HAPS
+and LEO satellite.
+For the terrestrial network, we model the path loss with an
+empirical log-normal model from [35] as
+gT =B+ 10ηlog
+ dT
+,(14)
+whered T is the distance from the device to the BS,d 0 is the
+1 km reference distance,Bis the pathloss atd 0, andηis the
+path loss exponent. Moreover, we model a shadow fadingr T
+as a Gaussian with standard deviationσ SF in dB.
+For communication between devices and the HAPS and
+LEO satellite, we consider the free space path loss given as
+g(d) =G tGr
+ λ
+4πd
+,(15)
+whereG t andG r are the antenna gains of the transmitter and
+receiver, respectively, andλ=c/fis the signal wavelength
+withc= 3×10 8 m/s as the speed of light. Note that the
+receiver antenna gain depends on whether we consider HAPS
+(GRH ) or LEO satellite (G RS ).
+We model channel fading for HAPS and LEO satellite
+communicationr H as [36], a shadowed Rice model with
+LOS amplitude characterized by the Nakagami distribution.
+This model is relevant to our scenario, as it accounts for the
+elevation angle’s impact on fading and shadowing. Moreover,
+this model can be approximated by a gamma distribution [37],
+which results in easier mathematical tractability. The PDF of
+|rH |2 is [37]
+f|rH |2(h) =r k−1
+e−rH /θ
+θkΓ(k) ,(16)
+whereΓ(x)is the Gamma function,k= m(2b0+Ω)2
+4mb2
+0+4mb0Ω+Ω2 and
+θ= 4mb2
+0+4mb0Ω+Ω2
+m(2b0+Ω) are the shape and scale parameters, and
+m,b 0 andΩare empirical expression parameters derived as a
+function of the elevation angleα, given as
+b0(α) =−4.7943×10 −8α3 + 5.5784×10 −6α2
+−2.1344×10 −4α+ 3.2710×10 −2
+m(α) = 6.3739×10 −5α3 + 5.8533×10 −4α2
+−1.5973×10 −1α+ 3.5156
+Ω(α) = 1.4428×10 −5α3 −2.3798×10 −3α2
++ 1.2702×10 −1α−1.4864.(17)
+C. Performance metrics
+In this work, we assume LoRaW AN LR-FHSS technology
+to evaluate the performance of the scenarios. LR-FHSS is
+a frequency-hopping uplink scheme in LoRaW AN that uses
+GMSK modulation over 488 Hz physical channels. In our
+case, we consider the European ISM carrier frequency of
+868 MHz, and each transmission hops over 35 such channels
+following a pseudorandom sequence derived from the header
+seed. Each packet contains three header copies, each lasting
+233.472 ms, sent on different physical channels. The payload
+is convolutionally coded at a coding rate ofCR= 1/3and
+split into fragments of 102.4 ms. The number of fragments is
+ b+ 3
+6CR
+,(18)
+which forb= 10bytes andCR= 1/3yieldsf= 7. Devices
+use unslotted ALOHA, randomly selecting a seed and hopping
+to a new physical channel for every header and fragment.
+A receiver that decodes at least one header can reconstruct
+the hop sequence. The packet is successfully decoded if the
+header and at least one third of the fragments (rounded up)
+are received.
+We use two metrics to evaluate performance. The first is the
+erasure condition, which is the probability that the received
+signal power is below a given technology thresholdγ. This
+is the most interesting performance metric for this work, as
+it directly shows the impact of the topology of the scenarios,
+regardless of the number of devices. This probability can be
+written as
+C1 =P
+rx < γ
+.(19)
+For the LR-FHSS scenario, we consider that each header or
+fragment perceives a different realization ofp i
+rx. However, they
+will be correlated because of the elevation angle (in the case
+of NTN) and the distance between the device and the gateway.
+Although LR-FHSS has coding and replication schemes, we
+believe it is most important to analyze the erasure probability
+of single headers and fragments, as this value could easily be
+translated to any other technology, with the properγ.
+The second metric is the packet success probability. For each
+packet, we assume it to have been successfully decoded if at
+least one header andCR= 1/3of the payload fragments
+have been decoded. Headers and fragments are susceptible
+to erasure as in the first metric, and collisions, in case other
+headers or fragments transmissions occur at the same in the
+same physical channel. We analyze the LR-FHSS transmission
+success probability using an LR-FHSS network simulator [38].
+Here, we assume that all collisions are destructive, i.e., no
+capture effect1. The same packet can be decoded by multiple
+BSs, while we assume a centralized network server responsible
+for dealing with duplicates.
+D. Costs analysis
+Here we present the cost models for all scenarios. Inspired
+by [33], we consider thetotal costby bringing it to the
+present value, with a discount factorσ, to take into account
+the opportunity costs. Thus, we have
+total cost=CAPEX+
+yearsX
+n=1
+OPEX
+(1 +σ) n ,(20)
+where CAPEX represents the deployment costs, OPEX the
+yearly operational costs andyearsthe time-window horizon
+in years.
+According to [33], the CAPEX costs for HAPS are $4M,
+with an OPEX of $30,000. In addition, they utilize a discount
+factorσ= 0.05and a window of 20 years, both of which we
+will adopt in this work. For the LEO satellite, we consider a
+commercial connectivity provider as the reference for satellite-
+based NTN services. In this context, companies such as Wyld
+Networks [39], Myriota [40], and LacunaSpace [23] offer
+satellite connectivity on a pay-per-message or subscription
+basis, partnering with LEO satellite operators to deliver data
+from remote devices to the cloud. According LacunaSpace
+page, they offer services of around $24 per device per year,
+where this value could be smaller for services of more than
+5000 devices. Thus, we have a null CAPEX, with an OPEX of
+$24×N. Finally, for terrestrial BSs, we account the average
+yearly tower leasing according to [41], which is $12,600. Thus,
+we have again a null CAPEX and an OPEX of $12,600×M.
+IV. NUMERICALRESULTS ANDDISCUSSIONS
+In this section, we analyze the numerical results from the
+model proposed in the previous sections. If not explicitly
+mentioned, we utilize the simulation parameters in Table I. We
+1The simulator was adapted to account for the effects of the scenarios in
+this work, and the repository with the adapted version of the simulator will
+be openly published and attached to this manuscript once accepted
+Table I: Simulation parameters
+Parameter Symbol Value
+Network radiusR80 km
+HAPS altitudeh H 30 km
+Satellite altitudeh S 750 km
+Orbit inclinationi o 60
+Reference distanced 0 1 km
+Log-normal path loss exponentη2.32
+Path loss at the reference distanceB128.96 dB
+Shadow fading standard deviationσ SF 7.8 dB
+Minimum terrestrial BS separations20 km
+Guard region radiusR g 240 km
+Transmission powerp t 14 dBm
+Carrier frequencyf c 868 MHz
+HAPS antenna gainG RH 6 dBi
+Satellite antenna gainG RS 13.5 dBi
+Terrestrial BS antenna gainG RT 6 dBi
+Payload sizeb10 bytes
+Receiver sensitivityγ-132 dBm
+Average transmission interval - 15 minutes
+Minimum elevation angleα 0 20 degrees
+picked scenarios with a single HAPS, a system with always one
+LEO satellite in coverage, a terrestrial network with 10 and 30
+BSs, and a combination of them. With that in mind, we intend
+to analyze the performance of each system and also evaluate
+the benefits of using them together. Finally, we understand that
+with 10 BSs we have a sparsely deployed network, with low
+coverage and several gaps, while 20 BSs represent a scenario
+with relatively good coverage.
+A. Erasure Probability
+Each figure scenario in this subsection represents data from
+headers and fragments transmissions for 5000 simulation runs,
+each one with 1000 devices over a period of 24 hours. Each
+data point is the average erasure experienced by a device in
+given position during each simulation.
+Figure 3 depicts a heat map of the erasure probability in the
+circular area where the devices are deployed. Thus, we can
+identify the probability that a transmission will fail to reach a
+BS. First, we can see in Figure 3a that the LEO satellite model
+shows a uniform distributed coverage, which means that the
+geographical positioning of the device in the area does not
+affect performance. A similar idea applies to the terrestrial
+network case in Figure 3h, however, it presents a higher
+variance due to the dependency on the distribution of BSs over
+the area. The HAPS scenario in Figure 3d presents devices in
+the network border with worse performance compared to the
+ones in the center, as expected. We can see that 10 terrestrial
+BSs in Figure 3h present coverage issues, going under 30% in
+several points. Moreover, depending on the BS deployment,
+some areas can be without any coverage. Moreover, while
+HAPS presents an unfair distribution compared to LEO, we can
+see that HAPS presents a lower erasure probability in a large
+portion of the area. In addition, the combination of HAPS with
+the terrestrial network (Figure 3e and Figure 3f) works in favor
+of reducing the worse unbalanced performance on the network
+border. Moreover, it presents a lower erasure probability than
+LEO satellite for both cases in Figure 3b and Figure 3c.
+Finally, a combination of LEO and HAPS in Figure 3g shows
+to outperform the terrestrial case with 20 BSs in Figure 3i,
+which presents an interesting idea in which the integration of
+multiple different non-terrestrial systems might be even more
+competitive than dense terrestrial network systems in terms of
+coverage/erasure probabilities.
+Figure 4 shows a violin graph with the distribution of the
+erasure probability in the aforementioned scenarios. In this
+figure, the height of each curve represents the distribution of
+the erasure probability, while the width shows the density of
+the erasure probability value. Each violin has to be interpreted
+separately, as the width is accounted for individually. Finally,
+a black line on them represents the average erasure probability
+for each case. As seen before, the LEO probability varies
+less over the area compared to the other cases. In this figure,
+the effect is represented as a smaller vertical spread. In the
+HAPS case, we see a higher variation due to the geographical
+distribution seen before. However, although the terrestrial era-
+sure probability did not change over the area, a high variance
+is observed even in the scenario with 20 terrestrial BSs.
+This shows us that the performance of this system is highly
+dependent on the distribution of the BSs. Even guaranteeing a
+certain distance between the BSs, the scenario presents cases
+where devices did not have coverage. On the other hand, the
+same behavior was not seen in the non-terrestrial scenarios.
+Also, the terrestrial and non-terrestrial integration scenarios did
+not present this very high variance, showing that they can help
+mitigating the deployment dependence of terrestrial networks.
+Finally, the combination of LEO and HAPS presents a slightly
+higher erasure probability average than the 20 terrestrial BSs,
+in exchange of the benefit of guaranteeing coverage fairness
+over the whole area without the need to take into account BS
+deployment planning.
+B. Success Probability
+In this subsection, each data point is acquired by averaging
+the success probability of all devices in each run, and then
+averaging over 5000 runs with 1 hour duration each. Figure 5
+shows the transmission success probability for the proposed
+scenario. This analysis is particularly interesting when we plan
+to understand the network scalability in scenarios with a large
+number of devices active in the system. The first behavior to
+note in both cases is that in the case of terrestrial networks,
+both for 10 and 20, the success rate changes little with the
+number of nodes. Since path loss tends to act stronger on
+terrestrial communication, it is common that each terrestrial
+BS has less interference from devices transmitting from far
+away. The number of devices seen by each BS is smaller,
+thus there are fewer collisions happening compared to the
+non-terrestrial scenarios. In Figure 5a we illustrate that the
+performance of the terrestrial network is very low, due to the
+high erasure probability seen in the previous section. We see
+HAPS slightly outperforming LEO, and the combination of
+LEO and HAPS outperforming the integration of HAPS and
+Figure 3: Heat map of the erasure probability over the area where devices are deployed for all proposed scenarios.
+LEO with terrestrial BSs until around 10k devices. This tells
+us that even sparsely deployed terrestrial BSs can help in the
+scalability of the network by integrating with non-terrestrial
+options. In Figure 5b, the terrestrial network exhibits a very
+high success probability, proving that it is in fact a scenario
+under strong coverage conditions. The integration of LEO and
+HAPS with the terrestrial network still improves the success
+probability, even if the number of IoT devices increases within
+the network. This is highlighted by the purple and orange lines
+at the top of Figure 5b.
+C. Connectivity Costs Analysis
+In this section, we evaluate the costs considering HAPS,
+LEO satellite and terrestrial networks. To simplify and provide
+a more realistic point of view, we consider a commercial
+connectivity provider as the reference for satellite-based NTN
+services. Also, due to the lack of commercial services of
+HAPS, we could not find any data for it as a service. In
+addition, we did not consider the deployment of a LEO
+constellation, as it is intended to cover multiple regions due
+to its non geostationary behavior, and thus the cost would be
+higher. The cost values adopted in our analysis are derived
+from publicly available information and indicative pricing
+from such providers, enabling a practical comparison with
+the potential costs of deploying a HAPS-based connectivity
+solutions. The costs of terrestrial networks are related to the
+leasing costs of communication towers, while we disregard the
+hardware costs.
+Figure 4: Erasure probability violin graph for all proposed scenarios. Wider graphs represent a higher density of that probability
+and the white line shows the median.
+(a)M= 10
+(b)M= 20
+Figure 5: Success probability as a function of the number of devices for all proposed scenarios.
+Table II: Main cost parameters for terrestrial and non-terrestrial
+infrastructures.
+Parameter HAPS Satellite Terrestrial
+Ref. [33] [23], [39], [40] [41]
+Model Type Dedicated platform Pay-per-device Tower leasing
+CAPEX (USD) $4M - -
+OPEX (USD/year) $30,000 $24×N$12,600×M
+Discount Factor (σ) 0.05 0.05 0.05
+Total Time (years) 20 20 20
+The values used in the analysis are shown in II. We assume
+a 20 year span time analysis for fairness, since our data
+assume the HAPS system would last for at least 20 years.
+Fig. 6 presents the cost considering HAPS, LEO and terrestrial
+solutions as a function of the number of devices, assuming one
+message per hour over one month. We can see that even though
+the HAPS costs are higher, they are already competitive with
+the costs of 20 terrestrial BSs. The LEO solution is shown
+to be interesting when the number of devices is not too large
+(<10k), although lower prices can even be negotiable with
+these providers in case of this massive number of devices.
+This shows that LEO solutions are interesting in the case that
+Figure 6: Total cost per year as a function of the number of
+devices for LEO, HAPS and terrestrial networks.
+the number of devices is not too large, at a price of slightly
+smaller performance than HAPS, while being more flexible
+than a terrestrial network. In addition, terrestrial networks tend
+to perform better when well deployed, subject to deployment
+availability, as its costs may increase significantly if there is
+a need to install non-existing infrastructures. The authors also
+acknowledge that the simplicity of the cost analysis, especially
+in terms of scalability, as most likely the LEO service would
+give a quality of service guaranty, either by improving the
+infrastructure or increasing the operational bandwidth. On the
+other hand, the constant values in the owned infrastructure
+options actually decrease the performance per-device as the
+number of devices increases, as seen in Figure 5.
+V. CONCLUSIONS
+In this work, we compared the impact of HAPS and LEO
+satellites as an alternative to IoT connectivity in remote regions
+with a lack of terrestrial connectivity. We also consider cases
+where HAPS and LEO could work together with existing
+terrestrial networks and also a combination of both HAPS
+and LEO. We analyze the transmission erasure probability
+behavior and conclude that HAPS can be a good addition
+to existing sparse terrestrial networks, and also to the LEO
+satellite system. Moreover, we also conducted an economic
+analysis of the deployment of an HAPS versus using LEO
+satellite IoT services, as well as the deployment of terrestrial
+networks. The results highlight that HAPS outperforms LEO in
+terms of success probability and average erasure probability,
+and that the combination of sparse terrestrial networks with
+non-terrestrial solutions as a potential enabler for massive
+connectivity. Finally, we show that although the costs of HAPS
+are higher, they were shown to be in a similar magnitude
+order, and with the advancements of this technology, they can
+be an promising alternative to IoT connectivity. Future work
+includes the investigation of smarter diversity techniques to
+exploit simultaneous reception from multiple receivers, the in-
+corporation of multi-satellite visibility and HAPS mobility into
+the system model, and the design of transmission strategies that
+leverage knowledge of HAPS and LEO movement patterns.
+REFERENCES
+[1] A. Chaoub, M. Giordani, B. Lall, V . Bhatia, A. Kliks, L. Mendes,
+K. Rabie, H. Saarnisaari, A. Singhal, N. Zhang, S. Dixit, and M. Zorzi,
+“6G for bridging the digital divide: Wireless connectivity to remote
+areas,”IEEE Wireless Communications, vol. 29, no. 1, pp. 160–168,
+2022.
+[2] J. J. Lpez-Escobar, P. Fondo-Ferreiro, F. J. Gonzlez-Castao, F. Gil-
+Castieira, V . Piorno-Gonzlez, I. Munilla-Rumbao, and A. Gil-Carrrera,
+“Intelligent energy-efficient GNSS-assisted and LoRa-based positioning
+for wildlife tracking,”IEEE Sensors Journal, vol. 25, no. 4, pp. 7291–
+7300, 2025.
+[3] C. C. Chan, S. A. Alvi, X. Zhou, S. Durrani, N. Wilson, and M. Yebra,
+“A survey on IoT ground sensing systems for early wildfire detection:
+Technologies, challenges, and opportunities,”IEEE Access, vol. 12, pp.
+172 785–172 819, 2024.
+[4] M. A. Ullah, A. Yastrebova, K. Mikhaylov, M. Hyhty, and H. Alves,
+“Situational awareness for autonomous ships in the arctic: mmtc direct-
+to-satellite connectivity,”IEEE Communications Magazine, vol. 60,
+no. 6, pp. 32–38, 2022.
+[5] S. Aslam, H. Herodotou, E. Garro, . Martnez-Romero, M. A. Burgos,
+A. Cassera, G. Papas, P. Dias, and M. P. Michaelides, “Emerging IoT
+applications and architectures for smart maritime container terminals,”
+in2023 IEEE 9th World F orum on Internet of Things (WF-IoT), 2023,
+pp. 1–6.
+[6] J. A. Fraire, O. Iova, and F. Valois, “Space-terrestrial integrated in-
+ternet of things: Challenges and opportunities,”IEEE Communications
+Magazine, vol. 60, no. 12, pp. 64–70, 2022.
+[7] C. Qi, J. Wang, L. Lyu, L. Tan, J. Zhang, and G. Y . Li, “Key issues
+in wireless transmission for NTN-assisted internet of things,”IEEE
+Internet of Things Magazine, vol. 7, no. 1, pp. 40–46, 2024.
+[8] T. T. T. Le, N. U. Hassan, X. Chen, M.-S. Alouini, Z. Han, and C. Yuen,
+“A survey on random access protocols in direct-access LEO satellite-
+based IoT communication,”IEEE Communications Surveys & Tutorials,
+vol. 27, no. 1, pp. 426–462, 2025.
+[9] G. Karabulut Kurt, M. G. Khoshkholgh, S. Alfattani, A. Ibrahim, T. S. J.
+Darwish, M. S. Alam, H. Yanikomeroglu, and A. Yongacoglu, “A vision
+and framework for the high altitude platform station (HAPS) networks
+of the future,”IEEE Communications Surveys & Tutorials, vol. 23,
+no. 2, pp. 729–779, 2021.
+[10] SoftBank Corp., “Develops high-capacity 6-cell capable HAPS payload,
+delivers 5G connectivity from the sky in field trial,” https://www.soft
+bank.jp/en/corp/news/press/sbkk/2025/20250918 02/, September 2025,
+press release.
+[11] AALTO HAPS Ltd., “Zephyr sets world-record for
+longest continuous flight - flying 67 days in stratosphere,”
+https://www.aaltohaps.com/zephyr-sets-world-record-for-longest-
+continuous-flight-flying-67-days-in-stratosphere/, May 2025, press
+release.
+[12] World Mobile Team, “Why the stratosphere, why now? a deep-dive
+with Gregory Gottlieb,” Aug 2025, blog post. [Online]. Available:
+https://worldmobile.io/blog/post/why-the-stratosphere-why-now-a-dee
+p-dive-with-gregory-gottlieb
+[13] HAPS Alliance, “HAPS advantages in an era of satellite connectivity,”
+HAPS Alliance, White Paper, April 2025, available from HAPS
+Alliance Technical Working Group. [Online]. Available: https:
+nce Reference Architecture Advantages Satellite Connectivity TWG
+Whitepaper.pdf
+[14] O. Abbasi, A. Yadav, H. Yanikomeroglu, N.-D. o, G. Senarath, and
+P. Zhu, “HAPS for 6G networks: Potential use cases, open challenges,
+and possible solutions,”IEEE Wireless Communications, vol. 31, no. 3,
+pp. 324–331, 2024.
+[15] Z. Lou, B. E. Youcef Belmekki, and M.-S. Alouini, “HAPS in the non-
+terrestrial network nexus: Prospective architectures and performance
+insights,”IEEE Wireless Communications, vol. 30, no. 6, pp. 52–58,
+2023.
+[16] G. Svistunov, A. Akhtarshenas, D. Lpez-Prez, M. Giordani, G. Geraci,
+and H. Yanikomeroglu, “Bridging earth and space: A survey
+on HAPS for non-terrestrial networks,” 2025. [Online]. Available:
+https://arxiv.org/abs/2510.19731
+[17] Z. Jia, Q. Wu, C. Dong, C. Yuen, and Z. Han, “Hierarchical aerial
+computing for internet of things via cooperation of HAPs and UA Vs,”
+IEEE Internet of Things Journal, vol. 10, no. 7, pp. 5676–5688, 2023.
+[18] A. Andreadis, G. Giambene, and R. Zambon, “Role of UA Vs and HAPS
+for IoT-based monitoring in emergency scenarios,” in2023 Interna-
+tional Conference on Information and Communication Technologies for
+Disaster Management (ICT-DM), 2023, pp. 1–8.
+[19] H. Uyank and T. Ovatman, “An investigation of the transmission
+success in LoRaW AN enabled IoT-HAPS communication,”Internet
+of Things, vol. 20, p. 100611, 2022. [Online]. Available: https:
+[20] G. Giambene and K. Korre, “LoRa-based system for IoT applications
+via HAPS in remote areas,” in2022 International Conference on
+Software, Telecommunications and Computer Networks (SoftCOM),
+2022, pp. 1–6.
+[21] A. Almarhabi, A. J. Aljohani, and M. Moinuddin, “LoRa and high-
+altitude platforms: Path loss, link budget and optimum altitude,” in
+2020 8th International Conference on Intelligent and Advanced Systems
+(ICIAS), 2021, pp. 1–6.
+[22] Ericsson. (2023) 3gpp satellite communication. Ericsson Technology
+Review. Accessed: 2025-04-08. [Online]. Available: https://www.ericss
+on.com/en/reports-and-papers/ericsson-technology-review/articles/3gp
+p-satellite-communication
+[23] Lacuna Space. (2023, December) Spire global awarded space
+services contract by lacuna space to scale a dedicated satellite
+constellation for IoT. Accessed: 2025-05-26. [Online]. Available:
+https://lacuna-space.com/spire-global-awarded-space-services-contrac
+t-by-lacuna-space-to-scale-a-dedicated-satellite-constellation-for-iot/
+[24] M. A. Ullah, R. D. Souza, G. Pasolini, J. M. d. S. SantAna, M. Hyhty,
+K. Mikhaylov, H. Alves, E. Paolini, and A. Al-Hourani, “Extending the
+LoRa direct-to-satellite limits: Doppler shift pre-compensation,”IEEE
+Open Journal of the Communications Society, vol. 6, pp. 2256–2273,
+2025.
+[25] T. Liang, T. Zhang, and Q. Zhang, “Toward seamless localization
+and communication: A satellite-uav ntn architecture,”IEEE Network,
+vol. 38, no. 4, pp. 103–110, 2024.
+[26] R. Ortigueira, S. Montejo-Snchez, S. Henn, J. A. Fraire, and S. Cspedes,
+“Satellite visibility prediction for constrained devices in direct-to-
+satellite IoT systems,”IEEE Sensors Journal, vol. 24, no. 16, pp.
+26 630–26 644, 2024.
+[27] F. A. Tondo, J. M. d. S. Sant’Ana, S. Montejo-Snchez, O. L. A.
+Lpez, S. Cspedes, and R. D. Souza, “Non-orthogonal multiple-access
+strategies for direct-to-satellite IoT networks,”IEEE Transactions on
+Aerospace and Electronic Systems, pp. 1–13, 2025.
+[28] Lacuna Space. (2025, August) Lacuna space leads global adoption
+of open IoT standards, delivering on UKs satellite communication
+strategy. Accessed: 2025-10-29. [Online]. Available: https://lacuna-spa
+ce.com/lacuna-space-leads-global-adoption-of-open-iot-standards-del
+ivering-on-uks-satellite-communication-strategy/
+[29] LoRa Alliance. (2025, August) LoRa Alliance white paper: Regulation
+for LoRaW AN satellite. Accessed: 2025-10-29. [Online]. Available:
+https://resources.lora-alliance.org/home/lora-alliance-white-paper-regul
+ation-for-lorawan-satellite-august2025
+[30] Z. Qu, G. Zhang, H. Cao, and J. Xie, “LEO satellite constellation for
+internet of things,”IEEE Access, vol. 5, pp. 18 391–18 401, 2017.
+[31] G. M. Capez, S. Henn, J. A. Fraire, and R. Garello, “Sparse satellite con-
+stellation design for global and regional direct-to-satellite IoT services,”
+IEEE Transactions on Aerospace and Electronic Systems, vol. 58, no. 5,
+pp. 3786–3801, 2022.
+[32] O. B. Osoro and E. J. Oughton, “A techno-economic framework for
+satellite networks applied to low earth orbit constellations: Assessing
+starlink, oneweb and kuiper,”IEEE Access, vol. 9, pp. 141 611–141 625,
+2021.
+[33] L. Toka, M. Konrad, A. Pekar, and G. Biczk, “Integrating the skies
+for 6G: Techno-economic considerations of LEO, HAPS, and UA V
+technologies,”IEEE Communications Magazine, vol. 62, no. 11, pp.
+44–51, 2024.
+[34] Y . Seyedi and S. M. Safavi, “On the analysis of random coverage time in
+mobile LEO satellite communications,”IEEE Communications Letters,
+vol. 16, no. 5, pp. 612–615, 2012.
+[35] J. Petajajarvi, K. Mikhaylov, A. Roivainen, T. Hanninen, and M. Pet-
+tissalo, “On the coverage of LPW ANs: range evaluation and channel
+attenuation model for LoRa technology,” in2015 14th International
+Conference on ITS Telecommunications (ITST), 2015, pp. 55–59.
+[36] A. Abdi, W. Lau, M.-S. Alouini, and M. Kaveh, “A new simple model
+for land mobile satellite channels: first- and second-order statistics,”
+IEEE Transactions on Wireless Communications, vol. 2, no. 3, pp. 519–
+528, 2003.
+[37] A. Talgat, M. A. Kishk, and M.-S. Alouini, “Stochastic geometry-based
+uplink performance analysis of IoT over LEO satellite communication,”
+IEEE Transactions on Aerospace and Electronic Systems, vol. 60, no. 4,
+pp. 4198–4213, 2024.
+[38] J. M. S. SantAna, A. Hoeller, H. Alves, and R. D. Souza, “LR-FHSS-
+Sim: A discrete-event simulator for LR-FHSS networks,” in2024 Joint
+European Conference on Networks and Communications & 6G Summit
+(EuCNC/6G Summit), 2024, pp. 700–705.
+[39] Wyld Networks. Wyld Networks and KWS: Enhancing agricultural
+precision with advanced IoT solutions. Accessed: Aug. 14, 2025.
+[Online]. Available: https://wyldnetworks.com/directus/assets/b010e05
+1-5c96-4b50-ad69-e9cce6765e01
+[40] Myriota. What Low-Cost Satellite IoT Means For Global Connectivity.
+Accessed: Aug. 14, 2025. [Online]. Available: https://myriota.com/pt
+-br/what-low-cost-satellite-iot-means-for-global-connectivity/
+[41] Steel In The Air. Cell Tower Lease Consultants. Accessed: Oct. 12,
+2025. [Online]. Available: https://www.steelintheair.com/cell-tower-lea
+se-rates/

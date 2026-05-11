@@ -1,0 +1,52 @@
+[
+  {
+    "id": "introduction",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Introduction",
+      "page_start": 1,
+      "page_end": 1
+    },
+    "text": "Artificial Intelligence (AI) has already transformed healthcare\nand continues to hold substantial potential for further inno-\nvation within clinical ecosystems. Recently, Medical Large\nVision-Language Models (Med-LVLMs) have shown great\npromise for advancing interactive and intelligent diagnosis [1,\n2]. Despite this potential, current Med-LVLMs still face sig-\nnificant reliability issues, particularly their tendency to gen-\nerate non-factual medical responses [3], making them unreli-\nable in critical medical applications. These factuality issues\nraise serious concerns when deploying such models in clini-\n∗Equal contribution.†Corresponding author.cal settings, where even small diagnostic errors could lead to\nsevere consequences for patient care.\nRecently, researchers have begun to focus on improving\nthe factuality of Med-LVLMs through various techniques, in-\ncluding fine-tuning [1], low-rank adaptation [4], and retrieval-\naugmented generation (RAG) [5, 6]. Fine-tuning is a direct\nmethod to improve model performance, but faces several lim-\nitations in the medical field. First, there is a lack of sufficient\nhigh-quality labeled data for fine-tuning in the medical do-\nmain. Second, a distribution shift often exists between train-\ning datasets the real-world deployment data, leading to signif-\nicantly worse model performance during deployment. Hence,\nRetrieval-Augmented Generation (RAG) [5] has emerged as\na promising solution, grounding model outputs in external\nknowledge to improve factuality. Recent works adapted RAG\nfor medicine, including MedRAG [6], MMed-RAG [7]. De-\nspite improvements, current methods remain vulnerable to se-\nmantic over-reliance, cross-modality misalignment, and spu-\nrious correlations, largely due to mismatch between retrieved\ncontexts and visual–language grounding.\nCausality-based methods seek to improve retrieval accu-\nracy and representation learning, but critical limitations per-\nsist [8]. CausalRAG [9] ranks contexts by causal importance,\nbut does not address cross-modal alignment. Similarly, CM-\nCRL [10] learns shared causal representations but underuses\nthe structural dependencies needed for medical reasoning. Al-\nthough causal graphs improve interpretability [11, 12], cur-\nrent approaches mainly rely on language-only causal discov-\nery [9].\nThese limitations necessitate a more holistic framework\nthat simultaneously addresses factuality and alignment by in-\ntegrating causal reasoning with a multimodal structure. Ac-\ncordingly, we propose to build explicit causal graphs from\nmultimodal data and use them to guide RAG retrieval for\nmedical reasoning.\nIn this paper, we propose MCRAG (Multimodal Causal\nRetrieval-Augmented Generation), a retrieval framework de-\nsigned to improve factuality and robustness in Med-LVLMs.\nMCRAG introduces a causal alignment graph constructed\nfrom verifiable medical literature, capturing structured depen-\ndencies between visual and textual modalities. This graph\nenables retrieval guided not only by semantic similarity but\nalso by causal and structural relevance, thus mitigating spuri-arXiv:2601.18356v1  [cs.LG]  26 Jan 2026"
+  },
+  {
+    "id": "methodology",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Methodology",
+      "page_start": 2,
+      "page_end": 2
+    },
+    "text": "In this section, we presentMCRAG—a multi-modal, causal\nretrieval-augmented generation framework that improves the\nfactuality of Med-LVLMs by tightly coupling retrieval with\nan explicit Structural Causal Model (SCM). The framework\nhas three stages: (1)domain-aware retrieval, which selects\nthe optimal retriever for each input; (2)adaptive context se-\nlection, which filters and sizes evidence on the fly; and (3)RAG-based preference fine-tuning, which aligns responses\nwith SCM-supported evidence.\n2.1. Structural Causal Model (SCM)\nAt the core of the MCRAG framework is the formal repre-\nsentation of medical knowledge as aStructural Causal Model\n(SCM), a mathematical formalism for causal inference. An\nSCM, denoted asM, is a tuple⟨V,U,F⟩, where:\n•Vis a set of endogenous variables, representing the\nmanifest, observable variables within the system. In\nthe medical context,Vincludes variables correspond-\ning to image regions (V I), clinical findings (V F), pa-\ntient symptoms (V S), and diagnostic outcomes (V D).\n•Uis a set of exogenous variables, representing latent or\nunobserved factors. These variables account for all fac-\ntors influencing the endogenous variables that are not\nexplicitly included in the model, such as genetic predis-\npositions or data heterogeneity across hospital systems.\n•Fis a set of structural equations, one for each variable\nVi∈V. Each equationf i∈ Fdefines the value ofV i\nas a function of its parents,Pa(V i), in the causal graph\nand its corresponding exogenous variableU i∈U. For\ninstance, a function for a specific clinical finding might\nbe expressed as:\nˆVF=fF(Pa(V F), UF)(1)\nA key feature of the SCM is its associated causal graph\nG, a directed graph over the variables inVandU."
+  },
+  {
+    "id": "experiment",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Experiment",
+      "page_start": 3,
+      "page_end": 3
+    },
+    "text": "3.1. Experimental Setups\nFor the language model, we adopt LLaV A-Med-1.5-7B [1],\nfine-tuned with LoRA [19] using the AdamW optimizer. The\nfine-tuning is performed with a learning rate of3×10−5,\nweight decay of10−2, a batch size of 16, and for 500 epochs.\nFor modality-specific encoders, we employ MedVIT [20] as\nthe vision encoder and BioClinicalBERT [21] as the text en-\ncoder.\nWe adopt the experimental framework of MMed-RAG[7]\nand evaluate hallucination mitigation methods from two com-\nplementary perspectives. Decoding-based approaches, such\nas DoLa [13], OPERA [14], and VCD [15], improve factual\nconsistency by directly adjusting the model’s output distribu-\ntion. In contrast, multimodal retrieval-augmented generation\n(RAG) methods, including MedDr [16], FactMM-RAG [17],\nRULE [18], and MMed-RAG [7], mitigate hallucinations\nby grounding responses in external knowledge. We didn’t\nchoose the CasualRAG is because it is not multi-modal, so\nnot in our scope.\nOur experiments employ MIMIC-CXR [22] and IU-\nXray [23] as benchmark datasets. Question–answer pairs\nare taken from MMed-RAG [7]. Following prior work [7],\nwe assess medical VQA performance using Accuracy, F1\nScore, and AUROC, while report generation is evaluated with\nBLEU, ROUGE-L, and METEOR.\n3.2. Comparison Results\nTable 1 compares decoding-only baselines with retrieval-\naugmented models. While MMed-RAG delivers strong re-\nsults (e.g.,89.54Acc and87.13AUC on IU-Xray VQA),\nour method (MCRAG) consistently sets new state-of-the-\nart across all tasks. On IU-Xray VQA, MCRAGsurpasses\nMMed-RAG by+0.58Acc,+1.31F1, and+1.12AUC;\non MIMIC-CXR VQA, it achieves further gains of+1.34\nAcc,+0.88F1, and+1.34AUC. For report generation,\nMCRAGraises BLEU to35.02and25.81, improving over\nMMed-RAG by+3.64and+2.56on IU-Xray and MIMIC-\nCXR, respectively. These results demonstrate that causality-\nguided retrieval not only enhances factual accuracy in VQA"
+  },
+  {
+    "id": "limitations",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Limitations",
+      "page_start": 4,
+      "page_end": 4
+    },
+    "text": "While MCRAG advances retrieval by incorporating causal\nreasoning, several limitations remain. The framework pre-\nsupposes that VLM can reliably encode and expose causal\nstructures; however, this assumption may not hold in do-\nmains characterized by highly specialized or rapidly evolving\nknowledge. Moreover, the identification of causal path-\nways during inference necessitates additional model queries,\nthereby increasing computational overhead and potentially\nconstraining scalability in practical deployments."
+  },
+  {
+    "id": "conclusion",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Conclusion",
+      "page_start": 4,
+      "page_end": 6
+    },
+    "text": "We present MCRAG, a multimodal causal retrieval frame-\nwork that enhances factuality and robustness in medical vi-\nsion–language models. By integrating graph-based causal\nreasoning within cross-modal retrieval, MCRAG achieves\nstate-of-the-art results on radiology-specific VQA and re-\nport generation tasks. Ablation analysis further underscores\nthe importance of causal grounding for clinically meaningful\nevidence and demonstrates the effectiveness of manual refine-\nment in improving precision. Taken together, these findings\nhighlight causal retrieval as a viable pathway toward safer\ndeployment in real-world clinical settings.\n\n\n\n"
+  }
+]

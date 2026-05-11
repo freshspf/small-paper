@@ -1,0 +1,138 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument25",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument25
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+E., Treu T., Schmidt K. B., Vulcani B., Wang X.,
+2017, ApJ, 846, 139
+Moster B. P., Naab T., White S. D. M., 2013, MNRAS, 428, 3121
+Mowla L. A., et al., 2019, ApJ, 880, 57
+Murante G., Giovalli M., Gerhard O., Arnaboldi M., Borgani S., Dolag K.,
+2007, MNRAS, 377, 2
+Naiman J. P., et al., 2018, MNRAS, 477, 1206
+Navarro J. F., Frenk C. S., White S. D. M., 1997, ApJ, 490, 493
+Neal R. M., 1997, arXiv e-prints, p. physics/9701026
+Nelson D., et al., 2018, MNRAS, 475, 624
+Nelson D., et al., 2019, MNRAS, 490, 3234
+Ogiya G., Taylor J. E., Hudson M. J., 2021, MNRAS, 503, 1233
+Onions J., et al., 2025, MNRAS, 542, 1477
+Pillepich A., et al., 2018, MNRAS, 475, 648
+Planck Collaboration XIII 2016, A&A, 594, A13
+Planck Collaboration XVI 2014, A&A, 571, A16
+Pontzen A., Governato F., 2012, MNRAS, 421, 3464
+Prada F., Klypin A. A., Cuesta A. J., Betancort-Rijo J. E., Primack J., 2012,
+MNRAS, 423, 3018
+Ragusa R., et al., 2023, A&A, 670, L20
+Reina-Campos M., Trujillo-Gomez S., Pfeffer J. L., Sills A., Deason A. J.,
+Crain R. A., Kruijssen J. M. D., 2023, MNRAS, 521, 6368
+Roediger E., Hensler G., 2005, A&A, 433, 875
+Rudick C. S., Mihos J. C., McBride C., 2006, ApJ, 648, 936
+Rudick C. S., Mihos J. C., McBride C. K., 2011, ApJ, 732, 48
+Scaramella R., et al., 2022, A&A, 662, A112
+Schaller M., et al., 2015, MNRAS, 452, 343
+Schaye J., et al., 2015, MNRAS, 446, 521
+Schechter P., 1976, ApJ, 203, 297
+SedgwickT.M.,BaldryI.K.,JamesP.A.,KelvinL.S.,2019,MNRAS,484,
+5278
+SmithR.,ChoiH.,LeeJ.,RheeJ.,Sanchez-JanssenR.,YiS.K.,2016,ApJ,
+833, 109
+Springel V., 2010, MNRAS, 401, 791
+Springel V., et al., 2018, MNRAS, 475, 676
+Springel V., Pakmor R., Zier O., Reinecke M., 2021, MNRAS, 506, 2871
+Taffoni G., Mayer L., Colpi M., Governato F., 2003, MNRAS, 341, 434
+Teyssier R., 2002, A&A, 385, 337
+Teyssier R., Pontzen A., Dubois Y., Read J. I., 2013, MNRAS, 429, 3068
+Tomczak A. R., et al., 2014, ApJ, 783, 85
+Tonnesen S., Bryan G. L., 2009, ApJ, 694, 789
+Tormen G., 1997, MNRAS, 290, 411
+Valluri M., Vass I. M., Kazantzidis S., Kravtsov A. V., Bohn C. L., 2007,
+ApJ, 658, 731
+Virtanen P., et al., 2020, Nature Methods, 17, 261
+WatkinsA.E.,MartinG.,KavirajS.,CollinsC.,DuboisY.,KraljicK.,Pichon
+C., Yi S. K., 2025, MNRAS, 537, 3499
+Weaver J. R., et al., 2023, A&A, 677, A184
+WechslerR.H.,BullockJ.S.,PrimackJ.R.,KravtsovA.V.,DekelA.,2002,
+ApJ, 568, 52
+WestM.J.,CoteP.,JonesC.,FormanW.,MarzkeR.O.,1995,ApJ,453,L77
+Wetzel A. R., 2011, MNRAS, 412, 49
+Yoo J., et al., 2024, arXiv e-prints, p. arXiv:2402.17958
+Yurin D., Springel V., 2014, MNRAS, 444, 62
+Zhang Y., et al., 2019, ApJ, 874, 165
+Zhao D. H., Mo H. J., Jing Y. P., Börner G., 2003, MNRAS, 339, 12van den Bosch F. C., Ogiya G., 2018, MNRAS, 475, 4066
+APPENDIX A: RESOLUTION TESTS
+Resolution is a critical factor in accurately modelling the dynamical
+evolutionofsatellitesandthefateoftheirstrippedmaterial(e.g.van
+den Bosch & Ogiya 2018; Martin et al. 2024). As shown in Martin
+etal.(2024),DMmassresolutionisthedominantfactorinrecovering
+reliable stripping rates for both stellar and DM components. Since
+ourprimaryfocusliesintheevolutionofsatellitesandtheirstripped
+material,thesatellitesmustberesolvedwithsufficientlylowparticle
+masses to accurately capture the internal structure of the satellite.
+Similarly,thecluster—includingboththeDMhaloandthecentral
+galaxy—must be modelled at the same numerical resolution as the
+satellites to prevent spurious numerical effects. Accordingly, when
+we generate initial conditions, we do so ensuring the cluster halo,
+central galaxy, and satellite share an identical mass resolution. We
+adopt DM particle masses (𝑚 DM) corresponding to≳500,000par-
+ticles for each satellite halo, with stellar particles (𝑚 ★) roughly five
+times less massive. In Table B1 we summarise the𝑚 ★and𝑚 DM
+corresponding to each of the satellite models described in Section
+2.3.2.
+Given that the most radial satellite orbits reach pericentres of
+∼4kpc, we additionally verify via isolated simulations that the
+density profiles of the cluster halo and central galaxy remain stable
+atallradiibeyondthisscaleatallresolutionlevels.FigureA1shows
+thecumulativeradialmassprofilesofthestellarandDMcomponents
+of the cluster. Purple and green filled square symbols respectively
+show the analytic DM and stellar profiles. Open diamond symbols
+show the same components measured from theGalIC-generated
+initial conditions. In order to test the stability of our cluster model,
+we evolve an isolated realisation of the model for 2 Gyr at each
+resolution level. Thin, faint lines show the result for the coarsest
+adopted resolution shown in Table B1 at evenly spaced snapshots
+between 0.25 and 2 Gyr.

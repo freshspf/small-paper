@@ -1,0 +1,180 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "consumptionskewnessoverscale2",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: consumptionskewnessoverscale2
+- section_title: Consumption Skewness over Scale
+- page_start: 6
+- page_end: 8
+
+**INPUT TEXT CHUNK:**
+This suggests a sharding or ran-
+domized gossip approach to dissemination when the val-
+idator set is large, likely to prevent bandwidth saturation
+on individual nodes.
+6
+
+5 Nodes
+5 ValidatorsAlgorand
+ Aptos
+ Avalanche
+ Redbelly
+ Solana
+10 Nodes
+5 Validators
+10 Nodes
+10 Validators
+15 Nodes
+5 Validators
+15 Nodes
+10 Validators
+15 Nodes
+15 Validators
+20 Nodes
+5 Validators
+20 Nodes
+10 Validators
+20 Nodes
+15 Validators
+20 Nodes
+20 Validators
+172946702
+145843
+121727453
+043063
+2424853
+95319574
+044265
+2324574
+1418758
+79417812Figure 4: HeatmapsM i,jof the bandwidth used in KiB between sending noden iand receiving noden jfor each
+blockchain.
+7
+
+5 10 15 200123×106
+Algorand
+5 Val
+10 Val
+15 Val
+20 Val
+5 10 15 201234567×105
+ Aptos
+5 10 15 20
+Nodes1234×105
+Avalanche
+5 10 15 200.00.20.40.60.81.0×106
+Redbelly
+5 10 15 2012345×106
+Solana
+5 10 15 200123×106
+5 Node
+10 Node
+15 Node
+20 Node
+5 10 15 201234567×105
+5 10 15 20
+Validators1234×105
+5 10 15 200.00.20.40.60.81.0×106
+5 10 15 2012345×106
+Bandwidth (KiB)Figure 5: Total bandwidth consumption (KiB) for blockchains under test. The top row plots bandwidth against
+the number of nodes (grouped by validator count), while the bottom row plots bandwidth against the number of
+validators (grouped by node count).
+7.4 Blockchains vary with regards to band-
+width scalability
+Fig. 5 depicts the trends of bandwidth consumption de-
+pending on the scale, where each figure provides: line
+plots showingSas a function of the total numberNof
+nodes, and line plots showingSas a function of the num-
+berVof validators. Here,Srepresents the total sum of
+bandwidth measured in KiB during the experiment du-
+ration.
+We can clearly see from Fig. 5 thatS Solana bandwidth
+consumption increases primarily with the number of
+nodes, regardless of the number of validators. For in-
+stance, with 5 validators, increasing the total node count
+from 5 to 20 causes bandwidth to surge from 879,268 KiB
+to 4,604,375 KiB—a five-fold increase. However, keeping
+the node count fixed at 20 and increasing validators from
+5 to 20 results in a negligible increase from 4,604,375 KiB
+to 4,891,524 KiB. This confirms that Solana requires all
+nodes to communicate with each other, creating a high-
+bandwidth mesh topology dependent on the network
+size rather than the validator set size.
+In contrast, blockchainsb∈ {Algorand,Redbelly}the
+bandwidthS bdepend almost entirely on the number of
+validators. Adding non-validator nodes adds very lit-
+tle overhead. For Algorand, with 5 validators, increasing
+nodes from 10 to 20 only increases usage from 182,790 KiB
+to 287,032 KiB. However, increasing validators has a
+massive impact: with 20 nodes, moving from 5 to 20
+validators causes usage to skyrocket from 287,032 KiB
+to 3,681,191 KiB—an increase of over 12 times. Red-
+belly exhibits an even more drastic ratio, jumping from72,098 KiB (20 nodes, 5 validators) to 1,084,185 KiB (20
+nodes, 20 validators).
+Finally, in two blockchains, Aptos and Avalanche, the
+bandwidth consumption grows with both the number of
+validators and the number of nodes. Note that the band-
+width increase appears superlinear with the number of
+validators in Aptos but sublinear in Avalanche. In Ap-
+tos, with 20 nodes, the bandwidth grows moderately be-
+tween 5 and 15 validators (343,968 KiB to 490,237 KiB) but
+jumps sharply when reaching 20 validators (684,649 KiB).
+Conversely, Avalanche shows diminishing returns in
+bandwidth growth as validators are added to a 20-
+node network, rising from 205,154 KiB (5 validators) to
+418,852 KiB (20 validators), indicating a more consistent
+propagation overhead.
+Based on these trends, we can classify blockchains in
+three categories:
+1.Node-dependent (Solana)Bandwidth consumption
+increases with the total network size (N), indicating
+a topology where all nodes propagate data heavily.
+2.Validator-dependent (Algorand and Redbelly)
+Bandwidth consumption increases primarily with
+the size of the consensus committee (V). Non-
+validator nodes are passive consumers.
+3.Hybrid (Avalanche and Aptos)Bandwidth con-
+sumption increases with bothNandV, suggesting
+a topology where non-validator nodes participate in
+propagation.
+8.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ExcessiveGeneration",
+  "causes",
+  "ModeCollapse",
+  "AdaptiveSynthesisMechanism",
+  "avoids",
+  "ComputationalRedundancy",
+  "CombinedStrategy",
+  "maintains",
+  "StructuralFeature",
+  "MedicalImage",
+  "hasStructuralFeature",
+  "LesionMorphology",
+  "Texture",
+  "enhances",
+  "Diversity",
+  "ModelDeployability",
+  "includes",
+  "InferenceSpeed",
+  "MemoryFootprint",
+  "EnergyConsumption",
+  "mobilenetv2",
+  "actsAs",
+  "FeatureExtractionBackboneNetwork",
+  "InvertedResidualStructure",
+  "reduces",
+  "ParameterCount",
+  "ComputationalComplexity",
+  "constructs",
+  "FeaturePyramid",
+  "stacks",
+  "InvertedResidualModule",
+  "GlobalAveragePooling",
+  "prevents",
+  "Overfitting",
+  "ClassicalConvolutionalNeuralNetwork",
+  "DecisionBoundary",
+  "QuantumComputing",
+  "leverages",
+  "Superposition",
+  "Entanglement",
+  "performs",
+  "ParallelComputation",
+  "QuantumFeatureMapping",
+  "embeds",
+  "ClassicalFeature",
+  "NonlinearDecisionBoundary",
+  "QuantumFeatureLayer",
+  "hasComponent",
+  "AmplitudeEncoding",
+  "encodedInto",
+  "QuantumState",
+  "maps",
+  "ClassicalFeatureVector",
+  "requires",
+  "Normalization",
+  "ArtificialIntelligence",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "Pneumonia",
+  "ChestXRay",
+  "CtImage",
+  "BreastCancer",
+  "DeepLearningModel",
+  "Image",
+  "Classification",
+  "MedicalData",
+  "ClassImbalance",
+  "dataset_covid19Pneumonia",
+  "LowRecallRate",
+  "DiagnosticAccuracy",
+  "ClinicalMisdiagnosis",
+  "PatientRisk",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "Noise",
+  "PathologicalFeature",
+  "GenerativeAdversarialNetwork",
+  "Sample",
+  "TrainingInstability"
+]
+
+Triples:
+[
+  {
+    "subject": "ExcessiveGeneration",
+    "relation": "causes",
+    "object": "ModeCollapse",
+    "chunk": "methods2",
+    "context": "To avoid computational redundancy and possible mode collapse caused by excessive generation, this work designs an adaptive synthesis mechanism based on the target bal- ance ratio."
+  },
+  {
+    "subject": "AdaptiveSynthesisMechanism",
+    "relation": "avoids",
+    "object": "ComputationalRedundancy",
+    "chunk": "methods2",
+    "context": "To avoid computational redundancy and possible mode collapse caused by excessive generation, this work designs an adaptive synthesis mechanism based on the target bal- ance ratio."
+  },
+  {
+    "subject": "CombinedStrategy",
+    "relation": "maintains",
+    "object": "StructuralFeature",
+    "chunk": "methods2",
+    "context": "This combined strategy maintains key structural features of medical images (such as lesion morphology and texture) while introducing moderate photometric and spatial variations, enhancing the diversity of synthetic samples."
+  },
+  {
+    "subject": "MedicalImage",
+    "relation": "hasStructuralFeature",
+    "object": "LesionMorphology",
+    "chunk": "methods2",
+    "context": "This combined strategy maintains key structural features of medical images (such as lesion morphology and texture) while introducing moderate photometric and spatial variations, enhancing the diversity of synthetic samples."
+  },
+  {
+    "subject": "MedicalImage",
+    "relation": "hasStructuralFeature",
+    "object": "Texture",
+    "chunk": "methods2",
+    "context": "This combined strategy maintains key structural features of medical images (such as lesion morphology and texture) while introducing moderate photometric and spatial variations, enhancing the diversity of synthetic samples."
+  },
+  {
+    "subject": "CombinedStrategy",
+    "relation": "enhances",
+    "object": "Diversity",
+    "chunk": "methods2",
+    "context": "This combined strategy maintains key structural features of medical images (such as lesion morphology and texture) while introducing moderate photometric and spatial variations, enhancing the diversity of synthetic samples."
+  },
+  {
+    "subject": "ModelDeployability",
+    "relation": "includes",
+    "object": "InferenceSpeed",
+    "chunk": "methods2",
+    "context": "In clinical application scenarios of medical image diagnosis, model deployability (in- cluding inference speed, memory footprint, energy consumption) is often more critical than extreme performance."
+  },
+  {
+    "subject": "ModelDeployability",
+    "relation": "includes",
+    "object": "MemoryFootprint",
+    "chunk": "methods2",
+    "context": "In clinical application scenarios of medical image diagnosis, model deployability (in- cluding inference speed, memory footprint, energy consumption) is often more critical than extreme performance."
+  },
+  {
+    "subject": "ModelDeployability",
+    "relation": "includes",
+    "object": "EnergyConsumption",
+    "chunk": "methods2",
+    "context": "In clinical application scenarios of medical image diagnosis, model deployability (in- cluding inference speed, memory footprint, energy consumption) is often more critical than extreme performance."
+  },
+  {
+    "subject": "mobilenetv2",
+    "relation": "actsAs",
+    "object": "FeatureExtractionBackboneNetwork",
+    "chunk": "methods2",
+    "context": "This work selects MobileNetV2 as the feature extraction backbone network."
+  },
+  {
+    "subject": "InvertedResidualStructure",
+    "relation": "reduces",
+    "object": "ParameterCount",
+    "chunk": "methods2",
+    "context": "Its inverted residual structure maintains expressive power while sig- nificantly reducing parameter count and computational complexity."
+  },
+  {
+    "subject": "InvertedResidualStructure",
+    "relation": "reduces",
+    "object": "ComputationalComplexity",
+    "chunk": "methods2",
+    "context": "Its inverted residual structure maintains expressive power while sig- nificantly reducing parameter count and computational complexity."
+  },
+  {
+    "subject": "mobilenetv2",
+    "relation": "constructs",
+    "object": "FeaturePyramid",
+    "chunk": "methods2",
+    "context": "MobileNetV2 constructs a feature pyramid by stacking multiple inverted residual modules, progressively abstracting from low-level edge textures to high-level semantic information."
+  },
+  {
+    "subject": "mobilenetv2",
+    "relation": "stacks",
+    "object": "InvertedResidualModule",
+    "chunk": "methods2",
+    "context": "MobileNetV2 constructs a feature pyramid by stacking multiple inverted residual modules, progressively abstracting from low-level edge textures to high-level semantic information."
+  },
+  {
+    "subject": "GlobalAveragePooling",
+    "relation": "prevents",
+    "object": "Overfitting",
+    "chunk": "methods2",
+    "context": "Global average pooling has stronger generalization capability compared to fully connected layers and introduces no additional parameters, effectively preventing overfitting."
+  },
+  {
+    "subject": "ClassicalConvolutionalNeuralNetwork",
+    "relation": "constructs",
+    "object": "DecisionBoundary",
+    "chunk": "methods2",
+    "context": "Classicalconvolutionalneuralnetworksconstructdecisionboundariesthroughstacked nonlinear activation functions and pooling operations."
+  },
+  {
+    "subject": "QuantumComputing",
+    "relation": "leverages",
+    "object": "Superposition",
+    "chunk": "methods2",
+    "context": "Quantum computing leverages the superposition and entanglement properties of qubitstoperformparallelcomputationinhigh-dimensionalHilbertspace."
+  },
+  {
+    "subject": "QuantumComputing",
+    "relation": "leverages",
+    "object": "Entanglement",
+    "chunk": "methods2",
+    "context": "Quantum computing leverages the superposition and entanglement properties of qubitstoperformparallelcomputationinhigh-dimensionalHilbertspace."
+  },
+  {
+    "subject": "QuantumComputing",
+    "relation": "performs",
+    "object": "ParallelComputation",
+    "chunk": "methods2",
+    "context": "Quantum computing leverages the superposition and entanglement properties of qubitstoperformparallelcomputationinhigh-dimensionalHilbertspace."
+  },
+  {
+    "subject": "QuantumFeatureMapping",
+    "relation": "embeds",
+    "object": "ClassicalFeature",
+    "chunk": "methods3",
+    "context": "Throughquan- tum feature mapping, classical features can be embedded into exponentially expanded quantum state space, constructing more complex nonlinear decision boundaries."
+  },
+  {
+    "subject": "QuantumFeatureMapping",
+    "relation": "constructs",
+    "object": "NonlinearDecisionBoundary",
+    "chunk": "methods3",
+    "context": "Throughquan- tum feature mapping, classical features can be embedded into exponentially expanded quantum state space, constructing more complex nonlinear decision boundaries."
+  },
+  {
+    "subject": "QuantumFeatureLayer",
+    "relation": "hasComponent",
+    "object": "AmplitudeEncoding",
+    "chunk": "methods3",
+    "context": "This work designs a lightweight quantum feature layer (QuantumFeatureLayer) with the fol- lowing core components:\n2.4.1 Amplitude Encoding"
+  },
+  {
+    "subject": "ClassicalFeature",
+    "relation": "encodedInto",
+    "object": "QuantumState",
+    "chunk": "methods3",
+    "context": "Classical features need to be encoded into quantum states."
+  },
+  {
+    "subject": "AmplitudeEncoding",
+    "relation": "maps",
+    "object": "ClassicalFeatureVector",
+    "chunk": "methods3",
+    "context": "This work adopts am- plitude encoding: mapping the 256-dimensional classical feature vectorf reduced ∈R256 into the amplitude of an 8-qubit quantum state."
+  },
+  {
+    "subject": "AmplitudeEncoding",
+    "relation": "requires",
+    "object": "Normalization",
+    "chunk": "methods3",
+    "context": "This encoding method has high information density but requires normalization to satisfy the quantum state normalization condition⟨ψ|ψ⟩= 1."
+  }
+]

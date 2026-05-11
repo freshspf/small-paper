@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "SDAQECFramework",
+  "achieves",
+  "ComprehensivePerformance",
+  "usedIn",
+  "CoronaryAngiographyImageClassification",
+  "outperforms",
+  "DeepLearningBaselineModel",
+  "optimizedThrough",
+  "DataDistributionReconstruction",
+  "FeatureDiscriminativeCapabilityEnhancement",
+  "SimplifiedDiffusionAugmentation",
+  "alleviates",
+  "MinorityClassSampleScarcity",
+  "DistributionBias",
+  "QuantumEnhancedFeatureMapping",
+  "improves",
+  "NonlinearRepresentationCapability",
+  "DualLayerDesign",
+  "avoids",
+  "StructuralContradiction",
+  "generates",
+  "MinorityClassSample",
+  "operatesIn",
+  "ImageSpace",
+  "usesTechnique",
+  "ForwardNoiseInjection",
+  "expands",
+  "MinorityClassDistributionCoverage",
+  "maintainsConsistencyOf",
+  "MedicalImagingStructure",
+  "approachesQualityOf",
+  "CompleteDiffusionModel",
+  "utilizes",
+  "FiveStepForwardDiffusion",
+  "reduces",
+  "ComputationalCost",
+  "ControlledRandomPerturbation",
+  "approximates",
+  "TrueDistribution",
+  "SdaqecFramework",
+  "addresses",
+  "ClassImbalanceProblem",
+  "locatedIn",
+  "MedicalImaging",
+  "DataLevelDistributionReconstruction",
+  "uses",
+  "SimplifiedDiffusionModel",
+  "LightweightQuantumFeatureMapping",
+  "enhances",
+  "ModelDiscriminativeCapability",
+  "evaluatedOn",
+  "ArtificialIntelligence",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "Pneumonia",
+  "ChestXRay",
+  "CtImage",
+  "BreastCancer",
+  "DeepLearningModel",
+  "Image",
+  "Classification",
+  "MedicalData",
+  "ClassImbalance",
+  "dataset_covid19Pneumonia",
+  "LowRecallRate",
+  "DiagnosticAccuracy",
+  "ClinicalMisdiagnosis",
+  "PatientRisk",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "Noise",
+  "PathologicalFeature",
+  "GenerativeAdversarialNetwork",
+  "Sample",
+  "TrainingInstability",
+  "ModeCollapse",
+  "DiffusionModel",
+  "DiverseSample",
+  "NoiseAddition"
+]
+
+Triples:
+[
+  {
+    "subject": "SDAQECFramework",
+    "relation": "achieves",
+    "object": "ComprehensivePerformance",
+    "chunk": "discussion",
+    "context": "The SDA-QEC framework proposed in this study achieves comprehensive perfor-\nmance with 98.33% accuracy, sensitivity, and specificity in coronary angiography image\nclassification tasks, significantly outperforming multiple classical deep learning baseline\nmodels."
+  },
+  {
+    "subject": "SDAQECFramework",
+    "relation": "usedIn",
+    "object": "CoronaryAngiographyImageClassification",
+    "chunk": "discussion",
+    "context": "The SDA-QEC framework proposed in this study achieves comprehensive perfor-\nmance with 98.33% accuracy, sensitivity, and specificity in coronary angiography image\nclassification tasks, significantly outperforming multiple classical deep learning baseline\nmodels."
+  },
+  {
+    "subject": "SDAQECFramework",
+    "relation": "outperforms",
+    "object": "DeepLearningBaselineModel",
+    "chunk": "discussion",
+    "context": "The SDA-QEC framework proposed in this study achieves comprehensive perfor-\nmance with 98.33% accuracy, sensitivity, and specificity in coronary angiography image\nclassification tasks, significantly outperforming multiple classical deep learning baseline\nmodels."
+  },
+  {
+    "subject": "SDAQECFramework",
+    "relation": "optimizedThrough",
+    "object": "DataDistributionReconstruction",
+    "chunk": "discussion",
+    "context": "Its performance superiority stems not from a single module but from synergis-\ntic optimization through two pathways: “data distribution reconstruction” and “feature\ndiscriminative capability enhancement.”"
+  },
+  {
+    "subject": "SDAQECFramework",
+    "relation": "optimizedThrough",
+    "object": "FeatureDiscriminativeCapabilityEnhancement",
+    "chunk": "discussion",
+    "context": "Its performance superiority stems not from a single module but from synergis-\ntic optimization through two pathways: “data distribution reconstruction” and “feature\ndiscriminative capability enhancement.”"
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "alleviates",
+    "object": "MinorityClassSampleScarcity",
+    "chunk": "discussion",
+    "context": "Simplified diffusion augmentation alleviates mi-\nnority class sample scarcity and distribution bias issues at the data level, while quantum-\nenhanced feature mapping improves nonlinear representation capability at the model\nlevel, enabling the model to learn more stable decision boundaries on more balanced data\ndistributions."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "alleviates",
+    "object": "DistributionBias",
+    "chunk": "discussion",
+    "context": "Simplified diffusion augmentation alleviates mi-\nnority class sample scarcity and distribution bias issues at the data level, while quantum-\nenhanced feature mapping improves nonlinear representation capability at the model\nlevel, enabling the model to learn more stable decision boundaries on more balanced data\ndistributions."
+  },
+  {
+    "subject": "QuantumEnhancedFeatureMapping",
+    "relation": "improves",
+    "object": "NonlinearRepresentationCapability",
+    "chunk": "discussion",
+    "context": "Simplified diffusion augmentation alleviates mi-\nnority class sample scarcity and distribution bias issues at the data level, while quantum-\nenhanced feature mapping improves nonlinear representation capability at the model\nlevel, enabling the model to learn more stable decision boundaries on more balanced data\ndistributions."
+  },
+  {
+    "subject": "DualLayerDesign",
+    "relation": "avoids",
+    "object": "StructuralContradiction",
+    "chunk": "discussion",
+    "context": "This dual-layer design fundamentally avoids the structural contradiction\nin traditional methods on imbalanced data of “high sensitivity-low specificity” or “high\nspecificity-high missed diagnosis rate.”"
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "generates",
+    "object": "MinorityClassSample",
+    "chunk": "discussion",
+    "context": "Compared to traditional geometric or photometric augmentation, random resam-\npling, and SMOTE interpolation methods, the simplified diffusion augmentation adopted\nin this work generates minority class samples in image space rather than feature space\nthroughforwardnoiseinjection, effectivelyexpandingminorityclassdistributioncoverage\nwhile maintaining consistency of key medical imaging structures."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "operatesIn",
+    "object": "ImageSpace",
+    "chunk": "discussion",
+    "context": "Compared to traditional geometric or photometric augmentation, random resam-\npling, and SMOTE interpolation methods, the simplified diffusion augmentation adopted\nin this work generates minority class samples in image space rather than feature space\nthroughforwardnoiseinjection, effectivelyexpandingminorityclassdistributioncoverage\nwhile maintaining consistency of key medical imaging structures."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "usesTechnique",
+    "object": "ForwardNoiseInjection",
+    "chunk": "discussion",
+    "context": "Compared to traditional geometric or photometric augmentation, random resam-\npling, and SMOTE interpolation methods, the simplified diffusion augmentation adopted\nin this work generates minority class samples in image space rather than feature space\nthroughforwardnoiseinjection, effectivelyexpandingminorityclassdistributioncoverage\nwhile maintaining consistency of key medical imaging structures."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "expands",
+    "object": "MinorityClassDistributionCoverage",
+    "chunk": "discussion",
+    "context": "Compared to traditional geometric or photometric augmentation, random resam-\npling, and SMOTE interpolation methods, the simplified diffusion augmentation adopted\nin this work generates minority class samples in image space rather than feature space\nthroughforwardnoiseinjection, effectivelyexpandingminorityclassdistributioncoverage\nwhile maintaining consistency of key medical imaging structures."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "maintainsConsistencyOf",
+    "object": "MedicalImagingStructure",
+    "chunk": "discussion",
+    "context": "Compared to traditional geometric or photometric augmentation, random resam-\npling, and SMOTE interpolation methods, the simplified diffusion augmentation adopted\nin this work generates minority class samples in image space rather than feature space\nthroughforwardnoiseinjection, effectivelyexpandingminorityclassdistributioncoverage\nwhile maintaining consistency of key medical imaging structures."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "approachesQualityOf",
+    "object": "CompleteDiffusionModel",
+    "chunk": "discussion",
+    "context": "Experimental results\nshow this strategy achieves generation quality approaching complete diffusion models\n(FID significantly better than traditional methods) using only 5-step forward diffusion,\nwhiledramaticallyreducingcomputationalcost."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "utilizes",
+    "object": "FiveStepForwardDiffusion",
+    "chunk": "discussion",
+    "context": "Experimental results\nshow this strategy achieves generation quality approaching complete diffusion models\n(FID significantly better than traditional methods) using only 5-step forward diffusion,\nwhiledramaticallyreducingcomputationalcost."
+  },
+  {
+    "subject": "SimplifiedDiffusionAugmentation",
+    "relation": "reduces",
+    "object": "ComputationalCost",
+    "chunk": "discussion",
+    "context": "Experimental results\nshow this strategy achieves generation quality approaching complete diffusion models\n(FID significantly better than traditional methods) using only 5-step forward diffusion,\nwhiledramaticallyreducingcomputationalcost."
+  },
+  {
+    "subject": "ControlledRandomPerturbation",
+    "relation": "approximates",
+    "object": "TrueDistribution",
+    "chunk": "discussion",
+    "context": "Thisdemonstratesthatinmedicalimag-\ning data augmentation scenarios, complete reverse generation processes are unnecessary;\ncontrolled random perturbation alone can effectively approximate true distributions, sig-\n17"
+  },
+  {
+    "subject": "SdaqecFramework",
+    "relation": "addresses",
+    "object": "ClassImbalanceProblem",
+    "chunk": "conclusion",
+    "context": "This study proposes an SDA-QEC framework addressing class imbalance problems in medical imaging, achieving data-level distribution reconstruction through simplified diffusion models and introducing lightweight quantum feature mapping to enhance model discriminative capability."
+  },
+  {
+    "subject": "ClassImbalanceProblem",
+    "relation": "locatedIn",
+    "object": "MedicalImaging",
+    "chunk": "conclusion",
+    "context": "This study proposes an SDA-QEC framework addressing class imbalance problems in medical imaging, achieving data-level distribution reconstruction through simplified diffusion models and introducing lightweight quantum feature mapping to enhance model discriminative capability."
+  },
+  {
+    "subject": "SdaqecFramework",
+    "relation": "achieves",
+    "object": "DataLevelDistributionReconstruction",
+    "chunk": "conclusion",
+    "context": "This study proposes an SDA-QEC framework addressing class imbalance problems in medical imaging, achieving data-level distribution reconstruction through simplified diffusion models and introducing lightweight quantum feature mapping to enhance model discriminative capability."
+  },
+  {
+    "subject": "SdaqecFramework",
+    "relation": "uses",
+    "object": "SimplifiedDiffusionModel",
+    "chunk": "conclusion",
+    "context": "This study proposes an SDA-QEC framework addressing class imbalance problems in medical imaging, achieving data-level distribution reconstruction through simplified diffusion models and introducing lightweight quantum feature mapping to enhance model discriminative capability."
+  },
+  {
+    "subject": "SdaqecFramework",
+    "relation": "uses",
+    "object": "LightweightQuantumFeatureMapping",
+    "chunk": "conclusion",
+    "context": "This study proposes an SDA-QEC framework addressing class imbalance problems in medical imaging, achieving data-level distribution reconstruction through simplified diffusion models and introducing lightweight quantum feature mapping to enhance model discriminative capability."
+  },
+  {
+    "subject": "LightweightQuantumFeatureMapping",
+    "relation": "enhances",
+    "object": "ModelDiscriminativeCapability",
+    "chunk": "conclusion",
+    "context": "This study proposes an SDA-QEC framework addressing class imbalance problems in medical imaging, achieving data-level distribution reconstruction through simplified diffusion models and introducing lightweight quantum feature mapping to enhance model discriminative capability."
+  },
+  {
+    "subject": "SdaqecFramework",
+    "relation": "evaluatedOn",
+    "object": "CoronaryAngiographyImageClassification",
+    "chunk": "conclusion",
+    "context": "In coronary angiography image classification tasks, it achieves comprehensive performance significantly superior to existing methods."
+  }
+]

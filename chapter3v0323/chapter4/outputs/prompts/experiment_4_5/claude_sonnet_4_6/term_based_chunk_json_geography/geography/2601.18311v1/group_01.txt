@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "facility_universityOfTokyo",
+  "locatedIn",
+  "ward_bunkyoKu",
+  "city_tokyo",
+  "country_japan",
+  "facility_isas",
+  "city_sagamihara",
+  "facility_rikenPioneeringResearchInstitute",
+  "city_wako",
+  "facility_maxPlanckInstitut",
+  "city_heidelberg",
+  "country_germany",
+  "facility_europeanXfel",
+  "city_schenefeld",
+  "facility_nationalInstituteForFusionScience",
+  "city_toki",
+  "facility_instituteForLaserScience",
+  "city_chofu",
+  "facility_rikkyoUniversity",
+  "ward_toshimaKu",
+  "facility_universityOfMiyazaki",
+  "city_miyazaki",
+  "facility_rikenSpring8Center",
+  "city_sayo",
+  "prefecture_hyogo",
+  "equipment_ebit",
+  "installedAt",
+  "facility_isasJaxa",
+  "equipment_jaxaEbit",
+  "operatedAt",
+  "facility_spring8",
+  "developedAt",
+  "facility_lawrenceLivermoreNationalLaboratory",
+  "location_hongo",
+  "ward_chuoKu",
+  "equipment_ebits",
+  "facility_llnl",
+  "facility_nist",
+  "facility_mpik",
+  "ebit_jaxaEbit",
+  "spectralFeature_feLComplex",
+  "GalaxyCluster",
+  "SupernovaRemnant",
+  "beamline_bl17su",
+  "apparatus_xps",
+  "mirror_kbSystem",
+  "region_jaxaEbitTrap",
+  "beamlineBranch_bl17suA",
+  "SiliconDriftDetector",
+  "CentralTrapRegion",
+  "JaxaEbit",
+  "Bl17suBeamline",
+  "Spring8",
+  "BeamAxis",
+  "AuFoilPhotoelectronMeter",
+  "IonCloud",
+  "Ebit",
+  "YagScreen",
+  "DownstreamEnd",
+  "EbitVacuumChamber",
+  "NeutralIron",
+  "EbitTrapRegion",
+  "NeutralOxygen",
+  "EbitChamber",
+  "SynchrotronPhotonBeam",
+  "SynchrotronRadiation",
+  "EbitDriftTube",
+  "ExitSlit",
+  "Monochromator",
+  "SynchrotronRadiationBeam",
+  "EnergyResolution",
+  "PhotonBeam",
+  "HighlyChargedIon",
+  "KShellElectron",
+  "HeLikeO6PlusIon",
+  "MShellElectron",
+  "NaLikeFe15PlusIon",
+  "Trap",
+  "XRayEvent",
+  "RegionOfInterest"
+]
+
+Triples:
+[
+  {
+    "subject": "facility_universityOfTokyo",
+    "relation": "locatedIn",
+    "object": "ward_bunkyoKu",
+    "chunk": "completedocument1",
+    "context": "1)Department of Physics, The University of Tokyo, 7-3-1 Hongo, Bunkyo-ku, Tokyo 113-0033, Japan"
+  },
+  {
+    "subject": "ward_bunkyoKu",
+    "relation": "locatedIn",
+    "object": "city_tokyo",
+    "chunk": "completedocument1",
+    "context": "1)Department of Physics, The University of Tokyo, 7-3-1 Hongo, Bunkyo-ku, Tokyo 113-0033, Japan"
+  },
+  {
+    "subject": "city_tokyo",
+    "relation": "locatedIn",
+    "object": "country_japan",
+    "chunk": "completedocument1",
+    "context": "1)Department of Physics, The University of Tokyo, 7-3-1 Hongo, Bunkyo-ku, Tokyo 113-0033, Japan"
+  },
+  {
+    "subject": "facility_isas",
+    "relation": "locatedIn",
+    "object": "city_sagamihara",
+    "chunk": "completedocument1",
+    "context": "2)Institute of Space and Astronautical Science (ISAS), Japan Aerospace Exploration Agency (JAXA), 3-1-1 Yoshinodai,\nChuo-ku, Sagamihara 252-5210, Japan"
+  },
+  {
+    "subject": "city_sagamihara",
+    "relation": "locatedIn",
+    "object": "country_japan",
+    "chunk": "completedocument1",
+    "context": "2)Institute of Space and Astronautical Science (ISAS), Japan Aerospace Exploration Agency (JAXA), 3-1-1 Yoshinodai,\nChuo-ku, Sagamihara 252-5210, Japan"
+  },
+  {
+    "subject": "facility_rikenPioneeringResearchInstitute",
+    "relation": "locatedIn",
+    "object": "city_wako",
+    "chunk": "completedocument1",
+    "context": "3)RIKEN Pioneering Research Institute, RIKEN, 2-1 Hirosawa, Wako 351-0198, Japan"
+  },
+  {
+    "subject": "city_wako",
+    "relation": "locatedIn",
+    "object": "country_japan",
+    "chunk": "completedocument1",
+    "context": "3)RIKEN Pioneering Research Institute, RIKEN, 2-1 Hirosawa, Wako 351-0198, Japan"
+  },
+  {
+    "subject": "facility_maxPlanckInstitut",
+    "relation": "locatedIn",
+    "object": "city_heidelberg",
+    "chunk": "completedocument1",
+    "context": "4)Max-Planck-Institut f¨ ur Kernphysik, Saupfercheckweg 1, 69117 Heidelberg, Germany"
+  },
+  {
+    "subject": "city_heidelberg",
+    "relation": "locatedIn",
+    "object": "country_germany",
+    "chunk": "completedocument1",
+    "context": "4)Max-Planck-Institut f¨ ur Kernphysik, Saupfercheckweg 1, 69117 Heidelberg, Germany"
+  },
+  {
+    "subject": "facility_europeanXfel",
+    "relation": "locatedIn",
+    "object": "city_schenefeld",
+    "chunk": "completedocument1",
+    "context": "5)European XFEL, Holzkoppel 4, 22869 Schenefeld, Germany"
+  },
+  {
+    "subject": "city_schenefeld",
+    "relation": "locatedIn",
+    "object": "country_germany",
+    "chunk": "completedocument1",
+    "context": "5)European XFEL, Holzkoppel 4, 22869 Schenefeld, Germany"
+  },
+  {
+    "subject": "facility_nationalInstituteForFusionScience",
+    "relation": "locatedIn",
+    "object": "city_toki",
+    "chunk": "completedocument1",
+    "context": "6)National Institute for Fusion Science, National Institutes of Natural Sciences, 322-6 Oroshi-cho, Toki 509-5292, Japan"
+  },
+  {
+    "subject": "city_toki",
+    "relation": "locatedIn",
+    "object": "country_japan",
+    "chunk": "completedocument1",
+    "context": "6)National Institute for Fusion Science, National Institutes of Natural Sciences, 322-6 Oroshi-cho, Toki 509-5292, Japan"
+  },
+  {
+    "subject": "facility_instituteForLaserScience",
+    "relation": "locatedIn",
+    "object": "city_chofu",
+    "chunk": "completedocument1",
+    "context": "7)Institute for Laser Science, The University of Electro-Communications, 1-5-1 Chofugaoka, Chofu 182-8585, Japan"
+  },
+  {
+    "subject": "city_chofu",
+    "relation": "locatedIn",
+    "object": "country_japan",
+    "chunk": "completedocument1",
+    "context": "7)Institute for Laser Science, The University of Electro-Communications, 1-5-1 Chofugaoka, Chofu 182-8585, Japan"
+  },
+  {
+    "subject": "facility_rikkyoUniversity",
+    "relation": "locatedIn",
+    "object": "ward_toshimaKu",
+    "chunk": "completedocument1",
+    "context": "8)Department of Physics, Rikkyo University, 3-34-1 Nishi Ikebukuro, Toshima-ku, Tokyo 171-8501, Japan"
+  },
+  {
+    "subject": "ward_toshimaKu",
+    "relation": "locatedIn",
+    "object": "city_tokyo",
+    "chunk": "completedocument1",
+    "context": "8)Department of Physics, Rikkyo University, 3-34-1 Nishi Ikebukuro, Toshima-ku, Tokyo 171-8501, Japan"
+  },
+  {
+    "subject": "facility_universityOfMiyazaki",
+    "relation": "locatedIn",
+    "object": "city_miyazaki",
+    "chunk": "completedocument1",
+    "context": "9)Faculty of Engineering, University of Miyazaki, 1-1 Gakuen Kibanadai-nishi, Miyazaki 889-2192 Japan"
+  },
+  {
+    "subject": "city_miyazaki",
+    "relation": "locatedIn",
+    "object": "country_japan",
+    "chunk": "completedocument1",
+    "context": "9)Faculty of Engineering, University of Miyazaki, 1-1 Gakuen Kibanadai-nishi, Miyazaki 889-2192 Japan"
+  },
+  {
+    "subject": "facility_rikenSpring8Center",
+    "relation": "locatedIn",
+    "object": "city_sayo",
+    "chunk": "completedocument1",
+    "context": "10)RIKEN SPring-8 Center, RIKEN, 1-1-1 Kouto, Sayo, Hyogo 679-5148, Japan"
+  },
+  {
+    "subject": "city_sayo",
+    "relation": "locatedIn",
+    "object": "prefecture_hyogo",
+    "chunk": "completedocument1",
+    "context": "10)RIKEN SPring-8 Center, RIKEN, 1-1-1 Kouto, Sayo, Hyogo 679-5148, Japan"
+  },
+  {
+    "subject": "prefecture_hyogo",
+    "relation": "locatedIn",
+    "object": "country_japan",
+    "chunk": "completedocument1",
+    "context": "10)RIKEN SPring-8 Center, RIKEN, 1-1-1 Kouto, Sayo, Hyogo 679-5148, Japan"
+  },
+  {
+    "subject": "equipment_ebit",
+    "relation": "installedAt",
+    "object": "facility_isasJaxa",
+    "chunk": "completedocument1",
+    "context": "An EBIT with a design that allows combined operation with synchrotron radiation facilities was developed based on the Heidelberg Compact EBIT and installed at ISAS/JAXA for this purpose."
+  },
+  {
+    "subject": "equipment_jaxaEbit",
+    "relation": "operatedAt",
+    "object": "facility_spring8",
+    "chunk": "completedocument1",
+    "context": "We conducted a spectroscopic experiment using the JAXA-EBIT at the synchrotron radiation facility SPring-8, and successfully obtained high-resolution spectra of the Lαresonance transition of Ne-like Fe16+ions, 3C, as well as the Kα\nresonance transition of He-like O6+ions."
+  },
+  {
+    "subject": "equipment_ebit",
+    "relation": "developedAt",
+    "object": "facility_lawrenceLivermoreNationalLaboratory",
+    "chunk": "completedocument1",
+    "context": "Since the development of the EBIT at Lawrence Liv-\nermore National Laboratory (LLNL) in the 1980s, vari-\nous experiments to measure atomic data have been car-\nried out through spectroscopic observations of EBIT plas-\nmas using different types of EBITs operated at, for exam-\nple, LLNL, National Institute of Standards and Technology\n(NIST), and Max-Planck-Institut f ¨ur Kernphysik (MPIK)."
+  }
+]

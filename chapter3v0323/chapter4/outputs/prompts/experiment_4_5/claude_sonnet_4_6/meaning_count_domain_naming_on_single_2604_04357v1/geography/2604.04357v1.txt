@@ -1,0 +1,363 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Spatially-Weighted CLIP for Street-View Geo-localization
+Ting Han1,2, Fengjiao Li2, Chunsong Chen1, Haoling Huang3, Yiping Chen1,∗, Meiliu Wu2,∗
+1School of Geospatial Engineering and Science, Sun Yat-Sen University, Zhuhai, China
+2School of Geographical and Earth Sciences, University of Glasgow, Glasgow, United Kingdom
+2School of System Science and Engineering, Sun Yat-Sen University, Guangzhou, China
+Keywords:GeoAI, Spatial Autocorrelation, Geo-Localization, CLIP, Street-View, Geographic Alignment.
+1. Introduction
+Street-view geo-localization (Yan and Lee, 2024, Ye et al.,
+2025) aims to infer the geographic position of a query street-
+level image by matching it to a gallery of geo-tagged obser-
+vations. In many real-world deployments, images are accom-
+panied by GPS coordinates (Xu et al., 2024) but lack dense
+semantic text annotations, resulting in inherently weak super-
+vision. Semantic text annotations (e.g., descriptions of streets,
+landmarks, or building functions) often provide richer localiz-
+ation cues than coordinates alone (Han et al., 2025). By lever-
+aging these two sources of information, we can view street-
+view geo-localization as learning retrieval-friendly represent-
+ations under geographic constraints.
+Specifically, we learn a shared embedding space in which a
+query image is closer to its true location and the descriptions
+within its spatial neighborhood, enabling similarity-based re-
+trieval of the most plausible match from a reference data-
+base. Within this formulation, contrastive representation learn-
+ing (Chen et al., 2020) is a natural choice, as it can directly ex-
+ploit paired cross-modal relationships to learn retrieval-oriented
+embeddings. However, most contrastive objectives used in vis-
+ion–language learning, especially CLIP-style InfoNCE (Rad-
+ford et al., 2021, Li et al., 2022), implicitly assume a single
+discrete positive for each pair, treating all other candidates as
+equally negative. This assumption does not align with geo-
+graphic space, wherenearby locations are inherently more re-
+lated than distant ones.
+Some CLIP-based efforts (e.g., GeoCLIP (Vivanco Cepeda et
+al., 2023) and AddressCLIP (Xu et al., 2024)) in geospatial
+science show that CLIP-style retrieval can be adapted to geo-
+graphic tags, such as GPS coordinates and address hierarch-
+ies. However, their contrastive supervision remains fundament-
+ally pairwise: each query has a single positive, while all other
+samples in the mini-batch are treated as equally negative. As
+a result, the geographic “false-negative” issue is largely unre-
+solved—locations that are spatially close and should be con-
+sidered weak positives are instead pushed away as hard negat-
+ives during training.
+A defining property of geographic phenomena is spatial auto-
+correlation, commonly expressed byTobler’s First Law of Geo-
+graphy (TFL): near things are more related than distant things
+(Tobler, 1970). For street-view images, the same principle sug-
+gests that observations captured within a neighborhood (e.g.,
+the same block or adjacent intersections) should not be treated
+as uniformly negative relative to one another. Instead, they of-
+ten exhibit continuity in both visual appearance and spatial con-
+text. If such nearby locations are penalized as hard negatives
+during training, the learned embedding space can become sens-
+itive and spatially uncorrelated, leading to spatial bias, which
+means predictions that land in the correct vicinity but not ex-
+actly at the paired coordinate.
+Spatial-aware CLIP (Han et al., 2025, Suo et al., 2023, Wang
+et al., 2025) variants highlight the importance of modeling
+spatial structure, but they do not explicitly instantiate Tobler-
+consistent, distance-decayed supervision for geo-localization.
+Therefore, our contribution is not “CLIP for geospatial
+tasks”, but a general mechanism for geographic alignment:
+distance-weighted soft supervision coupled with neighborhood-
+consistency regularization to preserve and strengthen neighbor-
+hood structure in the embedding space.
+To this end, we proposeSpatially-Weighted CLIP (SW-
+CLIP), a novel spatial autocorrelation-oriented reformulation
+of CLIP that shifts the objective from semantic alignment to
+geographic alignment. The key idea is to (1) redefine the
+text branch as location-as-text, where a location caption en-
+codes a real geographic position using coordinate tokens and
+administrative tokens, and (2) replace the one-hot supervision
+in InfoNCE with spatially weighted soft labels derived from
+geodesic distance. In addition, we explicitly enforce neigh-
+borhood consistency within each modality: nearby images
+should have similar image embeddings, and nearby location
+texts should have similar text embeddings. These components
+jointly inject spatial thinking into contrastive learning, produ-
+cing cross-modal representations that preserve neighborhood
+structure and better support street-view geo-localization.
+2. Method
+2.1 Problem Definition
+We assume a dataset of geo-tagged street-view images
+(xi, pi)N
+i=1, wherex i is an image andp i = (ϕi, λi)denotes the
+latitude and longitude. Hierarchical identifiers such as streets i
+and cityc i are also available. We learn an image encoderFand
+a text encoderGthat map inputs into shared feature spaces.
+We compute geodesic distancesdij using the numerically stable
+Haversine formula:
+dij = 2Rarcsin(√aij),(1)
+aij =sin 2(∆ϕ
+2 ) +cosϕ icosϕjsin2(∆λ
+2 ),(2)
+where the Earth radiusR= 6,371,000m and angles are in
+radians. Distances provide the basis for spatial weighting and
+neighborhood definition.
+arXiv:2604.04357v1 [cs.CV] 6 Apr 2026
+Query
+[Location / Context]
+Architecture Style
+Urban Layout
+Streetscape
+Tobler’s First Law of Geography
+near things are more related than
+distant things
+Reference
+0.9 Similarity √
+0.7 Similarity ×
+0.2 Similarity ×
+All negative samples in tranditional CLIP model.
+CLIP
+SW-CLIP
+Architecture Style
+Urban Layout
+Streetscape
+[Location / Context]
+Architecture Style
+Urban Layout
+Streetscape
+Geo-Encoder
+One-Hot Label
+Spatial Soft Label
+Spatial Autocorrelation
+Figure 1.Motivation and overview of SW-CLIP.Standard CLIP training treats all non-matching samples in a mini-batch as equally
+negative, which can incorrectly penalize geographically nearby observations that share similar scene context. Guided byTobler’s First
+Law of Geography and spatial autocorrelation, SW-CLIP replaces the hard one-hot supervision with a distance-aware spatial soft
+label: nearby locations receive higher similarity targets while distant locations are down-weighted. This geographic weighting reduces
+false-negative conflicts in contrastive learning and encourages embeddings to be both retrieval-friendly and spatially coherent for
+street-view geo-localization.
+2.2 Location-as-Text
+Standard CLIP aligns images with natural-language captions
+that describe semantic content. For geo-localization, we instead
+define a location caption that explicitly encodes the real geo-
+graphic position. A simple template is: [Street:s i, City:c i,
+Country:k i. Lat:ϕ i, Lon:λ i.]. The critical design choice is
+that the text branch becomes a learnable encoder of geographic
+position (Text features are not merely semantic; they are repres-
+entations of a point in geographic space). Location-as-Text al-
+lows the model to retrieve locations using the same mechanism
+by which CLIP retrieves semantic captions, enabling within-
+text neighborhood constraints that encourage the location-text
+embedding space to a continuous geographic manifold.
+Importantly, the key mechanism by which we inject spatial
+structure into learning is not the coordinate tokenization it-
+self, but our distance-aware supervision. We compute pairwise
+geodesic distancesd ijusing the Haversine formula, derive a
+distance-decayed spatial soft-label distributionw ij, and optim-
+ize a spatially-weighted InfoNCE objective so that nearby loca-
+tions are treated as graded positives rather than uniformly hard
+negatives. Together with the neighborhood-consistency regular-
+ization described in our framework, these components encour-
+age the embedding space to preserve Tobler-consistent neigh-
+borhood relationships.
+2.3 Spatially-Weighted CLIP
+Given a batch of paired embeddings(v i, ti)B
+i=1, the standard
+CLIP image-to-text InfoNCE objective is:
+LCLIP =− 1
+i=1
+log exp(sim(vi, ti)/τ)PB
+j=1 exp(sim(vi, tj)/τ)
+,(3)
+whereτis a temperature. This defines exactly one positive per
+query and treats all other candidates as negatives.
+Tobler’s first law suggests that nearby locations are more
+closely related. We construct a spatial soft label distributionwij
+over candidate location texts for each image queryi. Firstly, we
+define a local distance-decay kernel:
+wlocal
+ij =exp(− d2
+2σ2 )·1[d ij < d cut],(4)
+whereσandd cut denote the scale and cutoff. Secondly, we
+incorporate hierarchical geographic relationshipsw prior
+ij into
+normalized final weightsw ij. Finally, we modify InfoNCE by
+weighting the log-softmax term with the spatial soft labels:
+LSW =− 1
+i=1
+j=1
+wijlog exp(sim(vi, tj)/τ)PB
+k=1 exp(sim(vi, tk)/τ)
+,(5)
+shifting CLIP from semantic alignment to geographic align-
+ment. This strategy is rewarded for producing high similarity
+not only for the exact paired location text but also for geograph-
+ically nearby location texts with smoothly decaying weights.
+To account for spatial fairness, we introduce a region-level reg-
+ularizer. We partition samples intoRgeographic regions and
+denote byB r the set of indices in the current mini-batch that
+belong to regionr. We define a differentiable regional perform-
+ance proxyPerf r and penalize its variance across regions:
+Lfair =
+r=1
+Perfr − Perf
+, Perf = 1
+r=1
+Perfr.(6)
+Table 1. Main results of the proposed method in geo-localization task. The best results are inbold.
+Model Med. GE (m)↓Mean GE (m)↓R@1↑Geo-Align↑SSI↑City-Align↑
+CLIP (ViT-B) 276.80 6,723.54 0.421 0.000 0.103 0.259
+SW-CLIP (ViT-B) 91.96 449.25 0.910 0.550 0.621 0.737
+SW-CLIP (ViT-L)81.10 428.29 0.994 0.657 0.781 0.922
+only L-a-T (ViT-B) 185.40 2980.31 0.565 0.123 0.265 0.308
+wherePerf r denotes the average probability assigned to the
+ground-truth location text within the regionr.
+3. Experiments
+3.1 Configuration
+3.1.1 DatasetWe use the xRI dataset 1 collected from eight
+cities in the United Kingdom, comprising 806 geo-referenced
+samples. Each sample consists of (1) an RGB street-view im-
+age and (2) the corresponding GPS coordinates in latitude and
+longitude. All samples are associated with a street block and
+city identifier using Claude-4.5.
+3.1.2 MetricsWe evaluate geo-localization as retrieval over
+a gallery of location texts with known coordinates. For each
+query image, we retrieve the top-K candidates by cosine sim-
+ilarity and compute the Geolocation error, Recall@K, Cross-
+modal alignment, and Spatial Smoothness Index.
+3.1.3 SetupsWe initialize from an off-the-shelf CLIP
+checkpoint with ViT-B/16 and ViT-L/14. All embeddings are
+L2-normalized, and similarity is computed via cosine similarity.
+We optimize the total lossL total =L SW +λ f airLf air, where
+Lf air mitigates geographic imbalance across regions. We train
+using AdamW with weight decay and a cosine learning-rate
+schedule on a single RTX 3090 GPU.
+3.2 Main Results
+Table 1 summarizes the geo-localization performance of three
+settings: the CLIP baseline with a ViT-B backbone, our pro-
+posed SW-CLIP with the same backbone, and SW-CLIP with
+a larger ViT-H backbone. Injecting spatial autocorrelation into
+contrastive learning yields substantial gains in both localization
+accuracy and spatial coherence, while scaling up the backbone
+provides additional improvements.
+Compared with CLIP (ViT-B), which achieves a median geo-
+localization error of 276.80 m and a mean error of 6,723.54 m,
+SW-CLIP (ViT-B) reduces the median error to 91.96 m and the
+mean error to 449.25 m. This indicates that spatially weighted
+supervision not only improves typical-case accuracy but also
+markedly suppresses long-tail failures that inflate the mean er-
+ror. Retrieval performance improves dramatically under SW-
+CLIP, demonstrating that SW-CLIP primarily helps by consist-
+ently ranking the correct location, thereby reducing spatial bias.
+Spatial structure diagnostics also confirm the effectiveness of
+our geographic alignment design. CLIP shows weak spatial
+consistency. In contrast, SW-CLIP substantially improves these
+metrics (Geo-Align, SSI, and City-Align), indicating more
+1 https://www.xri.online/
+Tobler-consistent neighborhood smoothness and stronger city-
+level clustering in the embedding space. In summary, SW-CLIP
+consistently outperforms the CLIP baseline in geo-localization
+accuracy, retrieval reliability, and spatial coherence.
+3.3 Ablation Studies
+We report an ablation variant that uses Location-as-Text only
+(“only L-a-T”), i.e., replacing natural-language captions with
+location captions (street/city/country and coordinates) with
+standard CLIP InfoNCE loss. As shown in Table 1, this result
+yields a moderate improvement over CLIP, but remains sub-
+stantially worse than SW-CLIP (ViT-B). Location prompting
+suggests limited neighborhood preservation in the embedding
+space. In contrast, SW-CLIP consistently boosts spatial co-
+herence, validating our central claim: the key improvement
+comes from distance-weighted soft supervision and the result-
+ing Tobler-consistent geographic alignment.
+4. Conclusion
+We presented Spatially-Weighted CLIP (SW-CLIP), a geo-
+spatially inspired reformulation of CLIP for street-view geo-
+localization that explicitly injects spatial autocorrelation into
+contrastive learning. By encoding location as text and repla-
+cing one-hot InfoNCE supervision with distance-based soft la-
+bels, SW-CLIP learns embeddings that are geographically co-
+herent. Experiments show large improvements in geolocation
+accuracy, with markedly higher spatial smoothness and city-
+level alignment. These results highlight the importance of mov-
+ing from semantic alignment to geographic alignment for robust
+geo-localization and suggest a general recipe for incorporating
+spatial principles into multimodal representation learning.
+References
+Chen, T., Kornblith, S., Norouzi, M., Hinton, G., 2020. A
+simple framework for contrastive learning of visual represent-
+ations.International conference on machine learning, PmLR,
+1597–1607.
+Han, T., Chen, H., Wang, C., Ren, Y ., Wu, M., 2025. Towards a
+new era of geo-foundation models: Expert-guided multimodal
+alignment and geospatial context awareness.Proceedings of
+the 33rd ACM International Conference on Advances in Geo-
+graphic Information Systems, 454–465.
+Li, J., Li, D., Xiong, C., Hoi, S., 2022. Blip: Bootstrapping
+language-image pre-training for unified vision-language under-
+standing and generation.International conference on machine
+learning, PMLR, 12888–12900.
+Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G.,
+Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J. et al.,
+2021. Learning transferable visual models from natural lan-
+guage supervision.International conference on machine learn-
+ing, PmLR, 8748–8763.
+Suo, Y ., Zhu, L., Yang, Y ., 2023. Text augmented spatial-
+aware zero-shot referring image segmentation.arXiv preprint
+arXiv:2310.18049.
+Tobler, W. R., 1970. A computer movie simulating urban
+growth in the Detroit region.Economic geography, 46(sup1),
+234–240.
+Vivanco Cepeda, V ., Nayak, G. K., Shah, M., 2023. Geoclip:
+Clip-inspired alignment between locations and images for ef-
+fective worldwide geo-localization.Advances in Neural Inform-
+ation Processing Systems, 36, 8690–8701.
+Wang, Z., Zhou, S., He, S., Huang, H., Yang, L., Zhang, Z.,
+Cheng, X., Ji, S., Jin, T., Zhao, H. et al., 2025. Spatialclip:
+Learning 3d-aware image representations from spatially dis-
+criminative language.Proceedings of the Computer Vision and
+Pattern Recognition Conference, 29656–29666.
+Xu, S., Zhang, C., Fan, L., Meng, G., Xiang, S., Ye, J.,
+2024. Addressclip: Empowering vision-language models for
+city-wide image address localization.European Conference on
+Computer Vision, Springer, 76–92.
+Yan, Y ., Lee, J., 2024. Georeasoner: Reasoning on geospatially
+grounded context for natural language understanding.Proceed-
+ings of the 33rd ACM international conference on information
+and knowledge management, 4163–4167.
+Ye, J., Lin, H., Ou, L., Chen, D., Wang, Z., Zhu, Q., He, C., Li,
+W., 2025. Where am i? cross-view geo-localization with natural
+language descriptions.Proceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision, 5890–5900.

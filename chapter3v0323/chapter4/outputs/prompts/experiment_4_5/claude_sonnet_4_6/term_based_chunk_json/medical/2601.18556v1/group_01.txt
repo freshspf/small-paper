@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "ArtificialIntelligence",
+  "enhances",
+  "MedicalDiagnostics",
+  "MedicalImageClassification",
+  "detects",
+  "Pneumonia",
+  "detectedFrom",
+  "ChestXRay",
+  "DeepLearningModel",
+  "extractsFeatureFrom",
+  "Image",
+  "performs",
+  "Classification",
+  "MedicalData",
+  "facesChallenge",
+  "ClassImbalance",
+  "dataset_covid19Pneumonia",
+  "hasChallenge",
+  "causes",
+  "LowRecallRate",
+  "reduces",
+  "DiagnosticAccuracy",
+  "increases",
+  "ClinicalMisdiagnosis",
+  "DataAugmentationTechnique",
+  "SampleDiversity",
+  "ExcessiveAugmentation",
+  "introduces",
+  "Noise",
+  "alters",
+  "PathologicalFeature",
+  "GenerativeAdversarialNetwork",
+  "synthesizes",
+  "Sample",
+  "suffersFrom",
+  "TrainingInstability",
+  "ModeCollapse",
+  "DiffusionModel",
+  "produces",
+  "DiverseSample",
+  "simulates",
+  "NoiseAddition",
+  "DenoisingProcess",
+  "QuantumMachineLearning",
+  "leverages",
+  "QuantumEntanglement",
+  "improves",
+  "ModelPerformance",
+  "employs",
+  "ConvolutionalNeuralNetwork",
+  "includes",
+  "model_resnet",
+  "model_resnet50",
+  "PathologicalImageClassification",
+  "Resampling",
+  "addresses",
+  "CtImage",
+  "BreastCancer",
+  "PatientRisk",
+  "Simplification",
+  "QuantumSuperposition",
+  "FeatureExtraction",
+  "model_mobilenet",
+  "LossFunctionModification",
+  "TrainingComplexity",
+  "SuperiorStability",
+  "ComputationalIntensity",
+  "Qubit",
+  "QuantumCircuit",
+  "MriClassification",
+  "QuantumLayer",
+  "model_mobilenetV2",
+  "Feature",
+  "model_simpleDiffusionAugmentor",
+  "ForwardDiffusionProcess",
+  "SyntheticImage",
+  "SdaqecFramework",
+  "ClassImbalanceProblem",
+  "MedicalImageClassificationTask",
+  "MinorityClassSample"
+]
+
+Triples:
+[
+  {
+    "subject": "ArtificialIntelligence",
+    "relation": "enhances",
+    "object": "MedicalDiagnostics",
+    "chunk": "introduction",
+    "context": "In the field of biomedical engineering, artificial intelligence has emerged as a critical tool for enhancing medical diagnostics, particularly in medical image classification tasks such as detecting pneumonia from chest X-rays or CT images [1] and breast cancer [2–4] screening."
+  },
+  {
+    "subject": "MedicalImageClassification",
+    "relation": "detects",
+    "object": "Pneumonia",
+    "chunk": "introduction",
+    "context": "In the field of biomedical engineering, artificial intelligence has emerged as a critical tool for enhancing medical diagnostics, particularly in medical image classification tasks such as detecting pneumonia from chest X-rays or CT images [1] and breast cancer [2–4] screening."
+  },
+  {
+    "subject": "Pneumonia",
+    "relation": "detectedFrom",
+    "object": "ChestXRay",
+    "chunk": "introduction",
+    "context": "In the field of biomedical engineering, artificial intelligence has emerged as a critical tool for enhancing medical diagnostics, particularly in medical image classification tasks such as detecting pneumonia from chest X-rays or CT images [1] and breast cancer [2–4] screening."
+  },
+  {
+    "subject": "DeepLearningModel",
+    "relation": "extractsFeatureFrom",
+    "object": "Image",
+    "chunk": "introduction",
+    "context": "Theseapplicationsrelyondeeplearningmodelstoextractfeaturesfromimages andperformclassification."
+  },
+  {
+    "subject": "DeepLearningModel",
+    "relation": "performs",
+    "object": "Classification",
+    "chunk": "introduction",
+    "context": "Theseapplicationsrelyondeeplearningmodelstoextractfeaturesfromimages andperformclassification."
+  },
+  {
+    "subject": "MedicalData",
+    "relation": "facesChallenge",
+    "object": "ClassImbalance",
+    "chunk": "introduction",
+    "context": "However, real-worldmedicaldatafrequentlyfacethechallenge of class imbalance; for instance, in COVID-19-related pneumonia datasets, the number of positive samples often far exceeds negative samples , leading to models biased toward the majority class and resulting in low recall rates for minority classes."
+  },
+  {
+    "subject": "dataset_covid19Pneumonia",
+    "relation": "hasChallenge",
+    "object": "ClassImbalance",
+    "chunk": "introduction",
+    "context": "However, real-worldmedicaldatafrequentlyfacethechallenge of class imbalance; for instance, in COVID-19-related pneumonia datasets, the number of positive samples often far exceeds negative samples , leading to models biased toward the majority class and resulting in low recall rates for minority classes."
+  },
+  {
+    "subject": "ClassImbalance",
+    "relation": "causes",
+    "object": "LowRecallRate",
+    "chunk": "introduction",
+    "context": "However, real-worldmedicaldatafrequentlyfacethechallenge of class imbalance; for instance, in COVID-19-related pneumonia datasets, the number of positive samples often far exceeds negative samples , leading to models biased toward the majority class and resulting in low recall rates for minority classes."
+  },
+  {
+    "subject": "ClassImbalance",
+    "relation": "reduces",
+    "object": "DiagnosticAccuracy",
+    "chunk": "introduction",
+    "context": "This imbalance not only reduces diagnostic accuracy but also risks clinical misdiagnosis, thereby increasing patient risk."
+  },
+  {
+    "subject": "ClassImbalance",
+    "relation": "increases",
+    "object": "ClinicalMisdiagnosis",
+    "chunk": "introduction",
+    "context": "This imbalance not only reduces diagnostic accuracy but also risks clinical misdiagnosis, thereby increasing patient risk."
+  },
+  {
+    "subject": "DataAugmentationTechnique",
+    "relation": "enhances",
+    "object": "SampleDiversity",
+    "chunk": "introduction",
+    "context": "Traditional data augmentation techniques, such as rotation [5,6], flipping [7], and brightness adjustment [8], can enhance sample diversity but cannot generate truly novel samples."
+  },
+  {
+    "subject": "ExcessiveAugmentation",
+    "relation": "introduces",
+    "object": "Noise",
+    "chunk": "introduction",
+    "context": "In medical imaging, excessive augmentation may introduce noise or alter patho- logical features."
+  },
+  {
+    "subject": "ExcessiveAugmentation",
+    "relation": "alters",
+    "object": "PathologicalFeature",
+    "chunk": "introduction",
+    "context": "In medical imaging, excessive augmentation may introduce noise or alter patho- logical features."
+  },
+  {
+    "subject": "GenerativeAdversarialNetwork",
+    "relation": "synthesizes",
+    "object": "Sample",
+    "chunk": "introduction",
+    "context": "Generative models such as Generative Adversarial Networks can syn- thesize samples but suffer from training instability and mode collapse issues."
+  },
+  {
+    "subject": "GenerativeAdversarialNetwork",
+    "relation": "suffersFrom",
+    "object": "TrainingInstability",
+    "chunk": "introduction",
+    "context": "Generative models such as Generative Adversarial Networks can syn- thesize samples but suffer from training instability and mode collapse issues."
+  },
+  {
+    "subject": "GenerativeAdversarialNetwork",
+    "relation": "suffersFrom",
+    "object": "ModeCollapse",
+    "chunk": "introduction",
+    "context": "Generative models such as Generative Adversarial Networks can syn- thesize samples but suffer from training instability and mode collapse issues."
+  },
+  {
+    "subject": "DiffusionModel",
+    "relation": "produces",
+    "object": "DiverseSample",
+    "chunk": "introduction",
+    "context": "Diffusion models, as an emerging generative paradigm, produce high-quality, diverse samples by simulating noise addition and denoising processes, achieving success in natural image domains."
+  },
+  {
+    "subject": "DiffusionModel",
+    "relation": "simulates",
+    "object": "NoiseAddition",
+    "chunk": "introduction",
+    "context": "Diffusion models, as an emerging generative paradigm, produce high-quality, diverse samples by simulating noise addition and denoising processes, achieving success in natural image domains."
+  },
+  {
+    "subject": "DiffusionModel",
+    "relation": "simulates",
+    "object": "DenoisingProcess",
+    "chunk": "introduction",
+    "context": "Diffusion models, as an emerging generative paradigm, produce high-quality, diverse samples by simulating noise addition and denoising processes, achieving success in natural image domains."
+  },
+  {
+    "subject": "QuantumMachineLearning",
+    "relation": "leverages",
+    "object": "QuantumEntanglement",
+    "chunk": "introduction",
+    "context": "Furthermore, Quantum Machine Learning [9–11], situated at the intersection of quantum computing and AI, leverages quantum entanglement and superposition to en- hance feature extraction, potentially improving model performance on high-dimensional medical images."
+  },
+  {
+    "subject": "QuantumMachineLearning",
+    "relation": "improves",
+    "object": "ModelPerformance",
+    "chunk": "introduction",
+    "context": "Furthermore, Quantum Machine Learning [9–11], situated at the intersection of quantum computing and AI, leverages quantum entanglement and superposition to en- hance feature extraction, potentially improving model performance on high-dimensional medical images."
+  },
+  {
+    "subject": "MedicalImageClassification",
+    "relation": "employs",
+    "object": "ConvolutionalNeuralNetwork",
+    "chunk": "introduction",
+    "context": "Existing research on medical image classification primarily employs Convolutional Neural Networks (CNNs) such as ResNet and MobileNet."
+  },
+  {
+    "subject": "ConvolutionalNeuralNetwork",
+    "relation": "includes",
+    "object": "model_resnet",
+    "chunk": "introduction",
+    "context": "Existing research on medical image classification primarily employs Convolutional Neural Networks (CNNs) such as ResNet and MobileNet."
+  },
+  {
+    "subject": "model_resnet50",
+    "relation": "performs",
+    "object": "PathologicalImageClassification",
+    "chunk": "introduction",
+    "context": "For instance, mainstream models like ResNet50 are commonly used for pathological image classification, achieving high accuracy while overlooking the imbalance problem."
+  },
+  {
+    "subject": "Resampling",
+    "relation": "addresses",
+    "object": "ClassImbalance",
+    "chunk": "introduction",
+    "context": "Strategies for addressing class imbalance include resampling and loss function modifications, such as focal loss."
+  }
+]

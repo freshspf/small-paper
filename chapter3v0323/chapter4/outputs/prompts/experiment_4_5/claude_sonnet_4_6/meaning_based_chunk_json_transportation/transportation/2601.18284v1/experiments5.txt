@@ -1,0 +1,82 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "experiments5",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: experiments5
+- section_title: Experiments
+- page_start: 6
+- page_end: 10
+
+**INPUT TEXT CHUNK:**
+In this dia-
+gram, the vertical axis represents the spatial position along the
+arterial, while the horizontal axis denotes time. The horizontal
+bands correspond to signal states at each intersection in
+the arterial direction, where green and red sections indicate
+green and red phases, respectively. Given the free-flow speed
+of 50 km/h, the slope of the green bands represents the
+distance–time ratio, reflecting the spatiotemporal trajectory
+of vehicles traveling at free-flow speed. When green phases
+appear continuous and aligned along this slope, it indicates
+effective signal coordination, enabling vehicles to travel along
+the arterial without stopping.
+1500
+1550
+1600
+1650
+1700
+Time (s)
+150
+450
+750Position (m)
+Green Wave Band
+EastWest
+Offset = 20 s
+23 s 17 s
+(1595 s)
+Fig. 12: Green Wave Band visualization for the Arterial-3 case.
+In this case, the arterial demand was set to 1200 vehicles
+per hour and the side-street demand to 800 vehicles per hour,
+with an intersection spacing of 300 meters and no turning
+movements (Table X). Under these conditions, the optimal
+green split corresponds to the flow ratio of1200 : 800 (3 : 2),.

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LinearizedOvModel",
+  "governs",
+  "TrafficEvolution",
+  "OscillationDynamics",
+  "surrounds",
+  "SynchronizationState",
+  "SynchronizedTrafficFlow",
+  "exhibits",
+  "TransientResponse",
+  "UnderdampedPattern",
+  "ReactionModel",
+  "incorporates",
+  "ReactionBehavior",
+  "ReactionBehaviorPattern",
+  "characterizedBy",
+  "SystematicLag",
+  "describedBy",
+  "DelayDifferentialEquation",
+  "sharesTransientResponseWith",
+  "OvModel",
+  "CosForceModel",
+  "AnticipationBehavior",
+  "AnticipationBehaviorPattern",
+  "FutureStateEstimation",
+  "ResponseUnit",
+  "performs",
+  "FirstOrderTaylorExpansionEstimator",
+  "estimatesStateAt",
+  "TimeTPlusDelta",
+  "hasEquation",
+  "GoverningDynamicEquation",
+  "leadsTo",
+  "ModifiedPerturbationDynamics",
+  "HomogeneousDifferentialEquation",
+  "produces",
+  "IdenticalPole",
+  "DynamicalSystem",
+  "possesses",
+  "LaplaceTransform",
+  "appliedUnder",
+  "ZeroInitialCondition",
+  "WaveFunctionInput",
+  "generates",
+  "SteadyStateWaveResponse",
+  "TrafficOscillation",
+  "hasProperty",
+  "Hysteresis",
+  "PhaseLag",
+  "SystematicTD",
+  "InputWaveFunction",
+  "represents",
+  "PositionPerturbation",
+  "belongsTo",
+  "LeaderUnit",
+  "SteadyStateResponse",
+  "FollowerUnit",
+  "SpeedOscillation",
+  "TrafficHysteresis",
+  "TimeDelayPhenomenon",
+  "Dynamics",
+  "ResponseMechanism",
+  "DynamicalEvolution",
+  "TimeDelayVariation",
+  "HysteresisExpansion",
+  "HysteresisContraction",
+  "EvolutionOrientation",
+  "StringStability",
+  "MultipleRendezvousPoint",
+  "SpaceSpeedPhasePlane",
+  "ConciseFramework",
+  "DynamicalEquation",
+  "ConstantTimeHeadwayStrategy",
+  "Traffic",
+  "parameter_timeHeadway",
+  "PedestrianContext",
+  "DesiredSpeed",
+  "OptimalVelocity",
+  "TrafficUnit",
+  "PrecedingTrafficUnit",
+  "Position"
+]
+
+Triples:
+[
+  {
+    "subject": "LinearizedOvModel",
+    "relation": "governs",
+    "object": "TrafficEvolution",
+    "chunk": "dynamicframework1",
+    "context": "The underlying dynamics are governed by the differential equation, i.e., linearized OV\nmodel (Bando et al. 1995):"
+  },
+  {
+    "subject": "OscillationDynamics",
+    "relation": "surrounds",
+    "object": "SynchronizationState",
+    "chunk": "dynamicframework1",
+    "context": "This study focuses on the oscillation dynamics surrounding the syn-\nchronization state."
+  },
+  {
+    "subject": "SynchronizedTrafficFlow",
+    "relation": "exhibits",
+    "object": "OscillationDynamics",
+    "chunk": "dynamicframework1",
+    "context": "Consequently, in a dynamical system governed by second order linear differential equations, we\ncan shift the oscillations of the synchronized traffic flow to the origin within the phase space."
+  },
+  {
+    "subject": "TransientResponse",
+    "relation": "exhibits",
+    "object": "UnderdampedPattern",
+    "chunk": "dynamicframework1",
+    "context": "Based on the parameter settings wheret h= 1.3s andτ= 0.5s, it can be determined that the poles are complex\nconjugate pairs with negative real parts, and the transient response exhibits an underdamped pattern."
+  },
+  {
+    "subject": "ReactionModel",
+    "relation": "incorporates",
+    "object": "ReactionBehavior",
+    "chunk": "dynamicframework1",
+    "context": "2.2.Reaction Model (Reaction Behavior + Response Mechanism)"
+  },
+  {
+    "subject": "ReactionBehaviorPattern",
+    "relation": "characterizedBy",
+    "object": "SystematicLag",
+    "chunk": "dynamicframework1",
+    "context": "The reaction behavior pattern, characterized by a systematic lag of the input in the response unit, can be described\nusing delay-differential equations (DDEs)."
+  },
+  {
+    "subject": "ReactionBehaviorPattern",
+    "relation": "describedBy",
+    "object": "DelayDifferentialEquation",
+    "chunk": "dynamicframework1",
+    "context": "The reaction behavior pattern, characterized by a systematic lag of the input in the response unit, can be described\nusing delay-differential equations (DDEs)."
+  },
+  {
+    "subject": "ReactionModel",
+    "relation": "sharesTransientResponseWith",
+    "object": "OvModel",
+    "chunk": "dynamicframework1",
+    "context": "The poles of this dynamical system are consistent with those of the OV model, meaning they share the same transient\nresponsepattern."
+  },
+  {
+    "subject": "CosForceModel",
+    "relation": "incorporates",
+    "object": "AnticipationBehavior",
+    "chunk": "dynamicframework1",
+    "context": "2.3.CosForce Model (Anticipation Behavior + Response Mechanism)"
+  },
+  {
+    "subject": "AnticipationBehaviorPattern",
+    "relation": "characterizedBy",
+    "object": "FutureStateEstimation",
+    "chunk": "dynamicframework1",
+    "context": "Theanticipationbehaviorpatternischaracterizedbytheresponseunitestimatingfuturestatesbasedonagiveninput\nto establish the response dynamics."
+  },
+  {
+    "subject": "ResponseUnit",
+    "relation": "performs",
+    "object": "FutureStateEstimation",
+    "chunk": "dynamicframework1",
+    "context": "Theanticipationbehaviorpatternischaracterizedbytheresponseunitestimatingfuturestatesbasedonagiveninput\nto establish the response dynamics."
+  },
+  {
+    "subject": "FirstOrderTaylorExpansionEstimator",
+    "relation": "estimatesStateAt",
+    "object": "TimeTPlusDelta",
+    "chunk": "dynamicframework2",
+    "context": "Here,ˆx j(t+δ) =x j+δ˙x j represents the first order Taylor expansion estimator ofx jat timet+δ."
+  },
+  {
+    "subject": "CosForceModel",
+    "relation": "hasEquation",
+    "object": "GoverningDynamicEquation",
+    "chunk": "dynamicframework2",
+    "context": "We refer to this as the CosForce model, and the governing dynamic equation is: ¨xi+˙xi τ=(xj+δ˙x j)−x i thτ.(13)"
+  },
+  {
+    "subject": "GoverningDynamicEquation",
+    "relation": "leadsTo",
+    "object": "ModifiedPerturbationDynamics",
+    "chunk": "dynamicframework2",
+    "context": "Leads to the modified perturbation dynamics: ¨ξi+˙ξi τ=(ξj+δ˙ξj)−ξ i thτ.(14)"
+  },
+  {
+    "subject": "HomogeneousDifferentialEquation",
+    "relation": "produces",
+    "object": "IdenticalPole",
+    "chunk": "dynamicframework2",
+    "context": "The form of the homogeneous differential equation remains unchanged, leading to the identical poles of these dy-namical systems."
+  },
+  {
+    "subject": "DynamicalSystem",
+    "relation": "possesses",
+    "object": "IdenticalPole",
+    "chunk": "dynamicframework2",
+    "context": "The form of the homogeneous differential equation remains unchanged, leading to the identical poles of these dy-namical systems."
+  },
+  {
+    "subject": "LaplaceTransform",
+    "relation": "appliedUnder",
+    "object": "ZeroInitialCondition",
+    "chunk": "dynamicframework2",
+    "context": "By taking the Laplace transform under zero initial conditions and solving forG cf(s) =ξ i(s)/ξ j(s), we obtain: Gcf(s) =1 +δs thτs2+ths+ 1.(15)"
+  },
+  {
+    "subject": "WaveFunctionInput",
+    "relation": "generates",
+    "object": "SteadyStateWaveResponse",
+    "chunk": "dynamicframework2",
+    "context": "Under the wave function inputξ j(t) =Asin(ωt), the steady state wave response is given by: ξi,cf(t) =A·M cf·sin(ωt+ϕ cf),(16)"
+  },
+  {
+    "subject": "TrafficOscillation",
+    "relation": "hasProperty",
+    "object": "Hysteresis",
+    "chunk": "analyticalhysteresis1",
+    "context": "Based on the analytical wave function derived, we can analyze various properties of the traffic oscillations, the most important is hysteresis."
+  },
+  {
+    "subject": "DynamicalSystem",
+    "relation": "exhibits",
+    "object": "PhaseLag",
+    "chunk": "analyticalhysteresis1",
+    "context": "From the phase plot in Fig. 1, we observe that the output of the dynamical system exhibits a phase lag relative to the input."
+  },
+  {
+    "subject": "PhaseLag",
+    "relation": "leadsTo",
+    "object": "SystematicTD",
+    "chunk": "analyticalhysteresis1",
+    "context": "When transforming the wave function from the complex frequency domain to the time domain, the phase lag leads to a systematic TD."
+  },
+  {
+    "subject": "InputWaveFunction",
+    "relation": "represents",
+    "object": "PositionPerturbation",
+    "chunk": "analyticalhysteresis1",
+    "context": "We have defined a input wave function ξ j(t) = A sin(ωt) representing the position perturbation of leader unit j."
+  },
+  {
+    "subject": "PositionPerturbation",
+    "relation": "belongsTo",
+    "object": "LeaderUnit",
+    "chunk": "analyticalhysteresis1",
+    "context": "We have defined a input wave function ξ j(t) = A sin(ωt) representing the position perturbation of leader unit j."
+  },
+  {
+    "subject": "SteadyStateResponse",
+    "relation": "belongsTo",
+    "object": "FollowerUnit",
+    "chunk": "analyticalhysteresis1",
+    "context": "The resulting steady state response of follower unit i is ξ i(t) = A·M·sin (ωt+ϕ)."
+  },
+  {
+    "subject": "SpeedOscillation",
+    "relation": "belongsTo",
+    "object": "LeaderUnit",
+    "chunk": "analyticalhysteresis1",
+    "context": "From this, it can be derived that the speed oscillation ˙ξj of the leader unit j is ˙ξj(t) = Aω cos(ωt)."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "AerialBackhaulArchitecture",
+  "employs",
+  "AerialActiveRis",
+  "achieves",
+  "Full3dCoverage",
+  "ActiveRis",
+  "integratedOnto",
+  "HighAltitudeAerialPlatform",
+  "enables",
+  "LineOfSightLink",
+  "overcomes",
+  "MultiplicativeFading",
+  "UavBs",
+  "handles",
+  "TrafficSurge",
+  "deployedIn",
+  "UrbanArea",
+  "reflects",
+  "BackhaulSignal",
+  "amplifies",
+  "Blockage",
+  "AerialBaseStation",
+  "realizedThrough",
+  "extends",
+  "NetworkCoverage",
+  "HighTrafficScenario",
+  "HighAltitudeOperation",
+  "enhances",
+  "Obstacle",
+  "obstructs",
+  "DirectBackhaulLink",
+  "ReconfigurableIntelligentSurface",
+  "WirelessCoverage",
+  "mitigates",
+  "composedOf",
+  "PassiveReflectingElement",
+  "adjusts",
+  "IncidentSignal",
+  "ConventionalRis",
+  "has",
+  "PassiveReflectionElement",
+  "suffersFrom",
+  "incorporates",
+  "ReflectionTypeAmplifier",
+  "SignalAmplification",
+  "ConventionalPassiveRis",
+  "DoubleFadingLoss",
+  "PassiveRis",
+  "Ris",
+  "AerialPlatform",
+  "ElevatedPlatform",
+  "LosAvailability",
+  "ReflectedSignal",
+  "AerialActiveRisArchitecture",
+  "3dCoverage",
+  "AerialActiveRisAssistedBackhaulNetwork",
+  "HeterogeneousUser",
+  "3dBackhaulConnectivity",
+  "UrbanEnvironment",
+  "SevereBlockage",
+  "HighAltitudePlatform",
+  "RisElement",
+  "ActiveAmplifier",
+  "GroundUser",
+  "OmnidirectionalAntenna",
+  "DirectionalAntenna",
+  "UrbanOutdoorEnvironment",
+  "Altitude",
+  "Source",
+  "UniformLinearArray",
+  "Antenna",
+  "AerialRis",
+  "ReflectingElement",
+  "BackhaulLink",
+  "LineOfSightComponent",
+  "GroundSource",
+  "Channel",
+  "PassiveElement",
+  "Signal",
+  "MultiplicativeFadingProblem"
+]
+
+Triples:
+[
+  {
+    "subject": "AerialBackhaulArchitecture",
+    "relation": "employs",
+    "object": "AerialActiveRis",
+    "chunk": "completedocument1",
+    "context": "In this paper, we propose a novel aerial backhaul architecture that employs an aerial active reconfigurable intelligent surface (RIS) to achieve energy-efficient, full 3D coverage including UAV-BSs and ground users in 6G wireless networks."
+  },
+  {
+    "subject": "AerialBackhaulArchitecture",
+    "relation": "achieves",
+    "object": "Full3dCoverage",
+    "chunk": "completedocument1",
+    "context": "In this paper, we propose a novel aerial backhaul architecture that employs an aerial active reconfigurable intelligent surface (RIS) to achieve energy-efficient, full 3D coverage including UAV-BSs and ground users in 6G wireless networks."
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "integratedOnto",
+    "object": "HighAltitudeAerialPlatform",
+    "chunk": "completedocument1",
+    "context": "Unlike prior aerial-RIS approaches limited to 2D coverage with only servicing ground users or passive operation, the proposed design integrates an active-RIS onto a high-altitude aerial platform, enabling reliable line-of-sight links and overcoming multiplicative fading through amplification."
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "enables",
+    "object": "LineOfSightLink",
+    "chunk": "completedocument1",
+    "context": "Unlike prior aerial-RIS approaches limited to 2D coverage with only servicing ground users or passive operation, the proposed design integrates an active-RIS onto a high-altitude aerial platform, enabling reliable line-of-sight links and overcoming multiplicative fading through amplification."
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "overcomes",
+    "object": "MultiplicativeFading",
+    "chunk": "completedocument1",
+    "context": "Unlike prior aerial-RIS approaches limited to 2D coverage with only servicing ground users or passive operation, the proposed design integrates an active-RIS onto a high-altitude aerial platform, enabling reliable line-of-sight links and overcoming multiplicative fading through amplification."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "handles",
+    "object": "TrafficSurge",
+    "chunk": "completedocument1",
+    "context": "In a scenario with UAV-BSs deployed to handle sudden traffic surges in urban areas, the aerial-active-RIS both reflects and amplifies backhaul signals to overcome blockage."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "deployedIn",
+    "object": "UrbanArea",
+    "chunk": "completedocument1",
+    "context": "In a scenario with UAV-BSs deployed to handle sudden traffic surges in urban areas, the aerial-active-RIS both reflects and amplifies backhaul signals to overcome blockage."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "reflects",
+    "object": "BackhaulSignal",
+    "chunk": "completedocument1",
+    "context": "In a scenario with UAV-BSs deployed to handle sudden traffic surges in urban areas, the aerial-active-RIS both reflects and amplifies backhaul signals to overcome blockage."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "amplifies",
+    "object": "BackhaulSignal",
+    "chunk": "completedocument1",
+    "context": "In a scenario with UAV-BSs deployed to handle sudden traffic surges in urban areas, the aerial-active-RIS both reflects and amplifies backhaul signals to overcome blockage."
+  },
+  {
+    "subject": "AerialActiveRis",
+    "relation": "overcomes",
+    "object": "Blockage",
+    "chunk": "completedocument1",
+    "context": "In a scenario with UAV-BSs deployed to handle sudden traffic surges in urban areas, the aerial-active-RIS both reflects and amplifies backhaul signals to overcome blockage."
+  },
+  {
+    "subject": "AerialBaseStation",
+    "relation": "realizedThrough",
+    "object": "UavBs",
+    "chunk": "completedocument1",
+    "context": "In response, researchers have been exploring the deployment of aerial base stations, realized through unmanned-aerial-vehicle-base-stations (UAV-BSs), for rapid and flexible coverage extensions [5], [6]."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "extends",
+    "object": "NetworkCoverage",
+    "chunk": "completedocument1",
+    "context": "These UAV-BSs present a compelling solution for extending network coverage to areas where conventional base station infrastructure is inadequate, offering rapid deployment capabilities in emergency or high-traffic scenarios."
+  },
+  {
+    "subject": "UavBs",
+    "relation": "deployedIn",
+    "object": "HighTrafficScenario",
+    "chunk": "completedocument1",
+    "context": "These UAV-BSs present a compelling solution for extending network coverage to areas where conventional base station infrastructure is inadequate, offering rapid deployment capabilities in emergency or high-traffic scenarios."
+  },
+  {
+    "subject": "HighAltitudeOperation",
+    "relation": "enhances",
+    "object": "LineOfSightLink",
+    "chunk": "completedocument1",
+    "context": "Their high-altitude operation further enhances the likelihood of rich line-of-sight (LoS) links [7], [8], thereby improving communication reliability and efficiency."
+  },
+  {
+    "subject": "Obstacle",
+    "relation": "obstructs",
+    "object": "DirectBackhaulLink",
+    "chunk": "completedocument1",
+    "context": "One of the critical challenges that remains for deploying UAV-BSs is the backhaul connectivity, particularly in dense urban areas where obstacles obstruct direct backhaul links from terrestrial sources and generates non-LoS (NLoS) components, which severely deteriorates the system’s energy-efficiency, posing a critical challenge for 6G wireless networks operating with higher spectrum [15]–[17]."
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "enhances",
+    "object": "WirelessCoverage",
+    "chunk": "completedocument1",
+    "context": "Therefore, the reconfigurable intelligent surfaces (RIS) have been explored as a means to enhance wireless coverage and mitigate blockages [18]–[21]."
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "mitigates",
+    "object": "Blockage",
+    "chunk": "completedocument1",
+    "context": "Therefore, the reconfigurable intelligent surfaces (RIS) have been explored as a means to enhance wireless coverage and mitigate blockages [18]–[21]."
+  },
+  {
+    "subject": "ReconfigurableIntelligentSurface",
+    "relation": "composedOf",
+    "object": "PassiveReflectingElement",
+    "chunk": "completedocument1",
+    "context": "RIS is an artificial metasurface composed of passive reflecting elements capable of adjusting both the amplitude and phase of an incident signal [22], [23]."
+  },
+  {
+    "subject": "PassiveReflectingElement",
+    "relation": "adjusts",
+    "object": "IncidentSignal",
+    "chunk": "completedocument1",
+    "context": "RIS is an artificial metasurface composed of passive reflecting elements capable of adjusting both the amplitude and phase of an incident signal [22], [23]."
+  },
+  {
+    "subject": "ConventionalRis",
+    "relation": "has",
+    "object": "PassiveReflectionElement",
+    "chunk": "completedocument1",
+    "context": "However, conventional RIS has passive reflection elements, which highly suffer from severe “multiplicative fading,” where the path loss is given by the multiplication of Tx-to-RIS and RIS-to-Rx links, limiting their effectiveness in practical scenarios [27], [28]."
+  },
+  {
+    "subject": "PassiveReflectionElement",
+    "relation": "suffersFrom",
+    "object": "MultiplicativeFading",
+    "chunk": "completedocument1",
+    "context": "However, conventional RIS has passive reflection elements, which highly suffer from severe “multiplicative fading,” where the path loss is given by the multiplication of Tx-to-RIS and RIS-to-Rx links, limiting their effectiveness in practical scenarios [27], [28]."
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "incorporates",
+    "object": "ReflectionTypeAmplifier",
+    "chunk": "completedocument1",
+    "context": "Unlike conventional passive-RISs, which only reflect incident signals without amplification, active-RISs incorporate reflection-type amplifiers within each element, thereby enabling signal amplification at the cost of additional power consumption [30]."
+  },
+  {
+    "subject": "ReflectionTypeAmplifier",
+    "relation": "enables",
+    "object": "SignalAmplification",
+    "chunk": "completedocument1",
+    "context": "Unlike conventional passive-RISs, which only reflect incident signals without amplification, active-RISs incorporate reflection-type amplifiers within each element, thereby enabling signal amplification at the cost of additional power consumption [30]."
+  },
+  {
+    "subject": "ConventionalPassiveRis",
+    "relation": "reflects",
+    "object": "IncidentSignal",
+    "chunk": "completedocument1",
+    "context": "Unlike conventional passive-RISs, which only reflect incident signals without amplification, active-RISs incorporate reflection-type amplifiers within each element, thereby enabling signal amplification at the cost of additional power consumption [30]."
+  },
+  {
+    "subject": "ActiveRis",
+    "relation": "mitigates",
+    "object": "DoubleFadingLoss",
+    "chunk": "completedocument2",
+    "context": "Early studies, such as [27], focused on characterizing the performance gains of active-RIS over passive-RIS through sum-rate maximization and comparative analyses, demonstrating that active-RIS can effectively mitigate the double-fading loss inherent in passive architectures."
+  }
+]

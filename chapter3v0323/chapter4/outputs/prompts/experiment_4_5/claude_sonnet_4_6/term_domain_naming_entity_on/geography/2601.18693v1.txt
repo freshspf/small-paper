@@ -1,0 +1,268 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms and triples for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style (e.g., lowerCamelCase or PascalCase)
+   - Remove prefixes like "system_", "tool_", "dataset_" if unnecessary
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Update triples:
+   - Replace original terms with normalized terms
+   - Ensure triples remain semantically valid after normalization
+   - Remove triples involving discarded or invalid terms
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ],
+  "updated_triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "GalaxyCluster",
+  "DarkMatterHalo",
+  "IntraclusterLight",
+  "SatelliteGalaxy",
+  "CentralGalaxy",
+  "DarkMatter",
+  "StellarMaterial",
+  "PhaseSpaceRegion",
+  "SpatialStructure",
+  "SpatialDistribution",
+  "ObservationalSurvey",
+  "CosmologicalSimulation",
+  "galaxyCluster_virgoCluster",
+  "galaxyCluster_smacs0723",
+  "galaxyCluster_hstFrontierFields",
+  "diffuseComponent_intraclusterLight",
+  "matterComponent_darkMatter",
+  "matterComponent_darkMatterDebris",
+  "matterComponent_strippedDarkMatter",
+  "stellarComponent_stars",
+  "stellarComponent_strippedStars",
+  "stellarComponent_stellarDebris",
+  "stellarComponent_centralGalaxy",
+  "spatialStructure_darkMatterHalo",
+  "spatialStructure_satelliteGalaxy",
+  "spatialStructure_streamsOrShells",
+  "spatialDistribution_smoothAndRound",
+  "spatialDistribution_centrallyConcentrated",
+  "spatialRegion_lowerEnergyPhaseSpace",
+  "observationalSurvey_euclid",
+  "observationalSurvey_lsst",
+  "simulation_gadget4",
+  "simulation_horizonAgn",
+  "simulation_hydrangea",
+  "simulation_tng100",
+  "simulation_theThreeHundred"
+]
+
+Triples:
+[
+  {
+    "subject": "GalaxyCluster",
+    "relation": "contains",
+    "object": "spatialStructure_darkMatterHalo"
+  },
+  {
+    "subject": "GalaxyCluster",
+    "relation": "contains",
+    "object": "diffuseComponent_intraclusterLight"
+  },
+  {
+    "subject": "spatialStructure_satelliteGalaxy",
+    "relation": "accretedInto",
+    "object": "spatialStructure_darkMatterHalo"
+  },
+  {
+    "subject": "diffuseComponent_intraclusterLight",
+    "relation": "traces",
+    "object": "matterComponent_darkMatter"
+  },
+  {
+    "subject": "diffuseComponent_intraclusterLight",
+    "relation": "moreCentrallyConcentratedThan",
+    "object": "matterComponent_darkMatter"
+  },
+  {
+    "subject": "diffuseComponent_intraclusterLight",
+    "relation": "sharesShapeWith",
+    "object": "matterComponent_darkMatter"
+  },
+  {
+    "subject": "stellarComponent_strippedStars",
+    "relation": "occupiesRegion",
+    "object": "spatialRegion_lowerEnergyPhaseSpace"
+  },
+  {
+    "subject": "stellarComponent_strippedStars",
+    "relation": "strippedFrom",
+    "object": "spatialStructure_satelliteGalaxy"
+  },
+  {
+    "subject": "matterComponent_strippedDarkMatter",
+    "relation": "strippedFrom",
+    "object": "spatialStructure_satelliteGalaxy"
+  },
+  {
+    "subject": "spatialStructure_satelliteGalaxy",
+    "relation": "contains",
+    "object": "matterComponent_darkMatter"
+  },
+  {
+    "subject": "spatialStructure_satelliteGalaxy",
+    "relation": "contains",
+    "object": "stellarComponent_stars"
+  },
+  {
+    "subject": "matterComponent_darkMatterDebris",
+    "relation": "hasSpatialDistribution",
+    "object": "spatialDistribution_smoothAndRound"
+  },
+  {
+    "subject": "stellarComponent_stellarDebris",
+    "relation": "hasSpatialDistribution",
+    "object": "spatialDistribution_centrallyConcentrated"
+  },
+  {
+    "subject": "stellarComponent_stellarDebris",
+    "relation": "formsStructure",
+    "object": "spatialStructure_streamsOrShells"
+  },
+  {
+    "subject": "matterComponent_darkMatter",
+    "relation": "distributedWithin",
+    "object": "spatialStructure_darkMatterHalo"
+  },
+  {
+    "subject": "stellarComponent_strippedStars",
+    "relation": "settlesInto",
+    "object": "stellarComponent_centralGalaxy"
+  },
+  {
+    "subject": "spatialStructure_darkMatterHalo",
+    "relation": "contains",
+    "object": "stellarComponent_centralGalaxy"
+  },
+  {
+    "subject": "observationalSurvey_euclid",
+    "relation": "detects",
+    "object": "diffuseComponent_intraclusterLight"
+  },
+  {
+    "subject": "observationalSurvey_lsst",
+    "relation": "detects",
+    "object": "diffuseComponent_intraclusterLight"
+  },
+  {
+    "subject": "simulation_gadget4",
+    "relation": "simulates",
+    "object": "spatialStructure_satelliteGalaxy"
+  },
+  {
+    "subject": "simulation_horizonAgn",
+    "relation": "simulates",
+    "object": "GalaxyCluster"
+  },
+  {
+    "subject": "simulation_hydrangea",
+    "relation": "simulates",
+    "object": "GalaxyCluster"
+  },
+  {
+    "subject": "simulation_tng100",
+    "relation": "simulates",
+    "object": "GalaxyCluster"
+  },
+  {
+    "subject": "simulation_theThreeHundred",
+    "relation": "simulates",
+    "object": "GalaxyCluster"
+  },
+  {
+    "subject": "diffuseComponent_intraclusterLight",
+    "relation": "locatedIn",
+    "object": "galaxyCluster_smacs0723"
+  },
+  {
+    "subject": "matterComponent_darkMatter",
+    "relation": "locatedIn",
+    "object": "galaxyCluster_smacs0723"
+  },
+  {
+    "subject": "diffuseComponent_intraclusterLight",
+    "relation": "locatedIn",
+    "object": "galaxyCluster_hstFrontierFields"
+  },
+  {
+    "subject": "galaxyCluster_virgoCluster",
+    "relation": "isInstanceOf",
+    "object": "GalaxyCluster"
+  }
+]

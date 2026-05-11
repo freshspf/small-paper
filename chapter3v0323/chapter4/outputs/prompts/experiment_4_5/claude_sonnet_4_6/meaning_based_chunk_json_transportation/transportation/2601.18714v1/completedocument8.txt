@@ -1,0 +1,142 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument8",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument8
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+**INPUT TEXT CHUNK:**
+Therefore, the loss function employed by
+our MinkUNeXt-VINE is the original TSAP approach.
+Experiments in Table 2 with IDs 5 through 7 show the results of using
+a weighted sum of multiple loss functions in the multi-loss variant. The
+experiments with IDs 5 and 6 consist of using the TSAP function twice. In
+ID 5, the second component of the sum is the global descriptor, and in ID 6,
+it is the output of the second transposed convolution. The ID 7 experiment,
+on the other hand, involves three operands: the original global descriptor,
+the TSAP function with the global descriptor (as in ID 5), and a third
+operand with the batch hard contrastive loss, which uses the final output
+of the MinkUNeXt backbone. Of these three cases, ID 6 yields the best
+results. Including triplet loss, as in ID 7, considerably degrades the output.
+However, the best multi-loss approach is introducing the MRL approach,
+as seen in experiments with IDs 8 and 9. Experiments with IDs 6 and 9
+both use a multi-loss approach with earlier outputs. Using MRL represents
+a +5% improvement in the Recall@1 metric. Recall@1 is the most important
+metric in place recognition because it represents the success of retrieving the
+first candidate. These experiments demonstrate that the MRL multi-loss
+17
+
+approach provides better performance in our LPR algorithm, despite being
+simpler and more computationally efficient because it does not require the
+full descriptor to be used multiple times.
+From an architectural perspective, Table 2 shows that using the output of
+the second transposed convolution as the final layer gives better results. Ex-
+periments with IDs 5 and 6 show that using these intermediate features as the
+second descriptor in the multi-loss approach improves Recall@1% by +2%.
+However, the greatest improvement is seen when comparing experiments with
+IDs 8 and 9. Using these intermediate outputs as the final descriptor for the
+MRL approach results in a significant improvement of almost +6% in the
+Recall@1 metric.
+Therefore, the configuration used in the experiment with ID 9 was the
+final proposal for our MinkUNeXt-VINE method because it produced better
+results. When compared to the original backbone, the results of which are
+displayed under the experiment with ID 2, our method improved by around
++12% and +18% in the Recall@1% and Recall@1 metrics, respectively. Fig-
+ure 5 displays the Recall@N graph for all of the cases displayed in Table
+2.
+Figure 5: Recall@N graph for the different design decisions tested.
+18
+
+6.3. Seasonal changes
+For the quantitative evaluation of the impact of seasonal changes in agri-
+cultural environments on LPR tasks, we used the MinkUNeXt backbone [13]
+and the TEMPO-VINE dataset [38]. The distribution of the train and test
+examples has been made following the ”one in, one out” distribution exposed
+in Section 5.
+The experiments were conducted following these different approaches:
+•Use of a winter sequence (February) as train set and database.
+•Use of a spring sequence (March) as train set and database.
+•Use of a summer sequence (the second sequence from June) as train set
+and database.
+•Use of a autumn sequence (September) as train set and database.
+•Use of season packages of three month each as train set and database.
+Figure 6 represents the challenge of obtaining an accurate place recognition
+solution in vineyard settings.
+Figure 6: Example of seasonal changes from a same location in a vineyard environment
+extracted from the TEMPO-VINE dataset. Left: Winter season with bare vines. Right:
+Summer season with abundant vegetation and the grown crop.
+Tables 3, 4, 5, 6 and 7 present the results obtained from implementing
+our MinkUNeXt-VINE proposed method for individual months: February,
+March, May, the end of June and September, respectively. These tables
+also display the generalization of the method for months that have not been
+19
+
+trained with. Each of the selected campaigns belongs to a different season
+and represents a different crop stage, making them distinctly different from
+each other.
+Train set Test set Recall@1% Recall@1
+February February 85.98 63.26
+February March 84.99 58.86
+February May 58.76 23.12
+February June (last) 61.52 21.91
+February September 70.71 34.91
+Table 3: Validation results of MinkUNeXt-VINE trained with the February campaign.
+Train set Test set Recall@1% Recall@1
+March February 84.91 56.08
+March March 83.97 56.44
+March May 52.97 18.38
+March June (last) 61.33 20.80
+March September 72.28 33.29
+Table 4: Validation results of MinkUNeXt-VINE trained with the March campaign.
+Train set Test set Recall@1% Recall@1
+May February 78.04 29.89
+May March 75.11 30.03
+May May 67.77 28.54
+May June (last) 67.32 24.61
+May September 64.64 27.03
+Table 5: Validation results of MinkUNeXt-VINE trained with the May campaign.
+As evidenced by the five validation tables, performance remains consis-
+tent across months where the crop status is stable. However, a significant
+performance decay is observed in May.

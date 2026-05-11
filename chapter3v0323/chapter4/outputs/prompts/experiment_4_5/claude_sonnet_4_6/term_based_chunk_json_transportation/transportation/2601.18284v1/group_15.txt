@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "GreenWave",
+  "definedAs",
+  "CoordinatedTimingOfTrafficSignals",
+  "enables",
+  "VehiclePassingThroughMultipleIntersectionsWithoutStopping",
+  "improves",
+  "ArterialEfficiency",
+  "reduces",
+  "Delay",
+  "GreenWaveCaseStudy",
+  "appliesActionDesign",
+  "SwitchNextOrNot",
+  "allowsAgentToDecide",
+  "MaintainOrSwitchCurrentPhase",
+  "facilitates",
+  "SignalCoordination",
+  "Agent",
+  "makesDecisionAt",
+  "DecisionStep",
+  "GreenWavePhenomenon",
+  "visualizedUsing",
+  "GreenWaveBandDiagram",
+  "ChooseNextPhase",
+  "hasTrainingPerformanceShownIn",
+  "Figure9",
+  "Figure10",
+  "SetPhaseDuration",
+  "Figure11",
+  "ParameterSettings",
+  "summarizedIn",
+  "AppendixB",
+  "TrainingMetricVariation",
+  "plottedOver",
+  "TrainingStep",
+  "MetricVariationPlot",
+  "provides",
+  "ConvergenceTrendView",
+  "SingleIntersectionScenario",
+  "isTypeOf",
+  "IsolatedIntersectionSetting",
+  "Arterial3Scenario",
+  "CoordinatedMultiIntersectionSetting",
+  "GreenWaveBandVisualization",
+  "hasVerticalAxis",
+  "SpatialPositionAlongArterial",
+  "hasHorizontalAxis",
+  "Time",
+  "HorizontalBand",
+  "correspondsTo",
+  "SignalState",
+  "GreenSection",
+  "indicates",
+  "GreenPhase",
+  "RedSection",
+  "RedPhase",
+  "Arterial3Case",
+  "hasFreeFlowSpeed",
+  "speed_50kmh",
+  "GreenBandSlope",
+  "represents",
+  "DistanceTimeRatio",
+  "reflects",
+  "SpatiotemporalTrajectory",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "SimulationEnvironment"
+]
+
+Triples:
+[
+  {
+    "subject": "GreenWave",
+    "relation": "definedAs",
+    "object": "CoordinatedTimingOfTrafficSignals",
+    "chunk": "experiments4",
+    "context": "A Green Wave refers to the coordinated timing of traffic signals that enables vehicles to pass through multiple intersections without stopping."
+  },
+  {
+    "subject": "GreenWave",
+    "relation": "enables",
+    "object": "VehiclePassingThroughMultipleIntersectionsWithoutStopping",
+    "chunk": "experiments4",
+    "context": "A Green Wave refers to the coordinated timing of traffic signals that enables vehicles to pass through multiple intersections without stopping, thereby improving arterial efficiency and reducing delays."
+  },
+  {
+    "subject": "GreenWave",
+    "relation": "improves",
+    "object": "ArterialEfficiency",
+    "chunk": "experiments4",
+    "context": "thereby improving arterial efficiency and reducing delays."
+  },
+  {
+    "subject": "GreenWave",
+    "relation": "reduces",
+    "object": "Delay",
+    "chunk": "experiments4",
+    "context": "thereby improving arterial efficiency and reducing delays."
+  },
+  {
+    "subject": "GreenWaveCaseStudy",
+    "relation": "appliesActionDesign",
+    "object": "SwitchNextOrNot",
+    "chunk": "experiments4",
+    "context": "In this case study, the SwitchNextOrNot action design was applied, allowing each agent to decide at every decision step whether to maintain or switch the current phase."
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "allowsAgentToDecide",
+    "object": "MaintainOrSwitchCurrentPhase",
+    "chunk": "experiments4",
+    "context": "allowing each agent to decide at every decision step whether to maintain or switch the current phase, thus facilitating potential signal coordination."
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "facilitates",
+    "object": "SignalCoordination",
+    "chunk": "experiments4",
+    "context": "thus facilitating potential signal coordination."
+  },
+  {
+    "subject": "Agent",
+    "relation": "makesDecisionAt",
+    "object": "DecisionStep",
+    "chunk": "experiments4",
+    "context": "allowing each agent to decide at every decision step whether to maintain or switch the current phase."
+  },
+  {
+    "subject": "GreenWavePhenomenon",
+    "relation": "visualizedUsing",
+    "object": "GreenWaveBandDiagram",
+    "chunk": "experiments4",
+    "context": "To analyze this phenomenon, the results were visualized using a Green Wave Band diagram (Figure 12)."
+  },
+  {
+    "subject": "ChooseNextPhase",
+    "relation": "hasTrainingPerformanceShownIn",
+    "object": "Figure9",
+    "chunk": "experiments4",
+    "context": "Fig. 9: Training performance of ChooseNextPhase in different scenarios (top: Single; bottom: Arterial-3)."
+  },
+  {
+    "subject": "SwitchNextOrNot",
+    "relation": "hasTrainingPerformanceShownIn",
+    "object": "Figure10",
+    "chunk": "experiments4",
+    "context": "Fig. 10: Training performance of SwitchNextOrNot in different scenarios (top: Single; bottom: Arterial-3)."
+  },
+  {
+    "subject": "SetPhaseDuration",
+    "relation": "hasTrainingPerformanceShownIn",
+    "object": "Figure11",
+    "chunk": "experiments4",
+    "context": "Fig. 11: Training performance of SetPhaseDuration in different scenarios (top: Single; bottom: Arterial-3)."
+  },
+  {
+    "subject": "ParameterSettings",
+    "relation": "summarizedIn",
+    "object": "AppendixB",
+    "chunk": "experiments4",
+    "context": "The detailed parameter settings are summarized in Appendix B."
+  },
+  {
+    "subject": "TrainingMetricVariation",
+    "relation": "plottedOver",
+    "object": "TrainingStep",
+    "chunk": "experiments4",
+    "context": "the variations of each metric over training steps were plotted, providing an intuitive view of the convergence trends across different action designs and scenarios."
+  },
+  {
+    "subject": "MetricVariationPlot",
+    "relation": "provides",
+    "object": "ConvergenceTrendView",
+    "chunk": "experiments4",
+    "context": "providing an intuitive view of the convergence trends across different action designs and scenarios."
+  },
+  {
+    "subject": "SingleIntersectionScenario",
+    "relation": "isTypeOf",
+    "object": "IsolatedIntersectionSetting",
+    "chunk": "experiments4",
+    "context": "demonstrating that the proposed framework effectively enhances signal control in both isolated and coordinated multi-intersection settings."
+  },
+  {
+    "subject": "Arterial3Scenario",
+    "relation": "isTypeOf",
+    "object": "CoordinatedMultiIntersectionSetting",
+    "chunk": "experiments4",
+    "context": "demonstrating that the proposed framework effectively enhances signal control in both isolated and coordinated multi-intersection settings."
+  },
+  {
+    "subject": "GreenWaveBandVisualization",
+    "relation": "hasVerticalAxis",
+    "object": "SpatialPositionAlongArterial",
+    "chunk": "experiments5",
+    "context": "the vertical axis represents the spatial position along the arterial"
+  },
+  {
+    "subject": "GreenWaveBandVisualization",
+    "relation": "hasHorizontalAxis",
+    "object": "Time",
+    "chunk": "experiments5",
+    "context": "the horizontal axis denotes time"
+  },
+  {
+    "subject": "HorizontalBand",
+    "relation": "correspondsTo",
+    "object": "SignalState",
+    "chunk": "experiments5",
+    "context": "The horizontal bands correspond to signal states at each intersection in the arterial direction"
+  },
+  {
+    "subject": "GreenSection",
+    "relation": "indicates",
+    "object": "GreenPhase",
+    "chunk": "experiments5",
+    "context": "where green and red sections indicate green and red phases, respectively"
+  },
+  {
+    "subject": "RedSection",
+    "relation": "indicates",
+    "object": "RedPhase",
+    "chunk": "experiments5",
+    "context": "where green and red sections indicate green and red phases, respectively"
+  },
+  {
+    "subject": "Arterial3Case",
+    "relation": "hasFreeFlowSpeed",
+    "object": "speed_50kmh",
+    "chunk": "experiments5",
+    "context": "Given the free-flow speed of 50 km/h"
+  },
+  {
+    "subject": "GreenBandSlope",
+    "relation": "represents",
+    "object": "DistanceTimeRatio",
+    "chunk": "experiments5",
+    "context": "the slope of the green bands represents the distance–time ratio"
+  },
+  {
+    "subject": "DistanceTimeRatio",
+    "relation": "reflects",
+    "object": "SpatiotemporalTrajectory",
+    "chunk": "experiments5",
+    "context": "reflecting the spatiotemporal trajectory of vehicles traveling at free-flow speed"
+  }
+]

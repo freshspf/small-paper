@@ -1,0 +1,162 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument14
+- section_title: Complete Document
+- page_start: 1
+- page_end: 15
+
+INPUT TEXT CHUNK:
+A time-scale-
+adaptable spectrum sharing framework has been proposed,
+in which joint link scheduling and power control are im-
+plemented for maximization of the average sum rate of the
+
+14
+0 20 40 60 80 100
+SU024681012
+106F = 1
+FineSync
+Proposed scheme
+PartialPreScheme
+RandScheme
+SU QoS
+Fig. 14. Average transmission rate of each SU in a random topology of the
+hybrid network forF= 1.
+network while ensuring QoS for both CUs and SUs. Satellite
+selection is supported to adapt to the case when multiple
+satellites are available in the satellite component. For gen-
+erality, both full and partial frequency reuse could be adopted
+among BSs in the terrestrial component. With the framework, a
+low-complexity spectrum sharing scheme has been proposed
+based on link-feature-sketching-aided hierarchical link clus-
+tering and Monte-Carlo-and-successive-approximation-aided
+transmit power optimization. Simulation results demonstrate
+that by link feature sketching, the spatial distribution of the
+CUs and SUs could be well utilized for opportunistic spectrum
+sharing via its impact on statistical CSI of the links. The
+proposed scheme promises a significant performance gain even
+under strict inter-link interference constraints.
+APPENDIXA
+ANALYSIS ONCOMPLEXITY OF THEAPPROXIMATED
+CONVEXPROBLEM FORPOWERCONTROL
+As presented in Lines 12–17 in Algorithm 2, an approxi-
+mated convex problem of (21) based on (25) and (48) needs
+to be solved in each iteration for power control. Taking the
+interior-point method with barrier functions for inequality con-
+straints as a benchmark, the complexity of each approximated
+convex problem can be measured by the number of basic
+searching steps, e.g., Newton steps, and the complexity of each
+step [26].
+Based on a rather conservative, or pessimistic, upper bound
+presented in [26], the number of total Newton steps grows
+linearly withp
+MN cNs/K2+ 2MN c/K+ 2N s/K, where
+MN cNs/K2+ 2MN c/K+ 2N s/Kis the number of in-
+equality constraints in (21). As for the complexity of each
+Newton step, it mainly lies in calculation of the gradient and
+Hessian of the combined target with barrier functions for the
+inequality constraints [26]. It can be observed from (21), (25),
+and (48) that the complexity of each Newton step increases
+linearly with[Q(MN c+Ns)+MN cNs/K+3MN c+2N s]/K,which denotes the number of basic terms of the optimization
+variablesp(su)
+u andt i,r,v in both the approximated target and
+inequality constraints of (21).
+Thus, the complexity of each approximated convex problem
+of (21) based on (25) and (48) in Algorithm 2 can be
+conservatively, or pessimistically, expressed as
+O(p
+(MN cNs/K+ 2MN c+ 2N s)/K
+·[Q(MN c+N s) +MN cNs/K+ 3MN c+ 2N s]/K).(52)
+REFERENCES
+[1] C. Lei, W. Feng, P. Wei, Y . Chen, N. Ge, and S. Mao, “Edge information
+hub: orchestrating satellites, UA Vs, MEC, sensing and communications
+for 6G closed-loop controls,”IEEE Journal on Selected Areas in
+Communications, vol. 43, no. 1, pp. 5–20, Jan. 2025.
+[2] W. Feng, Y . Wang, Y . Chen, N. Ge, and C.-X. Wang, “Structured
+satellite-UA V-terrestrial networks for 6G internet of things,”IEEE Net-
+work, vol. 38, no. 4, pp. 48–54, Jul. 2024.
+[3] G. Varrall, “5G and satellite spectrum, standards, and scale,”Artech
+House, 2018.
+[4] G. MARAL, M. Bousquet, and Z. Sun, “Satellite communications
+systems: systems, techniques and technology (6th edition),”Wiley, 2020.
+[5] Y . Wang, W. Feng, J. Wang, and T. Q. S. Quek, “Hybrid satellite-UA V-
+terrestrial networks for 6G ubiquitous coverage: a maritime communica-
+tions perspective,”IEEE Journal on Selected Areas in Communications,
+vol. 39, no. 11, pp. 3475–3490, Nov. 2021.
+[6] C.-X. Wang, J. Li, J. Huang, C. Huang, Z. Zhang, and Y . Liu,
+“Modeling, capacity studies, antenna and system designs for 6G/b6G
+3D continuous-space radio channels enabled by electromagnetic infor-
+mation theory,”IEEE Communications Surveys & Tutorials, 2025, doi:
+10.1109/COMST.2025.3562896.
+[7] C.-X. Wang, X. You, X. Gao, X. Zhu, Z. Li, and C. Zhang, “On the
+road to 6G: Visions, requirements, key technologies and testbeds,”IEEE
+Communications Surveys & Tutorials, Feb. 2023.
+[8] Y . Wang, W. Feng, J. Wang, S. Zhou, and C. -X. Wang, “Fine-Over-
+Coarse Spectrum Sharing With Shaped Virtual Cells for Hybrid Satellite-
+UA V-Terrestrial Maritime Networks,”IEEE Transactions on Wireless
+Communications, vol. 23, no. 11, pp. 17478-17492, Nov. 2024.
+[9] E. Lagunas, S. K. Sharma, S. Maleki, S. Chatzinotas, and B. Ot-
+tersten, “Resource allocation for cognitive satellite communications
+with incumbent terrestrial networks,”IEEE Transactions on Cognitive
+Communications and Networking, vol. 1, no. 3, Sept. 2015.
+[10] P. K. Sharma, P. K. Upadhyay, D. B. da Costa, P. S. Bithas, and
+A. G. Kanatas, “Performance analysis of overlay spectrum sharing in
+hybrid satellite-terrestrial systems with secondary network selection,”
+IEEE Transactions on Wireless Communications, vol. 16, no. 10, pp.
+6586–6601, Oct. 2017.
+[11] Z. Lin, M. Lin, J. Wang, T. Cola, and J.

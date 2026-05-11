@@ -1,0 +1,133 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument15",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument15
+- section_title: Complete Document
+- page_start: 1
+- page_end: 26
+
+**INPUT TEXT CHUNK:**
+We therefore compare our
+model predictions to phase-space and radial profile measurements
+fromcosmologicalsimulationsinordertoassesswhetherthemagni-
+tudeandscalingoftheirstellar–DMoffsetsareconsistentwiththose
+expected from varying the infalling satellite population alone.
+Any systematic differences between our model predictions and
+the cosmological simulations would therefore point to additional
+effects present due to the inclusion of this proper cosmological con-
+text or detailed baryonic physics. These could include: variations in
+halo assembly history and the timing of accretion events; baryonic
+back-reaction that modifies the inner density profile of the cluster;
+correlations between infalling satellite populations and host prop-
+erties (e.g., more massive clusters accreting systematically different
+infalling satellite populations); or the pre-processing of satellites in
+group environments before cluster infall. Differences are also ex-
+pected owing to the coarser mass and force resolution of these sim-
+ulations relative to our controlled simulations. At the resolutions
+of current large-volume cluster simulations, tidal stripping of stel-
+lar material is not perfectly converged (Martin et al. 2024; Lovell
+et al. 2025), which can lead to artificially enhanced stripping and
+potentially affect the detailed phase-space properties of the ICL.
+6.1 Cosmological simulations
+Appendix E describes the four independent cosmological hydrody-
+namical simulation suites used in this comparison (Horizon-AGN,
+Hydrangea,TNG100,andTheThreeHundred GIZMO 7K),their
+physical models, resolution, and cluster sample selection.
+Wemeasureorbitalenergies,angularmomenta,andradialdensity
+profiles for the stellar and DM components of clusters within𝑅 200.
+To isolate the diffuse intracluster component, we remove particles
+assignedtoidentifiedsubstructuresfollowingthemaskingprocedure
+of Butler et al. (2025). DM particles associated with subhaloes are
+excluded, and star particles within four times the stellar half-mass
+radius𝑅 1/2ofanysubhaloareexcluded.Forlow-masssubhaloeswith
+𝑀★<1011M⊙, the exclusion radius is fixed to the 84th-percentile
+value of each cluster’s𝑅 1/2distribution measured at𝑀 ★=1011M⊙
+MNRAS000, 1–26 (2026)
+
+14G. Martin et al.
+4. Subhalo identification is performed using each simulation suite’s
+native structure finder. For stellar particles, the masking procedure
+reliesonlyonsubhalocentroidsandexclusionradii,makingitrobust
+to differences in structure finder across simulations. Given the low
+DM substructure mass fractions typical of clusters (Giocoli et al.
+2010), the method is similarly insensitive to variations in how DM
+subhaloes are defined.
+Specific orbital energies and angular momenta of the un-masked
+particles are computed in the same way as described in Section 2.2.
+We calculate the mean specific energy ratios⟨𝜀⟩ ★/⟨𝜀⟩ DMand mean
+specificangularmomentumratios⟨ℎ⟩ ★/⟨ℎ⟩ DMforthediffusestellar
+and DM components of each cluster, allowing direct comparison
+withthepopulation-averagedpredictionsfromourcontrolledmerger
+simulations.
+6.2 Comparison of predicted phase-space distributions
+Figure11showsascolouredpointsthestellar–to–DMmeanspecific
+orbital energy ratio⟨𝜀⟩ ★/⟨𝜀⟩ DMand the mean specific angular mo-
+mentum ratio⟨ℎ⟩ ★/⟨ℎ⟩ DMmeasured in cosmological simulations.
+Theorangeshadedenvelopesshowthesamecombinedaccretedplus
+centralstellarandDMdistributionsobtainedbyvaryingthesatellite
+stellar mass function,𝜙(𝑀 ★, as shown in Figure 9.
+For all particles (top panel), the simulations lie within or close
+to the envelope of model predictions. The energy and angular mo-
+mentum ratios exhibit slightly smaller offsets relative to the fiducial
+model, but for all simulations, with the exception ofTheThree-
+Hundred, the1𝜎scatter overlaps the range spanned by plausible
+variations in the infalling satellite stellar mass function.TheThree-
+Hundredshowsthesmalleststellar–DMorbitalenergyandangular
+momentumoffsets,consistentwithenhancedorprematurestripping
+of stellar material in these lower-resolution simulations. This may
+also be reflective of the systematically higher cluster masses of the
+TheThreeHundredsample, in which an increased fraction of the
+ICLmassbudgetisexpectedtooriginatefromstarspre-processedin
+grouphaloes(Mihosetal.2017;Contini2021)andthereforealready
+weakly bound upon cluster infall.
+Forparticlesat𝑟 >100kpc(bottompanel),alargeraverageorbital
+energyoffsetthanourmodelpredictionismeasuredinallsimulation
+suites. However, the magnitude of this offset is likely to be quite de-
+pendentonthesizeandmassofthecentralgalaxy,asthisinfluences
+theradiusouttowhichthecentralgalaxydominatesovertheaccreted
+component.Weapplycorrectionstoaccountforthesedifferencesin
+Section 6.3.2. However, overall, the cosmological simulations are
+broadlyconsistentwiththephase-spaceoffsetspredictedbyoursim-
+plified model across the explored range of infalling satellite popu-
+lations.

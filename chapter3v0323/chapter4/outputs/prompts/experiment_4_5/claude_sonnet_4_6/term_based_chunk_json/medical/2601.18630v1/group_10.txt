@@ -1,0 +1,305 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Thought",
+  "manifestsFrom",
+  "Fear",
+  "Disconnection",
+  "actsAs",
+  "CopingMechanism",
+  "DeepBreathing",
+  "functionsAs",
+  "MindfulnessTechnique",
+  "Meditation",
+  "Yoga",
+  "Depersonalization",
+  "associatesWith",
+  "Anxiety",
+  "Depression",
+  "PsychoticDisorder",
+  "Symptom",
+  "indicatesNeedFor",
+  "Support",
+  "ProfessionalCare",
+  "PersistentFeeling",
+  "rootedIn",
+  "EmotionalPattern",
+  "PsychologicalPattern",
+  "influencedBy",
+  "Stress",
+  "Trauma",
+  "UnaddressedEmotionalChallenge",
+  "SenseOfIndifference",
+  "causes",
+  "Isolation",
+  "indicates",
+  "ConnectionStruggle",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "LargeLanguageModel",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "ClosedSourceModel",
+  "OpenSourceModel",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "CognitiveReliability",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "model_gpt4o",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern",
+  "SocialMediaPlatform",
+  "platform_reddit",
+  "CounselingConversation",
+  "dataset_mentalChat16k",
+  "dataset_emoCare",
+  "dataset_counselChat",
+  "MentalHealthScreening",
+  "condition_depression",
+  "condition_suicideRisk",
+  "MentalHealthCondition",
+  "llm_gpt3",
+  "MentalHealthDisorder",
+  "MentalHealthSupport",
+  "AdvancedSupervisedMethod",
+  "MentalHealthTask",
+  "llm_chatgpt",
+  "MentalHealthResponse",
+  "MentalHealthDetection",
+  "psychiatric_evaluator"
+]
+
+Triples:
+[
+  {
+    "subject": "Thought",
+    "relation": "manifestsFrom",
+    "object": "Fear",
+    "chunk": "completedocument13",
+    "context": "It’s possible that these thoughts are a manifestation of your anxiety, fear, or a sense of feeling overwhelmed."
+  },
+  {
+    "subject": "Disconnection",
+    "relation": "actsAs",
+    "object": "CopingMechanism",
+    "chunk": "completedocument13",
+    "context": "Your feelings of indifference and disconnection can be a coping mechanism, a way to protect yourself from the intensity of your emotions."
+  },
+  {
+    "subject": "DeepBreathing",
+    "relation": "functionsAs",
+    "object": "MindfulnessTechnique",
+    "chunk": "completedocument13",
+    "context": "Secondly, I recommend practicing self-compassion and mindfulness techniques, such as deep breathing, meditation, or yoga, to help you ground yourself in the present moment."
+  },
+  {
+    "subject": "Meditation",
+    "relation": "functionsAs",
+    "object": "MindfulnessTechnique",
+    "chunk": "completedocument13",
+    "context": "Secondly, I recommend practicing self-compassion and mindfulness techniques, such as deep breathing, meditation, or yoga, to help you ground yourself in the present moment."
+  },
+  {
+    "subject": "Yoga",
+    "relation": "functionsAs",
+    "object": "MindfulnessTechnique",
+    "chunk": "completedocument13",
+    "context": "Secondly, I recommend practicing self-compassion and mindfulness techniques, such as deep breathing, meditation, or yoga, to help you ground yourself in the present moment."
+  },
+  {
+    "subject": "Depersonalization",
+    "relation": "associatesWith",
+    "object": "Anxiety",
+    "chunk": "completedocument13",
+    "context": "What you’re describing sounds like a complex mix of experiences that could be linked to conditions like **derealization** (a sense that the world feels unreal or distant) or **depersonalization** (a sense of detachment from oneself), which are often associated with anxiety, depression, or even early signs of a psychotic disorder."
+  },
+  {
+    "subject": "Depersonalization",
+    "relation": "associatesWith",
+    "object": "Depression",
+    "chunk": "completedocument13",
+    "context": "What you’re describing sounds like a complex mix of experiences that could be linked to conditions like **derealization** (a sense that the world feels unreal or distant) or **depersonalization** (a sense of detachment from oneself), which are often associated with anxiety, depression, or even early signs of a psychotic disorder."
+  },
+  {
+    "subject": "Depersonalization",
+    "relation": "associatesWith",
+    "object": "PsychoticDisorder",
+    "chunk": "completedocument13",
+    "context": "What you’re describing sounds like a complex mix of experiences that could be linked to conditions like **derealization** (a sense that the world feels unreal or distant) or **depersonalization** (a sense of detachment from oneself), which are often associated with anxiety, depression, or even early signs of a psychotic disorder."
+  },
+  {
+    "subject": "Symptom",
+    "relation": "indicatesNeedFor",
+    "object": "Support",
+    "chunk": "completedocument14",
+    "context": "It’s important to understand that these experiences are not a reflection of your worth or character, but rather symptoms that may indicate a need for support and professional care."
+  },
+  {
+    "subject": "Symptom",
+    "relation": "indicatesNeedFor",
+    "object": "ProfessionalCare",
+    "chunk": "completedocument14",
+    "context": "It’s important to understand that these experiences are not a reflection of your worth or character, but rather symptoms that may indicate a need for support and professional care."
+  },
+  {
+    "subject": "PersistentFeeling",
+    "relation": "rootedIn",
+    "object": "EmotionalPattern",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "PersistentFeeling",
+    "relation": "rootedIn",
+    "object": "PsychologicalPattern",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "EmotionalPattern",
+    "relation": "influencedBy",
+    "object": "Stress",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "EmotionalPattern",
+    "relation": "influencedBy",
+    "object": "Trauma",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "EmotionalPattern",
+    "relation": "influencedBy",
+    "object": "UnaddressedEmotionalChallenge",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "PsychologicalPattern",
+    "relation": "influencedBy",
+    "object": "Stress",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "PsychologicalPattern",
+    "relation": "influencedBy",
+    "object": "Trauma",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "PsychologicalPattern",
+    "relation": "influencedBy",
+    "object": "UnaddressedEmotionalChallenge",
+    "chunk": "completedocument14",
+    "context": "The fact that these feelings have been persistent since middle school suggests they may be rooted in deeper emotional or psychological patterns, possibly influenced by stress, trauma, or unaddressed emotional challenges."
+  },
+  {
+    "subject": "SenseOfIndifference",
+    "relation": "causes",
+    "object": "Isolation",
+    "chunk": "completedocument14",
+    "context": "The sense of indifference toward everything—because it feels “not real”—can be incredibly isolating, but it’s also a sign that you’re struggling to connect with the world in a way that feels meaningful."
+  },
+  {
+    "subject": "SenseOfIndifference",
+    "relation": "indicates",
+    "object": "ConnectionStruggle",
+    "chunk": "completedocument14",
+    "context": "The sense of indifference toward everything—because it feels “not real”—can be incredibly isolating, but it’s also a sign that you’re struggling to connect with the world in a way that feels meaningful."
+  }
+]

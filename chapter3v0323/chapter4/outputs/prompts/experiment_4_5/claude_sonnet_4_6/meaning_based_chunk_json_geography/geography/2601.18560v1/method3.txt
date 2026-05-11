@@ -1,0 +1,210 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "method3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: method3
+- section_title: Method
+- page_start: 13
+- page_end: 17
+
+**INPUT TEXT CHUNK:**
+They have shown that with an increasing
+number of iterations, the optimalF∗approaches
+a constant value only dependent onY:
+F∗= (I−αS)−1Y(12)
+The closed-form solution eliminates the need for a
+lengthy iterative process. The more detailed proof
+can be found in [53].4.4 Sparse Graph-based Clustering
+The preceding section elaborates on the applica-
+tion of a semi-supervised framework to facilitate
+the fast classification of hyperspectral images col-
+lected from an observation area. However, the
+acquisition of anchor label remains an unresolved
+challenge. The conventional procedure involves
+the manual annotation of anchors after the trans-
+mission of hyperspectral images to the ground.
+However, it fails to satisfy the fast response
+requirement. To address this issue, a graph-based
+clustering method is proposed in this section to
+determine the anchor label.
+Theorem 1The multiplicitycof the eigenvalue zero
+of the Laplacian matrixL Ais equal to the number of
+connected components in the graph associated withA.
+Having acquired the affinity matrixW ll
+among the anchors, we hereby impose the rank
+constraint[54] on the anchor-anchor graphW llto
+learn a sparse similarity matrixAwithccon-
+nected components, wherecis the number of
+classes. Compared to the original anchor-anchor
+graphW ll,Ais a more suitable target for clus-
+tering. Meanwhile, using the reconstructed sparse
+graphAto replace the original fully connected
+anchor-anchor graphW llin the second stage
+of label propagation can further improve com-
+putational efficiency and classification accuracy.
+Theorem 1 elucidates the correlation between the
+rank constraint and the number of connected com-
+ponents in a graph[55]. Consequently, the chal-
+lenge of constructing a graph withcconnected
+components can be reformulated as learning a sim-
+ilarity matrixAthat exhibitsrank(L A) =m−c.
+The objective function with rank constraint to be
+optimized is as follows:
+min
+A∥A−W ll∥2
+F+γ∥A∥2
+F(13)
+s.t.P
+jAij= 1, A ij>0, rank(L A) =m−c.
+where the inclusion of the second term facilitates
+the sparsification of the graphA. Due to the
+inherent complexities involved in directly address-
+ing the rank constraint, it is accordingly relaxed
+into an eigenvalue constraint. Given thatL Ais a
+positive semi-definite matrix, it follows that the
+eigenvalues ofL Aare all nonnegative. Order the
+16
+
+eigenvalues in ascending sequence and letλ i(LA)
+denote thei thsmallest eigenvalue. Eq.13 can be
+transformed into:
+min
+A∥A−W ll∥2
+F+γ∥A∥2
+F+ 2βcX
+i=1λi(LA) (14)
+s.t.P
+jAij= 1, A ij>0.
+Based on Ky Fan’s Theorem[56], the eigenvalue
+constraint can be solved by
+cX
+i=1λi(LA) =Tr(FTLAF) (15)
+whereF∈R⋗×. Thus, the final form of the
+optimization objective function can be written as
+min
+A,F∥A−W ll∥2
+F+γ∥A∥2
+F+ 2βTr(FTLAF)
+(16)
+s.t.P
+jAij= 1, A ij≥0, FTF=I.
+In order to address this problem, the matricesA
+andFare updated in an alternating manner.
+UpdateA: WhenFis fixed, we have[57]
+Tr(FTLAF) =1
+2mX
+i,j=1∥fi−fj∥2
+2aij (17)
+wheref iandf jrepresent thei thandj throws of
+F, respectively. Then we rewrite Eq.16 as
+min
+A,FmX
+j=1Ai−wll
+i2
+2+γmX
+j=1A2
+ij+βmX
+j=1∥fi−fj∥2
+2aij
+(18)
+s.t.P
+jAij= 1, A ij≥0, FTF=I.
+Givene ij=β∥f i−fj∥2
+2−2wll
+ij, Eq.18 can be
+reformulated as
+minP
+jAij=1,A i≥01
+2Ai+ei
+2(γ+ 1)2
+2(19)
+wherewll
+iis thei throw ofW ll. The resolution of
+Eq. 19 can be addressed through the application
+of the Lagrange multiplier method
+Aij= (−eij
+2(γ+ 1)+η) + (20)whereηis the Lagrange multiplier. We employ the
+closed-form solution presented in [54] to formulate
+the optimal affinitiesA ijfor Eq.20
+Aij=(ei,h+1−eij
+hei,h+1−Ph
+n=1einj≤h
+0j > h(21)
+wherehis the number of non-zero values in each
+row ofA.
+UpdateF: WhenAis fixed, Eq.16 can be
+written as
+min
+F∈Rm×c,FTF=ITr(FTLAF) (22)
+The optimal solution forFis constituted by thec
+eigenvectors ofL A=D A−AT+A
+2that correspond
+to thecsmallest eigenvalues.
+After iterative updates, a similarity matrixA
+is derived. The matrix encompassescconnected
+components, which can be utilized for clustering
+directly. The complete sequence of the algorithm
+is delineated in Algorithm 2. Upon obtaining
+the anchor label, the label information can be
+propagated to all unlabeled pixels following the
+procedure defined in Sections 4.2 and 4.3, thus
+achieving the classification of the hyperspectral
+image.
+Algorithm 2Optimization to Solve Eq.13.
+Input:The affinity matrixW ll∈Rm×m, cluster
+numberc, a large enoughβ, non-zero value
+numberkin each row.
+Output:Similarity matrixA∈Rm×mwith
+exactlykconnected components.
+1:InitializeF, constituted by thekeigenvectors
+ofL Wll=D Wll−W llthat correspond to the
+ksmallest eigenvalues.
+2:whilenot convergedo
+3:UpdateAby Eq.21;
+4:UpdateFby perform eigenvalue decompo-
+sition onL A=D A−(AT+A)/2;
+5:end while
+4.5 Time Complexity Analysis
+To accelerate the computation and further dimin-
+ish the time complexity, we employ Principal
+17.

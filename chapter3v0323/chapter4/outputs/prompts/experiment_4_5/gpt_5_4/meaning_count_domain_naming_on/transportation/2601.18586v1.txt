@@ -1,0 +1,271 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation system knowledge. Pay attention to vehicles, infrastructure, routes, traffic flow, logistics, and relationships such as connectsTo, travelsAlong, and locatedIn.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+Learning long term climate-resilient transport adaptation pathways under direct
+and indirect ﬂood impacts using reinforcement learning
+Miguel Costa1 , Arthur Vandervoort1 , Carolin Schmidt2 , Morten W. Petersen1 , Martin
+Drews1 , Karyn Morrissey3 , Francisco C. Pereira1
+1Department of Technology, Management and Economics, Technical University of Denmark, 2800 Kgs.
+Lyngby, Denmark.
+2School of Management, Technical University of Munich, 80333 Munich, Germany.
+3J.E. Cairnes School of Business & Economics, University of Galway, Galway, Ireland.
+{migcos, apiva, }@dtu.dk, carolin.schmidt@tum.de, {mwipe, mard}@dtu.dk,
+karyn.morrissey@universityofgalway.ie, camara@dtu.dk
+Abstract
+Climate change is expected to intensify rainfall
+and other hazards, increasing disruptions in ur-
+ban transportation systems. Designing effective
+adaptation strategies is challenging due to the
+long-term, sequential nature of infrastructure in-
+vestments, deep uncertainty, and complex cross-
+sector interactions. We propose a generic decision-
+support framework that couples an integrated as-
+sessment model (IAM) with reinforcement learn-
+ing (RL) to learn adaptive, multi-decade invest-
+ment pathways under uncertainty. The framework
+combines long-term climate projections (e.g., IPCC
+scenario pathways) with models that map projected
+extreme-weather drivers (e.g. rain) into hazard like-
+lihoods (e.g. ﬂooding), propagate hazards into ur-
+ban infrastructure impacts (e.g. transport disrup-
+tion), and value direct and indirect consequences
+for service performance and societal costs. Em-
+bedded in a reinforcement-learning loop, it learns
+adaptive climate adaptation policies that trade off
+investment and maintenance expenditures against
+avoided impacts. In collaboration with Copen-
+hagen Municipality, we demonstrate the approach
+on pluvial ﬂooding in the inner city for the horizon
+of 2024 to 2100. The learned strategies yield co-
+ordinated spatial–temporal pathways and improved
+robustness relative to conventional optimization
+baselines, namely inaction and random action , il-
+lustrating the framework’s transferability to other
+hazards and cities.
+1 Introduction
+Climate change is increasing the intensity and frequency of
+extreme precipitation, raising the risk of pluvial ﬂooding in
+many cities [IPCC, 2023; Danmarks Meteorologiske Insti-
+tut, 2011 ]. Urban transport networks are particularly ex-
+posed: ﬂooding can reduce speeds, trigger rerouting, and
+force road and rail closures, with cascading effects on ac-
+cessibility and economic activity [Pregnolato et al. , 2017a;
+Wang et al. , 2020 ]. A salient example is Copenhagen’s
+2011 cloudburst, which caused widespread disruption in
+and around the Danish capital and substantial damages with
+an estimated 805 million Euros (6 billion Danish kroner,
+DKK) damage cost [Hvass and Ørsborg Johansen, 2011;
+Gerdes, 2012].
+Designing climate adaptation strategies is difﬁcult because
+effective measures are (i) sequential and long-lived infras-
+tructure decisions, (ii) evaluated under deep uncertainty about
+future climate conditions, and (iii) embedded in coupled sys-
+tems where hazard dynamics, network performance, and im-
+pacts interact. While prior work has largely focused on short-
+term operational responses or local interventions, methods for
+multi-decade (i.e., long-term) planning that explicitly opti-
+mize adaptive pathways under uncertainty remain limited.
+We address this gap by proposing a reinforcement learn-
+ing (RL) decision-support framework that couples long-term
+climate projections with hazard modeling, infrastructure and
+transportation systems simulation, and impact quantiﬁcation,
+enabling the learning of adaptive policies over multi-decade
+horizons. In collaboration with Copenhagen Municipality, we
+instantiate the framework for an urban case study and evalu-
+ate candidate measures (adaptation interventions) across mul-
+tiple climate scenarios.
+Our contributions are threefold:
+• A generic integrated assessment modeling framework
+that can be instantiated with modules for climate drivers,
+hazard processes, infrastructure-system simulation, and
+direct/indirect impact assessment.
+• An RL formulation that learns adaptive, long-term se-
+quences of climate adaptation measures under uncer-
+tainty; and
+• An empirical evaluation across climate scenarios to
+compare robustness and resulting adaptation pathways.
+arXiv:2601.18586v1 [cs.LG] 26 Jan 2026
+2 Background
+2.1 AI for climate adaptation
+Climate adaptation planning requires selecting sequences of
+interventions under deep uncertainty1, where impacts emerge
+over long horizons and propagate through coupled urban sys-
+tems (e.g., water, transport, energy, communications). Eval-
+uating candidate strategies therefore demands models that (i)
+translate climate drivers into hazard likelihoods and intensi-
+ties, (ii) propagate hazards into systems’ performance and in-
+frastructure and service disruption, and (iii) value direct and
+indirect consequences in a way that supports comparison of
+trade-offs.
+Artiﬁcial Intelligence (AI) methods are increasingly pro-
+posed as decision-support tools for this setting because they
+can integrate heterogeneous models, capture nonlinear inter-
+actions, and optimize policies under uncertainty and long
+horizons [Rolnick et al. , 2022; Cheong et al. , 2022; Tyler
+et al., 2023]. Reinforcement learning is particularly relevant
+when decisions are sequential and outcomes are delayed, en-
+abling policies that balance short- and long-term objectives
+[Matsuo et al., 2022; Gilbert et al., 2022].
+In our instantiation, we focus on pluvial ﬂooding and ur-
+ban transport: ﬂooding disrupts transport through direct dam-
+age to infrastructure and operational effects such as reduced
+speeds, rerouting, and closures, with downstream accessibil-
+ity and economic impacts [Markolf et al. , 2019; Lu et al. ,
+2022; Wang et al. , 2020 ]. Quantifying both direct and indi-
+rect transport impacts is therefore central for evaluating adap-
+tation options and conducting cost-beneﬁt analyses [Chang
+et al. , 2010; Shahdani et al. , 2022; Ding and Wu, 2023 ].
+In ﬂood-related settings, RL has been used mainly for reac-
+tive control and response (e.g., drainage/stormwater control,
+emergency routing) [Tian et al. , 2023; Bowes et al. , 2021;
+Li et al. , 2024; Fan et al. , 2021 ]. Work on proactive, multi-
+decade ﬂood-risk planning with RL remains limited; for in-
+stance, [Feng et al., 2025] studies coastal ﬂood risk manage-
+ment over 2000–2100 but with coarse decision intervals (e.g.,
+decisions every decade), which constrains adaptation ﬂexibil-
+ity. We target the complementary problem of learning long-
+horizon, ﬁne-grained adaptation pathways that couple hazard
+evolution with infrastructure-system impacts.
+2.2 Integrated assessment models
+Integrated assessment models (IAMs) couple representations
+of the climate system with human and technological sys-
+tems (e.g., energy, land use, macroeconomy) to explore
+long-run consequences of alternative assumptions and policy
+choices. They have been widely used to produce internally
+consistent scenario ensembles and to inform Intergovernmen-
+tal Panel on Climate Change (IPCC) assessments, but their
+scale and structural complexity often make them computa-
+tionally intensive and difﬁcult to embed in iterative decision-
+optimization workﬂows [Xiong et al., 2025].
+1We refer to deep uncertainty as situations where analysts do
+not know, or stakeholders cannot agree on, the appropriate models
+linking actions to consequences, the probability distributions for key
+uncertainties, and/or how to value and trade off outcomes [Marchau
+et al., 2019].
+A growing literature therefore uses AI and machine learn-
+ing (ML) to increase the accessibility and decision-relevance
+of IAMs. One line of work builds emulators (surrogates)
+that approximate IAM behavior at a fraction of the compu-
+tational cost, enabling rapid exploration of scenario spaces
+and sensitivity analyses. Recent examples include emulator
+frameworks based on marginal abatement cost curve repre-
+sentations of multiple IAMs [Xiong et al. , 2025 ] and ML-
+based emulation trained on large scenario databases to re-
+produce IAM outputs across model families [Shin et al. ,
+2026]. In parallel, macro-climate modeling reviews empha-
+size that advances in modern numerical methods and deep
+learning are increasingly used to solve and analyze richer dy-
+namic stochastic IAMs that would otherwise be intractable
+[Fern´andez-Villaverde et al., 2024].
+Beyond acceleration, AI methods support (i) calibration
+and uncertainty analysis of high-dimensional model com-
+ponents, and (ii) closed-loop decision support, where poli-
+cies are optimized against long-horizon, uncertain dynamics.
+Taken together, these developments motivate IAM-based en-
+vironments that remain modular—so domain models can be
+swapped or reﬁned—while being computationally amenable
+to learning and optimization methods.
+3 Problem formulation and IAM environment
+We study long-horizon climate adaptation planning as a se-
+quential decision problem in which a decision-maker selects
+spatially distributed interventions over multiple decades and
+evaluates them under uncertain climate-driven hazards. We
+implement the planning problem as an Integrated Assess-
+ment Model environment (Fig. 1) that couples (i) climate-
+driven forcing and hazard generation (e.g., sampling extreme-
+weather drivers from scenario-based projections), (ii) event-
+based physical impact modeling, (iii) infrastructure-system
+performance simulation (here, multi-modal transport), and
+(iv) valuation of direct and indirect consequences and costs
+of interventions. All code and experiments are publicly avail-
+able2. At each decision step (e.g., a simulated year), the en-
+vironment generates a hazard realization from the scenario-
+conditioned distribution, propagates it through the impact and
+system modules to obtain disruption outcomes, and returns a
+state representation and scalar objective signal; this closed
+loop enables stress-testing policies across alternative climate
+scenarios within a common simulation backbone.
+The resulting sequential decision process is modeled as
+an Markov Decision Process (MDP) →S, A, P,r ,ω ↑. At step
+t ↓{ 1,...,T }, the agent observes st ↓S , selects at ↓A ,
+transitions to st+1 ↔P (·| st,a t) through the IAM dynam-
+ics, and receives a reward rt = r(st,a t). Rainfall (more gen-
+erally, the extreme-weather driver) is treated as exogenous;
+conditional on the scenario and time slice, events are sam-
+pled independently. Altogether, the objective is to maximize
+2The anonymous link to our code is provided at
+https://anonymous.4open.science/r/8EC9. If accepted, we will
+our code and its documentation publicly available on GitHub.
+Reinforcement Learning
+Agent
+State
+Reward
+Actions
+(Adaptation measures)
+Environment
+Rainfall
+Projection Model Flood Model
+Transport
+Simulation
+Direct and Indirect
+Transport Impacts
+Figure 1: Integrated Assessment Model using reinforcement learning to ﬁnd the best sequence of transport-related adaptation policies for
+rainfall events in Copenhagen from 2024–2100.
+the long-term cumulative reward, or, more generally
+max
+[ T∑
+t=1
+ωt→1rt
+, (1)
+with discount factor ω ↓ (0, 1].
+State space S. To capture spatial dependence in ﬂood and
+transport disruption, we model our representation of the IAM
+as a graph G =( V, E) with nodes i ↓ V (trafﬁc-assignment
+zones) and edges (i, j) ↓ E (spatial adjacency). The state at
+time t is {xi,t} with
+xi,t =
+Ii,t,D i,t,C i,t, zi,t
+where Ii,t, Di,t, and Ci,t are IAM-derived impacts (described
+below) at step t (typically one year): direct infrastructure
+damage, travel delays, and trip cancellations. The vector
+zi,t encodes the remaining effectiveness of implemented in-
+terventions, which scales their volumetric beneﬁt (reduction
+in water volume, m3) and decays over time since deployment
+(i.e., to model temporal effectiveness reduction).
+Action space A

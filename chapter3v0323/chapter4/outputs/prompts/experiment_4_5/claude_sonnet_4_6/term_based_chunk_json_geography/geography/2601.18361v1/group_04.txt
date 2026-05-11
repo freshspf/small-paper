@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "guard_region",
+  "hasRadius",
+  "240_km",
+  "device",
+  "deployedIn",
+  "circular_area",
+  "leo_satellite",
+  "providesCoverageTo",
+  "uniform_distributed_area",
+  "terrestrial_network",
+  "dependsOn",
+  "bs_spatial_distribution",
+  "device_at_network_border",
+  "hasWorsePerformanceThan",
+  "device_at_center",
+  "terrestrial_bs",
+  "lacksCoverageIn",
+  "some_areas",
+  "haps",
+  "combinedWith",
+  "NonTerrestrialSystem",
+  "outperforms",
+  "TerrestrialNetworkSystem",
+  "LeoSatellite",
+  "integratedWith",
+  "Haps",
+  "exhibitsVariationDueTo",
+  "GeographicalDistribution",
+  "TerrestrialSystemPerformance",
+  "highlyDependentOn",
+  "BaseStationDistribution",
+  "CombinationOfLeoAndHaps",
+  "guaranteesCoverageOver",
+  "Area",
+  "PathLoss",
+  "actsStrongerOn",
+  "TerrestrialCommunication",
+  "TerrestrialBaseStation",
+  "receivesLessInterferenceFrom",
+  "Device",
+  "integratesWith",
+  "NonTerrestrialOption",
+  "LeoConstellation",
+  "covers",
+  "Region",
+  "exhibits",
+  "NonGeostationaryBehavior",
+  "TerrestrialNetworkCost",
+  "relatedTo",
+  "CommunicationTower",
+  "HighAltitudePlatformStation",
+  "providesServiceTo",
+  "RemoteRegion",
+  "LowEarthOrbitSatellite",
+  "lacksInfrastructure",
+  "TerrestrialNetwork",
+  "operatesWith",
+  "6gNetwork",
+  "providesConnectivityTo",
+  "RemoteArea",
+  "IotGroundSensingSystem",
+  "detectsEvent",
+  "Wildfire",
+  "FixedRegion",
+  "InternetOfThingsConnectivity",
+  "UnderservedRegion",
+  "GlobalCoverage",
+  "EarthSurface",
+  "HighOrbitalAltitude",
+  "Stratosphere",
+  "altitude_8To50Km",
+  "WeatherDisturbance",
+  "Ground",
+  "RegionalCoverage",
+  "university_UniversityOfOulu",
+  "country_Finland",
+  "university_FederalUniversityOfSantaCatarina",
+  "location_Florianopolis",
+  "country_Brazil",
+  "university_MidSwedenUniversity"
+]
+
+Triples:
+[
+  {
+    "subject": "guard_region",
+    "relation": "hasRadius",
+    "object": "240_km",
+    "chunk": "completedocument6",
+    "context": "Guard region radiusR g 240 km"
+  },
+  {
+    "subject": "device",
+    "relation": "deployedIn",
+    "object": "circular_area",
+    "chunk": "completedocument6",
+    "context": "Figure 3 depicts a heat map of the erasure probability in the circular area where the devices are deployed."
+  },
+  {
+    "subject": "leo_satellite",
+    "relation": "providesCoverageTo",
+    "object": "uniform_distributed_area",
+    "chunk": "completedocument6",
+    "context": "First, we can see in Figure 3a that the LEO satellite model shows a uniform distributed coverage, which means that the geographical positioning of the device in the area does not affect performance."
+  },
+  {
+    "subject": "terrestrial_network",
+    "relation": "dependsOn",
+    "object": "bs_spatial_distribution",
+    "chunk": "completedocument6",
+    "context": "A similar idea applies to the terrestrial network case in Figure 3h, however, it presents a higher variance due to the dependency on the distribution of BSs over the area."
+  },
+  {
+    "subject": "device_at_network_border",
+    "relation": "hasWorsePerformanceThan",
+    "object": "device_at_center",
+    "chunk": "completedocument6",
+    "context": "The HAPS scenario in Figure 3d presents devices in the network border with worse performance compared to the ones in the center, as expected."
+  },
+  {
+    "subject": "terrestrial_bs",
+    "relation": "lacksCoverageIn",
+    "object": "some_areas",
+    "chunk": "completedocument6",
+    "context": "Moreover, depending on the BS deployment, some areas can be without any coverage."
+  },
+  {
+    "subject": "haps",
+    "relation": "combinedWith",
+    "object": "terrestrial_network",
+    "chunk": "completedocument6",
+    "context": "In addition, the combination of HAPS with the terrestrial network (Figure 3e and Figure 3f) works in favorof reducing the worse unbalanced performance on the network border."
+  },
+  {
+    "subject": "NonTerrestrialSystem",
+    "relation": "outperforms",
+    "object": "TerrestrialNetworkSystem",
+    "chunk": "completedocument7",
+    "context": "Finally, a combination of LEO and HAPS in Figure 3g shows to outperform the terrestrial case with 20 BSs in Figure 3i, which presents an interesting idea in which the integration of multiple different non-terrestrial systems might be even more competitive than dense terrestrial network systems in terms of coverage/erasure probabilities."
+  },
+  {
+    "subject": "LeoSatellite",
+    "relation": "integratedWith",
+    "object": "Haps",
+    "chunk": "completedocument7",
+    "context": "Finally, a combination of LEO and HAPS in Figure 3g shows to outperform the terrestrial case with 20 BSs in Figure 3i, which presents an interesting idea in which the integration of multiple different non-terrestrial systems might be even more competitive than dense terrestrial network systems in terms of coverage/erasure probabilities."
+  },
+  {
+    "subject": "Haps",
+    "relation": "exhibitsVariationDueTo",
+    "object": "GeographicalDistribution",
+    "chunk": "completedocument7",
+    "context": "In the HAPS case, we see a higher variation due to the geographical distribution seen before."
+  },
+  {
+    "subject": "TerrestrialSystemPerformance",
+    "relation": "highlyDependentOn",
+    "object": "BaseStationDistribution",
+    "chunk": "completedocument7",
+    "context": "This shows us that the performance of this system is highly dependent on the distribution of the BSs."
+  },
+  {
+    "subject": "CombinationOfLeoAndHaps",
+    "relation": "guaranteesCoverageOver",
+    "object": "Area",
+    "chunk": "completedocument7",
+    "context": "Finally, the combination of LEO and HAPS presents a slightly higher erasure probability average than the 20 terrestrial BSs, in exchange of the benefit of guaranteeing coverage fairness over the whole area without the need to take into account BS deployment planning."
+  },
+  {
+    "subject": "PathLoss",
+    "relation": "actsStrongerOn",
+    "object": "TerrestrialCommunication",
+    "chunk": "completedocument7",
+    "context": "Since path loss tends to act stronger on terrestrial communication, it is common that each terrestrial BS has less interference from devices transmitting from far away."
+  },
+  {
+    "subject": "TerrestrialBaseStation",
+    "relation": "receivesLessInterferenceFrom",
+    "object": "Device",
+    "chunk": "completedocument7",
+    "context": "Since path loss tends to act stronger on terrestrial communication, it is common that each terrestrial BS has less interference from devices transmitting from far away."
+  },
+  {
+    "subject": "TerrestrialBaseStation",
+    "relation": "integratesWith",
+    "object": "NonTerrestrialOption",
+    "chunk": "completedocument7",
+    "context": "This tells us that even sparsely deployed terrestrial BSs can help in the scalability of the network by integrating with non-terrestrial options."
+  },
+  {
+    "subject": "LeoConstellation",
+    "relation": "covers",
+    "object": "Region",
+    "chunk": "completedocument7",
+    "context": "In addition, we did not consider the deployment of a LEO constellation, as it is intended to cover multiple regions due to its non geostationary behavior, and thus the cost would be higher."
+  },
+  {
+    "subject": "LeoConstellation",
+    "relation": "exhibits",
+    "object": "NonGeostationaryBehavior",
+    "chunk": "completedocument7",
+    "context": "In addition, we did not consider the deployment of a LEO constellation, as it is intended to cover multiple regions due to its non geostationary behavior, and thus the cost would be higher."
+  },
+  {
+    "subject": "TerrestrialNetworkCost",
+    "relation": "relatedTo",
+    "object": "CommunicationTower",
+    "chunk": "completedocument7",
+    "context": "The costs of terrestrial networks are related to the leasing costs of communication towers, while we disregard the hardware costs."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "providesServiceTo",
+    "object": "RemoteRegion",
+    "chunk": "completedocument8",
+    "context": "In this work, we compared the impact of HAPS and LEO satellites as an alternative to IoT connectivity in remote regions with a lack of terrestrial connectivity."
+  },
+  {
+    "subject": "LowEarthOrbitSatellite",
+    "relation": "providesServiceTo",
+    "object": "RemoteRegion",
+    "chunk": "completedocument8",
+    "context": "In this work, we compared the impact of HAPS and LEO satellites as an alternative to IoT connectivity in remote regions with a lack of terrestrial connectivity."
+  },
+  {
+    "subject": "RemoteRegion",
+    "relation": "lacksInfrastructure",
+    "object": "TerrestrialNetwork",
+    "chunk": "completedocument8",
+    "context": "In this work, we compared the impact of HAPS and LEO satellites as an alternative to IoT connectivity in remote regions with a lack of terrestrial connectivity."
+  },
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "operatesWith",
+    "object": "TerrestrialNetwork",
+    "chunk": "completedocument8",
+    "context": "We also consider cases where HAPS and LEO could work together with existing terrestrial networks and also a combination of both HAPS and LEO."
+  },
+  {
+    "subject": "LowEarthOrbitSatellite",
+    "relation": "operatesWith",
+    "object": "TerrestrialNetwork",
+    "chunk": "completedocument8",
+    "context": "We also consider cases where HAPS and LEO could work together with existing terrestrial networks and also a combination of both HAPS and LEO."
+  },
+  {
+    "subject": "6gNetwork",
+    "relation": "providesConnectivityTo",
+    "object": "RemoteArea",
+    "chunk": "completedocument8",
+    "context": "“6G for bridging the digital divide: Wireless connectivity to remote areas,”IEEE Wireless Communications, vol. 29, no. 1, pp. 160–168, 2022."
+  },
+  {
+    "subject": "IotGroundSensingSystem",
+    "relation": "detectsEvent",
+    "object": "Wildfire",
+    "chunk": "completedocument8",
+    "context": "“A survey on IoT ground sensing systems for early wildfire detection: Technologies, challenges, and opportunities,”IEEE Access, vol. 12, pp. 172 785–172 819, 2024."
+  }
+]

@@ -1,0 +1,310 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text.
+2. Extract semantic relationships between terms in the form of triples.
+3. Focus on capturing information explicitly stated in the text.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "..."
+    }
+  ]
+}
+
+**INPUT TEXT:**
+UNIPACT: A MULTIMODAL FRAMEWORK FOR PROGNOSTIC QUESTION ANSWERING
+ON RA W ECG AND STRUCTURED EHR
+Jialu Tang1, Tong Xia2, Yuan Lu1, Aaqib Saeed1,3
+1 Eindhoven University of Technology, The Netherlands
+2 Tsinghua University, China.
+3 Eindhoven Artificial Intelligence Systems Institute, The Netherlands
+{j.tang, y.lu, a.saeed}@tue.nl, tongxia@mail.tsinghua.edu.cn
+ABSTRACT
+Accurate clinical prognosis requires synthesizing structured
+Electronic Health Records (EHRs) with real-time physiolog-
+ical signals like the Electrocardiogram (ECG). Large Lan-
+guage Models (LLMs) offer a powerful reasoning engine for
+this task but struggle to natively process these heterogeneous,
+non-textual data types. To address this, we propose UniPACT
+(Unified Prognostic Question Answering for Clinical Time-
+series), a unified framework for prognostic question answer-
+ing that bridges this modality gap. UniPACT’s core contri-
+bution is a structured prompting mechanism that converts nu-
+merical EHR data into semantically rich text. This textualized
+patient context is then fused with representations learned di-
+rectly from raw ECG waveforms, enabling an LLM to reason
+over both modalities holistically. We evaluate UniPACT on
+the comprehensive MDS-ED benchmark, it achieves a state-
+of-the-art mean AUROC of 89.37% across a diverse set of
+prognostic tasks including diagnosis, deterioration, ICU ad-
+mission, and mortality, outperforming specialized baselines.
+Further analysis demonstrates that our multimodal, multi-task
+approach is critical for performance and provides robustness
+in missing data scenarios.
+Index Terms—Multimodal learning, large language
+model, prognosis, clinical time-series, EHR
+1. INTRODUCTION
+Accurate patient prognosis in acute care is a cornerstone of
+modern medicine, directly guiding critical decisions such as
+ICU admission, treatment selection, and risk intervention [1].
+Clinicians formulate a prognosis not from a single data point,
+but by synthesizing a holistic view of the patient: their static
+baseline (demographics, comorbidities from EHR), dynamic
+state (vital signs), and acute physiological signals (like the 12-
+lead Electrocardiogram) [2]. A subtle T-wave inversion (from
+the ECG), for instance, may signify a critical mortality risk,
+but only when contextualized by abnormal potassium levels
+and a history of hypertension (from the EHR). Capturing this
+complex, cross-modal reasoning is the central challenge in
+computational prognosis.
+For decades, this challenge was met with simplified clini-
+cal risk scores, which are limited by manual feature selection
+and linear assumptions. While standard machine learning
+models offered improved accuracy, they are predominantly
+designed as rigid, single-task predictors [3]. These models
+lack the flexibility to adapt to the diverse, dynamic ques-
+tions clinicians face. They cannot be naturally queried about
+different outcomes (e.g., diagnosis, deterioration, mortality)
+and fundamentally struggle to fuse the dense, continuous lan-
+guage of ECG signals with the discrete, numerical language
+of structured EHR tables.
+The advent of Large Language Models (LLMs) introduces
+a new paradigm [4, 5, 6], offering a path from rigid prediction
+to flexible, prompt-based prognosticquestion answering. The
+vision is a single, unified model that a clinician can query in
+natural language: “Given this patient’s history and their cur-
+rent ECG, what is their risk of severe hypoxemia?” How-
+ever, this vision is blocked by a fundamental barrier: LLMs
+are text-native reasoning engines. They cannot natively inter-
+pret the most critical prognostic data. Raw ECG waveforms
+are dense signals where subtle morphology holds diagnostic
+meaning, while structured EHR data consists of context-poor
+numerical values. Current workarounds, such as summariz-
+ing ECGs into text reports [7, 8], result in critical informa-
+tion loss, discarding the very waveform patterns essential for
+expert-level prognosis.
+To bridge this gap and enable better prognostic reasoning,
+we propose UniPACT (Unified Prognostic Question Answer-
+ing for Clinical Time-series). UniPACT is a unified frame-
+work designed for multimodal prognostic question answer-
+ing and makes raw physiological signals and structured data
+“legible” to an LLM. For the ECG, it employs a dedicated
+waveform encoder to learn deep representations directly from
+the 12-lead ECG signal. For the EHR, it uses a novel struc-
+tured prompting mechanism to convert numerical data into se-
+mantically rich sentences (e.g., “The patient’s heart rate is 88
+beats per minute”), embedding them with vital clinical con-
+arXiv:2601.17916v1 [cs.LG] 25 Jan 2026
+The demographics
+information, 30.0
+year-old, black
+African American,
+female.
+The vital parameters,
+temperature 36.1,
+heartrate 88.0,
+resprate 16.0, o2sat
+100.0, sbp 121.0, dbp
+80.0.
+The biometrics
+information,
+bmi 31.1,
+weight 84.8,
+height 165.1.
+<ECG> <Role Assignment> <Task> <Demographics Info> <Biometrics Info> <Vital Parameters> <Question>
+<cardiac arrest>
+<ecmo>
+<inotropes>
+<mechanical ventilation>
+<severe hypoxemia>
+<vasopressors>
+Prognosis Results
+TASK
+Mortality / ICU / Deterioration / Diagnose collectable indicators after admission:
+DATA
+Will the
+patient
+experience
+severe
+hypoxemia?
+MM-Projector
+... .. ...<ECG>
+Tokenizer_LoRA ...
+...
+...
+Pretrained ECG Model12-Leads ECG
+LLM
+(Decoder)
+LLM
+Tokenizer & Embedder
+Text
+Prompting
+ECG Embedding ECG-Text MLP Mapper
+ECG-Text
+Merged Embeddings
+Demographics Biom
+etrics Vital Parameters ECG Role Assignment Task Question
+Encoder_LoRA
+Decoder_LoRA
+yes
+yes
+Extra Test
+Other Task
+Treatment
+(a)
+(b) (c)
+Your task is to predict
+whether a patient will
+experience clinical
+deterioration based on
+provided ECG and Electronic
+Health Record (EHR) data.
+You are a cardiologist.
+<Role Assignment>
+<Task>
+<Demographics Info>
+<Biometrics Info>
+<Vital Parameters>
+<Q>
+Fig. 1.The UniPACT framework for multimodal prognostic question answering.(a) Structured Prompt Formulation:Heterogeneous
+patient data, including structured EHR (demographics, biometrics, vitals) and a reference to the ECG waveform, are converted into a unified
+natural language prompt. This process transforms numerical values into a format that is natively understandable by the LLM.(b) Multimodal
+Fusion Architecture:A pretrained encoder processes the raw 12-lead ECG waveform to produce a feature embedding. A multimodal
+projector (MM-Projector) then aligns this ECG embedding with the LLM’s text embedding space. These aligned ECG features are seamlessly
+integrated with the tokenized text prompt and processed by the LLM decoder for unified reasoning.(c) Prognostic Output Generation:The
+model generates a direct answer to the prognostic question (e.g., ‘Yes’/‘No’ to a query about clinical deterioration).
+text. This strategy enables the LLM to simultaneously pro-
+cess high-fidelity ECG signals and structured EHR data. By
+framing diverse prognostic queries within a single question-
+answering framework, UniPACT can seamlessly switch be-
+tween predicting different outcomes from long-term mortality
+to immediate clinical deterioration without requiring separate
+models. Our work makes following contributions:
+• We introduce UniPact, the first framework to unify raw
+ECG waveforms with structured EHR data, overcom-
+ing the modality bottleneck in LLM-based prognostic
+reasoning.
+• We propose Structured EHR Prompting as a key design
+choice in multimodal prognosis. This mechanism pro-
+vides an effective and flexible way that jointly unifies
+raw ECG signals and heterogeneous numerical clinical
+data while preserving both numerical precision and se-
+mantics. This design underpins the medical relevance
+of our approach by enabling clinically grounded ques-
+tion answering in a wide spectrum of queries.
+• Through comprehensive evaluation on the MDS-ED [3]
+(MIMIC-IV-ECG & MIMIC-IV derived) benchmark,
+we demonstrate that UniPact significantly outperforms
+established baselines and maintains robustness in both
+multi-task and missing-modality scenarios.
+2. METHOD
+The UniPACT framework is designed to perform prognos-
+tic question answering by unifying raw ECG waveforms and
+structured EHR data within an end-to-end generative model.
+As illustrated in Figure 1, our architecture consists of three
+core components: (1) a dedicated encoder for raw ECG sig-
+nals, (2) a structured prompting mechanism to textualize EHR
+data, and (3) a large language model (LLM) that fuses these
+multimodal representations to generate a final prediction.
+2.1. Modality-Specific Representation Learning
+ECG Waveform Encoder.To capture the rich diagnostic in-
+formation in physiological signals, we process raw 12-lead
+ECG waveforms directly, avoiding lossy conversion to text
+reports. We employ the pre-trained Transformer-based ECG
+encoder from D-BETA [9], which has been shown to be ef-
+fective at learning discriminative representations from ECG
+signals. Given a raw ECG signalE∈R L×C (whereLis the
+number of time steps, typically 5000 for a 10-second record-
+ing at 500 Hz, andC= 12leads), the encoder outputs a
+sequence of feature embeddings:
+Hecg =ECG-Encoder(E),(1)
+whereH ecg ∈R N×d ecg is a sequence ofNembedding
+vectors, each of dimensiond ecg. This approach preserves
+the fine-grained temporal and morphological patterns of the
+waveform.
+Structured EHR Prompting.A key novelty of UniPACT
+is its method for making structured EHR data comprehen-
+sible to an LLM. Rather than using raw values, we convert
+< Demographics >(3 parameters),< Biometrics >(3
+parameters), and< V ital P arameters >(7 parameters)
+into natural language sentences via predefined templates.
+This representation,T EHR, maintains numerical precision
+while providing the contextual cues LLMs require. An exam-
+ple prompt follows:
+The demographics information: 30.0 year-old,
+black African American, female. The vital
+parameters: temperature 36.1, heartrate
+88.0, resprate 16.0. The biometrics
+information: bmi 31.1, weight 84.8, height
+165.1.
+2.2. Multimodal Fusion and Generation
+Embedding Space Alignment.To fuse these diverse modal-
+ities, we first align their representations within the LLM’s
+embedding space. The ECG feature embeddingsH ecg are
+mapped into the LLM’s word embedding dimensiond llm us-
+ing a small, trainable projection network, which we imple-
+ment as a two-layer MLP (the MM-Projector):
+H ′
+ecg =MLP(H ecg),(2)
+whereH ′
+ecg ∈R N×d llm. The textualized EHR prompt,
+TEHR, is tokenized and embedded using the LLM’s native
+tokenizer and embedding layer, resulting in embeddings
+HEHR ∈R M×d llm.
+Unified Input and Autoregressive Prediction.The final
+input to the LLM is a single, unified sequence constructed
+by concatenating the processed multimodal embeddings.
+We base our model on the LLaV A framework [10] and use
+MedGemma-4B [11] as the backbone LLM as it is pretrained
+on medical data. The complete input sequence is formatted
+as:
+Hinput = [H ′
+ecg, Hprompt, Hquestion],(3)
+whereH prompt contains the embedded EHR data and task
+instructions, andH question is the embedded prognostic query
+(e.g., “Will the patient experience severe hypoxemia?”). The
+LLM then autoregressively predicts the answerY(e.g., “Yes”
+or “No”) based on this fused multimodal context.
+2.3. Multi-Task Learning via Unified Prompting
+UniPACT is trained as a single model on a diverse set of prog-
+nostic tasks (diagnosis, deterioration, ICU admission, mortal-
+ity). We unify all tasks using a consistent prompt structure,
+which instructs the model on its role, the specific task, and
+the question to answer. A generalized template is as follows:
+<ECG EMBEDDINGS>
+<Role Assignment> <Task Description>
+<EHR Information as Text>
+<Specific Prognostic Question>?
+Answer strictly with Yes or No.
+The entire model is trained end-to-end using a standard lan-
+guage modeling objective, which maximizes the likelihood of
+the ground-truth answer tokens. Specifically, we minimize
+the cross-entropy loss only on the answer portion of the se-
+quence:
+L=−
+i=1

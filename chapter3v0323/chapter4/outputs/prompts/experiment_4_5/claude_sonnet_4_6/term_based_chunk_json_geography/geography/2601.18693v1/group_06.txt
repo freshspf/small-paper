@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Star",
+  "associatedWith",
+  "ClusterCentralGalaxy",
+  "DarkMatter",
+  "strippedFrom",
+  "Satellite",
+  "populates",
+  "PhaseSpace",
+  "StrippedParticle",
+  "locatedWithin",
+  "IntraclusterLight",
+  "sharesBoundaryWith",
+  "CoregionalisationMatrix",
+  "encodesContributionOf",
+  "SharedLatentFunction",
+  "DensityProfileModel",
+  "predicts",
+  "StellarDensity",
+  "DarkMatterDensity",
+  "traces",
+  "RadialStructure",
+  "BayesianInference",
+  "performedOn",
+  "Hyperparameter",
+  "Inference",
+  "usesFramework",
+  "framework_pymc",
+  "PosteriorEstimate",
+  "obtainedVia",
+  "algorithm_advi",
+  "LmcModel",
+  "availableAt",
+  "url_githubInteractiveProfilesIcl",
+  "MassFunctionParameter",
+  "informedBy",
+  "simulation_tng100",
+  "simulation_horizonAgn",
+  "simulation_hydrangea",
+  "simulation_theThreeHundred",
+  "cluster_tng100",
+  "originatesFrom",
+  "simulation_TNG100",
+  "cluster_horizonAgn",
+  "simulation_HorizonAGN",
+  "cluster_hydrangea",
+  "simulation_Hydrangea",
+  "Cluster",
+  "locatedIn",
+  "dataset_TheThreeHundred",
+  "hasSpatialDistribution",
+  "StellarMassDistribution",
+  "University",
+  "Institution",
+  "City",
+  "Country",
+  "Region",
+  "Street",
+  "Location",
+  "university_nottingham",
+  "location_universityPark",
+  "city_nottingham",
+  "country_uk",
+  "institution_observatoireDeSauverny",
+  "city_versoix",
+  "country_switzerland",
+  "university_universidadAutonomaDeMadrid",
+  "city_madrid",
+  "country_spain",
+  "institution_royalObservatory",
+  "city_edinburgh",
+  "institution_institutDAstrophysiqueDeParis",
+  "street_boulevardArago",
+  "city_paris",
+  "country_france",
+  "university_universityOfWesternAustralia",
+  "street_stirlingHighway",
+  "city_crawley",
+  "region_westernAustralia",
+  "country_australia",
+  "DarkMatterHalo"
+]
+
+Triples:
+[
+  {
+    "subject": "Star",
+    "relation": "associatedWith",
+    "object": "ClusterCentralGalaxy",
+    "chunk": "completedocument9",
+    "context": "Each panel decomposes the budgetintoDM(purple,topsub-panels)andstars(green,bottomsub-panels), further decomposed into three categories: DM and stars associated with the cluster or central galaxy (darkest colour), DM and stars associated with the satellite halo or satellite stars, and DM and stars stripped from the satellite (lightest colour)."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument9",
+    "context": "Each panel decomposes the budgetintoDM(purple,topsub-panels)andstars(green,bottomsub-panels), further decomposed into three categories: DM and stars associated with the cluster or central galaxy (darkest colour), DM and stars associated with the satellite halo or satellite stars, and DM and stars stripped from the satellite (lightest colour)."
+  },
+  {
+    "subject": "Star",
+    "relation": "strippedFrom",
+    "object": "Satellite",
+    "chunk": "completedocument9",
+    "context": "Each panel decomposes the budgetintoDM(purple,topsub-panels)andstars(green,bottomsub-panels), further decomposed into three categories: DM and stars associated with the cluster or central galaxy (darkest colour), DM and stars associated with the satellite halo or satellite stars, and DM and stars stripped from the satellite (lightest colour)."
+  },
+  {
+    "subject": "Star",
+    "relation": "populates",
+    "object": "PhaseSpace",
+    "chunk": "completedocument9",
+    "context": "In our simulations, the offsets therefore largely reflect differences in how stars and DM populate phase-spaceduringsatellitestripping,ratherthanlarge-scaleheating or restructuring of the host halo."
+  },
+  {
+    "subject": "DarkMatter",
+    "relation": "populates",
+    "object": "PhaseSpace",
+    "chunk": "completedocument9",
+    "context": "In our simulations, the offsets therefore largely reflect differences in how stars and DM populate phase-spaceduringsatellitestripping,ratherthanlarge-scaleheating or restructuring of the host halo."
+  },
+  {
+    "subject": "StrippedParticle",
+    "relation": "locatedWithin",
+    "object": "ClusterCentralGalaxy",
+    "chunk": "completedocument9",
+    "context": "Fainter square markers and error bars indicate the resultwhenparticleswithin100kpcoftheclustercentralgalaxyareexcluded."
+  },
+  {
+    "subject": "IntraclusterLight",
+    "relation": "sharesBoundaryWith",
+    "object": "ClusterCentralGalaxy",
+    "chunk": "completedocument9",
+    "context": "quantitiesrestrictedtostrippedparticleswithfinalradii𝑟 >100kpc, representing the boundary between the cluster’s central galaxy and the ICL."
+  },
+  {
+    "subject": "CoregionalisationMatrix",
+    "relation": "encodesContributionOf",
+    "object": "SharedLatentFunction",
+    "chunk": "completedocument10",
+    "context": "Each coregionalisation matrix encodes how shared latent functions\ncontribute to different outputs, while the input kernels control how\nthese functions vary across parameter space."
+  },
+  {
+    "subject": "DensityProfileModel",
+    "relation": "predicts",
+    "object": "StellarDensity",
+    "chunk": "completedocument10",
+    "context": "Forthedensityprofilemodel,which\npredicts stellar and DM densities tracing the same underlying radial\nstructure, we adopt a coregionalisation rank of one, reflecting the\nstronger coupling between the two outputs."
+  },
+  {
+    "subject": "DensityProfileModel",
+    "relation": "predicts",
+    "object": "DarkMatterDensity",
+    "chunk": "completedocument10",
+    "context": "Forthedensityprofilemodel,which\npredicts stellar and DM densities tracing the same underlying radial\nstructure, we adopt a coregionalisation rank of one, reflecting the\nstronger coupling between the two outputs."
+  },
+  {
+    "subject": "StellarDensity",
+    "relation": "traces",
+    "object": "RadialStructure",
+    "chunk": "completedocument10",
+    "context": "Forthedensityprofilemodel,which\npredicts stellar and DM densities tracing the same underlying radial\nstructure, we adopt a coregionalisation rank of one, reflecting the\nstronger coupling between the two outputs."
+  },
+  {
+    "subject": "DarkMatterDensity",
+    "relation": "traces",
+    "object": "RadialStructure",
+    "chunk": "completedocument10",
+    "context": "Forthedensityprofilemodel,which\npredicts stellar and DM densities tracing the same underlying radial\nstructure, we adopt a coregionalisation rank of one, reflecting the\nstronger coupling between the two outputs."
+  },
+  {
+    "subject": "BayesianInference",
+    "relation": "performedOn",
+    "object": "Hyperparameter",
+    "chunk": "completedocument10",
+    "context": "WeperformBayesianinferenceonthehyperparametersofthemulti-\noutput Gaussian process, including the kernel length scales and am-\nplitudes and the coregionalisation weights that control correlations\nbetween outputs."
+  },
+  {
+    "subject": "Inference",
+    "relation": "usesFramework",
+    "object": "framework_pymc",
+    "chunk": "completedocument10",
+    "context": "Inference is performed using the\nprobabilisticprogrammingframeworkPyMC(Abril-Plaetal.2023)."
+  },
+  {
+    "subject": "PosteriorEstimate",
+    "relation": "obtainedVia",
+    "object": "algorithm_advi",
+    "chunk": "completedocument10",
+    "context": "Approximateposteriorestimatesarefirstobtainedviaautomaticdif-\nferentiation variational inference (ADVI)."
+  },
+  {
+    "subject": "LmcModel",
+    "relation": "availableAt",
+    "object": "url_githubInteractiveProfilesIcl",
+    "chunk": "completedocument10",
+    "context": "The full implementation of the LMC models, including\npriors, likelihoods and validation is publicly available at\ngithub.com/garrethmartin/interactive-profiles-ICL."
+  },
+  {
+    "subject": "MassFunctionParameter",
+    "relation": "informedBy",
+    "object": "simulation_tng100",
+    "chunk": "completedocument10",
+    "context": "In order to define a range of plausible infalling galaxy stellar mass functions, we consider a range of mass function parameters in-\nformed by the four simulations described in Appendix E:TNG100,\nHorizon-AGN,Hydrangea, andTheThreeHundred."
+  },
+  {
+    "subject": "MassFunctionParameter",
+    "relation": "informedBy",
+    "object": "simulation_horizonAgn",
+    "chunk": "completedocument10",
+    "context": "In order to define a range of plausible infalling galaxy stellar mass functions, we consider a range of mass function parameters in-\nformed by the four simulations described in Appendix E:TNG100,\nHorizon-AGN,Hydrangea, andTheThreeHundred."
+  },
+  {
+    "subject": "MassFunctionParameter",
+    "relation": "informedBy",
+    "object": "simulation_hydrangea",
+    "chunk": "completedocument10",
+    "context": "In order to define a range of plausible infalling galaxy stellar mass functions, we consider a range of mass function parameters in-\nformed by the four simulations described in Appendix E:TNG100,\nHorizon-AGN,Hydrangea, andTheThreeHundred."
+  },
+  {
+    "subject": "MassFunctionParameter",
+    "relation": "informedBy",
+    "object": "simulation_theThreeHundred",
+    "chunk": "completedocument10",
+    "context": "In order to define a range of plausible infalling galaxy stellar mass functions, we consider a range of mass function parameters in-\nformed by the four simulations described in Appendix E:TNG100,\nHorizon-AGN,Hydrangea, andTheThreeHundred."
+  },
+  {
+    "subject": "cluster_tng100",
+    "relation": "originatesFrom",
+    "object": "simulation_TNG100",
+    "chunk": "completedocument11",
+    "context": "This yields 15 clusters fromTNG100with a mean halo mass of1014.2M⊙,8clustersfromHorizon-AGNwithameanhalomass of1014.3M⊙, and 16 clusters fromHydrangeawith a mean halo mass of1014.4M⊙."
+  },
+  {
+    "subject": "cluster_horizonAgn",
+    "relation": "originatesFrom",
+    "object": "simulation_HorizonAGN",
+    "chunk": "completedocument11",
+    "context": "This yields 15 clusters fromTNG100with a mean halo mass of1014.2M⊙,8clustersfromHorizon-AGNwithameanhalomass of1014.3M⊙, and 16 clusters fromHydrangeawith a mean halo mass of1014.4M⊙."
+  },
+  {
+    "subject": "cluster_hydrangea",
+    "relation": "originatesFrom",
+    "object": "simulation_Hydrangea",
+    "chunk": "completedocument11",
+    "context": "This yields 15 clusters fromTNG100with a mean halo mass of1014.2M⊙,8clustersfromHorizon-AGNwithameanhalomass of1014.3M⊙, and 16 clusters fromHydrangeawith a mean halo mass of1014.4M⊙."
+  },
+  {
+    "subject": "Cluster",
+    "relation": "locatedIn",
+    "object": "dataset_TheThreeHundred",
+    "chunk": "completedocument11",
+    "context": "Clusters inTheThreeHundredare systemati- cally more massive;"
+  },
+  {
+    "subject": "Satellite",
+    "relation": "hasSpatialDistribution",
+    "object": "StellarMassDistribution",
+    "chunk": "completedocument11",
+    "context": "AsdescribedinAppendixC,wefirstmeasurethestellarmassdis- tribution of all infalling satellites and then separately fit a Schechter function for each simulation."
+  }
+]

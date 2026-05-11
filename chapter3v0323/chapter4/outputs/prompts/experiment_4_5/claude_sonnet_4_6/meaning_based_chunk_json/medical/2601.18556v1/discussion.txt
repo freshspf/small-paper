@@ -1,0 +1,73 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "discussion",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: discussion
+- section_title: Discussion
+- page_start: 17
+- page_end: 17
+
+**INPUT TEXT CHUNK:**
+The SDA-QEC framework proposed in this study achieves comprehensive perfor-
+mance with 98.33% accuracy, sensitivity, and specificity in coronary angiography image
+classification tasks, significantly outperforming multiple classical deep learning baseline
+models. Its performance superiority stems not from a single module but from synergis-
+tic optimization through two pathways: “data distribution reconstruction” and “feature
+discriminative capability enhancement.” Simplified diffusion augmentation alleviates mi-
+nority class sample scarcity and distribution bias issues at the data level, while quantum-
+enhanced feature mapping improves nonlinear representation capability at the model
+level, enabling the model to learn more stable decision boundaries on more balanced data
+distributions. This dual-layer design fundamentally avoids the structural contradiction
+in traditional methods on imbalanced data of “high sensitivity-low specificity” or “high
+specificity-high missed diagnosis rate.”
+Compared to traditional geometric or photometric augmentation, random resam-
+pling, and SMOTE interpolation methods, the simplified diffusion augmentation adopted
+in this work generates minority class samples in image space rather than feature space
+throughforwardnoiseinjection, effectivelyexpandingminorityclassdistributioncoverage
+while maintaining consistency of key medical imaging structures. Experimental results
+show this strategy achieves generation quality approaching complete diffusion models
+(FID significantly better than traditional methods) using only 5-step forward diffusion,
+whiledramaticallyreducingcomputationalcost. Thisdemonstratesthatinmedicalimag-
+ing data augmentation scenarios, complete reverse generation processes are unnecessary;
+controlled random perturbation alone can effectively approximate true distributions, sig-
+17

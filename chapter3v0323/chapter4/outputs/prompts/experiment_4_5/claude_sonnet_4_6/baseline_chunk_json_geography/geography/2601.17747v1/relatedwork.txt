@@ -1,0 +1,130 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: relatedwork
+- section_title: Related Work
+- page_start: 2
+- page_end: 2
+
+INPUT TEXT CHUNK:
+2.1 Remote Sensing Change Detection
+Categorized by supervision information, remote sensing CD
+tasks can generally be divided into three main paradigms: su-
+pervised, weakly-supervised, and unsupervised CD.Super-
+vised CDrelies on pixel-level change annotations, enabling
+direct learning of precise change boundaries. DSAMNet inte-
+grates deep supervision with attention-based metric learning
+to better model bi-temporal differences [Liu and Shi, 2021 ].
+BIT pioneers Transformer-based CD by using self-attention
+to capture long-range spatial–temporal dependencies [Chenet al., 2021 ]. Moreover, SAM-CD incorporates a visual foun-
+dation model as the backbone [Dinget al., 2024 ], leverag-
+ing large-scale pretraining priors to improve robustness in
+complex scenes. Supervised CD methods have established a
+relatively mature technical framework across various remote
+sensing applications. However, such methods heavily rely on
+precise pixel-level change annotations, which are costly to
+obtain and difficult to scale to large, multi-region, or long-
+term application scenarios.
+Weakly-supervised CDrelies solely on image-level or
+region-level annotations, attempting to locate change areas
+through indirect supervision signals. CS-WSCD leverages
+Class Activation Maps (CAM) to extract spatial responses
+from classification networks, thereby delineating potential
+change regions [Wanget al., 2023 ]. Driven by the demand
+to further reduce reliance on manual annotations, researchers
+have turned their attention tounsupervised CDthat oper-
+ate entirely without change labels. DSFA [Duet al., 2019 ]
+characterize potential change areas by measuring differences
+between bi-temporal images in latent space. AnyChange
+[Zhenget al., 2024 ]introduces SAM to identify changes
+through bi-temporal latent matching.
+Despite steady progress in network architectures and rep-
+resentation learning strategies, most existing remote sensing
+CD methods are developed under fixed supervision assump-
+tions. This limits their flexibility in practical applications.
+Such limitations motivate the exploration of more general
+frameworks that can adaptively handle diverse supervision
+conditions.
+2.2 Multi-Level Supervision Learning
+In computer vision, researchers have explored adapting
+supervised, weakly-supervised, and unsupervised training
+modes within a unified model framework to address label
+heterogeneity, thereby enhancing model applicability under
+diverse annotation conditions. For instance, in image seg-
+mentation tasks, Omni-RES proposes a unified modeling
+paradigm for referential segmentation learning [Huanget al.,
+2024 ]. Through a teacher-student framework within a single
+model architecture, it effectively adapts to different supervi-
+sion settings by leveraging pixel-level labels, weak labels, and
+unlabeled data, respectively. In object detection tasks, Omni-
+DETR employs shared feature representations while adopting
+differentiated optimization strategies for different supervision
+conditions, thereby avoiding separate model designs for each
+supervision paradigm [Wanget al., 2022 ].
+In remote sensing CD, to address the longstanding frag-
+mentation between supervised, weakly-supervised, and unsu-
+pervised CD tasks, FCD-GAN pioneeringly proposes a repre-
+sentative method for simultaneous modeling across all three
+supervision paradigms [Wuet al., 2023 ]. FCD-GAN im-
+plicitly models the change distribution through an adversarial
+learning process between the segmenter, generator, and dis-
+criminator. This framework directly optimizes using pixel-
+level annotations in supervised scenarios, while characteriz-
+ing changed regions via generative modeling and distribution
+constraints in weakly-supervised and unsupervised settings.
+However, FCD-GAN lacks explicit constraints on the
+structural stability and semantic discriminability of changed

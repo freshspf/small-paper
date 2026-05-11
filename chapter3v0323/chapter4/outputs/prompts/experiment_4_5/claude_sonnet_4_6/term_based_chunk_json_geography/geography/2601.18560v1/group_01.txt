@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "EarthObservationMission",
+  "monitors",
+  "GlobalEnvironmentalChange",
+  "Satellite",
+  "deployedIn",
+  "Orbit",
+  "HyperspectralSensor",
+  "captures",
+  "ContinuousSpectralInformation",
+  "HyperspectralSatellite",
+  "provides",
+  "EarthObservationProduct",
+  "DataTransmission",
+  "locatedIn",
+  "OfflineProcessing",
+  "TerrestrialSystem",
+  "DisasterMonitoring",
+  "isA",
+  "EmergencyScenario",
+  "EmergencyMapping",
+  "SatelliteOnboardProcessing",
+  "integrates",
+  "ArtificialIntelligenceAlgorithm",
+  "platform_opsSat",
+  "ValidationPlatform",
+  "mission_phiSat1",
+  "deployedBy",
+  "org_esa",
+  "DeepConvolutionalNetwork",
+  "usedFor",
+  "CloudSegmentation",
+  "mission_hypso",
+  "observes",
+  "OceanObservation",
+  "KMeansAlgorithm",
+  "usedAs",
+  "mission_eo1",
+  "segments",
+  "Sea",
+  "Land",
+  "Cloud",
+  "SmallSatellite",
+  "hasLimited",
+  "ComputationalResource",
+  "BadPixel",
+  "causes",
+  "ImageQualityDegradation",
+  "MixedNoise",
+  "MisalignedPixel",
+  "GaussianNoise",
+  "PoissonNoise",
+  "SpaceborneImagingSpectrometer",
+  "encounters",
+  "denotedAs",
+  "ImpulseNoise",
+  "SaltAndPepperNoise",
+  "SensorOperatingFailure",
+  "ScanningUnitSaturation",
+  "dataset_IndianPines",
+  "sensor_AVIRIS",
+  "category_LandCover",
+  "dataset_Salinas",
+  "location_SalinasValley",
+  "location_California",
+  "dataset_PaviaUniversity",
+  "sensor_ROSIS",
+  "location_RegionOfPavia",
+  "location_NorthernItaly",
+  "HyperspectralImageDataset",
+  "SpatialResolution",
+  "SpectralBand",
+  "method_proposedMethod",
+  "dataset_indianPines",
+  "dataset_paviaUniversity",
+  "dataset_salinas",
+  "feature_singlePixelLevelSpectralFeatures",
+  "feature_spatialInformation",
+  "characteristic_significantImbalanceInClassDistribution",
+  "characteristic_smallerNumberOfCategories",
+  "characteristic_fewerThan30PixelsForClasses7And9"
+]
+
+Triples:
+[
+  {
+    "subject": "EarthObservationMission",
+    "relation": "monitors",
+    "object": "GlobalEnvironmentalChange",
+    "chunk": "introduction",
+    "context": "Earth observation missions are fundamental for long-term monitoring and research on global environmental change."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "deployedIn",
+    "object": "Orbit",
+    "chunk": "introduction",
+    "context": "To obtain reliable observation data, numerous satellites have been deployed inorbit, providing essential information to support policy formulation and decision-making."
+  },
+  {
+    "subject": "HyperspectralSensor",
+    "relation": "captures",
+    "object": "ContinuousSpectralInformation",
+    "chunk": "introduction",
+    "context": "With the advent of high spatial and radiometric resolutions hyperspectral sensors, hyperspectral imaging missions have become increasingly critical due to their capability to capture continuous spectral information from the visible to the short-wave infrared range[1–5]."
+  },
+  {
+    "subject": "HyperspectralSatellite",
+    "relation": "provides",
+    "object": "EarthObservationProduct",
+    "chunk": "introduction",
+    "context": "The procurement of earth observation products from hyperspectral satellites involves a two-stage process: data transmission onboard the satellite and subsequent offline processing on terrestrial systems[6]."
+  },
+  {
+    "subject": "DataTransmission",
+    "relation": "locatedIn",
+    "object": "Satellite",
+    "chunk": "introduction",
+    "context": "The procurement of earth observation products from hyperspectral satellites involves a two-stage process: data transmission onboard the satellite and subsequent offline processing on terrestrial systems[6]."
+  },
+  {
+    "subject": "OfflineProcessing",
+    "relation": "locatedIn",
+    "object": "TerrestrialSystem",
+    "chunk": "introduction",
+    "context": "The procurement of earth observation products from hyperspectral satellites involves a two-stage process: data transmission onboard the satellite and subsequent offline processing on terrestrial systems[6]."
+  },
+  {
+    "subject": "DisasterMonitoring",
+    "relation": "isA",
+    "object": "EmergencyScenario",
+    "chunk": "introduction",
+    "context": "Especially in certain critical emergency scenarios such as disaster monitoring[9] and emergency mapping[10, 11], this procedure is prolonged and does not satisfy the demand for a rapid response."
+  },
+  {
+    "subject": "EmergencyMapping",
+    "relation": "isA",
+    "object": "EmergencyScenario",
+    "chunk": "introduction",
+    "context": "Especially in certain critical emergency scenarios such as disaster monitoring[9] and emergency mapping[10, 11], this procedure is prolonged and does not satisfy the demand for a rapid response."
+  },
+  {
+    "subject": "SatelliteOnboardProcessing",
+    "relation": "integrates",
+    "object": "ArtificialIntelligenceAlgorithm",
+    "chunk": "introduction",
+    "context": "The key to satellite onboard processing is to integrate artificial intelligence algorithms with satellite platform."
+  },
+  {
+    "subject": "platform_opsSat",
+    "relation": "isA",
+    "object": "ValidationPlatform",
+    "chunk": "introduction",
+    "context": "Despite lacking a hyperspectral spectrometer, OPS-SAT serves as a pioneering validation platform to assess onboard processing capabilities[12]."
+  },
+  {
+    "subject": "mission_phiSat1",
+    "relation": "deployedBy",
+    "object": "org_esa",
+    "chunk": "introduction",
+    "context": "The Φ-sat-1 mission [14] from the European Space Agency (ESA) illustrates the use of artificial intelligence in Earth observation."
+  },
+  {
+    "subject": "DeepConvolutionalNetwork",
+    "relation": "usedFor",
+    "object": "CloudSegmentation",
+    "chunk": "introduction",
+    "context": "It is the first attempt to deploy a deep convolutional network on a satellite for the purpose of cloud segmentation."
+  },
+  {
+    "subject": "mission_hypso",
+    "relation": "observes",
+    "object": "OceanObservation",
+    "chunk": "introduction",
+    "context": "Based on this idea, they proposed theHyper-Spectral Small Satellite for Ocean Observation(HYPSO) mission."
+  },
+  {
+    "subject": "KMeansAlgorithm",
+    "relation": "usedAs",
+    "object": "SatelliteOnboardProcessing",
+    "chunk": "introduction",
+    "context": "In order to achieve real-time online classification of hyperspectral images, [15] implemented thek-means algorithm as the onboard processing method."
+  },
+  {
+    "subject": "mission_eo1",
+    "relation": "segments",
+    "object": "Sea",
+    "chunk": "introduction",
+    "context": "[16] presents a lightweight deep learning model and substantiates its efficacy through validation by the HYPSO-1 andEarth Observing-1 (EO-1) missions, whose main task is to segment the sea, land and cloud."
+  },
+  {
+    "subject": "mission_eo1",
+    "relation": "segments",
+    "object": "Land",
+    "chunk": "introduction",
+    "context": "[16] presents a lightweight deep learning model and substantiates its efficacy through validation by the HYPSO-1 andEarth Observing-1 (EO-1) missions, whose main task is to segment the sea, land and cloud."
+  },
+  {
+    "subject": "mission_eo1",
+    "relation": "segments",
+    "object": "Cloud",
+    "chunk": "introduction",
+    "context": "[16] presents a lightweight deep learning model and substantiates its efficacy through validation by the HYPSO-1 andEarth Observing-1 (EO-1) missions, whose main task is to segment the sea, land and cloud."
+  },
+  {
+    "subject": "SmallSatellite",
+    "relation": "hasLimited",
+    "object": "ComputationalResource",
+    "chunk": "introduction",
+    "context": "First, compared to high-power and high-performance processors used in terrestrial settings, the computational resources available onboard satellites are significantly limited, especially for small satellites[17][18][19]."
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "causes",
+    "object": "ImageQualityDegradation",
+    "chunk": "introduction",
+    "context": "Moreover, image quality degradation due to bad pixels[23], mixed noise (e.g., Gaussian noise, poisson noise)[24][25], and misaligned pixels[26] are common problems encountered in widely used spaceborne imaging spectrometers."
+  },
+  {
+    "subject": "MixedNoise",
+    "relation": "causes",
+    "object": "ImageQualityDegradation",
+    "chunk": "introduction",
+    "context": "Moreover, image quality degradation due to bad pixels[23], mixed noise (e.g., Gaussian noise, poisson noise)[24][25], and misaligned pixels[26] are common problems encountered in widely used spaceborne imaging spectrometers."
+  },
+  {
+    "subject": "MisalignedPixel",
+    "relation": "causes",
+    "object": "ImageQualityDegradation",
+    "chunk": "introduction",
+    "context": "Moreover, image quality degradation due to bad pixels[23], mixed noise (e.g., Gaussian noise, poisson noise)[24][25], and misaligned pixels[26] are common problems encountered in widely used spaceborne imaging spectrometers."
+  },
+  {
+    "subject": "GaussianNoise",
+    "relation": "isA",
+    "object": "MixedNoise",
+    "chunk": "introduction",
+    "context": "Moreover, image quality degradation due to bad pixels[23], mixed noise (e.g., Gaussian noise, poisson noise)[24][25], and misaligned pixels[26] are common problems encountered in widely used spaceborne imaging spectrometers."
+  },
+  {
+    "subject": "PoissonNoise",
+    "relation": "isA",
+    "object": "MixedNoise",
+    "chunk": "introduction",
+    "context": "Moreover, image quality degradation due to bad pixels[23], mixed noise (e.g., Gaussian noise, poisson noise)[24][25], and misaligned pixels[26] are common problems encountered in widely used spaceborne imaging spectrometers."
+  },
+  {
+    "subject": "SpaceborneImagingSpectrometer",
+    "relation": "encounters",
+    "object": "ImageQualityDegradation",
+    "chunk": "introduction",
+    "context": "Moreover, image quality degradation due to bad pixels[23], mixed noise (e.g., Gaussian noise, poisson noise)[24][25], and misaligned pixels[26] are common problems encountered in widely used spaceborne imaging spectrometers."
+  },
+  {
+    "subject": "BadPixel",
+    "relation": "denotedAs",
+    "object": "ImpulseNoise",
+    "chunk": "introduction",
+    "context": "Bad pixels are often denoted as impulse noise or salt-and-pepper noise ,which appear as random white or black pixels in images due to sensor operating failures or saturation of the scanning unit [13][24][27]."
+  }
+]

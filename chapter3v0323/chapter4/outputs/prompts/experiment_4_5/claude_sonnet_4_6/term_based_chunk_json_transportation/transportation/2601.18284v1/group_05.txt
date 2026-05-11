@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RlComponent",
+  "includesEntity",
+  "Reward",
+  "RlEnvironmentFramework",
+  "providesInterface",
+  "StandardizedInterface",
+  "VissimWrapper",
+  "builtOnTopOf",
+  "VissimComInterface",
+  "encapsulatesCallsInto",
+  "PythonApi",
+  "supportsSetupOf",
+  "SimulationEnvironment",
+  "enables",
+  "DynamicPhaseControl",
+  "providesAccessTo",
+  "TrafficState",
+  "PerformanceIndicator",
+  "BasicSimulationModule",
+  "creates",
+  "controls",
+  "provides",
+  "TimeControlOperation",
+  "SignalControlModule",
+  "manages",
+  "IntersectionSignalSystem",
+  "synchronizesWith",
+  "AgentDecision",
+  "supportsQuerying",
+  "PhaseState",
+  "supportsIssuing",
+  "PhaseSwitchingCommand",
+  "EvaluationModule",
+  "calculates",
+  "TrafficPerformanceIndicator",
+  "providesFeedbackTo",
+  "RlEnvironment",
+  "supportsMetric",
+  "NetworkLevelMetric",
+  "IntersectionLevelMetric",
+  "includesIndicator",
+  "TravelTime",
+  "Distance",
+  "Delay",
+  "providesInformationOn",
+  "VehicleCount",
+  "QueueLength",
+  "PerformanceMeasure",
+  "transformedInto",
+  "RlTscIndicator",
+  "TrafficCongestion",
+  "ModernCity",
+  "EconomicImpact",
+  "EnvironmentalImpact",
+  "ExcessFuelConsumption",
+  "FinancialLoss",
+  "CarbonEmission",
+  "TrafficManagement",
+  "TrafficSignalControl",
+  "ReinforcementLearning",
+  "AutonomousPolicyLearning",
+  "TrafficModel",
+  "DeepReinforcementLearning",
+  "SingleIntersectionControl",
+  "MultiIntersectionControl",
+  "RlTsc",
+  "LargeScaleTraining",
+  "Evaluation",
+  "TrafficSimulationTool",
+  "TscMethod",
+  "TrafficSimulationPlatform",
+  "simulator_sumo",
+  "simulator_cityflow",
+  "simulator_vissim",
+  "RlExperiment",
+  "DriverBehavior",
+  "ComplexTrafficScenario",
+  "RlTscResearch",
+  "RuleBasedDriverBehaviorModel",
+  "TrafficDynamics"
+]
+
+Triples:
+[
+  {
+    "subject": "RlComponent",
+    "relation": "includesEntity",
+    "object": "Reward",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "The RL Environment Framework translates the interactions between Vissim and RL agents into RL components, namely states, actions, and rewards, while providing standardized interfaces (Gymnasium / PettingZoo APIs) to ensure seamless integration with mainstream RL algorithms."
+  },
+  {
+    "subject": "RlEnvironmentFramework",
+    "relation": "providesInterface",
+    "object": "StandardizedInterface",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "The RL Environment Framework translates the interactions between Vissim and RL agents into RL components, namely states, actions, and rewards, while providing standardized interfaces (Gymnasium / PettingZoo APIs) to ensure seamless integration with mainstream RL algorithms."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "builtOnTopOf",
+    "object": "VissimComInterface",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "The Vissim Wrapper is built on top of Vissim COM interface to simplify simulator interactions and lower the development barrier for RL integration."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "encapsulatesCallsInto",
+    "object": "PythonApi",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "To address this, the Vissim Wrapper encapsulates low-level COM calls into an intuitive Python API and supports configuration-based setup of simulation environments, thereby reducing the complexity of implementation."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "supportsSetupOf",
+    "object": "SimulationEnvironment",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "To address this, the Vissim Wrapper encapsulates low-level COM calls into an intuitive Python API and supports configuration-based setup of simulation environments, thereby reducing the complexity of implementation."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "enables",
+    "object": "DynamicPhaseControl",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It is also designed to be RL-friendly, enabling dynamic phase control and real-time access to traffic states and performance indicators."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "providesAccessTo",
+    "object": "TrafficState",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It is also designed to be RL-friendly, enabling dynamic phase control and real-time access to traffic states and performance indicators."
+  },
+  {
+    "subject": "VissimWrapper",
+    "relation": "providesAccessTo",
+    "object": "PerformanceIndicator",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It is also designed to be RL-friendly, enabling dynamic phase control and real-time access to traffic states and performance indicators."
+  },
+  {
+    "subject": "BasicSimulationModule",
+    "relation": "creates",
+    "object": "SimulationEnvironment",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "1) Basic Simulation:The Basic Simulation module is responsible for creating and controlling the overall simulation environment, enabling rapid initialization through simple configuration."
+  },
+  {
+    "subject": "BasicSimulationModule",
+    "relation": "controls",
+    "object": "SimulationEnvironment",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "1) Basic Simulation:The Basic Simulation module is responsible for creating and controlling the overall simulation environment, enabling rapid initialization through simple configuration."
+  },
+  {
+    "subject": "BasicSimulationModule",
+    "relation": "provides",
+    "object": "TimeControlOperation",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "During execution, this module provides intuitive time-control operations, ensuring both reproducibility and flexibility."
+  },
+  {
+    "subject": "SignalControlModule",
+    "relation": "manages",
+    "object": "IntersectionSignalSystem",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "2) Signal control:The Signal Control module manages intersection signal systems and synchronizes with agent decisions in real time."
+  },
+  {
+    "subject": "SignalControlModule",
+    "relation": "synchronizesWith",
+    "object": "AgentDecision",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "2) Signal control:The Signal Control module manages intersection signal systems and synchronizes with agent decisions in real time."
+  },
+  {
+    "subject": "SignalControlModule",
+    "relation": "supportsQuerying",
+    "object": "PhaseState",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports querying current phase states and issuing phase-switching commands, ensuring consistency between simulation status and RL agent control."
+  },
+  {
+    "subject": "SignalControlModule",
+    "relation": "supportsIssuing",
+    "object": "PhaseSwitchingCommand",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports querying current phase states and issuing phase-switching commands, ensuring consistency between simulation status and RL agent control."
+  },
+  {
+    "subject": "EvaluationModule",
+    "relation": "calculates",
+    "object": "TrafficPerformanceIndicator",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "3) Evaluation:The Evaluation module provides real-time calculation of traffic performance indicators, serving as quantitative feedback for the RL environment."
+  },
+  {
+    "subject": "EvaluationModule",
+    "relation": "providesFeedbackTo",
+    "object": "RlEnvironment",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "3) Evaluation:The Evaluation module provides real-time calculation of traffic performance indicators, serving as quantitative feedback for the RL environment."
+  },
+  {
+    "subject": "EvaluationModule",
+    "relation": "supportsMetric",
+    "object": "NetworkLevelMetric",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports both network-level and intersection-level metrics: network-level indicators include travel time, distance, and delay, while intersection-level indicators provide local information such as vehicle counts and queue lengths."
+  },
+  {
+    "subject": "EvaluationModule",
+    "relation": "supportsMetric",
+    "object": "IntersectionLevelMetric",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports both network-level and intersection-level metrics: network-level indicators include travel time, distance, and delay, while intersection-level indicators provide local information such as vehicle counts and queue lengths."
+  },
+  {
+    "subject": "NetworkLevelMetric",
+    "relation": "includesIndicator",
+    "object": "TravelTime",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports both network-level and intersection-level metrics: network-level indicators include travel time, distance, and delay, while intersection-level indicators provide local information such as vehicle counts and queue lengths."
+  },
+  {
+    "subject": "NetworkLevelMetric",
+    "relation": "includesIndicator",
+    "object": "Distance",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports both network-level and intersection-level metrics: network-level indicators include travel time, distance, and delay, while intersection-level indicators provide local information such as vehicle counts and queue lengths."
+  },
+  {
+    "subject": "NetworkLevelMetric",
+    "relation": "includesIndicator",
+    "object": "Delay",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports both network-level and intersection-level metrics: network-level indicators include travel time, distance, and delay, while intersection-level indicators provide local information such as vehicle counts and queue lengths."
+  },
+  {
+    "subject": "IntersectionLevelMetric",
+    "relation": "providesInformationOn",
+    "object": "VehicleCount",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports both network-level and intersection-level metrics: network-level indicators include travel time, distance, and delay, while intersection-level indicators provide local information such as vehicle counts and queue lengths."
+  },
+  {
+    "subject": "IntersectionLevelMetric",
+    "relation": "providesInformationOn",
+    "object": "QueueLength",
+    "chunk": "systemdesignofvissimrl1",
+    "context": "It supports both network-level and intersection-level metrics: network-level indicators include travel time, distance, and delay, while intersection-level indicators provide local information such as vehicle counts and queue lengths."
+  },
+  {
+    "subject": "PerformanceMeasure",
+    "relation": "transformedInto",
+    "object": "RlTscIndicator",
+    "chunk": "systemdesignofvissimrl2",
+    "context": "These performance measures are further transformed into standardized RL-TSC indicators, which serve as states or rewards for the agent (e.g., the change in delay between decision steps)."
+  }
+]

@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "BackEndOptimizer",
+  "refines",
+  "FrontEndSolution",
+  "BackEndMethod",
+  "reliesOn",
+  "EuclideanSignedDistanceField",
+  "approximatesWith",
+  "CollisionSphere",
+  "SparseSetOfSpheres",
+  "represents",
+  "TrueCollisionGeometry",
+  "leadsTo",
+  "ClearanceEstimate",
+  "SimplifiedProxy",
+  "compromises",
+  "GeometricFidelity",
+  "CollisionAvoidance",
+  "enforcedIn",
+  "ConfigurationSpace",
+  "SignedDistanceField",
+  "measures",
+  "EuclideanDistance",
+  "ConfigurationSpaceDistanceField",
+  "MinimumDistance",
+  "incorporates",
+  "WholeBodyGeometry",
+  "embeds",
+  "InverseKinematicProblem",
+  "facilitates",
+  "GradientBasedTrajectoryOptimization",
+  "ConstraintJacobianMatrix",
+  "IterativeSolver",
+  "ContinuousNeuralRepresentation",
+  "enables",
+  "TrajectoryWaypoint",
+  "MobileManipulator",
+  "hasProperty",
+  "TranslationalDof",
+  "operatesIn",
+  "UnboundedWorkspace",
+  "GeneralizedCDF",
+  "designedFor",
+  "Robot",
+  "hasPart",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "TranslationalDimension",
+  "increases",
+  "DataRequirement",
+  "OptimizationSolver",
+  "performs",
+  "LargeScaleTrajectoryOptimization",
+  "uses",
+  "ImplicitGCDFConstraint",
+  "Solver",
+  "employs",
+  "L1PenaltyFormulation",
+  "solves",
+  "QpSubproblem",
+  "Framework",
+  "supports",
+  "NeuralImplicitCollisionReasoning",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "Collision",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety",
+  "Planner",
+  "CollisionConstraint"
+]
+
+Triples:
+[
+  {
+    "subject": "BackEndOptimizer",
+    "relation": "refines",
+    "object": "FrontEndSolution",
+    "chunk": "completedocument2",
+    "context": "The back-end optimizer is consequently reduced to a post-processing module that smooths and slightly refines the front-end solution locally, often converging within only a few iterations."
+  },
+  {
+    "subject": "BackEndMethod",
+    "relation": "reliesOn",
+    "object": "EuclideanSignedDistanceField",
+    "chunk": "completedocument2",
+    "context": "On the back-end side, these methods typically rely on the environment Euclidean signed distance field (ESDF) and approximate the robot with collision spheres."
+  },
+  {
+    "subject": "BackEndMethod",
+    "relation": "approximatesWith",
+    "object": "CollisionSphere",
+    "chunk": "completedocument2",
+    "context": "On the back-end side, these methods typically rely on the environment Euclidean signed distance field (ESDF) and approximate the robot with collision spheres."
+  },
+  {
+    "subject": "SparseSetOfSpheres",
+    "relation": "represents",
+    "object": "TrueCollisionGeometry",
+    "chunk": "completedocument3",
+    "context": "Moreover, a sparse set of spheres can inaccurately represent the true collision geometry, leading to overly conservative or unsafe clearance estimates."
+  },
+  {
+    "subject": "SparseSetOfSpheres",
+    "relation": "leadsTo",
+    "object": "ClearanceEstimate",
+    "chunk": "completedocument3",
+    "context": "Moreover, a sparse set of spheres can inaccurately represent the true collision geometry, leading to overly conservative or unsafe clearance estimates."
+  },
+  {
+    "subject": "SimplifiedProxy",
+    "relation": "compromises",
+    "object": "GeometricFidelity",
+    "chunk": "completedocument3",
+    "context": "...which necessitates simplified proxies (e.g., spheres or point sets [38], [39]) that compromise geometric fidelity..."
+  },
+  {
+    "subject": "CollisionAvoidance",
+    "relation": "enforcedIn",
+    "object": "ConfigurationSpace",
+    "chunk": "completedocument3",
+    "context": "Can we enforce collision avoidance directly in configuration space to circumvent the intricate nonlinear mapping between configuration variables and workspace constraints while preserving accurate robot geometries?"
+  },
+  {
+    "subject": "SignedDistanceField",
+    "relation": "measures",
+    "object": "EuclideanDistance",
+    "chunk": "completedocument3",
+    "context": "Recently, inspired by the robot-centric signed distance field (SDF) [40], [41], [42], which measures the Euclidean distance between a robot surface and environment points..."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "measures",
+    "object": "MinimumDistance",
+    "chunk": "completedocument3",
+    "context": "...the concept of the Configuration Space Distance Field (CDF) has been proposed to measure the minimum distance from a current robot configuration to environment points using configuration metrics for robot manipulators [43]."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "incorporates",
+    "object": "WholeBodyGeometry",
+    "chunk": "completedocument3",
+    "context": "Thus, CDF naturally incorporates whole-body geometries without conservative approximation..."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "embeds",
+    "object": "InverseKinematicProblem",
+    "chunk": "completedocument3",
+    "context": "...while simultaneously embedding the inverse kinematic problem within its formulation to maintain Euclidean distance properties in the high-dimensional configuration space despite the highly nonlinear propagation along kinematic chains."
+  },
+  {
+    "subject": "ConfigurationSpaceDistanceField",
+    "relation": "facilitates",
+    "object": "GradientBasedTrajectoryOptimization",
+    "chunk": "completedocument3",
+    "context": "Crucially, we recognize that these properties make CDF particularly well-suited for gradient-based trajectory optimization."
+  },
+  {
+    "subject": "ConstraintJacobianMatrix",
+    "relation": "facilitates",
+    "object": "IterativeSolver",
+    "chunk": "completedocument3",
+    "context": "The constraint Jacobian matrices derived from CDF provide accurate local models that facilitate faster convergence in iterative solvers [44], [45], [46]..."
+  },
+  {
+    "subject": "ContinuousNeuralRepresentation",
+    "relation": "enables",
+    "object": "TrajectoryWaypoint",
+    "chunk": "completedocument3",
+    "context": "...while their continuous neural representation enables efficient batched queries of collision constraints and their derivatives across trajectory waypoints."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "hasProperty",
+    "object": "TranslationalDof",
+    "chunk": "completedocument3",
+    "context": "How to generalize CDF to mobile manipulators with additional translational DoFs in an unbounded workspace, while preserving its merits for purely rotational joints."
+  },
+  {
+    "subject": "MobileManipulator",
+    "relation": "operatesIn",
+    "object": "UnboundedWorkspace",
+    "chunk": "completedocument3",
+    "context": "How to generalize CDF to mobile manipulators with additional translational DoFs in an unbounded workspace, while preserving its merits for purely rotational joints."
+  },
+  {
+    "subject": "GeneralizedCDF",
+    "relation": "designedFor",
+    "object": "Robot",
+    "chunk": "completedocument3",
+    "context": "Specifically, we first propose the concept of Generalized CDF (GCDF) for robots with both translational and rotational joints."
+  },
+  {
+    "subject": "Robot",
+    "relation": "hasPart",
+    "object": "TranslationalJoint",
+    "chunk": "completedocument3",
+    "context": "Specifically, we first propose the concept of Generalized CDF (GCDF) for robots with both translational and rotational joints."
+  },
+  {
+    "subject": "Robot",
+    "relation": "hasPart",
+    "object": "RotationalJoint",
+    "chunk": "completedocument3",
+    "context": "Specifically, we first propose the concept of Generalized CDF (GCDF) for robots with both translational and rotational joints."
+  },
+  {
+    "subject": "TranslationalDimension",
+    "relation": "increases",
+    "object": "DataRequirement",
+    "chunk": "completedocument3",
+    "context": "Unlike fixed-base manipulators, the introduction of translational dimensions leads to exponential growth in data requirements..."
+  },
+  {
+    "subject": "OptimizationSolver",
+    "relation": "performs",
+    "object": "LargeScaleTrajectoryOptimization",
+    "chunk": "completedocument3",
+    "context": "Second, we develop and open-source a high-performance C++ sequential convex optimization solver for large-scale trajectory optimization with implicit GCDF constraints."
+  },
+  {
+    "subject": "OptimizationSolver",
+    "relation": "uses",
+    "object": "ImplicitGCDFConstraint",
+    "chunk": "completedocument3",
+    "context": "Second, we develop and open-source a high-performance C++ sequential convex optimization solver for large-scale trajectory optimization with implicit GCDF constraints."
+  },
+  {
+    "subject": "Solver",
+    "relation": "employs",
+    "object": "L1PenaltyFormulation",
+    "chunk": "completedocument4",
+    "context": "The solver employs anℓ 1-penalty formulation and iteratively solves QP subproblems using first-order constraint information withina local trust region, together with globalization mechanisms that enable recovery from initial guesses far from the optimum."
+  },
+  {
+    "subject": "Solver",
+    "relation": "solves",
+    "object": "QpSubproblem",
+    "chunk": "completedocument4",
+    "context": "The solver employs anℓ 1-penalty formulation and iteratively solves QP subproblems using first-order constraint information withina local trust region, together with globalization mechanisms that enable recovery from initial guesses far from the optimum."
+  },
+  {
+    "subject": "Framework",
+    "relation": "supports",
+    "object": "NeuralImplicitCollisionReasoning",
+    "chunk": "completedocument4",
+    "context": "To support neural implicit collision reasoning, we extend the framework to (a) transform neural network outputs as implicit constraints"
+  }
+]

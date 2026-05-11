@@ -1,0 +1,85 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "introduction",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: introduction
+- section_title: Introduction
+- page_start: 1
+- page_end: 1
+
+**INPUT TEXT CHUNK:**
+Change detection (CD) is a technique that identifies land
+cover changes by analyzing multi-temporal remote sensing
+images. It plays an important role in land resource monitor-
+ing, urban expansion analysis, disaster assessment, and agri-
+cultural monitoring [Hussainet al., 2013 ]. With the rapid
+∗Corresponding Author
+Figure 1: Our proposed UniCD is a supervision-adaptive framework
+that supports supervised, weakly-supervised, and unsupervised CD
+tasks in a unified manner.
+advancement of remote sensing platforms, multi-temporal
+observation data has become widely accessible, enabling a
+more granular characterization of surface dynamics through
+time-series comparisons. Meanwhile, multi-temporal remote
+sensing imagery also exhibits complex time-varying features
+driven by multiple factors, including land cover evolution, il-
+lumination changes, and seasonal effects. Consequently, how
+to effectively distinguish real changes and pseudo changes re-
+mains a core challenge in CD.
+Early CD research primarily focused on designing effec-
+tive network architectures, evolving from Convolutional Neu-
+ral Networks (CNNs) [Liet al., 2021 ]to Transformers [Han
+et al., 2022 ]and Mamba [Gu and Dao, 2024 ]. To further
+enhance the model’s ability to perceive complex scenes, re-
+searchers have recently begun to leverage powerful seman-
+tic priors from large-scale pre-training. Consequently, visual
+foundation models (VFMs) [Awaiset al., 2025 ]have demon-
+strated remarkable generalization capabilities across a wide
+range of vision tasks. However, when applied to remote sens-
+ing CD, VFMs (e.g., SAM [Kirillovet al., 2023 ]) still require
+task-specific adaptation with explicit supervision signals to
+accurately distinguish temporal changes from complex back-
+ground variations.
+Most existing CD methods are still constrained by su-
+pervised learning paradigms. Some works explore weakly-
+supervised or unsupervised learning paradigms. However,arXiv:2601.17747v1  [cs.CV]  25 Jan 2026

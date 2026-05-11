@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "HighAltitudePlatformStation",
+  "locatedAbove",
+  "CircularAreaCenter",
+  "IoTDevice",
+  "locatedAt",
+  "GroundLevel",
+  "Earth",
+  "hasRadius",
+  "EquatorialRadius",
+  "Satellite",
+  "hasOrbit",
+  "CircularOrbit",
+  "hasShape",
+  "SphericalShape",
+  "GroundBaseStation",
+  "deployedIn",
+  "CircularArea",
+  "AnnularGuardRegion",
+  "BaseStation",
+  "distributedIn",
+  "GuardRegion",
+  "device_i",
+  "Position",
+  "terrestrialBs_j",
+  "hasDistanceTo",
+  "PathLoss",
+  "dependsOn",
+  "Distance",
+  "Device",
+  "communicatesWith",
+  "LowEarthOrbitSatellite",
+  "ElevationAngle",
+  "impacts",
+  "ChannelFading",
+  "region_europe",
+  "usesFrequency",
+  "IsmCarrier868MHz",
+  "ScenarioTopology",
+  "ErasureProbability",
+  "ReceivedSignalPower",
+  "correlatesWith",
+  "measuredBetween",
+  "Gateway",
+  "network",
+  "80_km",
+  "haps",
+  "hasAltitude",
+  "30_km",
+  "satellite",
+  "750_km",
+  "terrestrial_bs",
+  "hasMinimumSeparation",
+  "20_km",
+  "FixedRegion",
+  "InternetOfThingsConnectivity",
+  "RemoteRegion",
+  "UnderservedRegion",
+  "GlobalCoverage",
+  "EarthSurface",
+  "HighOrbitalAltitude",
+  "Stratosphere",
+  "altitude_8To50Km",
+  "WeatherDisturbance",
+  "Ground",
+  "RegionalCoverage",
+  "university_UniversityOfOulu",
+  "country_Finland",
+  "university_FederalUniversityOfSantaCatarina",
+  "location_Florianopolis",
+  "country_Brazil",
+  "university_MidSwedenUniversity",
+  "location_Sundsvall",
+  "country_Sweden",
+  "application_ForestFireDetection",
+  "Forest",
+  "application_OffshoreShipTracking",
+  "OffshoreRegion",
+  "NaturalDisaster",
+  "HAPS",
+  "LEOSatellite"
+]
+
+Triples:
+[
+  {
+    "subject": "HighAltitudePlatformStation",
+    "relation": "locatedAbove",
+    "object": "CircularAreaCenter",
+    "chunk": "completedocument4",
+    "context": "The HAPS is considered stationary on top of the center of the circular region, at altitudeh H."
+  },
+  {
+    "subject": "IoTDevice",
+    "relation": "locatedAt",
+    "object": "GroundLevel",
+    "chunk": "completedocument4",
+    "context": "assuming that the devices are at ground level(z i= 0)."
+  },
+  {
+    "subject": "Earth",
+    "relation": "hasRadius",
+    "object": "EquatorialRadius",
+    "chunk": "completedocument4",
+    "context": "whereR e≈6.3781×106m is the mean equatorial radius of Earth."
+  },
+  {
+    "subject": "Satellite",
+    "relation": "hasOrbit",
+    "object": "CircularOrbit",
+    "chunk": "completedocument4",
+    "context": "We also assume a fixed altitudeh S, orbit inclination ofi o= 60degrees and circular orbit."
+  },
+  {
+    "subject": "Earth",
+    "relation": "hasShape",
+    "object": "SphericalShape",
+    "chunk": "completedocument4",
+    "context": "Note that although shown as a plane, we take into account the effect of a spherical earth when calculating distances and angles."
+  },
+  {
+    "subject": "GroundBaseStation",
+    "relation": "deployedIn",
+    "object": "CircularArea",
+    "chunk": "completedocument4",
+    "context": "For the terrestrial network, we assume thatMground BSs are deployed in the circular area at random, such that each BS is separated by a minimum ofskm."
+  },
+  {
+    "subject": "GroundBaseStation",
+    "relation": "deployedIn",
+    "object": "AnnularGuardRegion",
+    "chunk": "completedocument4",
+    "context": "Finally, we also consider an annular guard region, with inner radius ofRand outer radius ofR+R g, where we deployM g BSs, so that devices on the border of the circular region do not suffer from the border effect."
+  },
+  {
+    "subject": "BaseStation",
+    "relation": "distributedIn",
+    "object": "GuardRegion",
+    "chunk": "completedocument5",
+    "context": "The number of BSs in theguard regionM gcan be defined as Mg= round M Rg R 2 +Rg R ,(11) so that we maintain the same density of BSs in both regions."
+  },
+  {
+    "subject": "device_i",
+    "relation": "locatedAt",
+    "object": "Position",
+    "chunk": "completedocument5",
+    "context": "Given a deviceiand a terrestrial BSj, at positions(x i, yi) and(x j, yj), the distance between them is given by dTj=q (xi−xj)2+ (y i−yj)2.(12)"
+  },
+  {
+    "subject": "terrestrialBs_j",
+    "relation": "locatedAt",
+    "object": "Position",
+    "chunk": "completedocument5",
+    "context": "Given a deviceiand a terrestrial BSj, at positions(x i, yi) and(x j, yj), the distance between them is given by dTj=q (xi−xj)2+ (y i−yj)2.(12)"
+  },
+  {
+    "subject": "device_i",
+    "relation": "hasDistanceTo",
+    "object": "terrestrialBs_j",
+    "chunk": "completedocument5",
+    "context": "Given a deviceiand a terrestrial BSj, at positions(x i, yi) and(x j, yj), the distance between them is given by dTj=q (xi−xj)2+ (y i−yj)2.(12)"
+  },
+  {
+    "subject": "PathLoss",
+    "relation": "dependsOn",
+    "object": "Distance",
+    "chunk": "completedocument5",
+    "context": "whereg(d i)is the distance-dependent path loss andrmodels the fading and other effects, both of which depend on whether the communication is through a terrestrial network or HAPS and LEO satellite."
+  },
+  {
+    "subject": "Device",
+    "relation": "hasDistanceTo",
+    "object": "BaseStation",
+    "chunk": "completedocument5",
+    "context": "For the terrestrial network, we model the path loss with an empirical log-normal model from [35] as gT=B+ 10ηlog dT d0 ,(14) whered Tis the distance from the device to the BS,d 0is the 1 km reference distance,Bis the pathloss atd 0, andηis the path loss exponent."
+  },
+  {
+    "subject": "Device",
+    "relation": "communicatesWith",
+    "object": "LowEarthOrbitSatellite",
+    "chunk": "completedocument5",
+    "context": "For communication between devices and the HAPS and LEO satellite, we consider the free space path loss given as g(d) =G tGr λ 4πd 2 ,(15)"
+  },
+  {
+    "subject": "Device",
+    "relation": "communicatesWith",
+    "object": "HighAltitudePlatformStation",
+    "chunk": "completedocument5",
+    "context": "For communication between devices and the HAPS and LEO satellite, we consider the free space path loss given as g(d) =G tGr λ 4πd 2 ,(15)"
+  },
+  {
+    "subject": "ElevationAngle",
+    "relation": "impacts",
+    "object": "ChannelFading",
+    "chunk": "completedocument5",
+    "context": "This model is relevant to our scenario, as it accounts for the elevation angle’s impact on fading and shadowing."
+  },
+  {
+    "subject": "region_europe",
+    "relation": "usesFrequency",
+    "object": "IsmCarrier868MHz",
+    "chunk": "completedocument5",
+    "context": "In our case, we consider the European ISM carrier frequency of 868 MHz, and each transmission hops over 35 such channels following a pseudorandom sequence derived from the header seed."
+  },
+  {
+    "subject": "ScenarioTopology",
+    "relation": "impacts",
+    "object": "ErasureProbability",
+    "chunk": "completedocument5",
+    "context": "This is the most interesting performance metric for this work, as it directly shows the impact of the topology of the scenarios, regardless of the number of devices."
+  },
+  {
+    "subject": "ReceivedSignalPower",
+    "relation": "correlatesWith",
+    "object": "ElevationAngle",
+    "chunk": "completedocument5",
+    "context": "However, they will be correlated because of the elevation angle (in the case of NTN) and the distance between the device and the gateway."
+  },
+  {
+    "subject": "ReceivedSignalPower",
+    "relation": "correlatesWith",
+    "object": "Distance",
+    "chunk": "completedocument5",
+    "context": "However, they will be correlated because of the elevation angle (in the case of NTN) and the distance between the device and the gateway."
+  },
+  {
+    "subject": "Distance",
+    "relation": "measuredBetween",
+    "object": "Gateway",
+    "chunk": "completedocument5",
+    "context": "However, they will be correlated because of the elevation angle (in the case of NTN) and the distance between the device and the gateway."
+  },
+  {
+    "subject": "network",
+    "relation": "hasRadius",
+    "object": "80_km",
+    "chunk": "completedocument6",
+    "context": "Network radiusR80 km"
+  },
+  {
+    "subject": "haps",
+    "relation": "hasAltitude",
+    "object": "30_km",
+    "chunk": "completedocument6",
+    "context": "HAPS altitudeh H 30 km"
+  },
+  {
+    "subject": "satellite",
+    "relation": "hasAltitude",
+    "object": "750_km",
+    "chunk": "completedocument6",
+    "context": "Satellite altitudeh S 750 km"
+  },
+  {
+    "subject": "terrestrial_bs",
+    "relation": "hasMinimumSeparation",
+    "object": "20_km",
+    "chunk": "completedocument6",
+    "context": "Minimum terrestrial BS separations20 km"
+  }
+]

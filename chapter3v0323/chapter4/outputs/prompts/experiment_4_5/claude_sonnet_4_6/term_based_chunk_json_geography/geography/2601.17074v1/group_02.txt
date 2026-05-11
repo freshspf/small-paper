@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MachineLearningEnhancedInverseModeling",
+  "uncovers",
+  "HiddenPhysicalParameter",
+  "governs",
+  "ObservableGeospatialPhenomenon",
+  "Dataset",
+  "comprises",
+  "Era5ReanalysisData",
+  "sourcedFrom",
+  "EuropeanCentreForMediumRangeWeatherForecasts",
+  "ingests",
+  "ObservationalData",
+  "collectedBy",
+  "RemoteSensingInstrument",
+  "SpatiotemporalData",
+  "coversRegion",
+  "region_centralArcticOcean",
+  "correspondsToLatitude",
+  "latitudeRange_70Nto85N",
+  "hasSpatialResolution",
+  "resolution_25km",
+  "includesParameter",
+  "feature_snowAlbedo",
+  "feature_snowDensity",
+  "feature_seaIceConcentration",
+  "relatedTo",
+  "feature_snowDepth",
+  "feature_seaIceThickness",
+  "ProxyModel",
+  "derivedFrom",
+  "HydrostaticBalanceEquation",
+  "SeaIceConcentration",
+  "isA",
+  "GeophysicalObservation",
+  "SnowAlbedo",
+  "DensityField",
+  "IceThickness",
+  "unobservedIn",
+  "era5",
+  "Freeboard",
+  "SnowDensity",
+  "InverseRelationship",
+  "modeledAs",
+  "SurjectiveMapping",
+  "IceThicknessProxyModel",
+  "basedOn",
+  "HydrostaticEquilibrium",
+  "SnowAndIceColumnWeight",
+  "equals",
+  "BuoyantForce",
+  "includes",
+  "SnowDepth",
+  "ArcticSeaIceThickness",
+  "ReanalysisProduct",
+  "SeaIceThermodynamics",
+  "PhysicsEncodedNeuralNetwork",
+  "InverseModeling",
+  "SeaIcePhysics",
+  "IntrinsicPhysicalParameter",
+  "LakeTemperatureModeling",
+  "Tomography",
+  "SeismicWaveformAnalysis",
+  "MaterialsScience",
+  "Hydrology",
+  "PhysicalPrior",
+  "PosteriorDistribution",
+  "region_arctic",
+  "DataSparseDomain",
+  "ForwardModel",
+  "NoisyInput",
+  "system_arcticSeaIce",
+  "DynamicPhysicalSystem",
+  "TimeVaryingParameter",
+  "model_physEInv",
+  "SnowVariable",
+  "SeaIceVariable",
+  "ModelLatentSpace",
+  "ArcticSnow",
+  "BijectiveMapping",
+  "EvolvingRelationship"
+]
+
+Triples:
+[
+  {
+    "subject": "MachineLearningEnhancedInverseModeling",
+    "relation": "uncovers",
+    "object": "HiddenPhysicalParameter",
+    "chunk": "relatedworks2",
+    "context": "Building on the rigor introduced by PeNNs, machine learning–enhanced inverse modeling offers a powerful way to uncover hidden physical parameters that govern observable geospatial phenomena, many of which cannot be measured directly."
+  },
+  {
+    "subject": "HiddenPhysicalParameter",
+    "relation": "governs",
+    "object": "ObservableGeospatialPhenomenon",
+    "chunk": "relatedworks2",
+    "context": "Building on the rigor introduced by PeNNs, machine learning–enhanced inverse modeling offers a powerful way to uncover hidden physical parameters that govern observable geospatial phenomena, many of which cannot be measured directly."
+  },
+  {
+    "subject": "Dataset",
+    "relation": "comprises",
+    "object": "Era5ReanalysisData",
+    "chunk": "dataandmethodology",
+    "context": "The dataset comprises ERA5 reanalysis data Hersbach et al. (2020) from the European Centre for Medium-Range Weather Forecasts (ECMWF)."
+  },
+  {
+    "subject": "Era5ReanalysisData",
+    "relation": "sourcedFrom",
+    "object": "EuropeanCentreForMediumRangeWeatherForecasts",
+    "chunk": "dataandmethodology",
+    "context": "The dataset comprises ERA5 reanalysis data Hersbach et al. (2020) from the European Centre for Medium-Range Weather Forecasts (ECMWF)."
+  },
+  {
+    "subject": "Era5ReanalysisData",
+    "relation": "ingests",
+    "object": "ObservationalData",
+    "chunk": "dataandmethodology",
+    "context": "ERA5 ingests a wide variety of observational data, a significant portion of which comes from remote sensing instruments Hersbach et al. (2020)."
+  },
+  {
+    "subject": "ObservationalData",
+    "relation": "collectedBy",
+    "object": "RemoteSensingInstrument",
+    "chunk": "dataandmethodology",
+    "context": "ERA5 ingests a wide variety of observational data, a significant portion of which comes from remote sensing instruments Hersbach et al. (2020)."
+  },
+  {
+    "subject": "SpatiotemporalData",
+    "relation": "coversRegion",
+    "object": "region_centralArcticOcean",
+    "chunk": "dataandmethodology",
+    "context": "We acquired spatiotemporal data from January 1, 1995, to 2024 (10,958 time steps), specifically for the central Arctic Ocean region enclosed by the highlighted orange boundary in Figure 4, which roughly corresponds to the latitude range of approximately 70◦N to 85◦N."
+  },
+  {
+    "subject": "region_centralArcticOcean",
+    "relation": "correspondsToLatitude",
+    "object": "latitudeRange_70Nto85N",
+    "chunk": "dataandmethodology",
+    "context": "We acquired spatiotemporal data from January 1, 1995, to 2024 (10,958 time steps), specifically for the central Arctic Ocean region enclosed by the highlighted orange boundary in Figure 4, which roughly corresponds to the latitude range of approximately 70◦N to 85◦N."
+  },
+  {
+    "subject": "SpatiotemporalData",
+    "relation": "hasSpatialResolution",
+    "object": "resolution_25km",
+    "chunk": "dataandmethodology",
+    "context": "The data has a spatial resolution of 0.25◦×0.25◦(approximately 25 km)."
+  },
+  {
+    "subject": "SpatiotemporalData",
+    "relation": "includesParameter",
+    "object": "feature_snowAlbedo",
+    "chunk": "dataandmethodology",
+    "context": "It includes key parameters related to snow depth and sea ice thickness: snow albedo, snow density, and sea ice concentration."
+  },
+  {
+    "subject": "SpatiotemporalData",
+    "relation": "includesParameter",
+    "object": "feature_snowDensity",
+    "chunk": "dataandmethodology",
+    "context": "It includes key parameters related to snow depth and sea ice thickness: snow albedo, snow density, and sea ice concentration."
+  },
+  {
+    "subject": "SpatiotemporalData",
+    "relation": "includesParameter",
+    "object": "feature_seaIceConcentration",
+    "chunk": "dataandmethodology",
+    "context": "It includes key parameters related to snow depth and sea ice thickness: snow albedo, snow density, and sea ice concentration."
+  },
+  {
+    "subject": "feature_snowAlbedo",
+    "relation": "relatedTo",
+    "object": "feature_snowDepth",
+    "chunk": "dataandmethodology",
+    "context": "It includes key parameters related to snow depth and sea ice thickness: snow albedo, snow density, and sea ice concentration."
+  },
+  {
+    "subject": "feature_seaIceConcentration",
+    "relation": "relatedTo",
+    "object": "feature_seaIceThickness",
+    "chunk": "dataandmethodology",
+    "context": "It includes key parameters related to snow depth and sea ice thickness: snow albedo, snow density, and sea ice concentration."
+  },
+  {
+    "subject": "ProxyModel",
+    "relation": "derivedFrom",
+    "object": "HydrostaticBalanceEquation",
+    "chunk": "dataandmethodology",
+    "context": "We therefore process these variables using a proxy model derived from the hydrostatic balance equation to generate target proxy data that is eventually used in the inversion process to estimate hidden characteristics."
+  },
+  {
+    "subject": "SeaIceConcentration",
+    "relation": "isA",
+    "object": "GeophysicalObservation",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "In this study, we frame the inverse problem as predicting the hidden physical parameter h susing known geophysical observations such as sea ice concentration, snow albedo, and density fields."
+  },
+  {
+    "subject": "SnowAlbedo",
+    "relation": "isA",
+    "object": "GeophysicalObservation",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "In this study, we frame the inverse problem as predicting the hidden physical parameter h susing known geophysical observations such as sea ice concentration, snow albedo, and density fields."
+  },
+  {
+    "subject": "DensityField",
+    "relation": "isA",
+    "object": "GeophysicalObservation",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "In this study, we frame the inverse problem as predicting the hidden physical parameter h susing known geophysical observations such as sea ice concentration, snow albedo, and density fields."
+  },
+  {
+    "subject": "IceThickness",
+    "relation": "unobservedIn",
+    "object": "era5",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The difficulty arises because computing h sanalytically requires inputs such as ice thickness (h i), freeboard (f b), and snow density (ρ s), which are actually unobserved in ERA5."
+  },
+  {
+    "subject": "Freeboard",
+    "relation": "unobservedIn",
+    "object": "era5",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The difficulty arises because computing h sanalytically requires inputs such as ice thickness (h i), freeboard (f b), and snow density (ρ s), which are actually unobserved in ERA5."
+  },
+  {
+    "subject": "SnowDensity",
+    "relation": "unobservedIn",
+    "object": "era5",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The difficulty arises because computing h sanalytically requires inputs such as ice thickness (h i), freeboard (f b), and snow density (ρ s), which are actually unobserved in ERA5."
+  },
+  {
+    "subject": "InverseRelationship",
+    "relation": "modeledAs",
+    "object": "SurjectiveMapping",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "To address this inherent non-uniqueness and to stabilize the solution, we model the inverse relationship as a surjective map-ping."
+  },
+  {
+    "subject": "IceThicknessProxyModel",
+    "relation": "basedOn",
+    "object": "HydrostaticEquilibrium",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "Since direct observation of key parameters is uncertain in ERA5, we define our target using an analytically derived ice thickness proxy model based on the principle of hydrostatic equilibrium."
+  },
+  {
+    "subject": "SnowAndIceColumnWeight",
+    "relation": "equals",
+    "object": "BuoyantForce",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The total weight of the snow and ice column equals the buoyant force (the weight of the displaced water):"
+  },
+  {
+    "subject": "ProxyModel",
+    "relation": "includes",
+    "object": "SeaIceConcentration",
+    "chunk": "inverseproblempredictinghs1",
+    "context": "The specific proxy model (Equation 5) used in our implementation includes sea ice concentration (C) and snow albedo (α)."
+  }
+]

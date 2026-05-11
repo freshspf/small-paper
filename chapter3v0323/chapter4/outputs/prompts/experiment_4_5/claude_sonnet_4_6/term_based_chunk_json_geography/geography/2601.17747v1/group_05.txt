@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Please interpret terms, relationships, and constraints using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, and geographic relationships such as containment, adjacency, and spatial distribution.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "Model",
+  "obtains",
+  "ForegroundProbabilityScore",
+  "mappedOver",
+  "InstanceMask",
+  "model_UniCD",
+  "evaluatesGeographicTask",
+  "geographicTask_ChangeDetection",
+  "evaluatedOnDataset",
+  "geographicDataset_LEVIR_CD",
+  "geographicDataset_WHU_CD",
+  "geographicDataset_CLCD",
+  "implementedOn",
+  "framework_PyTorch",
+  "trainedOn",
+  "hardware_NvidiaGeForceRtx3090",
+  "usesOptimizer",
+  "optimizer_AdamW",
+  "evaluatedUsingMetric",
+  "metric_F1Score",
+  "metric_IntersectionOverUnion",
+  "metric_OverallAccuracy",
+  "model_SNUNet",
+  "belongsToParadigm",
+  "paradigm_Supervised",
+  "model_DA2Net",
+  "model_WCDNet",
+  "paradigm_WeaklySupervised",
+  "model_FCD_GAN",
+  "model_ISFA",
+  "paradigm_Unsupervised",
+  "hasVersion",
+  "model_UniCDv1",
+  "model_UniCDv2",
+  "usesFeatureExtractor",
+  "model_FastSAM",
+  "model_ResNet",
+  "outperforms",
+  "framework_unicd",
+  "categorizedAs",
+  "ChangeDetectionFramework",
+  "ChangeDetection",
+  "LandCoverChange",
+  "MultiTemporalRemoteSensingImage",
+  "LandResourceMonitoring",
+  "UrbanExpansionAnalysis",
+  "DisasterAssessment",
+  "AgriculturalMonitoring",
+  "model_uniCd",
+  "SupervisionAdaptiveFramework",
+  "SupervisedChangeDetectionTask",
+  "WeaklySupervisedChangeDetectionTask",
+  "UnsupervisedChangeDetectionTask",
+  "RemoteSensingPlatform",
+  "MultiTemporalObservationData",
+  "SurfaceDynamics",
+  "TimeSeriesComparison",
+  "TimeVaryingFeature",
+  "LandCoverEvolution",
+  "IlluminationChange",
+  "SeasonalEffect",
+  "RealChange",
+  "PseudoChange",
+  "NetworkArchitecture",
+  "ConvolutionalNeuralNetwork",
+  "Transformer",
+  "Mamba",
+  "VisualFoundationModel",
+  "VisionTask",
+  "model_sam",
+  "TaskSpecificAdaptation",
+  "ExplicitSupervisionSignal",
+  "TemporalChange",
+  "ComplexBackgroundVariation",
+  "SupervisedLearningParadigm",
+  "RemoteSensingChangeDetection",
+  "SupervisedCd",
+  "WeaklySupervisedCd",
+  "UnsupervisedCd",
+  "PixelLevelAnnotation"
+]
+
+Triples:
+[
+  {
+    "subject": "Model",
+    "relation": "obtains",
+    "object": "ForegroundProbabilityScore",
+    "chunk": "method3",
+    "context": "By calculating the cosine similarity be- tween instance masks and semantic categories, the model can obtain the foreground probability scores for each instance."
+  },
+  {
+    "subject": "ForegroundProbabilityScore",
+    "relation": "mappedOver",
+    "object": "InstanceMask",
+    "chunk": "method3",
+    "context": "By conducting a weighted mapping of the probability scores over their corresponding instances masks, the fore-."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "evaluatesGeographicTask",
+    "object": "geographicTask_ChangeDetection",
+    "chunk": "experiments",
+    "context": "To validate UniCD’s performance across various CD tasks, we conduct extensive experiments on three publicly avail- able benchmark datasets: LEVIR-CD [Chen and Shi, 2020 ], WHU-CD [Jiet al., 2018 ], and CLCD [Liuet al., 2022 ]."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "evaluatedOnDataset",
+    "object": "geographicDataset_LEVIR_CD",
+    "chunk": "experiments",
+    "context": "To validate UniCD’s performance across various CD tasks, we conduct extensive experiments on three publicly avail- able benchmark datasets: LEVIR-CD [Chen and Shi, 2020 ], WHU-CD [Jiet al., 2018 ], and CLCD [Liuet al., 2022 ]."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "evaluatedOnDataset",
+    "object": "geographicDataset_WHU_CD",
+    "chunk": "experiments",
+    "context": "To validate UniCD’s performance across various CD tasks, we conduct extensive experiments on three publicly avail- able benchmark datasets: LEVIR-CD [Chen and Shi, 2020 ], WHU-CD [Jiet al., 2018 ], and CLCD [Liuet al., 2022 ]."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "evaluatedOnDataset",
+    "object": "geographicDataset_CLCD",
+    "chunk": "experiments",
+    "context": "To validate UniCD’s performance across various CD tasks, we conduct extensive experiments on three publicly avail- able benchmark datasets: LEVIR-CD [Chen and Shi, 2020 ], WHU-CD [Jiet al., 2018 ], and CLCD [Liuet al., 2022 ]."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "implementedOn",
+    "object": "framework_PyTorch",
+    "chunk": "experiments",
+    "context": "All experiments in this paper are implemented on the Py- Torch framework [Paszkeet al., 2019 ]and trained on a sin- gle NVIDIA GeForce RTX 3090 GPU."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "trainedOn",
+    "object": "hardware_NvidiaGeForceRtx3090",
+    "chunk": "experiments",
+    "context": "All experiments in this paper are implemented on the Py- Torch framework [Paszkeet al., 2019 ]and trained on a sin- gle NVIDIA GeForce RTX 3090 GPU."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "usesOptimizer",
+    "object": "optimizer_AdamW",
+    "chunk": "experiments",
+    "context": "We selected AdamW [Kingma, 2014 ]as the model optimizer with an initial learn- ing rate of1×10−4."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "evaluatedUsingMetric",
+    "object": "metric_F1Score",
+    "chunk": "experiments",
+    "context": "Ultimately, we evaluate the model performance using three commonly metrics, including F1-score (F1), Intersec- tion over Union (IoU), and Overall Accuracy (OA)."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "evaluatedUsingMetric",
+    "object": "metric_IntersectionOverUnion",
+    "chunk": "experiments",
+    "context": "Ultimately, we evaluate the model performance using three commonly metrics, including F1-score (F1), Intersec- tion over Union (IoU), and Overall Accuracy (OA)."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "evaluatedUsingMetric",
+    "object": "metric_OverallAccuracy",
+    "chunk": "experiments",
+    "context": "Ultimately, we evaluate the model performance using three commonly metrics, including F1-score (F1), Intersec- tion over Union (IoU), and Overall Accuracy (OA)."
+  },
+  {
+    "subject": "model_SNUNet",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_Supervised",
+    "chunk": "experiments",
+    "context": "(i) Supervised methods: SNUNet [Fanget al., 2021 ], ChangeFormer [Bandara and Patel, 2022 ], DMINet [Fenget al., 2023 ], SAM-CD [Dinget al., 2024 ], CD- Mask [Maet al., 2024 ], ChangeMamba [Chenet al., 2024 ], MetaCD [Gaoet al., 2025 ], MDENet [Luoet al., 2025 ], and DA²Net [Ninget al., 2025 ]."
+  },
+  {
+    "subject": "model_DA2Net",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_Supervised",
+    "chunk": "experiments",
+    "context": "(i) Supervised methods: SNUNet [Fanget al., 2021 ], ChangeFormer [Bandara and Patel, 2022 ], DMINet [Fenget al., 2023 ], SAM-CD [Dinget al., 2024 ], CD- Mask [Maet al., 2024 ], ChangeMamba [Chenet al., 2024 ], MetaCD [Gaoet al., 2025 ], MDENet [Luoet al., 2025 ], and DA²Net [Ninget al., 2025 ]."
+  },
+  {
+    "subject": "model_WCDNet",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_WeaklySupervised",
+    "chunk": "experiments",
+    "context": "(ii) Weakly-supervised methods: WCDNet [Andermatt and Timofte, 2020 ], SEAM [Wanget al., 2020 ], MS-Former [Kalitaet al., 2021 ], MCTFormer [Xu et al., 2022 ], BGMix [Huanget al., 2023 ], FCD-GAN [Wuet al., 2023 ], TransWCD [Zhaoet al., 2023 ], CS-WSCD [Wang et al., 2023 ], and S2C [Kweon and Yoon, 2024 ]."
+  },
+  {
+    "subject": "model_FCD_GAN",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_WeaklySupervised",
+    "chunk": "experiments",
+    "context": "(ii) Weakly-supervised methods: WCDNet [Andermatt and Timofte, 2020 ], SEAM [Wanget al., 2020 ], MS-Former [Kalitaet al., 2021 ], MCTFormer [Xu et al., 2022 ], BGMix [Huanget al., 2023 ], FCD-GAN [Wuet al., 2023 ], TransWCD [Zhaoet al., 2023 ], CS-WSCD [Wang et al., 2023 ], and S2C [Kweon and Yoon, 2024 ]."
+  },
+  {
+    "subject": "model_ISFA",
+    "relation": "belongsToParadigm",
+    "object": "paradigm_Unsupervised",
+    "chunk": "experiments",
+    "context": "(iii) Unsu- pervised methods: ISFA [Wuet al., 2013 ], DCV A [Sahaet al., 2019 ], DSFA [Duet al., 2019 ], KPCA [Wuet al., 2021 ], CDRL [Nohet al., 2022 ], SiROC [Kondmannet al., 2021 ], I3PE [Chenet al., 2023 ], FCD-GAN [Wuet al., 2023 ], and AnyChange [Zhenget al., 2024 ]."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "hasVersion",
+    "object": "model_UniCDv1",
+    "chunk": "experiments",
+    "context": "To validate the impact of backbone selection on the performance of the UniCD, we of- fer two versions: UniCDv1 and UniCDv2, which employ the foundational model FastSAM and the classic network ResNet as feature extractors, respectively."
+  },
+  {
+    "subject": "model_UniCD",
+    "relation": "hasVersion",
+    "object": "model_UniCDv2",
+    "chunk": "experiments",
+    "context": "To validate the impact of backbone selection on the performance of the UniCD, we of- fer two versions: UniCDv1 and UniCDv2, which employ the foundational model FastSAM and the classic network ResNet as feature extractors, respectively."
+  },
+  {
+    "subject": "model_UniCDv1",
+    "relation": "usesFeatureExtractor",
+    "object": "model_FastSAM",
+    "chunk": "experiments",
+    "context": "To validate the impact of backbone selection on the performance of the UniCD, we of- fer two versions: UniCDv1 and UniCDv2, which employ the foundational model FastSAM and the classic network ResNet as feature extractors, respectively."
+  },
+  {
+    "subject": "model_UniCDv2",
+    "relation": "usesFeatureExtractor",
+    "object": "model_ResNet",
+    "chunk": "experiments",
+    "context": "To validate the impact of backbone selection on the performance of the UniCD, we of- fer two versions: UniCDv1 and UniCDv2, which employ the foundational model FastSAM and the classic network ResNet as feature extractors, respectively."
+  },
+  {
+    "subject": "model_UniCDv1",
+    "relation": "evaluatedOnDataset",
+    "object": "geographicDataset_LEVIR_CD",
+    "chunk": "experiments",
+    "context": "On LEVIR-CD, UniCDv1 achieves an F1-score of 91.55%, while UniCDv2 further reaches 92.10%."
+  },
+  {
+    "subject": "model_UniCDv2",
+    "relation": "evaluatedOnDataset",
+    "object": "geographicDataset_WHU_CD",
+    "chunk": "experiments",
+    "context": "On WHU-CD, UniCD exhibits even more pronounced advan- tages. UniCDv2 achieved an F1-score of 93.94%and an IoU of 88.57%, surpassing DA2Net by 1.46%and 2.55%, respec- tively."
+  },
+  {
+    "subject": "model_UniCDv2",
+    "relation": "outperforms",
+    "object": "model_DA2Net",
+    "chunk": "experiments",
+    "context": "UniCDv2 achieved an F1-score of 93.94%and an IoU of 88.57%, surpassing DA2Net by 1.46%and 2.55%, respec- tively."
+  },
+  {
+    "subject": "framework_unicd",
+    "relation": "categorizedAs",
+    "object": "ChangeDetectionFramework",
+    "chunk": "conclusion1",
+    "context": "We propose UniCD, a change detection framework that systematically adapts to varying annotation levels through a unified feature representation and constraint system."
+  }
+]

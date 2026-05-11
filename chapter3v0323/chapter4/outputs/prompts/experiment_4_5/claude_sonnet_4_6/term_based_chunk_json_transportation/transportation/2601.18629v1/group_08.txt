@@ -1,0 +1,291 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "MaskAdapter",
+  "compatibleWith",
+  "AugmentedData",
+  "ActPolicy",
+  "equippedWith",
+  "mitigates",
+  "SimToRealGap",
+  "Policy",
+  "outperforms",
+  "TeleoperationBaseline",
+  "produces",
+  "SegmentationResult",
+  "ExoGS",
+  "isA",
+  "RealToSimToRealFramework",
+  "usedFor",
+  "ManipulationDataCollection",
+  "PassiveExoskeleton",
+  "integratedWith",
+  "3dGaussianSplattingPipeline",
+  "Demonstration",
+  "digitizedInto",
+  "SimulationAsset",
+  "DataAugmentation",
+  "enhances",
+  "PolicyGeneralization",
+  "bridges",
+  "injects",
+  "SemanticConstraint",
+  "injectedInto",
+  "reduces",
+  "DataCollectionCost",
+  "yields",
+  "TraditionalTeleoperation",
+  "trains",
+  "CurrentFramework",
+  "reliesOn",
+  "RigidBodyAssumption",
+  "restrictsModelingOf",
+  "DeformableObject",
+  "ImitationLearning",
+  "Robot",
+  "ComplexManipulationSkill",
+  "TrainingData",
+  "SimulationBasedDataSynthesis",
+  "Scalability",
+  "GeometricRepresentation",
+  "VisualAppearance",
+  "PhysicalInteraction",
+  "RgbBasedPolicy",
+  "RealToSimToRealPipeline",
+  "NeuralSceneRepresentation",
+  "VisualGap",
+  "PhotorealisticRendering",
+  "StaticSceneReconstruction",
+  "ReinforcementLearning",
+  "ManipulationData",
+  "RoboticHardware",
+  "exo_gs",
+  "R2s2rFramework",
+  "4dSequence",
+  "3dEnvironment",
+  "RobotInteraction",
+  "Object",
+  "CustomPassiveExoskeleton",
+  "3dgsBasedDataGenerationPipeline",
+  "air_exo_3",
+  "HumanManipulation",
+  "Platform",
+  "ExoskeletonJointConfiguration",
+  "ObjectTrajectory",
+  "MotionSequence",
+  "Editable3dgsAsset",
+  "HardwareSoftwareSynergy",
+  "Environment",
+  "Simulation",
+  "ResidualDomainShift",
+  "LightweightModule",
+  "InstanceLevelSemanticConstraint",
+  "R2S2RFramework"
+]
+
+Triples:
+[
+  {
+    "subject": "MaskAdapter",
+    "relation": "compatibleWith",
+    "object": "AugmentedData",
+    "chunk": "experiments3",
+    "context": "In contrast, Mask Adapter operates directly on the original data and remains fully compatible with augmented data, offering a more efficient alternative."
+  },
+  {
+    "subject": "ActPolicy",
+    "relation": "equippedWith",
+    "object": "MaskAdapter",
+    "chunk": "experiments3",
+    "context": "We train ACT policies equipped with Mask Adapter using non-augmented demonstrations generated by our pipeline and evaluate their generalization performance under varying envi-ronmental and object conditions."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "mitigates",
+    "object": "SimToRealGap",
+    "chunk": "experiments3",
+    "context": "The adapter effectively narrows the sim-to-real gap, enabling policies to outperform tele-operation baselines in standard and color-varied scenarios, while performance remains sensitive to severe background and lighting perturbations."
+  },
+  {
+    "subject": "Policy",
+    "relation": "outperforms",
+    "object": "TeleoperationBaseline",
+    "chunk": "experiments3",
+    "context": "The adapter effectively narrows the sim-to-real gap, enabling policies to outperform tele-operation baselines in standard and color-varied scenarios, while performance remains sensitive to severe background and lighting perturbations."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "produces",
+    "object": "SegmentationResult",
+    "chunk": "experiments3",
+    "context": "Fig. 9 illustrates segmentation results produced by the Mask Adapter during evaluation."
+  },
+  {
+    "subject": "ExoGS",
+    "relation": "isA",
+    "object": "RealToSimToRealFramework",
+    "chunk": "conclusion",
+    "context": "In this work, we presented ExoGS, a scalable, robot-free Real-to-Sim-to-Real framework for manipulation data collection."
+  },
+  {
+    "subject": "ExoGS",
+    "relation": "usedFor",
+    "object": "ManipulationDataCollection",
+    "chunk": "conclusion",
+    "context": "In this work, we presented ExoGS, a scalable, robot-free Real-to-Sim-to-Real framework for manipulation data collection."
+  },
+  {
+    "subject": "PassiveExoskeleton",
+    "relation": "integratedWith",
+    "object": "3dGaussianSplattingPipeline",
+    "chunk": "conclusion",
+    "context": "By integrating a low-cost (approx. $400) passive exoskeleton with a 3D Gaussian Splatting pipeline, we enable the efficient acquisition of kinematically consistent demonstrations and their digitization into editable simulation assets."
+  },
+  {
+    "subject": "Demonstration",
+    "relation": "digitizedInto",
+    "object": "SimulationAsset",
+    "chunk": "conclusion",
+    "context": "By integrating a low-cost (approx. $400) passive exoskeleton with a 3D Gaussian Splatting pipeline, we enable the efficient acquisition of kinematically consistent demonstrations and their digitization into editable simulation assets."
+  },
+  {
+    "subject": "DataAugmentation",
+    "relation": "enhances",
+    "object": "PolicyGeneralization",
+    "chunk": "conclusion",
+    "context": "This approach allows for massive, geometry-aware data augmentation that significantly enhances policy generalization."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "bridges",
+    "object": "SimToRealGap",
+    "chunk": "conclusion",
+    "context": "Furthermore, our proposed Mask Adapter effectively bridges the sim-to-real gap by injecting instance-level semantic constraints into the policy."
+  },
+  {
+    "subject": "MaskAdapter",
+    "relation": "injects",
+    "object": "SemanticConstraint",
+    "chunk": "conclusion",
+    "context": "Furthermore, our proposed Mask Adapter effectively bridges the sim-to-real gap by injecting instance-level semantic constraints into the policy."
+  },
+  {
+    "subject": "SemanticConstraint",
+    "relation": "injectedInto",
+    "object": "Policy",
+    "chunk": "conclusion",
+    "context": "Furthermore, our proposed Mask Adapter effectively bridges the sim-to-real gap by injecting instance-level semantic constraints into the policy."
+  },
+  {
+    "subject": "ExoGS",
+    "relation": "reduces",
+    "object": "DataCollectionCost",
+    "chunk": "conclusion",
+    "context": "Extensive real-world experiments demonstrate that ExoGS reduces data collection costs while yielding policies that outperform those trained via traditional teleoperation."
+  },
+  {
+    "subject": "ExoGS",
+    "relation": "yields",
+    "object": "Policy",
+    "chunk": "conclusion",
+    "context": "Extensive real-world experiments demonstrate that ExoGS reduces data collection costs while yielding policies that outperform those trained via traditional teleoperation."
+  },
+  {
+    "subject": "TraditionalTeleoperation",
+    "relation": "trains",
+    "object": "Policy",
+    "chunk": "conclusion",
+    "context": "Extensive real-world experiments demonstrate that ExoGS reduces data collection costs while yielding policies that outperform those trained via traditional teleoperation."
+  },
+  {
+    "subject": "CurrentFramework",
+    "relation": "reliesOn",
+    "object": "RigidBodyAssumption",
+    "chunk": "conclusion",
+    "context": "However, the current framework relies on the rigid-body assumption of 3DGS, which restricts the modeling of deformable objects with variable geometry."
+  },
+  {
+    "subject": "RigidBodyAssumption",
+    "relation": "restrictsModelingOf",
+    "object": "DeformableObject",
+    "chunk": "conclusion",
+    "context": "However, the current framework relies on the rigid-body assumption of 3DGS, which restricts the modeling of deformable objects with variable geometry."
+  }
+]

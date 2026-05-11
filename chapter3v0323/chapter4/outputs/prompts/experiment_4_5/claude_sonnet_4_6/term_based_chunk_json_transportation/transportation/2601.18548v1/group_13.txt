@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "RrtPlanner",
+  "searchesIn",
+  "WholeBodyConfigurationSpace",
+  "performs",
+  "CollisionChecking",
+  "uses",
+  "EnvironmentEsdf",
+  "LocalDecomp",
+  "actsAs",
+  "LocalReactiveController",
+  "constructs",
+  "LinkWiseSafeRegion",
+  "Remani",
+  "decouples",
+  "BaseAndArmPlanning",
+  "plans",
+  "Base",
+  "searchesFor",
+  "DiscreteArmTrajectory",
+  "TopAy",
+  "ParallelTopologicalSearch",
+  "refines",
+  "CandidateBaseReference",
+  "CollisionAvoidance",
+  "reliesOn",
+  "approximates",
+  "Robot",
+  "CollisionSphere",
+  "RobotLinkGeometry",
+  "avoids",
+  "ConservativeBehavior",
+  "ConfigurationSpaceOptimization",
+  "enables",
+  "WholeBodyBehavior",
+  "TwistingManeuver",
+  "passesThrough",
+  "NarrowRegion",
+  "TopAY",
+  "produces",
+  "DiscreteFrontEndPath",
+  "traverses",
+  "TightPassage",
+  "operatesIn",
+  "LaboratoryObstacleCourse",
+  "follows",
+  "MultiGoalRoute",
+  "contains",
+  "Waypoint",
+  "navigatesThrough",
+  "NarrowCorridor",
+  "FurnitureDenseArea",
+  "OfficeEnvironment",
+  "RRT",
+  "failsToFind",
+  "FeasibleSolution",
+  "MobileManipulator",
+  "BaseMotion",
+  "ArmMotion",
+  "WholeBodyTrajectoryOptimization",
+  "CollisionReasoning",
+  "ConfigurationSpaceDistanceField",
+  "Collision",
+  "WholeBodyGeometry",
+  "GeneralizedConfigurationSpaceDistanceField",
+  "TranslationalJoint",
+  "RotationalJoint",
+  "LocalDistanceStructure",
+  "SequentialConvexOptimizationFramework",
+  "GcdfBasedCollisionReasoning",
+  "Solver",
+  "ImplicitConstraint",
+  "RealRobotExperiment",
+  "WholeBodyPlanning",
+  "Mobility",
+  "Dexterity",
+  "WholeBodyPosture",
+  "Safety",
+  "Planner",
+  "CollisionConstraint",
+  "GeometricModel"
+]
+
+Triples:
+[
+  {
+    "subject": "RrtPlanner",
+    "relation": "searchesIn",
+    "object": "WholeBodyConfigurationSpace",
+    "chunk": "completedocument14",
+    "context": "(1)RRT[95]: a direct sampling-based planner that searches in the full whole-body configuration space and performs collision checking using the environment ESDF."
+  },
+  {
+    "subject": "RrtPlanner",
+    "relation": "performs",
+    "object": "CollisionChecking",
+    "chunk": "completedocument14",
+    "context": "(1)RRT[95]: a direct sampling-based planner that searches in the full whole-body configuration space and performs collision checking using the environment ESDF."
+  },
+  {
+    "subject": "RrtPlanner",
+    "relation": "uses",
+    "object": "EnvironmentEsdf",
+    "chunk": "completedocument14",
+    "context": "(1)RRT[95]: a direct sampling-based planner that searches in the full whole-body configuration space and performs collision checking using the environment ESDF."
+  },
+  {
+    "subject": "LocalDecomp",
+    "relation": "actsAs",
+    "object": "LocalReactiveController",
+    "chunk": "completedocument14",
+    "context": "(2) LocalDecomp[33]: a SOTA free-space decomposition method that acts as a local reactive controller."
+  },
+  {
+    "subject": "LocalDecomp",
+    "relation": "constructs",
+    "object": "LinkWiseSafeRegion",
+    "chunk": "completedocument14",
+    "context": "At each step, it con- structs link-wise safe regions from obstacle information and plans the next motion within these regions to maintain safety."
+  },
+  {
+    "subject": "Remani",
+    "relation": "decouples",
+    "object": "BaseAndArmPlanning",
+    "chunk": "completedocument14",
+    "context": "(3)REMANI[10] and (4)TopAY[35]: SOTA two-stage pipelines that decouple base and arm planning in the front end, followed by trajectory optimization in the back end."
+  },
+  {
+    "subject": "Remani",
+    "relation": "plans",
+    "object": "Base",
+    "chunk": "completedocument14",
+    "context": "REMANIplans the base using Hybrid A* and then searches for a discrete arm trajectory along the base path via constrained RRT*-Connect."
+  },
+  {
+    "subject": "Remani",
+    "relation": "searchesFor",
+    "object": "DiscreteArmTrajectory",
+    "chunk": "completedocument14",
+    "context": "REMANIplans the base using Hybrid A* and then searches for a discrete arm trajectory along the base path via constrained RRT*-Connect."
+  },
+  {
+    "subject": "TopAy",
+    "relation": "performs",
+    "object": "ParallelTopologicalSearch",
+    "chunk": "completedocument14",
+    "context": "TopAYfirst performs parallel topological search on the mobile base to generate multiple independent candidate base references, then refines each candidate by searching nearby arm motions using constrained Bi-RRT*, selecting the best trajectory among candidates with parallel acceleration."
+  },
+  {
+    "subject": "TopAy",
+    "relation": "refines",
+    "object": "CandidateBaseReference",
+    "chunk": "completedocument14",
+    "context": "TopAYfirst performs parallel topological search on the mobile base to generate multiple independent candidate base references, then refines each candidate by searching nearby arm motions using constrained Bi-RRT*, selecting the best trajectory among candidates with parallel acceleration."
+  },
+  {
+    "subject": "CollisionAvoidance",
+    "relation": "reliesOn",
+    "object": "EnvironmentEsdf",
+    "chunk": "completedocument14",
+    "context": "For collision avoidance, they rely on the environment ESDF and approximate the robot using a set of collision spheres, minimizing the sum of ESDF values over spheres."
+  },
+  {
+    "subject": "CollisionAvoidance",
+    "relation": "approximates",
+    "object": "Robot",
+    "chunk": "completedocument14",
+    "context": "For collision avoidance, they rely on the environment ESDF and approximate the robot using a set of collision spheres, minimizing the sum of ESDF values over spheres."
+  },
+  {
+    "subject": "CollisionSphere",
+    "relation": "approximates",
+    "object": "RobotLinkGeometry",
+    "chunk": "completedocument14",
+    "context": "The col- lision spheres are also carefully fitted to closely approximate the robot’s link geometries to avoid conservative behaviors."
+  },
+  {
+    "subject": "CollisionSphere",
+    "relation": "avoids",
+    "object": "ConservativeBehavior",
+    "chunk": "completedocument14",
+    "context": "The col- lision spheres are also carefully fitted to closely approximate the robot’s link geometries to avoid conservative behaviors."
+  },
+  {
+    "subject": "ConfigurationSpaceOptimization",
+    "relation": "enables",
+    "object": "WholeBodyBehavior",
+    "chunk": "completedocument15",
+    "context": "The end-effector paths reveal agile whole-body behaviors enabled by configuration-space optimization, including coordinated base–arm reconfiguration and non-conservative twisting maneuvers that pass through narrow, highly non-convex regions."
+  },
+  {
+    "subject": "TwistingManeuver",
+    "relation": "passesThrough",
+    "object": "NarrowRegion",
+    "chunk": "completedocument15",
+    "context": "The end-effector paths reveal agile whole-body behaviors enabled by configuration-space optimization, including coordinated base–arm reconfiguration and non-conservative twisting maneuvers that pass through narrow, highly non-convex regions."
+  },
+  {
+    "subject": "TopAY",
+    "relation": "produces",
+    "object": "DiscreteFrontEndPath",
+    "chunk": "completedocument15",
+    "context": "*Ours (TopAY-init) initializes our solver with the discrete front-end paths produced by TopAY; if the front-end search fails, we fall back to the original baseline initialization, i.e., linear interpolation for the mobile base and an all-zero arm configuration."
+  },
+  {
+    "subject": "Robot",
+    "relation": "traverses",
+    "object": "TightPassage",
+    "chunk": "completedocument15",
+    "context": "Top: in a laboratory obstacle course composed of stacked and overlapping blocks with limited clearance, the robot performs agile base–arm reconfiguration while traversing tight passages (t 1–t8)."
+  },
+  {
+    "subject": "Robot",
+    "relation": "operatesIn",
+    "object": "LaboratoryObstacleCourse",
+    "chunk": "completedocument15",
+    "context": "Top: in a laboratory obstacle course composed of stacked and overlapping blocks with limited clearance, the robot performs agile base–arm reconfiguration while traversing tight passages (t 1–t8)."
+  },
+  {
+    "subject": "Robot",
+    "relation": "follows",
+    "object": "MultiGoalRoute",
+    "chunk": "completedocument15",
+    "context": "Bottom: in an office environment, the robot follows a multi-goal route (with an intermediate waypoint) through narrow corridors and furniture-dense areas (t 1–t12)."
+  },
+  {
+    "subject": "MultiGoalRoute",
+    "relation": "contains",
+    "object": "Waypoint",
+    "chunk": "completedocument15",
+    "context": "Bottom: in an office environment, the robot follows a multi-goal route (with an intermediate waypoint) through narrow corridors and furniture-dense areas (t 1–t12)."
+  },
+  {
+    "subject": "Robot",
+    "relation": "navigatesThrough",
+    "object": "NarrowCorridor",
+    "chunk": "completedocument15",
+    "context": "Bottom: in an office environment, the robot follows a multi-goal route (with an intermediate waypoint) through narrow corridors and furniture-dense areas (t 1–t12)."
+  },
+  {
+    "subject": "Robot",
+    "relation": "navigatesThrough",
+    "object": "FurnitureDenseArea",
+    "chunk": "completedocument15",
+    "context": "Bottom: in an office environment, the robot follows a multi-goal route (with an intermediate waypoint) through narrow corridors and furniture-dense areas (t 1–t12)."
+  },
+  {
+    "subject": "Robot",
+    "relation": "operatesIn",
+    "object": "OfficeEnvironment",
+    "chunk": "completedocument15",
+    "context": "Bottom: in an office environment, the robot follows a multi-goal route (with an intermediate waypoint) through narrow corridors and furniture-dense areas (t 1–t12)."
+  },
+  {
+    "subject": "RRT",
+    "relation": "failsToFind",
+    "object": "FeasibleSolution",
+    "chunk": "completedocument15",
+    "context": "RRT consistently failed to find a feasible solution within the allocated time, likely due to the high density of our experimental setup."
+  }
+]

@@ -1,0 +1,134 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Interpret ontology elements using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: results5
+- section_title: Results
+- page_start: 8
+- page_end: 16
+
+INPUT TEXT CHUNK:
+If scaled
+to approximately 10 million annual cardiovascular screenings in the United States, the
+potential savings could reach approximately $38.2 billion, while simultaneously reduc-
+ing psychological burden on patients from false positives and minimizing risks associated
+with invasive examinations, including radiation exposure, contrast allergies, and bleeding.
+Conversely, while maintaining 98.33% sensitivity, SDA-QEC limits the missed diagnosis
+rate to 1.67%, missing only one case among 60 true patients, whereas DenseNet121’s
+33.3% missed diagnosis rate implies that a substantial proportion of patients may miss
+optimal treatment windows, potentially resulting in disease progression, acute myocardial
+infarction, or even sudden death, with profound and immeasurable social and economic
+consequences.
+3.6 PerformanceHeatmapMatrixandDistributionStabilityAnal-
+ysis
+Figure 4 displays a performance heatmap matrix for five models across seven metrics,
+where darker colors (deep blue) indicate better performance and lighter colors (light
+yellow) indicate worse performance. Each row represents a model, each column represents
+an evaluation metric, and cells contain exact numerical values.
+From Figure 4, we intuitively observe:
+SDA-QEC’s entire row presents uniform deep blue (all metrics >0.98), visually form-
+ing a prominent “dark band,” starkly contrasting with other models. This color consis-
+tency indicates SDA-QEC reaches top levels across all evaluation dimensions without any
+obvious performance shortcomings.
+ResNet18’s row presents medium-deep blue, but is slightly lighter in the specificity
+column (0.9167), forming a subtle color break. This again confirms the finding that
+ResNet18 is slightly weaker than SDA-QEC in excluding negative samples.
+14
+
+Figure 4: Performance metrics heatmap matrix
+MobileNetV2’s row presents a gradient transition from light to medium blue, with
+the sensitivity column noticeably lighter (0.8000), forming considerable color difference
+with other columns. This uneven color distribution intuitively demonstrates the model’s
+difficulty with class balance.
+DenseNet121’s row has extremely uneven colors, with the sensitivity column ex-
+tremely light (0.6667, approaching pale yellow) while the specificity column is darker
+(0.9500), forming an obvious “wave-like” color difference. This extreme color contrast is
+immediately apparent in the heatmap, intuitively reflecting the model’s serious class bias.
+VGG16’s row presents extreme contrast from pale yellow to light blue, with the
+specificity column almost white (0.2167, lightest) while the sensitivity column is deepest
+blue (1.0000, darkest), with varied colors in remaining columns. This extreme color
+difference combination is visually jarring, indicating irreconcilable contradictions between
+different metrics in this model.
+Figure 5 displays means and 95% confidence intervals (calculated through Bootstrap
+resampling n=500) for five models across five key metrics (accuracy, AUC, F1, sensitivity,
+specificity), with error bar length representing performance uncertainty range.
+From Figure 5, we observe:
+SDA-QEC’s error bars are shortest across all metrics with smallest standard de-
+viations (accuracy std=0.012, AUC std=0.008, F1 std=0.011). This means across 500
+Bootstrap resampling iterations (each time drawing 120 samples with replacement from
+the test set), SDA-QEC’s performance fluctuation is minimal, indicating extreme insen-
+sitivity to test sample selection and strong robustness.
+ResNet18’s error bars are slightly longer (accuracy std=0.018, AUC std=0.012) but
+remain within acceptable ranges. Its 95% CI overlaps slightly with SDA-QEC (e.g.,
+accuracy CIs are [0.965, 0.998] and [0.932, 0.968] respectively), but overall remains sig-
+nificantly below SDA-QEC.
+MobileNetV2 and DenseNet121’s error bars significantly increase, especially in sen-
+sitivity metrics. MobileNetV2’s sensitivity 95% CI is [0.73, 0.87], with interval width
+reaching 0.14, indicating sensitivity may drop as low as 73% (missed diagnosis rate
+15
+
+Figure 5: Performance metrics with 95% confidence intervals
+as high as 27%) on some data subsets, representing clinically unacceptable high risk.
+DenseNet121’s sensitivity error bar is even longer, with CI [0.52, 0.79], spanning 0.27,
+indicating extremely unstable performance.
+VGG16’s error bars are longest, with accuracy 95% CI of [0.52, 0.68], spanning 0.16;
+the specificity error bar even extends into negative value region (lower bound approx-
+imately 0.10), indicating that on some extreme data subsets, VGG16’s specificity may
+drop as low as 10% (false positive rate as high as 90%), completely losing practical value.
+3.7 Bootstrap Distribution Probability Density Visualization
+Violin plots display complete distribution shapes through kernel density estimation,
+providing richer information compared to traditional box plots (which only show median
+and quartiles).

@@ -1,0 +1,91 @@
+You are an ontology construction system. Your task is to construct a formal RDFS ontology from normalized terms and semantic triples.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using medical domain knowledge. Pay attention to biomedical entities, diseases, treatments, and clinical relationships.
+
+CORE INSTRUCTIONS:
+
+1. Identify ontology elements:
+   - Classes: abstract concepts or conceptual categories
+   - Properties: semantic relations suitable for ontology modeling
+
+2. Use only normalized terms from the input.
+   - Do not invent new terms unless absolutely necessary.
+   - Do not introduce external background knowledge.
+
+3. Handle term types carefully:
+   - Use terms labeled as Class as ontology classes.
+   - Use terms labeled as Property as ontology properties.
+   - Do not use Instance terms in rdfs:subClassOf relations.
+   - Instance terms may help you infer domain/range, but should not be treated as classes unless strongly justified by context.
+
+4. Construct class hierarchy:
+   - Infer rdfs:subClassOf only when a subclass relation is explicit or strongly implied.
+   - Avoid overly general superclass invention.
+
+5. Construct property hierarchy:
+   - Infer rdfs:subPropertyOf only when clearly supported by the input.
+   - If no reliable subproperty relation exists, return an empty list.
+
+6. Infer domain and range:
+   - For each ontology property, determine its domain and range conservatively.
+   - Only assign domain/range when the subject/object types are clear from normalized terms and updated triples.
+   - Avoid speculative domain/range assignments.
+
+7. Ensure ontology consistency:
+   - Avoid duplication
+   - Prefer fewer but higher-confidence axioms
+   - Keep results logically coherent
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT:
+Normalized Terms:
+[{"term":"HumanLevelStandard","type":"Class"},{"term":"MentalHealthApplication","type":"Class"},{"term":"DetectionTask","type":"Class"},{"term":"ScreeningTask","type":"Class"},{"term":"Accessibility","type":"Class"},{"term":"Reliability","type":"Class"},{"term":"ClinicallyAppropriateInformation","type":"Class"},{"term":"UnstableAffectiveAlignment","type":"Class"},{"term":"BalancedTherapeuticResponse","type":"Class"},{"term":"ResponseVariability","type":"Class"},{"term":"EmotionalFlatness","type":"Class"},{"term":"FailureAwareness","type":"Class"},{"term":"ClinicalGrounding","type":"Class"},{"term":"RelationalSensitivity","type":"Class"},{"term":"isMarkedBy","type":"Property"},{"term":"supports","type":"Property"},{"term":"hasQuality","type":"Property"},{"term":"hasChallengeIn","type":"Property"},{"term":"assesses","type":"Property"},{"term":"isGeneratedIn","type":"Property"},{"term":"contains","type":"Property"},{"term":"hasCount","type":"Property"},{"term":"isDerivedFrom","type":"Property"},{"term":"isEvaluatedBy","type":"Property"},{"term":"rates","type":"Property"},{"term":"usesScale","type":"Property"},{"term":"hasPointCount","type":"Property"},{"term":"hasAttributeCount","type":"Property"},{"term":"captures","type":"Property"},{"term":"includes","type":"Property"},{"term":"evaluates","type":"Property"},{"term":"provides","type":"Property"},{"term":"produces","type":"Property"},{"term":"demonstrates","type":"Property"},{"term":"isObservedIn","type":"Property"}]
+
+Triples:
+[{"subject":"OpenSourceModel","relation":"shows","object":"ResponseVariability"},{"subject":"OpenSourceModel","relation":"shows","object":"EmotionalFlatness"},{"subject":"EvaluationFramework","relation":"shouldHaveProperty","object":"FailureAwareness"},{"subject":"EvaluationFramework","relation":"shouldHaveProperty","object":"ClinicalGrounding"},{"subject":"EvaluationFramework","relation":"prioritizes","object":"RelationalSensitivity"},{"subject":"EvaluationFramework","relation":"shouldPrioritize","object":"InformationalAccuracy"},{"subject":"EvaluationProtocol","relation":"includes","object":"HumanInTheLoop"},{"subject":"EvaluationProtocol","relation":"centersOn","object":"TherapeuticSensitivity"},{"subject":"EvaluationProtocol","relation":"guides","object":"ResponsibleDesign"},{"subject":"EvaluationProtocol","relation":"guides","object":"ClinicalOversight"},{"subject":"ClinicalOversight","relation":"appliesTo","object":"ConversationalAI"},{"subject":"ConversationalAI","relation":"isOrientedTo","object":"MentalHealthSupport"},{"subject":"LargeLanguageModel","relation":"isExploredFor","object":"MentalHealthApplication"},{"subject":"MentalHealthApplication","relation":"includes","object":"DetectionTask"},{"subject":"MentalHealthApplication","relation":"includes","object":"ScreeningTask"},{"subject":"MentalHealthApplication","relation":"includes","object":"ConversationalAgent"},{"subject":"ConversationalAgent","relation":"isUsedFor","object":"MentalHealthSupport"},{"subject":"ConversationalAgent","relation":"isUsedFor","object":"MentalHealthIntervention"},{"subject":"LargeLanguageModel","relation":"canOutperform","object":"TraditionalBaseline"},{"subject":"LargeLanguageModel","relation":"canDemonstrate","object":"EmpathySuperiorToHumanPeers"},{"subject":"SafetyConcern","relation":"precludesDeploymentOf","object":"LargeLanguageModel"},{"subject":"LargeLanguageModel","relation":"hasIssue","object":"DemographicBias"},{"subject":"LargeLanguageModel","relation":"hasIssue","object":"RacialBias"},{"subject":"LargeLanguageModel","relation":"hasIssue","object":"LackOfClinicalJudgment"},{"subject":"LargeLanguageModel","relation":"hasDangerousFailure","object":"UnderestimationOfSuicideRisk"},{"subject":"UnderestimationOfSuicideRisk","relation":"occursIn","object":"HighRiskScenario"},{"subject":"ConversationWithExplicitSuicidalPlanningOrIntent","relation":"hasPrevalenceAmongWeeklyActiveUsers","object":"0.15Percent"},{"subject":"ChatGPT","relation":"hasWeeklyActiveUsers","object":"800Million"},{"subject":"ClinicalGroundedEvaluationMethod","relation":"isLackingFor","object":"LargeLanguageModel"},{"subject":"CurrentStudy","relation":"reliesOnDataFrom","object":"SocialMediaPlatform"},{"subject":"SocialMediaPlatform","relation":"includes","object":"Reddit"},{"subject":"CurrentStudy","relation":"hasAbsenceOf","object":"AuthenticTherapeuticInteraction"},{"subject":"Evaluation","relation":"oftenEmploys","object":"AutomaticMetric"},{"subject":"AutomaticMetric","relation":"includes","object":"BLEU"},{"subject":"AutomaticMetric","relation":"includes","object":"ROUGE"}]

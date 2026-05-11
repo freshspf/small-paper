@@ -1,0 +1,149 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: casestudycopenhagensinnercity1
+- section_title: Case Study: Copenhagen's Inner City
+- page_start: 4
+- page_end: 5
+
+INPUT TEXT CHUNK:
+according to terrain characteristics, filling topographic de-
+pressions and allowing us to assign water heights to specific
+transport network locations.
+Transport simulationWe extract the drivable, cyclable,
+and walkable transport networks (i.e., roads, cycling lanes,
+sidewalks) covering Copenhagen’s inner city (indre by) us-
+ingOSMNX [Boeing, 2024 ]from OpenStreetMap3(OSM,
+as of July 7, 2024). Next, to capture the impacts of flood-
+ing on transport, we model trips made by Copenhagen res-
+idents. For this, we start by using data from the Danish
+National Travel Survey (Transportvaneundersøgelsen, TU)
+[Christiansen and Baescu, 2024 ]. Our study area is divided
+into 29 traffic assignment zones (TAZs, each covering a few
+city blocks), corresponding to those used in the Danish Na-
+tional Transport Model (Grøn Mobilitetsmodel, GMM) [Ve-
+jdirektoratet, 2022 ]. To model individual trips ( 84k total
+trips), we randomly sampled an origin and destination (OD)
+location within the respective OD TAZs.
+Finally, we simulate the route taken by each individual us-
+ing their assigned transport mode from origin to destination
+on the corresponding transport network. We compute the
+shortest path in terms of travel time for each trip’s origin-
+destination pair. To account for the effect of water levels on
+travel, we apply depth-disruption functions [Pregnolatoet al.,
+2017b; Finnis and Walton, 2008 ]that map water depths on
+each segment (road, street, cycling lane, sidewalk) to reduced
+travel speeds and, therefore, increased travel times, or, in the
+event of trips having no traversable path from its origin to
+destination, to cancellation of trips.
+Transportation impactsFinally, we compute direct and
+indirect transportation impacts. Three types of impacts are
+estimated: 1) direct network infrastructure damage, 2) indi-
+rect travel delays, and 3) indirect trip cancellations. When a
+flood occurs, infrastructure is damaged and ought to be re-
+paired. Following an initial estimate of the construction costs
+for each network segment (following the approach by [van
+Ginkelet al., 2021 ]), we compute the estimated damage us-
+ing depth-damage functions [van Ginkelet al., 2021 ]. These
+map the percentage of damage on a network link depending
+on its water depth to the economic cost (i.e., repair, cleaning,
+and resurfacing works) of repairing such damage. Finally, we
+aggregate these costs asI ifor thei-th TAZ. Next, we com-
+pute travel delays for all simulated trips. As water levels rise,
+travel speed reduces, resulting in travel time delays. At the
+same time, as some roads begin to get flooded, routes might
+change because individuals would choose an alternative and
+faster route. After comparing the original (no flood) travel
+time with the flood-affected travel time, we compute the asso-
+ciated travel delay and convert it into economic losses using
+the Danish value of time for travel delays [Transportminis-
+teriet, 2022 ]. Travel delays costs are aggregated asD ifor
+each TAZ. finally, when there is no traversable path between
+a trip’s origin and destination due to water levels being too
+high, we consider trips to not occur and result in an aban-
+doned/cancelled trip. Following existing approaches [Hallen-
+becket al., 2014 ], we estimate these cancelled trips economic
+losses and aggregate them at the TAZ-level asC i
+3Available at: https://www.openstreetmap.org/4 Case Study: Copenhagen’s Inner City
+4.1 Experimental setup
+We implement the IAM as a Gymnasium environment [Tow-
+erset al., 2023 ]in Python and train policies with Stable-
+Baselines3 [Raffinet al., 2021 ]. The case study is Copen-
+hagen’s inner city, represented by 29 TAZ nodes where one
+adaptation action per zone can be selected at each deci-
+sion step, over a planning horizon of 2024–2100. We train
+the graph policy using Proximal Policy Optimization (PPO)
+[Schulmanet al., 2017; Huang and Onta ˜n´on, 2020 ]with
+batch size 64, 1024 environment steps per update, 10 opti-
+mization epochs per update, entropy coefficient 0.01, and a
+KL-divergence limit of 0.2 to constrain policy updates. Train-
+ing uses 10 parallel environments and runs for up to 4.5 mil-
+lion environment steps, with early stopping when the return
+plateaus. Unless stated otherwise, we report results over 10
+random seeds (mean±standard deviation).
+4.2 Reinforcement learning for climate adaptation
+planning
+We benchmark the learned RL policy against two computa-
+tionally feasible baselines under RCP4.5:No Control (NC),
+which never deploys measures, andRandom Control (RND),
+which selects actions uniformly at random across zones and
+time. Figure 2 reports the cumulative objective and its decom-
+position into the five cost components (infrastructure damage,
+delays, cancellations, action costs, and maintenance). The RL
+policy achieves the best overall performance, reducing the cu-
+mulative total cost by 22% relative to NC and by 408% rela-
+tive to RND.

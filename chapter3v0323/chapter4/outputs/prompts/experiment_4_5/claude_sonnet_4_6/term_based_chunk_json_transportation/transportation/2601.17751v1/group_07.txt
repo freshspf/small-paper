@@ -1,0 +1,242 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "LinearProcessing",
+  "usedFor",
+  "MultiuserTransmission",
+  "occursIn",
+  "FixedRelayNetwork",
+  "DeepLearningApproach",
+  "optimizes",
+  "DownlinkBeamforming",
+  "DeepLearning",
+  "enables",
+  "MmWaveBeamSelection",
+  "supports",
+  "5gNr",
+  "6gNetwork",
+  "AdaptiveBeamAlignment",
+  "enhances",
+  "UavCommunication",
+  "aidedBy",
+  "Irs",
+  "hasCharacteristic",
+  "HighSpeed",
+  "ReconfigurableAntenna",
+  "integratedIn",
+  "TriHybridMimoArchitecture",
+  "developedFor",
+  "AerialBackhaulArchitecture",
+  "AerialActiveRis",
+  "Full3dCoverage",
+  "ActiveRis",
+  "HighAltitudeAerialPlatform",
+  "LineOfSightLink",
+  "MultiplicativeFading",
+  "UavBs",
+  "TrafficSurge",
+  "UrbanArea",
+  "BackhaulSignal",
+  "Blockage",
+  "AerialBaseStation",
+  "NetworkCoverage",
+  "HighTrafficScenario",
+  "HighAltitudeOperation",
+  "Obstacle",
+  "DirectBackhaulLink",
+  "ReconfigurableIntelligentSurface",
+  "WirelessCoverage",
+  "PassiveReflectingElement",
+  "IncidentSignal",
+  "ConventionalRis",
+  "PassiveReflectionElement",
+  "ReflectionTypeAmplifier",
+  "SignalAmplification",
+  "ConventionalPassiveRis",
+  "DoubleFadingLoss",
+  "PassiveRis",
+  "Ris",
+  "AerialPlatform",
+  "ElevatedPlatform",
+  "LosAvailability",
+  "ReflectedSignal",
+  "AerialActiveRisArchitecture",
+  "3dCoverage",
+  "AerialActiveRisAssistedBackhaulNetwork",
+  "HeterogeneousUser",
+  "3dBackhaulConnectivity",
+  "UrbanEnvironment",
+  "SevereBlockage",
+  "HighAltitudePlatform",
+  "RisElement",
+  "ActiveAmplifier",
+  "GroundUser",
+  "OmnidirectionalAntenna",
+  "DirectionalAntenna",
+  "UrbanOutdoorEnvironment",
+  "Altitude",
+  "Source",
+  "UniformLinearArray",
+  "Antenna",
+  "AerialRis",
+  "ReflectingElement",
+  "BackhaulLink"
+]
+
+Triples:
+[
+  {
+    "subject": "LinearProcessing",
+    "relation": "usedFor",
+    "object": "MultiuserTransmission",
+    "chunk": "completedocument15",
+    "context": "[73] C.-B. Chaeet al., “MIMO relaying with linear processing for multiuser transmission in fixed relay networks,”IEEE Trans. Signal Process., vol. 56, no. 2, pp. 727–738, Feb. 2008."
+  },
+  {
+    "subject": "MultiuserTransmission",
+    "relation": "occursIn",
+    "object": "FixedRelayNetwork",
+    "chunk": "completedocument15",
+    "context": "[73] C.-B. Chaeet al., “MIMO relaying with linear processing for multiuser transmission in fixed relay networks,”IEEE Trans. Signal Process., vol. 56, no. 2, pp. 727–738, Feb. 2008."
+  },
+  {
+    "subject": "DeepLearningApproach",
+    "relation": "optimizes",
+    "object": "DownlinkBeamforming",
+    "chunk": "completedocument15",
+    "context": "[74] K. Lianget al., “A data and model-driven deep learning approach to robust downlink beamforming optimization,”IEEE J. Sel. Areas Commun., vol. 42, no. 11, pp. 3278–3292, Nov. 2024."
+  },
+  {
+    "subject": "DeepLearning",
+    "relation": "enables",
+    "object": "MmWaveBeamSelection",
+    "chunk": "completedocument15",
+    "context": "[75] M. S. Simet al., “Deep learning-based mmWave beam selection for 5G NR/6G with sub-6 GHz channel information: Algorithms and prototype validation,”IEEE Access, vol. 8, pp. 51 634–51 646, 2020."
+  },
+  {
+    "subject": "MmWaveBeamSelection",
+    "relation": "supports",
+    "object": "5gNr",
+    "chunk": "completedocument15",
+    "context": "[75] M. S. Simet al., “Deep learning-based mmWave beam selection for 5G NR/6G with sub-6 GHz channel information: Algorithms and prototype validation,”IEEE Access, vol. 8, pp. 51 634–51 646, 2020."
+  },
+  {
+    "subject": "MmWaveBeamSelection",
+    "relation": "supports",
+    "object": "6gNetwork",
+    "chunk": "completedocument15",
+    "context": "[75] M. S. Simet al., “Deep learning-based mmWave beam selection for 5G NR/6G with sub-6 GHz channel information: Algorithms and prototype validation,”IEEE Access, vol. 8, pp. 51 634–51 646, 2020."
+  },
+  {
+    "subject": "AdaptiveBeamAlignment",
+    "relation": "enhances",
+    "object": "UavCommunication",
+    "chunk": "completedocument15",
+    "context": "[76] Q. Denget al., “Adaptive beam alignment and optimization for IRS- aided high-speed UA V communications,”IEEE Trans. Green Commun. Netw., vol. 7, no. 3, pp. 1583–1595, Oct. 2023."
+  },
+  {
+    "subject": "UavCommunication",
+    "relation": "aidedBy",
+    "object": "Irs",
+    "chunk": "completedocument15",
+    "context": "[76] Q. Denget al., “Adaptive beam alignment and optimization for IRS- aided high-speed UA V communications,”IEEE Trans. Green Commun. Netw., vol. 7, no. 3, pp. 1583–1595, Oct. 2023."
+  },
+  {
+    "subject": "UavCommunication",
+    "relation": "hasCharacteristic",
+    "object": "HighSpeed",
+    "chunk": "completedocument15",
+    "context": "[76] Q. Denget al., “Adaptive beam alignment and optimization for IRS- aided high-speed UA V communications,”IEEE Trans. Green Commun. Netw., vol. 7, no. 3, pp. 1583–1595, Oct. 2023."
+  },
+  {
+    "subject": "ReconfigurableAntenna",
+    "relation": "integratedIn",
+    "object": "TriHybridMimoArchitecture",
+    "chunk": "completedocument15",
+    "context": "[78] M. R. Castellanoset al., “Embracing reconfigurable antennas in the tri- hybrid MIMO architecture for 6G and beyond,”IEEE Trans. Commun., vol. 74, no. 1, pp. 381–401, 2026."
+  },
+  {
+    "subject": "TriHybridMimoArchitecture",
+    "relation": "developedFor",
+    "object": "6gNetwork",
+    "chunk": "completedocument15",
+    "context": "[78] M. R. Castellanoset al., “Embracing reconfigurable antennas in the tri- hybrid MIMO architecture for 6G and beyond,”IEEE Trans. Commun., vol. 74, no. 1, pp. 381–401, 2026."
+  }
+]

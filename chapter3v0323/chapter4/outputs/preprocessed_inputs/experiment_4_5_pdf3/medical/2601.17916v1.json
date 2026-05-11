@@ -1,0 +1,52 @@
+[
+  {
+    "id": "introduction",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Introduction",
+      "page_start": 1,
+      "page_end": 1
+    },
+    "text": "Accurate patient prognosis in acute care is a cornerstone of\nmodern medicine, directly guiding critical decisions such as\nICU admission, treatment selection, and risk intervention [1].\nClinicians formulate a prognosis not from a single data point,\nbut by synthesizing a holistic view of the patient: their static\nbaseline (demographics, comorbidities from EHR), dynamic\nstate (vital signs), and acute physiological signals (like the 12-\nlead Electrocardiogram) [2]. A subtle T-wave inversion (from\nthe ECG), for instance, may signify a critical mortality risk,\nbut only when contextualized by abnormal potassium levels\nand a history of hypertension (from the EHR). Capturing thiscomplex, cross-modal reasoning is the central challenge in\ncomputational prognosis.\nFor decades, this challenge was met with simplified clini-\ncal risk scores, which are limited by manual feature selection\nand linear assumptions. While standard machine learning\nmodels offered improved accuracy, they are predominantly\ndesigned as rigid, single-task predictors [3]. These models\nlack the flexibility to adapt to the diverse, dynamic ques-\ntions clinicians face. They cannot be naturally queried about\ndifferent outcomes (e.g., diagnosis, deterioration, mortality)\nand fundamentally struggle to fuse the dense, continuous lan-\nguage of ECG signals with the discrete, numerical language\nof structured EHR tables.\nThe advent of Large Language Models (LLMs) introduces\na new paradigm [4, 5, 6], offering a path from rigid prediction\nto flexible, prompt-based prognosticquestion answering. The\nvision is a single, unified model that a clinician can query in\nnatural language: “Given this patient’s history and their cur-\nrent ECG, what is their risk of severe hypoxemia?” How-\never, this vision is blocked by a fundamental barrier: LLMs\nare text-native reasoning engines. They cannot natively inter-\npret the most critical prognostic data. Raw ECG waveforms\nare dense signals where subtle morphology holds diagnostic\nmeaning, while structured EHR data consists of context-poor\nnumerical values. Current workarounds, such as summariz-\ning ECGs into text reports [7, 8], result in critical informa-\ntion loss, discarding the very waveform patterns essential for\nexpert-level prognosis.\nTo bridge this gap and enable better prognostic reasoning,\nwe propose UniPACT (Unified Prognostic Question Answer-\ning for Clinical Time-series). UniPACT is a unified frame-\nwork designed for multimodal prognostic question answer-\ning and makes raw physiological signals and structured data\n“legible” to an LLM. For the ECG, it employs a dedicated\nwaveform encoder to learn deep representations directly from\nthe 12-lead ECG signal. For the EHR, it uses a novel struc-\ntured prompting mechanism to convert numerical data into se-\nmantically rich sentences (e.g., “The patient’s heart rate is 88\nbeats per minute”), embedding them with vital clinical con-arXiv:2601.17916v1  [cs.LG]  25 Jan 2026"
+  },
+  {
+    "id": "method",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Method",
+      "page_start": 2,
+      "page_end": 2
+    },
+    "text": "The UniPACT framework is designed to perform prognos-\ntic question answering by unifying raw ECG waveforms and\nstructured EHR data within an end-to-end generative model.As illustrated in Figure 1, our architecture consists of three\ncore components: (1) a dedicated encoder for raw ECG sig-\nnals, (2) a structured prompting mechanism to textualize EHR\ndata, and (3) a large language model (LLM) that fuses these\nmultimodal representations to generate a final prediction.\n2.1. Modality-Specific Representation Learning\nECG Waveform Encoder.To capture the rich diagnostic in-\nformation in physiological signals, we process raw 12-lead\nECG waveforms directly, avoiding lossy conversion to text\nreports. We employ the pre-trained Transformer-based ECG\nencoder from D-BETA [9], which has been shown to be ef-\nfective at learning discriminative representations from ECG\nsignals. Given a raw ECG signalE∈RL×C(whereLis the\nnumber of time steps, typically 5000 for a 10-second record-\ning at 500 Hz, andC= 12leads), the encoder outputs a\nsequence of feature embeddings:\nHecg=ECG-Encoder(E),(1)\nwhereH ecg∈RN×d ecgis a sequence ofNembedding\nvectors, each of dimensiond ecg. This approach preserves\nthe fine-grained temporal and morphological patterns of the\nwaveform.\nStructured EHR Prompting.A key novelty of UniPACT\nis its method for making structured EHR data comprehen-\nsible to an LLM. Rather than using raw values, we convert\n< Demographics >(3 parameters),< Biometrics >(3\nparameters), and< V ital Parameters >(7 parameters)\ninto natural language sentences via predefined templates.\nThis representation,T EHR, maintains numerical precision\nwhile providing the contextual cues LLMs require. An exam-\nple prompt follows:"
+  },
+  {
+    "id": "results",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Results",
+      "page_start": 3,
+      "page_end": 3
+    },
+    "text": "We evaluate UniPACT’s performance on a comprehen-\nsive suite of prognostic tasks from the MDS-ED bench-\nmark [3] derived from MIMIC-IV-ECG [13] & MIMIC-\nIV [14] dataset. Our analysis focuses on four key aspects: (1)\ncomparison against state-of-the-art baselines; (2) the contri-\nbution of individual modalities; (3) the value of our unified\nmulti-task learning approach; and (4) an exploratory com-\nparison against general-purpose LLM APIs. We use the Area\nUnder the Receiver Operating Characteristic Curve (AUROC)\nas the primary evaluation metric across all prognostic tasks.\nComparison with Baseline Methods.We begin with com-\nparing UniPACT’s performance against established models\non the considered benchmark in Table 1. The baselines in-\nclude two recent ECG–language models, ECG-Chat [15] and\nQ-HEART [16], as well as a specialized multimodal classifi-\ncation model, MDS-ED [3]. The latter comprises two inde-\npendently trained models: one for Deterioration, and another\nfor Deterioration, ICU, and Mortality. It represents the prior\nstate-of-the-art on this dataset. UniPACT achieves an overall\nAUROC of 89.37%, outperforming all baselines. Notably,\nit surpasses the highly specialized MDS-ED model, high-\nlighting the strength of our framework. For fair comparison,\nwe use same metrics as MDS-ED. In Table 1 the parenthet-\nical numbers shows the count of individual sub-tasks (out\nof 1443) where a model achieves robust performance (AU-\nROC 95% CI lower bound>0.8). UniPACT demonstrates\nstrong performance on 883 sub-tasks, a significant increase\nfrom the 623 achieved by the MDS-ED, indicating greater\nreliability across a wider range of clinical scenarios. The\ngeneral-purpose models underperformed, underscoring the\nimportance of fine-tuning for these specific prognostic tasks.\nExploratory Comparison with LLM APIs.We conducted\nan exploratory study to benchmark UniPACT against power-\nful, proprietary LLMs like GPT-5-Chat and Gemini-2.5 Pro,\nas shown in Table 2. It is crucial to note that this is not a\ndirect, apples-to-apples comparison. While UniPACT is fine-\ntuned on the task-specific data and processes raw ECG wave-\nforms, the LLM APIs were prompted in a zero-shot manner\nand were given atextual description and diagnosesof the\nECG findings instead of the raw signal itself. For evaluation,"
+  },
+  {
+    "id": "conclusion",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Conclusion",
+      "page_start": 4,
+      "page_end": 4
+    },
+    "text": "We presented UniPACT, a unified framework that effectively\nintegrates raw ECG waveforms and structured EHR data for\nLLM-based prognosis. By translating numerical EHR into\nsemantic prompts and fusing them with deep ECG features,\nour model achieves superior performance on the MDS-ED\nbenchmark, outperforming established baselines. The results\ndemonstrate that a single, multi-task generative model can\nsurpass specialized systems in both accuracy and robustness.\nOur approach enhances the ability of LLMs to reason over\ncomplex clinical data by providing high-fidelity, multimodal\ninputs."
+  },
+  {
+    "id": "acknowledgmentsandethicalcompliance",
+    "metadata": {
+      "lang": "en",
+      "section_title": "Acknowledgments and Ethical Compliance",
+      "page_start": 5,
+      "page_end": 5
+    },
+    "text": "COMPLIANCE\nNo funding was received for conducting this study. The au-\nthors declare that they have no relevant financial or nonfinan-\ncial interests to disclose. This study made use of publicly\navailable and fully anonymized human data sets. In accor-\ndance with the policies of the data providers, no additional\ninstitutional review board approval was required."
+  }
+]

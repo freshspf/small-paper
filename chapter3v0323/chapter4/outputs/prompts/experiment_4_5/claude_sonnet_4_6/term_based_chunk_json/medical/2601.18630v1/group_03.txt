@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the medical domain. Please interpret terms, relationships, and constraints using biomedical and clinical knowledge. Pay attention to diseases, symptoms, treatments, biological entities, patient-related concepts, and medical causal or associative relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "dataset_mentalchat16k",
+  "contains",
+  "ClinicalTranscript",
+  "dataset_emocare",
+  "HumanTherapistSession",
+  "dataset_counselChat",
+  "containsCollectionOf",
+  "MentalHealthQuestion",
+  "symptom_anxiety",
+  "representsDomain",
+  "ThematicDomain",
+  "symptom_trauma",
+  "symptom_grief",
+  "symptom_interpersonalStress",
+  "llm_gpt4o",
+  "isCategorizedAs",
+  "LargeLanguageModel",
+  "llm_claude35Haiku",
+  "llm_gemini2Flash",
+  "metric_cognitiveSupportScore",
+  "evaluatesCapability",
+  "ClinicalGuidance",
+  "encompassesAttribute",
+  "attribute_guidance",
+  "attribute_informativeness",
+  "attribute_safety",
+  "metric_affectiveResonanceScore",
+  "EmotionalAttunement",
+  "attribute_empathy",
+  "attribute_helpfulness",
+  "attribute_interpretation",
+  "method_likertScale",
+  "ratesQualityOf",
+  "ModelResponse",
+  "method_humanEvaluation",
+  "ensuresReliabilityOf",
+  "PsychiatricEvaluator",
+  "assesses",
+  "TherapeuticAttribute",
+  "encompasses",
+  "CognitiveSupport",
+  "AffectiveResonance",
+  "includes",
+  "Guidance",
+  "Informativeness",
+  "MentalHealthCrisis",
+  "TreatmentGap",
+  "QualifiedTherapistShortage",
+  "ScalableSupport",
+  "EmotionalAssistance",
+  "EvaluationMethodology",
+  "LlmGeneratedResponse",
+  "TherapeuticDialogue",
+  "Dataset",
+  "MentalHealthConversation",
+  "ClosedSourceModel",
+  "OpenSourceModel",
+  "PsychiatricTrainedExpert",
+  "Rubric",
+  "CognitiveReliability",
+  "ClinicallyAppropriateInformation",
+  "UnstableAffectiveAlignment",
+  "model_gpt4o",
+  "BalancedTherapeuticResponse",
+  "EmotionalFlatness",
+  "EvaluationFramework",
+  "RelationalSensitivity",
+  "MentalHealthApplication",
+  "ConversationalAgent",
+  "SafetyConcern",
+  "SocialMediaPlatform",
+  "platform_reddit",
+  "CounselingConversation",
+  "dataset_mentalChat16k",
+  "dataset_emoCare",
+  "MentalHealthScreening",
+  "condition_depression",
+  "condition_suicideRisk",
+  "MentalHealthCondition",
+  "llm_gpt3"
+]
+
+Triples:
+[
+  {
+    "subject": "dataset_mentalchat16k",
+    "relation": "contains",
+    "object": "ClinicalTranscript",
+    "chunk": "completedocument3",
+    "context": "MentalChat16K contains de- identified transcripts from clinician–youth sessions col- lected during the PISCES clinical trial, and has been con- verted to question-and-answer style using AI."
+  },
+  {
+    "subject": "dataset_emocare",
+    "relation": "contains",
+    "object": "HumanTherapistSession",
+    "chunk": "completedocument3",
+    "context": "EmoCare (Psych8K) includes human-therapist sessions that were stan- dardized through AI-assisted rephrasing while retaining the original therapeutic intent and structure."
+  },
+  {
+    "subject": "dataset_counselChat",
+    "relation": "containsCollectionOf",
+    "object": "MentalHealthQuestion",
+    "chunk": "completedocument4",
+    "context": "CounselChat provides a community-sourced collection of user-submitted mental health questions and licensed-therapist responses, covering a wide range of topics and counseling styles."
+  },
+  {
+    "subject": "symptom_anxiety",
+    "relation": "representsDomain",
+    "object": "ThematicDomain",
+    "chunk": "completedocument4",
+    "context": "From these sources, we selected a representative subset of 500 conversations, ensuring diversity across emotional intensity and thematic domains such as anxiety, trauma, grief, and interpersonal stress."
+  },
+  {
+    "subject": "symptom_trauma",
+    "relation": "representsDomain",
+    "object": "ThematicDomain",
+    "chunk": "completedocument4",
+    "context": "From these sources, we selected a representative subset of 500 conversations, ensuring diversity across emotional intensity and thematic domains such as anxiety, trauma, grief, and interpersonal stress."
+  },
+  {
+    "subject": "symptom_grief",
+    "relation": "representsDomain",
+    "object": "ThematicDomain",
+    "chunk": "completedocument4",
+    "context": "From these sources, we selected a representative subset of 500 conversations, ensuring diversity across emotional intensity and thematic domains such as anxiety, trauma, grief, and interpersonal stress."
+  },
+  {
+    "subject": "symptom_interpersonalStress",
+    "relation": "representsDomain",
+    "object": "ThematicDomain",
+    "chunk": "completedocument4",
+    "context": "From these sources, we selected a representative subset of 500 conversations, ensuring diversity across emotional intensity and thematic domains such as anxiety, trauma, grief, and interpersonal stress."
+  },
+  {
+    "subject": "llm_gpt4o",
+    "relation": "isCategorizedAs",
+    "object": "LargeLanguageModel",
+    "chunk": "completedocument4",
+    "context": "GPT-4o: High-performing API model used as a ceiling reference (OpenAI 2024)."
+  },
+  {
+    "subject": "llm_claude35Haiku",
+    "relation": "isCategorizedAs",
+    "object": "LargeLanguageModel",
+    "chunk": "completedocument4",
+    "context": "Claude 3.5 Haiku: Lightweight, empathetic, optimized for fast deployment (Anthropic 2024)."
+  },
+  {
+    "subject": "llm_gemini2Flash",
+    "relation": "isCategorizedAs",
+    "object": "LargeLanguageModel",
+    "chunk": "completedocument4",
+    "context": "Gemini-2.0-Flash: Low latency, strong reasoning, and affective abilities (DeepMind 2024)."
+  },
+  {
+    "subject": "metric_cognitiveSupportScore",
+    "relation": "evaluatesCapability",
+    "object": "ClinicalGuidance",
+    "chunk": "completedocument4",
+    "context": "The Cognitive Support Score (CSS) represents the model’s capacity to deliver structured, problem-oriented, and clinically sound guidance."
+  },
+  {
+    "subject": "metric_cognitiveSupportScore",
+    "relation": "encompassesAttribute",
+    "object": "attribute_guidance",
+    "chunk": "completedocument4",
+    "context": "It encompasses three attributes—Guidance, Informativeness, and Safety—which collectively assess how effectively a model provides actionable feedback, maintains accuracy, and avoids harmful or misleading content."
+  },
+  {
+    "subject": "metric_cognitiveSupportScore",
+    "relation": "encompassesAttribute",
+    "object": "attribute_informativeness",
+    "chunk": "completedocument4",
+    "context": "It encompasses three attributes—Guidance, Informativeness, and Safety—which collectively assess how effectively a model provides actionable feedback, maintains accuracy, and avoids harmful or misleading content."
+  },
+  {
+    "subject": "metric_cognitiveSupportScore",
+    "relation": "encompassesAttribute",
+    "object": "attribute_safety",
+    "chunk": "completedocument4",
+    "context": "It encompasses three attributes—Guidance, Informativeness, and Safety—which collectively assess how effectively a model provides actionable feedback, maintains accuracy, and avoids harmful or misleading content."
+  },
+  {
+    "subject": "metric_affectiveResonanceScore",
+    "relation": "evaluatesCapability",
+    "object": "EmotionalAttunement",
+    "chunk": "completedocument4",
+    "context": "Complementing this, the Affective Resonance Score (ARS) evaluates the model’s emotional attunement and supportive tone across attributes of Empathy, Helpfulness, and Interpretation."
+  },
+  {
+    "subject": "metric_affectiveResonanceScore",
+    "relation": "encompassesAttribute",
+    "object": "attribute_empathy",
+    "chunk": "completedocument4",
+    "context": "Complementing this, the Affective Resonance Score (ARS) evaluates the model’s emotional attunement and supportive tone across attributes of Empathy, Helpfulness, and Interpretation."
+  },
+  {
+    "subject": "metric_affectiveResonanceScore",
+    "relation": "encompassesAttribute",
+    "object": "attribute_helpfulness",
+    "chunk": "completedocument4",
+    "context": "Complementing this, the Affective Resonance Score (ARS) evaluates the model’s emotional attunement and supportive tone across attributes of Empathy, Helpfulness, and Interpretation."
+  },
+  {
+    "subject": "metric_affectiveResonanceScore",
+    "relation": "encompassesAttribute",
+    "object": "attribute_interpretation",
+    "chunk": "completedocument4",
+    "context": "Complementing this, the Affective Resonance Score (ARS) evaluates the model’s emotional attunement and supportive tone across attributes of Empathy, Helpfulness, and Interpretation."
+  },
+  {
+    "subject": "method_likertScale",
+    "relation": "ratesQualityOf",
+    "object": "ModelResponse",
+    "chunk": "completedocument4",
+    "context": "All responses were rated using a 5-point Likert scale (Likert 1932), where higher scores indicate greater adherence to clinical and communicative quality standards."
+  },
+  {
+    "subject": "method_humanEvaluation",
+    "relation": "ensuresReliabilityOf",
+    "object": "ModelResponse",
+    "chunk": "completedocument4",
+    "context": "To ensure clinical reliability and interpretive consistency, human evaluation was conducted on a subset of 500 conversations."
+  },
+  {
+    "subject": "PsychiatricEvaluator",
+    "relation": "assesses",
+    "object": "ModelResponse",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "TherapeuticAttribute",
+    "relation": "encompasses",
+    "object": "CognitiveSupport",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "TherapeuticAttribute",
+    "relation": "encompasses",
+    "object": "AffectiveResonance",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "CognitiveSupport",
+    "relation": "includes",
+    "object": "Guidance",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  },
+  {
+    "subject": "CognitiveSupport",
+    "relation": "includes",
+    "object": "Informativeness",
+    "chunk": "completedocument5",
+    "context": "Two independent evaluators with psychiatric training and a degree assessed every response based on six therapeutic attributes, encompassing both cognitive support (guidance, informativeness, safety) and affective resonance (empathy, helpfulness, interpretation)."
+  }
+]

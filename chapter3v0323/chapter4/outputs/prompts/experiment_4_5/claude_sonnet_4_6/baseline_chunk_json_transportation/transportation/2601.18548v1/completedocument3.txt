@@ -1,0 +1,145 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Interpret ontology elements using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, infrastructure, mobility processes, and transport relations.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+INPUT TEXT CHUNK:
+Moreover, a sparse set of spheres can inaccurately
+represent the true collision geometry, leading to overly con-
+servative or unsafe clearance estimates. From the optimization
+perspective, the nonlinear coupling yields a strongly non-
+convex landscape; with imperfect initial trajectories, gradient-
+based solvers easily become trapped in poor local minima
+as workspace gradients induce misleading configuration-space
+updates.
+Overall, the difficulty stems from three root causes: (i)
+the nonlinear mapping between configuration-space variables
+and workspace-based collision constraints; (ii) the inherent
+computational intractability of enforcing whole-body collision
+avoidance with precise link geometries [36], [37], which
+necessitates simplified proxies (e.g., spheres or point sets [38],
+[39]) that compromise geometric fidelity; (iii) the unbounded
+workspace and intricate obstacle layouts, which make the opti-
+mizer highly sensitive to initialization yet render high-quality
+initial guesses non-trivial to obtain. It leaves an interesting
+question:Can we enforce collision avoidance directly in con-
+figuration space to circumvent the intricate nonlinear mapping
+between configuration variables and workspace constraints
+while preserving accurate robot geometries?
+Recently, inspired by the robot-centric signed distance field
+(SDF) [40], [41], [42], which measures the Euclidean distance
+
+3
+between a robot surface and environment points, the concept
+of the Configuration Space Distance Field (CDF) has been
+proposed to measure the minimum distance from a current
+robot configuration to environment points using configuration
+metrics for robot manipulators [43]. Specifically, for an ob-
+stacle pointp, CDF measures the minimumconfiguration
+space distancebetween the current configuration and the
+zero-level configuration set, where the latter comprises all
+configurations that result in contact between any point on
+the robot’s surface andp. Thus, CDF naturally incorporates
+whole-body geometries without conservative approximation,
+while simultaneously embedding the inverse kinematic prob-
+lem within its formulation to maintain Euclidean distance
+properties in the high-dimensional configuration space despite
+the highly nonlinear propagation along kinematic chains.
+Crucially, we recognize that these properties make CDF par-
+ticularly well-suited for gradient-based trajectory optimization.
+The constraint Jacobian matrices derived from CDF provide
+accurate local models that facilitate faster convergence in
+iterative solvers [44], [45], [46], while their continuous neural
+representation enables efficient batched queries of collision
+constraints and their derivatives across trajectory waypoints.
+This naturally motivates us to investigate how CDF can be
+effectively integrated into trajectory optimization frameworks
+to address the computational challenges outlined above.
+Contributions.In this work, we address the following
+research problems: (i) How to generalize CDF to mobile ma-
+nipulators with additional translational DoFs in an unbounded
+workspace, while preserving its merits for purely rotational
+joints. (ii) How to learn implicit neural CDF representations
+for mobile manipulators that provide accurate values and
+gradients, while enabling fast, parallel online queries for nu-
+merical optimization. (iii) How to design a high-performance
+numerical optimization algorithm with CDF-based constraints
+that enforces collision avoidance directly in configuration
+space, enabling rapid generation of agile, collision-free tra-
+jectories in complex obstacle layouts, even from naive initial
+guesses.
+Specifically, we first propose the concept of Generalized
+CDF (GCDF) for robots with both translational and rotational
+joints. We show that, from both theoretical and experimen-
+tal perspectives, the properties of the original CDF can be
+extended to GCDF with minimal modification. Unlike fixed-
+base manipulators, the introduction of translational dimensions
+leads to exponential growth in data requirements, and the
+quality and coverage of data on the zero-level set significantly
+impact both training effectiveness and subsequent optimization
+performance. To solve these, we carefully develop a data
+collection and training pipeline based on the established theo-
+ries to obtain neural CDF functions for mobile manipulators,
+yielding continuous and accurate implicit representations that
+support efficient GPU-accelerated queries and are well-suited
+for integration with numerical optimization.
+Second, we develop and open-source a high-performance
+C++ sequential convex optimization solver for large-scale
+trajectory optimization with implicit GCDF constraints.

@@ -1,0 +1,131 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument18",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument18
+- section_title: Complete Document
+- page_start: 1
+- page_end: 19
+
+**INPUT TEXT CHUNK:**
+Sandy, “A fully-integrated sensing and control system for high-
+accuracy mobile robotic building construction,” in2019 IEEE Interna-
+tional Conference on Intelligent Robots and Systems (IROS), 2019, pp.
+2300–2307.
+[15] G. Oriolo and C. Mongillo, “Motion planning for mobile manipulators
+along given end-effector paths,” inProceedings of the 2005 IEEE
+International Conference on Robotics and Automation (ICRA), 2005,
+pp. 2154–2160.
+[16] D. Berenson, J. Kuffner, and H. Choset, “An optimization approach
+to planning for mobile manipulation,” in2008 IEEE International
+Conference on Robotics and Automation (ICRA), 2008, pp. 1187–1192.
+[17] Y . Yang, F. Meng, Z. Meng, and C. Yang, “RAMPAGE: Toward
+whole-body, real-time, and agile motion planning in unknown cluttered
+environments for mobile manipulators,”IEEE Transactions on Industrial
+Electronics, vol. 71, no. 11, pp. 14 492–14 502, 2024.
+[18] F. Xia, C. Li, R. Martín-Martín, O. Litany, A. Toshev, and S. Savarese,
+“ReLMoGen: Leveraging motion generation in reinforcement learning
+for mobile manipulation,”arXiv:2008.07792, 2021.
+[19] L. E. Kavraki, P. Svestka, J.-C. Latombe, and M. H. Overmars, “Prob-
+abilistic roadmaps for path planning in high-dimensional configuration
+spaces,”1996 IEEE Transactions on Robotics and Automation (ICRA),
+vol. 12, no. 4, pp. 566–580, 1996.
+[20] S. LaValle, “Rapidly-exploring random trees: A new tool for path
+planning,”Research Report 9811, 1998.
+[21] M. Otte and E. Frazzoli, “RRTX: Asymptotically optimal single-query
+sampling-based motion planning with quick replanning,”The Interna-
+tional Journal of Robotics Research, vol. 35, no. 7, pp. 797–822, 2016.
+[22] A. Orthey, C. Chamzas, and L. E. Kavraki, “Sampling-based motion
+planning: A comparative review,”Annual Review of Control, Robotics,
+and Autonomous Systems, vol. 7, 2023.
+[23] G. Rizzi, J. J. Chung, A. Gawel, L. Ott, M. Tognon, and R. Siegwart,
+“Robust sampling-based control of mobile manipulators for interaction
+with articulated objects,”IEEE Transactions on Robotics, vol. 39, no. 3,
+pp. 1929–1946, 2023.
+[24] S. Thakar, P. Rajendran, H. Kim, A. M. Kabir, and S. K. Gupta,
+“Accelerating bi-directional sampling-based search for motion planning
+of non-holonomic mobile manipulators,” in2020 IEEE International
+Conference on Intelligent Robots and Systems (IROS), 2020, pp. 6711–
+6717.[25] R. Yang, Y . Kim, R. Hendrix, A. Kembhavi, X. Wang, and K. Ehsani,
+“Harmonic mobile manipulation,” in2024 IEEE International Confer-
+ence on Intelligent Robots and Systems (IROS), 2024, pp. 3658–3665.
+[26] J. Hu, P. Stone, and R. Martín-Martín, “Causal Policy Gradient for
+Whole-Body Mobile Manipulation,” inProceedings of Robotics: Science
+and Systems (RSS), 2023.
+[27] Y . Zhou, Q. Feng, Y . Zhou, J. Lin, Z. Liu, and H. Wang, “Sample-
+efficient deep reinforcement learning of mobile manipulation for 6-dof
+trajectory following,”IEEE Transactions on Automation Science and
+Engineering, vol. 22, pp. 11 381–11 391, 2025.
+[28] J. Kindle, F. Furrer, T. Novkovic, J. J. Chung, R. Siegwart, and
+J. Nieto, “Whole-body control of a mobile manipulator using end-to-
+end reinforcement learning,”arXiv:2003.02637, 2020.
+[29] D. Honerkamp, T. Welschehold, and A. Valada, “N2M2: Learning
+navigation for arbitrary mobile manipulation motions in unseen and
+dynamic environments,”IEEE Transactions on Robotics, vol. 39, no. 5,
+pp. 3601–3619, 2023.
+[30] Z. Bi, K. Chen, C. Zheng, Y . Li, H. Li, and J. Ma, “Interactive navi-
+gation for legged manipulators with learned arm-pushing controller,” in
+2025 IEEE International Conference on Intelligent Robots and Systems
+(IROS), 2025, pp. 9–16.
+[31] S. Xie, C. Hu, D. Wang, J. Johnson, M. Bagavathiannan, and D. Song,
+“Coupled active perception and manipulation planning for a mobile
+manipulator in precision agriculture applications,” in2024 IEEE In-
+ternational Conference on Robotics and Automation (ICRA), 2024, pp.
+12 665–12 671.
+[32] K. Dong, K. Pereida, F. Shkurti, and A. P. Schoellig, “Catch the Ball:
+Accurate high-speed motions for mobile manipulators via inverse dy-
+namics learning,” in2020 IEEE International Conference on Intelligent
+Robots and Systems (IROS), 2020, pp. 6718–6725.
+[33] C. Zheng, Y . Li, Z. Song, Z. Bi, J. Zhou, B. Zhou, and J. Ma, “Local
+reactive control for mobile manipulators with whole-body safety in
+complex environments,”IEEE Robotics and Automation Letters, vol. 10,
+no. 5, pp. 4556–4563, 2025.
+[34] Y . Pan, Y . Kompis, L. Bartolomei, R. Mascaro, C. Stachniss, and
+M. Chli, “V oxfield: Non-projective signed distance fields for online
+planning and 3D reconstruction,” in2022 IEEE International Conference
+on Intelligent Robots and Systems (IROS), 2022, pp. 5331–5338.
+[35] L. Xu, C. Wong, M. Zhang, J. Lin, J. Hou, and F. Gao, “TopAY:
+Efficient trajectory planning for differential drive mobile manipulators
+via topological paths search and arc length-yaw parameterization,”
+arXiv:2507.02761, 2025.
+[36] Y . Li, C. Zheng, K. Chen, Y . Xie, X. Tang, M. Y . Wang, and J.

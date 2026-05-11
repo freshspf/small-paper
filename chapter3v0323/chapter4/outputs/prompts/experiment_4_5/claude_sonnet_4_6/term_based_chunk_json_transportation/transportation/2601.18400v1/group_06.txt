@@ -1,0 +1,340 @@
+You are an ontology normalization system. Your task is to refine and normalize extracted terms for ontology construction.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+CORE INSTRUCTIONS:
+
+1. Normalize terms:
+   - Merge synonymous or equivalent terms into a unified representation.
+   - Remove redundant or overly specific variants if they represent the same concept.
+   - Ensure consistent naming style across all terms.
+
+2. Assign semantic types to each term:
+   Use a task-oriented typing strategy:
+
+   - Class: abstract concepts, categories, or conceptual structures
+   - Instance: specific systems, datasets, tools, or named entities
+   - Property: relationships, actions, or operations between concepts
+
+   When uncertain:
+   - Prefer Class for conceptual entities
+   - Prefer Instance for named systems, tools, or datasets
+   - Prefer Property for verbs or relation-like terms
+
+3. Resolve ambiguities:
+   - Ensure each term has a clear and consistent semantic role
+   - Avoid assigning multiple types to the same term
+
+4. Enforce naming rules:
+   - Use concise noun or noun phrases
+   - Use a consistent naming style
+   - Remove unnecessary prefixes if they do not add ontology value
+   - Avoid generic words such as "concept", "object", "thing"
+
+5. Focus only on term normalization:
+   - Do not output merged relations.
+   - Do not rewrite or remove triples directly.
+   - Your job is to provide a reliable normalization mapping that can later be applied deterministically by code.
+
+**ENTITY DEFINITIONS**
+
+Class:
+A general concept representing a category of entities, such as Disease, Patient, or Treatment.
+
+Instance:
+A specific entity belonging to a class, such as patient_JohnDoe or disease_COVID19.
+
+Property:
+A relation or attribute connecting classes or instances, such as hasSymptom, treatedBy, or locatedIn.
+
+Please clearly distinguish between classes, instances, and properties when constructing ontology axioms.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+
+{
+  "normalized_terms": [
+    {
+      "original": "...",
+      "normalized": "...",
+      "type": "Class | Instance | Property"
+    }
+  ]
+}
+
+INPUT:
+
+Terms:
+[
+  "PhysicalServer",
+  "hasNetworkInterface",
+  "10 GbE NIC",
+  "Experiment",
+  "hasClientVMCount",
+  "5",
+  "hasBlockchainNodeCount",
+  "20",
+  "usesBlockchainProtocol",
+  "Algorand",
+  "Aptos",
+  "AvalancheCChain",
+  "Redbelly",
+  "SolanaAgave",
+  "hasVersion",
+  "v3.27.0",
+  "v1.25.1",
+  "v1.12.1",
+  "v0.36.2",
+  "v2.0.20",
+  "BlockchainNetwork",
+  "hasParameterN",
+  "TotalBlockchainNodeCount",
+  "hasParameterV",
+  "ValidatorSubsetSize",
+  "hasAllowedValues",
+  "{5, 10, 15, 20}",
+  "hasConstraint",
+  "V≤N",
+  "hasPhase",
+  "SetupPhase",
+  "WorkloadPhase",
+  "CooldownPhase",
+  "hasDuration",
+  "100 seconds",
+  "hasTransactionActivity",
+  "NoTransactions",
+  "TransactionsSent",
+  "BlockchainTechnology",
+  "Layer1Blockchain",
+  "NetworkingProtocol",
+  "NetworkTraffic",
+  "BandwidthConsumption",
+  "Validator",
+  "ValidatorNode",
+  "NonValidatorNode",
+  "TransportProtocol",
+  "BlockPropagationStrategy",
+  "EgressConsumption",
+  "CloudProvider",
+  "BareMetalProvider",
+  "ErasureCoding",
+  "NetworkCongestion",
+  "TransactionSize",
+  "NetworkSize",
+  "PerformanceBenchmark",
+  "FaultToleranceBenchmark",
+  "Avalanche",
+  "Solana",
+  "DiabloBenchmark",
+  "STABLBenchmark",
+  "PacketLoss",
+  "NetworkMessage",
+  "BlockchainNode",
+  "ValidatorEconomics",
+  "EgressTariff",
+  "HyperscalerEgressTrap",
+  "RedundancyStrategy",
+  "CommunicationPattern",
+  "PollingProtocol",
+  "WebSocketProtocol",
+  "FullBlockDownload",
+  "HashComparison",
+  "RoleSegregation",
+  "NetworkRobustness",
+  "BlockchainProtocol",
+  "AlgorandNetwork",
+  "AvalancheNetwork",
+  "AptosNetwork",
+  "RedbellyNetwork"
+]
+
+Triples:
+[
+  {
+    "subject": "PhysicalServer",
+    "relation": "hasNetworkInterface",
+    "object": "10 GbE NIC",
+    "chunk": "experimentalsettings",
+    "context": "each equipped with 4x AMD Opteron 6378 16-core CPUs running at 2.40 GHz, 256 GB of RAM, and 10 GbE NICs."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "hasClientVMCount",
+    "object": "5",
+    "chunk": "experimentalsettings",
+    "context": "Each experiment runs a blockchain protocol with 5 client VMs and 20 blockchain node VMs."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "hasBlockchainNodeCount",
+    "object": "20",
+    "chunk": "experimentalsettings",
+    "context": "Each experiment runs a blockchain protocol with 5 client VMs and 20 blockchain node VMs."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "usesBlockchainProtocol",
+    "object": "Algorand",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "usesBlockchainProtocol",
+    "object": "Aptos",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "usesBlockchainProtocol",
+    "object": "AvalancheCChain",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "usesBlockchainProtocol",
+    "object": "Redbelly",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "usesBlockchainProtocol",
+    "object": "SolanaAgave",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "Algorand",
+    "relation": "hasVersion",
+    "object": "v3.27.0",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "Aptos",
+    "relation": "hasVersion",
+    "object": "v1.25.1",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "AvalancheCChain",
+    "relation": "hasVersion",
+    "object": "v1.12.1",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "Redbelly",
+    "relation": "hasVersion",
+    "object": "v0.36.2",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "SolanaAgave",
+    "relation": "hasVersion",
+    "object": "v2.0.20",
+    "chunk": "experimentalsettings",
+    "context": "For the blockchain protocols, we used Algorand v3.27.0, Aptos v1.25.1, Avalanche C-Chain v1.12.1, Redbelly v0.36.2 and Solana Agave v2.0.20."
+  },
+  {
+    "subject": "BlockchainNetwork",
+    "relation": "hasParameterN",
+    "object": "TotalBlockchainNodeCount",
+    "chunk": "experimentalsettings",
+    "context": "We define N as the total number of blockchain nodes in the network, and V as the size of the subset of validators participating in consensus such that N,V∈ {5, 10, 15, 20}, V≤N."
+  },
+  {
+    "subject": "BlockchainNetwork",
+    "relation": "hasParameterV",
+    "object": "ValidatorSubsetSize",
+    "chunk": "experimentalsettings",
+    "context": "We define N as the total number of blockchain nodes in the network, and V as the size of the subset of validators participating in consensus such that N,V∈ {5, 10, 15, 20}, V≤N."
+  },
+  {
+    "subject": "ValidatorSubsetSize",
+    "relation": "hasAllowedValues",
+    "object": "{5, 10, 15, 20}",
+    "chunk": "experimentalsettings",
+    "context": "We define N as the total number of blockchain nodes in the network, and V as the size of the subset of validators participating in consensus such that N,V∈ {5, 10, 15, 20}, V≤N."
+  },
+  {
+    "subject": "ValidatorSubsetSize",
+    "relation": "hasConstraint",
+    "object": "V≤N",
+    "chunk": "experimentalsettings",
+    "context": "We define N as the total number of blockchain nodes in the network, and V as the size of the subset of validators participating in consensus such that N,V∈ {5, 10, 15, 20}, V≤N."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "hasPhase",
+    "object": "SetupPhase",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "hasPhase",
+    "object": "WorkloadPhase",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "Experiment",
+    "relation": "hasPhase",
+    "object": "CooldownPhase",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "SetupPhase",
+    "relation": "hasDuration",
+    "object": "100 seconds",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "WorkloadPhase",
+    "relation": "hasDuration",
+    "object": "100 seconds",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "CooldownPhase",
+    "relation": "hasDuration",
+    "object": "100 seconds",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "SetupPhase",
+    "relation": "hasTransactionActivity",
+    "object": "NoTransactions",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  },
+  {
+    "subject": "WorkloadPhase",
+    "relation": "hasTransactionActivity",
+    "object": "TransactionsSent",
+    "chunk": "experimentalsettings",
+    "context": "All experiments follow a fixed timeline: a 100 s \"Setup\" phase with no transactions, a 100 s \"Workload\" phase where transactions are sent, and a 100 s \"Cooldown\" phase with no transactions, allowing remaining transactions to commit."
+  }
+]

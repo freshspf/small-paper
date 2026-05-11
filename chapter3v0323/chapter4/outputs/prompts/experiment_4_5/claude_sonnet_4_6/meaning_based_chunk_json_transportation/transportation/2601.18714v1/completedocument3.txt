@@ -1,0 +1,130 @@
+You are an ontology axiom extraction system. Your task is to identify key concepts and relationships from the given scientific or technical text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the transportation domain. Please interpret terms, relationships, and constraints using transportation systems knowledge. Pay attention to vehicles, roads, traffic participants, mobility processes, transport infrastructure, and operational or spatiotemporal transportation relations.
+
+**CORE INSTRUCTIONS:**
+1. Identify important terms (concepts, entities, and relations) in the text chunk.
+2. Extract semantic relationships from the text chunk in the form of five-field records.
+3. Focus on capturing information explicitly stated in the text chunk.
+4. Avoid high-level abstraction such as ontology hierarchy construction.
+5. Each extracted relation must preserve its source chunk id and the exact sentence or sentence span used as evidence.
+6. The "chunk" field must be exactly the provided chunk id.
+7. The "context" field must be the exact sentence or minimal sentence span from this chunk that supports the extracted relation. Do not summarize or paraphrase the evidence.
+
+**QUANTITY CONSTRAINT:**
+Extract as many valid ontology axioms as possible. For each axiom type, try to construct multiple candidate axioms whenever the text provides sufficient information.
+
+**NAMING RULES**
+
+Class Naming:
+Use singular nouns or noun phrases in PascalCase (e.g., Person, Disease, MedicalProcedure). Avoid plural forms, special characters, or vague names.
+
+Property Naming:
+Use present-tense verbs or verb phrases in camelCase (e.g., hasSymptom, treatedBy, locatedIn). Use action-oriented names for relationships.
+
+Instance Naming:
+Use unique identifiers in lowercase or with underscores, optionally prefixed by class names (e.g., patient_JohnDoe, disease_COVID19). Avoid ambiguous names.
+
+**OUTPUT FORMAT:**
+Return a valid JSON object with the following structure:
+{
+  "terms": ["..."],
+  "triples": [
+    {
+      "subject": "...",
+      "relation": "...",
+      "object": "...",
+      "chunk": "completedocument3",
+      "context": "exact supporting sentence from this chunk"
+    }
+  ]
+}
+
+**INPUT CHUNK METADATA:**
+- chunk_id: completedocument3
+- section_title: Complete Document
+- page_start: 1
+- page_end: 35
+
+**INPUT TEXT CHUNK:**
+On the same note, MinkUNeXt [13] is
+a deep network that achieves exceptional recall results on the LPR tasks,
+using only Minkowski convolutions and transposed Minkowski convolutions
+without additional complex mechanisms such as transformers or attention
+modules.
+Apart from the deep learning approaches to the LPR problem, some meth-
+ods use handcrafted global descriptors to solve it. These descriptors are not
+trained through a machine learning system; rather, they are built from the
+geometric characteristics of LiDAR scans. Scan Context [25] is a popular
+example. It creates a global descriptor by dividing the original point cloud
+into sectors and voxels. Then, it encodes the descriptor by taking into ac-
+count the maximum height of the points in each bin. Other methods such as
+Fusion Scan Context [26] also take into account the density of each bin (how
+many points are present in each of them) and the intensity of each bin. In
+Semantic Scan Context [27] is augmented by the application of semantic seg-
+mentation to the raw point cloud, with the resultant information projected
+onto the plane. A two-step global semantic ICP is also performed to obtain
+the 3D pose and to robustly align the point clouds. A distinct handcrafted
+place recognition descriptor is the Stable Triangle Descriptor (STD) [28].
+The STD is a six-dimensional vector formed by the length of the three tri-
+angle sides and the three normal vectors corresponding to each of the three
+vertices of the triangle. It is imperative to note that the term ”triangle”
+in this context refers to a geometric figure delineated by three keypoints,
+which are identified within the point cloud subsequent to its projection onto
+a plane. The recent Omni Point method [29], as outlined in the study, builds
+a descriptor from the distance between the feature points present in the point
+cloud, following a histogram of distances approach.
+LiDAR-based place recognition is a promising field due to the immutabil-
+ity of these geometric data to external influences. However, further research
+is necessary to extend these solutions to agricultural environments and obtain
+successful results.
+5
+
+3. Methodology
+To address the unique challenges of vineyard environments and low-
+cost LiDAR sensors, we propose MinkUNeXt-VINE. It is a lightweight LPR
+pipeline optimized for repetitive settings with a focus on high efficiency, based
+on the backbone MinkUNeXt [13].
+To provide an exhaustive explanation of the proposed method, Section 3.1
+presents, firstly, the preprocessing steps taken to stabilize the sparse input
+for our method. Section 3.2 discusses the architectural decisions that led us
+to our final proposal, MinkUNeXt-VINE. Finally, Section 3.3 provides details
+about the MRL multi-loss strategy adopted by our algorithm.
+3.1. Input preprocessing
+In order to ensure a stable, reliable and higher accuracy performance,
+we applied preprocessing steps to the raw points extracted from the point
+clouds.
+In order to ensure the integrity of our algorithm, a process of filtration
+is implemented to remove points that may contain extraneous data, such
+as those characterized by zero values for the x, y, z coordinates. Addi-
+tionally, a filtration process is employed to remove points that are situated
+at a distance greater than 60 meters, a procedure that is applied to both
+datasets. Finally, we normalize each point in a [−1,1] range. This pro-
+posed global normalization process involves two stages: fixed-range scaling
+and zero-centering. First, the coordinates are scaled by a fixed factorS= 60,
+mapping the mapped range of the sensor to the normalized interval [−1,1].
+This transformation preserves the geometric aspect ratio while standardizing
+the input variance. Subsequently, the point cloud is translated to the origin
+by subtracting the centroid (mean) from each coordinate, effectively remov-
+ing translation invariance. Equation 1 illustrates this global normalization
+process.
+ˆpi=pi−µ
+S(1)
+Where ˆp irepresent the normalized originalp ipoint,µthe centroid of the
+point cloud andSthe normalization factor which, as previously mentioned,
+is equivalent to 60.
+6
+
+3.2. MinkUNeXt-VINE
+MinkUNeXt is a LiDAR place recognition method that follows a U-Net
+architecture and relies solely on Minkowski convolutions to produce a robust
+global descriptor. This network is based on the encoder-decoder type, in-
+corporating skip connections. The utilization of skip connections facilitates
+the integration of low-level and high-level features, thereby enhancing the
+performance of the place recognition task.
+Building upon the insights of M´ aximo et al. [30] that descriptors emerg-
+ing after the second transpose convolution yield minimized mean positional
+and orientation errors, we designated this layer’s output as the final feature
+map. We then pruned the subsequent five layers and the final fully connected
+layer from the original backbone.

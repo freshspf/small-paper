@@ -1,0 +1,132 @@
+You are an ontology construction system. Your task is to construct a conservative RDFS ontology directly from a single raw text chunk.
+
+**DOMAIN CONTEXT:**
+The input text belongs to the geography domain. Interpret ontology elements using geographic knowledge. Pay attention to spatial entities, locations, regions, environmental features, geographic structures, and spatial relationships.
+
+CORE INSTRUCTIONS:
+
+1. Work only on the current chunk.
+   - Do not assume information from other chunks.
+   - Do not merge with unseen context.
+
+2. Extract ontology elements conservatively:
+   - Classes: abstract concepts explicitly supported by the chunk.
+   - Properties: relations explicitly supported by the chunk.
+
+3. Keep the ontology minimal and high-confidence:
+   - Use only terms and relations clearly grounded in the chunk.
+   - Do not invent additional terms.
+   - Do not perform ontology completion.
+   - If evidence is weak, omit the axiom.
+
+4. Construct hierarchy very strictly:
+   - Infer rdfs:subClassOf only when the chunk explicitly states or very directly implies a subclass relation.
+   - Infer rdfs:subPropertyOf only when the chunk clearly supports it.
+
+5. Infer domain and range very strictly:
+   - Only assign domain/range when the subject/object typing is explicit in the current chunk.
+   - Do not guess missing domain/range.
+
+6. Use consistent naming:
+   - Classes in PascalCase.
+   - Properties in camelCase.
+   - Avoid vague names and unnecessary variants.
+
+7. Output only what the current chunk supports.
+   - Conservative extraction is preferred over completeness.
+
+OUTPUT FORMAT:
+Return a valid JSON object with the following structure:
+{
+  "classes": [...],
+  "properties": [...],
+  "subClassOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "subPropertyOf": [
+    {"sub": "...", "super": "..."}
+  ],
+  "domain": [
+    {"property": "...", "class": "..."}
+  ],
+  "range": [
+    {"property": "...", "class": "..."}
+  ]
+}
+
+INPUT CHUNK METADATA:
+- chunk_id: experiments
+- section_title: Experiments
+- page_start: 6
+- page_end: 6
+
+INPUT TEXT CHUNK:
+4.1 Datasets and Implementation Details
+To validate UniCD’s performance across various CD tasks,
+we conduct extensive experiments on three publicly avail-
+able benchmark datasets: LEVIR-CD [Chen and Shi, 2020 ],
+WHU-CD [Jiet al., 2018 ], and CLCD [Liuet al., 2022 ].
+All experiments in this paper are implemented on the Py-
+Torch framework [Paszkeet al., 2019 ]and trained on a sin-
+gle NVIDIA GeForce RTX 3090 GPU. We selected AdamW
+[Kingma, 2014 ]as the model optimizer with an initial learn-
+ing rate of1×10−4. All experiments maintained consistent
+training strategies to ensure fairness in performance evalua-
+tion. Ultimately, we evaluate the model performance using
+three commonly metrics, including F1-score (F1), Intersec-
+tion over Union (IoU), and Overall Accuracy (OA).
+4.2 Comparative Experiment
+To comprehensively and objectively evaluate UniCD’s per-
+formance, this study selected twenty-seven representativeModelLEVIR-CD WHU-CD CLCD
+F1 IoU OA F1 IoU OA F1 IoU OA
+ISFA 10.20 5.37 71.84 8.70 4.55 73.71 17.83 9.79 76.13
+DCV A 12.21 6.50 56.57 9.06 4.75 54.46 17.35 9.50 55.45
+DSFA 10.09 5.32 72.64 10.00 5.26 74.04 18.32 10.08 57.81
+KPCA 9.05 4.74 62.04 11.91 6.33 72.26 17.16 9.38 70.06
+CDRL 10.30 5.43 64.88 8.49 4.43 74.54 12.26 6.54 49.49
+SiROC 9.58 5.03 78.91 9.37 4.92 81.90 19.79 11.00 80.87
+I3PE 30.87 18.26 86.62 23.52 13.33 79.97 34.44 20.78 85.87
+FCD-GAN 11.08 5.86 71.76 9.71 5.10 77.53 34.86 21.12 83.63
+AnyChange 24.71 14.09 76.18 22.86 12.90 76.15 27.39 15.87 80.88
+UniCDv1 39.79 24.84 88.28 29.28 17.15 89.42 38.12 23.56 83.40
+UniCDv2 43.24 27.58 89.36 32.13 19.14 88.67 45.96 29.84 91.38
+Table 3: Unsupervised results (%) on LEVIR-CD, WHU-CD and
+CLCD. We highlight the best and second best value in red and blue
+colors.
+methods across three paradigms, with nine methods for each
+category: (i) Supervised methods: SNUNet [Fanget al.,
+2021 ], ChangeFormer [Bandara and Patel, 2022 ], DMINet
+[Fenget al., 2023 ], SAM-CD [Dinget al., 2024 ], CD-
+Mask [Maet al., 2024 ], ChangeMamba [Chenet al., 2024 ],
+MetaCD [Gaoet al., 2025 ], MDENet [Luoet al., 2025 ], and
+DA²Net [Ninget al., 2025 ]. (ii) Weakly-supervised methods:
+WCDNet [Andermatt and Timofte, 2020 ], SEAM [Wanget
+al., 2020 ], MS-Former [Kalitaet al., 2021 ], MCTFormer [Xu
+et al., 2022 ], BGMix [Huanget al., 2023 ], FCD-GAN [Wuet
+al., 2023 ], TransWCD [Zhaoet al., 2023 ], CS-WSCD [Wang
+et al., 2023 ], and S2C [Kweon and Yoon, 2024 ]. (iii) Unsu-
+pervised methods: ISFA [Wuet al., 2013 ], DCV A [Sahaet
+al., 2019 ], DSFA [Duet al., 2019 ], KPCA [Wuet al., 2021 ],
+CDRL [Nohet al., 2022 ], SiROC [Kondmannet al., 2021 ],
+I3PE [Chenet al., 2023 ], FCD-GAN [Wuet al., 2023 ], and
+AnyChange [Zhenget al., 2024 ]. To validate the impact of
+backbone selection on the performance of the UniCD, we of-
+fer two versions: UniCDv1 and UniCDv2, which employ the
+foundational model FastSAM and the classic network ResNet
+as feature extractors, respectively.
+Supervised Change Detection Results
+Table 1 presents quantitative comparisons of various CD
+methods across the LEVIR-CD, WHU-CD, and CLCD
+datasets. Experimental results demonstrate that UniCD sur-
+passes SOTA performance across multiple core metrics, val-
+idating its superior capability under the fully supervised
+paradigm. On LEVIR-CD, UniCDv1 achieves an F1-score
+of 91.55%, while UniCDv2 further reaches 92.10%. On
+WHU-CD, UniCD exhibits even more pronounced advan-
+tages. UniCDv2 achieved an F1-score of 93.94%and an IoU
+of 88.57%, surpassing DA2Net by 1.46%and 2.55%, respec-
+tively. On CLCD, UniCD exhibits exceptional robustness.
+UniCDv2 achieves an IoU of 61.22%, surpassing DA2Net by
+4.98%. Notably, UniCD achieves SoTA performance while
+maintaining high computational efficiency solely by introduc-
+ing STAM.
